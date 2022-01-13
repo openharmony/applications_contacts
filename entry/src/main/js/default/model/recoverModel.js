@@ -1,5 +1,5 @@
 /**
- * @file: 恢复删除联系人model
+ * @file: Restore deleting contact Model
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -25,11 +25,11 @@ var TAG = 'recoverModel';
 export default {
 
     /**
-     * 恢复删除联系人
+     * Resume Deleting contacts
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} data 需要恢复的删除的联系人ID集
-     * @param {Object} callback 返回结果
+     * @param {string} DAHelper Database address
+     * @param {Object} data
+     * @param {Object} callback
      */
     recoverRlyDelContacts: async function (DAHelper, data, callback) {
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();

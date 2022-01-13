@@ -119,6 +119,10 @@
       }
     },
     "contacts": {
+      "noInfo": "没有此联系人的其他信息",
+      "waitExport": "将在稍后导出",
+      "batchSelectContacts": "批量选择联系人",
+      "samplePage": "样例页面",
       "tab": "联系人",
       "page": {
         "title": "联系人",
@@ -270,7 +274,11 @@
         "warningInfo": "是否将SIM卡联系人导入到手机？",
         "cancelTxt": "取消",
         "importTxt": "导入",
-        "prompt": "已成功导入 num 个联系人"
+        "prompt": "已成功导入 num 个联系人",
+        "choose": "选择VCard文件",
+        "selectAll": "全选",
+        "isExport": "是否将联系人列表导出至 内部存储/",
+        "safekeeping": "?导出后，请妥善保管您的联系人信息"
       },
       "aboutPage": {
         "title": "关于",

@@ -97,7 +97,7 @@
                             </div>
                         </div>
 
-                    <!-- 右侧细节及checkBox图标-->
+                    <!-- Right detail and checkbox Icon -->
                         <div class="contact-checkbox-div">
                             <input type="checkbox" checked="{{ phoneNumber.checked }}"
                                    onchange="contactItemClick(phoneNumIndex,contactItem)">
@@ -158,7 +158,7 @@
                             </div>
                         </div>
 
-                    <!-- 右侧细节及checkBox图标-->
+                    <!-- Right detail and checkbox Icon -->
                         <div class="contact-checkbox-div">
                             <input type="checkbox" checked="{{ email.checked }}"
                                    onchange="emailItemClick(emailIndex,contactItem)">
@@ -244,7 +244,7 @@
                             </div>
                         </div>
 
-                    <!-- 右侧细节及checkBox图标-->
+                    <!-- Right detail and checkbox Icon -->
                         <div class="contact-checkbox-div">
                             <input type="checkbox" checked="{{ phoneNumber.checked }}"
                                    onchange="searchContactItemClick(phoneNumIndex,contactItem)">
@@ -315,7 +315,7 @@
                             </div>
                         </div>
 
-                    <!-- 右侧细节及checkBox图标-->
+                    <!-- Right detail and checkbox Icon -->
                         <div class="contact-checkbox-div">
                             <input type="checkbox" checked="{{ email.checked }}"
                                    onchange="searchEmailItemClick(emailIndex,contactItem)">

@@ -1,5 +1,5 @@
 /**
- * @file 选择联系人列表
+ * @file Selecting a Contact list
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -27,9 +27,9 @@ import Constants from '../../../../default/common/constants/Constants.js';
 
 var TAG = 'selectContactsList...:';
 
-const SEARCH_TYPE_FAVORITE = 1; // 搜索收藏
-const SEARCH_TYPE_IN_GROUP = 2; // 群组内搜索
-const SEARCH_TYPE_OUTSIDE_GROUP = 3; // 群组外搜索
+const SEARCH_TYPE_FAVORITE = 1; // Search collection
+const SEARCH_TYPE_IN_GROUP = 2; // Intra group search
+const SEARCH_TYPE_OUTSIDE_GROUP = 3; // Out of group search
 // 数字解释
 const NUMBERS_MEANING = {
     HEADER_MIN_HEIGHT: 60,
@@ -44,23 +44,21 @@ const NUMBERS_MEANING = {
 const IS_FAVORITE = 1;
 const IS_NOT_FAVORITE = 0;
 
-/**
- * @file 选择联系列表
- */
+
 export default {
     data: {
-        title: '', // 标题
+        title: '', // title
         type: '',
         groupId: 0,
         page: 0,
-        limit: 20, // 一页显示条目数量
-        showEmptyPage: false, // 列表页面为空
-        noMatchingResults: false, // 显示搜索结果为空
-        checkedNum: 0, // 已选择联系人数量
-        contactsList: [], // 联系人列表
-        todoList: [], // 收藏常用联系人
-        matchingResults: [], // 搜索结果
-        showSelectAll: true, // 全选,
+        limit: 20, // Number of entries per page
+        showEmptyPage: false, // The list page is empty
+        noMatchingResults: false, // The displayed search results are empty
+        checkedNum: 0, // Number of contacts selected
+        contactsList: [], // contact list
+        todoList: [], // Favorite contacts
+        matchingResults: [], // search result
+        showSelectAll: true, // SelectAll
         addMemberDisabled: true,
         layoutState: true,
         showContactList: true,
@@ -76,8 +74,8 @@ export default {
         headerFavoriteMaginLeft: NUMBERS_MEANING.HEADER_MIN_MAGIN_LENGTH,
         headerFavoriteFontSize: NUMBERS_MEANING.HEADER_MAX_FONT_SIZE,
         checkedList: [],
-        contactCount: 0, // 联系人总数
-        frequentlyCount: 0, // 收藏常用总数
+        contactCount: 0, // Total contacts
+        frequentlyCount: 0, // Total number of favorites
         language: '',
         dialog: {
             dialogHeight: '',
@@ -87,9 +85,9 @@ export default {
             warningChecked: false,
             buttonDisable: false,
         },
-        isClickSelectAll: false, // 是否点过全选
-        checkedContactIds: [], // 已选联系人集合
-        unCheckedContactIds: [] // 反选联系人集合
+        isClickSelectAll: false, // whether clicked select all
+        checkedContactIds: [], // Selected contact collection
+        unCheckedContactIds: [] // Unselect contact collection
     },
     onInit() {
         LOG.info(TAG + 'onInit success');
@@ -118,7 +116,6 @@ export default {
         }
     },
 
-    // 缓存分页加载
     requestItem: function () {
         this.page++;
         if (this.type == 'editFavorites') {
@@ -258,7 +255,7 @@ export default {
     },
     clickSearch: function (e) {
         LOG.info(TAG + 'clickSearch e' + e);
-        // 搜索输入框
+        // Search input box
         if (e.text) {
             this.showContactList = false;
             this.showMatchContactsList = true;
@@ -317,7 +314,6 @@ export default {
         }
     },
 
-    /* 选择联系人最终已选项发送 */
     saveSelectedContacts(selectedContacts) {
         let contacts = this.dealContactName(selectedContacts);
         let parameters = {
@@ -348,9 +344,9 @@ export default {
     },
 
     /**
-     * 搜索请求后台
+     * Search request background
      *
-     * @param {string} keyText 输入框文本内容
+     * @param {string} keyText Input box text content
      */
     searchRequest: function (keyText) {
         LOG.info(TAG + 'searchRequest keyText');
@@ -365,7 +361,7 @@ export default {
             requestData.searchType = SEARCH_TYPE_IN_GROUP;
             requestData.groupId = this.groupId;
         }
-        // 未收藏列表页搜索
+        // No favorite list page search
         if (this.type == 'getContactsListFavorites') {
             requestData.searchType = SEARCH_TYPE_FAVORITE;
             requestData.starred = IS_NOT_FAVORITE;
@@ -374,7 +370,7 @@ export default {
         groupReq.searchContacts(DAHelper, requestData, result => {
             if (result.code == 0 && result.contactCount > 0) {
                 let matchCheckedNum = 0;
-                // 判断如果是已经选中的，则初始化为选中状态
+                // Judge that if it is already selected, it will be initialized to the selected status
                 result.data.forEach((item) => {
                     if (this.isClickSelectAll) {
                         if (this.indexOfArray(this.unCheckedContactIds, item.contactId) == -1) {
@@ -393,7 +389,7 @@ export default {
                 this.processHighLight(result.data, keyText);
                 this.matchingResults = [];
                 this.matchingResults = result.data;
-                // 如果搜索出来的结果全部为选中状态，则全选点亮
+                // If all the search results are selected, select all will be on
                 if (matchCheckedNum == this.matchingResults.length) {
                     this.showSelectAll = false;
                 } else {
@@ -431,7 +427,6 @@ export default {
         }
     },
 
-    // 处理高亮数据函数
     processHighLight: function (searchList, likeValue) {
         searchList.forEach((element) => {
             if (element.searchMimetype[0].search('/name') != -1) {
@@ -653,7 +648,6 @@ export default {
         element.nickName.nickNameSuf = nickNameSuf;
     },
 
-    // 高亮显示函数
     highLightChars: function (targetStr, matchStr) {
         if (this.isEmpty(targetStr) || this.isEmpty(matchStr)) {
             return '';
@@ -686,7 +680,6 @@ export default {
         return result;
     },
 
-    // 判空函数
     isEmpty: function (str) {
         LOG.info(TAG + 'isEmpty str');
         return str == undefined || str == null || str == '';
@@ -695,8 +688,7 @@ export default {
     itemClick: function (item) {
         LOG.info(TAG + 'itemClick item');
         if (this.type == 'saveContacts') {
-            /* 先获取到联系人详情，再跳转呼叫前编辑页面 */
-            if (!this.isEmpty(this.number)) { // 保存新号码到联系人
+            if (!this.isEmpty(this.number)) { // Save new number to contact
                 router.push(
                     {
                         uri: 'pages/contacts/accountants/accountants',
@@ -730,10 +722,9 @@ export default {
         this.initTitle();
     },
 
-    /* 跳转到联系人编辑界面 */
     toSaveContactsInfo(contacts) {
         LOG.info(TAG + 'toSaveContactsInfo contacts');
-        if (!contacts.isPushed) { // 防止同一个联系人多次添加号码
+        if (!contacts.isPushed) { // Prevent the same contact from adding numbers more than once
             if (contacts.phoneNumbers && contacts.phoneNumbers.length == 0) {
                 contacts.phoneNumbers = [];
             }
@@ -777,7 +768,7 @@ export default {
             } else {
                 this.removeFromArray(this.unCheckedContactIds, item.contactId);
             }
-            // 如果搜索结果选中了，那么联系人列表跟随选中
+            // If the search result is selected, the contact list follows the selection
             this.contactsList.forEach((contact) => {
                 if (item.contactId == Number(contact.contactId)) {
                     contact.checked = true;
@@ -1040,12 +1031,10 @@ export default {
         }
     },
 
-    // 返回上层页面
     back: function () {
         router.back();
     },
     clickAddFavorites: function () {
-        // 获取到当前的时间戳
         let timestamp = (new Date()).valueOf();
         var actionData = {
             favorite: '1',
@@ -1151,7 +1140,6 @@ export default {
         });
     },
 
-    // 手指触摸动作开始
     onTouchStartList: function (e) {
         if (this.type == 'editFavorites') {
             this.globalX = e.touches[0].globalX;
@@ -1163,7 +1151,7 @@ export default {
         if (this.type == 'editFavorites') {
             this.pYMove = this.pYStart - e.touches[0].globalY;
             if (this.pYMove != 0 && this.pYMove > 0) {
-                // 向上移动，隐藏状态，不需要处理；向上移动显示状态，需要设置隐藏
+                // Move up, hidden, no processing required; To move the display status upward, you need to set the hide
                 if (this.headerFavoriteHeight <= NUMBERS_MEANING.HEADER_MIN_HEIGHT) {
                     this.isScrollTopPosition = true;
                     this.headerFavoriteFontSize = NUMBERS_MEANING.HEADER_MIN_FONT_SIZE;
@@ -1181,7 +1169,7 @@ export default {
                     - NUMBERS_MEANING.HEADER_MAX_FONT_SIZE) / NUMBERS_MEANING.HEADER_MIN_TO_MAX_HEIGHT_SIZE);
                 }
             } else if (this.pYMove != 0 && this.pYMove < 0) {
-                // 向下移动，显示状态，不需要处理；隐藏状态，需要结合是否是顶部，如果是顶部，就要将顶部显示
+                // Whether the combination is the top. If it is the top, the top should be displayed
                 if (this.headerFavoriteHeight >= NUMBERS_MEANING.HEADER_MAX_HEIGHT) {
                     this.headerFavoriteFontSize = NUMBERS_MEANING.HEADER_MAX_FONT_SIZE;
                     this.isScrollTopPosition = false;
@@ -1205,18 +1193,17 @@ export default {
     onTouchFavoriteEnd: function (e) {
         if (this.type == 'editFavorites') {
             if (this.pYMove != 0 && this.pYMove > 0 && this.headerFavoriteHeight <= NUMBERS_MEANING.HEADER_MIN_HEIGHT) {
-                // 向上移动，隐藏状态，不需要处理；向上移动显示状态，需要设置隐藏
+                // Move up, hidden, no processing required; To move the display status upward, you need to set the hide
                 this.headerFavoriteHeight = NUMBERS_MEANING.HEADER_MIN_HEIGHT;
                 this.headerFavoriteFontSize = NUMBERS_MEANING.HEADER_MIN_FONT_SIZE;
                 this.headerFavoriteMaginLeft = NUMBERS_MEANING.HEADER_MAX_MAGIN_LENGTH;
             } else if (this.pYMove != 0 && this.pYMove < 0 && this.headerFavoriteHeight
             >= NUMBERS_MEANING.HEADER_MAX_HEIGHT && this.isScrollTopPosition == true) {
-                // 向下移动，显示状态，不需要处理；隐藏状态，需要结合是否是顶部，如果是顶部，就要将顶部显示
+                // Whether the combination is the top. If it is the top, the top should be displayed
                 this.headerFavoriteHeight = NUMBERS_MEANING.HEADER_MAX_HEIGHT;
                 this.headerFavoriteFontSize = NUMBERS_MEANING.HEADER_MAX_FONT_SIZE;
                 this.headerFavoriteMaginLeft = NUMBERS_MEANING.HEADER_MIN_MAGIN_LENGTH;
             } else if (this.pYMove != 0 && this.pYMove < 0 && this.onScrollTopNum == 0) {
-                // 如果数据量较少，导致下拉条不生效，这种情况时，下拉即展示头部
                 this.headerFavoriteHeight = NUMBERS_MEANING.HEADER_MAX_HEIGHT;
                 this.headerFavoriteFontSize = NUMBERS_MEANING.HEADER_MAX_FONT_SIZE;
                 this.headerFavoriteMaginLeft = NUMBERS_MEANING.HEADER_MIN_MAGIN_LENGTH;
@@ -1247,13 +1234,12 @@ export default {
     },
     onScrollFavoriteTop: function (e) {
         if (this.type == 'editFavorites') {
-            // 如果判断是顶部，做标记
+            // If it is judged to be the top, mark it
             this.isScrollTopPosition = true;
             this.onScrollTopNum = this.onScrollTopNum + 1;
         }
     },
 
-    // 简洁布局选项初始化
     conciseLayoutInit: function () {
         let data = this.$app.$def.globalData.storage.getSync('contacts_settings_concise_layout_switch', 'false');
         this.layoutState = data == 'true' ? false : true;

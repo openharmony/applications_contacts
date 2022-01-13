@@ -1,5 +1,5 @@
 /**
- *  @file 群组
+ *  @file group
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -25,11 +25,11 @@ var TAG = 'Groups...:';
 
 export default {
     data: {
-        page: 0, // 初始加载当前页
+        page: 0, // Initial load current page
         limit: 20,
         groupList: [],
-        newGroupName: '', // 新增群组的群组名
-        updateGroupName: '', // 更新群组的群组名
+        newGroupName: '', // Group name of the new group
+        updateGroupName: '', // Update the group name of the group
         menuGroupName: '',
         dialogInputActive: false,
         showEmptyPage: false,
@@ -39,7 +39,6 @@ export default {
         }
     },
 
-    // 初始化页面
     onInit() {
         LOG.info(TAG + 'onInit success');
     },
@@ -73,7 +72,6 @@ export default {
         });
     },
 
-    // 缓存分页加载
     requestItem: function () {
         this.page++;
         var requestData = {
@@ -83,7 +81,6 @@ export default {
         this.getGroupList(requestData);
     },
 
-    // 返回上层页面
     back: function () {
         router.back();
     },
@@ -103,7 +100,6 @@ export default {
         });
     },
 
-    //  群组循环列表点击
     groupItemClick: function (item) {
         LOG.info(TAG + 'groupItemClick item' + item);
         router.push({
@@ -139,7 +135,6 @@ export default {
         }, 1);
     },
 
-    // Menu选择项
     todoSelected: function (event) {
         if (event.value == 'delete') {
             this.$element('deleteGroupDialog').show();
@@ -149,7 +144,6 @@ export default {
         }
     },
 
-    // 确认删除群组
     confirmDeleteGroup: function () {
         this.$element('deleteGroupDialog').close();
         var actionData = {

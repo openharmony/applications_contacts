@@ -1,5 +1,5 @@
 /**
- * @file 共享联系人列表
+ * @file Sharing a Contact List
  */
 
 /**
@@ -28,14 +28,14 @@ var TAG = 'shareContactsList...:';
 export default {
     data: {
         icShare: '/res/image/ic_share_m.svg',
-        title: '', // 标题
+        title: '', // title
         groupId: 0,
-        showEmptyPage: false, // 列表页面为空
-        noMatchingResults: false, // 显示搜索结果为空
-        checkedNum: 0, // 已选择联系人数量
-        contactsList: [], // 联系人列表
-        matchingResults: [], // 搜索结果
-        showSelectAll: true, // 全选,
+        showEmptyPage: false, // The list page is empty
+        noMatchingResults: false, // The displayed search results are empty
+        checkedNum: 0, // Number of contacts selected
+        contactsList: [], // contact list
+        matchingResults: [], // search result
+        showSelectAll: true, // Select all,
         addMemberDisabled: true,
         showContactList: true,
         showMatchContactsList: false,
@@ -81,7 +81,8 @@ export default {
 
     },
     clickSearch: function (e) {
-        // 搜索输入框
+        LOG.info(TAG + 'clickSearch e');
+        // Search input box
         if (e.text) {
             this.showContactList = false;
             this.showMatchContactsList = true;
@@ -94,9 +95,9 @@ export default {
     },
 
     /**
-     * 搜索请求后台
+     * Search request background
      *
-     * @param {string} keyText 输入框内容
+     * @param {string} keyText Input box content
      */
     searchRequest: function (keyText) {
         var requestData = {
@@ -145,7 +146,7 @@ export default {
         }
         this.initTitle();
     },
-    // 分享联系人
+    // Share contacts
     shareContacts: function () {
         var checkedList = [];
         this.contactsList.forEach((item) => {
@@ -155,7 +156,7 @@ export default {
         });
         LOG.info(TAG + 'shareContacts contactsList' + this.contactsList);
         prompt.showToast({
-            message: '调用分享vCard三方'
+            message: 'Call share vCard three parties'
         });
     },
     clickSelectAll: function () {
@@ -183,7 +184,7 @@ export default {
             this.title = this.$t('value.contacts.groupsPage.noSelect');
         }
     },
-    // 返回上层页面
+
     back: function () {
         router.back();
     },

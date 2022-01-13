@@ -14,7 +14,6 @@
 */-->
 <div class="container">
 
-<!--标题-->
     <div class="todo-title-div">
         <div class="title-image-box" ontouchend="back">
             <image class="title-image" src="{{ $t('svg.speedDial.back') }}"></image>
@@ -23,7 +22,6 @@
         </text>
     </div>
 
-<!-- 快速拨号盘-->
     <div class="group">
         <div class="grid-parent">
             <div for="{{ (index, item) in speedList }}" class="grid-child">

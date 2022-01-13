@@ -1,5 +1,5 @@
 /**
- * @file 最近删除
+ * @file Recently deleted
  */
 
 /**
@@ -42,7 +42,6 @@ export default {
         limit: 200
     },
 
-    // 初始化页面
     onInit() {
         LOG.info(TAG + 'onInit success');
         this.language = 'zh';
@@ -128,7 +127,6 @@ export default {
         this.isRecover = false;
     },
 
-    // 子页面恢复事件
     changePage: function (e) {
         LOG.info(TAG + 'changePage e');
         switch (e.detail.type) {
@@ -166,7 +164,6 @@ export default {
 
     },
 
-    // 返回上层页面
     back: function () {
         router.back();
     }

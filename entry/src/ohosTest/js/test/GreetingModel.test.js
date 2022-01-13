@@ -16,10 +16,10 @@ import {describe, beforeAll, beforeEach, afterEach, afterAll, it, expect} from '
 import Constants from '../../../main/js/default/common/constants/Constants.js';
 import greetingService from '../../../main/js/default/model/GreetingModel.js';
 
-// greeting暂时不写假数据
+
 describe('GreetingModelTest', function () {
     it('queryGreeting', 0, function () {
-//        获取应答语列表数据
+
         var data = {}
 
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.VOICEMAIL_DB_URI);
@@ -29,7 +29,7 @@ describe('GreetingModelTest', function () {
     })
 
     it('insertGreeting', 0, function () {
-        //把保存文件名和应答语名称传给后台
+
         var data = {}
 
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.VOICEMAIL_DB_URI);
@@ -48,7 +48,7 @@ describe('GreetingModelTest', function () {
     })
 
     it('saveCheckedGreeting', 0, function () {
-        //保存设置
+
         var data = {}
 
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.VOICEMAIL_DB_URI);

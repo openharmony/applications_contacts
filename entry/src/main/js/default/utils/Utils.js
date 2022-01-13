@@ -25,47 +25,47 @@ export default {
     copy(obj) {
         return JSON.parse(JSON.stringify(obj));
     },
-    /* 拨号盘粘贴字符串规则校验：除了白名单字符：[^0123456789+;,\-#\*] 外，存在任何字符，则不可在拨号盘粘贴 */
+
     checkDialerNumberString(numText) {
         if (this.isEmpty(numText)) {
             return false;
         }
-        var regExp = /[^0123456789\+\s;,\-#\*]/; //匹配非白名单字符，如果匹配到，反回false，匹配不到返回true
-        return !regExp.test(numText);
+        var regExp = /[^0123456789\+\s;,\-#\*]/;
+        return!regExp.test(numText);
     },
-    /* 获取原数据经过过滤后的合法电话号码字符 */
+
     getNumberString(numText) {
         if (this.isEmpty(numText)) {
             return '';
         }
-        return numText.replace(/[^0123456789\+;,#\*]/g, ''); //此处空格和-也需要被过滤
+        return numText.replace(/[^0123456789\+;,#\*]/g, '');
     },
-    /* 去除字符串中的空格 */
+
     removeSpace(textContent) {
         if (this.isEmpty(textContent)) {
             return '';
         }
         return textContent.replace(/[\s]/g, '');
     },
-    /* 获取原字符串中与指定子串匹配的结果字符串，只返回第一次匹配成功的结果(匹配规则忽略空格) */
+
     getMatchedString(textValue, regString) {
         if (this.isEmpty(textValue) || this.isEmpty(regString)) {
             return '';
         }
-        regString = this.removeSpace(regString);//去除子串中所有空格
+        regString = this.removeSpace(regString);
         var matchedTemp = '';
-        var k = 0; //空格数量
+        var k = 0;
         for (var i = 0; i < textValue.length; i++) {
             if (textValue.charAt(i) == regString.charAt(0)) {
                 for (var j = 0; j < regString.length; j++) {
-                    if (textValue.charAt(i+k+j) == regString.charAt(j) || textValue.charAt(i+k+j) == ' ') {
-                        matchedTemp = matchedTemp + textValue.charAt(i+k+j);
-                        if (textValue.charAt(i+k+j) == ' ') {
-                            k++; //空格计数加1；
-                            j--; //如果是主串空格，则子串不计入
+                    if (textValue.charAt(i + k + j) == regString.charAt(j) || textValue.charAt(i + k + j) == ' ') {
+                        matchedTemp = matchedTemp + textValue.charAt(i + k + j);
+                        if (textValue.charAt(i + k + j) == ' ') {
+                            k++;
+                            j--;
                         }
                     } else {
-                        k = 0; //空格数量清空
+                        k = 0;
                         matchedTemp = '';
                         break;
                     }

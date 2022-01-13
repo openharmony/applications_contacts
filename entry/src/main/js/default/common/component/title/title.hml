@@ -12,9 +12,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */-->
-<div class="{{titleType != 1 ? 'page-title-box' : 'page-title-box-small'}}" show="{{showTitle}}">
+<div class="{{ titleType != 1 ? 'page-title-box' : 'page-title-box-small' }}" show="{{ showTitle }}">
     <div class="page-title-more-image-box" id="moreOperation">
         <image src="../../../../default/res/image/ic_more_24x24.svg" class="page-title-more-image"></image>
     </div>
-        <text id="phoneTitleId" class="{{titleType != 1 ? 'page-title-text' : 'page-title-text-small'}}">{{titleName}}</text>
+    <text id="phoneTitleId" class="{{ titleType != 1 ? 'page-title-text' : 'page-title-text-small' }}">{{ titleName }}
+    </text>
 </div>

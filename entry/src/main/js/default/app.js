@@ -63,34 +63,32 @@ export default {
             isHidden: false,
             isSearch: false
         },
-        voicemailNumber: '', // 缓存语音信箱号码
-        refreshFunctions: [], // 页面回调函数容器，用于各页面数据的刷新。
-        navigationBackPressFunctions: [], // 主界面返回键回调函数，主界面点击返回时，调用所注册的函数。
-        batchSelectContactsRefreshFunction: [], // 批量选择联系人页面子组件数据刷新回调。
-        isDisplay: true, // 屏蔽组件
-        searchValue: '', // 详情界面助理跳回主页需要携带参数
-        contactCount: 0, // 用于判断分享联系人是否是置灰,
+        voicemailNumber: '',
+        refreshFunctions: [],
+        navigationBackPressFunctions: [],
+        batchSelectContactsRefreshFunction: [],
+        isDisplay: true,
+        searchValue: '',
+        contactCount: 0,
         pushToGroup: false,
         groupParams: null,
         dialogShow: false
     },
-    /* 拨号盘状态数据 */
     dialerStateData: {
-        isEditNumber: false, // true：表示从其他页面通过呼叫前编辑返回到拨号盘
-        isGoToMissedCalls: false, // true:表示初始进入拨号盘时，需要展示未接来电页面
+        isEditNumber: false,
+        isGoToMissedCalls: false,
         numTextDialer: '',
         showDialer: true,
         copyDisabled: true,
         isCallState: false,
-        isNeedShowDialer: true, // 表示在拨号盘从后台拉起时，是否需要显示拨号盘。从拨号盘当前页面的跳转都无需显示拨号盘
-        isNeedHideDialer: false, // 表示三方跳转到拨号盘时，是否需要隐藏拨号盘
+        isNeedShowDialer: true,
+        isNeedHideDialer: false,
     },
     groups: {
         group: []
     },
     dialer: {},
 
-    /* 全局拨号盘 */
     setAddAccount(addAccount) {
         this.globalData.addAccount = addAccount;
     },
@@ -135,9 +133,9 @@ export default {
     },
 
     /**
-     * 打电话
+     * Make a phone call
      *
-     * @param {number} phoneNumber 电话号码
+     * @param {number} phoneNumber
      */
     call(phoneNumber) {
         if (phoneNumber == null || phoneNumber == '') {
@@ -154,14 +152,14 @@ export default {
             });
         }
     },
-    // 发送短信
+
     sendMessage(params) {
         let actionData = {};
         actionData.contactObjects = JSON.stringify(params);
         actionData.pageFlag = 'conversation';
         this.jumpToContract(actionData);
     },
-    // 跳转至短彩信app
+
     jumpToContract(actionData) {
         var str = {
             'want': {
@@ -175,8 +173,8 @@ export default {
         };
         featureAbility.startAbility(str)
             .then((data) => {
-                LOG.info(TAG + 'jumpToContract Operation successful. Data: ' + JSON.stringify(data));
-            }).catch((error) => {
+            LOG.info(TAG + 'jumpToContract Operation successful. Data: ' + JSON.stringify(data));
+        }).catch((error) => {
             LOG.error(TAG + 'jumpToContract Operation failed. Cause: ' + JSON.stringify(error));
         });
     }

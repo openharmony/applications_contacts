@@ -18,14 +18,14 @@
     justify-content: center;
     align-items: flex-start;
 }
-/*列表容器*/
+
 .list-group {
     width: 100%;
     justify-content: center;
     flex-direction: column;
     align-items: flex-start;
 }
-/*item器样式*/
+
 .list-item {
     width: 100%;
     flex-direction: column;
@@ -33,7 +33,6 @@
     justify-content: flex-start;
 }
 
-/*item父容器样式*/
 .list-item-body-group {
     padding-top: 20px;
     width: 100%;
@@ -41,11 +40,11 @@
     padding-bottom: 20px;
     flex-direction: row;
 }
+
 .list-item-body-group:active {
     background-color: #d3d3d3;
 }
 
-/*头像文字父容器*/
 .list-item-head-group {
     width: 100px;
     height: 100px;
@@ -53,7 +52,7 @@
     align-items: center;
     border-radius: 50px;
 }
-/*头像文字*/
+
 .list-item-head-name {
     text-overflow: ellipsis;
     text-align: center;
@@ -62,7 +61,7 @@
     font-weight: 600;
     color: #fff;
 }
-/*默认头像*/
+
 .child-image-default {
     border-radius: 50px;
     object-fit: contain;
@@ -70,7 +69,7 @@
     width: 100%;
     height: 100%;
 }
-/*头像*/
+
 .todo-content-body-group {
     width: 85px;
     height: 85px;
@@ -80,7 +79,7 @@
     flex-direction: row;
     flex-shrink: 0;
 }
-/*姓名电话父容器*/
+
 .list-item-body-name {
     text-align: left;
     margin-bottom: 20px;
@@ -91,7 +90,7 @@
     max-lines: 1;
     text-overflow: ellipsis;
 }
-/*姓名电话父容器*/
+
 .list-item-body-name-search {
     text-align: left;
     margin-bottom: 20px;
@@ -103,7 +102,7 @@
     max-lines: 1;
     text-overflow: ellipsis;
 }
-/*姓名父容器*/
+
 .list-item-name-search-group {
     width: 100%;
     height: 40px;
@@ -111,6 +110,7 @@
     align-items: flex-start;
     flex-direction: row;
 }
+
 .list-item-name-search-txt {
     text-align: left;
     font-size: 30px;
@@ -119,70 +119,70 @@
     align-items: flex-start;
     color: #007DFE;
 }
-/*默认电话父容器*/
+
 .list-item-body-name-group {
     align-items: flex-start;
     justify-content: flex-start;
     height: 80px;
     flex-direction: column;
 }
-/*默认电话样式*/
+
 .list-item-body-phone-check-box-group {
     flex-shrink: 1;
     flex-direction: row;
 }
 
-/*默认电话样式*/
 .list-item-body-phone-group {
     flex-direction: row;
     background-color: #ff0000;
     flex-shrink: 1;
 }
-/*默认显示电话*/
+
 .list-item-phone-group {
     width: 100%;
     height: 40px;
     flex-direction: row;
     align-items: center;
 }
-/*电话列表父容器*/
+
 .list-child-phone-group {
     align-items: center;
     flex-direction: column;
     justify-content: center;
 }
+
 .list-child-phone-group:active {
     background-color: lightgray;
 }
-/*电话列表容器*/
+
 .list-child-phone-item {
     padding-left: 135px;
     width: 100%;
     flex-direction: column;
 }
 
-/*电话列表容器*/
 .list-child-phone-item1 {
     padding-left: 50px;
     width: 100%;
     flex-direction: column;
 }
+
 .list-child-phone-item:active {
     background-color: lightgray;
 }
-/*分割线*/
+
 .list-child-phone-line-group {
     margin-right: 60px;
     width: 100%;
 }
-/*分割线*/
+
 .line-group {
     width: 100%;
     margin-right: 60px;
     justify-content: flex-end;
     align-items: flex-end;
 }
-/*分割线样式*/
+
 .list-group-line {
     stroke-width: 1px;
     line-cap: round;
@@ -191,7 +191,7 @@
     justify-content: flex-end;
     align-items: flex-end;
 }
-/*分割线样式*/
+
 .list-group-line1 {
     stroke-width: 1px;
     line-cap: round;
@@ -202,13 +202,12 @@
     align-items: flex-end;
 }
 
-/*分割线样式*/
 .list-child-phone-line {
     stroke-width: 1px;
     line-cap: round;
     color: #ccc;
 }
-/*电话父容器*/
+
 .list-child-phone-number-group {
     flex-direction: row;
     align-items: center;
@@ -216,13 +215,12 @@
     width: 100%;
 }
 
-/*电话样式手机*/
 .list-item-phone {
     text-align: left;
     font-size: 24px;
     color: #636363;
 }
-/*电话样式手机*/
+
 .list-item-phone-label {
     text-align: left;
     font-size: 24px;
@@ -232,8 +230,6 @@
     color: #636363;
 }
 
-
-/*电话样式手机*/
 .list-item-phone {
     text-align: left;
     max-lines: 2;
@@ -242,6 +238,7 @@
     color: #636363;
     font-size: 28px;
 }
+
 .list-item-phone-search {
     text-align: left;
     max-lines: 2;
@@ -251,9 +248,6 @@
     font-size: 28px;
 }
 
-
-
-/*电话样式手机*/
 .list-item-phone-absolute {
     text-align: left;
     position: absolute;
@@ -269,14 +263,11 @@
     flex-direction: row;
 }
 
-/*电话样式手机*/
 .list-item-phone-div {
     flex-direction: row;
     align-items: center;
 }
 
-
-/*电话样式*/
 .list-item-phone-number {
     text-align: left;
     max-lines: 2;
@@ -286,12 +277,11 @@
     font-size: 28px;
 }
 
-/*搜索结果父容器*/
 .search-result-list {
     width: 100%;
     flex-direction: column;
 }
-/*搜索提示title*/
+
 .list-search-phone-num {
     padding-left: 30px;
     margin-bottom: 30px;
@@ -302,30 +292,33 @@
     color: #a9a9a9;
 }
 
-/*搜索结果列表容器*/
 .list-search-group {
     width: 100%;
     justify-content: center;
     flex-direction: column;
     align-items: center;
 }
+
 .input-type-group {
     width: 120px;
     height: 120px;
     margin-right: 50px;
     align-items: center;
 }
+
 .input-type-group1 {
     width: 100px;
     height: 100px;
     margin-left: 20px;
     align-items: center;
 }
+
 .input-type {
     width: 80px;
     height: 80px;
     margin-left: 18px;
 }
+
 .input-number-type {
     margin-right: 65px;
     height: 80px;
@@ -334,6 +327,7 @@
     justify-content: center;
     position: absolute;
 }
+
 .input-number-type1 {
     margin-right: 50px;
     height: 80px;
@@ -342,24 +336,24 @@
     justify-content: center;
     position: absolute;
 }
-/*内容布局*/
+
 .list-item-body-content {
     align-items: center;
     flex-shrink: 1;
     flex-direction: row;
 }
 
-/*内容布局*/
 .list-item-body-name-phone {
     flex-direction: column;
     width: 430px;
 }
-/*内容布局*/
+
 .list-item-body-name-phone1 {
     flex-direction: column;
     width: 520px;
     margin-left: 50px;
 }
+
 .todo-content-name-last {
     width: 90%;
     height: 65%;
@@ -369,12 +363,14 @@
     font-weight: 600;
     color: #fff;
 }
+
 .todo-item-content-div {
     width: 100%;
     height: 100%;
     align-items: center;
     justify-content: center;
 }
+
 .todo-name-suffix-div {
     flex-direction: column;
     align-items: center;
@@ -388,6 +384,7 @@
     width: 80px;
     height: 80px;
 }
+
 .todo-content-div-div {
     flex-direction: column;
     justify-content: center;
@@ -395,6 +392,7 @@
     margin-start: 32px;
     width: 88%;
 }
+
 .todo-content-name {
     width: 100%;
     text-align: left;
@@ -403,6 +401,7 @@
     max-lines: 1;
     text-overflow: ellipsis;
 }
+
 .todo-content {
     margin-top: 9px;
     width: 100%;

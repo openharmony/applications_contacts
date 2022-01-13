@@ -1,5 +1,5 @@
 /**
- * @file 选择组成员
+ * @file Select group members
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -27,36 +27,36 @@ var TAG = 'selectGroupMembers...:';
 const PHONE_ITEM_TYPE = 'phone';
 const EMAIL_ITEM_TYPE = 'email';
 const NAME_ITEM_TYPE = 'name';
-const SEARCH_TYPE_IN_GROUP = 2; // 群组内搜索
+const SEARCH_TYPE_IN_GROUP = 2; // Intra group search
 
 /**
- * @file 选择组成员
+ * @file Select group members
  */
 export default {
     data: {
         page: 0,
-        limit: 100, // 一页显示条目数量
-        title: '', // 标题
-        type: '', // 操作类型
-        groupId: 0, // 群组id
-        checkedNum: 0, // 已选择联系人数量
-        contactsList: [], // 联系人列表
-        matchingResults: [], // 搜索结果
-        checkedList: [], // 已选中的数据
-        phoneNumberLabelNames: [], // 电话号码标签集合
-        emailsLabelNames: [], // 邮箱标签集合
-        showEmptyPage: false, // 显示空页面
-        noMatchingResults: false, // 显示搜索结果为空
-        showSelectAll: true, // 全选,
-        layoutState: true, // 简洁布局
-        showContactList: true, // 显示联系人列表
-        showMatchContactsList: false, // 显示搜索结果
+        limit: 100, // Number of entries per page
+        title: '', // title
+        type: '', // Operation type
+        groupId: 0, // Group ID
+        checkedNum: 0, // Number of contacts selected
+        contactsList: [], // contact list
+        matchingResults: [], // search result
+        checkedList: [], // Selected data
+        phoneNumberLabelNames: [], // Phone number label collection
+        emailsLabelNames: [], // Mailbox label collection
+        showEmptyPage: false, // Show empty page
+        noMatchingResults: false, // The displayed search results are empty
+        showSelectAll: true, // Select all
+        layoutState: true, // Concise layout
+        showContactList: true, // Show contact list
+        showMatchContactsList: false, // Display search results
         addMemberDisabled: true,
-        showPhoneNumber: true, // 是否是展示电话号码
-        showEmail: false, // 是否是展示邮箱
-        pageParams: '', // 最近联系人参数
-        startDate: '', // 最近联系人参数开始时间
-        endDate: '', // 最近联系人参数结束时间
+        showPhoneNumber: true, // Show phone number
+        showEmail: false, // Is it a display mailbox
+        pageParams: '', // Recent contact parameters
+        startDate: '', // Last contact parameter start time
+        endDate: '', // Last contact parameter end time
         index: ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
         'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '…']
     },
@@ -89,15 +89,11 @@ export default {
         }
     },
 
-    // 简洁布局选项初始化
     conciseLayoutInit: function () {
         let data = this.$app.$def.globalData.storage.getSync('contacts_settings_concise_layout_switch', 'false');
         this.layoutState = data == 'true' ? false : true;
     },
 
-    /**
-     * 获取群组列表
-     */
     getGroupMemberList: function () {
         let filterItem = '';
         if (this.showPhoneNumber) {
@@ -146,7 +142,7 @@ export default {
         LOG.info(TAG + 'conditionOne item' + item);
         if (this.showPhoneNumber && item.phoneNumbers && item.phoneNumbers.length != 0) {
             let tempContacts = utils.copy(item);
-            tempContacts.phoneNumbers.length = 0; // 将电话数组置为空
+            tempContacts.phoneNumbers.length = 0; // Leave the phone array empty
             item.phoneNumbers.forEach((phoneNumber, index) => {
                 phoneNumber.backGroundColor = '#FFFFFF';
                 if (index == 0) {
@@ -167,7 +163,7 @@ export default {
         LOG.info(TAG + 'conditionTwo item' + item);
         if (this.showEmail && item.emails && item.emails.length != 0) {
             let tempContacts = utils.copy(item);
-            tempContacts.emails.length = 0; // 将电话数组置为空
+            tempContacts.emails.length = 0; // Leave the phone array empty
             item.emails.forEach((email, index) => {
                 if (index == 0) {
                     this.checkedNum++;
@@ -183,9 +179,6 @@ export default {
         }
     },
 
-    /**
-     * 获取最近联系人列表
-     */
     getRecentContacts: function () {
         let filterItem = '';
         if (this.showPhoneNumber) {
@@ -229,7 +222,7 @@ export default {
         result.resultList.forEach((item) => {
             if (this.showPhoneNumber && item.phoneNumbers && item.phoneNumbers.length != 0) {
                 let tempContacts = utils.copy(item);
-                tempContacts.phoneNumbers.length = 0; // 将电话数组置为空
+                tempContacts.phoneNumbers.length = 0; // Leave the phone array empty
                 item.phoneNumbers.forEach((phoneNumber, index) => {
                     phoneNumber.backGroundColor = '#FFFFFF';
                     if (index == 0) {
@@ -246,7 +239,7 @@ export default {
             }
             if (this.showEmail && item.emails && item.emails.length != 0) {
                 let tempContacts = utils.copy(item);
-                tempContacts.emails.length = 0; // 将电话数组置为空
+                tempContacts.emails.length = 0; // Leave the phone array empty
                 item.emails.forEach((email, index) => {
                     if (index == 0) {
                         this.checkedNum++;
@@ -265,7 +258,6 @@ export default {
 
     clickSearch: function (e) {
         LOG.info(TAG + 'clickSearch e' + e);
-        // 搜索输入框
         if (e.text) {
             this.showContactList = false;
             this.showMatchContactsList = true;
@@ -280,9 +272,9 @@ export default {
     },
 
     /**
-     * 搜索请求后台
+     * Search request background
      *
-     * @param {string} keyText 输入框文本内容
+     * @param {string} keyText Input box text content
      */
     searchRequest: function (keyText) {
         let searchProperty = [NAME_ITEM_TYPE];
@@ -303,7 +295,7 @@ export default {
         groupReq.searchContacts(DAHelper, requestData, result => {
             this.matchingResults = [];
             if (result.code == 0 && result.contactCount > 0) {
-                // 判断如果是已经选中的，则初始化为选中状态
+                // Judge that if it is already selected, it will be initialized to the selected status
                 result.data.forEach((item) => {
                     this.conditionThree(item);
                     this.conditionFour(item);
@@ -327,20 +319,20 @@ export default {
         LOG.info(TAG + 'conditionThree item' + item);
         if (this.showPhoneNumber && item.phoneNumbers && item.phoneNumbers.length != 0) {
             let tempContacts = utils.copy(item);
-            tempContacts.phoneNumbers = []; // 将电话数组置为空
+            tempContacts.phoneNumbers = []; // Leave the phone array empty
             item.phoneNumbers.forEach((phoneNumber) => {
                 if (this.indexOf(tempContacts.phoneNumbers, phoneNumber.phoneNumber) == -1) {
                     tempContacts.phoneNumbers.push(phoneNumber);
                     phoneNumber.checked = false;
                     phoneNumber.backGroundColor = '#FFFFFF';
 
-                    // 初始化可变名称
+                    // Initialize variable name
                     this.variableName(item, keyText);
 
-                    // 初始化可变手机号
+                    // Initialize variable phone number
                     this.variablePhoneNumber(item, keyText);
                     this.contactsList.forEach((checkedContact) => {
-                        // 如果联系人id一样，则初始化选中状态
+                        // If the contact ID is the same, the selected status will be initialized
                         if (checkedContact.contactId == item.contactId) {
                             checkedContact.phoneNumbers.forEach((checkedPhoneNumber) => {
                                 if (checkedPhoneNumber.phoneNumber == phoneNumber.phoneNumber
@@ -360,19 +352,19 @@ export default {
         LOG.info(TAG + 'conditionFour item' + item);
         if (this.showEmail && item.emails && item.emails.length != 0) {
             let tempContacts = utils.copy(item);
-            tempContacts.emails = []; // 将电话数组置为空
+            tempContacts.emails = []; // Leave the phone array empty
             item.emails.forEach((email) => {
                 if (this.indexOf(tempContacts.emails, email.email) == -1) {
                     tempContacts.emails.push(email);
                     email.checked = false;
 
-                    // 初始化可变名称
+                    // Initialize variable name
                     this.variableName(item, keyText);
-                    // 初始化可变邮箱号
+                    // Initialize variable mailbox number
                     this.variableEmail(item, keyText);
 
                     this.contactsList.forEach((checkedContact) => {
-                        // 如果联系人id一样，则初始化选中状态
+                        // If the contact ID is the same, the selected status will be initialized
                         if (checkedContact.contactId == item.contactId) {
                             checkedContact.emails.forEach((checkedEmail) => {
                                 if (checkedEmail.email == email.email && checkedEmail.checked) {
@@ -406,9 +398,9 @@ export default {
         } else {
             this.checkedNum--;
         }
-        // 修改contactList数据的选中状态
+        // Modify the selected status of contactlist data
         this.contactsList.forEach((checkedContact) => {
-            // 如果联系人id一样，则初始化选中状态
+            // If the contact ID is the same, the selected status will be initialized
             if (checkedContact.contactId == contactItem.contactId) {
                 checkedContact.phoneNumbers.forEach((checkedPhoneNumber) => {
                     if (checkedPhoneNumber.phoneNumber == contactItem.phoneNumbers[phoneNumIndex].phoneNumber) {
@@ -422,10 +414,10 @@ export default {
     },
 
     /**
-     * email选中事件
+     * Email selected event
      *
-     * @param {number} emailIndex 邮件索引
-     * @param {Object} emailItem 邮件对象
+     * @param {number} emailIndex Mail index
+     * @param {Object} emailItem Mail object
      */
     emailItemClick: function (emailIndex, emailItem) {
         LOG.info(TAG + 'emailItemClick emailIndex' + emailIndex + 'emailItem' + emailItem);
@@ -446,9 +438,9 @@ export default {
         } else {
             this.checkedNum--;
         }
-        // 修改contactList数据的选中状态
+        // Modify the selected status of contactlist data
         this.contactsList.forEach((checkedContact) => {
-            // 如果联系人id一样，则初始化选中状态
+            // If the contact ID is the same, the selected status will be initialized
             if (checkedContact.contactId == contactItem.contactId) {
                 checkedContact.emails.forEach((checkedEmail) => {
                     if (checkedEmail.email == contactItem.emails[emailNumIndex].email) {
@@ -462,7 +454,7 @@ export default {
     },
 
     /**
-     * 跳转至发送短信或者邮件界面
+     * Jump to send SMS or email interface
      */
     clickAddMember: function () {
         if (this.showPhoneNumber) {
@@ -506,7 +498,6 @@ export default {
         phoneNumber.backGroundColor = '#FFFFFF';
     },
 
-    // 更新操作按钮状态
     updateOperateButton: function (contactList) {
         LOG.info(TAG + 'updateOperateButton contactList' + contactList);
         var checkedList = [];
@@ -541,9 +532,6 @@ export default {
         }
     },
 
-    /**
-     * 全选事件
-     */
     clickSelectAll: function () {
         var temNum = 0;
         if (this.showMatchContactsList) {
@@ -581,9 +569,6 @@ export default {
         this.updateTitle();
     },
 
-    /**
-     * 同步搜索结果的数据状态到联系人列表
-     */
     syncCheckedState: function () {
         if (this.showPhoneNumber) {
             for (let i = 0; i < this.contactsList.length; i++) {
@@ -623,9 +608,6 @@ export default {
         }
     },
 
-    /**
-     * 取消全选事件
-     */
     clickCancelSelectAll: function () {
         var temNum = 0;
         if (this.showContactList) {
@@ -680,9 +662,6 @@ export default {
         this.updateTitle();
     },
 
-    /**
-     * 更新标题
-     */
     updateTitle: function () {
         if (this.checkedNum != 0) {
             this.title = this.$t('value.contacts.groupsPage.alreadySelect').replace('num', this.checkedNum + '');
@@ -691,7 +670,6 @@ export default {
         }
     },
 
-    // 返回上层页面
     back: function () {
         router.back();
     },
@@ -710,7 +688,6 @@ export default {
         return -1;
     },
 
-    // 初始化可变颜色邮箱号
     variableEmail(item, keyText) {
         LOG.info(TAG + 'variableEmail item' + item);
         for (var i = 0; i < item.emails.length; i++) {
@@ -729,7 +706,6 @@ export default {
         }
     },
 
-    // 初始化可变颜色名称
     variableName(item, keyText) {
         LOG.info(TAG + 'variableName item' + item);
         var matchString = utils.getMatchedString(item.emptyNameData, keyText);
@@ -746,7 +722,6 @@ export default {
         }
     },
 
-    // 初始化可变颜色号码
     variablePhoneNumber(item, keyText) {
         LOG.info(TAG + 'variablePhoneNumber item' + item);
         for (var i = 0; i < item.phoneNumbers.length; i++) {

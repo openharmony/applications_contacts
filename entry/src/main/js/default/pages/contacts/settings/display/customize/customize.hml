@@ -28,7 +28,7 @@
     </div>
     <list>
         <list-item>
-        <!-- 手机-->
+        <!-- phone-->
             <div class="customize-phone-div" onclick="unfoldClicked">
                 <div class="customize-image-div">
                     <image class="customize-arrow-image" src="{{ customizeArrowImage }}"></image>
@@ -60,7 +60,7 @@
             <list-item class="empty-group-item">
                 <divider class="divider" show="{{ isUnfold }}"></divider>
                 <div class="custom-all-div" onclick="onClickGroupChange(-1)" show="{{ isUnfold }}">
-                    <!-- 其他所有联系人-->
+                    <!-- All other contacts-->
                     <div class="all-parent-div">
                         <text class="display-contacts-text">
                             {{ $t('value.contacts.displayPage.customizePage.unGrouped') }}
@@ -71,7 +71,7 @@
                 </div>
             </list-item>
             <block for="{{ groupList }}">
-            <!-- 列表展开内容-->
+            <!-- List expansion content-->
                 <list-item class="empty-group-item">
                     <divider class="short-divider" show="{{ isUnfold }}"></divider>
                     <div class="custom-all-div" onclick="onClickGroupChange({{ $idx }})" show="{{ isUnfold }}">

@@ -29,17 +29,15 @@ describe('FavoritesModelTest',function(){
         })
     })
 
-//    单机收藏的联系人通话时触发
     it('queryPhoneNumByContactId',0,function(){
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         var contactId = '1';
-        var phoneNumberLabelNames = ['住宅', '手机','单位', '单位传真','住宅传真', '寻呼机', '其他', '', '', '', '', '总机'];
+        var phoneNumberLabelNames = ['residential', 'Mobile phone','unit', 'Unit fax','Residential fax', 'pagers', 'other', '', '', '', '', 'The switchboard'];
         FavoritesModel.queryPhoneNumByContactId(DAHelper,contactId, phoneNumberLabelNames,result=>{
             expect(result.code).assertEqual('0')
         })
     })
 
-//
     it('updateFavoriteState',0,function(){
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         var actionData = {'favorite':'0','ids':['14'],'isOperationAll':false}
@@ -47,8 +45,7 @@ describe('FavoritesModelTest',function(){
             expect(result).assertEqual('0')
         });
     })
-    
-//  收藏点击拨号时设置默认电话
+
     it('setOrCancelDefaultPhoneNumber',0,function(){
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         var actionData = {'contactId':'18','phoneNumber':'8','isPrimary':1}

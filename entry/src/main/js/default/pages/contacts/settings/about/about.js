@@ -1,5 +1,5 @@
 /**
- * @file 关于
+ * @file about
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -23,17 +23,14 @@ export default {
         appVersion: '1.0'
     },
 
-// 初始化页面
     onInit() {
         this.appVersion = app.getInfo().versionName;
     },
 
-// 返回上层页面
     back: function () {
         router.back();
     },
 
-// 点击开源代码许可
     openSourceClick: function () {
         router.push({
             uri: 'pages/contacts/settings/about/license/license',

@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 export default {
-
     props: ['titleName', 'titleType', 'showTitle'],
     data: {
         titleSmall: 'page-title-box-small',

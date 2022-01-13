@@ -38,18 +38,15 @@
     <list id="listItem" class="list-wraper" scrollbar="auto" onscrollbottom="scrollTend" ontouchmove="moveSroll"
           ontouchstart="srtartMove">
 
-    <!--用户信息二维码-->
         <list-item class="item-extent-div">
             <div class="qrcode-div">
                 <qrcode value="{{ qrcodeParam }}}"></qrcode>
             </div>
         </list-item>
 
-    <!--电话-->
         <list-item class="item-card-number" for="{{ contactForm.phoneNumbers }}">
             <div class="item-card-number-div">
                 <div class="item-card-number-inner">
-                    <!--  电话号码  -->
                     <text class="item-card-number-text">{{ $item.phoneNumber }}</text>
                     <text class="list-card-number-text-down">
                         {{ (($item.labelName == undefined || $item.labelName == '') ? '' : ($item.labelName + ' - ')) }}
@@ -60,7 +57,6 @@
             </div>
         </list-item>
 
-    <!-- 用户邮箱列表 -->
         <list-item class="item-card-number" if="{{ contactForm.emails && contactForm.emails.length > 0 }}"
                    for="{{ contactForm.emails }}">
             <div class="item-card-number-div">
@@ -71,7 +67,6 @@
             </div>
         </list-item>
 
-    <!-- 用户更多信息列表：及时消息 -->
         <list-item class="item-card-number" if="{{ contactForm.imAddresses && contactForm.imAddresses.length > 0 }}"
                    for="{{ contactForm.imAddresses }}">
             <div class="item-card-number-div">
@@ -99,7 +94,6 @@
             </div>
         </list-item>
 
-    <!-- 用户更多信息列表：昵称 -->
         <list-item class="item-card-number"
                    if="{{ contactForm.nickName.nickName && contactForm.nickName.nickName.length > 0 && contactForm.nickName != undefined }}">
             <div class="item-card-number-div">
@@ -110,7 +104,6 @@
             </div>
         </list-item>
 
-    <!-- 用户更多信息列表：网站 -->
         <list-item class="item-card-number" if="{{ contactForm.websites && contactForm.websites.length > 0 }}"
                    for="{{ contactForm.websites }}">
             <div class="item-card-number-div">
@@ -121,7 +114,6 @@
             </div>
         </list-item>
 
-    <!-- 用户更多信息列表：住宅 -->
         <list-item class="item-card-number"
                    if="{{ contactForm.postalAddresses && contactForm.postalAddresses.length > 0 }}"
                    for="{{ contactForm.postalAddresses }}">
@@ -140,7 +132,6 @@
             </div>
         </list-item>
 
-    <!-- 用户更多信息列表：events 事件记录 -->
         <list-item class="item-card-number" if="{{ contactForm.events && contactForm.events.length > 0 }}"
                    for="{{ contactForm.events }}">
             <div class="item-card-number-div">
@@ -158,7 +149,6 @@
             </div>
         </list-item>
 
-    <!-- 用户更多信息列表：姓名拼音 -->
         <list-item class="item-card-number"
                    if="{{ contactForm.name.familyNamePhonetic && contactForm.name.familyNamePhonetic.length > 0 }}">
             <div class="item-card-number-div">
@@ -169,7 +159,6 @@
             </div>
         </list-item>
 
-    <!-- 用户更多信息列表：关联关系 -->
         <list-item class="item-carte-number" if="{{ contactForm.relations && contactForm.relations.length > 0 }}"
                    for="{{ contactForm.relations }}">
             <div class="item-card-number-div">
@@ -209,7 +198,6 @@
             </div>
         </list-item>
 
-    <!-- 用户更多信息列表：备注 -->
         <list-item class="item-card-number"
                    if="{{ contactForm.note.noteContent && contactForm.note.noteContent.length > 0 }}">
             <div class="item-card-number-div">
@@ -227,7 +215,6 @@
         </list-item>
     </list>
 
-<!--bottom-->
     <div class="global-bottom-div">
         <div show="{{ countStaus }}">
             <div if="{{ scrollDown }}" class="up-botton-div" onclick="scrollToBottom">
@@ -237,7 +224,7 @@
                 <image class="up-image-div" src="{{ arrowUp }}"></image>
             </div>
         </div>
-        <!--  编辑、分享、个人紧急信息-->
+
         <div class="bottom-three-div">
             <div class="bottom-div-edit" onclick="editCard">
                 <image class="image-div" src="{{ $t('svg.favorites.diageEdit') }}"></image>

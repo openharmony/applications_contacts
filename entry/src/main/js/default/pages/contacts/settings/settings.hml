@@ -37,7 +37,7 @@
             {{ $t('value.contacts.settingPage.manager') }}
         </text>
     </div>
-    <!-- 显示联系人-->
+    <!-- Show contacts-->
     <div class="display-content-div" onclick="displayContactClicked" if="{{this.$app.$def.globalData.isDisplay}}">
         <text class="display-content-text">
             {{ $t('value.contacts.settingPage.displayContact') }}
@@ -45,7 +45,7 @@
         <image class="flex-manage-image" src="/res/image/ic_contacts_arrow_up.svg"></image>
     </div>
     <divider class="divider" if="{{this.$app.$def.globalData.isDisplay}}"></divider>
-    <!-- 整理联系人-->
+    <!-- Organize contacts-->
     <div class="display-content-div" onclick="manageContactsClicked">
         <text class="display-content-text">
             {{ $t('value.contacts.settingPage.organizeContacts') }}
@@ -53,7 +53,7 @@
         <image class="flex-manage-image" src="/res/image/ic_contacts_arrow_up.svg"></image>
     </div>
     <divider class="divider"></divider>
-    <!-- 导入/导出-->
+    <!-- Import / export-->
     <div class="display-content-div" onclick="importExportClicked" if="{{this.$app.$def.globalData.isDisplay}}">
         <text class="display-content-text">
             {{ $t('value.contacts.settingPage.importExport') }}

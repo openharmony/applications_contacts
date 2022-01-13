@@ -1,5 +1,5 @@
 /**
- * @file 整理联系人
+ * @file Sorting out Contacts
  */
 
 /**
@@ -24,7 +24,7 @@ var TAG = 'Manage...:';
 export default {
     data: {},
 
-// 初始化页面
+// Initialization page
     onReady() {
         LOG.log(TAG + 'onReady');
     },
@@ -55,7 +55,7 @@ export default {
         });
     },
 
-// 返回上层页面
+// Return to the upper page
     back: function () {
         router.back();
     }

@@ -1,5 +1,5 @@
 /**
- * @file: 最近删除model
+ * @file: Recently deleted model
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -24,11 +24,11 @@ var TAG = 'recentlydelModel';
 export default {
 
     /**
-     * 查询最近删除联系人
+     * Query recently deleted contacts
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} data 页面数以及页面一页最大数据量
-     * @param {Object} callback 返回数据集
+     * @param {string} DAHelper Database address
+     * @param {Object} data
+     * @param {Object} callback
      */
     queryRecentlyDelContacts: async function (DAHelper, data, callback) {
         var resultColumns = ['contact_id as contactId', 'display_name as name', 'delete_time as deleteTime'];
@@ -66,11 +66,11 @@ export default {
     },
 
     /**
-     * 清除最近删除联系人
+     * Clear recently deleted contacts
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} data 清除的联系人ID集
-     * @param {Object} callback 返回结果集
+     * @param {string} DAHelper Database address
+     * @param {Object} data
+     * @param {Object} callback
      */
     clearRecentlyDelContacts: async function (DAHelper, data, callback) {
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();

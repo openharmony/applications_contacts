@@ -1,5 +1,5 @@
 /**
- * @file 联系人分组列表
+ * @file Contact Group List
  */
 
 /**
@@ -26,7 +26,7 @@ var TAG = 'groupListWithContacts...:';
 export default {
     props: ['titleShow', 'checkItemState', 'checkedNumberMap'],
     data: {
-        page: 0, // 初始加载当前页
+        page: 0, // Initial load current page
         limit: 20,
         groupList: [],
         favoritesItem: {
@@ -36,9 +36,9 @@ export default {
             contactCount: 0,
         },
         phoneNumberLabelNames: [],
-        title: '', // 页面标题
-        layoutState: true, // 简介布局
-        checkedNum: 0 // 已选数量
+        title: '', // Page title
+        layoutState: true, // Introduction layout
+        checkedNum: 0 // Selected quantity
     },
     onInit() {
         LOG.info(TAG + 'onInit success');
@@ -58,48 +58,42 @@ export default {
         };
         this.getGroupList(requestData);
         this.$app.$def.globalData.batchSelectContactsRefreshFunction.push(()=> {
-            /* 刷新群组联系人列表复选框状态 */
             this.groupList.forEach((groupItem) => {
                 this.refreshContactCheckState(groupItem);
             });
-            /* 刷新收藏列表复选框状态 */
             this.refreshContactCheckState(this.favoritesItem);
         });
     },
 
-    // 简洁布局选项初始化
     conciseLayoutInit: function () {
         LOG.info(TAG + 'conciseLayoutInit success');
         let data = this.$app.$def.globalData.storage.getSync('contacts_settings_concise_layout_switch', 'false');
         this.layoutState = data == 'true' ? false : true;
     },
 
-    /* 刷新群组列表复选框状态 */
     refreshCheckState: function () {
-        /* 刷新群组联系人列表复选框状态 */
         this.groupList.forEach((groupItem) => {
             LOG.info(TAG + 'refreshCheckState groupItem' + groupItem);
             this.refreshContactCheckState(groupItem);
         });
-        /* 刷新收藏列表复选框状态 */
         this.refreshContactCheckState(this.favoritesItem);
     },
     refreshContactCheckState: function (groupItem) {
         LOG.info(TAG + 'refreshContactCheckState groupItem' + groupItem);
         groupItem.checked = false;
-        var expandChecked = true; // 是否需要选中群组;
+        var expandChecked = true; // Do you want to select a group;
         var tempContactBeans = [];
         groupItem.contactBeans.forEach((contactItem) => {
             if (contactItem.phoneNumbers && contactItem.phoneNumbers.length != 0) {
                 for (var i = 0; i < contactItem.phoneNumbers.length; i++) {
                     var phoneNumber = contactItem.phoneNumbers[i];
-                    if (this.checkedNumberMap.has(phoneNumber.phoneNumber.replace(/\s+/g, ''))) { // 已被选中
+                    if (this.checkedNumberMap.has(phoneNumber.phoneNumber.replace(/\s+/g, ''))) { // Selected
                         phoneNumber.checked = true;
                     } else {
-                        if (phoneNumber.checked) { // 若原来已选中但 已选列表中没有，则说明在其他页签取消
+                        if (phoneNumber.checked) {
                             phoneNumber.checked = false;
                         }
-                        if (i == 0) { // 群组中的首个联系人未被选中时，不选中群组
+                        if (i == 0) { // When the first contact in the group is not selected, the group is not selected
                             expandChecked = false;
                         }
                     }
@@ -113,7 +107,7 @@ export default {
         }
     },
 
-    // 缓存分页加载
+    // Cache paging load
     requestItem: function () {
         this.page++;
         var requestData = {
@@ -126,14 +120,14 @@ export default {
         this.getGroupList(requestData);
     },
 
-    // 获取群组列表
+    // Get group list
     getGroupList: function (actionData) {
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         groupReq.getGroupListAndContacts(DAHelper, actionData, result=>{
             if (result.code == 0) {
                 LOG.info(TAG + 'get group list come code');
                 if (result.resultList.length > 0) {
-                    // 遍历给复选框默认值
+                    // Traverse the default values for the check boxes
                     result.resultList.forEach((groupItem) => {
                         groupItem.checked = false;
                         groupItem.expand = false;
@@ -166,7 +160,6 @@ export default {
         groupItem.expand = !groupItem.expand;
     },
 
-    // 群组复选框选中事件
     groupItemChecked: function (groupItem) {
         LOG.info(TAG + 'groupItemChecked groupItem' + groupItem);
         groupItem.checked = !groupItem.checked;
@@ -191,7 +184,7 @@ export default {
             this.checkedNum = this.checkedNum + temNum;
             if (checkedList.length > 0) {
                 this.$emit('addCheckedContact', {
-                    checkedList: checkedList // 需要增加的已选号码
+                    checkedList: checkedList // Selected number to add
                 });
             }
         } else {
@@ -211,7 +204,7 @@ export default {
             });
             if (checkedList.length > 0) {
                 this.$emit('deleteCheckedContact', {
-                    checkedList: checkedList // 需要删除的已选号码
+                    checkedList: checkedList // Selected number to delete
                 });
             }
             this.checkedNum = this.checkedNum - temNum;
@@ -219,7 +212,6 @@ export default {
         this.initTitle();
     },
 
-    // 联系人点击事件
     contactItemClick: function (phoneNumIndex, contactItem, groupItem) {
         LOG.info(TAG + 'contactItemClick contactItem' + contactItem);
         contactItem.phoneNumbers[phoneNumIndex].checked = !contactItem.phoneNumbers[phoneNumIndex].checked;
@@ -230,7 +222,7 @@ export default {
                 checkedList: [{
                                   name: contactItem.emptyNameData,
                                   number: contactItem.phoneNumbers[phoneNumIndex].phoneNumber.replace(/\s+/g, '')
-                              }] // 需要增加的已选号码
+                              }] // Selected number to add
             });
         } else {
             this.checkedNum--;
@@ -239,7 +231,7 @@ export default {
                 checkedList: [{
                                   name: contactItem.emptyNameData,
                                   number: contactItem.phoneNumbers[phoneNumIndex].phoneNumber.replace(/\s+/g, '')
-                              }] // 需要取消的已选号码
+                              }] // Selected number to cancel
             });
         }
         this.initTitle();
@@ -247,20 +239,18 @@ export default {
 
     initOtherGroupCheckbox: function (phoneNumIndex, contactItem) {
         LOG.info(TAG + 'initOtherGroupCheckbox contactItem' + contactItem);
-        // 遍历其他group，如果选中的同一个联系人，则其他的也需要选中
+        // Traverse other groups. If the same contact is selected, other groups also need to be selected
         this.groupList.forEach((group) => {
             this.initGroupContactsCheckBox(group, phoneNumIndex, contactItem);
         });
-        // 遍历收藏联系人列表，如果选中同一个联系人，收藏列表的联系人也要选中
         this.initGroupContactsCheckBox(this.favoritesItem, phoneNumIndex, contactItem);
     },
 
-    /* 初始化指定群组联系人的复选框状态 */
     initGroupContactsCheckBox: function (group, phoneNumIndex, contactItem) {
         LOG.info(TAG + 'initGroupContactsCheckBox contactItem' + contactItem);
         var checkedNum = 0;
         group.contactBeans.forEach((contact) => {
-            // 同一个联系人下的同一个号码选中状态一致
+            // The same number under the same contact has the same selected status
             if (contact.contactId == contactItem.contactId) {
                 contact.phoneNumbers[phoneNumIndex].checked = contactItem.phoneNumbers[phoneNumIndex].checked;
             }
@@ -276,7 +266,6 @@ export default {
         }
     },
 
-    // 加载title
     initTitle: function () {
         if (this.checkedNum != 0) {
             this.title = this.$t('value.contacts.groupsPage.alreadySelect').replace('num', this.checkedNum + '');
@@ -285,7 +274,6 @@ export default {
         }
     },
 
-    // 返回上层页面
     back: function () {
         router.back();
     },

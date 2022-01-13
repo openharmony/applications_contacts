@@ -18,7 +18,7 @@
             <image class="about-back-image" src="/res/image/ic_back.svg"></image>
         </div>
         <text class="about-title-text">
-            开放源代码许可
+            {{ $t('value.contacts.settingPage.license.openSource') }}
         </text>
     </div>
     <div class="about-content-div">

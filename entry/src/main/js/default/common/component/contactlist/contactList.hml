@@ -12,11 +12,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */-->
-<!--  联系人列表  加上show="{{!searchLayoutShow}}" 预览布局会错乱，实际运行正常-->
 <div class="list-div-group">
     <list class="list-group" indexer="true" if="{{ ! searchLayoutShow }}" cachedcount="200" onrequestitem="requestItem">
 
-    <!-- 名称电话头像列表-->
+    <!-- Name Phone profile picture list-->
         <list-item class="list-item" for="{{ (index, item) in contactList }}" section="{{ item.name.namePrefix }}">
             <div class="list-item-body-group" on:click="listItemTouchStart(index,0)">
                 <div class="todo-content-body-group" if="{{layoutState}}">
@@ -55,7 +54,7 @@
                 </div>
             </div>
 
-        <!--          电话列表 show="{{index != 0}}"-->
+        <!--The phone list show="{{index != 0}}"-->
             <div class="list-child-phone-group" for="{{ item.phoneNumbers }}" if="{{ showNumberList }}"
                  on:click="listItemTouchStart(index,{{ $idx }})">
                 <div class="{{ layoutState?'list-child-phone-item':'list-child-phone-item1' }}"  if="{{ $idx != 0 }}">
@@ -79,14 +78,14 @@
         </list-item>
     </list>
 
-<!--    搜索列表-->
+<!-- Search listings-->
     <div class="search-result-list" if="{{ searchLayoutShow }}">
         <text class="list-search-phone-num">
             {{ $t('value.selectContact.page.find') }}{{ searchPhoneNum }}{{ $t('value.selectContact.page.findEnd') }}
         </text>
         <list class="list-search-group" show="true">
 
-        <!-- 名称电话头像列表-->
+        <!-- Name Phone profile picture list-->
             <list-item class="list-item" for="{{ (index, item) in searchContactList }}">
                 <div class="list-item-body-group" on:click="listItemTouchStartSearch(index,0)">
                     <div class="todo-content-body-group" if="{{layoutState}}">
@@ -138,7 +137,7 @@
 
                 </div>
 
-            <!--  电话列表 show="{{index != 0}}"-->
+            <!--  The phone list show="{{index != 0}}"-->
                 <div class="list-child-phone-group" for="{{ item.phoneNumbers }}"
                      if="{{ showNumberList }}"
                      on:click="listItemTouchStartSearch(index,{{ $idx }})">

@@ -12,9 +12,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *-->
-<!--联系人-->
+<!--The contact-->
 <div id="container" class="container">
-<!--        联系人标题-->
+<!--        Contact Title-->
     <div class="todo-title-div">
         <div class="contacts-back-but-div {{ animation.backBut }}" ontouchstart="back">
             <image class="contacts-back-image" src="/res/image/ic_back.svg"></image>
@@ -194,7 +194,6 @@
                       onscrolltop="scrollTop" onscroll="scroll" cachedcount="{{limit}}" onrequestitem="requestItem"
                       updateeffect="false">
 
-                <!--  群组  -->
                     <list-item id="todo-item-one" class="todo-item" onclick="onClickGroups"
                                if="{{this.$app.$def.globalData.isDisplay}}">
                         <div id="todo-content-div-one" class="todo-content-div first" show="{{layoutState }}">
@@ -259,7 +258,7 @@
                         </div>
                     </list-item>
 
-                <!--  联系人列表-->
+                <!--  Contact list-->
                     <list-item for="{{contactsList}}" id="todo-item-{{$idx}}" class="todo-item"
                                section="{{$item.namePrefix}}" ontouchstart="listItemTouchStart"
                                onclick="showRecordDetails({{$idx}},'contacts')"
@@ -359,7 +358,7 @@
             </div>
         </dialog>
     </div>
-<!--导入联系人弹窗-->
+<!--Import contacts popup-->
     <dialog id="importContactsDialog" class="share-dialog-main" oncancel="firstDialogCancel">
         <div class="import-div">
             <div class="share-inner-div">
@@ -384,7 +383,6 @@
         </div>
     </dialog>
 
-<!--    导入弹窗-->
     <dialog id="ImportDialog" class="import-dialog-main">
         <div class="import-dialog-div" >
             <div class="import-inner-txt">

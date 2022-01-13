@@ -17,7 +17,7 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    flex-direction: column;/*background-color: gold;*/
+    flex-direction: column;
 }
 
 .tabs-records {
@@ -40,8 +40,6 @@
     width: 100%;
 }
 
-/* 页签标题样式盒 */
-
 .tab-bar-box {
     width: 75%;
     height: 120px;
@@ -49,12 +47,12 @@
 
 .tab-bar-title {
     font-size: 30px;
-    color: gray;
+    color: #808080;
 }
 
 .tab-bar-box text:active {
     font-weight: 600;
-    color: royalblue;
+    color: #4169e1;
 }
 
 .select-contacts-title {
@@ -72,7 +70,7 @@
 }
 
 .select-contacts-title-image-button:active {
-    background-color: lightgray;
+    background-color: #d3d3d3;
 }
 
 .select-contacts-title-image-button-right {
@@ -86,7 +84,7 @@
 }
 
 .select-contacts-title-image-button-right:active {
-    background-color: lightgray;
+    background-color: #d3d3d3;
 }
 
 .select-contacts-title-image-button-right:disabled {
@@ -206,7 +204,7 @@
 .allrecords-item-content-middle-bottom-text {
     font-size: 26px;
     font-weight: 500;
-    color: gray;
+    color: #808080;
     max-lines: 2;
     max-width: 310px;
     min-width: 50px;
@@ -228,6 +226,7 @@
     height: 110px;
     border-radius: 10px;
 }
+
 .item-check-box {
     width: 80px;
     height: 80px;
@@ -239,7 +238,7 @@
     margin-left: 146px;
     height: 1px;
     border-bottom: 1px;
-    border-color: lightgray;
+    border-color: #d3d3d3;
 }
 
 .allrecords-list-item-line1 {
@@ -248,7 +247,7 @@
     margin-left: 50px;
     height: 1px;
     border-bottom: 1px;
-    border-color: lightgray;
+    border-color: #d3d3d3;
 }
 
 .tab-content-no-data {
@@ -265,7 +264,7 @@
 
 .tab-content-no-data-text {
     font-size: 28px;
-    color: gray;
+    color: #808080;
 }
 
 .select-contacts-operation {
@@ -284,7 +283,7 @@
 }
 
 .select-contacts-operation-button:active {
-    background-color: lightgray;
+    background-color: #d3d3d3;
 }
 
 .select-contacts-image-icon {
@@ -304,10 +303,8 @@
 
 .batch-select-list-container {
     width: 100%;
-    height: 84%;/*background-color: lightgray;*/
+    height: 84%;
 }
-
-/* 删除确认弹框样式 */
 
 .dialog-main {
     width: 92%;
@@ -353,11 +350,9 @@
     height: 70%;
     border-radius: 30px;
     background-color: transparent;
-    text-color: red;
+    text-color: #ff0000;
     font-size: 30px;
 }
-
-/* 联系人列表样式 */
 
 .select-contacts-list {
     flex-direction: column;
@@ -387,16 +382,12 @@
     align-items: center;
 }
 
-/*item器样式*/
-
 .list-item {
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
 }
-
-/*item父容器样式*/
 
 .list-item-body-group {
     padding-top: 20px;
@@ -411,8 +402,6 @@
     background-color: lightgray;
 }
 
-/*头像文字父容器*/
-
 .list-item-head-group {
     width: 100px;
     height: 100px;
@@ -422,16 +411,12 @@
     border-radius: 50px;
 }
 
-/*头像文字*/
-
 .list-item-head-name {
     text-align: center;
     font-size: 40px;
     allow-scale: true;
     font-weight: 600;
 }
-
-/*头像*/
 
 .todo-content-body-group {
     width: 80px;
@@ -441,8 +426,6 @@
     flex-direction: row;
 }
 
-/*姓名电话父容器*/
-
 .list-item-body-name {
     text-align: left;
     font-size: 30px;
@@ -451,16 +434,12 @@
     height: 40px;
 }
 
-/*默认电话父容器*/
-
 .list-item-body-name-group {
     align-items: center;
     justify-content: center;
     height: 80px;
     flex-direction: column;
 }
-
-/*默认电话样式*/
 
 .list-item-body-phone-check-box-group {
     width: 580px;
@@ -469,13 +448,9 @@
     justify-content: center;
 }
 
-/*默认电话样式*/
-
 .list-item-body-phone-group {
     flex-direction: row;
 }
-
-/*默认显示电话*/
 
 .list-item-phone-group {
     width: 100%;
@@ -483,15 +458,11 @@
     align-items: center;
 }
 
-/*电话列表父容器*/
-
 .list-child-phone-group {
     align-items: center;
     flex-direction: column;
     justify-content: center;
 }
-
-/*电话列表容器*/
 
 .list-child-phone-item {
     padding-left: 140px;
@@ -502,24 +473,18 @@
 }
 
 .list-child-phone-item:active {
-    background-color: lightgray;
+    background-color: #d3d3d3;
 }
-
-/*分割线*/
 
 .list-child-phone-line-group {
     margin-right: 60px;
     width: 100%;
 }
 
-/*分割线样式*/
-
 .list-child-phone-line {
     stroke-width: 1px;
     color: #000;
 }
-
-/*电话父容器*/
 
 .list-child-phone-number-group {
     flex-direction: row;
@@ -527,24 +492,18 @@
     height: 80px;
 }
 
-/*电话样式*/
-
 .list-item-phone-number {
     align-items: center;
     text-align: left;
     font-size: 24px;
     justify-content: center;
-    text-color: darkgray;
+    text-color: #808080;
 }
-
-/*搜索结果父容器*/
 
 .search-result-list {
     width: 100%;
     flex-direction: column;
 }
-
-/*搜索提示title*/
 
 .list-search-phone-num {
     padding-left: 30px;
@@ -553,10 +512,8 @@
     text-align: left;
     font-size: 24px;
     align-items: center;
-    text-color: darkgray;
+    text-color: #808080;
 }
-
-/*搜索结果列表容器*/
 
 .list-search-group {
     width: 100%;

@@ -27,17 +27,14 @@
     </div>
     <div class="batch-select-list-container">
 
-    <!--/* 定义页签容器 */-->
         <tabs id="callLogTab" class="tabs-records" onchange="changeSelectTab">
 
-        <!-- 定义页签标题,当子组件的宽度大于 -->
             <tab-bar id="tabBarId" class="tab-bar-box" mode="fixed">
                 <text id="recentTabId" class="tab-bar-title">{{ $t('value.contacts.selectContacts.recent') }}</text>
                 <text id="contactsTabId" class="tab-bar-title">{{ $t('value.contacts.selectContacts.contacts') }}</text>
                 <text id="groupTabId" class="tab-bar-title">{{ $t('value.contacts.selectContacts.group') }}</text>
             </tab-bar>
 
-        <!-- 定义页签实体部分 -->
             <tab-content id="tabContentId" class="tab-content-box" scrollable="false" ontouchmove="touchMoveContent"
                          ontouchstart="touchStartContent">
                 <div class="tab-content-contacts">
@@ -48,7 +45,6 @@
                         <list-item id="callsListItem{{ $idx }}" for="{{ callLogTemp }}" tid="id" class="list-item-log">
                             <div class="allrecords-list-item" on:click="clickCallLog({{ $idx }})">
 
-                            <!-- 最左侧头像显示 -->
                                 <div class="todo-item-content-div" if="{{ $item.portraitPath && layoutState }}">
                                     <image class="todo-item-content-image" src="{{ $item.portraitPath }}"></image>
                                 </div>
@@ -68,7 +64,6 @@
                                     </div>
                                 </div>
 
-                            <!-- 中间号码及高清图标 -->
                                 <div class="{{ layoutState ? 'allrecords-item-content' : 'allrecords-item-content1' }}">
                                     <div class="allrecords-item-content-middle-data">
                                         <div class="allrecords-item-content-middle-box">
@@ -92,7 +87,6 @@
                                     </div>
                                 </div>
 
-                            <!-- 右侧细节及checkBox图标-->
                                 <div class="allrecords-item-right" on:touchstart.bubble="touchStartCapture">
                                     <div class="allrecords-item-right-checkbox">
                                         <input id="recentCheckId" type="checkbox" checked="{{ $item.checked }}"
@@ -113,7 +107,7 @@
                     </div>
                 </div>
 
-            <!-- 联系人列表页签 -->
+            <!-- Contact list TAB -->
                 <div class="tab-content-contacts">
                     <div class="select-contacts-list" if="{{ contactsList != undefined && contactsList.length > 0 }}">
                         <div class="search-div">

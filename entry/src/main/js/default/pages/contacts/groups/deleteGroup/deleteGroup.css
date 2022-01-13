@@ -201,7 +201,7 @@
 }
 
 .batch-delete-operation-button:active {
-    background-color: lightgray;
+    background-color: #FFD3D3D3;
 }
 
 .batch-delete-operation-button:disabled {
@@ -250,6 +250,7 @@
     justify-content: space-around;
     align-items: center;
 }
+
 .btn-txt {
     width: 40%;
     height: 70%;

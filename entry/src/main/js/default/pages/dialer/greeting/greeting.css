@@ -16,7 +16,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background-color: #FFFFFF;
+    background-color: #FFF;
     width: 100%;
     height: 100%;
 }
@@ -136,7 +136,7 @@
 .divider {
     line-cap: round;
     stroke-width: 1px;
-    color: #cccccc;
+    color: #ccc;
     width: 93%;
     margin-left: -25px;
 }
@@ -157,7 +157,7 @@
 }
 
 .batch-add-operation-button:active {
-    background-color: lightgray;
+    background-color: #d3d3d3;
 }
 
 .batch-add-image-icon {
@@ -172,7 +172,7 @@
 }
 
 .batch-add-text:disabled {
-    color: darkgray;
+    color: #a9a9a9;
 }
 
 
@@ -186,7 +186,7 @@
 }
 
 .batch-delete-operation-button:active {
-    background-color: lightgray;
+    background-color: #d3d3d3;
 }
 
 .batch-delete-image-icon {
@@ -259,5 +259,5 @@
     border-left: -20px;
     width: 85%;
     background-color: transparent;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid #d3d3d3;
 }

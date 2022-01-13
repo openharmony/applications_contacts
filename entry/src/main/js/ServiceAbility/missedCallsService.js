@@ -23,19 +23,14 @@ let Subscriber;
 let id = 1;
 const events = ['usual.event.INCOMING_CALL_MISSED'];
 
-/**
- * class CallManagerService
- */
+
 class MissedCallsService {
     constructor() {
     }
 
-    /**
-     * add missedCalls app subscriber
-     */
     async addSubscriber() {
         Subscriber = await new Promise((resolve, reject) => {
-            commonEvent.createSubscriber({events},
+            commonEvent.createSubscriber({ events },
                 (err, data) => {
                     resolve(data);
                 }
@@ -43,13 +38,11 @@ class MissedCallsService {
         });
 
         commonEvent.subscribe(Subscriber, (err, data) => {
-            /* 接收到未接来电广播后，发送通知 */
             this.sendNotification(data.data);
         });
     }
-    /* 发送未接来电通知 */
+
     async sendNotification(text) {
-        /* 创建通知消息体 */
         const notificationRequest = {
             content: {
                 contentType: notify.ContentType.NOTIFICATION_CONTENT_BASIC_TEXT,
@@ -71,13 +64,14 @@ class MissedCallsService {
             operationType: wantAgent.OperationType.START_ABILITY,
             requestCode: 0,
         });
-        Object.assign(notificationRequest, {wantAgent: res});
+        Object.assign(notificationRequest, { wantAgent: res });
         notificationRequest.content.normal.title = text;
-        notificationRequest.content.normal.text = '未接来电';
+        notificationRequest.content.normal.text = this.$t('value.callRecords.missedCalls');
         id++;
         notify.publish(notificationRequest);
     }
 }
 
 let service = new MissedCallsService();
+
 export default service;

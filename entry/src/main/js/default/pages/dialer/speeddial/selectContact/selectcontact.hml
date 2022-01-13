@@ -15,7 +15,6 @@
 <element src="../../../../common/component/contactlist/contactlist" name="contactlistcomp"></element>
 <div class="container">
 
-<!--标题-->
     <div class="todo-title-div">
         <div class="title-image-box" ontouchend="back">
             <image class="title-image" src="{{ $t('svg.selectContact.back') }}" onclick="back"></image>
@@ -24,14 +23,12 @@
         </text>
     </div>
 
-<!--        搜索框-->
     <div class="search-div" if="{{ searchTitleLayout }}">
         <search id="search" hint="{{ $t('value.selectContact.page.search') }}" focusable="true"
                 onchange="onTextChange" ontouchstart="touchStartSearch"
                 value="{{ (searchDefaultName && searchDefaultName.length > 0) ? searchDefaultName : '' }}"></search>
     </div>
 
-<!--    空白布局-->
     <div class="empty-group">
         <div class="empty-group" show="{{ showEmpty }}">
             <image class="empty-image" src="{{ $t('svg.selectContact.emptyImage') }}"></image>

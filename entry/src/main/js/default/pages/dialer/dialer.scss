@@ -15,7 +15,7 @@
 @import '../../base/base_color.scss';
 @import '../../base/base_style.css';
 .container {
-    position: relative; /* 使内部组件按照声明顺序流式分层展示，排在下边的在上层 */
+    position: relative;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
@@ -71,7 +71,6 @@
     align-items: center;
     width: 200px;
     height: 100%;
-    /*background-color: gold;*/
 }
 .board-button-circle {
     width: 120px;
@@ -182,7 +181,6 @@
     align-items: center;
     width: 100%;
     height: 83%;
-    /*background-color: silver;*/
     bottom: 0px;
 }
 .call-records-container-small-title {
@@ -192,7 +190,6 @@
     align-items: center;
     width: 100%;
     height: 91%;
-/*background-color: silver;*/
     bottom: 0px;
 }
 .board-attention {
@@ -265,7 +262,7 @@
 .board-button div:active {
     background-color: $backgroundColorOnClick;
 }
-/* 双卡情况底部按钮样式适配 */
+
 .board-button-two-card-side {
     justify-content: center;
     align-items: center;
@@ -322,7 +319,7 @@
 .board-button-square:active {
     background-color: $backgroundColorOnClick;
 }
-/* 双卡状态下方形按钮置灰样式 */
+
 .board-button-square-onpress2 {
     width: 80px;
     height: 80px;
@@ -376,8 +373,6 @@
 .board-image {
     height: 50px;
     width: 50px;
-    /*border-left:1px;
-    border-right:1px;*/
 }
 .delete-button-normal {
     height: 50px;
@@ -417,7 +412,7 @@
     width: 15%;
     height: 10%;
 }
-/* 拨号盘缩略图样式控制 */
+
 .board-thumbnail-button {
     position: absolute;
     background-color: $baseColorGreen;
@@ -514,14 +509,14 @@
     border-radius: 5px;
     background-color: white;
 }
-/* 快捷拨号设置弹框 */
+
 .dialog-main {
     width: 92%;
     height: 16%;
     justify-content: center;
     align-items: center;
 }
-/* 暗码弹窗 */
+
 .dialog-secret-code {
     width: 92%;
     justify-content: center;
@@ -648,7 +643,6 @@
     font-size: 30px;
 }
 
-/* 拨号搜索相关样式 */
 .matched-call-records-list {
     flex-direction: column;
     columns: 1;

@@ -1,5 +1,5 @@
 /**
- * @file 组成员列表
+ * @file Group membership list
  */
 
 /**
@@ -29,17 +29,17 @@ export default {
     data: {
         groupItem: {
             title: ''
-        }, // 群组对象
+        }, // Group object
         contactCount: 0,
         layoutState: true,
-        dialogInputActive: false, // dialog的input框默认不激活
-        contactsList: [], // 数据列表
-        operateItem: {}, // 长按操作的联系人item
+        dialogInputActive: false, // The input box of dialog is not activated by default
+        contactsList: [], // Data list
+        operateItem: {}, // Long press and hold the contact item
         newGroupName: '',
         showEmptyPage: false,
-        menuContactName: '', // 长按menu的标题
+        menuContactName: '', // Long press the title of the menu
         page: 0,
-        limit: 20, // 一页显示条目数量
+        limit: 20, // Number of entries per page
         backgroundColor: backgroundColor.Color
     },
     onInit() {
@@ -52,19 +52,16 @@ export default {
         this.getContactsList();
     },
 
-    // 简洁布局选项初始化
     conciseLayoutInit: function () {
         LOG.info(TAG + 'conciseLayoutInit success');
         let data = this.$app.$def.globalData.storage.getSync('contacts_settings_concise_layout_switch', 'false');
         this.layoutState = data == 'true' ? false : true;
     },
 
-    // 缓存分页加载
     requestItem: function () {
         this.page++;
     },
 
-    //  群组信息查询
     getContactsList: function () {
         var actionData = {
             page: this.page,
@@ -136,7 +133,6 @@ export default {
             });
         }, 1);
     },
-    // Menu选择项
     menuSelected: function (event) {
         if (event.value == 'deleteFromGroup') {
             let contactBeans = {};
@@ -152,7 +148,6 @@ export default {
             });
         }
     },
-    // Menu选择项
     moreMenuSelected: function (event) {
         if (event.value == 'deleteMember') {
             router.push({
@@ -176,7 +171,6 @@ export default {
         this.dialogInputActive = true;
     },
 
-    // 返回上层页面
     back: function () {
         router.back();
     },
@@ -191,7 +185,6 @@ export default {
         });
     },
 
-    // 发送短信
     clickSendMsg: function () {
         router.push({
             uri: 'pages/contacts/groups/selectGroupMembers/selectGroupMembers',
@@ -202,7 +195,6 @@ export default {
         });
     },
 
-    // 发送邮件
     clickSendEmail: function () {
         router.push({
             uri: 'pages/contacts/groups/selectGroupMembers/selectGroupMembers',
@@ -234,7 +226,6 @@ export default {
 
     moreTouchStart: function (e) {
         LOG.info(TAG + 'moreTouchStart e' + e);
-        /* 记录底部更多触摸起点 */
         this.touchMoveStartX = e.touches[0].globalX;
         this.touchMoveStartY = e.touches[0].globalY;
     },

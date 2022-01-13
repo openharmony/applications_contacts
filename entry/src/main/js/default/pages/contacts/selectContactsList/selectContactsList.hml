@@ -13,7 +13,7 @@
 * limitations under the License.
 *-->
 <div id="container" class="container">
-    <!-- 收藏标题-->
+    <!-- Collection Title-->
     <div if="{{ (type == 'editFavorites') && (contactsList.length != 0 || todoList.length != 0) }}"
          class="todo-search-div-favorite">
         <div class="setting-parent-div">
@@ -27,7 +27,7 @@
             </text>
         </div>
     </div>
-    <!-- 未选择-->
+    <!-- Not selected-->
     <div if="{{ ! ((type == 'editFavorites') && (contactsList.length != 0 || todoList.length != 0)) }}" class="title-div">
         <div class="back-but-div" ontouchend="back">
             <image if="{{type == 'saveContacts'}}"  class="back-image" src="/res/image/ic_back.svg"></image>
@@ -41,7 +41,7 @@
             <image src="/res/image/ic_comfirm.svg" class="select-contacts-title-image-right"></image>
         </div>
     </div>
-    <!-- 搜索联系人-->
+    <!-- Search for contacts-->
     <div class="todo-search-div" if="{{ (contactsList.length != 0) && (type != 'editFavorites') }}"
          show="{{this.$app.$def.globalData.isDisplay}}">
         <search id="search" focusable="true" hint="{{ $t('value.contacts.page.search') }}" onchange="clickSearch"
@@ -101,7 +101,7 @@
                         </text>
                     </div>
 
-                <!-- 右侧细节及checkBox图标-->
+                <!-- Right detail and checkbox Icon-->
                     <div if="{{ type != 'saveContacts' }}">
                         <div class="allrecords-item-right-checkbox">
                             <input type="checkbox" checked="{{ item.checked }}" onchange="itemClick(item)">
@@ -120,7 +120,7 @@
             </div>
         </list-item>
 
-    <!--        常用标题-->
+    <!--        Common title-->
         <list-item class="todo-item-frequently" if="{{ (type == 'editFavorites') && (todoList.length != 0) }}"  clickeffect="false">
             <div class="todo-user-title-div">
                 <text class="title-text-unselect-favorite-size">
@@ -129,7 +129,7 @@
             </div>
         </list-item>
 
-    <!--        常用标题下列表内容-->
+    <!--        List contents under common headings-->
         <list-item for="{{ todoList }}" class="todo-item" if="{{ (type == 'editFavorites') && (todoList.length != 0) }}">
             <div class="list-item-div" onclick="itemClick({{ $item }})">
                 <div class="todo-content-div first" if="{{ layoutState }}">
@@ -163,7 +163,7 @@
                         <text class="todo-content" elif="{{ $item.numberType == 12 }}">{{ $t('accountants.switchboard') }} {{ $item.numbers }}</text>
                     </div>
 
-                <!-- 右侧细节及checkBox图标-->
+                <!-- Right detail and checkbox Icon-->
                     <div>
                         <div class="allrecords-item-right-checkbox">
                             <input type="checkbox" checked="{{ $item.checked }}" onchange="itemClick({{ $item }})">
@@ -294,7 +294,7 @@
                         </text>
                     </div>
 
-                <!-- 右侧细节及checkBox图标-->
+                <!-- Right detail and checkbox Icon-->
                     <div if="{{ type != 'saveContacts' }}">
                         <div class="allrecords-item-right-checkbox">
                             <input type="checkbox" checked="{{ item.checked }}" onchange="searchItemClick(item)">

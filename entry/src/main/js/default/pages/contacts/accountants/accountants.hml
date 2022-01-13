@@ -12,7 +12,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */-->
-<!--新建联系人-->
+<!--Creating a Contact-->
 <div class="container">
     <div id="title" class="title">
         <div class="button-click" ontouchend="back">
@@ -37,7 +37,6 @@
             </div>
         </list-item>
 
-    <!--  姓名 1 -->
         <list-item id="name" class="const-fisrt" clickeffect="false">
             <div class="const-image-div">
                 <image class="fisrt-image" src="/res/image/name.svg"></image>
@@ -49,7 +48,6 @@
             </div>
         </list-item>
 
-    <!--   2 姓名拼音-->
         <list-item id="letter" class="{{ flexInputStyle }}" show="{{ LetterShow }}">
             <div class="{{ flexImageStyle }}">
             </div>
@@ -60,7 +58,6 @@
             </div>
         </list-item>
 
-    <!--        middleName-中间名-->
         <list-item id="MiddleName" class="{{ flexInputStyle }}" show="{{ usStatus }}" clickeffect="false">
             <div class="{{ flexImageStyle }}">
             </div>
@@ -71,7 +68,6 @@
             </div>
         </list-item>
 
-    <!--        givenName-中间名-->
         <list-item id="givenName" class="{{ flexInputStyle }}" show="{{ usStatus }}" clickeffect="false">
             <div class="{{ flexImageStyle }}">
             </div>
@@ -82,7 +78,6 @@
             </div>
         </list-item>
 
-    <!--   3 公司-->
         <list-item id="company" class="{{ flexInputStyle }}" clickeffect="false">
             <div class="{{ flexImageStyle }}">
                 <image class="{{ flexImageSize }}" src="/res/image/company.svg"></image>
@@ -94,7 +89,6 @@
             </div>
         </list-item>
 
-    <!--   4 职务 -->
         <list-item id="work" class="{{ flexInputStyle }}"
                    show="{{ contactForm.organization.title.length > 0 || showWork }}" clickeffect="false">
             <div class="{{ flexImageStyle }}">
@@ -106,7 +100,6 @@
             </div>
         </list-item>
 
-    <!--手机 -->
         <list-item class="const-fisrt" id="phoneList{{ $idx }}" for="{{ contactForm.phoneNumbers }}"
                    clickeffect="false">
             <div class="const-image-div">
@@ -136,7 +129,7 @@
             </div>
         </list-item>
 
-    <!--添加更多号码  -->
+    <!--Adding More Numbers  -->
         <list-item id="morePhone" class="const-fisrt" ontouchend="addNumber" show="{{ phonShow }}">
             <div class="{{ flexImageStyle }}">
             </div>
@@ -146,14 +139,12 @@
             </div>
         </list-item>
 
-    <!--个人Email6  "-->
         <list-item id="emaillist{{ $idx }}" for="{{ contactForm.emails }}" tid="id" clickeffect="false">
             <div class="{{ flexInputStyle }}">
                 <div class="{{ flexImageStyle }}">
                     <image class="{{ flexImageSize }}" src="/res/image/email.svg" show="{{ $idx==0 }}"></image>
                 </div>
                 <div class="{{ flexCenterSize }}">
-                <!-- 可选择私人、单位、其他、自定义 -->
                     <select data="{{ $item.labelId }}" onchange="selectChange('2',{{ $idx }})">
                         <option value="1" selected="{{ $item.labelId == 1 }}">{{ $t('accountants.private') }}</option>
                         <option value="2" selected="{{ $item.labelId == 2 }}">{{ $t('accountants.unit') }}</option>
@@ -174,7 +165,6 @@
             </div>
         </list-item>
 
-    <!--添加邮件-->
         <list-item id="moremails" class="const-fisrt" ontouchend="addEmail" show="{{ emailShow }}">
             <div class="{{ flexImageStyle }}">
             </div>
@@ -184,7 +174,6 @@
             </div>
         </list-item>
 
-    <!--    备注-->
         <list-item id="note" class="{{ flexInputStyle }}" clickeffect="false">
             <div class="{{ flexImageStyle }}">
                 <image class="{{ flexImageSize }}" src="/res/image/note.svg"></image>
@@ -199,7 +188,7 @@
             </div>
         </list-item>
 
-    <!--    加入群组show ="{{!(carteFlag || updateCard)}}"-->
+    <!--    Join a Group show ="{{!(carteFlag || updateCard)}}"-->
         <list-item id="groupId" class="{{ flexInputStyle }}" onclick="onGroup" show="{{ ! (carteFlag || updateCard) }}">
             <div class="{{ flexImageStyle }}">
                 <image class="{{ flexImageSize }}" src="/res/image/group.svg"></image>
@@ -213,7 +202,7 @@
             </div>
         </list-item>
 
-    <!--即时消息 -->
+    <!--Instant messaging -->
         <list-item id="message{{ $idx }}" for="{{ contactForm.imAddresses }}" tid="id" show="{{ upMessShow }}"
                    clickeffect="false">
             <div class="{{ flexInputStyle }}">
@@ -249,7 +238,7 @@
             </div>
         </list-item>
 
-    <!--添加更多即时消息-->
+    <!--Add more instant messages-->
         <list-item id="moremessage" class="const-fisrt" ontouchend="addMess" show="{{messShow}}">
             <div class="{{ flexImageStyle }}">
             </div>
@@ -259,7 +248,7 @@
             </div>
         </list-item>
 
-    <!--    电话铃声 -->
+    <!--    The phone ringing -->
         <list-item class="{{ flexInputStyle }}" show="false">>
             <div class="{{ flexImageStyle }}">
                 <image class="{{ flexImageSize }}" src="/res/image/company.svg"></image>
@@ -270,7 +259,6 @@
 
         </list-item>
 
-    <!-- 住宅 -->
         <list-item id="house{{ $idx }}" class="{{ flexInputStyle }}" for="{{ contactForm.postalAddresses }}" tid="id"
                    show="{{ contactForm.postalAddresses[0].postalAddress || upHouseShow }}" clickeffect="false">
             <div class="{{ flexImageStyle }}">
@@ -279,7 +267,6 @@
             <div class="{{ flexCenterSize }}">
                 <select data="{{ $item.labelId }}" onchange="selectChange('4',{{ $idx }})">
 
-                <!--  住宅、单位、其他、自定义-->
                     <option value="1" selected="{{ $item.labelId == 1 }}">{{ $t('accountants.house') }}</option>
                     <option value="2" selected="{{ $item.labelId == 2 }}">{{ $t('accountants.unit') }}</option>
                     <option value="3" selected="{{ $item.labelId == 3 }}">{{ $t('accountants.others') }}</option>
@@ -298,7 +285,6 @@
 
         </list-item>
 
-    <!--添加地址-->
         <list-item id="morehouse" class="const-fisrt" ontouchend="addHouse" show="{{ houseShow }}">
             <div class="{{ flexImageStyle }}">
             </div>
@@ -308,7 +294,6 @@
             </div>
         </list-item>
 
-    <!--昵称-->
         <list-item id="nick" class="{{ flexInputStyle }}" show="{{ contactForm.nickName.nickName || upNickShow }}"
                    clickeffect="false">
             <div class="{{ flexImageStyle }}">
@@ -324,7 +309,6 @@
             </div>
         </list-item>
 
-    <!--        网站 -->
         <list-item id="websites{{ $idx }}" class="{{ flexInputStyle }}" for="{{ contactForm.websites }}"
                    show="{{ contactForm.websites[0].website || upWebShow }}" clickeffect="false">
             <div class="{{ flexImageStyle }}">
@@ -342,7 +326,6 @@
             </div>
         </list-item>
 
-    <!--添加website-->
         <list-item id="morewebsites" class="const-fisrt" ontouchend="addWebsite" show="{{ websiteShow }}">
             <div class="{{ flexImageStyle }}">
             </div>
@@ -352,7 +335,6 @@
             </div>
         </list-item>
 
-    <!--生日  生日、农历生日、周年纪念、其他重要日期  -->
         <list-item for="{{ contactForm.events }}" id="events{{ $idx }}" class="{{ flexInputStyle }}" tid="id"
                    show="{{ upBirthShow }}" clickeffect="false">
             <div class="{{ flexImageStyle }}">
@@ -362,7 +344,6 @@
             <div class="{{ flexCenterSize }}">
                 <select data="{{ $item.birthType }}" onchange="getBirType({{ $idx }})" id="{{ $idx }}">
 
-                <!--  3生日、2农历生日、1周年纪念、4其他重要日期  "Lunar Birthday": "农历生日","Anniversary": "周年纪念日"-->
                     <option value="3" selected="{{ $item.labelId == 3 }}" show="{{ $item.showF }}">
                         {{ $t('accountants.birth') }}</option>
                     <option value="2" selected="{{ $item.labelId == 2 }}" show="{{ $item.showS }}">
@@ -379,7 +360,6 @@
             </div>
         </list-item>
 
-    <!-- 其他重要日期-->
         <list-item id="moredate" class="const-fisrt" onclick="addBirth" show="{{ birthShow }}">
             <div class="{{ flexImageStyle }}">
             </div>
@@ -389,14 +369,12 @@
             </div>
         </list-item>
 
-    <!--        助理 -->
         <list-item id="relation{{ $idx }}" class="{{ flexInputStyle }}" for="{{ contactForm.relations }}" tid="id"
                    clickeffect="false" show="{{ contactForm.relations[0].relationName || upAssShow }}">
             <div class="{{ flexImageStyle }}">
                 <image class="{{ flexImageSize }}" src="/res/image/assistant.svg" show="{{ $idx==0 }}"></image>
             </div>
 
-        <!--            助理、兄弟、子女、伴侣、父亲、朋友、上司、母亲、父母、合作伙伴、介绍人、亲属、姐妹,配偶，自定义-->
             <div class="{{ flexCenterSize }}">
                 <select data="{{ $item.labelId }}" onchange="selectChange('5',{{ $idx }})">
                     <option value="1" selected="{{ $item.labelId == 1 }}">{{ $t('accountants.assistant') }}</option>
@@ -427,7 +405,6 @@
             </div>
         </list-item>
 
-    <!--        更多关系-->
         <list-item id="moreass" class="const-fisrt" ontouchend="addAss" show="{{ assisShow }}">
             <div class="{{ flexImageStyle }}">
             </div>
@@ -437,7 +414,7 @@
             </div>
         </list-item>
 
-    <!--添加更多项-->
+    <!--Add more items-->
         <list-item id="moreshow" class="{{ flexInputStyle }}" show="{{ MoreDivStatus }}">
             <div class="{{ flexImageStyle }}">
             </div>
@@ -463,7 +440,7 @@
         <list-item class="item-padding-bottom"></list-item>
     </list>
 
-<!--自定义弹窗-->
+<!--Custom pop-ups-->
     <dialog id="simpledialog" class="dialog-main">
         <div class="dialog-div">
             <div class="inner-txt">
@@ -480,7 +457,7 @@
         </div>
     </dialog>
 
-<!--是否保存修改弹窗-->
+<!--Whether to save the modification popover-->
     <dialog id="reset" class="delete-main" oncancel="cancelDialog">
         <div class="delete-div">
             <text class="txt-v">{{ $t('accountants.dosave') }}</text>

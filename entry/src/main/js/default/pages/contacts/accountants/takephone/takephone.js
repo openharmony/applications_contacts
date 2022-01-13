@@ -1,5 +1,5 @@
 /**
- * @file 拍照功能
+ * @file camera
  */
 
 /**
@@ -22,8 +22,6 @@ import router from '@system.router';
 export default {
     data: {},
 
-
-    /* 页面初始化时触发 */
     onInit() {
         console.info('maobingbing');
     },
@@ -33,9 +31,8 @@ export default {
     back() {
         router.back();
     },
-    // 拍摄按钮
+
     shootButton() {
-        // 相机拍摄按钮
         this.$element('cameraApp').takePhoto({
             quality: 'low',
             success: function (data) {

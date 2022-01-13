@@ -1,5 +1,5 @@
 /**
- * @file 许可证
+ * @file License group
  */
 
 /**
@@ -22,12 +22,9 @@ export default {
     data: {
     },
 
-// 初始化页面
     onInit() {
     },
 
-
-// 返回上层页面
     back: function () {
         router.back();
     }

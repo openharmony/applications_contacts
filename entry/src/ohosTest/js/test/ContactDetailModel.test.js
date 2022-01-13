@@ -17,7 +17,7 @@ import contactDetailModel from '../../../main/js/default/model/ContactDetailMode
 import Constants from '../../../main/js/default/common/constants/Constants.js'
 
 describe('ContactDetailModelTest',function(){
-//  通过联系人id获取联系人详情
+
     it('getContactById',0,function(){
         var requestData = {
             contactId: '1'
@@ -28,7 +28,6 @@ describe('ContactDetailModelTest',function(){
         })
     })
 
-//  通过电话号码获取该号码的联系人id
     it('getContactIdByNumber',0,function(){
         var phoneNumberShow = '15611452568'
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);

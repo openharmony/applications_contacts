@@ -1,5 +1,5 @@
 /**
- * @file: 选择联系人Model
+ * @file: Select contact Model
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -27,13 +27,13 @@ var TAG = 'selectContactsModel';
 export default {
 
     /**
-     * 查询联系人
+     * Querying Contacts
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} callBack 返回数据集
+     * @param {string} DAHelper Database address
+     * @param {Object} callBack
       */
     queryContacts: async function (DAHelper, callBack) {
-        var contactNumberMap = await this.getAllContactNumbers(DAHelper); // 获取所有联系人及其电话号码的Map映射关系
+        var contactNumberMap = await this.getAllContactNumbers(DAHelper);
         var resultColumns = ['id as contactId', 'display_name as emptyNameData', 'sort_first_letter as namePrefix',
         'photo_first_name as nameSuffix', 'company as company', 'position as position'];
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();
@@ -64,12 +64,12 @@ export default {
     },
 
     /**
-     * 查询所有联系人手机号
+     * Query all contact phone numbers
      *
-     * @param {string} DAHelper 数据库地址
+     * @param {string} DAHelper Database address
       */
     getAllContactNumbers: async function (DAHelper) {
-        var resultColumns = ['raw_contact_id', 'detail_info', 'extend7'];// extend7代表labelId
+        var resultColumns = ['raw_contact_id', 'detail_info', 'extend7'];
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();
         conditionArgs.equalTo('type_id', '5').orderByAsc('raw_contact_id');
         var resultSet = await DAHelper.query(Constants.uri.CONTACT_DATA_URI, resultColumns, conditionArgs);
@@ -77,22 +77,22 @@ export default {
             LOG.error(TAG + 'getAllContactNumbers' + ' Selectcontacts Model getAllContactNumbers resultSet is empty!');
             return new Map();
         }
-        var contactNumberMap = new Map(); // 用于存储联系人及其电话号码的对应关系
+        var contactNumberMap = new Map();
         resultSet.goToFirstRow();
         var oldContact = resultSet.getString(0);
         var numberList = [];
         do {
             var newContact = resultSet.getString(0);
-            if (oldContact == String(newContact)) { // 如果是同一联系人则把手机号放到同一个list中
+            if (oldContact == String(newContact)) {
                 numberList.push({
                     'phoneNumber': resultSet.getString(1),
                     'labelId': resultSet.getString(2)
                 });
             } else {
-                // 联系人变化时，存储联系人与手机号码列表的对应关系
+
                 contactNumberMap.set(oldContact, numberList);
                 oldContact = newContact;
-                // 将最新的号码数据存储到新的numberList
+
                 numberList = [{
                                   'phoneNumber': resultSet.getString(1),
                                   'labelId': resultSet.getString(2)

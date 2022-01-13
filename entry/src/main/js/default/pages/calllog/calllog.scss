@@ -24,7 +24,7 @@
     width: 100%;
     height: 100%;
 }
-/* 页签标题样式盒 */
+
 .tab-bar-box {
     width: 72%;
     height: 100px;
@@ -37,7 +37,7 @@
     animation-duration: 3000ms;
     animation-delay: 0ms;
 }
-/* tab-bar 被激活时，标题文本显示为蓝色 */
+
 .tab-bar-box text:active{
     font-weight: 600;
     color: $textColorTabBar;
@@ -75,7 +75,7 @@
     padding-top: 20px;
     padding-bottom: 20px;
 }
-/* list-item 子组件 */
+
 .allrecords-item-icon-left {
     flex-direction: column;
     align-items: center;
@@ -89,7 +89,7 @@
     flex-grow:1;
     align-items: flex-start;
 }
-/* 联系人item项右侧时间及细节图标 */
+
 .allrecords-item-right {
     height: 100%;
     width:130px;
@@ -172,16 +172,7 @@
     flex-direction: column;
     align-items: center;
 }
-/*#callsListItem0 {
-    width: 120%;
-    height: 12%;
-    padding-top: 14px;
-    padding-bottom: 15px;
-    animation-name: displayDeleteButton;
-    animation-fill-mode: forwards;
-    animation-duration: 3000ms;
-    animation-delay: 1000ms;
-}*/
+
 .allrecords-list-item-delete {
     width: 120%;
     height: 12%;
@@ -234,7 +225,7 @@
     width:50px;
     height:50px;
 }
-/* 进度条两侧的时间文本 */
+
 .voicemail-duration-text-start {
     color:gray;
     width:130px;
@@ -311,8 +302,6 @@
     min-width: 50px;
     text-overflow: ellipsis;
 }
-
-/* 未接来电项 */
 
 .tab-content-no-missed-calls {
     justify-content: center;

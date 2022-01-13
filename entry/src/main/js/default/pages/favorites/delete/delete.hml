@@ -23,7 +23,6 @@
     <list class="todo-wraper" scrollbar="on" shapemode="rect" onscrollbottom="scrollbottom" onscrolltop="scrolltop"
           onscroll="scroll">
 
-    <!--        收藏标题-->
         <list-item class="todo-item" if="{{ favoritesTitle }}">
             <div class="todo-title-div">
                 <text class="todo-title-name-frequent">{{ $t('group.favorites') }}
@@ -33,7 +32,6 @@
             </div>
         </list-item>
 
-    <!--        收藏标题下列表内容-->
         <list-item for="{{ favoriteslist }}" class="todo-item" onclick="collectChecked({{ $idx }})">
             <div class="todo-content-div first">
                 <image class="flex-item-image" src="{{ svgFavoritesDeleteMove }}" onclick="itemMove"></image>
@@ -61,7 +59,6 @@
             </div>
         </list-item>
 
-    <!--        常用标题-->
         <list-item class="todo-item" if="{{ todoTitle }}">
             <div class="todo-title-div">
                 <text class="todo-title-name-frequent">{{ $t('group.frequent') }}
@@ -71,7 +68,6 @@
             </div>
         </list-item>
 
-    <!--        常用标题下列表内容-->
         <list-item for="{{ todolist }}" class="todo-item" onclick="frequentChecked({{ $idx }})">
             <div class="todo-content-div first">
                 <stack>

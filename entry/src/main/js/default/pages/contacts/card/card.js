@@ -1,5 +1,5 @@
 /**
- * @file: 名片
+ * @file: card
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -29,7 +29,6 @@ export default {
         icContactsAllergies: '/res/image/ic_contacts_allergies_m.svg',
         icShare: '/res/image/ic_share_m.svg',
         arrowUnfold: '/res/image/ic_contacts_arrow_unfold_s.svg',
-        // 底部图标
         arrowUp: '/res/image/ic_contacts_arrow_unfold.svg',
         scrollDown: true,
         scrollUp: false,
@@ -70,9 +69,9 @@ export default {
             this.contactForm.name = this.name;
         }
         this.showNameLast = this.contactForm.name && this.contactForm.name.fullName ? this.contactForm.name.fullName
-        : ((this.contactForm.emptyNameData && this.contactForm.emptyNameData.length > 0)
-        ? this.contactForm.emptyNameData : (this.contactForm.phoneNumbers && this.contactForm.phoneNumbers[0])
-        ? this.contactForm.phoneNumbers[0].phoneNumber : '');
+                                                                                    : ((this.contactForm.emptyNameData && this.contactForm.emptyNameData.length > 0)
+                ? this.contactForm.emptyNameData : (this.contactForm.phoneNumbers && this.contactForm.phoneNumbers[0])
+                                                       ? this.contactForm.phoneNumbers[0].phoneNumber : '');
         if (!this.contactForm.emails || this.contactForm.emails.length == 0) {
             this.contactForm.emails = this.emails;
         } else {
@@ -158,7 +157,6 @@ export default {
         router.back();
     },
 
-    // 二维码获取
     getQrcode() {
         var name = (this.contactForm.name && this.contactForm.name.fullName
         && this.contactForm.name.fullName.length > 0) ? 'N:' + this.contactForm.name.fullName + ';' : '';
@@ -167,8 +165,7 @@ export default {
         && this.contactForm.organization.name.length > 0) ? 'ORG:' + this.contactForm.organization.name + ';' : '';
 
         var postalAddresses = (this.contactForm.postalAddresses && this.contactForm.postalAddresses[0]
-        && this.contactForm.postalAddresses[0].postalAddress.length > 0) ? 'ADR:' + this.contactForm.postalAddresses[0].
-        postalAddress + ';' : '';
+        && this.contactForm.postalAddresses[0].postalAddress.length > 0) ? 'ADR:' + this.contactForm.postalAddresses[0].postalAddress + ';' : '';
 
         var phoneNumbersString = '';
         var phoneNumberLength = (this.contactForm && this.contactForm.phoneNumbers)
@@ -206,7 +203,6 @@ export default {
         + stringEmails + websites + position + note + imAddresses;
     },
 
-    // 返回主页
     routerBack() {
         router.back();
     },
@@ -215,9 +211,9 @@ export default {
     },
 
     /**
-     * 滚动到列表底部
+     * Scroll to the bottom of the list
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     scrollTend(e) {
         LOG.info(TAG + 'scrollTend' + e);
@@ -225,9 +221,9 @@ export default {
     },
 
     /**
-     * 手指触摸后移动 手指触摸动作开始。
+     * Move after finger touch finger touch action begins.
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     moveSroll(e) {
         this.moveGlobalY = e.touches[0].globalY;
@@ -238,9 +234,9 @@ export default {
     },
 
     /**
-     * 手指触摸动作开始。
+     * Finger touch begins。
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     srtartMove(e) {
         this.startGlobalY = e.touches[0].globalY;
@@ -253,7 +249,6 @@ export default {
         this.$element('listItem').scrollBottom(true);
     },
 
-    // 编辑我的名片
     editCard() {
         this.setContactForm();
 
@@ -337,9 +332,9 @@ export default {
     },
 
     /**
-     * 将数组中的每个元素的showP属性展示
+     * Displays the showP attribute for each element in the array
      *
-     * @param {Array} array 联系人的各个数据
+     * @param {Array} array
      */
     addShowPField(array) {
         if (array || array.length > 0) {
@@ -350,31 +345,30 @@ export default {
         }
     },
 
-    // 分享弹窗
     shareCarte() {
         this.$element('shareCartedialog').show();
     },
 
     /**
-     * 分享联系人
+     * Share Contacts
      *
-     * @param {number} idx 联系人的各个数据
+     * @param {number} idx Contact data
      */
     shareClick(idx) {
         switch (idx) {
             case 0:
                 prompt.showToast({
-                    message: '调用分享二维码三方'
+                    message: 'Call share qr code three parties'
                 });
                 break;
             case 1:
                 prompt.showToast({
-                    message: '调用分享vCard三方'
+                    message: 'Call share vCard three parties'
                 });
                 break;
             case 2:
                 prompt.showToast({
-                    message: '调用文本三方'
+                    message: 'Call text tripartite'
                 });
                 break;
             default:
@@ -382,7 +376,6 @@ export default {
         }
     },
 
-    // 弹窗取消
     shareCancelClick() {
         this.$element('shareCartedialog').close();
     }

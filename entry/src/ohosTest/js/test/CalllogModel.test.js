@@ -19,7 +19,6 @@ import Constants from '../../../main/js/default/common/constants/Constants.js'
 
 describe('CalllogModelTest',function(){
 
-    //    获取全部通话记录
     it('getAllCalls',0,function(){
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CALLLOG_DB_URI);
         callLogService.getAllCalls(DAHelper, data => {
@@ -27,7 +26,6 @@ describe('CalllogModelTest',function(){
         })
     })
 
-//    根据电话号码获取通话详情
     it('getCallLogListByPhoneNumber',0,function(){
         var numbers = '18823681567'
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CALLLOG_DB_URI);
@@ -36,7 +34,6 @@ describe('CalllogModelTest',function(){
         })
     })
 
-//    清空通话记录 callback()
     it('clearCallLog',0,function(){
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CALLLOG_DB_URI);
         callLogService.clearCallLog(DAHelper,()=>{
@@ -45,7 +42,6 @@ describe('CalllogModelTest',function(){
         })
     })
 
-//      按照id删除指定通话记录
     it('deleteCallLogByIds',0,function(){
         var removeIds = ['1']
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CALLLOG_DB_URI);
@@ -54,7 +50,6 @@ describe('CalllogModelTest',function(){
         });
     })
 
-//      删除除指定的ids之外的记录
     it('deleteOtherCallLog',0,function(){
         var removeIds = ['1','2']
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CALLLOG_DB_URI);

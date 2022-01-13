@@ -1,5 +1,5 @@
 /**
- * @file: 收藏Model
+ * @file: Collect the Model
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -25,13 +25,12 @@ import backgroundColor from '../common/constants/color.js';
 var TAG = 'favoritesModel';
 
 export default {
-
     /**
-     * 查询非收藏联系人
+     * Query unfavorites contacts
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} data 页面最多联系人个数以及是否收藏
-     * @param {Object} callback 回调
+     * @param {string} DAHelper Database address
+     * @param {Object} data Maximum number of contacts on the page and whether to favorites
+     * @param {Object} callback
      */
     queryUnFavoritesContacts: async function (DAHelper, data, callback) {
         var resultColumns = ['id as contactId', 'display_name as emptyNameData', 'sort_first_letter as namePrefix',
@@ -65,11 +64,11 @@ export default {
     },
 
     /**
-     * 查询收藏联系人
+     * Querying Favorite Contacts
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} data 页面最多联系人个数以及是否收藏
-     * @param {Object} callback 回调
+     * @param {string} DAHelper Database address
+     * @param {Object} data Maximum number of contacts on the page and whether to favorites
+     * @param {Object} callback
      */
     queryFavoritesContacts: async function (DAHelper, data, callback) {
         var resultColumns = ['id as contactId', 'display_name as emptyNameData', 'sort_first_letter as namePrefix',
@@ -104,12 +103,12 @@ export default {
     },
 
     /**
-     * 查询收藏联系人数量
+     * Query the number of favorite contacts
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {number} star 是否收藏
-     * @param {Object} result 收藏的联系人数据
-     * @param {Object} callback 返回result
+     * @param {string} DAHelper Database address
+     * @param {number} star Whether the collection
+     * @param {Object} result Collected contact data
+     * @param {Object} callback
      */
     queryFavoriteContactsCount: async function (DAHelper, star, result, callback) {
         var resultColumns = ['id'];
@@ -122,12 +121,12 @@ export default {
     },
 
     /**
-     * 查询常用联系人
+     * Querying Common Contacts
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} data 页面最多联系人个数以及是否收藏
-     * @param {Object} result 常用联系人数据
-     * @param {Object} callback 回调
+     * @param {string} DAHelper Database address
+     * @param {Object} data Maximum number of contacts on the page and whether to favorites
+     * @param {Object} result Common Contact Data
+     * @param {Object} callback
      */
     queryFrequentlyContact: async function (DAHelper, data, result, callback) {
         var resultColumns = ['type_id as type', 'raw_contact_id as contactId', 'detail_info as detailInfo',
@@ -192,12 +191,12 @@ export default {
     },
 
     /**
-     * 通过联系人ID查询手机号码
+     * Query mobile phone numbers by contact ID
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {number} contactId 联系人ID
-     * @param {Array} phoneNumberLabelNames 手机号码类型名称
-     * @param {Object} callback 回调
+     * @param {string} DAHelper Database address
+     * @param {number} contactId The contact ID
+     * @param {Array} phoneNumberLabelNames
+     * @param {Object} callback
      */
     queryPhoneNumByContactId: async function (DAHelper, contactId, phoneNumberLabelNames, callback) {
         var resultColumns = ['detail_info AS phoneNumber', 'extend7 AS labelId', 'is_preferred_number AS isPrimary'];
@@ -234,11 +233,11 @@ export default {
     },
 
     /**
-     * 更新联系人收藏状态
+     * Update the favorite status of contacts
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} actionData 联系人数据
-     * @param {Object} callback 回调
+     * @param {string} DAHelper Database address
+     * @param {Object} actionData Contact data
+     * @param {Object} callback
      */
     updateFavoriteState(DAHelper, actionData, callback) {
         var condition = new ohosDataAbility.DataAbilityPredicates();
@@ -267,11 +266,11 @@ export default {
     },
 
     /**
-     *  取消收藏联系人的收藏
+     *  Deselect a favorite contact
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} actionData 联系人数据
-     * @param {Object} callback 回调
+     * @param {string} DAHelper Database address
+     * @param {Object} actionData Contact data
+     * @param {Object} callback
      */
     async removeFavoriteState(DAHelper, actionData, callback) {
         var condition = new ohosDataAbility.DataAbilityPredicates();
@@ -297,14 +296,13 @@ export default {
     },
 
     /**
-     * 收藏点击拨号时设置默认电话
+     * Click to set the default phone number when dialing
      *
-     * @param {string} DAHelper 数据库名称
-     * @param {Object} actionData 电话数据
-     * @param {Object} callback 返回code
+     * @param {string} DAHelper
+     * @param {Object} actionData
+     * @param {Object} callback
      */
     setOrCancelDefaultPhoneNumber: async function (DAHelper, actionData, callback) {
-        // 通过contactId查询rawContactId
         var resultColumns = ['id AS rawContactId'];
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();
         conditionArgs.equalTo('contact_id', actionData.contactId);
@@ -324,7 +322,6 @@ export default {
         }
         var typeId = this.getTypeId(DAHelper, 'phone');
         if (actionData.isPrimary == 1) {
-            // 设置其他号码为非默认值
             var params = new ohosDataAbility.DataAbilityPredicates();
             params.equalTo('type_id', typeId);
             params.equalTo('raw_contact_id', rawContactIds);
@@ -344,7 +341,6 @@ export default {
             });
         }
 
-        // 设置当前号码默认值
         var condition = new ohosDataAbility.DataAbilityPredicates();
         condition.equalTo('type_id', typeId);
         condition.equalTo('raw_contact_id', rawContactIds);
@@ -368,10 +364,10 @@ export default {
     },
 
     /**
-     * 查询群组类型id
+     * Example Query the GROUP type ID
      *
-     * @param {string} DAHelper 数据库
-     * @param {string} typeText key值
+     * @param {string} DAHelper
+     * @param {string} typeText
      */
     getTypeId: async function (DAHelper, typeText) {
         var params = new ohosDataAbility.DataAbilityPredicates();

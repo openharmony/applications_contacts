@@ -1,5 +1,5 @@
 /**
- * @file 合并Model
+ * @file Combined Model
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -28,11 +28,11 @@ var TAG = 'mergeModel';
 export default {
 
     /**
-     * 查询合并的联系人
+     * Query merged contacts
      *
-     * @param {string} DAHelper 数据库
+     * @param {string} DAHelper The database
      * @param {null} data  null
-     * @param {Object} callback 返回数据集
+     * @param {Object} callback
      */
     queryMergeContactsList: async function (DAHelper, data, callback) {
         var resultColumns = [];
@@ -72,11 +72,11 @@ export default {
     },
 
     /**
-     * 查询合并的联系人
+     * Query merged contacts
      *
-     * @param {string} DAHelper 数据库
+     * @param {string} DAHelper The database
      * @param {null} data  null
-     * @param {Object} callback 返回数据集
+     * @param {Object} callback
      */
     autoMergeContacts: async function (DAHelper, data, callback) {
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();
@@ -88,11 +88,11 @@ export default {
     },
 
     /**
-     * 查询合并的联系人
+     * Query merged contacts
      *
-     * @param {string} DAHelper 数据库
-     * @param {Object} data  联系人ID集
-     * @param {Object} callback 返回数据集
+     * @param {string} DAHelper The database
+     * @param {Object} data
+     * @param {Object} callback
      */
     mergeContacts: async function (DAHelper, data, callback) {
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();

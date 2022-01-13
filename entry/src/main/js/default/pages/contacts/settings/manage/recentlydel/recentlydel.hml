@@ -15,7 +15,7 @@
 <element name="recoverComp" src="./recover/recover.hml"></element>
 <div id="container" class="container">
     <block if="{{ isRecover }}">
-        <!-- 最近删除-->
+        <!-- Recently deleted-->
         <div class="recently-title-div">
             <div class="recently-back-but-div" onclick="back">
                 <image class="recently-back-image" src="/res/image/ic_back.svg"></image>
@@ -24,7 +24,7 @@
                 {{ $t('value.contacts.managePage.recentlyPage.title') }}
             </text>
         </div>
-        <!-- 联系人将保留 30 天，之后永久删除。-->
+        <!-- Contacts will be retained for 30 days and then permanently deleted-->
         <div class="recently-instruction-div">
             <text class="recently-instruction-text">
                 {{ $t('value.contacts.managePage.recentlyPage.instruction') }}

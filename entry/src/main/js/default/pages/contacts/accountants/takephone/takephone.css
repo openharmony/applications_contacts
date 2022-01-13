@@ -28,7 +28,7 @@
     padding-top: 10px;
     padding-bottom: 10px;
     position: relative;
-    background-color: black;
+    background-color: #000;
 }
 
 .customize-title-div {
@@ -62,16 +62,16 @@
     height: 81%;
 }
 
-.page-footer-div{
+.page-footer-div {
     flex-direction: row;
     align-items: center;
     justify-content: center;
     height: 200px;
-    background-color: black;
+    background-color: #000;
 }
 
 .shoot-image {
     width: 130px;
     height: 130px;
-    background-color: aqua;
+    background-color: #00ffff;
 }

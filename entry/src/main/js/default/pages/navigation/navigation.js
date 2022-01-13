@@ -26,22 +26,15 @@ export default {
         menus: '',
         cindex: 0,
         menuShow: true,
-        /* 是否是通话结束 */
         isEndCall: false,
-        /* 刷新通话记录标识 */
         refreshCallLog: false,
-        /* 刷新拨号盘状态标识 */
         refreshDialerState: false,
-        /* 从其他界面返回到dialer延时刷新任务 */
         dialerRefreshTimeOut: 0,
         navigationType: '',
-        /* index初始化 */
         isInitIndex: true,
-        //刷新联系人列表
         isInit: false,
         isInitFavorite: false,
         clipboardDelayId: 0,
-        /* 拨号盘相关数据 */
         dialer: {
             numTextValue: '',
             copyDisabled: true,
@@ -77,7 +70,7 @@ export default {
         ];
         if (this.sourceFavorites && this.sourceFavorites == 'favorites') {
             this.changeMenu(2, false);
-        } else if(this.navigationType && this.navigationType == 'contacts'){
+        } else if (this.navigationType && this.navigationType == 'contacts') {
             this.changeMenu(1, false);
         } else {
             this.changeMenu(0, false);
@@ -107,7 +100,7 @@ export default {
             default:
                 break;
         }
-        //赋值
+
         this.cindex = index;
         this.$app.$def.globalData.menuType = this.cindex;
     },
@@ -115,7 +108,6 @@ export default {
         LOG.info(TAG + 'onReady' + 'logMessage: onReady index');
     },
     callLogRefresh() {
-        /* 获取通话记录合并状态 */
         var mergeRule = this.$app.$def.globalData.storage.getSync('call_log_merge_rule', 'from_time');
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CALLLOG_DB_URI);
         callLogService.getAllCalls(DAHelper, mergeRule, data => {
@@ -124,13 +116,13 @@ export default {
             this.getMissedCalls(this.dialer.logPageIndex, this.dialer.logPageSize);
             this.getVoicemailList();
             for (let i = 0; i < this.$app.$def.globalData.refreshFunctions.length; i++) {
-                this.$app.$def.globalData.refreshFunctions[i](); //执行各个界面所注册的回调函数。
+                this.$app.$def.globalData.refreshFunctions[i]();
             }
         });
     },
     getVoicemailList() {
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.VOICEMAIL_DB_URI);
-        callLogService.getVoicemailList(DAHelper, (voicemailList)=>{
+        callLogService.getVoicemailList(DAHelper, (voicemailList) => {
             this.$app.$def.globalData.voicemailTotalData.voicemailList = voicemailList;
             this.$app.$def.globalData.voicemailTotalData.voicemailCount = voicemailList.length;
             this.dialer.voicemailList = voicemailList;
@@ -140,7 +132,6 @@ export default {
         switch (this.$app.$def.globalData.menuType) {
             case 0:
                 this.changeMenu(0);
-                //执行navigation子页面注册的回调函数，用于各子页面数据的刷新。
                 this.callLogRefresh();
                 LOG.info(TAG + 'onShow' + 'logMessage navigationType = ' + this.$app.$def.globalData.navigationType);
                 this.$app.$def.showClipBoardInit = true;
@@ -178,7 +169,7 @@ export default {
     },
     onBackPress() {
         LOG.info(TAG + 'onBackPress' + 'logMessage onBackPress navigation');
-        var isCustom = false; //根据回调函数判断是否需要走自定义的BackPress方法。
+        var isCustom = false;
         if (this.$app.$def.globalData.navigationBackPressFunctions.length > 0) {
             this.$app.$def.globalData.navigationBackPressFunctions.forEach((backPressFunction) => {
                 isCustom = backPressFunction()
@@ -197,7 +188,6 @@ export default {
         this.favoritesList = e.detail.favoritesList;
     },
 
-    //线程暂停函数
     sleep: function (milliSeconds) {
         var startTime = new Date().getTime();
         while (new Date().getTime() < startTime + milliSeconds) {
@@ -214,7 +204,7 @@ export default {
         this.touchContactsEnd();
         this.clickContacts();
     },
-    /* 当前进入批量删除界面 */
+
     batchDeleteStart: function () {
         this.$app.$def.dialerStateData.batchDelete = true;
     },
@@ -244,23 +234,23 @@ export default {
             'code': 0
         };
         if (result != null && result.code == 0) {
-            if (Utils.checkDialerNumberString(result.abilityResult)) { //原字符是可以在拨号盘粘贴
-                this.dialer.copyDisabled = false; //粘贴按钮可用
-            } else { //原字符不可以在拨号盘粘贴
+            if (Utils.checkDialerNumberString(result.abilityResult)) {
+                this.dialer.copyDisabled = false;
+            } else {
                 this.dialer.copyDisabled = true;
                 this.dialer.showClipboard = false;
                 this.dialer.clipBoardData = '';
             }
-        } else { //获取结果出错则粘贴功能不可用
+        } else {
             this.dialer.copyDisabled = true;
             this.dialer.showClipboard = false;
             this.dialer.clipBoardData = '';
         }
     },
     hideClipBoard() {
-        this.dialer.showClipBoard = false; //隐藏tips
+        this.dialer.showClipBoard = false;
     },
-    /* 获取通话记录 */
+
     getCallLog: function (pageIndex, pageSize) {
         LOG.info(TAG + 'getCallLog' + 'logMessage getCallLog callLogTotalData length = ' + this.$app.$def.globalData.callLogTotalData.callLogList.length);
         if (pageIndex == 0) {
@@ -269,7 +259,7 @@ export default {
             this.dialer.recordList = this.dialer.recordList.concat(callLogService.getCallLog(pageIndex, pageSize, this.$app.$def.globalData.callLogTotalData.callLogList));
         }
     },
-    /* 获取未接来电 */
+
     getMissedCalls(pageIndex, pageSize) {
         LOG.info(TAG + 'getMissedCalls' + 'logMessage getMissedCalls callLogTotalData length = ' + this.$app.$def.globalData.callLogTotalData.missedList.length);
         if (pageIndex == 0) {
@@ -278,12 +268,12 @@ export default {
             this.dialer.missedList = this.dialer.missedList.concat(callLogService.getCallLog(pageIndex, pageSize, this.$app.$def.globalData.callLogTotalData.missedList));
         }
     },
-    /* 分页获取通话记录 */
+
     queryCallLogByPage(e) {
         LOG.info(TAG + 'queryCallLogByPage' + 'logMessage queryCallLogByPage e = ' + e);
-        if (e.detail.logIndex == 1) { //未接来电
+        if (e.detail.logIndex == 1) {
             this.getMissedCalls(e.detail.pageIndex, this.dialer.logPageSize);
-        } else { //通话记录
+        } else {
             this.getCallLog(e.detail.pageIndex, this.dialer.logPageSize);
         }
     },

@@ -146,7 +146,7 @@
 
 .todo-divider {
     stroke-width: 1px;
-    color: #cccccc;
+    color: #ccc;
 }
 
 .todo-content-button {
@@ -186,7 +186,7 @@
 }
 
 .batch-delete-operation-button:active {
-    background-color: lightgray;
+    background-color: #d3d3d3;
 }
 
 .batch-delete-operation-button:disabled {

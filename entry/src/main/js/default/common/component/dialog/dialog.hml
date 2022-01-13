@@ -15,11 +15,12 @@
 <dialog id="deleteCheckDialog" class="dialog-main" oncancel="cancelDialog">
     <div class="dialog-div">
         <div class="inner-txt">
-            <text class="txt">{{deleteMessage}}</text>
+            <text class="txt">{{ deleteMessage }}</text>
         </div>
         <div class="inner-btn">
-            <button type="capsule" value="{{$t('phone.cancel')}}" onclick="cancelDialog" class="btn-txt"></button>
-            <button type="capsule" value="{{$t('value.callRecords.delete')}}" onclick="doDelete" class="btn-txt-delete"></button>
+            <button type="capsule" value="{{ $t('phone.cancel') }}" onclick="cancelDialog" class="btn-txt"></button>
+            <button type="capsule" value="{{ $t('value.callRecords.delete') }}" onclick="doDelete"
+                    class="btn-txt-delete"></button>
         </div>
     </div>
 </dialog>

@@ -16,11 +16,13 @@
     width: 92%;
     height: 15%;
 }
+
 .dialog-div {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
 }
+
 .inner-txt {
     height: 40%;
     width: 100%;
@@ -28,15 +30,18 @@
     align-items: center;
     justify-content: space-around;
 }
+
 .txt {
     font-size: 30px;
 }
+
 .inner-btn {
     width: 100%;
     height: 50%;
     justify-content: space-around;
     align-items: center;
 }
+
 .btn-txt {
     width: 40%;
     height: 70%;
@@ -45,6 +50,7 @@
     text-color: #175cfe;
     font-size: 30px;
 }
+
 .btn-txt-delete {
     width: 40%;
     height: 70%;

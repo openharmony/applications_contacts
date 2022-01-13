@@ -14,18 +14,18 @@
  */
 .container {
     flex-direction: column;
-    background-color: aqua;
     width: 100%;
     height: 100%;
     justify-content: space-around;
     align-items: center;
 }
+
 .test-button {
-    background-color: dodgerblue;
     width: 400px;
     height: 60px;
     font-size: 30px;
 }
+
 .dialog-class {
     width: 80%;
     height: 200px;

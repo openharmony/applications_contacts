@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
 
-                            <!-- 右侧细节及checkBox图标-->
+                            <!-- Right detail and checkbox Icon -->
                                 <div class="{{ layoutState ? 'phoneNumber-checkbox-div' : 'phoneNumber-checkbox-div1'
                                         }}">
                                     <input type="checkbox" class="checkbox" checked="{{ phoneNumber.checked }}"
@@ -207,7 +207,7 @@
                                     </div>
                                 </div>
 
-                            <!-- 右侧细节及checkBox图标-->
+                            <!-- Right detail and checkbox Icon -->
                                 <div class="{{ layoutState ? 'phoneNumber-checkbox-div' : 'phoneNumber-checkbox-div1'
                                         }}">
                                     <input type="checkbox" class="checkbox" checked="{{ phoneNumber.checked }}"

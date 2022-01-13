@@ -20,7 +20,7 @@ describe('AccountantsModelTest', function () {
     it('addContact', 0, function () {
         var addParams = {
             'name': {
-                'fullName': 'A测试用户名新增' + Math.floor(Math.random() * 100),
+                'fullName': 'A The test user name is added' + Math.floor(Math.random() * 100),
             },
             'phoneNumbers': [
                 {
@@ -43,7 +43,7 @@ describe('AccountantsModelTest', function () {
     it('updateContact', 0, function () {
         var addParams = {
             'name': {
-                'fullName': 'A测试用户名编辑' + Math.floor(Math.random() * 100),
+                'fullName': 'A The test user name is added' + Math.floor(Math.random() * 100),
             },
             'phoneNumbers': [
                 {

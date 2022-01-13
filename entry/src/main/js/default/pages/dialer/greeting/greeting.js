@@ -74,7 +74,7 @@ export default {
                 this.progressStart = '00:' + index;
             }
 
-            //最大时间15秒，根据当前时间算进度条
+            //The maximum time is 15 seconds, and the progress bar is calculated according to the current time
             this.progressNum = index / 15 * 100;
             if (index > 14) {
                 clearInterval(this.timeOutId);
@@ -82,8 +82,6 @@ export default {
                 this.$element('confirmAddGreeting').show();
             }
         }, 1000);
-
-        //保存录音产生的文件
     },
     addGreetingDialog: function () {
         this.showStartRecordBtn = false;
@@ -98,7 +96,6 @@ export default {
         this.progressStart = '00:00';
         this.progressNum = 0;
         this.showStartRecordBtn = true;
-        //删除录音产生的文件
     },
 
     groupNameChanged: function (e) {
@@ -146,11 +143,9 @@ export default {
         }
     },
 
-    //返回上层页面
     back: function () {
         router.back();
     },
-    //保存设置
     saveGreeting: function () {
         var checkedId = '';
         var uncheckedIds = [];
@@ -194,10 +189,10 @@ export default {
         this.$element('addGreetingDialog').show();
     },
     /**
-     * 获取应答语列表数据
+     * Get response list data
      *
-     * @param code 2005 FA与PA通行协议码
-     * @param data  contactId 联系人ID
+     * @param code 2005 FA and PA access protocol code
+     * @param data  contactId The contact ID
      */
     initGreeting: function (code, data) {
         var defaultList = [{

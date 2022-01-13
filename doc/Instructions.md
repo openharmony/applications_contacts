@@ -108,7 +108,7 @@ DevEco Studio 支持 debug 与 release 两种打包类型。可以在 OhosBuild 
 配置 hdc：
 进入SDK目录中的toolchains文件夹下，获取文件路径：
 
-![](../doc/image/screenshot-20210521-105407.png)
+![](../doc/image/sdk_catalogue.png)
 
 > 注意，此处的hdc.exe如果版本较老，可能不能正常使用，需要获取新的hdc.exe文件  
 > hdc命令介绍与下载详见：[hdc仓库地址](https://gitee.com/openharmony/developtools_hdc_standard)
@@ -116,7 +116,7 @@ DevEco Studio 支持 debug 与 release 两种打包类型。可以在 OhosBuild 
 
 并将此路径配置到环境变量中：
 
-![](../doc/image/screenshot-20210521-111223.png)
+![](../doc/image/sdk_environment_variable.png)
 
 重启电脑使环境变量生效
 

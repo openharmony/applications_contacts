@@ -21,7 +21,7 @@
             {{ $t('value.contacts.managePage.title') }}
         </text>
     </div>
-    <!-- 合并重复联系人-->
+    <!-- Merge Duplicate Contacts-->
     <div class="merge-content-div" onclick="mergeContactsClicked" if="{{this.$app.$def.globalData.isDisplay}}">
         <text class="merge-content-text">
             {{ $t('value.contacts.managePage.mergeContacts') }}
@@ -29,7 +29,7 @@
         <image class="flex-image" src="/res/image/ic_contacts_arrow_up.svg"></image>
     </div>
     <divider class="divider" if="{{this.$app.$def.globalData.isDisplay}}"></divider>
-    <!-- 复制联系人-->
+    <!-- Copy contacts-->
     <div class="copy-content-div" disabled="true" if="{{this.$app.$def.globalData.isDisplay}}">
         <text class="copy-content-text">
             {{ $t('value.contacts.managePage.copyContacts') }}
@@ -37,7 +37,7 @@
         <image class="flex-image" src="/res/image/ic_contacts_arrow_up.svg"></image>
     </div>
     <divider class="divider" if="{{this.$app.$def.globalData.isDisplay}}"></divider>
-    <!-- 批量删除-->
+    <!-- Batch delete-->
     <div class="delete-content-div" onclick="deleteBatchClicked">
         <text class="delete-content-text">
             {{ $t('value.contacts.managePage.deleteContacts') }}
@@ -45,7 +45,7 @@
         <image class="flex-image" src="/res/image/ic_contacts_arrow_up.svg"></image>
     </div>
     <divider class="divider" if="{{this.$app.$def.globalData.isDisplay}}"></divider>
-    <!-- 最近删除-->
+    <!-- Recently deleted-->
     <div class="recently-deleted-div" onclick="recentlyDeleteClicked" if="{{this.$app.$def.globalData.isDisplay}}">
         <div class="recently-parent-div">
             <text class="recently-deleted-text">

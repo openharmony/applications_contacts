@@ -42,7 +42,6 @@
         </div>
     </div>
 
-<!-- 用户头像、姓名、职业 -->
     <list id="contactDetailAndDialRecordList" class="list-details" scrollbar="on">
         <list-item>
             <div id="headerIfDiv" if="{{ showHeaderFlag }}" class="div-details-item-first"
@@ -67,7 +66,6 @@
             </div>
         </list-item>
 
-    <!-- 用户电话号码列表 -->
         <list-item id="contactPhoneNumbersListItem" class="list-details-number-list-item"
                    for="{{ contactForm.phoneNumbers }}" ontouchstart="listItemTouchStart"
                    onlongpress="listItemOnLongPressNumber({{ $idx }})">
@@ -96,7 +94,6 @@
                      class="todo-divider" show="{{ $item.showElement }}"></divider>
         </list-item>
 
-    <!-- 用户邮箱列表 -->
         <list-item id="contactEmailsListItem" class="list-details-number-list-item" for="{{ contactForm.emails }}"
                    ontouchstart="listItemTouchStart">
             <div id="contactEmailsDiv{{ $idx }}" class="list-details-number-div" show="{{ $item.showElement }}"
@@ -115,7 +112,6 @@
                      show="{{ $item.showElement }}"></divider>
         </list-item>
 
-    <!-- 用户更多信息列表：及时消息 -->
         <list-item id="contactImMessagesListItem" class="list-details-number-list-item"
                    for="{{ contactForm.imAddresses }}" ontouchstart="listItemTouchStart">
             <div id="contactImMessagesDiv{{ $idx }}" class="list-details-number-div" show="{{ $item.showElement }}"
@@ -149,7 +145,6 @@
                      show="{{ $item.showElement }}"></divider>
         </list-item>
 
-    <!-- 用户更多信息列表：昵称 -->
         <list-item id="contactNicknameListItem" class="list-details-number-list-item"
                    if="{{ contactForm.nickName && contactForm.nickName.length > 0 }}" ontouchstart="listItemTouchStart">
             <div id="contactNicknameDiv" class="list-details-email-sub-div-left" show="{{ contactForm.showNickNameP }}"
@@ -161,7 +156,6 @@
                      show="{{ contactForm.showNickNameP }}"></divider>
         </list-item>
 
-    <!-- 用户更多信息列表：网站 -->
         <list-item id="contactWebsitesListItem" class="list-details-number-list-item" for="{{ contactForm.websites }}"
                    onclick="openBrowser({{ $idx }})" ontouchstart="listItemTouchStart">
             <div id="contactWebsitesDiv{{ $idx }}" class="list-details-number-div" show="{{ $item.showElement }}"
@@ -178,7 +172,6 @@
                      show="{{ $item.showElement }}"></divider>
         </list-item>
 
-    <!-- 用户更多信息列表：住宅 -->
         <list-item class="list-details-number-list-item"
                    for="{{ contactForm.postalAddresses }}" id="todo-item-{{ $idx }}" ontouchstart="listItemTouchStart">
             <div id="contactPostalAddressDiv{{ $idx }}" class="list-details-number-div" show="{{ $item.showElement }}"
@@ -198,7 +191,6 @@
                      class="todo-divider" show="{{ $item.showElement }}"></divider>
         </list-item>
 
-    <!-- 用户更多信息列表：events 事件记录 -->
         <list-item id="contactEventsListItem" class="list-details-number-list-item" for="{{ contactForm.events }}">
             <div id="contactEventsDiv{{ $idx }}" class="list-details-number-div" show="{{ $item.showElement }}"
                  onclick="openCalenderApp({{ $idx }})" onlongpress="listItemOnLongPressContent({{ $item.eventDate }})" ontouchstart="listItemTouchStart">
@@ -222,7 +214,6 @@
                      show="{{ $item.showElement }}"></divider>
         </list-item>
 
-    <!-- 群组 -->
         <list-item id="contactGroupListItem" class="list-details-number-list-item"
                    if="{{ contactForm.showGroupsString && contactForm.showGroupsString.length > 0 }}" ontouchstart="listItemTouchStart">
             <div id="contactGroupDiv" class="list-details-email-sub-div-left" show="{{ contactForm.showGroupsP }}"
@@ -234,7 +225,6 @@
                      show="{{ contactForm.showGroupsP }}"></divider>
         </list-item>
 
-    <!-- 用户更多信息列表：姓名拼音 -->
         <list-item id="contactPinyinNameListItem" class="list-details-number-list-item"
                    if="{{ contactForm.pinYinName && contactForm.pinYinName.length > 0 }}" ontouchstart="listItemTouchStart">
             <div id="contactPinyinNameDiv" class="list-details-email-sub-div-left"
@@ -248,7 +238,6 @@
                      show="{{ contactForm.showPinYinNameP }}"></divider>
         </list-item>
 
-    <!-- 用户更多信息列表：关联关系 -->
         <list-item id="contactRelationsListItem" class="list-details-number-list-item"
                    for="{{ contactForm.relations }}" ontouchstart="listItemTouchStart">
             <div id="contactRelationsDiv{{ $idx }}" class="list-details-number-div" show="{{ $item.showElement }}"
@@ -268,7 +257,6 @@
                      show="{{ $item.showElement }}"></divider>
         </list-item>
 
-    <!-- 用户更多信息列表：备注 -->
         <list-item id="contactRemarkListItem" class="list-details-number-list-item"
                    if="{{ contactForm.note && contactForm.note.length > 0 }}" ontouchstart="listItemTouchStart">
             <div id="contactRemarkDiv" class="list-details-email-sub-div-left" show="{{ contactForm.showNoteP }}"
@@ -280,7 +268,6 @@
                      show="{{ contactForm.showNoteP }}"></divider>
         </list-item>
 
-    <!-- 更多折叠框 -->
         <list-item id="contactMoreButtonListItem" class="list-details-email-operate-more" onclick="getMore"
                    if="{{ contactForm.showMoreButton }}">
             <div id="contactMoreButtonDiv" class="list-details-number-operate">
@@ -294,21 +281,18 @@
             </div>
         </list-item>
 
-    <!-- 界限分割 -->
         <list-item id="contactListItemDetailAndRecordDivider"
                    if="{{ contactForm.numRecords && contactForm.numRecords.length > 0 }}"
                    class="list-details-email-divider-record">
             <divider class="todo-divider-record"></divider>
         </list-item>
 
-    <!-- 通话记录列表 -->
         <list-item id="contactDialRecordsHeaderListItem" class="list-details-calls-title">
             <div id="contactDialRecordsHeaderListItemDiv"
                  if="{{ contactForm.numRecords && contactForm.numRecords.length > 0 }}"
                  class="list-details-calls-title-div">
                 <text class="list-details-calls-title-text-left">{{ $t('value.callRecords.calls') }}</text>
 
-            <!--清空-->
                 <text class="list-details-calls-title-text-right" onclick="clearPhoneRecords">{{
                     $t('value.callRecords.clear') }}</text>
             </div>
@@ -327,15 +311,12 @@
                         <image if="{{ $item.callType == 1 }}" class="list-details-calls-type-image"
                                src="{{ icContactsCallIn }}"></image>
 
-                    <!-- 呼出记录 -->
                         <image if="{{ $item.callType == 2 }}" class="list-details-calls-type-image"
                                src="{{ icContactsCallOut }}"></image>
 
-                    <!-- 未接来电 -->
                         <image if="{{ $item.callType == 3 }}" class="list-details-calls-type-image"
                                src="{{ icContactsCallMissed }}"></image>
 
-                    <!-- 拒接来电 -->
                         <image if="{{ $item.callType == 5 }}" class="list-details-calls-type-image"
                                src="{{ icContactsCallRejected }}"></image>
                         <text class="list-details-calls-type-text">{{ $item.formatNumber }}</text>
@@ -351,7 +332,6 @@
         </list-item>
     </list>
 
-<!-- 新号码操作 -->
     <div id="contactNewNumberBottomButtonDiv"
          if="{{ contactForm.showNewContact != undefined && contactForm.showNewContact }}"
          class="records-detail-contacts-operate">
@@ -371,7 +351,7 @@
         </div>
     </div>
 
-<!-- 已存在联系人操作 -->
+<!-- The contact operation already exists -->
     <div id="contactSaveContactBottomButtonDiv" else class="records-detail-contacts-operate">
         <div id="contactSaveContactBottomButtonSub1Div" class="contacts-operate-detail-box" ontouchend="selectFavorite">
             <image if="{{ (contacts.starred && contacts.starred == 1) }}" class="contacts-operate-detail-image"
@@ -394,7 +374,7 @@
         </div>
     </div>
 
-<!--点击通话记录最上侧：清除通话记录清除按钮弹窗-->
+<!--Click top of call History: Clear Call History Clear button pops up-->
     <dialog id="clearRecordsDialog" class="delete-main">
         <div id="clearRecordsDialogSubDiv" class="delete-div">
             <text class="txt-v">{{ $t('phone.clearRecords') }}</text>
@@ -408,7 +388,7 @@
         </div>
     </dialog>
 
-<!-- 长按电话号码，弹出呼叫前编辑等 -->
+<!-- Long press the phone number, pop up call before editing, etc -->
     <menu id="itemMenuNumber" class="item-menu" onselected="todoSelectedPhoneNumber">
         <option class="share-name-text-big" value="phoneNumbers">
             {{ (showPhoneNumber && showPhoneNumber.length > 0) ? showPhoneNumber : '' }}
@@ -428,7 +408,7 @@
         </option>
     </menu>
 
-<!-- 长按详情内容，弹出复制到剪贴板 -->
+<!-- Hold down the details to copy to the clipboard -->
     <menu id="itemMenuContent" class="item-menu" onselected="todoSelectedContent">
         <option class="share-name-text-big" value="copyToClickBoardName">
             {{ (copyToClipBoardContent && copyToClipBoardContent.length > 0) ? copyToClipBoardContent : '' }}
@@ -438,7 +418,7 @@
         </option>
     </menu>
 
-<!-- 点击住宅等地址，弹出地图选择框，显示查看地图，弹出复制到剪贴板 -->
+<!-- Click the address such as residence, popup map selection box, display view map, popup copy to clipboard -->
     <dialog id="dialogPostalAddressMap" class="delete-main-map">
         <div id="deleteCheckDialogPostalAddressMapDiv" class="delete-div-map">
             <div id="deleteCheckDialogPostalAddressMapSubDivSub1" class="delete-btn-map">
@@ -461,7 +441,7 @@
         </div>
     </dialog>
 
-<!-- 长按通话记录：弹出呼叫前删除和呼叫前编辑等 -->
+<!-- Long press call history to delete or edit a call before a call is displayed -->
     <menu id="itemMenu" onselected="todoSelected">
         <option class="share-name-text-big" value="phoneNumbers">
             {{ showNameLastMenu && showNameLastMenu.length > 0 ? showNameLastMenu : '' }}
@@ -474,7 +454,7 @@
         </option>
     </menu>
 
-<!--长按通话记录：删除通话记录弹窗-->
+<!--Hold down call History: Delete call history pop-up window-->
     <dialog id="deleteCheckDialog" class="delete-main">
         <div id="deleteCheckDialogDiv" class="delete-div">
             <text class="txt-v">{{
@@ -490,7 +470,6 @@
         </div>
     </dialog>
 
-<!--1.新建联系（尚未保存联系人）：进入后只可以弹出擦除通话记录-->
     <menu id="contactNewNumberBottom" onselected="shareSelectRecord">
         <option class="share-name-text" value="deleteRecord"
                 disabled='{{ (! contactForm.numRecords || contactForm.numRecords.length == 0) }}'>
@@ -498,7 +477,6 @@
         </option>
     </menu>
 
-<!--2.已保存联系人：点击更多弹出删除联系人，如果同时有通话记录，也要弹出擦除通话记录-->
     <menu id="contactSaveContactBottom" onselected="shareSelectContact">
         <option show="{{ contactForm.numRecords && contactForm.numRecords.length > 0 }}" class="share-name-text"
                 value="deleteRecord">
@@ -512,7 +490,6 @@
         </option>
     </menu>
 
-<!--删除联系人 deletedialogcontact 弹出框-->
     <dialog id="deletedialogcontact" class="delete-main">
         <div id="deletedialogcontactDiv" class="delete-div">
             <text class="txt-v">{{ $t('value.contacts.page.menu.deleteInfo.warningInfo') }}</text>
@@ -527,7 +504,6 @@
         </div>
     </dialog>
 
-<!--删除通话记录 deletedialogrecord 弹出框-->
     <dialog id="deletedialogrecord" class="delete-main">
         <div id="deletedialogrecordDiv" class="delete-div">
             <text class="txt-v">{{ $t('value.contacts.page.menu.deleteInfo.warningInfoRecord') }}</text>
@@ -541,7 +517,6 @@
         </div>
     </dialog>
 
-<!-- 点击右上角二维码，弹出生成的二维码图标 -->
     <dialog id="dialogContactsDetailQrCode" class="delete-main-qrcode">
         <div id="deleteCheckDialogPostalAddressMapDiv" class="qrcode-main-div">
             <div id="dialogContactsDetailQrCodeSubDiv1" class="qrcode-div">
@@ -560,7 +535,6 @@
         </div>
     </dialog>
 
-<!--更多分享联系人弹窗选择-->
     <dialog id="shareDialogDetails" class="share-dialog-main" oncancel="firstDialogCancel">
         <div id="shareDialogDiv" class="share-dialog-div">
             <div id="shareDialogDivSub1" class="share-inner-div">

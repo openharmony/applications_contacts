@@ -1,5 +1,5 @@
 /**
- * @file: 自定义model
+ * @file: The custom model
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -26,10 +26,10 @@ var TAG = 'customizeModel';
 export default {
 
     /**
-     * 查询群组
+     * Query group
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} callback 回调
+     * @param {string} DAHelper Database address
+     * @param {Object} callback
      */
     queryGroups: async function (DAHelper, callback) {
         var resultColumns = ['id as id', 'group_name as title'];

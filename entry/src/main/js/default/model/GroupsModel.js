@@ -1,5 +1,5 @@
 /**
- * @file: 群组model
+ * @file: The model group
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -26,16 +26,15 @@ var TAG = 'groupsModel';
 export default {
 
     /**
-     * 添加群组
+     * Add a group
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {string} title 群组title
-     * @param {Object} callback 返回数据
+     * @param {string} DAHelper Database path
+     * @param {string} title
+     * @param {Object} callback
      */
     addGroup: function (DAHelper, title, callback) {
         this.isSameGroupName(DAHelper, title, data => {
             if (data) {
-                // 重名
                 callback(-2);
             } else {
                 var group = {
@@ -56,11 +55,11 @@ export default {
     },
 
     /**
-     * 查询群组列表
+     * Querying the Group List
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} actionData 查询数据
-     * @param {Object} callback 返回数据
+     * @param {string} DAHelper Database path
+     * @param {Object} actionData
+     * @param {Object} callback
      */
     queryGroups: async function (DAHelper, actionData, callback) {
         var resultColumns = [
@@ -97,13 +96,13 @@ export default {
     },
 
     /**
-     * 查询群组成员id
+     * Example Query the ID of a group member
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} group 群组value
-     * @param {Array} groups 群组value
-     * @param {number} i 查询value
-     * @param {Object} callback 返回数据
+     * @param {string} DAHelper Database path
+     * @param {Object} group
+     * @param {Array} groups
+     * @param {number} i
+     * @param {Object} callback
      */
     queryGroupContacts: async function (DAHelper, group, groups, i, callback) {
         try {
@@ -151,16 +150,16 @@ export default {
     },
 
     /**
-     * 更新群组
+     * Update the group
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} actionData 群组Value
-     * @param {Object} callback 返回数据
+     * @param {string} DAHelper Database path
+     * @param {Object} actionData
+     * @param {Object} callback
      */
     updateGroup: function (DAHelper, actionData, callback) {
         this.isSameGroupName(DAHelper, actionData.title, data => {
             if (data) {
-                // 重名
+                // The nuptial
                 callback(-2);
             } else {
                 var condition = new ohosDataAbility.DataAbilityPredicates();
@@ -185,21 +184,19 @@ export default {
     },
 
     /**
-     * 删除群组
+     * Delete the group
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Array} groupIds 群组ID
-     * @param {Object} callback 返回结果
+     * @param {string} DAHelper Database path
+     * @param {Array} groupIds
+     * @param {Object} callback
      */
     deleteGroups: async function (DAHelper, groupIds, callback) {
-        // 删除群组
+
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();
         conditionArgs.in('id', groupIds);
         var result = await DAHelper.delete(CONSTANTS.uri.GROUPS_URI, conditionArgs);
         LOG.info(TAG + 'deleteGroups' + 'deleteGroups delete result = ' + result.length);
 
-
-        // 删除群组联系人
         var typeText = 'group_membership';
         var condition = new ohosDataAbility.DataAbilityPredicates();
         condition.equalTo('content_type', typeText).in('detail_info', groupIds);
@@ -209,13 +206,12 @@ export default {
     },
 
     /**
-     * 查询群组成员ID
+     * Example Query the ID of a group member
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {number} groupId 群组ID
+     * @param {string} DAHelper Database path
+     * @param {number} groupId
      */
     queryGroupMemberIds: async function (DAHelper, groupId) {
-        // 从DATA表查询出来群组成员ID
         var resultColumns = [
             'detail_info AS groupId',
             'raw_contact_id AS contactId'
@@ -240,14 +236,13 @@ export default {
     },
 
     /**
-     * 查询群组内成员列表
+     * Example Query the member list of a group
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} actionData 查询Value值
-     * @param {Object} callback 返回值
+     * @param {string} DAHelper Database path
+     * @param {Object} actionData
+     * @param {Object} callback
      */
     queryGroupMembers: async function (DAHelper, actionData, callback) {
-        // 从DATA表查询出来群组成员ID
         var resultColumns = [
             'detail_info AS groupId',
             'raw_contact_id AS contactId'
@@ -268,7 +263,7 @@ export default {
         } else {
             LOG.info(TAG + 'queryGroupMembers' + 'getOutOfGroupMembers: groupMembers is null.');
         }
-        // 查询contact表
+
         var result = {
             code: 0,
             resultList: [],
@@ -280,8 +275,8 @@ export default {
             var resultColumns = [
                 'id AS contactId',
                 'display_name AS emptyNameData',
-                'sort_first_letter AS namePrefix', // 字母序列
-                'photo_first_name AS nameSuffix', // 头像里的汉字
+                'sort_first_letter AS namePrefix',
+                'photo_first_name AS nameSuffix',
                 'company AS company',
                 'position AS position',
             ];
@@ -316,7 +311,6 @@ export default {
                 result.resultList = contacts;
                 resultSet.close();
 
-                // 查询群组联系人数量
                 LOG.info(TAG + 'queryGroupMembers' + 'start queryGroupContacts count.');
                 var resultColumns = [
                     'detail_info AS groupId',
@@ -336,10 +330,10 @@ export default {
     },
 
     /**
-     * 查询多个群组内成员列表
+     * Example Query the member lists of multiple groups
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} actionData 查看Value值
+     * @param {string} DAHelper Database path
+     * @param {Object} actionData
      */
     queryGroupsMembers: async function (DAHelper, actionData) {
         LOG.info(TAG + 'queryGroupsMembers' + 'start queryGroupsMembers.');
@@ -371,11 +365,11 @@ export default {
     },
 
     /**
-     * 添加群组成员
+     * Adding a Group Member
      *
-     * @param {string} DAHelper 数据库名称
-     * @param {Object} actionData 添加key/value值
-     * @param {Object} callback 回调
+     * @param {string} DAHelper
+     * @param {Object} actionData
+     * @param {Object} callback
      */
     addGroupMembers: function (DAHelper, actionData, callback) {
         LOG.info(TAG + 'addGroupMembers' + 'start addGroupMembers');
@@ -385,14 +379,12 @@ export default {
         };
 
         if (actionData.isOperationAll) {
-            // 反选的数据
             let queryParams = {
                 page: 0,
                 limit: 2000,
                 groupId: actionData.groupId
             };
             var unCheckContactIds = [];
-            // 正选数据
             actionData.contactBeans.forEach((contact) => {
                 unCheckContactIds.push(contact.contactId);
             });
@@ -422,7 +414,6 @@ export default {
             callback();
         } else {
             LOG.info(TAG + 'addGroupMembers' + 'addGroupMembers actionData is ' + actionData);
-            // 正选数据
 
             actionData.contactBeans.forEach((contact) => {
                 contactDataItem.raw_contact_id = contact.contactId;
@@ -439,11 +430,11 @@ export default {
     },
 
     /**
-     * 获取群组外成员列表
+     * Obtain the list of members outside the group
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} actionData 查询Value值
-     * @param {Object} callback 返回结果
+     * @param {string} DAHelper Database path
+     * @param {Object} actionData
+     * @param {Object} callback
      */
     getOutOfGroupMembers: async function (DAHelper, actionData, callback) {
         LOG.info(TAG + 'getOutOfGroupMembers' + 'start getOutOfGroupMembers');
@@ -476,8 +467,8 @@ export default {
         resultColumns = [
             'id AS contactId',
             'display_name AS emptyNameData',
-            'sort_first_letter AS namePrefix', // 字母序列
-            'photo_first_name AS nameSuffix', // 头像里的汉字
+            'sort_first_letter AS namePrefix',
+            'photo_first_name AS nameSuffix',
             'company AS company',
             'position AS position',
         ];
@@ -514,7 +505,6 @@ export default {
             result.resultList = contacts;
             res.close();
 
-            // 查询群组外联系人数量
             LOG.info(TAG + 'getOutOfGroupMembers' + 'start queryGroupContacts count.');
             resultColumns = [
                 'name_raw_contact_id AS contactId'
@@ -538,22 +528,20 @@ export default {
     },
 
     /**
-     * 移除群组成员
+     * Removing a Group Member
      *
-     * @param {string} DAHelper 数据库
-     * @param {Object} actionData 移除值
-     * @param {Object} callback 回调
+     * @param {string} DAHelper The database
+     * @param {Object} actionData
+     * @param {Object} callback
      */
     deleteGroupMembers: async function (DAHelper, actionData, callback) {
         var typeText = 'group_membership';
         var typeId = this.getTypeId(DAHelper, typeText);
         LOG.info(TAG + 'deleteGroupMembers' + 'deleteGroupMembers actionData is ' + actionData);
         var contactIds = [];
-        // 正选数据
         actionData.contactBeans.forEach((contact) => {
             contactIds.push(contact.contactId);
         });
-        // 移除成员
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();
         if (actionData.isOperationAll) {
             conditionArgs.equalTo('type_id', typeId).equalTo('detail_info', actionData.groupId + '');
@@ -572,11 +560,11 @@ export default {
     },
 
     /**
-     * 查询群组成员列表
+     * Example Query the group member list
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} actionData 查询value值
-     * @param {Object} callback 返回数据
+     * @param {string} DAHelper Database path
+     * @param {Object} actionData
+     * @param {Object} callback
      */
     getGroupMemberList: function (DAHelper, actionData, callback) {
         this.queryGroupMembers(DAHelper, actionData, result => {
@@ -644,11 +632,11 @@ export default {
     },
 
     /**
-     * 查询最近联系人
+     * Querying Recent Contacts
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} actionData 查询value值
-     * @param {Object} callback 返回数据
+     * @param {string} DAHelper Database path
+     * @param {Object} actionData
+     * @param {Object} callback
      */
     getRecentContacts: function (DAHelper, actionData, callback) {
         this.queryRecentContacts(DAHelper, actionData, result => {
@@ -723,11 +711,11 @@ export default {
     },
 
     /**
-     * 获取群里列表和联系人
+     * Get the list and contacts in the group
      *
-     * @param {string} DAHelper 数据库字段
-     * @param {Object} actionData 查询value值
-     * @param {Object} callback 返回数据
+     * @param {string} DAHelper
+     * @param {Object} actionData
+     * @param {Object} callback
      */
     getGroupListAndContacts: function (DAHelper, actionData, callback) {
         this.queryGroups(DAHelper, actionData, result => {
@@ -755,10 +743,10 @@ export default {
     },
 
     /**
-     * 查询群组类型id
+     * Example Query the GROUP type ID
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {string} typeText key值
+     * @param {string} DAHelper Database path
+     * @param {string} typeText key
      */
     getTypeId: async function (DAHelper, typeText) {
         var params = new ohosDataAbility.DataAbilityPredicates();
@@ -778,11 +766,11 @@ export default {
     },
 
     /**
-     * 查询最近联系人
+     * Querying Recent Contacts
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} data 查询值
-     * @param {Object} callback 返回数据
+     * @param {string} DAHelper Database path
+     * @param {Object} data
+     * @param {Object} callback
      */
     queryRecentContacts: async function (DAHelper, data, callback) {
         LOG.info(TAG + 'addGroup' + 'Model: queryRecentContacts start.');
@@ -832,10 +820,10 @@ export default {
     },
 
     /**
-     * 查询最近联系人总数
+     * Query the total number of recent contacts
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} callback 返回数据集
+     * @param {string} DAHelper Database path
+     * @param {Object} callback
      */
     queryRecentContactsCount: async function (DAHelper, callback) {
         var result = {
@@ -876,11 +864,11 @@ export default {
     },
 
     /**
-     * 查询联系人数量
+     * Querying the Number of Contacts
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} data 查询key数据
-     * @param {Object} callback 查询返回结果
+     * @param {string} DAHelper Database path
+     * @param {Object} data
+     * @param {Object} callback
      */
     queryContactsCount: async function (DAHelper, data, callback) {
         var now = Date.now();
@@ -905,25 +893,21 @@ export default {
     },
 
     /**
-     * 搜索联系人
+     * Searching for Contacts
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} data 搜索框内容
-     * @param {Object} callback 返回结果
+     * @param {string} DAHelper Database address
+     * @param {Object} data
+     * @param {Object} callback
      * */
     searchContacts: async function (DAHelper, data, callback) {
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();
         conditionArgs.equalTo('is_deleted', '0').notEqualTo('content_type', 'relation')
             .notEqualTo('content_type', 'photo');
-        // 群组界面搜索
         if (data.groupId > 0) {
-            // 先查询出来群组的所有人id
             var contactIds = await this.queryGroupMemberIds(DAHelper, data.groupId);
-            // 群组内搜索
             if (data.searchType == 2) {
                 conditionArgs.in('raw_contact_id', contactIds);
             } else if (data.searchType == 3) {
-                // 群组外搜索
                 if (contactIds.length > 0) {
                     contactIds.forEach(id => {
                         conditionArgs.notEqualTo('raw_contact_id', id);
@@ -933,7 +917,6 @@ export default {
                 LOG.error(TAG + 'addGroup' + 'searchType is error. searchType: ' + data.searchType);
             }
         }
-        // 收藏界面搜索
         if (data.starred == 0 || data.starred == 1) {
             conditionArgs.and().equalTo('favorite', data.starred);
         }
@@ -954,7 +937,6 @@ export default {
     },
     queryData: function (DAHelper,data,conditionArgs,callback) {
         var resultColumns = ['contact_id AS contactId'];
-        // 匹配到的联系人id
         var contactIds = [];
         DAHelper.query(CONSTANTS.uri.SEARCH_CONTACT_URI, resultColumns, conditionArgs).then(resultSet => {
             LOG.info(TAG + 'addGroup' + 'query contactIds success. resultSet.rowCount is ' + resultSet.rowCount);
@@ -986,7 +968,6 @@ export default {
                     LOG.info(TAG + 'addGroup' + 'start getContactById!!!');
                     contactModel.getContactById(DAHelper, actionData, result => {
                         if (!data.pinYinArr || data.pinYinArr.length == 0) {
-                            // 删除多余匹配的数组字段；例如电话号码有多个，但是只匹配到一个，则删除其余多余电话号码
                             this.deleteProperties(result.data, data.likeValue);
                         }
                         searchResult.data.push(result.data);
@@ -1003,10 +984,11 @@ export default {
     },
 
     /**
-     * 删除多余匹配的数组字段；例如电话号码有多个，但是只匹配到一个，则删除其余多余电话号码
+     * Delete array fields that are redundant matches.
+     * For example, if only one of multiple phone numbers is matched, delete the remaining numbers
      *
-     * @param {Object} detailInfo 删除数量
-     * @param {string} likeValue 删除字段
+     * @param {Object} detailInfo
+     * @param {string} likeValue
      */
     deleteProperties: function (detailInfo, likeValue) {
         var searchType = detailInfo.searchMimetype[0];

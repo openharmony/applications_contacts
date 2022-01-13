@@ -18,10 +18,7 @@ import LOG from '../utils/ContactsLog.js';
 var TAG = 'pasteBoard';
 
 let commonPasteboard = {
-    /**
-     * 返回类型：promise
-     * 返回对象：{'records':[{'mimeType':'text/plain','text':'www.baidu.com'}],'dataProperty':{'mimeTypes':['text/plain'],'expiration':0,'tag':''}}
-     */
+
     getPasteboard() {
         let sysPasteboard = pasteboard.getSystemPasteboard();
         return sysPasteboard.getPasteData();
@@ -34,4 +31,5 @@ let commonPasteboard = {
         });
     }
 };
+
 export {commonPasteboard};

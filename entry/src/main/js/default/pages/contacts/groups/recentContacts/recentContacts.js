@@ -1,5 +1,5 @@
 /**
- * @file 最近联系人
+ * @file recent contacts
  */
 
 /**
@@ -23,7 +23,7 @@ import LOG from '../../../../utils/ContactsLog.js';
 var TAG = 'recentContacts...:';
 
 /**
- * @file 最近联系人
+ * @file recent contacts
  */
 export default {
     data: {
@@ -59,26 +59,25 @@ export default {
             }];
     },
 
-    // 跳转联系人列表界面
     itemClick: function (item) {
         LOG.info(TAG + 'itemClick item' + item);
         var params = {
             title: item.name
         };
         switch (item.id) {
-            case 1: // 7天
+            case 1: // 7 days
                 params.startDate = 0;
                 params.endDate = 7;
                 break;
-            case 2: // 一个月
+            case 2: // one month
                 params.startDate = 7;
                 params.endDate = 30;
                 break;
-            case 3: // 三个月
+            case 3: // three months
                 params.startDate = 30;
                 params.endDate = 90;
                 break;
-            case 4: // 三个月以上
+            case 4: // More than three months
                 params.startDate = -1;
                 params.endDate = 90;
                 break;
@@ -94,7 +93,6 @@ export default {
         });
     },
 
-    // 返回上层页面
     back: function () {
         router.back();
     },

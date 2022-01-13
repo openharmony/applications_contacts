@@ -40,7 +40,7 @@
     justify-content: center;
     align-items: center;
     width: 90%;
-    height: 1360px;/*    background-color:  #d6e1ec;*/
+    height: 1360px;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     border-top-style: dotted;
@@ -50,7 +50,7 @@
 .list-details-item-first-image-box {
     width: 200px;
     height: 200px;
-    border-radius: 100px;/*    background-color:#aec4d4;*/
+    border-radius: 100px;
     justify-content: center;
     align-items: center;
 }
@@ -211,7 +211,7 @@
 .list-card-number-text-down {
     width: 100%;
     font-size: 27px;
-    color: gray;
+    color: #808080;
     margin-top: 10px;
     max-lines: 2;
     text-overflow: ellipsis;

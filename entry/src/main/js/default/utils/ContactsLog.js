@@ -13,9 +13,7 @@
  * limitations under the License.
  */
 const APP_TAG = 'Contacts JS: timestamp: ';
-/**
- *  log package tool class
- */
+
 export default {
     data: {
         pageTag: ' msg: '

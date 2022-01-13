@@ -1,5 +1,5 @@
 /**
- * @file: 联系人model
+ * @file: The contact model
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -28,11 +28,11 @@ var TAG = 'contactModel';
 export default {
 
     /**
-     * 查询创建的群组
+     * Query the created group
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} data 群组相关数据
-     * @param {Object} callback 回调
+     * @param {string} DAHelper Database path
+     * @param {Object} data
+     * @param {Object} callback
      */
     queryCustomizeGroups: async function (DAHelper, data, callback) {
         var defaultData = {
@@ -44,7 +44,6 @@ export default {
         var value = ret == 'false' ? defaultData : JSON.parse(ret);
         if (value.isCheckedOtherCustomize) {
 
-            // 查询has_group不是1的
             data.hasGroup = 0;
         }
         var groupIds = [];
@@ -52,7 +51,6 @@ export default {
             value.checkedList.forEach(id => {
                 groupIds.push(id);
             });
-            // 查询在groupIds中的联系人id
             if (!Utils.isEmptyList(groupIds)) {
                 var actionData = {
                     'groupIds': groupIds
@@ -66,11 +64,11 @@ export default {
     },
 
     /**
-     * 查询联系人
+     * Querying Contacts
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} data 群组相关数据
-     * @param {Object} callback 回调
+     * @param {string} DAHelper Database path
+     * @param {Object} data
+     * @param {Object} callback
      */
     queryContacts: async function (DAHelper, data, callback) {
         var resultColumns = ['id as contactId', 'display_name as emptyNameData', 'sort_first_letter as namePrefix',
@@ -130,12 +128,12 @@ export default {
     },
 
     /**
-     * 查询联系人数量
+     * Querying the Number of Contacts
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} data 联系人相关数据
-     * @param {Object} result 联系人数据
-     * @param {Object} callback 回调
+     * @param {string} DAHelper Database path
+     * @param {Object} data
+     * @param {Object} result Contact data
+     * @param {Object} callback
      */
     queryContactsCount: async function (DAHelper, data, result, callback) {
         var resultColumns = ['id'];
@@ -166,11 +164,11 @@ export default {
     },
 
     /**
-     * 联系人分页
+     * Contact paging
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} data 联系人分页相关数据
-     * @param {Object} callback 回调
+     * @param {string} DAHelper Database path
+     * @param {Object} data
+     * @param {Object} callback
      */
     queryPageContacts: async function (DAHelper, data, callback) {
         var resultColumns = ['id as contactId', 'display_name as emptyNameData', 'sort_first_letter as namePrefix',
@@ -221,11 +219,11 @@ export default {
     },
 
     /**
-     * 删除联系人
+     * Deleting contacts
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} data 联系人数据
-     * @param {Object} callback 回调
+     * @param {string} DAHelper Database path
+     * @param {Object} data Contact data
+     * @param {Object} callback
      */
     deleteContacts: async function (DAHelper, data, callback) {
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();

@@ -1,5 +1,5 @@
 /**
- * @file 显示联系人
+ * @file Show Contacts
 */
 
 /**
@@ -41,12 +41,10 @@ export default {
         }
     },
 
-    // 初始化页面
     onInit() {
         LOG.info(TAG + 'Display onInit --------------start');
     },
 
-    // radio选项初始化
     radioInit: function () {
         let data = this.$app.$def.globalData.storage.getSync('contacts_settings_display_account_radio', 'allContacts');
         LOG.info(TAG + 'radioInit data');
@@ -92,12 +90,11 @@ export default {
         }
     },
 
-    // 简洁布局选项初始化
     conciseLayoutInit: function () {
         let data = this.$app.$def.globalData.storage.getSync('contacts_settings_concise_layout_switch', 'false');
         this.layoutState = data == 'true' ? true : false;
     },
-    // 初始化获取联系合并个数
+
     getDisplayCount: function () {
         var resultSet = {};
         var data = {};
@@ -129,9 +126,9 @@ export default {
     },
 
     /**
-     * 简洁布局按钮
+     * Simple layout button
      *
-     * @param {Object} event event事件
+     * @param {Object} event event
      */
     isCheckedConciseLayout: function (event) {
         LOG.info(TAG + 'isCheckedConciseLayout event');
@@ -142,7 +139,7 @@ export default {
             this.$app.$def.globalData.storage.flushSync();
         }, 0);
     },
-    // radio状态改变事件
+
     radioChange: function (inputValue, e) {
         LOG.info(TAG + 'radioChange inputValue...:');
         switch (inputValue) {
@@ -177,7 +174,6 @@ export default {
         }
     },
 
-    // 显示账户选项
     onRadioChange: function (inputValue) {
         LOG.info(TAG + 'onRadioChange inputValue');
         switch (inputValue) {
@@ -201,7 +197,6 @@ export default {
         }
     },
 
-    // 返回上层页面
     back: function () {
         router.back();
     }

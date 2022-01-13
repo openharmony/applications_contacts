@@ -125,6 +125,10 @@
       }
     },
     "contacts": {
+      "noInfo": "No other information is available for this contact",
+      "waitExport": "It will be exported later",
+      "batchSelectContacts": "Batch Selecting Contacts",
+      "samplePage": "The sample page",
       "tab": "Contacts",
       "page": {
         "title": "Contacts",
@@ -291,7 +295,11 @@
         "warningInfo": "Import contacts from your SIM?",
         "cancelTxt": "CANCEL",
         "importTxt": "IMPORT",
-        "prompt": "Successfully imported num contacts."
+        "prompt": "Successfully imported num contacts.",
+        "choose": "Select the VCard file",
+        "selectAll": "select all",
+        "isExport": "Whether to export the contact list to internal storage /",
+        "safekeeping": "? After the export, keep your contact information safe"
       },
       "aboutPage": {
         "title": "About",

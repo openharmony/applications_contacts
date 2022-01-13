@@ -1,5 +1,5 @@
 /**
- * @file: 新建联系人model
+ * @file: Create a Contact model
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -22,22 +22,23 @@ import Constants from '../common/constants/Constants.js';
 import LOG from '../utils/ContactsLog.js';
 import backgroundColor from '../common/constants/color.js';
 
-// 头像背景默认颜色
+// Default color of avatar background
 var PortraitColor = backgroundColor.Color;
-// 头像背景深色颜色
+// Dark color of avatar background
 var DetailsBgColor = backgroundColor.detailColor;
 var TAG = 'accountantsModel';
+
 export default {
 
     /**
-     * 添加联系人
+     * Adding contacts
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} addParams 联系人信息
-     * @param {Object} callBack 回调
-    */
+     * @param {string} DAHelper Database path
+     * @param {Object} addParams Contact Information
+     * @param {Object} callBack The callback
+     */
     addContact: async function (DAHelper, addParams, callBack) {
-        // 添加联系人
+        // Adding contacts
         var stringValue = {
             'display_name': this.getDisplayName(addParams),
         };
@@ -54,11 +55,11 @@ export default {
     },
 
     /**
-     * 编辑联系人
+     * Edit contacts
      *
-     * @param {Object} addParams 联系人信息
-     * @return {string} 联系人姓名
-    */
+     * @param {Object} addParams Contact Information
+     * @return {string} Contact Name
+     */
     getDisplayName: function (addParams) {
         let displayName = '';
         if (addParams.name != undefined && addParams.name.fullName.length > 0) {
@@ -80,11 +81,11 @@ export default {
     },
 
     /**
-     * 将数据转换 存进数据库
+     * Save the data conversion to the database
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} addParams 联系人信息
-     * @param {boolean} isCard 是否为名片信息
+     * @param {string} DAHelper Database path
+     * @param {Object} addParams Contact Information
+     * @param {boolean} isCard Whether it is a business card
     */
     dealParam: function (DAHelper, addParams, isCard) {
         var result = addParams.contactId;
@@ -93,35 +94,35 @@ export default {
         this.dataContact(addParams, DAHelper, result, uri);
         // vnd.item/organization 41
         this.organizationContact(addParams, DAHelper, result, uri);
-        // vnd.item/note 备注 48
+        // vnd.item/note note 48
         this.noteContact(addParams, DAHelper, result, uri);
-        // 电话号码 vnd.item/phone 42
+        // The phone number vnd.item/phone 42
         this.phoneContact(addParams, DAHelper, result, uri);
-        // 邮箱  vnd.item/email 38
+        // email  vnd.item/email 38
         this.emailContact(addParams, DAHelper, result, uri);
-        // vnd.item/postal_address 地址 45
+        // vnd.item/postal_address address 45
         this.postalContact(addParams, DAHelper, result, uri);
-        // 昵称vnd.item/nickname 40
+        // Nickname VND.item/nickname 40
         this.nickContact(addParams, DAHelper, result, uri);
-        // 日期vnd.item/contact_event 49
+        // The date of VND.item/contact_event 49
         this.eventContact(addParams, DAHelper, result, uri);
-        // vnd.item/im 即时消息 39
+        // vnd.item/im Instant messaging 39
         this.imContact(addParams, DAHelper, result, uri);
-        // vnd.item/group_membership 群组
+        // vnd.item/group_membership group
         this.groupsContact(addParams, DAHelper, result, uri);
-        // vnd.item/website网址 50
+        // vnd.item/websiteThe url 50
         this.websiteContact(addParams, DAHelper, result, uri);
-        // vnd.item/relation 关联人 51
+        // vnd.item/relation associates 51
         this.relationsContact(addParams, DAHelper, result, uri);
     },
 
     /**
-     * 联系人姓名存入数据库
+     * The contact name is stored in the database
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {string} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {string} result The contact ID
+     * @param {string} uri The contact ID
      */
     dataContact: function (addParams, DAHelper, result, uri) {
         var displayName = '';
@@ -151,12 +152,12 @@ export default {
     },
 
     /**
-     * 联系人群组信息存入数据库
+     * The contact group information is saved to the database
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {string} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {string} result The contact ID
+     * @param {string} uri The contact ID
      */
     organizationContact: function (addParams, DAHelper, result, uri) {
         if (addParams.organization != undefined) {
@@ -179,12 +180,12 @@ export default {
     },
 
     /**
-     * 联系人备注信息存入数据库
+     * Contact remarks are stored in the database
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result The contact ID
+     * @param {string} uri The contact ID
      */
     noteContact: function (addParams, DAHelper, result, uri) {
         if (addParams.note != undefined && addParams.note.noteContent.length > 0) {
@@ -196,19 +197,19 @@ export default {
             DAHelper.insert(
                 uri,
                 noteContact
-            ).catch(error=>{
+            ).catch(error => {
                 LOG.error(TAG + 'noteContact' + 'insert contact error:' + error);
             });
         }
     },
 
     /**
-     * 联系人手机号信息存入数据库
+     * Contact manual number information stored in the database
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result The contact ID
+     * @param {string} uri The contact ID
      */
     phoneContact: function (addParams, DAHelper, result, uri) {
         if (addParams.phoneNumbers != undefined && addParams.phoneNumbers.length > 0) {
@@ -231,12 +232,12 @@ export default {
     },
 
     /**
-     * 联系人邮箱信息存入数据库
+     * Contact email information is stored in the database
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result The contact ID
+     * @param {string} uri The contact ID
      */
     emailContact: function (addParams, DAHelper, result, uri) {
         if (addParams.emails != undefined && addParams.emails.length > 0) {
@@ -259,12 +260,12 @@ export default {
     },
 
     /**
-     * 联系人地址信息存入数据库
+     * The contact address information is stored in the database
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result The contact ID
+     * @param {string} uri The contact ID
      */
     postalContact: function (addParams, DAHelper, result, uri) {
         if (addParams.postalAddresses != undefined && addParams.postalAddresses.length > 0) {
@@ -287,12 +288,12 @@ export default {
     },
 
     /**
-     * 联系人昵称信息存入数据库
+     * Contact nicknames are stored in the database
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result The contact ID
+     * @param {string} uri The contact ID
      */
     nickContact: function (addParams, DAHelper, result, uri) {
         if (addParams.nickName != undefined && addParams.nickName.nickName.length > 0) {
@@ -311,12 +312,12 @@ export default {
     },
 
     /**
-     * 联系人特殊日期信息存入数据库
+     * Contact specific date information is stored in the database
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result The contact ID
+     * @param {string} uri The contact ID
      */
     eventContact: function (addParams, DAHelper, result, uri) {
         if (addParams.events != undefined && addParams.events.length > 0) {
@@ -338,12 +339,12 @@ export default {
     },
 
     /**
-     * 联系人IMA信息存入数据库
+     * Contact IMA information is stored in the database
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result The contact ID
+     * @param {string} uri The contact ID
      */
     imContact: function (addParams, DAHelper, result, uri) {
         if (addParams.imAddresses != undefined && addParams.imAddresses.length > 0) {
@@ -368,12 +369,12 @@ export default {
     },
 
     /**
-     * 联系人群组信息存入数据库
+     * The contact group information is saved to the database
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result The contact ID
+     * @param {string} uri The contact ID
      */
     groupsContact: function (addParams, DAHelper, result, uri) {
         if (addParams.groups != undefined && addParams.groups.length > 0) {
@@ -396,12 +397,12 @@ export default {
     },
 
     /**
-     * 联系人website信息存入数据库
+     * The contact website information is stored in the database
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result The contact ID
+     * @param {string} uri The contact ID
      */
     websiteContact: function (addParams, DAHelper, result, uri) {
         if (addParams.websites != undefined && addParams.websites.length > 0) {
@@ -424,12 +425,12 @@ export default {
     },
 
     /**
-     * 联系人relation信息存入数据库
+     * Contact Relation information is stored in the database
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result The contact ID
+     * @param {string} uri Database address
      */
     relationsContact: function (addParams, DAHelper, result, uri) {
         if (addParams.relations != undefined && addParams.relations.length > 0) {
@@ -454,37 +455,25 @@ export default {
     },
 
     /**
-     * 处理联系人数据库字段
+     * Process contact database fields
      *
-     * @param {Object} resultSet 结果集
-     * @param {Object} contactDetailInfo 联系人详情
-     * @param {Object} actionData 联系人信息
+     * @param {Object} resultSet The result set
+     * @param {Object} contactDetailInfo Contact Details
+     * @param {Object} actionData Contact Information
      */
     dealResult: function (resultSet, contactDetailInfo, actionData) {
-        // 联系人id
         var contactId = resultSet.getString(resultSet.getColumnIndex('contact_id'));
-        // 收藏字段
         var favorite = resultSet.getString(resultSet.getColumnIndex('favorite'));
-        // 名称最后一个汉字
         var nameSuffix = resultSet.getString(resultSet.getColumnIndex('photo_first_name'));
-        // 字段类型
         var typeText = resultSet.getString(resultSet.getColumnIndex('content_type'));
-        // 字段值
         var detailInfo = resultSet.getString(resultSet.getColumnIndex('detail_info'));
-        // 姓名
         var displayName = resultSet.getString(resultSet.getColumnIndex('display_name'));
-        // 姓名
         var alphaName = resultSet.getString(resultSet.getColumnIndex('alpha_name'));
-        // 拼音
         var familyNamePhonetic = resultSet.getString(resultSet.getColumnIndex('phonetic_name'));
-        // 标签id
         var labelId = resultSet.getString(resultSet.getColumnIndex('extend7'));
-        // 自定义标签名
         var labelName = resultSet.getString(resultSet.getColumnIndex('custom_data'));
         labelName = labelName ? labelName : '';
-        // 职位
         var position = resultSet.getString(resultSet.getColumnIndex('position'));
-        // 是否是默认号码
         var isPrimaryNum = resultSet.getString(resultSet.getColumnIndex('is_preferred_number'));
 
         contactDetailInfo.emptyNameData = displayName;
@@ -496,19 +485,15 @@ export default {
             contactDetailInfo.favorite = true;
             contactDetailInfo.starred = 1;
         }
-        // 如果是搜索，则将匹配类型传出
+        // If it is a search, the match type is passed out
         if (!Utils.isEmpty(actionData) && actionData.searchMimetype) {
             if (detailInfo.indexOf(actionData.searchValue) != -1) {
                 contactDetailInfo.searchMimetype.push('/' + typeText);
             }
         }
-        // 头像里汉字
         contactDetailInfo.nameSuffix = nameSuffix;
-        // contactId
         contactDetailInfo.contactId = contactId;
-        // 头像颜色
         contactDetailInfo.portraitColor = PortraitColor[contactId % 6];
-        // 背景颜色
         contactDetailInfo.detailsBgColor = DetailsBgColor[contactId % 6];
         var dealResultInfo = {
             'contactId': contactId,
@@ -526,150 +511,149 @@ export default {
             'contactDetailInfo': contactDetailInfo
         }
         this.switchTypeText(dealResultInfo);
-     },
+    },
 
-     switchTypeText: function (dealResultInfo) {
-         switch (dealResultInfo.typeText) {
-             case 'email':
-                 var email = {
-                     'email': dealResultInfo.detailInfo,
-                     'labelId': dealResultInfo.labelId,
-                     'labelName': dealResultInfo.labelName,
-                     'showP': true
-                 };
-                 if (dealResultInfo.contactDetailInfo.emails) {
-                     dealResultInfo.contactDetailInfo.emails.push(email);
-                 } else {
-                     dealResultInfo.contactDetailInfo.emails = [email];
-                 }
-                 break;
-             case 'im':
-                 var imAddress = {
-                     'imAddress': dealResultInfo.detailInfo,
-                     'labelId': dealResultInfo.labelId,
-                     'labelName': dealResultInfo.labelName,
-                     'showP': true
-                 };
-                 if (dealResultInfo.contactDetailInfo.imAddresses) {
-                     dealResultInfo.contactDetailInfo.imAddresses.push(imAddress);
-                 } else {
-                     dealResultInfo.contactDetailInfo.imAddresses = [imAddress];
-                 }
-                 break;
-             case 'nickname':
-                 dealResultInfo.contactDetailInfo.nickName = {
-                     'nickName': dealResultInfo.detailInfo
-                 };
-                 break;
-             case 'organization':
-                 dealResultInfo.contactDetailInfo.organization = {
-                     'name': dealResultInfo.detailInfo,
-                     'title': dealResultInfo.position
-                 };
-                 break;
-             case 'phone':
-                 var phoneNumber = {
-                     'isPrimary': dealResultInfo.isPrimaryNum,
-                     'labelId': dealResultInfo.labelId,
-                     'labelName': dealResultInfo.labelName,
-                     'phoneAddress': 'N',
-                     'phoneNumber': dealResultInfo.detailInfo,
-                     'showP': true,
-                     'blueStyle': false
-                 };
-                 if (dealResultInfo.contactDetailInfo.phoneNumbers) {
-                     dealResultInfo.contactDetailInfo.phoneNumbers.push(phoneNumber);
-                 } else {
-                     dealResultInfo.contactDetailInfo.phoneNumbers = [phoneNumber];
-                 }
-                 break;
-             case 'name':
-                 dealResultInfo.contactDetailInfo.name = {
-                     'familyNamePhonetic': dealResultInfo.familyNamePhonetic,
-                     'fullName': dealResultInfo.detailInfo,
-                     'middleName': '',
-                     'givenName': '',
-                     'nameSuffix': dealResultInfo.nameSuffix,
-                     'alphaName': dealResultInfo.alphaName
-                 };
-                 break;
-             case 'postal_address':
-                 var postalAddress = {
-                     'labelId': dealResultInfo.labelId,
-                     'labelName': dealResultInfo.labelName,
-                     'postalAddress': dealResultInfo.detailInfo,
-                     'showP': true
-                 };
-                 if (dealResultInfo.contactDetailInfo.postalAddresses) {
-                     dealResultInfo.contactDetailInfo.postalAddresses.push(postalAddress);
-                 } else {
-                     dealResultInfo.contactDetailInfo.postalAddresses = [postalAddress];
-                 }
-                 break;
-             case 'photo':
-                 break;
-             case 'group_membership':
-                 break;
-             case 'note':
-                 dealResultInfo.contactDetailInfo.note = {
-                     'noteContent': dealResultInfo.detailInfo
-                 };
-                 break;
-             case 'contact_event':
-                 var event = {
-                     'labelId': dealResultInfo.labelId,
-                     'labelName': dealResultInfo.labelName,
-                     'eventDate': dealResultInfo.detailInfo,
-                     'showP': true,
-                     'showF': true,
-                     'showS': true
-                 };
-                 if (dealResultInfo.contactDetailInfo.events) {
-                     dealResultInfo.contactDetailInfo.events.push(event);
-                 } else {
-                     dealResultInfo.contactDetailInfo.events = [event];
-                 }
-                 break;
-             case 'website':
-                 var website = {
-                     'website': dealResultInfo.detailInfo,
-                     'showP': false
-                 };
-                 if (dealResultInfo.contactDetailInfo.websites) {
-                     dealResultInfo.contactDetailInfo.websites.push(website);
-                 } else {
-                     dealResultInfo.contactDetailInfo.websites = [website];
-                 }
-                 break;
-             case 'relation':
-                 var relation = {
-                     'labelId': dealResultInfo.labelId,
-                     'labelName': dealResultInfo.labelName,
-                     'relationName': dealResultInfo.detailInfo,
-                     'showP': true
-                 };
-                 if (dealResultInfo.contactDetailInfo.relations) {
-                     dealResultInfo.contactDetailInfo.relations.push(relation);
-                 } else {
-                     dealResultInfo.contactDetailInfo.relations = [relation];
-                 }
-                 break;
-             default:
-                 break;
-         }
-     },
-
+    switchTypeText: function (dealResultInfo) {
+        switch (dealResultInfo.typeText) {
+            case 'email':
+                var email = {
+                    'email': dealResultInfo.detailInfo,
+                    'labelId': dealResultInfo.labelId,
+                    'labelName': dealResultInfo.labelName,
+                    'showP': true
+                };
+                if (dealResultInfo.contactDetailInfo.emails) {
+                    dealResultInfo.contactDetailInfo.emails.push(email);
+                } else {
+                    dealResultInfo.contactDetailInfo.emails = [email];
+                }
+                break;
+            case 'im':
+                var imAddress = {
+                    'imAddress': dealResultInfo.detailInfo,
+                    'labelId': dealResultInfo.labelId,
+                    'labelName': dealResultInfo.labelName,
+                    'showP': true
+                };
+                if (dealResultInfo.contactDetailInfo.imAddresses) {
+                    dealResultInfo.contactDetailInfo.imAddresses.push(imAddress);
+                } else {
+                    dealResultInfo.contactDetailInfo.imAddresses = [imAddress];
+                }
+                break;
+            case 'nickname':
+                dealResultInfo.contactDetailInfo.nickName = {
+                    'nickName': dealResultInfo.detailInfo
+                };
+                break;
+            case 'organization':
+                dealResultInfo.contactDetailInfo.organization = {
+                    'name': dealResultInfo.detailInfo,
+                    'title': dealResultInfo.position
+                };
+                break;
+            case 'phone':
+                var phoneNumber = {
+                    'isPrimary': dealResultInfo.isPrimaryNum,
+                    'labelId': dealResultInfo.labelId,
+                    'labelName': dealResultInfo.labelName,
+                    'phoneAddress': 'N',
+                    'phoneNumber': dealResultInfo.detailInfo,
+                    'showP': true,
+                    'blueStyle': false
+                };
+                if (dealResultInfo.contactDetailInfo.phoneNumbers) {
+                    dealResultInfo.contactDetailInfo.phoneNumbers.push(phoneNumber);
+                } else {
+                    dealResultInfo.contactDetailInfo.phoneNumbers = [phoneNumber];
+                }
+                break;
+            case 'name':
+                dealResultInfo.contactDetailInfo.name = {
+                    'familyNamePhonetic': dealResultInfo.familyNamePhonetic,
+                    'fullName': dealResultInfo.detailInfo,
+                    'middleName': '',
+                    'givenName': '',
+                    'nameSuffix': dealResultInfo.nameSuffix,
+                    'alphaName': dealResultInfo.alphaName
+                };
+                break;
+            case 'postal_address':
+                var postalAddress = {
+                    'labelId': dealResultInfo.labelId,
+                    'labelName': dealResultInfo.labelName,
+                    'postalAddress': dealResultInfo.detailInfo,
+                    'showP': true
+                };
+                if (dealResultInfo.contactDetailInfo.postalAddresses) {
+                    dealResultInfo.contactDetailInfo.postalAddresses.push(postalAddress);
+                } else {
+                    dealResultInfo.contactDetailInfo.postalAddresses = [postalAddress];
+                }
+                break;
+            case 'photo':
+                break;
+            case 'group_membership':
+                break;
+            case 'note':
+                dealResultInfo.contactDetailInfo.note = {
+                    'noteContent': dealResultInfo.detailInfo
+                };
+                break;
+            case 'contact_event':
+                var event = {
+                    'labelId': dealResultInfo.labelId,
+                    'labelName': dealResultInfo.labelName,
+                    'eventDate': dealResultInfo.detailInfo,
+                    'showP': true,
+                    'showF': true,
+                    'showS': true
+                };
+                if (dealResultInfo.contactDetailInfo.events) {
+                    dealResultInfo.contactDetailInfo.events.push(event);
+                } else {
+                    dealResultInfo.contactDetailInfo.events = [event];
+                }
+                break;
+            case 'website':
+                var website = {
+                    'website': dealResultInfo.detailInfo,
+                    'showP': false
+                };
+                if (dealResultInfo.contactDetailInfo.websites) {
+                    dealResultInfo.contactDetailInfo.websites.push(website);
+                } else {
+                    dealResultInfo.contactDetailInfo.websites = [website];
+                }
+                break;
+            case 'relation':
+                var relation = {
+                    'labelId': dealResultInfo.labelId,
+                    'labelName': dealResultInfo.labelName,
+                    'relationName': dealResultInfo.detailInfo,
+                    'showP': true
+                };
+                if (dealResultInfo.contactDetailInfo.relations) {
+                    dealResultInfo.contactDetailInfo.relations.push(relation);
+                } else {
+                    dealResultInfo.contactDetailInfo.relations = [relation];
+                }
+                break;
+            default:
+                break;
+        }
+    },
 
 
     /**
-     * 创建名片
+     * Create a business card
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} addParams  联系人信息
-     * @param {Object} callBack 联系人ID
+     * @param {string} DAHelper Database path
+     * @param {Object} addParams  Contact Information
+     * @param {Object} callBack The contact ID
      */
     addMyCard: function (DAHelper, addParams, callBack) {
-        // 添加联系人
+        // Adding contacts
         var stringValue = {
             'display_name': '',
         };
@@ -686,11 +670,11 @@ export default {
     },
 
     /**
-     * 编辑我的名片
+     * Edit my business card
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} addParams  联系人信息
-     * @param {Object} callBack 联系人ID
+     * @param {string} DAHelper Database path
+     * @param {Object} addParams  Contact Information
+     * @param {Object} callBack The contact ID
      */
     updateMyCard: function (DAHelper, addParams, callBack) {
         var condition = new ohosDataAbility.DataAbilityPredicates();
@@ -707,11 +691,11 @@ export default {
     },
 
     /**
-     * 编辑联系人信息
+     * Edit Contact Information
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} addParams  联系人信息
-     * @param {Object} callBack 联系人ID
+     * @param {string} DAHelper Database path
+     * @param {Object} addParams  Contact Information
+     * @param {Object} callBack The contact ID
      */
     updateContact: async function (DAHelper, addParams, callBack) {
         var condition = new ohosDataAbility.DataAbilityPredicates();
@@ -722,17 +706,17 @@ export default {
         ).then(data => {
             this.dealParam(DAHelper, addParams);
             callBack(addParams.contactId);
-        }).catch(error=>{
+        }).catch(error => {
             LOG.error(TAG + 'updateContact' + 'update contact error: ' + error);
         });
     },
 
     /**
-     * 获取我的名片信息
+     * Get my business card information
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {number} contactId  联系人ID
-     * @param {Object} callBack 返回联系人data
+     * @param {string} DAHelper Database path
+     * @param {number} contactId  The contact ID
+     * @param {Object} callBack Return contact data
      */
     getCardDetails: function (DAHelper, contactId, callBack) {
         var resultColumns = [
@@ -770,10 +754,10 @@ export default {
     },
 
     /**
-     * 获取我的名片的contactId,display_name
+     * Get my business card's contactId,display_name
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} callBack 返回名片详情
+     * @param {string} DAHelper Database path
+     * @param {Object} callBack Return business card Detail
      */
     getMyCardId: function (DAHelper, callBack) {
         var resultColumns = [

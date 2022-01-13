@@ -1,5 +1,5 @@
 /**
- * @file: 应答语model
+ * @file: Should answer the model
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -25,11 +25,11 @@ var TAG = 'greetingModel';
 export default {
 
     /**
-     * 查询应答语
+     * Inquiries should be answered
      *
-     * @param {string} DAHelper 数据库
-     * @param {Object} data 页面最大数量
-     * @param {Object} callback 回调
+     * @param {string} DAHelper The database
+     * @param {Object} data
+     * @param {Object} callback
      */
     queryGreeting: async function (DAHelper, data, callback) {
         var resultColumns = ['id', 'name', 'synced'];
@@ -58,11 +58,11 @@ export default {
     },
 
     /**
-     * 添加应答语
+     * Add answers
      *
-     * @param {string} DAHelper 数据库
-     * @param {Object} data 应答语名称以及应答语储存路径
-     * @param {Object} callback 回调
+     * @param {string} DAHelper The database
+     * @param {Object} data Answer name and answer storage path
+     * @param {Object} callback
      */
     insertGreeting: async function (DAHelper, data, callback) {
         var insertParamValue = {
@@ -76,11 +76,11 @@ export default {
     },
 
     /**
-     * 删除应答语
+     * Delete answers
      *
-     * @param {string} DAHelper 数据库
-     * @param {Object} data 应答语名称以及应答语储存路径
-     * @param {Object} callback 回调
+     * @param {string} DAHelper The database
+     * @param {Object} data Answer name and answer storage path
+     * @param {Object} callback
      */
     deleteGreeting: async function (DAHelper, data, callback) {
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();
@@ -90,11 +90,11 @@ export default {
     },
 
     /**
-     * 保存选中的应答语
+     * Save the selected answer
      *
-     * @param {string} DAHelper 数据库
-     * @param {Object} data 应答语名称以及应答语储存路径
-     * @param {Object} callback 回调
+     * @param {string} DAHelper The database
+     * @param {Object} data Answer name and answer storage path
+     * @param {Object} callback
      */
     saveCheckedGreeting: async function (DAHelper, data, callback) {
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();

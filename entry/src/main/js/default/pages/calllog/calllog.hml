@@ -15,17 +15,14 @@
 <element name="dialogscomp" src="../../common/component/dialog/dialog.hml"></element>
 <div id="callLogContainerId" class="container">
 
-<!--/* 定义页签容器 */-->
     <tabs id="callLogTab" class="tabs-records" index="{{tabIndex}}" onchange="changeCallListTab">
 
-    <!-- 定义页签标题,当子组件的宽度大于 -->
         <tab-bar class="tab-bar-box" mode="fixed" show="{{ showTabTitle }}" id="tabBarBox">
             <text class="tab-bar-title" id="callLogBarId">{{ $t('value.callRecords.allCalls') }}</text>
             <text class="tab-bar-title" id="missedCallsBarId">{{ $t('value.callRecords.missedCalls') }}</text>
             <text if="{{showVoicemail}}" class="tab-bar-title" id="voiceMailBarId">{{ $t('value.callRecords.voiceMails') }}</text>
         </tab-bar>
 
-    <!-- 定义页签实体部分 -->
         <tab-content class="tab-content-box" scrollable="false" ontouchmove="touchMoveContent"
                      ontouchend="touchEndContent">
             <div class="tab-content-container">
@@ -42,36 +39,35 @@
                              style="left : {{ ($item.leftDst != undefined && ! this.batchDelete) ? $item.leftDst : 0 }} px;">
                             <div class="allrecords-list-item" on:click.bubble="callLogProcess({{ $idx }}, 0)">
 
-                            <!-- 最左侧通话记录标志显示 -->
+                            <!-- The leftmost call record flag is displayed -->
                                 <div class="allrecords-item-icon-left">
 
-                                <!-- 呼入记录 -->
+                                <!-- Inbound record -->
                                     <image if="{{ $item.callType == 1 }}" id="callInIconId{{ $idx }}"
                                            class="allrecords-item-icon-left-image" src="{{ icContactsCallIn }}">
                                     </image>
 
-                                <!-- 呼出记录 -->
+                                <!-- Breathe out record -->
                                     <image if="{{ $item.callType == 2 }}" id="callOutIconId{{ $idx }}"
                                            class="allrecords-item-icon-left-image" src="{{ icContactsCallOut }}">
                                     </image>
 
-                                <!-- 语音信箱 -->
+                                <!-- voicemail -->
                                     <image if="{{ $item.callType == 4 }}" id="callOutIconId{{ $idx }}"
                                            class="voicemail-item-icon-left-image"
                                            src="{{ icContactsVoicemailMini }}"></image>
 
-                                <!-- 拒接来电，未接来电通话记录列表界面不显示状态 -->
+                                <!-- Reject calls. The status of missed calls is not displayed on the call record list screen -->
                                     <image if="{{ $item.callType == 5 }}" id="callRejectId{{ $idx }}"
                                            class="allrecords-item-icon-left-image"
                                            src="{{ icContactsCallRejected }}"></image>
                                 </div>
 
-                            <!-- 中间号码及高清图标 -->
+
                                 <div class="allrecords-item-content">
                                     <div class="allrecords-item-content-middle-data">
                                         <div class="allrecords-item-content-middle-box">
 
-                                        <!--未接或拒接来电时、文本显示红色-->
                                             <text id="callLogTopTextId{{ $idx }}"
                                                   class="{{
                                                           ($item.callType == 3 || $item.callType == 5) ? 'allrecords-item-content-middle-text-red' : 'allrecords-item-content-middle-text'
@@ -114,7 +110,6 @@
                                         $item.callTime }}</text>
                                 </div>
 
-                            <!-- 右侧细节及checkBox图标-->
                                 <div class="allrecords-item-right">
                                     <div if="{{ batchDelete }}" class="allrecords-item-right-checkbox"
                                          id="callLogCheckBoxId{{ $idx }}">
@@ -135,7 +130,7 @@
                                        @click="deleteSingleLog({{ $idx }})"></image>
                             </div>
                         </div>
-                        <!-- 语音信箱详情相关div -->
+
                         <div class="voicemail-detail" if="{{ $item.showMail }}">
                             <div class="voicemail-progress-box">
                                 <text class="voicemail-duration-text-start">{{ $item.start }}</text>
@@ -179,10 +174,9 @@
                 </div>
             </div>
 
-        <!-- 批量删除时，不创建未接来电页签 -->
             <div class="tab-content-container" if="{{ ! batchDelete }}">
 
-            <!--未/拒接来电列表-->
+            <!--Missed/rejected call list-->
                 <list if="{{ (missedCallLogs.length > 0 && missedCallLogs != undefined) }}" scrollpage="true"
                       scrollbar="auto" class="allrecords-list" scrolleffect="spring"
                       onscrolltop="listScrollTop" onscrollbottom="listScrollBottom"
@@ -197,16 +191,13 @@
                              style="left : {{ ($item.leftDst != undefined && ! this.batchDelete) ? $item.leftDst : 0 }} px;">
                             <div class="allrecords-list-item" onclick="callLogProcess({{ $idx }}, 1)">
 
-                            <!-- 最左侧通话记录标志显示 -->
                                 <div class="allrecords-item-icon-left">
 
-                                <!-- 拒接来电 -->
                                     <image id="rejectIconId{{ $idx }}" if="{{ $item.callType == 5 }}"
                                            class="allrecords-item-icon-left-image"
                                            src="{{ icContactsCallRejected }}"></image>
                                 </div>
 
-                            <!-- 中间号码及高清图标 -->
                                 <div class="allrecords-item-content">
                                     <div class="allrecords-item-content-middle-data">
                                         <div class="allrecords-item-content-middle-box">
@@ -248,7 +239,6 @@
                                     </text>
                                 </div>
 
-                            <!-- 右侧细节图标-->
                                 <div class="allrecords-item-right">
                                     <div id="listItemDetail{{ $idx }}" class="allrecords-item-right-image"
                                          data="{{ $item.number }}"
@@ -289,23 +279,19 @@
                              on:click="clickVoicemailMessage({{ $idx }})">
                             <div class="allrecords-item-icon-left">
 
-                            <!-- 语音信箱小图标 -->
                                 <image id="rejectIconId{{ $idx }}" class="voicemail-item-icon-left-image"
                                        src="{{ icContactsVoicemailMini }}"></image>
                             </div>
 
-                        <!-- 中间号码及高清图标 -->
                             <div class="allrecords-item-content">
                                 <div class="allrecords-item-content-middle-data">
 
-                                <!-- 中间上侧主要号码及联系人名称 -->
                                     <div class="allrecords-item-content-middle-box">
                                         <text class="allrecords-item-content-middle-text }}">
                                             {{ ($item.name == '' || $item.name == undefined || $item.name == null) ? $item.formatNumber : $item.name }}
                                         </text>
                                     </div>
 
-                                <!-- 中间下侧号码归属地，号码类型等相关信息 -->
                                     <div class="allrecords-item-content-middle-box">
                                         <image if="{{ ($item.simType == 0) && (! singleCardMode) }}"
                                                src="{{ icContactsSim1 }}"
@@ -325,11 +311,9 @@
                                     </div>
                                 </div>
 
-                            <!-- 中间右侧text记录时间展示 -->
                                 <text class="allrecords-item-right-text">{{ $item.callTime }}</text>
                             </div>
 
-                        <!-- 右侧细节及checkBox图标展示-->
                             <div class="allrecords-item-right">
                                 <div if="{{ batchDelete }}" class="allrecords-item-right-checkbox">
                                     <input type="checkbox" checked="{{ $item.checked }}"
@@ -344,7 +328,6 @@
                                 </div>
                             </div>
 
-                        <!-- 最右侧隐藏的删除图标 -->
                             <div class="allrecords-item-delete one-btn" if="{{ ! batchDelete }}">
                                 <image src="{{ icDeleteM }}" class="records-delete-image"
                                        on:touchstart.bubble="deleteSingleLog({{ $idx }})">

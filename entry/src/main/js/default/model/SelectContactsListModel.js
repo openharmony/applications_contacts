@@ -1,5 +1,5 @@
 /**
- * @file: 选择联系人列表Model
+ * @file: Select the contact list Model
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -28,12 +28,12 @@ var TAG = 'selectContactsListModel';
 export default {
 
     /**
-     * 删除选中联系人
+     * Deleting selected Contacts
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {boolean} isChecked 是否被选中
-     * @param {Array} contactIds 选中的联系人ID集
-     * @param {Object} callback 返回结果
+     * @param {string} DAHelper Database address
+     * @param {boolean} isChecked
+     * @param {Array} contactIds
+     * @param {Object} callback
      * */
     checkedDelete: async function (DAHelper, isChecked, contactIds, callback) {
         var conditionArgs = new ohosDataAbility.DataAbilityPredicates();
@@ -52,11 +52,11 @@ export default {
     },
 
     /**
-     * 查询联系人列表
+     * Querying a Contact List
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} actionData 页面数以及一页最大数据量
-     * @param {Object} callback 返回数据结果
+     * @param {string} DAHelper Database address
+     * @param {Object} actionData
+     * @param {Object} callback
      * */
     queryContactList: async function (DAHelper, actionData, callback) {
         var resultColumns = ['id as contactId', 'display_name as emptyNameData', 'sort_first_letter as namePrefix',
@@ -89,9 +89,9 @@ export default {
         callback(result);
     },
 
-    getTypeId :async function (DAHelper, actionData, callback) {
+    getTypeId: async function (DAHelper, actionData, callback) {
         let contactIds = [];
-        for(let id of actionData.contactIds) {
+        for (let id of actionData.contactIds) {
             contactIds.push(id + '');
         }
         var resultColumns = [

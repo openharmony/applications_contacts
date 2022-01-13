@@ -14,7 +14,7 @@
 */-->
 <div id="container" class="container">
     <div class="groups-title-div">
-<!--   back键和群组title     -->
+<!-- Back key and group title -->
         <div class="groups-back-but-div" onclick="back">
             <image class="groups-back-image" src="/res/image/ic_back.svg"></image>
         </div>
@@ -24,7 +24,7 @@
     </div>
 
     <list class="group-list" cachedcount="{{ limit }}" onrequestitem="requestItem">
-<!--    智能群组    -->
+<!-- Intelligent group -->
         <list-item class="list-item" style="height: 50px;">
             <div class="contact-phone-groups-div">
                 <text class="contact-smart-groups-text">
@@ -32,7 +32,7 @@
                 </text>
             </div>
         </list-item>
-<!--    最近联系人    -->
+<!-- recent contacts -->
         <list-item class="list-item">
             <div class="mobile-groups-content-div" onclick="recentContactsClicked">
                 <div class="mobile-groups-div">
@@ -52,7 +52,7 @@
             </div>
         </list-item>
 
-<!--  群组循环列表  -->
+<!-- Group loop list -->
         <list-item class="list-item" for="{{ item in groupList }}" @touchstart="listItemTouchStart"
                    onlongpress="groupLongPress(item)" >
 
@@ -96,7 +96,7 @@
         </div>
     </div>
 
-<!--新建群组-->
+<!-- New group -->
     <dialog id="addGroupDialog" class="dialog-main">
         <div class="dialog-div">
             <div class="inner-txt">
@@ -116,7 +116,7 @@
         </div>
     </dialog>
 
-<!--群组重命名-->
+<!-- group rename -->
     <dialog id="renameGroupDialog" class="dialog-main">
         <div class="dialog-div">
             <div class="inner-txt">
@@ -138,7 +138,7 @@
         </div>
     </dialog>
 
-<!--删除群组-->
+<!-- Delete Group -->
     <dialog id="deleteGroupDialog" class="dialog-main">
         <div class="dialog-div">
             <div class="inner-txt">

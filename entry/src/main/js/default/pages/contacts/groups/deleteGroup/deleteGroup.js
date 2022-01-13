@@ -1,5 +1,5 @@
 /**
- * @file: 操作群组
+ * @file: Group operating
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -25,7 +25,7 @@ var TAG = 'deleteGroup...:';
 
 export default {
     data: {
-        // 新增联系人标识
+        // New contact ID
         addContactStatus: false,
         reset: '/res/image/ic_cancel_m.svg',
         save: '/res/image/ic_comfirm.svg',
@@ -37,13 +37,13 @@ export default {
         deleteDialogTitle: '',
         checkedNum: 0,
         contactForm: {},
-        // 新建群组
+        // New group
         newGroupName: '',
         page: 0,
-        limit: 20, // 一页显示条目数量
+        limit: 20, // Number of entries per page
         addShow: false,
         updataShow: false,
-        screenDirection: 0, // 0：竖屏，1：横屏
+        screenDirection: 0, // 0: vertical screen, 1: horizontal screen
         oldParam: [],
         dataflag: false,
         groups: []
@@ -58,7 +58,6 @@ export default {
         this.getGroupList(requestData);
     },
 
-    // 缓存分页加载
     requestItem: function () {
         this.page++;
         var requestData = {
@@ -120,7 +119,7 @@ export default {
             this.isEmpty = false;
         }
     },
-    // 监控编辑页面的数据是否变动
+
     isSameData(existData, newData, type = 'Object') {
         if (type == 'Array') {
             if (Object.prototype.toString.call(existData) != '[object Array]' || Object.prototype.toString.call(newData) != '[object Array]') {
@@ -248,7 +247,6 @@ export default {
 
     },
 
-    // 选择群组
     selectGroups() {
         var addConGroups = [];
         this.groupList.forEach((item) => {
@@ -285,7 +283,7 @@ export default {
         this.$app.$def.globalData.groupParams = params;
         router.back();
     },
-    // 返回上层页面
+
     back () {
         router.back({
             path:'pages/contacts/accountants/accountants'

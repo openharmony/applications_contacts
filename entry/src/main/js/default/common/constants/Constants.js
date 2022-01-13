@@ -14,21 +14,21 @@
  */
 export default {
     uri: {
-        CONTACT_DB_URI: 'dataability:///com.ohos.contactsdataability', // 连接联系人数据库的uri,用于获取联系人数据库DAHelper
-        VOICEMAIL_DB_URI: 'dataability:///com.ohos.voicemailability', // 连接语音信箱数据库的uri,用于获取语音信箱数据库DAHelper
-        CALLLOG_DB_URI: 'dataability:///com.ohos.calllogability', // 通话记录数据库uri,用于获取通话记录数据库DAHelper
-        CONTACTS_URI_PREFIX: 'dataability:///com.ohos.contactsdataability/contacts/', // 查询contacts库各种表uri前缀
-        CALLS_URI_PREFIX: 'dataability:///com.ohos.calllogability/calls/', // 查询calls库各种表uri前缀
-        VOICEMAIL_URI_PREFIX: 'dataability:///com.ohos.voicemailability/calls/', // 查询voicemail库各种表uri前缀
+        CONTACT_DB_URI: 'dataability:///com.ohos.contactsdataability', // Uri for connecting to the contact database to obtain the contact database DAHelper
+        VOICEMAIL_DB_URI: 'dataability:///com.ohos.voicemailability', // Uri for connecting to the voice mailbox database to obtain the voice mailbox database DAHelper
+        CALLLOG_DB_URI: 'dataability:///com.ohos.calllogability', // Call record database URI, used to obtain the call record database DAHelper
+        CONTACTS_URI_PREFIX: 'dataability:///com.ohos.contactsdataability/contacts/', // Query the various table URI prefixes in the Contacts library
+        CALLS_URI_PREFIX: 'dataability:///com.ohos.calllogability/calls/', // SQL > alter TABLE URI prefixes
+        VOICEMAIL_URI_PREFIX: 'dataability:///com.ohos.voicemailability/calls/', // Example Query the URI prefixes of various tables in the Voicemail library
         SEARCH_CONTACT_URI: 'dataability:///com.ohos.contactsdataability/contacts/search_contact',
-        ROW_CONTACTS_URI: 'dataability:///com.ohos.contactsdataability/contacts/raw_contact', // 对row_contacts表操作的uri
-        CONTACT_DATA_URI: 'dataability:///com.ohos.contactsdataability/contacts/contact_data', // 对contact_data表操作的uri
+        ROW_CONTACTS_URI: 'dataability:///com.ohos.contactsdataability/contacts/raw_contact', // // Uri of the operation on the row_contacts table
+        CONTACT_DATA_URI: 'dataability:///com.ohos.contactsdataability/contacts/contact_data', // Uri of operation on contact_data table
         CONTACT_URI: 'dataability:///com.ohos.contactsdataability/contacts/contact',
         CONTACT_TYPE_URI: 'dataability:///com.ohos.contactsdataability/contacts/contact_type',
         GROUPS_URI: 'dataability:///com.ohos.contactsdataability/contacts/groups',
-        CALL_LOG_URI: 'dataability:///com.ohos.calllogability/calls/calllog', // 通话记录表操作uri
-        PROFILE_ROW_CONTACTS_URI: 'dataability:///com.ohos.contactsdataability/profile/raw_contact', // 我的名片raw_contact表操作uri
-        PROFILE_CONTACT_DATA_URI: 'dataability:///com.ohos.contactsdataability/profile/contact_data', // 我的名片contact_data表操作的uri
+        CALL_LOG_URI: 'dataability:///com.ohos.calllogability/calls/calllog', // Uri of call record table operation
+        PROFILE_ROW_CONTACTS_URI: 'dataability:///com.ohos.contactsdataability/profile/raw_contact', // My business card raw_contact table operation URI
+        PROFILE_CONTACT_DATA_URI: 'dataability:///com.ohos.contactsdataability/profile/contact_data', // The URI of the contact_data table operation on my business card
         VOICEMAIL_URI: 'dataability:///com.ohos.voicemailability/calls/voicemail'
     },
     int: {

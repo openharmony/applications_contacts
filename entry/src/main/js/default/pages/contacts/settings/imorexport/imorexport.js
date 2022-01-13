@@ -1,5 +1,5 @@
 /**
- * @file 导入/导出联系人
+ * @file Import or export contacts
  */
 
 /**
@@ -38,12 +38,12 @@ export default {
         height: 800,
         vcardParams: [],
         fileName: '00001.cvf',
-        checkedNum: 0, // 已选择file数量
+        checkedNum: 0, // Number of files selected
         showSelectAll: false,
         SimState: false,
         isDisabled: false
     },
-    // 初始化页面
+
     onInit() {
     },
     onReady() {
@@ -57,7 +57,7 @@ export default {
         LOG.log(TAG + '--------------onHide');
     },
 
-    // 返回上层页面
+
     back: function () {
         router.back();
     },
@@ -117,7 +117,8 @@ export default {
     },
 
     timestampToTime: function (timestamp) {
-        var date = new Date(timestamp * INT_1000); // 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        LOG.info(TAG + 'timestampToTime timestamp = ');
+        var date = new Date(timestamp * INT_1000);
         var Y = date.getFullYear() + '-';
         var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
         var D = date.getDate() + ' ';
@@ -128,13 +129,16 @@ export default {
     },
 
     uriToFileName: function (fileName) {
+        LOG.info(TAG + 'uriToFileName fileName = ');
         fileName = fileName.replace('internal:// app/', '');
         return fileName;
     },
 
     itemClick: function (item) {
+        LOG.info(TAG + 'itemClick item = ');
         LOG.info(TAG + 'select vcardParams');
         var checkedList = [];
+        LOG.info(TAG + 'select vcardParams item');
         item.checked = !item.checked;
         this.vcardParams.forEach((element) => {
             if (element.checked) {
@@ -170,10 +174,9 @@ export default {
         LOG.info(TAG + 'select status vcardParams' + this.showSelectAll);
 
     },
-    /*从存储设备导入弹窗**/
+
     showImportDialog: function () {
         LOG.info(TAG + 'showImportDialog success');
-        // 获取获取vcf列表文件
         this.$app.$def.globalData.file.list({
             uri: 'internal:// app/',
             success: (data) => {
@@ -201,13 +204,10 @@ export default {
 
     },
 
-    /*导出vcf名称**/
     showExportDialog: function () {
-        // 获取vcf名称
         this.getName();
     },
 
-    // fileName获取导出的vcf文件名称
     getName() {
         this.$element('ExportDialog').show();
 
@@ -216,17 +216,14 @@ export default {
         this.$element('ExportDialog').close();
     },
 
-    /**导出联系人*/
     exportContacts() {
         LOG.info(TAG + 'start export contacts');
-        // 获取到contactIds
         var requestData = {
             page: 0,
             limit: 200
         };
         var contactResults = contactsService.queryContacts(requestData);
         let contactDatas = [];
-        // 调用听歌contactId获取联系人详情
         if (contactResults.resultList.length > 0) {
             contactResults.resultList.forEach((element) => {
                 var param = {};
@@ -237,7 +234,6 @@ export default {
                 });
             });
         }
-        // 拼接result.data
         let result = {};
         result.code = 0;
         result.data = contactDatas;
@@ -247,7 +243,7 @@ export default {
             text: JSON.stringify(result),
             success: function () {
                 prompt.showToast({
-                    message: this.fileName.concat('将在稍后导出')
+                    message: this.fileName.concat(this.$t('value.contacts.waitExport'))
                 });
             },
             fail: function (data, code) {
@@ -259,7 +255,6 @@ export default {
         this.$element('ExportDialog').close();
     },
 
-    /**分享联系人*/
     shareContactsList: function () {
         router.push({
             uri: 'pages/contacts/settings/shareContactsList/shareContactsList'

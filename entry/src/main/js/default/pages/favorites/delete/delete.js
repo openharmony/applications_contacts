@@ -70,18 +70,15 @@ export default {
     clickSelectAll: function (e) {
         LOG.info(TAG + 'clickSelectAll' + 'logMessage selectAll:' + e.target);
         if (!this.isSelectAll) {
-            //全选
             this.selectAll();
         } else {
-            //取消全选
             this.unSelectAll();
         }
         this.refreshPageTabs();
     },
 
-/* 全选列表项 */
     selectAll: function () {
-        this.selectCount = 0; //将已选择的计数清除后重新增加
+        this.selectCount = 0;
         this.favoriteslist.forEach(element => {
             element.checked = true;
             this.selectCount++;
@@ -93,7 +90,6 @@ export default {
     },
 
 
-/* 取消全选 */
     unSelectAll: function () {
         this.favoriteslist.forEach(element => {
             element.checked = false;
@@ -124,29 +120,27 @@ export default {
         this.refreshPageTabs();
     },
     changeCheckState: function (index, e) {
-        LOG.info(TAG + 'changeCheckState' + '列表下标' + index);
         this.todolist[index].checked = e.checked;
         e.checked ? this.selectCount++ : this.selectCount--;
         this.refreshPageTabs();
     },
 
 
-/* 标题计数刷新函数 */
     refreshPageTabs: function () {
         if (this.selectCount > 0) {
             switch (this.localeInfo.language) {
                 case 'zh':
-                this.titleMessage = this.$t('value.favorites.page.delete.titleMessageSelect') + this.selectCount + this.$t('value.favorites.page.delete.titleMessageUnit');
-                break;
+                    this.titleMessage = this.$t('value.favorites.page.delete.titleMessageSelect') + this.selectCount + this.$t('value.favorites.page.delete.titleMessageUnit');
+                    break;
                 case 'en':
-                this.titleMessage = this.selectCount + this.$tc('value.favorites.page.delete.titleMessageSelect', this.selectCount);
-                break;
+                    this.titleMessage = this.selectCount + this.$tc('value.favorites.page.delete.titleMessageSelect', this.selectCount);
+                    break;
                 default:
                     this.titleMessage = '';
                     break;
             }
             this.deleteDisabled = false;
-            if (this.selectCount == this.favoriteslist.length + this.todolist.length) { //全选情况按钮状态刷新
+            if (this.selectCount == this.favoriteslist.length + this.todolist.length) {
                 this.ic_select_all = '/res/image/ic_select all_filled_m.svg';
                 this.allSelectMessage = this.$t('value.favorites.page.delete.unSelectAll');
                 this.isSelectAll = true;
@@ -172,10 +166,10 @@ export default {
         });
     },
     doDelete: function () {
-        if (this.isSelectAll) { //全选清空
+        if (this.isSelectAll) {
             this.favoriteslist = [];
             this.todolist = [];
-        } else { //非全部选中
+        } else {
             var unCheckedStarList = [];
             var checkedStarList = [];
             this.favoriteslist.forEach(element => {
@@ -217,7 +211,7 @@ export default {
         var actionData = {};
         httpcontact.contactHttp(internal, sync, messageCode, actionData, (result) => {
             if (result.code == 0) {
-                LOG.error(TAG + 'getFavoritesContacts' + 'result.favoriteslist: ' );
+                LOG.error(TAG + 'getFavoritesContacts' + 'result.favoriteslist: ');
                 this.favoriteslist = result.favoriteslist;
             } else {
                 LOG.info(TAG + 'getFavoritesContacts' + 'plus result is erro:');

@@ -17,19 +17,17 @@ var TAG = 'voicemailSettings';
 export default {
     data: {
         voiceMailNumber: '',
-        newNumberTemp:'', //暂存旧的语音信箱值，用于在弹框中显示待确认的voiceNumber
+        newNumberTemp:'',
         dialogInputActive: false,
     },
-//初始化页面
+
     onInit() {
-        /* 从storage读取语音信箱号码 */
         this.voiceMailNumber = this.$app.$def.globalData.storage.getSync('voicemailNumber',this.$t('value.callRecords.noSettings'));
         if (this.$t('value.callRecords.noSettings') != this.voiceMailNumber) {
-            this.$app.$def.globalData.voicemailNumber = this.voiceMailNumber; //设置全局语音信箱号码，方便在初次onShow展示
+            this.$app.$def.globalData.voicemailNumber = this.voiceMailNumber;
         }
     },
     onShow() {
-        /* 返回后，弹框中显示新设置的语音信箱号码 */
         if (this.$app.$def.globalData.dialogShow == true) {
             setTimeout(() => {
                 this.newNumberTemp = this.$app.$def.globalData.voicemailNumber;
@@ -50,7 +48,6 @@ export default {
         this.$app.$def.globalData.dialogShow = false;
         router.back();
     },
-/* 语音信箱号码编辑跳转选择联系人界面 */
     selectContacts: function () {
         router.push({
             uri: 'pages/dialer/speeddial/selectcontact/selectcontact',
@@ -62,14 +59,13 @@ export default {
     changeStyle: function () {
         this.dialogInputActive = true;
     },
-/* 编辑服务提供商事件 */
+
     editProvider:function() {
         this.$element('myProvider').show();
     },
-/* 编辑语音信箱号码事件 */
+
     editVoiceNumber:function() {
 
-        /* 弹框时，默认显示原voiceMailNumber */
         this.$element('editVoiceMailNumber').show();
         if (this.voiceMailNumber != this.$t('value.callRecords.noSettings')) {
             this.newNumberTemp = this.voiceMailNumber;
@@ -78,15 +74,15 @@ export default {
     cancelEdit: function () {
         this.$element('editVoiceMailNumber').close();
         this.newNumberTemp = this.voiceMailNumber;
-        this.$app.$def.globalData.voicemailNumber = this.voiceMailNumber; //此处也需要将全局voicemailNumber设置为原值。
+        this.$app.$def.globalData.voicemailNumber = this.voiceMailNumber;
     },
     changeVoicemailNumber: function (e) {
         this.newNumberTemp = e.value;
     },
     confirmVoiceNumber:function() {
-        this.voiceMailNumber = this.newNumberTemp; // 将号码设置为新值。
+        this.voiceMailNumber = this.newNumberTemp; // Set number to new value
         this.$app.$def.globalData.storage.putSync('voicemailNumber',this.newNumberTemp);
-        this.$app.$def.globalData.storage.flushSync();// 将新的号码持久化存储。
+        this.$app.$def.globalData.storage.flushSync();// Persistent storage of new numbers
         this.$element('editVoiceMailNumber').close();
     },
     cancelProvider:function() {

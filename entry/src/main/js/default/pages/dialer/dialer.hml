@@ -35,17 +35,15 @@
             {{ $t('phone.greeting') }}
         </option>
 
-    <!--TODO:当前为方便跳转批量选择联系人界面，临时添加该项，后续删除-->
-        <option value="5" if="{{$app.$def.globalData.isDisplay}}">
-            批量选择联系人
+        <option value="5" if="{{ $app.$def.globalData.isDisplay }}">
+            {{ this.$t('value.contacts.batchSelectContacts') }}
         </option>
 
-    <!--TODO:当前为测试，临时添加通话记录合并配置项，后续根据实际需要删除-->
         <option value="6" if="{{$app.$def.globalData.isDisplay}}">
             {{ $t('phone.callLogMergeRule') }}
         </option>
-        <option value="8" if="{{$app.$def.globalData.isDisplay}}">
-            样例页面
+        <option value="8" if="{{ $app.$def.globalData.isDisplay }}">
+            {{ this.$t('value.contacts.samplePage') }}
         </option>
     </menu>
     <div class="num-text-area" show="{{ ifShowConfig.showNumTextAera }}">
@@ -54,16 +52,13 @@
                style="padding-left : {{ numTextPaddingLeft }} px; font-size : {{ numTextSize }} px;"></input>
     </div>
 
-<!--   拨号搜索list -->
     <list class="matched-call-records-list" show="{{ ifShowConfig.showMatchedList }}" ontouchstart="touchStartDialer"
           scrollpage="false" scrollbar="auto">
         <list-item id="matchedItemId{{ $idx }}" for="{{ matchedRecordsList }}" class="matched-list-item"
                    on:click.bubble="callOutByMatchedList({{ $idx }})" onlongpress="showMatchedListMenu({{ $idx }})">
             <div>
 
-            <!--         左侧号码及号码信息显示 -->
                 <div class="matched-list-item-left">
-                <!-- 未拒接来电 红色字体显示-->
                     <div if="{{ $item.callType == 3 || $item.callType == 5 }}" class="matched-item-left-top-text-red">
                         <div if="{{ $item.name == '' || $item.name == undefined }}">
                             <text id="firstPartTextId{{ $idx }}" class="matched-item-main-text-red">{{ $item.firstPart
@@ -108,7 +103,6 @@
                     </div>
                 </div>
 
-            <!--右侧细节图标-->
                 <div class="matched-list-item-right">
                     <div id="matchedItemDetailId{{ $idx }}" class="matched-list-item-right-image"
                          grab:touchstart.bubble="touchStartMatchedItem"
@@ -122,7 +116,6 @@
         </list-item>
     </list>
 
-<!--通话记录子组件 -->
     <div id="callLogWindowId" if="{{ ifShowConfig.showCallRecords }}"
          class="{{ titleType == 0 ? 'call-records-container' : 'call-records-container-small-title' }}">
         <recordscomp all-calls="{{ recordList }}" batch-delete="{{ false }}" missed-call-logs="{{ missedList }}"
@@ -136,11 +129,9 @@
         </recordscomp>
     </div>
 
-<!-- 该组件承载联系人操作组件和拨号盘组件的显示隐藏动画，联系人操作组件及拨号盘组件按照container设置宽高，-->
-<!-- 不可以给该组件添加宽高度限制 -->
     <div id="numBoardId" show="{{ dialerStyle }}" class="{{ dialerStyle }}">
 
-    <!--   联系人操作组件-->
+    <!--   Contact Action Component-->
         <div class="contacts-operate" show="{{ ifShowConfig.showContactsOperates }}">
             <div id="addContactsId" class="contacts-operate-box" onclick="addContacts({{ numText }})">
                 <image class="contacts-image" src="{{ iconResource.ic_contacts_add }}"></image>
@@ -157,7 +148,7 @@
         </div>
         <div class="board-space"></div>
 
-    <!--     拨号盘 -->
+    <!--     dial -->
         <div class="board-num" ontouchstart="touchStartDialer" ontouchmove="touchMoveDialer">
             <div class="board-numline">
                 <div id="buttonId1" class="board-button" ontouchstart="buttonTouchStart" ontouchend="buttonTouchEnd(1)"
@@ -323,7 +314,6 @@
         <div class="board-space-bottom"></div>
     </div>
 
-<!--  拨号盘缩略绿色图标 -->
     <div id="boardThunmbnail" show="{{ showBoardThumbnail }}" class="{{ boardThumbnailStyle }}"
          style="margin-right : {{ bordButtonMarginRight }} px; width : {{ bordButtonWidth }} px;"
          ontouchstart="boardThunmbnailTouchStart"
@@ -351,27 +341,27 @@
     </div>
     <menu id="matchedListMenu" onselected="onMatchedListSelected">
 
-    <!-- 电话号码或名称 -->
+    <!-- Telephone number or name -->
         <option value="0" style="font-weight : bold; font-size : 40px;">
             {{
             (matchedMenuData.name == '' || matchedMenuData.name == undefined) ? ((matchedMenuData.number && matchedMenuData.number.length > 4) ? matchedMenuData.number.substring(0, 7) + '..' : matchedMenuData.number) : ((matchedMenuData.name && matchedMenuData.name.length > 4) ? this.subStringWithEllipsis(matchedMenuData.name) : matchedMenuData.name)
             }}
         </option>
 
-    <!-- 新建联系人 -->
+    <!-- Creating a Contact -->
         <option value="1" show="{{ matchedMenuData.name == '' || matchedMenuData.name == undefined }}">
             {{ $t('phone.addContacts') }}
         </option>
 
-    <!-- 保存至已有联系人 -->
+    <!-- Save to an existing contact -->
         <option value="2" show="{{ matchedMenuData.name == '' || matchedMenuData.name == undefined }}">
             {{ $t('phone.saveContacts') }}
         </option>
 
-    <!-- 发送信息 -->
+    <!-- Send a message -->
         <option value="3">{{ $t('value.callRecords.sendMessage') }}</option>
 
-    <!-- 呼叫前编辑 -->
+    <!-- Pre-call editing -->
         <option value="4">{{ $t('value.callRecords.editBeforeCall') }}</option>
     </menu>
     <dialog id="simpledialog" class="dialog-main" oncancel="cancelDialog">

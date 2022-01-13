@@ -29,11 +29,11 @@ export default {
         emptyText: '',
         searchContactList: [],
         showEmpty: false,
-    //是否显示内容布局
+    //Show content layout
         contentShow: false,
-    //是否显示搜索标题
+    //Show search title
         searchTitleLayout: true,
-    //是否显示搜索列表
+    //Show search list
         searchLayoutShow: false,
         searchPhoneNum: 0,
         searchDefaultName: '',
@@ -51,7 +51,7 @@ export default {
     onInit() {
         this.emptyText = this.$t('value.selectContact.page.empty');
         if (Utils.isEmpty(this.searchDefaultName)) {
-            //初始化联系人数据
+            //Initialize contact data
             this.initData();
         } else {
             this.searchText = this.searchDefaultName;
@@ -67,11 +67,9 @@ export default {
         this.requestInit(requestData);
     },
     back() {
-        //返回
         router.back();
     },
     onTextChange(text) {
-        //搜索输入框
         if (Utils.isEmpty(text.text)) {
             this.emptyText = this.$t('value.selectContact.page.empty');
             this.refreshLayout();
@@ -112,9 +110,7 @@ export default {
                 }
             });
     },
-/**
-     * 缓存分页加载,由组件提供的方法接口调用
-     */
+
     requestItem: function () {
         this.page++;
         var requestData = {
@@ -123,9 +119,7 @@ export default {
         };
         this.requestInit(requestData);
     },
-/**
-     * 初始化列表数据
-     */
+
     requestInit: function (data) {
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         selectContactsAbility.queryContacts(DAHelper, resultList=>{
@@ -134,7 +128,7 @@ export default {
             } else {
                 var listTemp = [];
                 var speedNumberMap = new Map();
-                if (this.type == 'saveSpeedDial') {// 快速拨号跳转本页面情况下，取出所有已设置快速拨号的联系人号码放入speedNumberMap,供后续过滤已选择的联系人号码使用
+                if (this.type == 'saveSpeedDial') {
                     for(let i = 1; i <=9; i++) {
                         var speedItemString = this.$app.$def.globalData.storage.getSync('speedDial'+i,'');
                         if (!Utils.isEmpty(speedItemString)) {
@@ -151,18 +145,18 @@ export default {
                         element.name.nameSuffix = element.nameSuffix;
                         element.portraitPath = false;
                         if (!Utils.isEmpty(element.phoneNumbers) && element.phoneNumbers.length > 0) {
-                            var phoneNumbersTemp = []; //创建过滤后的电话号码容器
+                            var phoneNumbersTemp = []; //Create filtered phone number container
                             element.phoneNumbers.forEach(childEle => {
                                 childEle.checked = false;
                                 childEle.labelName = this.getPhoneLabelNameById(childEle.labelId);
                                 this.initVariableSpan(element);
+                    // When speed dialing jumps to this page, if speed dialing has been set, no container will be added
                                 if (!speedNumberMap.has(Utils.removeSpace(childEle.phoneNumber))) {
-                                    // 快速拨号跳转本页面的情况下，如果已设置快速拨号则不添加容器
                                     phoneNumbersTemp.push(childEle);
                                 }
                             })
                             if (phoneNumbersTemp.length > 0) {
-                                //只有在存在未被设置为快速拨号的电话号码时，才显示在contact列表中。
+                    // Displayed in the contact list only if there are phone numbers that are not set to speed dial.
                                 element.phoneNumbers = phoneNumbersTemp;
                                 listTemp.push(element);
                             }
@@ -171,11 +165,10 @@ export default {
                     this.contactList = listTemp;
                 }
             }
-            //请求数据完成刷新界面，保证空布局和数据列表正常显示
             this.refreshLayout();
         });
     },
-/* 根据手机号的LabelId获取LabelName */
+
     getPhoneLabelNameById: function(phoneLabelId) {
         var labelName = '';
         switch (parseInt(phoneLabelId)) {
@@ -212,11 +205,9 @@ export default {
         return labelName;
     },
 
-/**
-     * 赋值自定义属性，为后面可变字体搜索做准备
-     */
+
     initVariableSpan: function (item) {
-        //初始化可变名称
+        //Initialize variable name
         var matchString = Utils.getMatchedString(item.emptyNameData, this.searchText);
         if (Utils.isEmpty(matchString) || Utils.isEmpty(this.searchText.trim())) {
             item.name.searchTextStart = '';
@@ -229,7 +220,7 @@ export default {
             item.name.searchTextMiddle = name.substr(index, matchString.length);
             item.name.searchTextEnd = name.substr(index + matchString.length);
         }
-        //初始化可变手机号
+        //Initialize variable phone number
         for (var i = 0; i < item.phoneNumbers.length; i++) {
             var phoneNumber = item.phoneNumbers[i].phoneNumber;
             var matchStringPhone = Utils.getMatchedString(phoneNumber, this.searchText);
@@ -245,9 +236,8 @@ export default {
             }
         }
     },
-    /**
-     * 电话号码去重
-     */
+
+
     duplicateRemoval: function (result) {
         if (Utils.isEmptyList(result.data)) {
             return result;
@@ -256,21 +246,20 @@ export default {
         for (var i = 0; i < resultList.length; i++) {
             var item = resultList[i];
             var phoneNumbersList = [];
-            //倒序排序，去重复的最后一个添加
+            //Sort in reverse order to repeat the last addition
             for (var j = item.phoneNumbers.length - 1; j >= 0; j--) {
                 var indexOf = this.indexOf(item.phoneNumbers[j], phoneNumbersList);
-                //不存在则添加
+                //Add if it does not exist
                 if (indexOf == -1) {
                     phoneNumbersList.push(item.phoneNumbers[j]);
                 }
             }
-            //为了减少一次循环搜索名称颜色可变加入此处,初始化可变字体
             this.initVariableSpan(item);
             item.phoneNumbers = phoneNumbersList;
         }
         return result;
     },
-//查询联系人电话是否已在电话列表中，通过电话号码去重，显示最后一次添加的
+
     indexOf: function (item, phoneNumbersList) {
         var index = -1;
         if (Utils.isEmptyList(phoneNumbersList)) {
@@ -285,9 +274,8 @@ export default {
         }
         return index;
     },
-/**
-     * 去除已选中的联系人电话或联系人
-     */
+
+
     filterContact: function (contactData, result) {
         if (Utils.isEmptyList(contactData)) {
             return result;
@@ -303,7 +291,7 @@ export default {
                     var phoneNumbers = resultItem.phoneNumbers;
                     tempNumber = [];
                     for (var j = 0; j < phoneNumbers.length; j++) {
-                        //通过电话号码和电话类型过滤
+                        //Filter by phone number and phone type
                         if (!((phoneNumbers[j].phoneNumber == routerItem.selectNumber)
                         && (phoneNumbers[j].labelId == routerItem.selectLabelId))) {
                             tempNumber.push(phoneNumbers[j]);
@@ -312,7 +300,7 @@ export default {
                     resultItem.phoneNumbers = tempNumber;
                 }
             }
-            //如果电话列表中没有元素
+            //If there is no element in the phone list
             if (resultItem.phoneNumbers.length <= 0) {
                 continue;
             }
@@ -321,26 +309,24 @@ export default {
         result.data = resultList;
         return result;
     },
-/**
-     * 显示布局
-     */
+
+
     refreshLayout() {
         if (Utils.isEmptyList(this.contactList)) {
-            //联系人数据为空
+            //Contact data is empty
             this.searchTitleLayout = false;
             this.showEmpty = true;
             this.contentShow = false;
         } else {
-            //联系人数据不为空
+            //Contact data is not empty
             this.searchTitleLayout = true;
             this.showEmpty = false;
             this.contentShow = true;
             this.searchLayoutShow = false;
         }
     },
-/**
-     * 点击事件
-     */
+
+
     selectClick: function (params) {
         if (Utils.isEmpty(this.searchDefaultName)) {
             LOG.info(TAG + 'selectClick' + 'logMessage select=====>selectClick index:' + params.detail.index + '  indexChild:');
@@ -352,14 +338,14 @@ export default {
             }
             LOG.info(TAG + 'selectClick' + 'logMessage item = '+item);
             var indexChild = params.detail.indexChild;
-            if (this.type == 'saveVoicemail') { //语音信箱选择联系人号码
+            if (this.type == 'saveVoicemail') { //Voice mailbox select contact number
                 var voicemailNumber = item.phoneNumbers[indexChild].phoneNumber;
-                this.$app.$def.globalData.voicemailNumber = voicemailNumber;// 通过全局变量回传选中的voicemailNumber;
-            } else if (this.type == 'saveSpeedDial') {//快速拨号选择联系人
+                this.$app.$def.globalData.voicemailNumber = voicemailNumber;
+            } else if (this.type == 'saveSpeedDial') {//Speed dial select contact
                 var speedNumber = item.phoneNumbers[indexChild].phoneNumber
-                var speedItem = {}; //根据选择的联系人生成快速拨号数据
+                var speedItem = {}; //Generate speed dial data based on the selected contact
                 speedItem.emptyNameData = item.emptyNameData;
-                speedItem.routerIndex = this.speedDialIndex + 1;//显示的标识比数组坐标大1
+                speedItem.routerIndex = this.speedDialIndex + 1;
                 speedItem.contactId = item.contactId;
                 speedItem.nameSuffix = item.nameSuffix;
                 speedItem.portraitColor = item.portraitColor;
@@ -384,9 +370,8 @@ export default {
     onSearchTextChange: function (text) {
         this.searchRequest(this.searchRequestCode, text);
     },
-/**
-     * 搜索请求后台
-     */
+
+
     searchRequest: function (code, keyText) {
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         var data = {};
@@ -405,9 +390,8 @@ export default {
             this.refreshSearchList(keyText, this.searchContactList);
         });
     },
-/**
-     * 刷新搜索界面
-     */
+
+
     refreshSearchList: function (keyText, searchContactList) {
         if (Utils.isEmpty(keyText)) {
             this.searchLayoutShow = false;
@@ -417,7 +401,7 @@ export default {
             this.searchLayoutShow = false;
         } else {
             if (Utils.isEmptyList(searchContactList)) {
-                //搜索列表为空,更新搜索文字描述
+                //The search list is empty. Update the search text description
                 this.emptyText = this.$t('value.selectContact.page.emptyText');
                 this.showEmpty = true;
                 this.contentShow = false;
@@ -430,9 +414,8 @@ export default {
             }
         }
     },
-/**
-     * 查找可变字体下标
-     * **/
+
+
     searchIndexOf: function (keyText, source) {
         return source.indexOf(keyText);
     }

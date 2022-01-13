@@ -1,5 +1,5 @@
 /**
- * @file 设置
+ * @file Set up the
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -23,7 +23,6 @@ var TAG = 'Settings...: ';
 export default {
     data: {},
 
-    // 初始化页面
     onInit() {
         LOG.info(TAG + ' onInit --------------end');
     },
@@ -31,12 +30,10 @@ export default {
         LOG.info(TAG + ' onDestroy --------------end');
     },
 
-    // 点击账户div
     accountClicked: function () {
         LOG.info(TAG + 'accountClicked');
     },
 
-    // 显示联系人已点击
     displayContactClicked: function () {
         router.push({
             uri: 'pages/contacts/settings/display/display',
@@ -56,7 +53,6 @@ export default {
         });
     },
 
-// 返回上层页面
     back: function () {
         router.back();
     }

@@ -1,5 +1,5 @@
 /**
- * @file 恢复删除联系人
+ * @file Resume Deleting contacts
  */
 
 /**
@@ -46,10 +46,8 @@ export default {
         recentlyList: []
     },
 
-    // 初始化页面
     onInit() {
         LOG.info(TAG + 'onInit success');
-        //        this.language = configuration.getLocale().language;
         this.language = 'zh';
         switch (this.language) {
             case 'zh':
@@ -93,7 +91,6 @@ export default {
                 unCheckList.push(element);
             }
         });
-        // 调用后台恢复联系人
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         recoverService.recoverRlyDelContacts(DAHelper, data, result => {
             LOG.info(TAG + 'doRecover result');
@@ -113,7 +110,6 @@ export default {
         });
     },
 
-    // 弹出删除确认菜单
     doDelete: function () {
         LOG.info(TAG + 'doDelete isSelectAll');
         if (this.isSelectAll) {
@@ -133,7 +129,6 @@ export default {
         }
         this.$element('deleteDialog').show();
     },
-    // 确认删除
     deleteClick: function () {
         this.$element('deleteDialog').close();
         var data = {
@@ -175,22 +170,19 @@ export default {
         this.refreshPageTabs();
     },
 
-
-    // 全选
     clickCheckedAll: function () {
         if (!this.isSelectAll) {
-            // 全选
+            // Select all
             this.selectAll();
         } else {
-            // 取消全选
+            // Deselect all
             this.unSelectAll();
         }
         this.refreshPageTabs();
     },
 
-    /* 全选列表项 */
     selectAll: function () {
-        this.checkedCount = 0; // 将已选择的计数清除后重新增加
+        this.checkedCount = 0; // Clear the selected count and increase it again
         LOG.info(TAG + 'select All this');
         this.recentlyList.forEach(element => {
             element.checked = true;
@@ -198,7 +190,6 @@ export default {
         });
     },
 
-    /* 取消全选 */
     unSelectAll: function () {
         LOG.info(TAG + 'unselect All this');
         this.recentlyList.forEach(element => {
@@ -209,8 +200,6 @@ export default {
         });
     },
 
-
-    // 点击单选按钮
     changeCheckState: function (index, e) {
         LOG.info(TAG + 'changeCheckState index' + index);
         this.recentlyList[index].checked = e.checked;
@@ -218,7 +207,6 @@ export default {
         this.refreshPageTabs();
     },
 
-    /* 标题计数刷新函数 */
     refreshPageTabs: function () {
         LOG.info(TAG + 'refreshPageTabs checkedCount' + this.checkedCount);
         if (this.checkedCount > 0) {
@@ -237,7 +225,7 @@ export default {
             }
             this.deleteDisabled = false;
             this.recoverDisabled = false;
-            if (this.checkedCount == this.recentlyList.length) { // 全选情况按钮状态刷新
+            if (this.checkedCount == this.recentlyList.length) { // Select all button status refresh
                 this.icSelectAll = '/res/image/ic_select all_filled_m.svg';
                 this.allSelectMessage = this.$t('value.contacts.managePage.recentlyPage.unSelectAll');
                 this.isSelectAll = true;
@@ -257,7 +245,6 @@ export default {
         }
     },
 
-    // 返回上层页面
     back: function () {
         router.back();
     }

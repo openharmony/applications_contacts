@@ -38,9 +38,9 @@ export default {
             Y: 0
         },
         myCardInfo: {
-            cardId: '', // 我的名片联系人id
-            cardName: '', // 我的名片联系人名称
-            hasMyCard: false, // 是否存在我的名片
+            cardId: '',
+            cardName: '',
+            hasMyCard: false,
         },
         nameSuffix: '',
         portraitPath: '',
@@ -104,7 +104,6 @@ export default {
         LOG.info(TAG + 'onBackPress contacts page.');
     },
 
-    // 刷新页面
     onRefresh: function () {
         LOG.info(TAG + 'Contacts onRefresh --------------start');
         this.contactCount = 0;
@@ -127,7 +126,6 @@ export default {
                               text: this.$t('value.contacts.page.menu.shareInfo.content.text')
                           }];
 
-        // 初始化动画元素隐藏
         this.animation.isSearch = this.$app.$def.globalData.contactsAnimation.isSearch;
         this.animation.title = this.$app.$def.globalData.contactsAnimation.title;
         this.animation.setting = this.$app.$def.globalData.contactsAnimation.setting;
@@ -147,8 +145,6 @@ export default {
         LOG.info(TAG + 'Contacts onRefresh --------------end');
     },
 
-
-    // radio选项初始化
     radioInit: function () {
         let data = this.$app.$def.globalData.storage.getSync('contacts_settings_display_account_radio', 'allContacts');
         switch (data) {
@@ -178,11 +174,9 @@ export default {
         };
 
         this.requestInit(2001, requestData);
-        /* 此处延时请求，避免概率性数据阻塞问题 */
         this.conciseLayoutInit();
     },
 
-    // 缓存分页加载
     requestItem: function () {
         if (this.contactsList.length < this.contactCount) {
             this.page++;
@@ -194,9 +188,7 @@ export default {
             this.requestPage(2001, requestData);
         }
     },
-    /**
-     * 初始化列表数据
-     */
+
     requestInit: function (code, data) {
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         LOG.info(TAG + 'requestInit get DAHelper --------------');
@@ -243,10 +235,6 @@ export default {
         }
     },
 
-
-    /**
-     * 初始化列表数据
-     */
     requestRefresh: function (code, data) {
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         LOG.info(TAG + 'Contacts requestRefresh get DAHelper --------------');
@@ -287,15 +275,11 @@ export default {
         }
     },
 
-
-    // 简洁布局选项初始化
     conciseLayoutInit: function () {
         let data = this.$app.$def.globalData.storage.getSync('contacts_settings_concise_layout_switch', 'false');
         this.layoutState = data == 'true' ? false : true;
     },
 
-
-    // 线程暂停函数
     sleep: function (milliSeconds) {
         var startTime = new Date().getTime();
         while (new Date().getTime() < startTime + milliSeconds) {
@@ -303,11 +287,8 @@ export default {
         }
     },
 
-    /**
-     * 分页列表数据
-     */
     requestPage: function (code, data) {
-        LOG.info(TAG + 'requestPage code' +'data')
+        LOG.info(TAG + 'requestPage code' + 'data')
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         if (data.queryContactsType == 'custom') {
             let ret = this.$app.$def.globalData.storage.getSync('contacts_settings_customize_view_input', 'false');
@@ -352,15 +333,14 @@ export default {
         }
     },
 
-    // 列表滑动到最低
     scrollBottom: function () {
     },
 
     /**
-     * 删除联系人列表数据
+     * Delete contact list data
      *
-     * @param code 2005 FA与PA通行协议码
-     * @param data  contactId 联系人ID
+     * @param code
+     * @param data  contactId The contact ID
      */
     deleteContactData: function (code, data) {
         LOG.info(TAG + 'deleteContactData code' + 'data')
@@ -391,17 +371,17 @@ export default {
         switch (idx) {
             case 0:
                 prompt.showToast({
-                    message: '调用分享二维码三方'
+                    message: 'Call share qr code three parties'
                 });
                 break;
             case 1:
                 prompt.showToast({
-                    message: '调用分享vCard三方'
+                    message: 'Call share vCard three parties'
                 });
                 break;
             case 2:
                 prompt.showToast({
-                    message: '调用文本三方'
+                    message: 'Call text tripartite'
                 });
                 break;
             default:
@@ -427,16 +407,15 @@ export default {
         };
         this.deleteContactData(2003, requestData);
     },
-    // 导入联系人弹窗出现
+
     importContactClicked: function () {
         this.$element('importContactsDialog').show();
     },
 
-    // 导入联系人弹窗消失
     importCancelClick: function () {
         this.$element('importContactsDialog').close();
     },
-    // 
+
     importClick: function (idx) {
         LOG.info(TAG + 'shareClick idx' + idx)
         switch (idx) {
@@ -449,14 +428,14 @@ export default {
     closeImportDialog: function () {
         this.$element('ImportDialog').close();
     },
-    // 页面无列表数据显示新建联系人事件
+
     newContactClicked: function () {
         router.push({
             uri: 'pages/contacts/accountants/accountants',
             params: {},
         });
     },
-    // 页面添加联系人按钮
+
     addContactClicked: function () {
         router.push({
             uri: 'pages/contacts/accountants/accountants',
@@ -469,7 +448,7 @@ export default {
         this.position.Y = Math.round(event.touches[0].globalY);
     },
     listItemOnLongPress: function (index, event) {
-        LOG.info(TAG + 'listItemOnLongPress index' + index + 'event' )
+        LOG.info(TAG + 'listItemOnLongPress index' + index + 'event')
         this.contactsName = event.emptyNameData == undefined || event.emptyNameData == '' ? '' : this.slice(event.emptyNameData, 9);
         this.isShowName = event.emptyNameData == '' || event.emptyNameData == undefined ? false : true;
         this.deleteIndex = event.contactId;
@@ -484,7 +463,7 @@ export default {
             });
         }, 1);
     },
-    // 处理字符串问题
+
     slice: function (str, maxLength) {
         LOG.info(TAG + 'slice str' + str + 'maxLength' + maxLength)
         var result = '';
@@ -542,26 +521,19 @@ export default {
         return result;
     },
 
-    /* 通过文字二进制得到文字字节数 */
     getByteByBinary: function (binaryCode) {
         LOG.info(TAG + 'getByteByBinary binaryCode' + binaryCode)
-        /**
-         * 二进制 Binary system,es6表示时以0b开头
-         * 八进制 Octal number system,es5表示时以0开头,es6表示时以0o开头
-         * 十进制 Decimal system
-         * 十六进制 Hexadecimal,es5、es6表示时以0x开头
-         **/
         var byteLengthDatas = [0, 1, 2, 3, 4];
         var len = byteLengthDatas[Math.ceil(binaryCode.length / 8)];
         return len;
     },
-    /* 通过文字十六进制得到文字字节数 */
+
     getByteByHex: function (hexCode) {
         LOG.info(TAG + 'getByteByHex hexCode' + hexCode)
         return this.getByteByBinary(parseInt(hexCode, 16).toString(2));
     },
 
-    // Menu选择项
+
     todoSelected: function (event) {
         LOG.info(TAG + 'todoSelected event' + event)
         if (event.value == 'delete') {
@@ -577,7 +549,6 @@ export default {
         this.deleteIndex = '';
     },
 
-    // 搜索框聚焦事件
     focusSearch: function (e) {
         LOG.info(TAG + 'focusSearch e' + e);
     },
@@ -603,7 +574,6 @@ export default {
             this.isSearchList = false;
             this.$app.$def.setIsSearchList(this.isSearchList);
             this.listHeight = '72%';
-            // 动画变换
             this.animation.title = 'show-title';
             this.animation.setting = 'show-setting';
             this.animation.contactTitle = 'show-contact-title';
@@ -622,7 +592,6 @@ export default {
     },
     touchStartSearch: function () {
         LOG.info(TAG + 'search is touchStartSearch');
-        // 动画效果变换
         this.animation.contactTitle = '';
         this.animation.setting = '';
         this.animation.backBut = '';
@@ -655,7 +624,6 @@ export default {
             focus: true
         })
     },
-    // 搜索框
     changeSearch: function (e) {
         LOG.info(TAG + 'changeSearch e.text');
         if (e.text == '') {
@@ -673,16 +641,12 @@ export default {
             });
             this.isSearchList = true;
             this.$app.$def.setIsSearchList(this.isSearchList);
-            // 调用后台接口
             var data = {};
             data.likeValue = e.text;
             this.searchResult(data);
         }
     },
 
-    /**
-     * 获取查询数据结果
-     */
     searchResult: function (data) {
         LOG.info(TAG + 'searchResult data' + data);
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
@@ -701,49 +665,48 @@ export default {
         });
     },
 
-    // 处理高亮数据函数
     processHighLight: function (searchList, likeValue) {
-        LOG.info(TAG + 'processHighLight searchList'  + 'likeValue' + likeValue);
+        LOG.info(TAG + 'processHighLight searchList' + 'likeValue' + likeValue);
         searchList.forEach((element) => {
             if (element.searchMimetype[0].search('/name') != -1) {
 
-                this.conditionOne(element,likeValue)
+                this.conditionOne(element, likeValue)
 
             } else if (element.searchMimetype[0].search('/organization') != -1) {
 
-                this.conditionTwo(element,likeValue)
+                this.conditionTwo(element, likeValue)
 
-                this.conditionThree(element,likeValue)
+                this.conditionThree(element, likeValue)
 
             } else if (element.searchMimetype[0].search('/phone') != -1) {
 
-                this.conditionFour(element,likeValue)
+                this.conditionFour(element, likeValue)
 
             } else if (element.searchMimetype[0].search('/email') != -1) {
 
-                this.conditionFive(element,likeValue)
+                this.conditionFive(element, likeValue)
 
             } else if (element.searchMimetype[0].search('/im') != -1) {
 
-                this.conditionSix(element,likeValue)
+                this.conditionSix(element, likeValue)
 
             } else if (element.searchMimetype[0].search('/postal-address_v2') != -1) {
 
-                this.conditionSeven(element,likeValue)
+                this.conditionSeven(element, likeValue)
             }
             else if (element.searchMimetype[0].search('/note') != -1) {
 
-                this.conditionEight(element,likeValue)
+                this.conditionEight(element, likeValue)
 
             } else if (element.searchMimetype[0].search('/nickname') != -1) {
 
-                this.conditionNine(element,likeValue)
+                this.conditionNine(element, likeValue)
 
             }
         });
     },
 
-    conditionOne:function(element,likeValue){
+    conditionOne: function (element, likeValue) {
         LOG.info(TAG + 'conditionOne element' + 'likeValue' + likeValue);
         var emptyName = element.emptyNameData;
         var emptyNameMatch = this.highLightChars(emptyName, likeValue);
@@ -763,8 +726,8 @@ export default {
         element.emptyNameSuf = emptyNameSuf;
     },
 
-    conditionTwo:function(element,likeValue){
-        LOG.info(TAG + 'conditionTwo element'  + 'likeValue' + likeValue);
+    conditionTwo: function (element, likeValue) {
+        LOG.info(TAG + 'conditionTwo element' + 'likeValue' + likeValue);
         var organizationTitle = element.organization.title;
         if (this.isEmpty(organizationTitle)) {
             organizationTitlePre = '';
@@ -789,7 +752,7 @@ export default {
         element.organization.organizationTitleSuf = organizationTitleSuf;
     },
 
-    conditionThree:function(element,likeValue){
+    conditionThree: function (element, likeValue) {
         LOG.info(TAG + 'conditionThree element' + 'likeValue' + likeValue);
         var organizationName = element.organization.name;
         if (this.isEmpty(organizationName)) {
@@ -814,7 +777,7 @@ export default {
         element.organization.organizationNameSuf = organizationNameSuf;
     },
 
-    conditionFour:function(element,likeValue){
+    conditionFour: function (element, likeValue) {
         LOG.info(TAG + 'conditionFour element' + 'likeValue' + likeValue);
         var phoneNumber = element.phoneNumbers[0].phoneNumber;
         var phoneNumberMatch = this.highLightChars(phoneNumber, likeValue);
@@ -833,7 +796,7 @@ export default {
         element.phoneNumbers[0].phoneNumberSuf = phoneNumberSuf;
     },
 
-    conditionFive:function(element,likeValue){
+    conditionFive: function (element, likeValue) {
         LOG.info(TAG + 'conditionFive element' + 'likeValue' + likeValue);
         var email = element.emails[0].email;
         var emailMatch = this.highLightChars(email, likeValue);
@@ -852,7 +815,7 @@ export default {
         element.emails[0].emailSuf = emailSuf;
     },
 
-    conditionSix:function(element,likeValue){
+    conditionSix: function (element, likeValue) {
         LOG.info(TAG + 'conditionSix element' + 'likeValue' + likeValue);
         var imAddress = element.imAddresses[0].imAddress;
         var imAddressMatch = this.highLightChars(imAddress, likeValue);
@@ -871,7 +834,7 @@ export default {
         element.imAddresses[0].imAddressSuf = imAddressSuf;
     },
 
-    conditionSeven:function(element,likeValue){
+    conditionSeven: function (element, likeValue) {
         LOG.info(TAG + 'conditionSeven element' + 'likeValue' + likeValue);
         var postalAddress = element.postalAddresses[0].postalAddress;
         var postalAddressMatch = this.highLightChars(postalAddress, likeValue);
@@ -890,7 +853,7 @@ export default {
         element.postalAddresses[0].postalAddressSuf = postalAddressSuf;
     },
 
-    conditionEight:function(element,likeValue){
+    conditionEight: function (element, likeValue) {
         LOG.info(TAG + 'conditionEight element' + 'likeValue' + likeValue);
         var note = element.note.noteContent;
         var noteMatch = this.highLightChars(note, likeValue);
@@ -909,8 +872,8 @@ export default {
         element.note.noteSuf = noteSuf;
     },
 
-    conditionNine:function(element,likeValue){
-        LOG.info(TAG + 'conditionEight element'+ 'likeValue' + likeValue);
+    conditionNine: function (element, likeValue) {
+        LOG.info(TAG + 'conditionEight element' + 'likeValue' + likeValue);
         var nickName = element.nickName.nickName;
         var nickNameMatch = this.highLightChars(nickName, likeValue);
         var nickNamePre = '';
@@ -928,9 +891,8 @@ export default {
         element.nickName.nickNameSuf = nickNameSuf;
     },
 
-    // 高亮显示函数
     highLightChars: function (targetStr, matchStr) {
-        LOG.info(TAG + 'highLightChars targetStr'+ 'matchStr');
+        LOG.info(TAG + 'highLightChars targetStr' + 'matchStr');
         if (this.isEmpty(targetStr) || this.isEmpty(matchStr)) {
             return '';
         }
@@ -961,7 +923,6 @@ export default {
         }
         return result;
     },
-    // 判空函数
     isEmpty: function (str) {
         LOG.info(TAG + 'isEmpty str');
         return str == undefined || str == null || str == '';
@@ -973,7 +934,6 @@ export default {
         LOG.log(TAG + 'cancelSearchDialog');
     },
 
-    // 点击群组跳转
     onClickGroups: function () {
         LOG.log(TAG + 'click groups');
         router.push({
@@ -982,10 +942,9 @@ export default {
         });
     },
 
-    // 点击跳转我的名片
     redirectCard: function () {
         LOG.info(TAG + 'onclick card ');
-        if (this.myCardInfo.hasMyCard) { // 存在我的名片则获取名片详情后，跳转到我的名片界面
+        if (this.myCardInfo.hasMyCard) {
             var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
             cardModel.getCardDetails(DAHelper, this.myCardInfo.cardId, (result) => {
                 var contactForm = result.data;
@@ -996,9 +955,9 @@ export default {
                     },
                 });
             });
-        } else { // 不存在我的名片则先获取到默认卡号，再跳转到新建名片界面
+        } else {
             this.getDefaultSimNumber((defaultSimNumber) => {
-                if(Utils.isEmpty(defaultSimNumber)) { // 无默认卡号时，直接跳转
+                if (Utils.isEmpty(defaultSimNumber)) {
                     router.push({
                         uri: 'pages/contacts/accountants/accountants',
                         params: {
@@ -1030,17 +989,17 @@ export default {
             })
         }
     },
-    /* 获取默认sim卡号 */
+
     async getDefaultSimNumber(callBack) {
         var defaultSimSlot = 0;
         var defaultSimNumber = '';
-        try{
-            defaultSimSlot = await sim.getDefaultVoiceSlotId(); // 获取默认卡槽
-        }catch{
+        try {
+            defaultSimSlot = await sim.getDefaultVoiceSlotId();
+        } catch {
             defaultSimSlot = 0;
             LOG.error(TAG + 'get default sim slot error!');
         }
-        try{
+        try {
             defaultSimNumber = await sim.getSimTelephoneNumber(defaultSimSlot);
         } catch {
             defaultSimNumber = '';
@@ -1052,16 +1011,16 @@ export default {
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         cardModel.getMyCardId(DAHelper, (cardMainInfo) => {
             LOG.error(TAG + 'initMyCard cardMainInfo');
-            if (Utils.isEmpty(cardMainInfo)) { // 不存在我的名片
+            if (Utils.isEmpty(cardMainInfo)) {
                 this.myCardInfo.hasMyCard = false;
-            } else { // 存在我的名片
+            } else {
                 this.myCardInfo.hasMyCard = true;
                 this.myCardInfo.cardName = cardMainInfo.cardName;
                 this.myCardInfo.cardId = cardMainInfo.cardId;
             }
         })
     },
-    // 点击跳转显示详情
+
     showRecordDetails: function (index, type) {
         LOG.error(TAG + 'showRecordDetails index' + index);
         var contactId = type == 'search' ? this.searchList[index].contactId : this.contactsList[index].contactId;
@@ -1074,7 +1033,6 @@ export default {
         });
     },
 
-    // 选择跳转到设置页面
     settingOnSelected: function (event) {
         if (event.value == 'settings') {
             router.push({

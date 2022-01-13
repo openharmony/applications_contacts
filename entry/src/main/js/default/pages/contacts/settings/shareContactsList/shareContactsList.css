@@ -196,7 +196,7 @@
     margin-left: 45px;
     height: 1px;
     border-bottom: 1px;
-    border-color: lightgray;
+    border-color: #d3d3d3;
 }
 
 .name-text {
@@ -350,7 +350,7 @@
 }
 
 .batch-delete-operation-button:active {
-    background-color: lightgray;
+    background-color: #ccc;
 }
 
 .batch-delete-operation-button:disabled {

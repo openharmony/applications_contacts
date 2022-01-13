@@ -135,7 +135,7 @@
         </div>
     </div>
 
-<!--群组重命名-->
+<!-- group rename -->
     <dialog id="renameGroupDialog" class="dialog-main">
         <div class="dialog-div">
             <div class="inner-txt" >
@@ -156,7 +156,7 @@
         </div>
     </dialog>
 
-<!--删除群组-->
+<!-- Delete Group -->
     <dialog id="deleteGroupDialog" class="dialog-main">
         <div class="dialog-div">
             <div class="inner-txt">

@@ -19,8 +19,6 @@
     align-items: center;
 }
 
-/*标题*/
-
 .todo-title-div {
     justify-content: flex-start;
     flex-direction: row;
@@ -30,7 +28,6 @@
     width: 100%;
 }
 
-/*标题图片*/
 .title-image-box{
     justify-content: center;
     align-items: center;
@@ -49,14 +46,10 @@
     height: 50px;
 }
 
-/*标题文字*/
-
 .todo-title-name {
     text-align: left;
     font-size: 50px;
 }
-
-/*内容*/
 
 .group {
     justify-content: center;
@@ -65,8 +58,6 @@
     height: 100%;
 }
 
-/*网格布局*/
-
 .grid-parent {
     width: 100%;
     height: 720px;
@@ -74,8 +65,6 @@
     grid-template-columns: 33.333333% 33.333333% 33.333333%;
     grid-template-rows: 33.333333% 33.333333% 33.333333%;
 }
-
-/*子布局*/
 
 .grid-child {
     flex-direction: column;
@@ -92,20 +81,17 @@
     height: 100px;
 }
 
-/*圆*/
 
 .speed-circle {
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
-    border-color: black;
+    border-color: #000;
     border-radius: 50px;
     border: 1px;
 }
 
-
-/*圆*/
 
 .speed-circle-text {
     align-items: center;
@@ -116,16 +102,12 @@
     border-radius: 50px;
 }
 
-/*文字*/
-
 .speed-text {
     justify-content: center;
     margin-top: 15px;
     font-size: 25px;
     text-overflow: ellipsis;
 }
-
-/*角标*/
 
 .subscript-index {
     left: -60px;
@@ -135,8 +117,6 @@
     justify-content: center;
     font-size: 25px;
 }
-
-/*内容图片*/
 
 .child-image {
     position: absolute;
@@ -149,7 +129,7 @@
 .child-image-default {
     position: absolute;
     border-radius: 50px;
-    border-color: black;
+    border-color: #000;
     border: 1px;
     width: 100%;
     height: 100%;
@@ -163,8 +143,6 @@
     height: 100%;
 }
 
-/*内容文字*/
-
 .child-text {
     align-content: center;
     justify-content: center;
@@ -176,7 +154,6 @@
     font-weight: 600;
 }
 
-/* 快捷拨号设置弹框 */
 
 .dialog-main {
     width: 92%;
@@ -206,7 +183,7 @@
 
 .txt {
     background-color: transparent;
-    text-color: black;
+    text-color: #000;
     width: 100%;
     align-items: flex-start;
     justify-content: flex-start;
@@ -220,7 +197,7 @@
 }
 
 .txt:active {
-    background-color: lightgray;
+    background-color: #d3d3d3;
 }
 
 .inner-btn {
@@ -240,8 +217,6 @@
     text-color: #175cfe;
     font-size: 30px;
 }
-
-/*分割线样式*/
 
 .dialog-line {
     margin-left: 40px;

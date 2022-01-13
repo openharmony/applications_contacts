@@ -17,7 +17,7 @@ import Constants from '../../../main/js/default/common/constants/Constants.js'
 import contactsService from '../../../main/js/default/model/ContactModel.js'
 
 describe('ContactModelTest',function(){
-//
+
     it('queryCustomizeGroups',0,function(){
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         var data = {
@@ -31,7 +31,6 @@ describe('ContactModelTest',function(){
     })
 
 
-//
     it('queryContacts',0,function(){
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         var data = {
@@ -44,7 +43,6 @@ describe('ContactModelTest',function(){
         });
     })
 
-//
     it('queryContactsCount',0,function(){
         var data = {}
         var resultSet = {}
@@ -54,7 +52,6 @@ describe('ContactModelTest',function(){
         })
     })
 
-//
     it('deleteContacts',0,function(){
         var data = {'contactId':'14'}
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);

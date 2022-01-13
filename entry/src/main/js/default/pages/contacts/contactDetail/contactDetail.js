@@ -1,5 +1,5 @@
 /**
- * @file: 联系人详情
+ * @file: Contact Details
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -29,21 +29,18 @@ import backgroundColor from '../../../common/constants/color.js';
 
 var TAG = 'contactDetail...:';
 
-const DELETE_CONTACT = 2003; // 删除联系人
-const GET_CONTACT_DETAIL = 2005; // 获取详情
+const DELETE_CONTACT = 2003;
+const GET_CONTACT_DETAIL = 2005;
 
-// 1代表时收藏的联系人 0代表不是收藏的联系人
+// 1 indicates a collected contact. 0 indicates a non-collected contact
 const IS_FAVORITE = 1;
 const IS_NOT_FAVORITE = 0;
-// 代表同步
 const ACTION_SYNC = 0;
-// isPrimary：0普通 1默认
 const SET_DEFAULT = 1;
 const CLEAR_DEFAULT = 0;
 
 export default {
     data: {
-        /* 图片资源 */
         icPhoneCallMBlock: '/res/image/ic_phonecall_m_block.svg',
         icVideoM: '/res/image/ic_video_m.svg',
         icMassageM: '/res/image/ic_massage_m.svg',
@@ -51,54 +48,30 @@ export default {
         icContactsCallIn: '/res/image/ic_contacts_call_in_mini.svg',
         icContactsCallMissed: '/res/image/ic_contacts_call_missed_mini.svg',
         icContactsCallRejected: '/res/image/ic_contacts_call_rejected_mini.svg',
-        /** 展示头像 */
         showHeaderFlag: true,
-        /** Y坐标移动起始值 */
         pYStart: 0,
-        /** Y坐标移动值 */
         pYMove: 0,
-        /** 移动值计算 */
         directPoint: 0,
-        /* 头像背景色选择 */
         backgroundColor: backgroundColor.Color,
-        /* 详情页面第一部分整体背景色 */
         backgroundDetailColor: backgroundColor.detailColor,
         directPointTemp: 0,
-        /** 界面移动起始X坐标 */
         touchMoveStartX: 0,
-        /** 界面移动起始Y坐标 */
         touchMoveStartY: 0,
-        /** 收藏标记 */
         isFavorite: false,
-        /** 新号码传入的详情展示信息 */
         newNumberContactDetail: {},
-        /** 展示MENU延时标记 */
         showMenuTimeOutId: '',
-        /** 长按电话号码对话框显示号码 */
         showPhoneNumber: '',
-        /** 联系人所有电话号码数 */
         phoneNumbersLength: 0,
-        /** 剪贴板内容 */
         copyToClipBoardContent: '',
-        /** 长按地址弹出dialog的title */
         postalAddressName: '',
-        /** 拨打电话的号码值 */
         sendNumber: '',
-        /** 删除通话记录索引值 */
         deleteIndex: '',
-        /**  长按电话号码的索引值 */
         numLongPressIndexIndex: 0,
-        /** 页面全局X坐标 */
         globalX: '',
-        /** 页面全局Y坐标 */
         globalY: '',
-        /** 用于按钮显示折叠后的showNameLast */
         showNameLastMenu: '',
-        /** 最终显示的头像未知的名称 */
         showNameLast: '',
-        /** 二维码string值 */
         qrcodeString: '',
-        /** 根据联系人详情组装的展示用参数 */
         contactForm: {
             'showLastDividerGroupsP': false,
             'showGroupsP': false,
@@ -130,26 +103,24 @@ export default {
             'position': '',
             'numRecords': [],
             'groups': [],
-            /** 底部显示新建联系人底部图标 */
             'showNewContact': false,
         },
-        /** 头像高度 */
         contacts: {},
         emails: [
             {
                 'id': 0,
                 'email': '',
                 'labelId': 1,
-                'labelName': '私人',
+                'labelName': '',
                 'showP': false
             }
         ],
         events: [
             {
                 'id': 0,
-                'eventDate': '日期',
+                'eventDate': '',
                 'labelId': 3,
-                'labelName': '生日',
+                'labelName': '',
                 'showP': false,
                 'showF': true,
                 'showS': true
@@ -168,7 +139,7 @@ export default {
             {
                 'id': 0,
                 'labelId': 2,
-                'labelName': '手机',
+                'labelName': '',
                 'phoneNumber': '',
                 'phoneAddress': 'N',
                 'showP': false,
@@ -179,7 +150,7 @@ export default {
             {
                 'id': 0,
                 'labelId': 1,
-                'labelName': '住宅',
+                'labelName': '',
                 'postalAddress': '',
                 'showP': false
             }
@@ -188,7 +159,7 @@ export default {
             {
                 'id': 0,
                 'labelId': 1,
-                'labelName': '助理',
+                'labelName': '',
                 'relationName': '',
                 'showP': false
             }
@@ -204,7 +175,7 @@ export default {
             'fullName': '',
             'givenName': '',
             'familyNamePhonetic': '',
-            'alphaName':''
+            'alphaName': ''
         },
         nickName: {
             'nickName': ''
@@ -216,19 +187,12 @@ export default {
             'name': '',
             'title': ''
         },
-        /** 是否是新的优化后的请求接口，新接口调用参照收藏页面跳转，增加该字段 */
         isNewSource: false,
-        /** 是否已经获取到contacts详情信息 */
         containContacts: false,
-        /** 电话号码显示默认 */
         showSetDefault: false,
-        /** 来自于通话记录跳转 */
         sourceFromCallRecord: false,
-        /** 新号码传入的电话号 */
         phoneNumberShow: '',
-        /** 联系人ID */
         contactId: '',
-        /** 是新号码 */
         isNewNumber: false,
     },
     onInit() {
@@ -238,28 +202,29 @@ export default {
         LOG.info(TAG + ' onReady detail');
     },
     onShow() {
-        // 优化后请求，新对接详情从该页面加载数据（群组，收藏，联系人列表从这里跳转）
+        this.emails[0].labelName = this.$t('accountants.private');
+        this.events[0].eventDate = this.$t('accountants.date');
+        this.events[0].labelName = this.$t('accountants.birth');
+        this.phoneNumbers[0].labelName = this.$t('accountants.phone');
+        this.postalAddresses[0].labelName = this.$t('accountants.house');
+        this.relations[0].labelName = this.$t('accountants.assistant');
         if (this.isNewSource) {
             let requestData = {
                 contactId: this.contactId
             };
             this.getContactDetail(GET_CONTACT_DETAIL, requestData);
         } else if (this.containContacts) {
-            // 新增编辑联系人后跳转至详情，contacts已经传入只加载通话记录
             this.dealRecordDetailsData();
         } else if (this.sourceFromCallRecord) {
-            // 未添加联系人且来自于通话记录跳转
-            // 1.根据电话号码查询联系人id
-            // 2.如果不存在联系人，则按照新号码处理，如果存在联系人，则根据第一个联系人id展示详情
             var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
             contactDetailReq.getContactIdByNumber(DAHelper, this.phoneNumberShow, (contactId) => {
-                if (!Utils.isEmpty(contactId)) { // 存在联系人时，将isNewNumber置为false
+                if (!Utils.isEmpty(contactId)) {
                     this.isNewNumber = false;
                     let requestData = {
                         contactId: contactId
                     };
                     this.getContactDetail(GET_CONTACT_DETAIL, requestData);
-                } else { // 不存在联系人id则按照新号码处理
+                } else {
                     this.getDetailAsNewNumber();
                 }
             });
@@ -275,17 +240,14 @@ export default {
         LOG.info(TAG + ' onDestroy detail');
     },
 
-    /* 没有联系人数据的情况下，显示电话号码的详情 */
     getDetailAsNewNumber() {
         var numbers = [this.phoneNumberShow.replace(/\s+/g, '')];
         this.getNewNumRecords(numbers);
     },
 
-    /* 收藏联系人，如果已收藏，则取消，如果未收藏，则收藏 */
     selectFavorite() {
         LOG.info(TAG + 'favorites: onDestroy detail');
         var starred = IS_NOT_FAVORITE;
-        /* 后台接口后续更新 */
         if (this.contacts.starred == IS_NOT_FAVORITE) {
             this.contacts.starred = IS_FAVORITE;
             starred = IS_FAVORITE;
@@ -293,12 +255,11 @@ export default {
             this.contacts.starred = IS_NOT_FAVORITE;
             starred = IS_NOT_FAVORITE;
         }
-        // 获取到当前的时间戳
         var timestamp = (new Date()).valueOf();
         var actionData = {
             ids: [this.contacts.contactId],
             favorite: starred,
-            isOperationAll: false, // 非全选状态
+            isOperationAll: false,
             favorite_order: timestamp
         };
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
@@ -306,12 +267,10 @@ export default {
         });
     },
 
-    // 通话记录弹窗
     clearPhoneRecords() {
         this.$element('clearRecordsDialog').show();
     },
 
-    // 通话记录删除
     clearRecords() {
         var id = '';
         var ids = [];
@@ -325,9 +284,9 @@ export default {
     },
 
     /**
-     * 手指触摸动作开始
+     * Finger touch begins
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     listItemTouchStart(e) {
         LOG.info(TAG + 'listItemTouchStart e' + e);
@@ -336,9 +295,9 @@ export default {
     },
 
     /**
-     * 单点通话记录
+     * Single point call records
      *
-     * @param {number} index 下标
+     * @param {number} index
      */
     callOutRecord(index) {
         LOG.info(TAG + 'callOutRecord index' + index);
@@ -346,9 +305,9 @@ export default {
     },
 
     /**
-     * 长按通话记录弹窗
+     * Hold down the call history popup
      *
-     * @param {number} index 下标
+     * @param {number} index
      */
     listItemOnLongPress: function (index) {
         LOG.info(TAG + 'listItemOnLongPress index' + index);
@@ -361,9 +320,9 @@ export default {
     },
 
     /**
-     * 长按电话号码弹窗
+     * Long press the phone number to pop up
      *
-     * @param {number} index 下标
+     * @param {number} index
      */
     listItemOnLongPressNumber: function (index) {
         LOG.info(TAG + 'listItemOnLongPressNumber index' + index);
@@ -380,7 +339,6 @@ export default {
                 : this.contactForm.phoneNumbers[index].phoneNumber.substring(0, 7) + '..') : '';
 
         clearTimeout(this.showMenuTimeOutId);
-        /* 此处需要异步延时显示菜单，否则值刷新不过来 */
         this.showMenuTimeOutId = setTimeout(() => {
             this.$element('itemMenuNumber').show({
                 x: this.globalX,
@@ -390,9 +348,9 @@ export default {
     },
 
     /**
-     * 长按关联关系弹窗
+     * Hold down the association window
      *
-     * @param {string} content 当前长按元素传进来的字符串
+     * @param {string} content
      */
     listItemOnLongPressContent: function (content) {
         LOG.info(TAG + 'listItemOnLongPressContent content' + content);
@@ -400,7 +358,6 @@ export default {
             ? this.subStringWithEllipsis(content, 9) : content;
 
         clearTimeout(this.showMenuTimeOutId);
-        /* 此处需要异步延时显示菜单，否则值刷新不过来 */
         this.showMenuTimeOutId = setTimeout(() => {
             this.$element('itemMenuContent').show({
                 x: this.globalX,
@@ -409,12 +366,10 @@ export default {
         }, 60);
     },
 
-    // 取消
     cancelClearRecordDialog() {
         this.$element('clearRecordsDialog').close();
     },
 
-    /** 编辑联系人 */
     updateContact() {
         if (this.contacts.emails) {
             this.addShowPField(this.contacts.emails);
@@ -494,9 +449,9 @@ export default {
     },
 
     /**
-     * 将数组中的每个元素的showP属性展示
+     * Displays the showP attribute for each element in the array
      *
-     * @param {Array} array 联系人的各个数据
+     * @param {Array} array
      */
     addShowPField(array) {
         LOG.info(TAG + 'addShowPField array' + array);
@@ -508,7 +463,6 @@ export default {
         }
     },
 
-    /* 返回按键 */
     routerBack() {
         this.$app.$def.setRefreshContacts(false);
         router.back();
@@ -519,7 +473,6 @@ export default {
         router.back();
     },
 
-    /**显示隐藏更多选项*/
     getMore: function () {
         if (Boolean(this.contactForm.showMoreButton) == true) {
             this.contactForm.showMoreButton = false;
@@ -528,27 +481,27 @@ export default {
     },
 
     /**
-     * 将obj对象实现深拷贝
+     * Deep copy obJ objects
      *
-     * @param {Object} obj 联系人的contactForm
-     * @return {Object} 返回拷贝对象
+     * @param {Object} obj
+     * @return {Object}
      */
     copy(obj) {
         return JSON.parse(JSON.stringify(obj));
     },
 
     /**
-     * 获取联系人详细数据
+     * Obtain contact details
      *
-     * @param {number} code 2005 FA与PA通行协议码
-     * @param {number} data contactId 联系人ID
+     * @param {number} code 2005 FA and PA pass protocol codes
+     * @param {number} data contactId The contact ID
      */
     getContactDetail: function (code, data) {
         var actionData = data;
         data.contactId = actionData.contactId;
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         contactDetailReq.getContactById(DAHelper, data, result => {
-            if (!result) { // 如果根据指定的id获取不到联系人，则按照新号码处理。
+            if (!result) {
                 this.getDetailAsNewNumber();
                 return;
             }
@@ -559,34 +512,28 @@ export default {
     },
 
     /**
-     * 请求后台：获取联系人详细数据,同时获取通话记录数据后对展示数据进行组装
+     * Request background: obtain contact details, and assemble the display data after obtaining call record data
      */
     dealRecordDetailsData: function () {
-        // 手机号码类型
+
         this.phoneNumberType();
 
-        // 电子邮箱类型
         this.emailType();
 
-        // 即时消息类型
         this.instantMessageType();
 
-        // 住宅类型
         this.residentialType();
 
-        // 生日类型
         this.birthdayType();
 
-        // 助理类型
         this.assistantType();
 
         var newContacts = this.copy(this.contacts);
 
-        // 最后一条数据不展示分割线，首先计算总长度,如果数据长度和总长度相同，当前这条数据下划线不展示
         var totalCountNumber = 0;
         totalCountNumber = this.isTotalCountNumber(totalCountNumber, newContacts);
 
-        var dataLengthCount = 0; // 数据长度
+        var dataLengthCount = 0;
 
         newContacts.phoneNumbers = this.setTempPhoneNumbersList(totalCountNumber, dataLengthCount, newContacts);
 
@@ -895,7 +842,7 @@ export default {
 
         return totalCountNumber;
     },
-    setTempPhoneNumbersList(totalCountNumber,dataLengthCount, newContacts) {
+    setTempPhoneNumbersList(totalCountNumber, dataLengthCount, newContacts) {
         var tempPhoneNumbersList = [];
         if (newContacts.phoneNumbers && newContacts.phoneNumbers.length > 0) {
             newContacts.phoneNumbers.forEach((element) => {
@@ -911,7 +858,7 @@ export default {
         }
         return tempPhoneNumbersList;
     },
-    setTempEmailsList(totalCountNumber,dataLengthCount, newContacts) {
+    setTempEmailsList(totalCountNumber, dataLengthCount, newContacts) {
         var tempEmailsList = [];
         if (newContacts.emails && newContacts.emails.length > 0) {
             newContacts.emails.forEach((element) => {
@@ -927,7 +874,7 @@ export default {
         }
         return tempEmailsList;
     },
-    setTempImAddressesList(totalCountNumber,dataLengthCount, newContacts) {
+    setTempImAddressesList(totalCountNumber, dataLengthCount, newContacts) {
         var tempImAddressesList = [];
         if (newContacts.imAddresses && newContacts.imAddresses.length > 0) {
             newContacts.imAddresses.forEach((element) => {
@@ -943,7 +890,7 @@ export default {
         }
         return tempImAddressesList;
     },
-    setTempWebsitesList(totalCountNumber,dataLengthCount, newContacts) {
+    setTempWebsitesList(totalCountNumber, dataLengthCount, newContacts) {
         var tempWebsitesList = [];
         if (newContacts.websites && newContacts.websites.length > 0) {
             newContacts.websites.forEach((element) => {
@@ -959,7 +906,7 @@ export default {
         }
         return tempWebsitesList;
     },
-    setTempPostalAddressesList(totalCountNumber,dataLengthCount, newContacts) {
+    setTempPostalAddressesList(totalCountNumber, dataLengthCount, newContacts) {
         var tempPostalAddressesList = [];
         if (newContacts.postalAddresses && newContacts.postalAddresses.length > 0) {
             newContacts.postalAddresses.forEach((element) => {
@@ -976,7 +923,7 @@ export default {
         }
         return tempPostalAddressesList;
     },
-    setTempEventsList(totalCountNumber,dataLengthCount, newContacts) {
+    setTempEventsList(totalCountNumber, dataLengthCount, newContacts) {
         var tempEventsList = [];
         if (newContacts.events && newContacts.events.length > 0) {
             newContacts.events.forEach((element) => {
@@ -992,7 +939,7 @@ export default {
         }
         return tempEventsList;
     },
-    setTempRelationsList(totalCountNumber,dataLengthCount, newContacts) {
+    setTempRelationsList(totalCountNumber, dataLengthCount, newContacts) {
         var tempRelationsList = [];
         if (newContacts.relations && newContacts.relations.length > 0) {
             newContacts.relations.forEach((element) => {
@@ -1008,7 +955,7 @@ export default {
         }
         return tempRelationsList;
     },
-    setContactForm(showGroupsString,newContacts) {
+    setContactForm(showGroupsString, newContacts) {
         this.contactForm.lastName = (newContacts.name && newContacts.name.nameSuffix
         && newContacts.name.nameSuffix.length > 0) ? newContacts.name.nameSuffix : '';
 
@@ -1055,14 +1002,12 @@ export default {
             this.contactForm.phoneNumbers.forEach(element => {
                 numbers.push(element.phoneNumber);
             });
-            /* 获取到该联系人的所有电话号码的所有通话记录 */
             var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CALLLOG_DB_URI);
             callLogService.getCallLogListByPhoneNumber(DAHelper, numbers, (resultList) => {
                 this.contactForm.numRecords = this.getDetailMessage(resultList);
             });
-            /* 根据获取到的通话记录原始数据封装详请页面需要的属性 */
         }
-        // 处理初始化数据
+
         if (this.sourceFromCallRecord && this.isNewNumber) {
             this.showNameLast = (this.contactForm.phoneNumbers && this.contactForm.phoneNumbers[0])
                 ? this.contactForm.phoneNumbers[0].phoneNumber : '';
@@ -1072,7 +1017,7 @@ export default {
         }
         this.showNameLastMenu = (this.showNameLast && this.showNameLast.length > 6)
             ? this.subStringWithEllipsis(this.showNameLast, 7) : this.showNameLast;
-        // 将默认电话号码移动至最上边位置
+
         if (!Utils.isEmptyList(this.contactForm.phoneNumbers)) {
             for (var i = 0; i < this.contactForm.phoneNumbers.length; i++) {
                 if (this.contactForm.phoneNumbers[i].isPrimary === 1) {
@@ -1099,7 +1044,6 @@ export default {
         });
     },
 
-    // 跳转到关联关系人
     openMapApp() {
         this.$element('dialogPostalAddressMap').close();
         var actionData = {};
@@ -1113,10 +1057,10 @@ export default {
     },
 
     /**
-     * source为0时，为新建联系人跳转至搜索页面；source为1时，来源于关联关系relation跳转
+     * If source is 0, the search page is displayed for new contacts. When source is 1, the relation from relation relation jumps
      *
-     * @param {number} source 点击时传进来的参数
-     * @param {number} index 下标
+     * @param {number} source
+     * @param {number} index
      */
     openSearchContact: function (source, index) {
         this.$app.$def.globalData.searchValue = this.contactForm.relations[index].relationName;
@@ -1125,20 +1069,20 @@ export default {
             path: 'pages/navigation/navigation'
         });
     },
-	sendNewContent(){
-		router.push({
-			uri: 'pages/contacts/selectContactsList/selectContactsList',
-			params: {
-				type: 'saveContacts',
-				number: this.phoneNumberShow,
-			}
-		});
-	},
+    sendNewContent() {
+        router.push({
+            uri: 'pages/contacts/selectContactsList/selectContactsList',
+            params: {
+                type: 'saveContacts',
+                number: this.phoneNumberShow,
+            }
+        });
+    },
 
     /**
-     * 点击打开相应网站
+     * Click to open the corresponding website
      *
-     * @param {number} index 下标
+     * @param {number} index
      */
     openBrowser: function (index) {
         var actionData = {};
@@ -1152,24 +1096,23 @@ export default {
     },
 
     /**
-     * 点击postalAddress打开选择按钮
+     * Click postalAddress to open the select button
      *
-     * @param {number} index 下标isTotalCountNumber
+     * @param {number} index
      */
     onclickPostalAddress: function (index) {
         LOG.info(TAG + 'onclickPostalAddress index' + index);
         this.postalAddressName = this.contacts.postalAddresses[index].postalAddress;
         clearTimeout(this.showMenuTimeOutId);
-        /* 此处需要异步延时显示菜单，否则值刷新不过来 */
         this.showMenuTimeOutId = setTimeout(() => {
             this.$element('dialogPostalAddressMap').show({});
         }, 60);
     },
 
     /**
-     * list 列表移动结束
+     * List The list move ends
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     onTouchEnd: function (e) {
         LOG.info(TAG + 'onTouchEnd e' + e);
@@ -1178,9 +1121,9 @@ export default {
     },
 
     /**
-     * 当前列表已滑动到顶部位置
+     * The current list has slid to the top position
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     onScrollTop: function (e) {
         LOG.info(TAG + 'onScrollTop e' + e);
@@ -1190,9 +1133,9 @@ export default {
     },
 
     /**
-     * 使用联系人图标呼出电话
+     * Use the contact icon to place a call
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     callOutByDialerIcon(e) {
         LOG.info(TAG + ' callOutByLog:' + e);
@@ -1200,24 +1143,24 @@ export default {
     },
 
     /**
-     * 电话呼出接口
+     * Outgoing interface of telephone
      *
-     * @param {Array} phoneNumber 手机号码
+     * @param {Array} phoneNumber
      */
     callOut(phoneNumber) {
         var actionData = {};
-        if (phoneNumber.length == 0 && this.contactForm.numRecords.length > 0) { // 未输入电话号码时，默认拨出通话记录第一条
+        if (phoneNumber.length == 0 && this.contactForm.numRecords.length > 0) {
             actionData.phoneNumber = this.contactForm.numRecords[0].numbers[0].number;
         } else if (phoneNumber.length > 0) {
-            actionData.phoneNumber = phoneNumber; // 传入需要格式化的电话号码。
+            actionData.phoneNumber = phoneNumber;
         }
         this.$app.$def.call(phoneNumber);
     },
 
     /**
-     * 获取通话记录
+     * Obtaining Call Records
      *
-     * @param {Array} numbers 通话记录
+     * @param {Array} numbers
      */
     getNumRecords(numbers) {
         var actionData = {};
@@ -1226,9 +1169,9 @@ export default {
     },
 
     /**
-     * 删除通话记录menu选项
+     * Delete the call history menu option
      *
-     * @param {Object} event event事件
+     * @param {Object} event
      */
     todoSelected(event) {
         if (event.value == 'delete') {
@@ -1237,7 +1180,7 @@ export default {
         if (event.value == 'edit') {
             this.$app.$def.dialerStateData.numTextDialer = this.sendNumber;
             this.$app.$def.dialerStateData.isEditNumber = true;
-            this.$app.$def.globalData.navigationType = 0; // 返回时，返回到拨号盘
+            this.$app.$def.globalData.navigationType = 0;
             this.$app.$def.globalData.menuType = 0;
             router.back({
                 path: 'pages/navigation/navigation'
@@ -1246,21 +1189,20 @@ export default {
     },
 
     /**
-     * 选择menu选项
+     * Select menu option
      *
-     * @param {Object} event event事件
+     * @param {Object} event
      */
     todoSelectedPhoneNumber(event) {
         if (event.value == 'copyNumber') {
             var number = '';
-            /* 所有非数字及+号的字符替换为空字符串 */
             number = this.contacts.phoneNumbers[this.numLongPressIndexIndex].phoneNumber.replace(/\s+/g, '');
             this.copyNumber(number);
         }
         if (event.value == 'edit') {
             this.$app.$def.dialerStateData.numTextDialer = this.sendNumber;
             this.$app.$def.dialerStateData.isEditNumber = true;
-            this.$app.$def.globalData.navigationType = 0; // 返回时，返回到拨号盘
+            this.$app.$def.globalData.navigationType = 0;
             this.$app.$def.globalData.menuType = 0;
             router.back({
                 path: 'pages/navigation/navigation'
@@ -1275,16 +1217,16 @@ export default {
     },
 
     /**
-     * 设置取消默认电话
+     * Setting to cancel the default phone
      *
-     * @param {number} defaultStatus 默认状态码
+     * @param {number} defaultStatus
      */
     setOrCancelDefaultPhoneNumber(defaultStatus) {
         LOG.info(TAG + 'setOrCancelDefaultPhoneNumber' + defaultStatus);
         var actionData = {};
         actionData.contactId = this.contacts.contactId;
         actionData.phoneNumber = this.contactForm.phoneNumbers[this.numLongPressIndexIndex]
-            .phoneNumber.replace(/\s+/g, '');
+        .phoneNumber.replace(/\s+/g, '');
         actionData.isPrimary = defaultStatus;
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         favoritesModel.setOrCancelDefaultPhoneNumber(DAHelper, actionData, result => {
@@ -1293,7 +1235,6 @@ export default {
                     this.contactForm.phoneNumbers[this.numLongPressIndexIndex].isPrimary = SET_DEFAULT;
                     var tempPhoneNumber = this.contactForm.phoneNumbers[this.numLongPressIndexIndex];
                     this.contactForm.phoneNumbers = this.copy(this.contacts.phoneNumbers);
-                    // 将默认电话号码移动至最上边位置
                     var tempIndex = 0;
                     if (!Utils.isEmptyList(this.contactForm.phoneNumbers)) {
                         for (var i = 0; i < this.contactForm.phoneNumbers.length; i++) {
@@ -1323,9 +1264,9 @@ export default {
     },
 
     /**
-     * 跳转到关联关系人
+     * Jump to the relational person
      *
-     * @param {Object} event event事件
+     * @param {Object} event
      */
     todoSelectedContent(event) {
         if (event.value == 'copyToClipBoard') {
@@ -1337,11 +1278,6 @@ export default {
         this.copyNumber(this.postalAddressName);
     },
 
-    /**
-     * 复制方法
-     *
-     * @param {string} data 需要复制的信息
-     */
     copyNumber(data) {
         LOG.info(TAG + 'copyNumber data' + data);
         var actionData = {};
@@ -1349,9 +1285,9 @@ export default {
     },
 
     /**
-     * 分享选择的内容
+     * Share selected content
      *
-     * @param {Object} event event事件
+     * @param {Object} event
      */
     shareSelectContact: function (event) {
         if (event.value == 'deleteContact') {
@@ -1366,9 +1302,9 @@ export default {
     },
 
     /**
-     * 删除联系人详情更多通话记录Menu选择项
+     * Delete Contact Details More Call History Menu option
      *
-     * @param {Object} event event事件
+     * @param {Object} event
      */
     shareSelectRecord: function (event) {
         if (event.value == 'deleteRecord') {
@@ -1389,10 +1325,10 @@ export default {
     },
 
     /**
-     * 删除联系人列表数据
+     * Delete contact list data
      *
-     * @param {number} code FA与PA通行协议码2005
-     * @param {number} data contactId 联系人ID
+     * @param {number} code
+     * @param {number} data contactId The contact ID
      */
     deleteContactData(code, data) {
         LOG.info(TAG + 'deleteContactData code' + code);
@@ -1409,7 +1345,6 @@ export default {
         });
     },
 
-    /** 点击删除按钮后删除联系人数据 */
     deleteClickContact: function () {
         this.$element('deletedialogcontact').close();
         var requestData = {
@@ -1418,13 +1353,11 @@ export default {
         this.deleteContactData(DELETE_CONTACT, requestData);
     },
 
-    /** 点击删除按钮后删除通话记录数据 */
     deleteClickRecord: function () {
         this.$element('deletedialogrecord').close();
         this.clearRecordsMore();
     },
 
-    // 通话记录删除
     clearRecordsMore() {
         var id = '';
         var ids = [];
@@ -1437,7 +1370,6 @@ export default {
         this.contactForm.showMoreButton = false;
     },
 
-    /* 确认删除 */
     doDelete() {
         var id = this.contactForm.numRecords[this.deleteIndex].id;
         var ids = [];
@@ -1447,33 +1379,30 @@ export default {
         this.$element('deleteCheckDialog').close();
     },
 
-    /* 取消删除 */
     cancelDialog() {
         this.$element('deleteCheckDialog').close();
     },
 
-    /* 取消跳转地图 */
     cancelDialogPostalAddress() {
         this.$element('dialogPostalAddressMap').close();
     },
 
     /**
-     * 删除通话记录
+     * Deleting Call History
      *
-     * @param {Array} ids 删除的通话记录的id集
+     * @param {Array} ids
      */
     removeCallLog: function (ids) {
-        // 删除指定通话记录
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CALLLOG_DB_URI);
         callLogService.deleteCallLogByIds(DAHelper, ids, () => {
         });
     },
 
     /**
-     * 发送消息
+     * Send a message
      *
-     * @param {number} phoneNumber 手机号码
-     * @param {string} name 姓名
+     * @param {number} phoneNumber
+     * @param {string} name
      */
     sendMessage(phoneNumber, name) {
         var params = [];
@@ -1485,37 +1414,36 @@ export default {
         this.$app.$def.sendMessage(params);
     },
 
-    /* 新建联系人 */
     addContacts() {
-        let show = this.phoneNumberShow.length >0 ? true :false;
-		this.$app.$def.dialerStateData.isNeedShowDialer = false;
-		router.push({
-			uri: 'pages/contacts/accountants/accountants',
-			params: {
-				addShow: true,
-				updataShow: false,
-				showWork: true,
-				upHouseShow: true,
-				phoneNumbers: [
-					{
-						'id': '',
-						'labelId': 2,
-						'labelName': '手机',
-						'phoneNumber': this.phoneNumberShow,
-						'phoneAddress': 'N',
-						'blueStyle': false,
-						'showP': show
-					}]
-			},
-		});
+        let show = this.phoneNumberShow.length > 0 ? true : false;
+        this.$app.$def.dialerStateData.isNeedShowDialer = false;
+        router.push({
+            uri: 'pages/contacts/accountants/accountants',
+            params: {
+                addShow: true,
+                updataShow: false,
+                showWork: true,
+                upHouseShow: true,
+                phoneNumbers: [
+                    {
+                        'id': '',
+                        'labelId': 2,
+                        'labelName': this.$t('accountants.phone'),
+                        'phoneNumber': this.phoneNumberShow,
+                        'phoneAddress': 'N',
+                        'blueStyle': false,
+                        'showP': show
+                    }]
+            },
+        });
     },
 
     /**
-      * 截取字符串的前五个字符外加.. 例如：'哈哈哈哈哈哈哈哈' => '哈哈哈哈哈..'
+      * Intercepts the first five characters of the string
       *
-      * @param {string} str 对象字符串
-      * @param {number} len 长度
-      * @return {Object} newStr 截取后字符串
+      * @param {string} str
+      * @param {number} len
+      * @return {Object} newStr
       */
     subStringWithEllipsis(str, len) {
         let newLength = 0;
@@ -1536,7 +1464,7 @@ export default {
             newStr += singleChar;
         }
         newStr += '..'
-        return newStr ;
+        return newStr;
     },
     showMoreMenuOperationSaveContacts() {
         this.$element('contactSaveContactBottom').show({
@@ -1551,19 +1479,12 @@ export default {
         });
     },
 
-    /**
-     * 手指触摸动作
-     *
-     * @param {Object} e event事件
-     */
     touchMoreStartButtom(e) {
         LOG.info(TAG + 'touchMoreStartButtom e' + e);
-        /* 记录底部更多触摸起点 */
         this.touchMoveStartX = e.touches[0].globalX;
         this.touchMoveStartY = e.touches[0].globalY;
     },
 
-    // 点击右上角二维码小图标，下侧弹出二维码对话框和二维码
     onclickContactsDetailQrCode: function () {
         var name = (this.contacts.name && this.contacts.name.fullName && this.contacts.name.fullName.length > 0)
             ? 'N:' + this.contacts.name.fullName + ';' : '';
@@ -1608,24 +1529,19 @@ export default {
         this.qrcodeString = 'MECARD:' + name + company + postalAddresses + phoneNumbersString
         + stringEmails + websites + position + note + imAddresses;
         clearTimeout(this.showMenuTimeOutId);
-        /* 此处需要异步延时显示菜单，否则值刷新不过来 */
         this.showMenuTimeOutId = setTimeout(() => {
             this.$element('dialogContactsDetailQrCode').show();
         }, 60);
     },
-
-    // 点击弹出二维码对话框取消按钮，关闭二维码
     cancelContactsDetailQrCode: function () {
         clearTimeout(this.showMenuTimeOutId);
         this.$element('dialogContactsDetailQrCode').close();
     },
 
-    // 取消分享
     shareCancelClick: function () {
         this.$element('shareDialogDetails').close();
     },
 
-    // 点击分享二维码
     shareClickQrCode: function () {
         prompt.showToast({
             message: this.$t('recordDetail.menu.noAppToDealThisAction')
@@ -1633,9 +1549,9 @@ export default {
     },
 
     /**
-     * 非联系人时，获取通话记录，组装参数
+     * Non-contact, call records, assembly parameters
      *
-     * @param {Array} numbers 手机号码
+     * @param {Array} numbers
      */
     getNewNumRecords(numbers) {
         var actionData = {};
@@ -1648,9 +1564,7 @@ export default {
         this.contactForm.showNewContact = true;
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CALLLOG_DB_URI);
         callLogService.getCallLogListByPhoneNumber(DAHelper, numbers, (resultList) => {
-            /* 根据获取到的通话记录原始数据封装详请页面需要的属性 */
             this.contactForm.numRecords = this.getDetailMessage(resultList);
-            /* 创建联系人电话列表对象 */
             var phoneNumbersTemp = {};
             if (this.contactForm.numRecords.length > 0) {
                 phoneNumbersTemp.phoneAddress = this.contactForm.numRecords[0].callTag;
@@ -1659,19 +1573,16 @@ export default {
             var phoneNumbersTempList = [phoneNumbersTemp];
             this.contactForm.phoneNumbers = phoneNumbersTempList;
             newContacts.phoneNumbers = phoneNumbersTempList;
-            // 组装 contacts: originalContacts
             newContacts.name = {
                 'name': this.contactForm.name
             };
             newContacts.isNewNumber = this.contactForm.isNewNumber;
             newContacts.showMoreButton = this.contactForm.showMoreButton;
             newContacts.numRecords = this.contactForm.numRecords;
-            /* 在新号码跳转详情界面中，使用通话记录第一条的id取模从头像背景色中获取获取 */
             var index = parseInt(this.contactForm.numRecords[0].id, 10) % 6;
             newContacts.portraitColor = this.backgroundColor[index];
             newContacts.detailsBgColor = this.backgroundDetailColor[index];
             this.contacts = newContacts;
-            // 处理初始化数据
             if (this.sourceFromCallRecord && this.isNewNumber) {
                 this.showNameLast = (this.contactForm.phoneNumbers && this.contactForm.phoneNumbers[0])
                     ? this.contactForm.phoneNumbers[0].phoneNumber : '';
@@ -1685,10 +1596,10 @@ export default {
     },
 
     /**
-     * 根据原始callLogList内容转化为通话记录详情需要的数据
+     * Data required to convert the original callLogList content into call record details
      *
-     * @param {Array} originList 原始通话列表
-     * @return {Array} resultList 结果集
+     * @param {Array} originList
+     * @return {Array} resultList
      */
     getDetailMessage(originList) {
         LOG.info(TAG + 'getDetailMessage originList' + originList);
@@ -1704,118 +1615,110 @@ export default {
         return resultList;
     },
 
-    /* 文本分享联系人 */
     shareContactInfoByTest() {
         var detailInfo = JSON.stringify(this.contactForm);
     },
 
     /**
-     * 根据通话记录获取该通话记录的通话详情
+     * Obtain the call details based on the call record
      *
-     * @param {Object} callLogElement 通话记录
-     * @return {string} resultMessage 状态信息
+     * @param {Object} callLogElement
+     * @return {string} resultMessage
      */
     getTalkTimeMessage(callLogElement) {
         LOG.info(TAG + 'getTalkTimeMessage callLogElement' + callLogElement);
         var resultMessage = '';
-        if (callLogElement.callType == 1) { // 呼入：直接显示通话时长
+        if (callLogElement.callType == 1) {
             resultMessage = this.getDescriptionByDuration(callLogElement.talkTime);
-        } else if (callLogElement.callType == 2) { // 呼出：通话时长为0时，为未接通，否则直接显示通话时长
-            resultMessage = callLogElement.talkTime == 0 ? '未接通'
-            : this.getDescriptionByDuration(callLogElement.talkTime);
-        } else if (callLogElement.callType == 3) { // 未接：未接来电显示响铃时长
-            resultMessage = '响铃' + this.getDescriptionByDuration(callLogElement.ringTime);
-        } else if (callLogElement.callType == 5) { // 拒接
-            resultMessage = '拒接';
+        } else if (callLogElement.callType == 2) {
+            resultMessage = callLogElement.talkTime == 0 ? this.$t('recordDetail.language.blockCall')
+                                                         : this.getDescriptionByDuration(callLogElement.talkTime);
+        } else if (callLogElement.callType == 3) {
+            resultMessage = this.$t('recordDetail.language.noAnswer') + this.getDescriptionByDuration(callLogElement.ringTime);
+        } else if (callLogElement.callType == 5) {
+            resultMessage = this.$t('recordDetail.language.reject');
         }
         return resultMessage;
     },
 
     /**
-     * 根据指定的时间戳获取通话时长 timeDuration:单位s
+     * Takes the call duration (timeDuration in s) based on the specified timestamp
      *
-     * @param {number} timeDuration 时间周期
-     * @return {Object} 返回时间单位
+     * @param {number} timeDuration
+     * @return {Object}
      */
     getDescriptionByDuration(timeDuration) {
         LOG.info(TAG + 'getDescriptionByDuration timeDuration' + timeDuration);
         var seconds = parseInt(timeDuration);
-        if (seconds < 60) { // 一分钟以内
-            return seconds + '秒';
+        if (seconds < 60) {
+            return seconds + this.$t('recordDetail.language.seconds');
         } else {
             var minutes = parseInt(seconds / 60);
-            if (minutes < 60) { // 一小时以内
-                return minutes + '分' + seconds % 60 + '秒';
+            if (minutes < 60) {
+                return minutes + this.$t('recordDetail.language.minute') + seconds % 60 + this.$t('recordDetail.language.seconds');
             } else {
                 var hours = parseInt(minutes / 60);
-                return hours + '时' + minutes % 60 + '分' + seconds % 3600 % 60 + '秒';
+                return hours + this.$t('recordDetail.language.hour') + minutes % 60 + this.$t('recordDetail.language.minute') + seconds % 3600 % 60 + this.$t('recordDetail.language.seconds');
             }
         }
     },
 
     /**
-     * 根据通话记录生成时间获取时间细节信息
+     * Get time details based on when call records were generated
      *
-     * @param {number} callTime 初始通话时间
-     * @return {string} timeDetail 处理后的通话时间
+     * @param {number} callTime
+     * @return {string} timeDetail
      */
     getTimeDetailByCallTime(callTime) {
         LOG.info(TAG + 'getTimeDetailByCallTime callTime' + callTime);
-        var callLogTime = new Date(parseInt(callTime, 10) * 1000); // 获取通话记录的时间
-        var now = new Date(); // 获取当前的系统时间
+        var callLogTime = new Date(parseInt(callTime, 10) * 1000);
+        var now = new Date();
         var yearDiff = now.getFullYear() - callLogTime.getFullYear();
         var monthDiff = now.getMonth() - callLogTime.getMonth();
         var dayDiff = now.getDate() - callLogTime.getDate();
         var hour = callLogTime.getHours();
         var timeDetail = '';
-        if (yearDiff == 0) { // 同一年份
-            if (monthDiff == 0) { // 同一月份
-                if (dayDiff == 0) { // 同一天
-                    /* 例：傍晚18:06 */
+        if (yearDiff == 0) {
+            if (monthDiff == 0) {
+                if (dayDiff == 0) {
                     timeDetail = this.getDayMessage(hour) + callLogTime.getHours() + ':'
                     + (callLogTime.getMinutes() < 10 ? '0' + callLogTime.getMinutes() : callLogTime.getMinutes());
                 }
             }
-            timeDetail = (callLogTime.getMonth() + 1) + '月' + callLogTime.getDate() + '日' + ' '
+            timeDetail = (callLogTime.getMonth() + 1) + this.$t('recordDetail.language.months') + callLogTime.getDate() + this.$t('recordDetail.language.day') + ' '
             + this.getDayMessage(hour) + callLogTime.getHours() + ':'
             + (callLogTime.getMinutes() < 10 ? '0' + callLogTime.getMinutes() : callLogTime.getMinutes());
-        } else { // 不同年份：显示年月日
-            timeDetail = callLogTime.getFullYear() + '年' + (callLogTime.getMonth() + 1) + '月'
-            + callLogTime.getDate() + '日' + ' ' + this.getDayMessage(hour) + callLogTime.getHours() + ':'
+        } else {
+            timeDetail = callLogTime.getFullYear() + this.$t('recordDetail.language.years')  + (callLogTime.getMonth() + 1) + this.$t('recordDetail.language.months')
+            + callLogTime.getDate() + this.$t('recordDetail.language.day') + ' ' + this.getDayMessage(hour) + callLogTime.getHours() + ':'
             + (callLogTime.getMinutes() < 10 ? '0' + callLogTime.getMinutes() : callLogTime.getMinutes());
         }
         LOG.info(TAG + ' timeDetail = ' + timeDetail);
         return timeDetail;
     },
 
-    /**
-     * 根据小时数获取该时间在一天范围内的描述
-     *
-     * @param {number} hour 时间
-     * @return {string} 时间节点
-     */
     getDayMessage(hour) {
         LOG.info(TAG + ' getDayMessage' + hour);
         if (hour >= 0 && hour < 5) {
-            return '凌晨';
+            return this.$t('recordDetail.language.beforeDawn');
         }
         if (hour >= 5 && hour < 11) {
-            return '上午';
+            return this.$t('recordDetail.language.AM');
         }
         if (hour >= 11 && hour < 13) {
-            return '中午';
+            return $t('recordDetail.language.noon');
         }
         if (hour >= 13 && hour < 17) {
-            return '下午';
+            return $t('recordDetail.language.PM');
         }
         if (hour >= 17 && hour < 19) {
-            return '傍晚';
+            return $t('recordDetail.language.nightfall');
         }
         if (hour >= 19 && hour < 22) {
-            return '晚上';
+            return $t('recordDetail.language.evening');
         }
         if (hour >= 22 && hour < 24) {
-            return '半夜';
+            return $t('recordDetail.language.middleNight');
         }
     }
 };

@@ -126,8 +126,8 @@ describe('mergeModelTest', function () {
             'limit': 20,
             'groupId': 4,
             filterItem: 'phone',
-            phoneNumberLabelNames: '住宅',
-            emailsLabelNames: '私人'
+            phoneNumberLabelNames: 'residential',
+            emailsLabelNames: 'private'
         };
 
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);

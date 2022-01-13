@@ -30,7 +30,6 @@ export default {
         greetingTitle: '',
     },
 
-    //初始化页面
     onInit() {
         this.greetingList = this.defaultGreetingList;
         this.refreshPageTabs();
@@ -42,7 +41,6 @@ export default {
         this.refreshPageTabs();
     },
 
-    //返回上层页面
     back: function () {
         this.$emit('eventType', {
             isDelete: true,
@@ -50,21 +48,17 @@ export default {
         });
     },
 
-    //全选
     clickCheckedAll: function () {
         if (!this.isSelectAll) {
-            //全选
             this.selectAll();
         } else {
-            //取消全选
             this.unSelectAll();
         }
         this.refreshPageTabs();
     },
 
-    /* 全选列表项 */
     selectAll: function () {
-        this.checkedCount = 0; //将已选择的计数清除后重新增加
+        this.checkedCount = 0; //Clear the selected count and increase it again
         this.greetingList.forEach((element, index) => {
             if (index == 0) {
                 return;
@@ -74,7 +68,6 @@ export default {
         });
     },
 
-    /* 取消全选 */
     unSelectAll: function () {
         this.greetingList.forEach((element, index) => {
             if (index == 0) {
@@ -87,7 +80,6 @@ export default {
         });
     },
 
-    /* 标题计数刷新函数 */
     refreshPageTabs: function () {
         if (this.checkedCount > 0) {
             switch (this.language) {

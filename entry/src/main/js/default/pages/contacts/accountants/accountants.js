@@ -1,5 +1,5 @@
 /**
- * @file 新建联系人
+ * @file Creating a Contact
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -28,65 +28,51 @@ var TAG = ' accountants...: ';
 
 export default {
     data: {
-        // 新增联系人状态
+        // New Contact Status
         addShow: true,
-        // 编辑联系人状态
+        // Editing contact Status
         updataShow: false,
-        // 名片
+        // Business card
         carteFlag: false,
-        // 编辑名片
+        // Edit card
         updateCard: false,
-        /*电话号码展示*/
         phonShow: false,
-        /*添加更多选项div的状态*/
         MoreDivStatus: true,
-        // 拼音状态
+        // State of pinyin
         LetterShow: false,
-        // 即时消息状态
+        // Instant Message Status
         upMessShow: false,
-        // 铃声状态
+        // The bell state
         upRingShow: false,
-        // 住宅状态
+        // Residential status
         upHouseShow: false,
-        // 昵称状态
+        // The nickname status
         upNickShow: false,
-        // 网址状态
+        // Site condition
         upWebShow: false,
-        // 生日状态
+        // State of birthday
         upBirthShow: false,
-        // 助理
+        // assistant
         upAssShow: false,
-        /**职务隐藏**/
         showWork: false,
-        /**保存图标状态控制*/
         isEmpty: false,
 
-        /**div*/
         flexInputStyle: 'const-fisrt',
         flexImageStyle: 'const-image-div',
         flexImageSize: 'fisrt-image',
         flexInputSize: 'font-color-first',
         flexInputFont: 'font-color-note',
         flexCenterSize: 'text-note',
-        ringText: '', // 电话铃声
+        ringText: '',
         id: 0,
-        // 添加多个email状态
         emailShow: false,
-        // 添加多个即时消息装
         messShow: false,
-        // 添加多个住宅状态
         houseShow: false,
-        // 添加多个网址状态
         websiteShow: false,
-        // 添加多个助理状态
         assisShow: false,
-        // 群组list
         groups: [],
-        // 新增至已有联系人
         saveContact: false,
-        // 新增已有联系热number
         phoneNumber: '',
-        // 页面显示群组值
         groupContext: '',
         emails: [
             {
@@ -158,7 +144,7 @@ export default {
             'familyName': '',
             'middleName': '',
             'familyNamePhonetic': '',
-            'alphaName':''
+            'alphaName': ''
         },
         nickName: {
             'nickName': ''
@@ -173,7 +159,6 @@ export default {
         birthShow: false,
         showF: true,
         showS: true,
-        // 日期类型
         types: ['3', '2', '4', '1'],
         typeShow: false,
         labType: '',
@@ -183,33 +168,25 @@ export default {
         DialogStatus: true,
         year: '',
         endyear: '',
-        customizeInputValue: '', // 自定义输入框的值
+        customizeInputValue: '', // Customize the value of the input box
         oldCustomizeLabelId: '2',
         oldParam: {},
         isInitFirst: true,
-        // 删除我的名片
         delCard: false,
-        // 群组是否添加标识
+        // Whether to add an id to the group
         groupStatus: false,
         contactId: 0,
         contacts: {},
         language: '',
-        // 默认中文
         langStatus: true,
-        // 英文拼音状态
         usStatus: false,
-        // 中英文拼音
         letter: '',
-        // givenName-名
         givenName: '',
-        // 英文场景出现familyName-姓、
         familyName: '',
-        // middleName-中间名、
         middleName: '',
         familyNamePhonetic: '',
     },
 
-    /* 页面初始化时触发 */
     onInit() {
         LOG.info(TAG + 'onInit......');
         this.events[0].eventDate = this.$t('accountants.date');
@@ -242,7 +219,7 @@ export default {
                 'groups': this.groups
             }
         }
-        // 群组返回值拼接页面展示值
+        // Group return value Splicing page display value
         if (!this.contactForm.groups || this.contactForm.groups.length == 0) {
             this.contactForm.groups = this.groups;
         }
@@ -257,7 +234,7 @@ export default {
             }
             this.groupContext = temp;
         }
-        // 更新页面初始化
+        // Update page initialization
         if (this.updataShow && !this.groupStatus) {
             if (this.saveContact) {
                 var requestData = {
@@ -282,7 +259,7 @@ export default {
                 });
             }
             this.initUpdateData(this.contactForm);
-            // 页面上number类型自动将电话号码的空格去掉了，导致数据前后不一致
+            // The number type on the page automatically removes the space for the phone number, resulting in inconsistent data
             if (this.contactForm.phoneNumbers) {
                 this.contactForm.phoneNumbers.forEach(element => {
                     element.phoneNumber = element.phoneNumber.replace(/\s+/g, '');
@@ -298,7 +275,7 @@ export default {
             if (this.contactForm.organization.title == undefined) {
                 this.contactForm.organization.title = ''
             }
-            // 页面上number类型自动将电话号码的空格去掉了，导致数据前后不一致
+            // The number type on the page automatically removes the space for the phone number, resulting in inconsistent data
             if (this.contactForm.phoneNumbers) {
                 this.contactForm.phoneNumbers.forEach(element => {
                     element.phoneNumber = element.phoneNumber.replace(/\s+/g, '');
@@ -369,7 +346,6 @@ export default {
         }
     },
 
-    // 初始化组数据
     initGroupData() {
         if (this.$app.$def.globalData.pushToGroup && this.$app.$def.globalData.groupParams) {
             let params = this.$app.$def.globalData.groupParams;
@@ -394,9 +370,9 @@ export default {
     },
 
     /**
-     * 初始化时更新页面数据
+     * Update page data during initialization
      *
-     * @param {Object} contact 联系人数据
+     * @param {Object} contact Contact data
      */
     initUpdateData(contact) {
         if (!contact.emails || contact.emails.length == 0) {
@@ -442,7 +418,7 @@ export default {
             contact.organization = this.organization;
         }
 
-        // 群组返回值拼接页面展示值
+        // Group return value Splicing page display value
         if (!contact.groups || contact.groups.length == 0) {
             contact.groups = this.groups;
         }
@@ -475,7 +451,6 @@ export default {
             this.$element('reset').show();
         } else if (this.updataShow) {
             if (this.updateCard || this.carteFlag) {
-                // 如果查询我的名片
                 this.getCardDetail(21001);
             } else {
                 router.replace({
@@ -493,7 +468,6 @@ export default {
         }
     },
 
-    // 拍照
     takePhotos: function () {
         router.push({
             uri: 'pages/contacts/accountants/takephone/takephone',
@@ -502,10 +476,10 @@ export default {
     },
 
     /**
-     * 处理编辑页面日期
+     * Process edit page dates
      *
-     * @param {Object} events events事件
-     * @param {Object} contact 联系人数据
+     * @param {Object} events
+     * @param {Object} contact Contact data
      */
     dealBirthTypes(events, contact) {
         var flagF = false;
@@ -544,12 +518,11 @@ export default {
         this.$app.$def.groups.group = ''
     },
 
-    // 不保存
     anSave() {
         this.$app.$def.setRefreshContacts(false);
         if (this.saveContact) {
             this.$app.$def.dialerStateData.isEditNumber = false;
-            this.$app.$def.globalData.navigationType = 0; // 返回时，返回到拨号盘
+            this.$app.$def.globalData.navigationType = 0;
             this.$app.$def.globalData.menuType = 0;
             router.back({
                 path: 'pages/navigation/navigation'
@@ -563,14 +536,13 @@ export default {
         this.showWork = true;
     },
 
-    // 自定义弹窗
     showDialog(e) {
         this.DialogStatus = true;
         this.$element('simpledialog').show()
     },
 
     cancelSchedule(e) {
-        // 手机号码自定义
+
         if (this.labType == '1') {
             this.contactForm.phoneNumbers[this.labId].labelId = this.oldCustomizeLabelId;
         }
@@ -592,7 +564,6 @@ export default {
     setSchedule(id) {
         this.$element('simpledialog').close();
 
-        // 手机号码自定义
         if (this.labType == '1' && this.customizeInputValue) {
             this.contactForm.phoneNumbers[this.labId].labelId = '0';
             this.contactForm.phoneNumbers[this.labId].labelName = this.customizeInputValue;
@@ -604,19 +575,19 @@ export default {
             this.contactForm.emails[this.labId].labelName = this.customizeInputValue;
         }
 
-        // 即时消息
+        // Instant messaging
         if (this.labType == '3' && this.customizeInputValue) {
             this.contactForm.imAddresses[this.labId].labelId = '0';
             this.contactForm.imAddresses[this.labId].labelName = this.customizeInputValue;
         }
 
-        // 自定义住宅地址
+        // Custom residential address
         if (this.labType == '4' && this.customizeInputValue) {
             this.contactForm.postalAddresses[this.labId].labelId = '0';
             this.contactForm.postalAddresses[this.labId].labelName = this.customizeInputValue;
         }
 
-        // 自定义关联人
+        // User-defined association person
         if (this.labType == '5' && this.customizeInputValue) {
             this.contactForm.relations[this.labId].labelId = '0';
             this.contactForm.relations[this.labId].labelName = this.customizeInputValue;
@@ -624,9 +595,9 @@ export default {
     },
 
     /**
-     * 自定义标签
+     * Custom labels
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     getLabel(e) {
         if (e.value) {
@@ -638,9 +609,9 @@ export default {
     },
 
     /**
-     * 获取姓名
+     * Get name
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     getName(e) {
         this.contactForm.name.fullName = e.value;
@@ -664,9 +635,9 @@ export default {
     },
 
     /**
-     * 获取英文 只支持英文字母^[A-Za-z]+$
+     * Obtain only letters ^[a-za-z]+$
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     getLetter(e) {
         var temp = '';
@@ -699,9 +670,9 @@ export default {
     },
 
     /**
-     * 获取姓名的中间名
+     * Gets the middle name of the name
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     getMiddleName(e) {
         this.contactForm.name.middleName = e.value;
@@ -727,9 +698,9 @@ export default {
     },
 
     /**
-     * 姓名中的名
+     * First name of first name
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     getGivenName(e) {
         this.contactForm.name.givenName = e.value;
@@ -754,7 +725,7 @@ export default {
         this.ListenParam(obj);
     },
 
-    // 英文场景出现familyName-姓、 middleName-中间名、 givenName-名
+    // FamilyName - familyName, middleName- middleName, givenName- first name
     showEnDiv() {
         if (!this.langStatus) {
             this.letter = this.$t('accountants.surname');
@@ -764,9 +735,9 @@ export default {
     },
 
     /**
-     * 公司
+     * The company
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     getComp(e) {
         this.contactForm.organization.name = e.value;
@@ -790,9 +761,9 @@ export default {
     },
 
     /**
-     * 职位
+     * position
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     getWork(e) {
         this.contactForm.organization.title = e.value;
@@ -816,11 +787,11 @@ export default {
     },
 
     /**
-     * 电话类型
+     * The phone type
      *
-     * @param {string} labType select组件里切换的类型
+     * @param {string} labType
      * @param {number} id labelId
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     selectChange(labType, id, e) {
         this.labType = labType;
@@ -864,10 +835,10 @@ export default {
     },
 
     /**
-     * 电话号码
+     * The phone number
      *
-     * @param {number} id onchange事件带过来的id
-     * @param {Object} e event事件
+     * @param {number} id
+     * @param {Object} e
      */
     getPhone: function (id, e) {
         if (e.value) {
@@ -903,9 +874,9 @@ export default {
     },
 
     /**
-     * 重新输入电话
+     * Reenter the phone
      *
-     * @param {number} id onchange事件带过来的id
+     * @param {number} id
      */
     cleanNum(id) {
         let phones = JSON.parse(JSON.stringify(this.contactForm.phoneNumbers));
@@ -940,7 +911,6 @@ export default {
         }, 0);
     },
 
-    /**新增多个电话号码*/
     addNumber: function () {
         var i = this.contactForm.phoneNumbers.length;
         this.contactForm.phoneNumbers.push({
@@ -951,7 +921,6 @@ export default {
         });
     },
 
-    /**添加更多选项*/
     getMore: function () {
         var l = this.bigsize + 600;
         this.bigsize = l;
@@ -968,10 +937,10 @@ export default {
     },
 
     /**
-     * 获取邮箱
+     * Access to email
      *
-     * @param {number} id onchange事件带过来的id
-     * @param {Object} e event事件
+     * @param {number} id
+     * @param {Object} e
      */
     getEmail: function (id, e) {
         this.contactForm.emails[id].email = '';
@@ -1004,9 +973,9 @@ export default {
     },
 
     /**
-     * 清除当前Email
+     * Clear current Email
      *
-     * @param {number} id 当前Email的ID
+     * @param {number} id
      */
     cleanEmail(id) {
         if (this.contactForm.emails.length > 1) {
@@ -1037,7 +1006,6 @@ export default {
         this.ListenParam(obj);
     },
 
-    /**增加多个邮箱*/
     addEmail: function () {
         var i = this.contactForm.emails.length;
         this.contactForm.emails.push({
@@ -1049,9 +1017,9 @@ export default {
     },
 
     /**
-     * 获取备注
+     * Get note
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     getNote(e) {
         this.contactForm.note.noteContent = e.value;
@@ -1075,9 +1043,9 @@ export default {
     },
 
     /**
-     * 清除消息
+     * Clear message
      *
-     * @param id onchange事件带过来的id
+     * @param id
      */
     cleanMessage(id) {
         if (this.contactForm.imAddresses.length > 1) {
@@ -1106,10 +1074,10 @@ export default {
     },
 
     /**
-     * 获取ima及时消息
+     * Get IMA timely messages
      *
-     * @param {number} id onchange事件带过来的id
-     * @param {Object} e event事件
+     * @param {number} id
+     * @param {Object} e
      */
     getMessage: function (id, e) {
         if (e.value) {
@@ -1140,7 +1108,6 @@ export default {
         this.ListenParam(obj);
     },
 
-    /*新增多条消息**/
     addMess: function () {
         var i = this.contactForm.imAddresses.length;
         this.contactForm.imAddresses.push({
@@ -1152,9 +1119,9 @@ export default {
     },
 
     /**
-     * 获取铃声
+     * To get the bell
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     getRing(e) {
         this.ringText = e.value;
@@ -1164,10 +1131,10 @@ export default {
     },
 
     /**
-     * 获取住宅地址
+     * Obtain residential Address
      *
-     * @param {number} id onchange事件带过来的id
-     * @param {Object} e event事件
+     * @param {number} id
+     * @param {Object} e
      */
     getHouText: function (id, e) {
         if (e.value.length > 0) {
@@ -1199,9 +1166,9 @@ export default {
     },
 
     /**
-     * 获取邮箱
+     * Access to email
      *
-     * @param {number} id 当前需要清除的节点的ID
+     * @param {number} id
      */
     cleanHouse(id) {
         if (this.contactForm.postalAddresses.length > 1) {
@@ -1229,7 +1196,6 @@ export default {
         this.ListenParam(obj);
     },
 
-    /**新增多个住宅地址*/
     addHouse() {
         var i = this.contactForm.postalAddresses.length;
         this.contactForm.postalAddresses.push({
@@ -1241,9 +1207,9 @@ export default {
     },
 
     /**
-     * 获取昵称
+     * To obtain a nickname
      *
-     * @param {Object} e event事件
+     * @param {Object} e
      */
     getNick(e) {
         this.contactForm.nickName.nickName = e.value;
@@ -1267,10 +1233,10 @@ export default {
     },
 
     /**
-     * 获取网址
+     * Access to the website
      *
-     * @param {number} id onchange事件带过来的id
-     * @param {Object} e event事件
+     * @param {number} id
+     * @param {Object} e
      */
     getWebsite(id, e) {
         if (e.value) {
@@ -1301,9 +1267,9 @@ export default {
     },
 
     /**
-     * 清除当前网址
+     * Clear current URL
      *
-     * @param {number} id 需要清除当前网址的id
+     * @param {number} id
      */
     cleanWebsite(id) {
         if (this.contactForm.websites.length > 1) {
@@ -1323,7 +1289,7 @@ export default {
             'mess': this.contactForm.imAddresses[0].imAddress,
             'address': this.contactForm.postalAddresses[0].postalAddress,
             'nick': this.contactForm.nickName.nickName,
-            'website':  this.contactForm.websites[0].website,
+            'website': this.contactForm.websites[0].website,
             'birth': this.year,
             'assistant': this.contactForm.relations[0].relationName,
             'groupContext': this.groupContext
@@ -1331,7 +1297,6 @@ export default {
         this.ListenParam(obj);
     },
 
-    /**添加更多网址*/
     addWebsite() {
         var i = this.contactForm.events.length;
         this.contactForm.websites.push({
@@ -1342,10 +1307,10 @@ export default {
     },
 
     /**
-     * 获取日期类型
+     * Get date type
      *
-     * @param {number} id onchange事件带过来的id
-     * @param {Object} e event事件
+     * @param {number} id
+     * @param {Object} e
      */
     getBirType(id, e) {
         this.contactForm.events[id].labelId = e.newValue;
@@ -1367,10 +1332,10 @@ export default {
     },
 
     /**
-     * 获取生日
+     * For birthday
      *
-     * @param {number} id onchange事件带过来的id
-     * @param {Object} e event事件
+     * @param {number} id
+     * @param {Object} e
      */
     getBirthText(id, e) {
         var year = e.year;
@@ -1421,7 +1386,7 @@ export default {
             'mess': this.contactForm.imAddresses[0].imAddress,
             'address': this.contactForm.postalAddresses[0].postalAddress,
             'nick': this.contactForm.nickName.nickName,
-            'website':  this.contactForm.websites[0].website,
+            'website': this.contactForm.websites[0].website,
             'birth': birthText,
             'assistant': this.contactForm.relations[0].relationName,
             'groupContext': this.groupContext
@@ -1429,7 +1394,6 @@ export default {
         this.ListenParam(obj);
     },
 
-    /*新增多个重要日期**/
     addBirth: function () {
         var id = this.contactForm.events.length;
         id = id + 1;
@@ -1444,9 +1408,9 @@ export default {
     },
 
     /**
-     * 清除当前的生日日期
+     * Clears the current birthday date
      *
-     * @param {number} id 需要清除当前的生日日期的id
+     * @param {number} id
      */
     cleanBirth(id) {
         if (this.contactForm.events.length > 1) {
@@ -1483,7 +1447,7 @@ export default {
             'mess': this.contactForm.imAddresses[0].imAddress,
             'address': this.contactForm.postalAddresses[0].postalAddress,
             'nick': this.contactForm.nickName.nickName,
-            'website':  this.contactForm.websites[0].website,
+            'website': this.contactForm.websites[0].website,
             'birth': this.year,
             'assistant': this.contactForm.relations[0].relationName,
             'groupContext': this.groupContext
@@ -1492,10 +1456,10 @@ export default {
     },
 
     /**
-     * 获取更多关系
+     * Get more relationships
      *
-     * @param {number} id onchange事件带过来的id
-     * @param {Object} e event事件
+     * @param {number} id
+     * @param {Object} e
      */
     getAssText(id, e) {
         if (e.value.length > 0) {
@@ -1518,7 +1482,7 @@ export default {
             'mess': this.contactForm.imAddresses[0].imAddress,
             'address': this.contactForm.postalAddresses[0].postalAddress,
             'nick': this.contactForm.nickName.nickName,
-            'website':  this.contactForm.websites[0].website,
+            'website': this.contactForm.websites[0].website,
             'birth': this.year,
             'assistant': this.contactForm.relations[0].relationName,
             'groupContext': this.groupContext
@@ -1527,9 +1491,9 @@ export default {
     },
 
     /**
-     * 清除当前关系
+     * Clear current relationship
      *
-     * @param {number} id 需要清楚当前关系的id
+     * @param {number} id
      */
     cleanAss(id) {
         if (this.contactForm.relations.length > 1) {
@@ -1549,7 +1513,7 @@ export default {
             'mess': this.contactForm.imAddresses[0].imAddress,
             'address': this.contactForm.postalAddresses[0].postalAddress,
             'nick': this.contactForm.nickName.nickName,
-            'website':  this.contactForm.websites[0].website,
+            'website': this.contactForm.websites[0].website,
             'birth': this.year,
             'assistant': this.contactForm.relations[0].relationName,
             'groupContext': this.groupContext
@@ -1557,7 +1521,6 @@ export default {
         this.ListenParam(obj);
     },
 
-    /**添加多项*/
     addAss() {
         var id = this.contactForm.relations.length;
         id = id + 1;
@@ -1569,7 +1532,7 @@ export default {
         })
     },
 
-    // 跳转至群组
+    // Jumping to a Group
     onGroup() {
         this.$app.$def.globalData.pushToGroup = true;
         router.push({
@@ -1596,9 +1559,9 @@ export default {
     },
 
     /**
-     * 将obj对象实现深拷贝
+     * Deep copy obJ objects
      *
-     * @param {Object} obj 联系人的contactForm
+     * @param {Object} obj Contact's contactForm
      * @return
      */
     copy(obj) {
@@ -1606,12 +1569,12 @@ export default {
     },
 
     /**
-     * 监控编辑页面的数据是否变动
+     * Monitor whether the data on the edit page has changed
      *
-     * @param {Array} existData 已经存在的数据
-     * @param {Array} newData 滨化后的新数据
-     * @param {string} type = 'Object' 定义类型为'Object'
-     * @return {Boolean} 返回监控数据是否变化
+     * @param {Array} existData
+     * @param {Array} newData
+     * @param {string} type = 'Object' Define the type as 'Object'
+     * @return {Boolean}
      */
     isSameData(existData, newData, type = 'Object') {
         if (type == 'Array') {
@@ -1656,22 +1619,22 @@ export default {
     },
 
     /**
-     * 监听所有输入的参数
+     * Listen for all input parameters
      *
-     * @param {string} name 姓名
-     * @param {string} Pname 姓名拼音
-     * @param {string} company 公司
-     * @param {string} position 职位
-     * @param {string} phone 电话号码
-     * @param {string} email 邮箱
-     * @param {string} note 备注
-     * @param {string} mess 即时消息
-     * @param {string} address 住宅地址
-     * @param {string} nick 昵称
-     * @param {string} website 网站
-     * @param {string} birth 生日
-     * @param {string} assistant 助理
-     * @param {string} groupContext 群组
+     * @param {string} name
+     * @param {string} Pname
+     * @param {string} company
+     * @param {string} position
+     * @param {string} phone
+     * @param {string} email
+     * @param {string} note
+     * @param {string} mess
+     * @param {string} address
+     * @param {string} nick
+     * @param {string} website
+     * @param {string} birth
+     * @param {string} assistant
+     * @param {string} groupContext
      */
 
 
@@ -1718,14 +1681,14 @@ export default {
         }
     },
 
-    // 刪除我的名片
+
     deleteCard() {
         LOG.info(TAG + 'deleteCard' + 'del contactForm' + this.contactForm);
         var delParams = {};
         delParams.contactId = this.contactForm.contactId;
     },
 
-    /**新增联系人*/
+
     addAccountants() {
         LOG.info(TAG + 'addAccountants' + 'logMessage addAccountants is start');
 
@@ -1743,26 +1706,21 @@ export default {
         this.listFieldIsNull(addParams.websites);
         var that = this;
         if (this.carteFlag) {
-            // 增加我的名片信息
             this.addCard(addParams);
         } else if (this.updateCard) {
-            // 编辑我的名片
             this.editCard(addParams);
         } else {
-            that.addShow ? that.$app.$def.setAddAccount(true) : that.$app.$def.setEditContacts(true);
-            if (this.addShow) {
-                // 添加联系人
-                this.isaddContact(addParams);
-            } else {
-                // 编辑联系人
-                this.updateContact(addParams);
-            }
+                that.addShow ? that.$app.$def.setAddAccount(true) : that.$app.$def.setEditContacts(true);
+                if (this.addShow) {
+                    this.isaddContact(addParams);
+                } else {
+                    this.updateContact(addParams);
+                }
         }
     },
     addCard(addParams) {
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         contactReq.addMyCard(DAHelper, addParams, (contactId) => {
-            /* 新建名片完成后，延时跳转到我的名片界面，避免数据同步阻塞问题 */
             setTimeout(() => {
                 this.goToMyCard(contactId);
             }, 500);
@@ -1771,7 +1729,6 @@ export default {
     editCard(addParams) {
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         contactReq.updateMyCard(DAHelper, addParams, (contactId) => {
-            /* 编辑名片完成后，延时跳转到我的名片界面，避免数据同步阻塞问题 */
             setTimeout(() => {
                 this.goToMyCard(contactId);
             }, 500);
@@ -1780,7 +1737,7 @@ export default {
     updateContact(addParams) {
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         contactReq.updateContact(DAHelper, addParams, (contactId) => {
-            /* 插入联系人数据完成后，跳转至联系人详情页面 */
+            LOG.info(TAG + 'addAccountants' + 'logMessage addContact callBack success! contactId = ' + ', route = ' + router);
             router.replace({
                 uri: 'pages/contacts/contactDetail/contactDetail',
                 params: {
@@ -1793,7 +1750,7 @@ export default {
     addContacts(addParams) {
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         contactReq.addContact(DAHelper, addParams, (contactId) => {
-            /* 插入联系人数据完成后，跳转至联系人详情页面 */
+            LOG.info(TAG + 'addAccountants' + 'logMessage addContact callBack success! contactId = ' + ', route = ' + router);
             router.replace({
                 uri: 'pages/contacts/contactDetail/contactDetail',
                 params: {
@@ -1822,10 +1779,10 @@ export default {
         let websites = addParams.phoneNumbers == '' ? false : true;
         let groups = addParams.groups == '' ? false : true;
 
-        if(!(emails || events || imAddresses || fullName || givenName || familyName || middleName || familyNamePhonetic ||
-        nickName || note || organizationName || organizationTitle || phoneNumbers || postalAddresses || relations || websites) && groups){
+        if (!(emails || events || imAddresses || fullName || givenName || familyName || middleName || familyNamePhonetic ||
+        nickName || note || organizationName || organizationTitle || phoneNumbers || postalAddresses || relations || websites) && groups) {
             Prompt.showToast({
-                message: '没有此联系人的其他信息。',
+                message: this.$t('value.contacts.noInfo'),
                 duration: 2000,
                 bottom: '150px'
             });
@@ -1836,9 +1793,9 @@ export default {
     },
 
     /**
-     * 删除空数据并且移除labelName字段
+     * Delete empty data and remove the labelName field
      * 
-     * @param {Array} field 联系人的某一个数据
+     * @param {Array} field Data of a contact
      */
     listFieldIsNull: function (field) {
         if (field && field.length > 0) {
@@ -1854,9 +1811,9 @@ export default {
     },
 
     /**
-     * 跳转到我的名片
+     * Jump to my business card
      * 
-     * @param {number} contactId 联系人ID
+     * @param {number} contactId The contact ID
      */
     goToMyCard(contactId) {
         LOG.info(TAG + 'goToMyCard' + 'logMessage goToMyCard start!');

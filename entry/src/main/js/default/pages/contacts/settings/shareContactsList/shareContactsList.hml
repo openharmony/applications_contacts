@@ -24,7 +24,7 @@
             {{ title }}
         </text>
     </div>
-    <!-- 搜索联系人-->
+    <!-- Search for contacts-->
     <div class="todo-search-div" if="{{ (contactsList.length != 0) && (type != 'editFavorites') }}">
         <search id="search" hint="{{ $t('value.contacts.page.search') }}" onchange="clickSearch"></search>
     </div>
@@ -71,7 +71,7 @@
                     </text>
                 </div>
 
-            <!-- 右侧细节及checkBox图标-->
+            <!-- Right detail and checkbox Icon-->
                 <div>
                     <div class="allrecords-item-right-checkbox">
                         <input type="checkbox" class="checkbox" checked="{{ item.checked }}" onchange="itemClick(item)">
@@ -121,7 +121,7 @@
                     </text>
                 </div>
 
-            <!-- 右侧细节及checkBox图标-->
+            <!-- Right detail and checkbox Icon-->
                 <div>
                     <div class="allrecords-item-right-checkbox">
                         <input type="checkbox" class="checkbox" checked="{{ item.checked }}" onchange="itemClick(item)">

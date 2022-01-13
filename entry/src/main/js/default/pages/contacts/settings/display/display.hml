@@ -21,7 +21,7 @@
             {{ $t('value.contacts.displayPage.title') }}
         </text>
     </div>
-    <!-- 简洁布局-->
+    <!-- Concise layout-->
     <div class="concise-layout-div" onclick="accountClicked">
         <div class="layout-parent-div">
             <text class="concise-layout-text">
@@ -38,7 +38,7 @@
             {{ $t('value.contacts.displayPage.displayAccount') }}
         </text>
     </div>
-    <!--  所有联系人-->
+    <!--  all contacts-->
     <div class="display-all-div" onclick="onRadioChange('allContacts')">
         <div class="all-parent-div">
             <text class="display-contacts-text">
@@ -53,7 +53,7 @@
         </div>
     </div>
     <divider class="divider"></divider>
-    <!-- 手机-->
+    <!-- phone  -->
     <div class="phone-all-div" onclick="onRadioChange('phoneContacts')">
         <div class="all-parent-div">
             <text class="display-contacts-text">
@@ -68,7 +68,7 @@
         </div>
     </div>
     <divider class="divider"></divider>
-    <!-- 自定义-->
+    <!-- custom-->
     <div class="custom-all-div" onclick="onRadioChange('customize')">
         <div class="all-parent-div">
             <text class="display-contacts-text">

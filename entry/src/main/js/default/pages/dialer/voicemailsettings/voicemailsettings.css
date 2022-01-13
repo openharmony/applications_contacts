@@ -16,7 +16,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background-color: #FFFFFF;
+    background-color: #FFF;
 }
 
 .settings-title-div {
@@ -70,6 +70,7 @@
     color: #cccccc;
     width: 87%;
 }
+
 .contact-manage-text {
     margin-left: 45px;
     font-size: 27px;
@@ -85,14 +86,17 @@
     margin-right: 45px;
     border-radius: 5px;
 }
+
 .display-content-div:active {
     background-color: #e4e4e4;
 }
+
 .display-content-text {
     width: 100%;
     font-weight: 500;
     font-size: 31px;
 }
+
 .display-content-text-right {
     width: 100%;
     font-size: 25px;
@@ -105,16 +109,19 @@
     height: 30px;
     flex-shrink: 0;
 }
+
 .dialog-main {
     width: 90%;
     align-items: center;
 }
+
 .dialog-div {
     flex-direction: column;
     align-items: center;
     border-style: dotted;
-    border-radius:50px;
+    border-radius: 50px;
 }
+
 .inner-txt {
     width: 400px;
     height: 160px;
@@ -123,19 +130,23 @@
     justify-content: space-around;
     margin-right: 150px;
 }
+
 .txt {
     font-size: 30px;
 }
+
 .content-edit {
     width: 100%;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
 }
+
 .content-edit-image {
-    width:60px;
+    width: 60px;
     height: 60px;
 }
+
 .content-edit-image-box {
     position: absolute;
     right: 50px;
@@ -146,32 +157,39 @@
     justify-content: center;
     align-items: center;
 }
+
 .content-edit-image-box:active {
-    background-color: lightgray;
+    background-color: #FFD3D3D3;
 }
+
 .dialog-input-active {
     width: 85%;
     background-color: transparent;
     border-bottom: 1px solid #4e4e4e;
 }
-.dialog-input{
+
+.dialog-input {
     width: 85%;
     background-color: transparent;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid #FFD3D3D3;
 }
+
 .content-item {
     width: 85%;
     align-items: center;
 }
+
 .content-text {
     width: 100%;
 }
+
 .inner-btn {
     width: 90%;
     height: 120px;
     justify-content: space-around;
     align-items: center;
 }
+
 .btn-txt {
     width: 40%;
     height: 70%;

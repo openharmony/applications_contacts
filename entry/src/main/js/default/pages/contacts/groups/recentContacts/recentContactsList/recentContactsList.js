@@ -1,5 +1,5 @@
 /**
- * @file 最近联系人列表
+ * @file Recent Contact list
  */
 /**
  * Copyright (c) 2021 Huawei Device Co., Ltd.
@@ -31,17 +31,17 @@ export default {
             title: '',
             endDate: 0,
             startDate: 0
-        }, // 群组对象
+        }, // Group object
         contactCount: 0,
         layoutState: true,
-        dialogInputActive: false, // dialog的input框默认不激活
-        contactsList: [], // 数据列表
-        operateItem: {}, // 长按操作的联系人item
+        dialogInputActive: false, // The input box of dialog is not activated by default
+        contactsList: [], // Data list
+        operateItem: {}, // Long press and hold the contact item
         newGroupName: '',
         showEmptyPage: false,
-        menuContactName: '', // 长按menu的标题
+        menuContactName: '', // Long press the title of the menu
         page: 0,
-        limit: 20, // 一页显示条目数量
+        limit: 20, // Number of entries per page
         backgroundColor: backgroundColor.Color
     },
     onInit() {
@@ -54,13 +54,11 @@ export default {
         this.page = 0;
     },
 
-    // 简洁布局选项初始化
     conciseLayoutInit: function () {
         let data = this.$app.$def.globalData.storage.getSync('contacts_settings_concise_layout_switch', 'false');
         this.layoutState = data == 'true' ? false : true;
     },
 
-    // 缓存分页加载
     requestItem: function () {
         this.page++;
     },
@@ -114,12 +112,10 @@ export default {
         });
     },
 
-    // 返回上层页面
     back: function () {
         router.back();
     },
 
-    // 发送短信
     clickSendMsg: function () {
         router.push({
             uri: 'pages/contacts/groups/selectGroupMembers/selectGroupMembers',
@@ -133,7 +129,6 @@ export default {
         });
     },
 
-    // 发送邮件
     clickSendEmail: function () {
         router.push({
             uri: 'pages/contacts/groups/selectGroupMembers/selectGroupMembers',

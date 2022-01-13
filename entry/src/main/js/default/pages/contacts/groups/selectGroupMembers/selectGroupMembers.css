@@ -69,7 +69,7 @@
     font-weight: 500;
 }
 
-.todo-search-div {/*    position: relative;*/
+.todo-search-div {
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
@@ -348,7 +348,7 @@
 }
 
 .batch-delete-operation-button:active {
-    background-color: lightgray;
+    background-color: #FFD3D3D3;
 }
 
 .batch-delete-operation-button:disabled {

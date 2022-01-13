@@ -1,5 +1,5 @@
 /**
- * @file 自定义视图
+ * @file Custom view
  */
 
 /**
@@ -40,7 +40,6 @@ export default {
         groupList: []
     },
 
-    // 初始化页面
     onInit() {
         this.customizeArrowImage = this.arrowFoldImage.fold;
         var defaultData = {
@@ -58,7 +57,6 @@ export default {
         LOG.info(TAG + 'Customize onShow --------------end');
     },
 
-    // input全选~~
     checkboxOnChange: function (event) {
         LOG.info(TAG + 'checkboxOnChange event');
         this.isCheckedCustomize = !this.isCheckedCustomize;
@@ -75,12 +73,10 @@ export default {
         }
     },
 
-    // 点击所有联系人事件~~
     onClickChange: function () {
         this.isCheckedCustomize = !this.isCheckedCustomize;
     },
 
-    // 点击其他所有人或者群组~~
     onClickGroupChange: function (index) {
         LOG.info(TAG + 'onClickGroupChange index' + index);
         switch (index) {
@@ -100,19 +96,16 @@ export default {
         this.isCheckedCustomize = isCheckedGroup ? this.isCheckedOtherCustomize ? true : false : false;
     },
 
-    // 是否展开选项事件
     unfoldClicked: function () {
         this.isUnfold = !this.isUnfold;
         this.customizeArrowImage = this.customizeArrowImage == this.arrowFoldImage.fold
             ? this.arrowFoldImage.unFold : this.arrowFoldImage.fold;
     },
 
-
-    // 返回上层页面
     back: function () {
         router.back();
     },
-    // 保存设置
+
     saveCustomize: function () {
         var checkedList = [];
         this.groupList.forEach(element => {
@@ -141,10 +134,10 @@ export default {
     },
 
     /**
-     * 获取群组列表数据
+     * Get group list data
      *
-     * @param {number} code 2005 FA与PA通行协议码
-     * @param {number} data contactId 联系人ID
+     * @param {number} code 2005 FA and PA access protocol code
+     * @param {number} data contactId The contact ID
      */
     initGroupData: function () {
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);

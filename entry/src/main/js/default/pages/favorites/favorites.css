@@ -45,7 +45,8 @@
     columns: 1;
     align-items: stretch;
 }
-.todoFavorites{
+
+.todoFavorites {
     width: 100%;
     height: 123px;
     flex-direction: row;
@@ -73,7 +74,6 @@
     margin-top: 15px;
     display: flex;
 }
-
 
 
 .setting-parent-div {
@@ -126,7 +126,7 @@
 .free-space-text {
     font-size: 28px;
     margin-top: -30px;
-    color: #999999;
+    color: #999;
 }
 
 .favorites-free-div {
@@ -199,8 +199,6 @@
     width: 15%;
 }
 
-.second {
-}
 
 .todo-name-suffix-div {
     width: 80px;
@@ -220,7 +218,7 @@
 }
 
 .todo-content-div-third:active {
-    background-color: lightgray;
+    background-color: #d3d3d3;
 }
 
 .flex-item-check {
@@ -268,12 +266,12 @@
 .todo-divider {
     line-cap: round;
     stroke-width: 1px;
-    color: #cccccc;
+    color: #ccc;
 }
 
 .todo-divider-favorite {
     stroke-width: 1px;
-    color: #cccccc;
+    color: #ccc;
     width: 95%;
     margin-left: 0px;
     margin-top: 3px;
@@ -550,7 +548,7 @@
     max-lines: 1;
     text-overflow: ellipsis;
     font-size: 28px;
-    color: grey;
+    color: #808080;
 }
 
 .first-dialog-todo-content-img {
@@ -595,7 +593,7 @@
 
 .todo-divider-share {
     stroke-width: 1px;
-    color: lightgray;
+    color: #d3d3d3;
 }
 
 .todo-title-div-favorite {
@@ -688,7 +686,7 @@
 .btn-txt-favorite {
     width: 100%;
     text-align: center;
-    color: blue;
+    color: #0000ff;
 }
 
 .records-detail-contacts-operate-blank {

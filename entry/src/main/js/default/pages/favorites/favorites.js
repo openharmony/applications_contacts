@@ -20,8 +20,8 @@ import Constants from '../../../default/common/constants/Constants.js';
 var TAG = 'favorite';
 
 
-const GET_OFTEN_CONTACT = 3002 //获取常用列表
-//数字解释
+const GET_OFTEN_CONTACT = 3002 // Get a list of common uses
+
 const NUMBERS_MEANING = {
     HEADER_MIN_HEIGHT: 70,
     HEADER_MAX_HEIGHT: 220,
@@ -30,11 +30,10 @@ const NUMBERS_MEANING = {
     HEADER_MIN_TO_MAX_FONT_SIZE: 10,
     HEADER_MIN_TO_MAX_HEIGHT_SIZE: 150,
 };
-//代表同步
+// On behalf of the synchronization
 const ACTION_SYNC = 0;
-//1代表InternalAbility无需界面跳转
+// 1 represents InternalAbility without interface jump
 const ABILITY_TYPE_INTERNAL = 1;
-//isPrimary：0普通 1默认
 const SET_DEFAULT = 1;
 
 export default {
@@ -79,7 +78,6 @@ export default {
         this.getFavoritesContacts();
     },
 
-    //简洁布局选项初始化
     conciseLayoutInit: function () {
         let data = this.$app.$def.globalData.storage.getSync('contacts_settings_concise_layout_switch', 'false');
         this.layoutState = data == 'true' ? false : true;
@@ -94,24 +92,21 @@ export default {
             }
         });
     },
-    /** 单击某一个收藏的联系人的时候拨打电话 */
     showFavoriteDialog: function (contactId) {
         var phoneNumberLabelNames = [this.$t('accountants.house'), this.$t('accountants.phone'), this.$t('accountants.unit'), this.$t('accountants.unit fax'), this.$t('accountants.home fax'), this.$t('accountants.pager'), this.$t('accountants.others'), '', '', '', '', this.$t('accountants.switchboard')];
         var DAHelper = this.$app.$def.getDAHelper(Constants.uri.CONTACT_DB_URI);
         favoritesModel.queryPhoneNumByContactId(DAHelper, contactId, phoneNumberLabelNames, result => {
             if (result.code == 0 && result.data) {
-                // 联系人没有电话时，直接弹出没有电话
                 if (result.data.phoneNumbers == undefined || result.data.phoneNumbers.length == 0) {
                     prompt.showToast({
                         message: this.$t('value.favorites.page.dialog.noAvailablePhoneNumber')
                     });
                 } else if (result.data.phoneNumbers.length == 1) {
-                    // 联系人只有一个电话直接拨号
+
                     this.showEditNumbers = result.data.phoneNumbers[0].phoneNumber;
-                    // 直接呼叫
+
                     this.callOut(this.showEditNumbers);
                 } else {
-                    // 联系人有多个号码时，判断是否设置了默认电话，设置默认了就直接拨打默认电话；否则弹出电话列表dialog，展示设置默认复选框
                     var setDefaultNum = false;
                     for (var i = 0; i < result.data.phoneNumbers.length; i++) {
                         if (SET_DEFAULT == result.data.phoneNumbers[i].isPrimary) {
@@ -144,7 +139,7 @@ export default {
     cancelSimpleSchedule: function (event) {
         this.$element('simpledialog').close();
     },
-    /** 选择电话号码后，直接拨号，同时如果过设置了默认值请求后台保存默认电话 */
+
     dialogFavoriteClick: function (phoneNumber) {
         this.showEditNumbers = phoneNumber;
         this.$element('simpledialog').close();
@@ -158,10 +153,10 @@ export default {
             favoritesModel.setOrCancelDefaultPhoneNumber(DAHelper, actionData, result => {
             });
         }
-        // 直接呼叫
+
         this.callOut(this.showEditNumbers);
     },
-    /** 选择默认复选框 */
+
     checkboxClick: function (event) {
         this.isChecked = !this.isChecked;
     },
@@ -193,7 +188,7 @@ export default {
         this.favoritesIndex = '';
         this.todoIndex = index;
     },
-    /** 删除后返回 */
+
     favoritesDeleteBack: function (e) {
         this.isShow = e.detail.isShow;
         this.favoritesList = e.detail.collection;
@@ -203,7 +198,7 @@ export default {
         });
     },
 
-    //增加收藏按钮
+
     addTouchEnd: function (event) {
         router.push({
             uri: 'pages/contacts/selectContactsList/selectContactsList',
@@ -212,7 +207,7 @@ export default {
             },
         })
     },
-    /** 获取收藏的联系人 */
+
     getFavoritesContacts() {
         var actionData = {
             limit: 2000,
@@ -258,7 +253,7 @@ export default {
             }
         });
     },
-    // 选择跳转到设置页面
+
     editOnSelected: function (event) {
         var title = this.$t('value.contacts.groupsPage.noSelect');
         if (event.value == 'edit') {
@@ -271,26 +266,24 @@ export default {
             })
         }
     },
-    /* 电话呼出接口 */
+
     callOut(phoneNumber) {
         this.$app.$def.call(phoneNumber);
     },
-    /** 收藏点击拨号时设置默认电话复选框点击事件 */
+
     simpleDialogItemClick: function (status) {
         this.defaultPhoneNumberChecked = !status;
     },
 
-    //手指触摸动作开始
     onTouchStartList: function (e) {
         this.globalX = e.touches[0].globalX;
         this.globalY = e.touches[0].globalY;
         this.pYStart = e.touches[0].globalY;
     },
-    /** 收藏列表移动操作 */
+
     onTouchListMove: function (e) {
         this.pYMove = this.pYStart - e.touches[0].globalY;
         if (this.pYMove != 0 && this.pYMove > 0) {
-            // 向上移动，隐藏状态，不需要处理；向上移动显示状态，需要设置隐藏
             if (this.headerFavoriteHeight <= NUMBERS_MEANING.HEADER_MIN_HEIGHT) {
                 this.isScrollTopPosition = true;
                 this.headerFavoriteFontSize = NUMBERS_MEANING.HEADER_MIN_FONT_SIZE;
@@ -300,7 +293,6 @@ export default {
                 this.headerFavoriteFontSize = NUMBERS_MEANING.HEADER_MIN_FONT_SIZE + NUMBERS_MEANING.HEADER_MIN_TO_MAX_FONT_SIZE * ((this.headerFavoriteHeight - NUMBERS_MEANING.HEADER_MIN_HEIGHT) / NUMBERS_MEANING.HEADER_MIN_TO_MAX_HEIGHT_SIZE);
             }
         } else if (this.pYMove != 0 && this.pYMove < 0) {
-            // 向下移动，显示状态，不需要处理；隐藏状态，需要结合是否是顶部，如果是顶部，就要将顶部显示
             if (this.headerFavoriteHeight >= NUMBERS_MEANING.HEADER_MAX_HEIGHT) {
                 this.headerFavoriteFontSize = NUMBERS_MEANING.HEADER_MAX_FONT_SIZE;
                 this.isScrollTopPosition = false;
@@ -311,18 +303,18 @@ export default {
         } else {
         }
     },
-    /** list移动结束 */
+
     onTouchFavoriteEnd: function (e) {
         if (this.pYMove != 0 && this.pYMove > 0 && this.headerFavoriteHeight <= NUMBERS_MEANING.HEADER_MIN_HEIGHT) {
-            // 向上移动，隐藏状态，不需要处理；向上移动显示状态，需要设置隐藏
+
             this.headerFavoriteHeight = NUMBERS_MEANING.HEADER_MIN_HEIGHT;
             this.headerFavoriteFontSize = NUMBERS_MEANING.HEADER_MIN_FONT_SIZE;
         } else if (this.pYMove != 0 && this.pYMove < 0 && this.headerFavoriteHeight >= NUMBERS_MEANING.HEADER_MAX_HEIGHT && this.isScrollTopPosition == true) {
-            // 向下移动，显示状态，不需要处理；隐藏状态，需要结合是否是顶部，如果是顶部，就要将顶部显示
+
             this.headerFavoriteHeight = NUMBERS_MEANING.HEADER_MAX_HEIGHT;
             this.headerFavoriteFontSize = NUMBERS_MEANING.HEADER_MAX_FONT_SIZE;
         } else if (this.pYMove != 0 && this.pYMove < 0 && this.onScrollTopNum == 0) {
-            // 如果数据量较少，导致下拉条不生效，这种情况时，下拉即展示头部
+
             this.headerFavoriteHeight = NUMBERS_MEANING.HEADER_MAX_HEIGHT;
             this.headerFavoriteFontSize = NUMBERS_MEANING.HEADER_MAX_FONT_SIZE;
         } else {
@@ -337,9 +329,8 @@ export default {
         this.pYMove = 0;
         this.pYStart = 0;
     },
-    /** 是否滑动到顶部 */
+
     onScrollFavoriteTop: function (e) {
-        // 如果判断是顶部，做标记
         this.isScrollTopPosition = true;
         this.onScrollTopNum = this.onScrollTopNum + 1;
     },

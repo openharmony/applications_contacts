@@ -15,7 +15,6 @@
 <element name="favoritesdeleteComp" src="../favorites/delete/delete.hml"></element>
 <div id="container" class="container">
     <div id="content" class="content" if="{{ isShow }}">
-    <!-- 收藏标题-->
         <div class="todo-title-div">
             <div class="setting-parent-div"
                  if="{{ ! (todoList.length == 0  && favoritesList.length == 0) }}">
@@ -43,14 +42,12 @@
             <list id="favoriteList" class="todo-wraper" scrollbar="on" shapemode="rect" ontouchstart="onTouchStartList"
                   ontouchmove="onTouchListMove" onscrollbottom=""
                   onscrolltop="onScrollFavoriteTop" ontouchend="onTouchFavoriteEnd">
-            <!-- 收藏标题-->
                 <list-item class="todo-item" if="{{ favoritesList.length > 0}}" clickeffect="false">
                     <div class="todo-user-title-div">
                         <text class="todo-title-name-frequent">{{$t('group.favorites')}}
                         </text>
                     </div>
                 </list-item>
-            <!-- 收藏标题下列表内容-->
                 <list-item id="favoriteListListItem" for="{{ favoritesList }}" class="todo-item"
                            onlongpress="longFavoritesPress({{ $item.contactId }},{{ $idx }})">
                     <div id="favoritesListDivFirst" class="todo-content-div first" if="{{ layoutState }}"
