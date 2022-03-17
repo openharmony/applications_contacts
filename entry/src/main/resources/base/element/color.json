@@ -1,0 +1,104 @@
+{
+  "color": [
+    {
+      "name": "red",
+      "value": "#ff0000"
+    },
+    {
+      "name": "black",
+      "value": "#000"
+    },
+    {
+      "name": "gray",
+      "value": "#777777"
+    },
+    {
+      "name": "cancel",
+      "value": "#0f76ec"
+    },
+    {
+      "name": "white",
+      "value": "#ffffff"
+    },
+    {
+      "name": "gray_line",
+      "value": "#cccccc"
+    },
+    {
+      "name": "font_color_more",
+      "value": "#555555"
+    },
+    {
+      "name": "gray_divider",
+      "value": "#dddddd"
+    },
+    {
+      "name": "avatar_bg",
+      "value": "#bbbbbb"
+    },
+    {
+      "name": "font_hasFavorited",
+      "value": "#0A59F7"
+    },
+    {
+      "name": "basic_background",
+      "value": "#fafafa"
+    },
+    {
+      "name": "light_grey",
+      "value": "#f6f6f6"
+    },
+    {
+      "name": "textColorPrimary",
+      "value": "#182431"
+    },
+    {
+      "name": "textColorTertiary",
+      "value": "#66182431"
+    },
+    {
+      "name": "colorConnected",
+      "value": "#00CB87"
+    },
+    {
+      "name": "colorPrimaryDark",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "colorPrimary",
+      "value": "#182431"
+    },
+    {
+      "name": "colorControlNormal",
+      "value": "#19000000"
+    },
+    {
+      "name": "indexter_selected_bg",
+      "value": "#1000CB87"
+    },
+    {
+      "name": "textColorPrimary_bg",
+      "value": "#20182431"
+    },
+    {
+      "name": "error",
+      "value": "#E84026"
+    },
+    {
+      "name": "light_colorPrimary",
+      "value": "#99182431"
+    },
+    {
+      "name": "more_light_colorPrimary",
+      "value": "#66182431"
+    },
+    {
+      "name": "dialer_char_button_color",
+      "value": "#8a8a8a"
+    },
+    {
+      "name": "dialer_shadow_color",
+      "value": "#D8D8D8"
+    }
+  ]
+}

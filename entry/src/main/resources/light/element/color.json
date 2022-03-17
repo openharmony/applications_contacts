@@ -1,0 +1,28 @@
+{
+  "color": [
+    {
+      "name": "textColorPrimary",
+      "value": "#182431"
+    },
+    {
+      "name": "textColorTertiary",
+      "value": "#66182431"
+    },
+    {
+      "name": "colorConnected",
+      "value": "#00CB87"
+    },
+    {
+      "name": "colorPrimaryDark",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "colorPrimary",
+      "value": "#182431"
+    },
+    {
+      "name": "colorControlNormal",
+      "value": "#19000000"
+    }
+  ]
+}

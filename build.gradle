@@ -1,35 +1,52 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 apply plugin: 'com.huawei.ohos.app'
-apply from: this.file('global.gradle')
+
+//For instructions on signature configuration, see https://developer.harmonyos.com/cn/docs/documentation/doc-guides/ide_debug_device-0000001053822404#section1112183053510
 ohos {
-    compileSdkVersion 7
+    compileSdkVersion 8
     supportSystem "standard"
-    defaultConfig {
-        compatibleSdkVersion 7
+    signingConfigs {
+        debug {
+            storeFile file('sign\\OpenHarmony.p12')
+            storePassword '00000016415DCB8BDB5D691A90749335FF8E25F1806A4C11AF9FB4BE8C598A979D787FF01BDB'
+            keyAlias = 'OpenHarmony Application CA'
+            keyPassword '00000016929E7CB9E098D907A36A4346625D55CC1DC412040BDB794E0CEAF760FDB68B0E8966'
+            signAlg = 'SHA256withECDSA'
+            profile file('sign\\com.ohos.contacts.p7b')
+            certpath file('sign\\IDE.cer')
+        }
+        release {
+            initWith(signingConfigs.debug)
+        }
     }
 }
 
 buildscript {
     repositories {
         maven {
-            url 'https://repo.huaweicloud.com/repository/maven/'
+            url 'http://repo.ark.tools.huawei.com/artifactory/maven-public/'
+            allowInsecureProtocol = true
         }
         maven {
-            url 'https://developer.huawei.com/repo/'
+            url 'http://mirrors.tools.huawei.com/maven/'
+            allowInsecureProtocol = true
         }
     }
     dependencies {
-        classpath 'com.huawei.ohos:hap:3.0.3.4'
+        classpath 'com.huawei.ohos:hap:3.0.6.4'
+        classpath 'com.huawei.ohos:decctest:3.0.4.3'
     }
 }
 
 allprojects {
     repositories {
         maven {
-            url 'https://repo.huaweicloud.com/repository/maven/'
+            url 'http://repo.ark.tools.huawei.com/artifactory/maven-public/'
+            allowInsecureProtocol = true
         }
         maven {
-            url 'https://developer.huawei.com/repo/'
+            url 'http://mirrors.tools.huawei.com/maven/'
+            allowInsecureProtocol = true
         }
     }
 }
