@@ -232,7 +232,7 @@ struct ContactItem {
         //        this.pageState = false;
         HiLog.i(TAG, 'call dial success ');
       }).catch((err) => {
-        HiLog.e(TAG, 'call dial error, ');
+        HiLog.e(TAG, 'call dial error: %s', JSON.stringify(err.message));
       });
     }
   }

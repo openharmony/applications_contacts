@@ -145,6 +145,8 @@ export default class ContactListPresenter {
         HiLog.i(TAG, 'onDeleteDialogConfirm result is ' + JSON.stringify(result));
         dbChangeHelper.getInstance()
           .notifyChange(common.getDAHelper(Constants.uri.CONTACT_DB_URI), Constants.uri.CONTACT_URI);
+        dbChangeHelper.getInstance()
+          .notifyChange(common.getDAHelper(Constants.uri.CALLLOG_DB_URI), Constants.uri.CALL_LOG_URI);
       });
   }
 

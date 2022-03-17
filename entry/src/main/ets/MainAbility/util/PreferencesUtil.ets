@@ -41,7 +41,7 @@ export default {
      * @param {string} key value值
      */
   getValue(key) {
-    HiLog.i(TAG, 'getValue start: %s', key);
+    HiLog.i(TAG, 'getValue start: ');
     let prefIns = this.getPreferencesInstance();
     return prefIns.getSync(key, Constants.string.EMPTY_STR);
   },
@@ -53,7 +53,6 @@ export default {
    * @param valueOfSwitch  value
    */
   setValueForSwitch(keyOfSwitch, valueOfSwitch) {
-    HiLog.i(TAG, 'setValueForSwitch start:' + keyOfSwitch + 'valueOfSwitch:' + valueOfSwitch);
     let prefIns = this.getPreferencesInstance();
     prefIns.putSync(keyOfSwitch, valueOfSwitch);
     prefIns.flushSync();
@@ -96,7 +95,7 @@ export default {
      */
   getCalllogMergeRule(): string{
     let prefIns = this.getPreferencesInstance();
-    HiLog.i(TAG, 'getCalllogMergeRule %s', prefIns);
+    HiLog.i(TAG, 'getCalllogMergeRule');
     return prefIns.getSync(Constants.string.CALL_LOG_MERGE_RULE, 'from_time');
   },
 }

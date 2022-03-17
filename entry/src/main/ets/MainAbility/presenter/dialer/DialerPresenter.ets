@@ -173,7 +173,7 @@ export default class DialerPresenter {
   pressVibrate() {
     vibrator.vibrate(1000, function (error) {
       if (error) {
-        HiLog.e(TAG, "pressVibrate error");
+        HiLog.e(TAG, "pressVibrate error: %s", JSON.stringify(error.message));
       } else {
         HiLog.i(TAG, "Callback returned to indicate a successful vibration.");
       }
@@ -224,7 +224,7 @@ export default class DialerPresenter {
    */
   playAudio(number) {
     let audioFileName: string = '';
-    HiLog.i(TAG, 'number : ' + number.toString());
+    HiLog.i(TAG, 'SHOW number');
     switch (number.toString()) {
       case '1':
         audioFileName = '1.ogg';
@@ -265,14 +265,14 @@ export default class DialerPresenter {
       default:
         HiLog.e(TAG, "keytone src is error");
     }
-    HiLog.i(TAG, 'mAudioPath ' + this.mAudioPath);
+    HiLog.i(TAG, 'mAudioPath ');
     if (this.mAudioPath == '') {
       fileIO.open(this.BASE_PATH + audioFileName).then((fdNumber) => {
         let fdPath = this.HOST + '' + fdNumber;
-        HiLog.i(TAG, 'first ' + fdPath);
+        HiLog.i(TAG, 'first ');
         this.audioPlayer.src = fdPath;
       }).catch(error => {
-        HiLog.e(TAG, 'open fd error:' + JSON.stringify(error));
+        HiLog.e(TAG, 'open fd error:%s', JSON.stringify(error.message));
       });
     } else if (this.mAudioPath == audioFileName) {
       this.audioPlayer.seek(0);
@@ -281,10 +281,10 @@ export default class DialerPresenter {
       this.audioPlayer.reset();
       fileIO.open(this.BASE_PATH + audioFileName).then((fdNumber) => {
         let fdPath = this.HOST + '' + fdNumber;
-        HiLog.i(TAG, 'open fd sucess fd is ' + fdPath);
+        HiLog.i(TAG, 'Show open fd sucess fd');
         this.audioPlayer.src = fdPath;
       }).catch(error => {
-        HiLog.e(TAG, 'open fd error:' + JSON.stringify(error));
+        HiLog.e(TAG, 'open fd error:%s', JSON.stringify(error.message));
       });
     }
     this.mAudioPath = audioFileName;
@@ -298,7 +298,7 @@ export default class DialerPresenter {
       params: {
         //true编辑 false新建
         updataShow: false,
-        phoneNumbers: [{phoneNumber: this.tele_number}]
+        phoneNumbers: [{phoneNumber: this.all_number}]
       },
     })
   }
@@ -312,8 +312,8 @@ export default class DialerPresenter {
     HiLog.i(TAG, 'sendMessage');
     let params = [];
     params.push({
-      telephone: this.tele_number,
-      telephoneFormat: this.tele_number
+      telephone: this.all_number,
+      telephoneFormat: this.all_number
     });
     this.jumpToMms(params);
   }

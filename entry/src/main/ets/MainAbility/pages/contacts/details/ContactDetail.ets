@@ -241,7 +241,10 @@ struct Content {
         .padding({ left: '24vp', right: '24vp' })
 
         // 通话记录
-        DetailCalllog({ mDetailModel: $mDetailModel })
+        if (!utils.isEmptyList(this.mDetailModel.contactForm.numRecords)
+        && !this.mDetailModel.isCallLogClean) {
+          DetailCalllog({ mDetailModel: $mDetailModel })
+        }
       }
       .width('100%')
     }

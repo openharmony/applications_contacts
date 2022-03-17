@@ -37,7 +37,7 @@ export default class DialUtil {
    * @param callback 拨号回调 data:是否是紧急号码   err：拨号失败  value：拨号结果
    */
   dial(phoneNum: string, callback) {
-    HiLog.i(TAG, 'dial phonenum is %s', phoneNum);
+    HiLog.i(TAG, 'dial phonenum is ');
     if (Utils.isEmpty(phoneNum)) {
       return;
     }
@@ -45,14 +45,14 @@ export default class DialUtil {
 
     call.isEmergencyPhoneNumber(num, (err, data) => {
       if (err) {
-        HiLog.e(TAG, 'isEmergencyPhoneNumber err %s', err.message);
+        HiLog.e(TAG, 'isEmergencyPhoneNumber err %s', JSON.stringify(err.message));
         return;
       }
       if (data) {
         call.dial(num, { dialScene: 2 }, (err, value) => {
           callback(data, err, value);
           if (err) {
-            HiLog.e(TAG, 'dialEmergencyPhoneNumber finish err %s', err.message);
+            HiLog.e(TAG, 'dialEmergencyPhoneNumber finish err %s', JSON.stringify(err.message));
             return;
           }
           HiLog.i(TAG, 'dialEmergencyPhoneNumber finish %s', value);
@@ -61,7 +61,7 @@ export default class DialUtil {
         call.dial(num, (err, value) => {
           callback(data, err, value);
           if (err) {
-            HiLog.e(TAG, 'dial finish err %s', err.message);
+            HiLog.e(TAG, 'dial finish err %s', JSON.stringify(err.message));
             return;
           }
           HiLog.i(TAG, 'dial finish %s', value);

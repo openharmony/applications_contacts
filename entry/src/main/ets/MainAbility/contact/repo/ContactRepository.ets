@@ -71,7 +71,7 @@ export default class ContactRepository implements IContactRepository {
           resolve(resultSet);
         })
         .catch(error => {
-          HiLog.w(TAG, 'save error:' + error);
+          HiLog.w(TAG, 'save error:%s', JSON.stringify(error.message));
           reject(error);
         });
     });
@@ -110,7 +110,7 @@ export default class ContactRepository implements IContactRepository {
         resultSet.close();
         resolve(contactBuilder.buildContact());
       }).catch(error => {
-        HiLog.e(TAG, 'findById error:' + error);
+        HiLog.e(TAG, 'findById error:%s', JSON.stringify(error.message));
         reject(error);
       });
     });
@@ -137,7 +137,7 @@ export default class ContactRepository implements IContactRepository {
           resolve(rst);
         })
         .catch(error => {
-          HiLog.w(TAG, 'findAll error:' + error);
+          HiLog.w(TAG, 'findAll error:%s', JSON.stringify(error.message));
           reject(error);
         });
     });
@@ -170,7 +170,7 @@ export default class ContactRepository implements IContactRepository {
         resultSet.close();
         resolve(contactBuilder.buildContact());
       }).catch(error => {
-        HiLog.e(TAG, 'findByQuickSearchKey error:' + error);
+        HiLog.e(TAG, 'findByQuickSearchKey error:%s', JSON.stringify(error.message));
         reject(error);
       });
     });
@@ -206,7 +206,7 @@ export default class ContactRepository implements IContactRepository {
       dataAbilityHelper.delete(Contacts.CONTACT_URI, condition).then(data => {
         resolve(data);
       }).catch(error => {
-        HiLog.w(TAG, 'deleteById error:' + error);
+        HiLog.w(TAG, 'deleteById error:%s', JSON.stringify(error.message));
         reject(error);
       });
     });
