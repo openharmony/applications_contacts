@@ -1,28 +1,9 @@
 apply plugin: 'com.huawei.ohos.hap'
+//For instructions on signature configuration, see https://developer.harmonyos.com/cn/docs/documentation/doc-guides/ide_debug_device-0000001053822404#section1112183053510
 ohos {
-    signingConfigs {
-        debug {
-            storePassword rootProject.ext.debugSignConfigs.storePassword
-            keyAlias rootProject.ext.debugSignConfigs.keyAlias
-            keyPassword rootProject.ext.debugSignConfigs.keyPassword
-            signAlg rootProject.ext.debugSignConfigs.signAlg
-            storeFile file(rootProject.ext.debugSignConfigs.storeFile)
-            profile file(rootProject.ext.debugSignConfigs.profile)
-            certpath file(rootProject.ext.debugSignConfigs.cerPath)
-        }
-        release {
-            storePassword rootProject.ext.signConfigs.storePassword
-            keyAlias rootProject.ext.signConfigs.keyAlias
-            keyPassword rootProject.ext.signConfigs.keyPassword
-            signAlg rootProject.ext.signConfigs.signAlg
-            storeFile file(rootProject.ext.signConfigs.storeFile)
-            profile file(rootProject.ext.signConfigs.profile)
-            certpath file(rootProject.ext.signConfigs.cerPath)
-        }
-    }
-    compileSdkVersion 7
+    compileSdkVersion 8
     defaultConfig {
-        compatibleSdkVersion 7
+        compatibleSdkVersion 8
     }
     buildTypes {
         release {
@@ -32,8 +13,9 @@ ohos {
             }
         }
     }
-    arkEnabled false
 }
 
-dependencies {}
-
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.har'])
+    testImplementation 'junit:junit:4.13.1'
+}
