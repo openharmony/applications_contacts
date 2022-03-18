@@ -638,11 +638,11 @@
     },
     {
       "name": "birth_hock",
-      "value": "  生日"
+      "value": "  日期"
     },
     {
       "name": "assistant_hock",
-      "value": "  助理"
+      "value": "  关系人"
     },
     {
       "name": "instant_type_aim",

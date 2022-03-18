@@ -32,7 +32,7 @@ const TAG = 'ContactListItemView ';
 export default struct ContactListItemView {
   private presenter: ContactListPresenter = ContactListPresenter.getInstance();
   @State item: any = {};
-  private index: number;
+  @State private index: number = 0;
   shareDialogControler: CustomDialogController = new CustomDialogController({
     builder: ShareDialogEx({
       itemList: this.presenter.shareList,
@@ -52,7 +52,7 @@ export default struct ContactListItemView {
         this.presenter.onDeleteDialogCancel();
       },
       confirm: () => {
-        this.presenter.onDeleteDialogConfirm(this.item);
+        this.presenter.onDeleteDialogConfirm(this.index, this.item);
       },
       title: $r("app.string.delete_dialog_title"),
       cancalText: $r("app.string.dialog_cancel"),

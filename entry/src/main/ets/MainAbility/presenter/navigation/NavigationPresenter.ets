@@ -22,23 +22,11 @@ export default {
   getTabSrc(tabIndex: number, index: number): Resource{
     let imgSrc = $r('app.media.phone')
     if (index === 0) {
-      if (tabIndex === index) {
-        imgSrc = $r('app.media.ic_public_phone_filled')
-      } else {
-        imgSrc = $r("app.media.ic_phonecall_m")
-      }
+      imgSrc = $r("app.media.ic_phonecall_m")
     } else if (index === 1) {
-      if (tabIndex === index) {
-        imgSrc = $r("app.media.ic_public_contacts_group_filled")
-      } else {
-        imgSrc = $r("app.media.ic_contacts_m")
-      }
+      imgSrc = $r("app.media.ic_contacts_m")
     } else {
-      if (tabIndex === index) {
-        imgSrc = $r('app.media.ic_contacts_favorite_filled_m')
-      } else {
-        imgSrc = $r("app.media.ic_contacts_favorite_m")
-      }
+      imgSrc = $r("app.media.ic_contacts_favorite_m")
     }
     return imgSrc
   },

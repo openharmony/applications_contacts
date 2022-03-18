@@ -140,13 +140,14 @@ export default {
         'other_lan_first_name': addParams.hasOwnProperty('other_lan_first_name') ? (addParams.other_lan_first_name) : "",
         'type_id': 6,
       };
-      DAHelper.insert(uri, dataContact, (err, data) => {
-        if (err) {
-          HiLog.e(TAG, 'name-Operation failed. Cause: %s', JSON.stringify(err.message));
-          return;
-        }
+      DAHelper.insert(
+        uri,
+        dataContact
+      ).then(data => {
         HiLog.d(TAG, 'name-insert data success!');
-      })
+      }).catch(err => {
+        HiLog.e(TAG, 'name-Operation failed. Cause: %s', JSON.stringify(err.message));
+      });
     }
   },
 
@@ -347,12 +348,16 @@ export default {
      */
   eventContact: function (addParams, DAHelper, result, uri) {
     if (addParams.events != undefined && addParams.events.length > 0) {
+      let index = 1;
       addParams.events.forEach(element => {
+        if (Utils.isEmpty(element.data)) {
+          return;
+        }
         let eventContact = {
           'raw_contact_id': result,
           'detail_info': element.data,
-          'extend7': element.eventType + '',
-          'custom_data': element.eventName,
+          'extend7': (index++).toString(),
+          'custom_data': element.eventType,
           'type_id': 11
         };
         DAHelper.insert(
@@ -633,10 +638,10 @@ export default {
         break;
       case DataItemType.EVENT:
         let event_element = {
-          'id': "",
+          'id': dataItem.getLabelId(),
           'data': dataItem.getData(),
-          'eventType': dataItem.getLabelId(),
-          'eventName': dataItem.getLabelName()
+          'eventType': dataItem.getLabelName(),
+          'eventName': ""
         };
         if (contactDetailInfo.events) {
           contactDetailInfo.events.push(event_element);

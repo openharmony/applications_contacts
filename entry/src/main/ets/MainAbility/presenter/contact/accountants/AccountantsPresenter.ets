@@ -33,6 +33,7 @@ import {ContactInfo} from "../../../model/bean/ContactInfo";
 import {PhoneNumBean} from "../../../model/bean/PhoneNumBean";
 import {HouseBean} from "../../../model/bean/HouseBean";
 import {AIMBean} from "../../../model/bean/AIMBean";
+import {EventBean} from "../../../model/bean/EventBean";
 import {AssociatedPersonBean} from "../../../model/bean/AssociatedPersonBean";
 
 const TAG = 'AccountantsPresenter  ';
@@ -57,14 +58,7 @@ export default class AccountantsPresenter {
   contactInfoBefore: ContactInfo = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
   contactInfoAfter: ContactInfo = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
 
-
-  // 下拉菜单
-  birthdayMenu: any = [{ value: "", action: () => {} }];
-
-  // 生日菜单默认选择类型
-  birthDaySelect: Resource = $r("app.string.birthday_type_grebirthday");
-
-  // 多联系人管理
+  // 多子项管理
   // [1] 占位
   MagList:any = [];
 
@@ -79,8 +73,6 @@ export default class AccountantsPresenter {
   }
 
   init() {
-    this.getContactMenus();
-
     this.contactId = "";
     this.updateShow = false;
     this.MagList = [1];
@@ -91,30 +83,6 @@ export default class AccountantsPresenter {
   refresh() {
     this.contactInfoBefore = this.contactInfoAfter;
     this.changed = !this.changed;
-  }
-
-  getContactMenus() {
-    let accountTypeService = new AccountTypeService();
-    let menuKindTypeList;
-    let phoneType = accountTypeService.getAccountType(AccountType.PHONE_ACCOUNT_TYPE);
-    let tmpPhoneMenu = [];
-    menuKindTypeList = phoneType.mineKinds.get(Birthday.CONTENT_ITEM_TYPE).typeList;
-    menuKindTypeList.forEach(element => {
-      tmpPhoneMenu.push({});
-    });
-    this.birthdayMenu = tmpPhoneMenu;
-    resourceManager.getResourceManager().then(result => {
-      menuKindTypeList.forEach((element, i) => {
-        result.getString(element.labelRes.id, (err, typeName) => {
-          this.birthdayMenu[i] = {
-            value: typeName,
-            action: () => {
-              this.birthDaySelect = element.labelRes;
-            }
-          }
-        })
-      })
-    })
   }
 
   updatesInit() {
@@ -246,6 +214,9 @@ export default class AccountantsPresenter {
       case "relationships":
         this.contactInfoAfter.relationships.push(new AssociatedPersonBean("1", "", "", ""));
         break;
+      case "events":
+        this.contactInfoAfter.events.push(new EventBean("", "", "1", ""));
+        break;
       default:
         break;
     }
@@ -278,14 +249,15 @@ export default class AccountantsPresenter {
           this.contactInfoAfter.relationships.splice(startIndex, 1);
         }
         break;
+      case "events":
+        if(this.contactInfoAfter.events.length > 1){
+          this.contactInfoAfter.events.splice(startIndex, 1);
+        }
+        break;
       default:
         break;
     }
     this.refresh();
-  }
-
-  public phoneMenuSelect(type: number){
-    return Phone.getTypeLabelResource(type);
   }
 
   public getTextDisplay(typeName: string, data: any) {
@@ -314,6 +286,11 @@ export default class AccountantsPresenter {
       case "relationships":
         if (data.item.hasOwnProperty("name")) {
           display = data.item.name;
+        }
+        break;
+      case "events":
+        if (data.item.hasOwnProperty("data")) {
+          display = data.item.data;
         }
         break;
       default:
@@ -392,6 +369,12 @@ export default class AccountantsPresenter {
         }
         return Relation.getTypeLabelResource(typeId);
         break;
+      case "events":
+        if (data.item.hasOwnProperty("eventType")) {
+          typeId = Number(data.item.eventType)
+        }
+        return Birthday.getTypeLabelResource(typeId);
+        break;
       default:
         return "";
         break;
@@ -417,6 +400,9 @@ export default class AccountantsPresenter {
         break;
       case "relationships":
         menuKindTypeList = phoneType.mineKinds.get(Relation.CONTENT_ITEM_TYPE).typeList;
+        break;
+      case "events":
+        menuKindTypeList = phoneType.mineKinds.get(Birthday.CONTENT_ITEM_TYPE).typeList;
         break;
       default:
         break;
@@ -455,6 +441,12 @@ export default class AccountantsPresenter {
           this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean("", "", "", "");
         }
         this.contactInfoAfter.relationships[data.i - 1].associatedType = item.rawValue.toString();
+        break;
+      case "events":
+        if (util.isEmptyObject(this.contactInfoAfter.events[data.i - 1])) {
+          this.contactInfoAfter.events[data.i - 1] = new EventBean("", "", "", "");
+        }
+        this.contactInfoAfter.events[data.i - 1].eventType = item.rawValue.toString();
         break;
       default:
         break;

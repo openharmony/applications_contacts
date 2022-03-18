@@ -208,41 +208,38 @@ struct ContactContent {
       .height(82)
 
       List({ space: 0, initialIndex: 0 }) {
-        ForEach(this.presenter.contactList, (item, index) => {
-
-          // 判断当前item是否为第一个 或与上一个item的namePrefix不同，则插入字母前缀
-          if (index == 0 || !(item.namePrefix == this.presenter.contactList[index-1].namePrefix)) {
-            ListItem() {
-              Text(item.namePrefix)
-                .fontColor(Color.Black)
-                .fontSize(18)
-                .fontWeight(FontWeight.Medium)
-                .height($r("app.float.contact_listitem_index_height"))
-                .textAlign(TextAlign.End)
-                .padding({ top: 5 })
-            }.margin({ left: $r("app.float.common_margin") })
-          }
-          // 插入联系人item
+        LazyForEach(this.presenter.contactListDataSource, (item, index: number) => {
           ListItem() {
-            ContactListItemView({ item: item, index: index })
-          }
-
-          // 判断item前缀是否与下一个item前缀相同 相同则插入divider
-          if (index < this.presenter.contactList.length - 1 && item.namePrefix == this.presenter.contactList[index+1].namePrefix) {
-            ListItem() {
-              Row() {
-                Divider()
-                  .vertical(false)
-                  .strokeWidth('0.5vp')
-                  .color('#F1F3F5')
-                  .margin({ left: 76, right: $r("app.float.common_margin") })
+            Column() {
+              if (item.showIndex) {
+                Text(item.contact.namePrefix)
+                  .fontColor(Color.Black)
+                  .fontSize(18)
+                  .fontWeight(FontWeight.Medium)
+                  .height($r("app.float.contact_listitem_index_height"))
+                  .textAlign(TextAlign.Start)
+                  .padding({ top: 5 })
+                  .margin({ left: $r("app.float.common_margin") })
               }
-              .width('100%')
-              .height('0.5')
-              .backgroundColor(Color.White)
+
+              ContactListItemView({ item: item.contact, index: index })
+
+              if (item.showDivifer) {
+                Row() {
+                  Divider()
+                    .vertical(false)
+                    .strokeWidth('0.5vp')
+                    .color('#F1F3F5')
+                    .margin({ left: 76, right: $r("app.float.common_margin") })
+                }
+                .width('100%')
+                .height('0.5')
+                .backgroundColor(Color.White)
+              }
             }
+            .alignItems(HorizontalAlign.Start)
           }
-        }, (item: ContactVo) => item.contactId.toString())
+        }, (item) => item.contact.contactId.toString())
       }
       .width('100%')
       .layoutWeight(1)
