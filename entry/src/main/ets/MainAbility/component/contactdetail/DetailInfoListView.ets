@@ -74,12 +74,24 @@ export default struct DetailInfoListView {
 @Component
 struct TelList {
   @Link private mDetailModel: any;
+  @Builder ListDivider() {
+    Divider()
+      .vertical(false)
+      .strokeWidth('1vp')
+      .color(Color.Gray)
+      .opacity(0.6)
+  }
 
   build() {
     List() {
-      ForEach(this.mDetailModel.contactForm.phones, (item) => {
+      ForEach(this.mDetailModel.contactForm.phones, (item, index) => {
         ListItem() {
           TelListItem({ message: JSON.stringify(item), mDetailModel: $mDetailModel });
+        }
+        if (index < this.mDetailModel.contactForm.phones.length - 1) {
+          ListItem() {
+            this.ListDivider()
+          }
         }
       }, item => (item.id).toString())
     }
@@ -166,18 +178,26 @@ struct TelListItem {
 @Component
 struct EmailList {
   @Link private mDetailModel: any;
+  @Builder ListDivider() {
+    Divider()
+      .vertical(false)
+      .strokeWidth('1vp')
+      .color(Color.Gray)
+      .opacity(0.6)
+  }
 
   build() {
     Column() {
-      Divider()
-        .vertical(false)
-        .strokeWidth('1vp')
-        .color(Color.Gray)
-        .opacity(0.6)
+      this.ListDivider()
       List() {
-        ForEach(this.mDetailModel.contactForm.emails, item => {
+        ForEach(this.mDetailModel.contactForm.emails, (item, index) => {
           ListItem() {
-            EmailListItem({ message: JSON.stringify(item), mDetailModel: $mDetailModel });
+            EmailListItem({ message: JSON.stringify(item) });
+          }
+          if (index < this.mDetailModel.contactForm.emails.length - 1) {
+            ListItem() {
+              this.ListDivider()
+            }
           }
         }, item => item.id.toString())
       }
@@ -192,31 +212,18 @@ struct EmailList {
  */
 @Component
 struct EmailListItem {
-  private message: string;
-  private title: string;
-  private content: Resource;
-  @Link private mDetailModel: any;
-
-  aboutToAppear() {
-    this.title = JSON.parse(this.message).address;
-    this.content = JSON.parse(this.message).labelName;
-  }
+  @Prop message: string;
 
   build() {
     Column() {
-      DetailInfoListItemView({ title: this.title, content: this.content, hasRow: true })
+      DetailInfoListItemView({ title: JSON.parse(this.message).address,
+        content: JSON.parse(this.message).labelName, hasRow: true })
     }
     .onClick(() => {
-
     })
     .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
       .onAction((event: GestureEvent) => {
-
-      })
-      .onActionEnd(() => {
-
-      })
-    )
+      }))
   }
 }
 
@@ -226,29 +233,27 @@ struct EmailListItem {
 @Component
 struct AIMList {
   @Link private mDetailModel: any;
+  @Builder ListDivider() {
+    Divider()
+      .vertical(false)
+      .strokeWidth('1vp')
+      .color(Color.Gray)
+      .opacity(0.6)
+  }
 
   build() {
     Column() {
       List() {
         ListItem() {
-          Divider()
-            .vertical(false)
-            .strokeWidth('1vp')
-            .color(Color.Gray)
-            .opacity(0.6)
+          this.ListDivider()
         }
-
         ForEach(this.mDetailModel.contactForm.aims, (item, index) => {
           ListItem() {
-            AIMListItem({ message: JSON.stringify(item), mDetailModel: $mDetailModel });
+            AIMListItem({ message: JSON.stringify(item)});
           }
-          if (index < this.mDetailModel.contactForm.websites.length - 1) {
+          if (index < this.mDetailModel.contactForm.aims.length - 1) {
             ListItem() {
-              Divider()
-                .vertical(false)
-                .strokeWidth('1vp')
-                .color(Color.Gray)
-                .opacity(0.6)
+              this.ListDivider()
             }
           }
         })
@@ -264,31 +269,18 @@ struct AIMList {
  */
 @Component
 struct AIMListItem {
-  private message: string;
-  private title: string;
-  private content: Resource;
-  @Link private mDetailModel: any;
-
-  aboutToAppear() {
-    this.title = JSON.parse(this.message).aimId;
-    this.content = JSON.parse(this.message).aimType;
-  }
+  @Prop message: string;
 
   build() {
     Column() {
-      DetailInfoListItemView({ title: this.title, content: this.content, hasRow: true })
+      DetailInfoListItemView({ title: JSON.parse(this.message).aimName,
+        content: JSON.parse(this.message).aimType, hasRow: true })
     }
     .onClick(() => {
-
     })
     .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
       .onAction((event: GestureEvent) => {
-
-      })
-      .onActionEnd(() => {
-
-      })
-    )
+      }))
   }
 }
 
@@ -347,30 +339,27 @@ struct NickName {
 @Component
 struct WebSiteList {
   @Link private mDetailModel: any;
+  @Builder ListDivider() {
+    Divider()
+      .vertical(false)
+      .strokeWidth('1vp')
+      .color(Color.Gray)
+      .opacity(0.6)
+  }
 
   build() {
     Column() {
       List() {
         ListItem() {
-          Divider()
-            .vertical(false)
-            .strokeWidth('1vp')
-            .color(Color.Gray)
-            .opacity(0.6)
+          this.ListDivider()
         }
-
         ForEach(this.mDetailModel.contactForm.websites, (item, index) => {
           ListItem() {
-            WebSiteListItem({ message: item, mDetailModel: $mDetailModel });
+            WebSiteListItem({ message: item });
           }
-
           if (index < this.mDetailModel.contactForm.websites.length - 1) {
             ListItem() {
-              Divider()
-                .vertical(false)
-                .strokeWidth('1vp')
-                .color(Color.Gray)
-                .opacity(0.6)
+              this.ListDivider()
             }
           }
         })
@@ -386,9 +375,7 @@ struct WebSiteList {
  */
 @Component
 struct WebSiteListItem {
-  private message: string;
-  private title: string;
-  @Link private mDetailModel: any;
+  @Prop message: string;
 
   build() {
     Column() {
@@ -398,7 +385,6 @@ struct WebSiteListItem {
     })
     .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
       .onAction((event: GestureEvent) => {
-
       }))
   }
 }
@@ -409,30 +395,27 @@ struct WebSiteListItem {
 @Component
 struct HouseList {
   @Link private mDetailModel: any;
+  @Builder ListDivider() {
+    Divider()
+      .vertical(false)
+      .strokeWidth('1vp')
+      .color(Color.Gray)
+      .opacity(0.6)
+  }
 
   build() {
     Column() {
       List() {
         ListItem() {
-          Divider()
-            .vertical(false)
-            .strokeWidth('1vp')
-            .color(Color.Gray)
-            .opacity(0.6)
+          this.ListDivider()
         }
-
         ForEach(this.mDetailModel.contactForm.houses, (item, index) => {
           ListItem() {
-            HouseListItem({ message: JSON.stringify(item), mDetailModel: $mDetailModel });
+            HouseListItem({ message: JSON.stringify(item) });
           }
-
-          if (index < this.mDetailModel.contactForm.websites.length - 1) {
+          if (index < this.mDetailModel.contactForm.houses.length - 1) {
             ListItem() {
-              Divider()
-                .vertical(false)
-                .strokeWidth('1vp')
-                .color(Color.Gray)
-                .opacity(0.6)
+              this.ListDivider()
             }
           }
         })
@@ -448,26 +431,17 @@ struct HouseList {
  */
 @Component
 struct HouseListItem {
-  private message: string;
-  private title: string;
-  private content: Resource;
-  @Link private mDetailModel: any;
-
-  aboutToAppear() {
-    this.title = JSON.parse(this.message).houseId;
-    this.content = JSON.parse(this.message).houseType;
-  }
+  @Prop message: string;
 
   build() {
     Column() {
-      DetailInfoListItemView({ title: this.title, content: this.content, hasRow: true })
+      DetailInfoListItemView({ title: JSON.parse(this.message).houseName,
+        content: JSON.parse(this.message).houseType, hasRow: true })
     }
     .onClick(() => {
-
     })
     .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
       .onAction((event: GestureEvent) => {
-
       }))
   }
 }
@@ -478,30 +452,28 @@ struct HouseListItem {
 @Component
 struct RemembranceDay {
   @Link private mDetailModel: any;
+  @Builder ListDivider() {
+    Divider()
+      .vertical(false)
+      .strokeWidth('1vp')
+      .color(Color.Gray)
+      .opacity(0.6)
+  }
 
   build() {
     Column() {
       List() {
         ListItem() {
-          Divider()
-            .vertical(false)
-            .strokeWidth('1vp')
-            .color(Color.Gray)
-            .opacity(0.6)
+          this.ListDivider()
         }
-
         ForEach(this.mDetailModel.contactForm.events, (item, index) => {
           ListItem() {
-            RemembranceDayItem({ message: JSON.stringify(item), mDetailModel: $mDetailModel });
+            RemembranceDayItem({ message: JSON.stringify(item) });
           }
 
-          if (index < this.mDetailModel.contactForm.websites.length - 1) {
+          if (index < this.mDetailModel.contactForm.events.length - 1) {
             ListItem() {
-              Divider()
-                .vertical(false)
-                .strokeWidth('1vp')
-                .color(Color.Gray)
-                .opacity(0.6)
+              this.ListDivider()
             }
           }
         }, item => item.id.toString())
@@ -517,31 +489,18 @@ struct RemembranceDay {
  */
 @Component
 struct RemembranceDayItem {
-  private message: string;
-  private title: string;
-  private content: Resource;
-  @Link private mDetailModel: any;
-
-  aboutToAppear() {
-    this.title = JSON.parse(this.message).data;
-    this.content = JSON.parse(this.message).eventName;
-  }
+  @Prop message: string;
 
   build() {
     Column() {
-      DetailInfoListItemView({ title: this.title, content: this.content, hasRow: true })
+      DetailInfoListItemView({ title: JSON.parse(this.message).data,
+        content: JSON.parse(this.message).eventName, hasRow: true })
     }
     .onClick(() => {
-      this.mDetailModel.openCalenderApp(JSON.parse(this.message).id);
     })
     .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
       .onAction((event: GestureEvent) => {
-
-      })
-      .onActionEnd(() => {
-
-      })
-    )
+      }))
   }
 }
 
@@ -585,7 +544,6 @@ struct Group {
     .visibility(Utils.isEmpty(this.mDetailModel.contactForm.showGroupsString) ? Visibility.None : Visibility.Visible)
     .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
       .onAction((event: GestureEvent) => {
-
       }))
   }
 }
@@ -645,21 +603,28 @@ struct PinyinName {
 @Component
 struct Relationships {
   @Link private mDetailModel: any;
+  @Builder ListDivider() {
+    Divider()
+      .vertical(false)
+      .strokeWidth('1vp')
+      .color(Color.Gray)
+      .opacity(0.6)
+  }
 
   build() {
     Column() {
       List() {
         ListItem() {
-          Divider()
-            .vertical(false)
-            .strokeWidth('1vp')
-            .color(Color.Gray)
-            .opacity(0.6)
+          this.ListDivider()
         }
-
-        ForEach(this.mDetailModel.contactForm.relationships, item => {
+        ForEach(this.mDetailModel.contactForm.relationships, (item, index) => {
           ListItem() {
-            RelationshipsItem({ message: JSON.stringify(item), mDetailModel: $mDetailModel });
+            RelationshipsItem({ message: JSON.stringify(item) });
+          }
+          if (index < this.mDetailModel.contactForm.relationships.length - 1) {
+            ListItem() {
+              this.ListDivider()
+            }
           }
         }, item => item.id.toString())
       }
@@ -674,31 +639,18 @@ struct Relationships {
  */
 @Component
 struct RelationshipsItem {
-  private message: string;
-  private title: string;
-  private content: Resource;
-  @Link private mDetailModel: any;
-
-  aboutToAppear() {
-    this.title = JSON.parse(this.message).associatedPersonId;
-    this.content = JSON.parse(this.message).associatedType;
-  }
+  @Prop message: string;
 
   build() {
     Column() {
-      DetailInfoListItemView({ title: this.title, content: this.content, hasRow: true })
+      DetailInfoListItemView({ title: JSON.parse(this.message).name,
+        content: JSON.parse(this.message).associatedType, hasRow: true })
     }
     .onClick(() => {
-
     })
     .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
       .onAction((event: GestureEvent) => {
-
-      })
-      .onActionEnd(() => {
-
-      })
-    )
+      }))
   }
 }
 
@@ -742,12 +694,7 @@ struct Remarks {
     .visibility(Utils.isEmpty(this.mDetailModel.contactForm.remarks) ? Visibility.None : Visibility.Visible)
     .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
       .onAction((event: GestureEvent) => {
-
-      })
-      .onActionEnd(() => {
-
-      })
-    )
+      }))
   }
 }
 

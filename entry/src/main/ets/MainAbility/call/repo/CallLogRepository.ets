@@ -59,7 +59,7 @@ export default class CallLogRepository implements ICallLogRepository {
         dataAbilityHelper.insert(Calls.CALL_LOG_URI, callLogDelta.createValuesBucket()).then(data => {
           resolve(data);
         }).catch(error => {
-          HiLog.w(TAG, 'saveOne error:' + error);
+          HiLog.w(TAG, 'saveOne error:%s', JSON.stringify(error.message));
           reject();
         });
       }
@@ -77,7 +77,7 @@ export default class CallLogRepository implements ICallLogRepository {
       dataAbilityHelper.delete(Calls.CALL_LOG_URI, condition).then(data => {
         resolve(data);
       }).catch(error => {
-        HiLog.w(TAG, 'clear error:' + error);
+        HiLog.w(TAG, 'clear error:%s', JSON.stringify(error.message));
         reject();
       });
     });
@@ -99,7 +99,7 @@ export default class CallLogRepository implements ICallLogRepository {
       dataAbilityHelper.delete(Calls.CALL_LOG_URI, condition).then(data => {
         resolve(data);
       }).catch(error => {
-        HiLog.w(TAG, 'deleteByIdIn error:' + error);
+        HiLog.w(TAG, 'deleteByIdIn error:%s', JSON.stringify(error.message));
         reject();
       });
     });
@@ -146,7 +146,7 @@ export default class CallLogRepository implements ICallLogRepository {
         resultSet.close();
         resolve(rst);
       }).catch(error => {
-        HiLog.w(TAG, +'findAll error:' + error);
+        HiLog.w(TAG, 'findAll error:%s', JSON.stringify(error.message));
         reject();
       });
     });
@@ -183,7 +183,7 @@ export default class CallLogRepository implements ICallLogRepository {
         resultSet.close();
         resolve(rst);
       }).catch(error => {
-        HiLog.w(TAG, +'findByNumberIn error:' + error);
+        HiLog.w(TAG, 'findByNumberIn error:%s', JSON.stringify(error.message));
         reject();
       });
     });

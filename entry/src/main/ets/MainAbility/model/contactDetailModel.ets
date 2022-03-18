@@ -118,6 +118,8 @@ export default {
   showNameLast: '',
   /** 二维码string值 */
   qrcodeString: '',
+  /** 通话记录数据是否清除*/
+  isCallLogClean: false,
 
   /** 根据联系人详情组装的展示用参数 */
   contactForm: {
@@ -176,97 +178,12 @@ export default {
     detailsBgColor: '',
     portraitColor: '',
   },
-  emails: [
+  phoneNumbers: [
     {
-      'id': 0,
-      'address': '',
-      'labelId': 1,
-      'labelName': '',
-      'showP': false
+      'phoneNumber': '',
+      'phoneAddress': ''
     }
   ],
-  events: [
-    {
-      'id': 0,
-      'eventDate': '',
-      'emailType': 3,
-      'labelName': '',
-      'showP': false,
-      'showF': true,
-      'showS': true
-    }
-  ],
-  aims: [
-    {
-      'aimId': 0,
-      'aimName': '',
-      'aimType': 1,
-      'labelName': '',
-      'showP': false
-    }
-  ],
-  phones: [
-    {
-      'id': 0,
-      'numType': 2,
-      'labelName': '',
-      'num': '',
-      'phoneAddress': '',
-      'showP': false,
-      'blueStyle': false,
-      'isPrimary': 1
-    }
-  ],
-  houses: [
-    {
-      'id': 0,
-      'houseId': 1,
-      'houseType': 1,
-      'labelName': '',
-      'houseName': '',
-      'showP': false
-    }
-  ],
-  relationships: [
-    {
-      'id': 0,
-      'associatedPersonId': 1,
-      'name': '',
-      'associatedType': ''
-    }
-  ],
-  websites: [
-    {
-      'id': 0,
-      'website': ''
-    },
-  ],
-  name: {
-    'fullName': '',
-    'givenName': '',
-    'familyNamePhonetic': '',
-    'alphaName': ''
-  },
-  organization: {
-    'name': '',
-    'title': ''
-  },
-  groups: [
-    {
-      'id': '',
-      'title': ''
-    }
-  ],
-  numRecords: {
-    id: 2,
-    timeDetail: {},
-    timeDetailDate: {},
-    timeDetailAM: {},
-    timeDetailTime: {},
-    formatNumber: "",
-    talkTime: {},
-    callType: 1
-  },
   /** 是否是新的优化后的请求接口，新接口调用参照收藏页面跳转，增加该字段 */
   isNewSource: false,
   /** 是否已经获取到contacts详情信息 */
@@ -329,6 +246,7 @@ export default {
     * 清空通话记录弹窗
     */
   clearPhoneRecords() {
+    HiLog.i(TAG, ' clearPhoneRecords');
     AlertDialog.show(
       {
         message: $r('app.string.clear_calllog_sure'),
@@ -394,6 +312,7 @@ export default {
     ContactRepository.getInstance().deleteById(this.contactId).then((result) => {
       if (result == 0) {
         DbChangeHelper.getInstance().notifyChange(common.getDAHelper(Constants.uri.CONTACT_DB_URI), Constants.uri.CONTACT_URI);
+        DbChangeHelper.getInstance().notifyChange(common.getDAHelper(Constants.uri.CALLLOG_DB_URI), Constants.uri.CALL_LOG_URI);
         router.back();
       } else {
         prompt.showToast({
@@ -409,7 +328,7 @@ export default {
     * @param {string} name 姓名
     */
   sendMessage(phoneNumber, name) {
-    HiLog.i(TAG, 'sendMessage phoneNumber' + phoneNumber);
+    HiLog.i(TAG, 'sendMessage success');
     var params = [];
     params.push({
       contactsName: name,
@@ -438,57 +357,24 @@ export default {
         ]
       },
     };
-    HiLog.i(TAG, 'str' + JSON.stringify(str));
     featureAbility.startAbility(str).then((data) => {
-      HiLog.i(TAG, 'jumpToMms,str: ' + JSON.stringify(str));
-      HiLog.i(TAG, 'jumpToMms,data: ' + data);
+      HiLog.i(TAG, 'jumpToMms');
     }).catch((error) => {
-      HiLog.e(TAG, 'jumpToMms,failed: ' + JSON.stringify(error));
+      HiLog.e(TAG, 'jumpToMms,failed: %s', JSON.stringify(error.message));
     })
   },
 
   /** 编辑联系人 */
   updateContact() {
-    if (Utils.isEmpty(this.contacts.emails)) {
-      this.contacts.emails = this.emails;
-    }
-    if (Utils.isEmpty(this.contacts.events)) {
-      this.contacts.events = this.events;
-    }
-    if (Utils.isEmpty(this.contacts.aims)) {
-      this.contacts.aims = this.aims;
-    }
-    if (Utils.isEmpty(this.contacts.phones)) {
-      this.contacts.phones = this.phones;
+    // 新号码传入号码和归属地数据
+    if (this.isNewNumber) {
+      this.phoneNumbers[0].phoneNumber = this.phoneNumberShow;
+      this.phoneNumbers[0].phoneAddress = this.contacts.phones[0].phoneAddress;
     }
     this.updateContacts();
   },
 
   updateContacts() {
-    if (Utils.isEmpty(this.contacts.houses)) {
-      this.contacts.houses = this.houses;
-    }
-    if (Utils.isEmpty(this.contacts.relations)) {
-      this.contacts.relations = this.relations;
-    }
-    if (Utils.isEmpty(this.contacts.websites)) {
-      this.contacts.websites = this.websites;
-    }
-    if (Utils.isEmpty(this.contacts.groups)) {
-      this.contacts.groups = this.groups;
-    }
-    if (Utils.isEmpty(this.contacts.name)) {
-      this.contacts.name = this.name;
-    }
-    if (Utils.isEmpty(this.contacts.nickname)) {
-      this.contacts.nickname = this.nickname;
-    }
-    if (Utils.isEmpty(this.contacts.remarks)) {
-      this.contacts.remarks = this.remarks;
-    }
-    if (Utils.isEmpty(this.contacts.organization)) {
-      this.contacts.organization = this.organization;
-    }
     let upDataShow = false;
     if (!Utils.isEmpty(this.contactId)) {
       upDataShow = true
@@ -496,13 +382,9 @@ export default {
     router.replace({
       uri: 'pages/contacts/accountants/Accountants',
       params: {
-        addShow: false,
         updataShow: upDataShow,
-        showWork: true,
-        upHouseShow: true,
         contactForm: this.contacts,
-        groups: this.contacts.groups,
-        upPinShow: true,
+        phoneNumbers: this.phoneNumbers
       },
     });
   },
@@ -532,7 +414,7 @@ export default {
      * @param {number} data contactId 联系人ID
      */
   getContactDetail(code, data, callback) {
-    HiLog.i(TAG, 'getContactDetail:' + data.contactId);
+    HiLog.i(TAG, 'go getContactDetail');
     var DAHelper = common.getDAHelper(Constants.uri.CONTACT_DB_URI);
     ContactAbilityModel.getContactById(DAHelper, data.contactId, result => {
       if (Utils.isEmpty(result)) {
@@ -638,7 +520,7 @@ export default {
     HiLog.i(TAG, 'relationshipsType');
     if (this.contacts.hasOwnProperty('relationships') && this.contacts.relationships.length > 0) {
       this.contacts.relationships.forEach((element) => {
-        element.associatedType = Relation.getTypeLabelResource(parseInt(element.associatedPersonId, 10));
+        element.associatedType = Relation.getTypeLabelResource(parseInt(element.associatedType, 10));
       });
     }
   },
@@ -775,7 +657,7 @@ export default {
      * @param {string} data 需要复制的信息
      */
   copyNumber(data) {
-    HiLog.i(TAG, 'copyNumber data' + data);
+    HiLog.i(TAG, 'copyNumber data');
     var actionData = {
       pasteBoardContent: "",
     };
@@ -800,8 +682,14 @@ export default {
      *
      * @param {Array} ids 删除的通话记录的id集
      */
-  removeCallHilog(ids) {
-    CallLogRepository.getInstance().deleteByIdIn(ids);
+  removeCallLog(ids) {
+    HiLog.i(TAG, 'removeCallLog');
+    CallLogRepository.getInstance().deleteByIdIn(ids).then(data => {
+      HiLog.i(TAG, 'removeCallLog Success');
+      this.contactForm.numRecords = null;
+      this.isCallLogClean = true;
+      DbChangeHelper.getInstance().notifyChange(common.getDAHelper(Constants.uri.CALLLOG_DB_URI), Constants.uri.CALL_LOG_URI);
+    })
   },
 
 
@@ -958,7 +846,7 @@ export default {
      * @return {string} resultMessage 状态信息
      */
   getTalkTimeMessage(callLogElement: CallLog) {
-    HiLog.i(TAG, 'getTalkTimeMessage callLogElement' + callLogElement);
+    HiLog.i(TAG, 'getTalkTimeMessage callLogElement');
     var resultMessage: Resource = null;
     if (callLogElement.callType == 1) {
       // 呼入：直接显示通话时长
@@ -984,7 +872,7 @@ export default {
      * @return {Object} 返回时间单位
      */
   getDescriptionByDuration(timeDuration) {
-    HiLog.i(TAG, 'getDescriptionByDuration timeDuration' + timeDuration);
+    HiLog.i(TAG, 'getDescriptionByDuration timeDuration');
     var seconds = parseInt(timeDuration);
     if (seconds < 60) {
       // 一分钟以内
@@ -1009,7 +897,7 @@ export default {
      */
   getTimeDetailByCallTime(element: CallLog) {
     var callTime = element.createTime.toString();
-    HiLog.i(TAG, 'getTimeDetailByCallTime callTime' + callTime);
+    HiLog.i(TAG, 'getTimeDetailByCallTime callTime');
     // 获取通话记录的时间
     var callLogTime = new Date(parseInt(callTime, 10) * 1000);
     // 获取当前的系统时间
@@ -1037,7 +925,7 @@ export default {
       + callLogTime.getDate() + '日' + ' ' + this.getDayMessage(hour) + callLogTime.getHours() + ':'
       + (callLogTime.getMinutes() < 10 ? '0' + callLogTime.getMinutes() : callLogTime.getMinutes());
     }
-    HiLog.i(TAG, ' timeDetail = ' + timeDetail);
+    HiLog.i(TAG, ' timeDetail = ');
     return timeDetail;
   },
 
@@ -1048,7 +936,7 @@ export default {
      * @return {string} 时间节点
      */
   getDayMessage(hour) {
-    HiLog.i(TAG, ' getDayMessage' + hour);
+    HiLog.i(TAG, ' getDayMessage');
     if (hour >= 0 && hour < 5) {
       return '凌晨';
     }

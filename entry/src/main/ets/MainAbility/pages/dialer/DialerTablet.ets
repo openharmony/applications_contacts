@@ -338,7 +338,6 @@ export default struct CallTablet {
               Image($r("app.media.ic_public_more"))
                 .width($r("app.float.dialer_common_margin"))
                 .height($r("app.float.dialer_common_margin"))
-                .bindMenu(this.callmenu)
             }
             .width($r("app.float.dialer_middle_button_width"))
             .height($r("app.float.dialer_middle_button_width"))

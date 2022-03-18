@@ -40,9 +40,9 @@ export class IndexPresenter {
   onPageShow() {
     HiLog.i(TAG, 'aboutToAppear !!!');
     featureAbility.getWant().then((Want) => {
-      HiLog.i(TAG, 'aboutToAppear Want is ' + JSON.stringify(Want));
+      HiLog.i(TAG, 'aboutToAppear Want success ');
       if (Utils.isEmpty(Want.uri) && Utils.isEmpty(Want.parameters.pageFlag)) {
-        HiLog.i(TAG, 'pageRouteHandler' + 'routeMessage.pageFlag isEmpty ');
+        HiLog.i(TAG, 'pageRouteHandler and routeMessage.pageFlag isEmpty ');
       } else if (!Utils.isEmpty(Want.uri)) {
         HiLog.i(TAG, "want uri is not empty!");
         this.pageRouteHandler({
@@ -54,27 +54,27 @@ export class IndexPresenter {
         this.pageRouteHandler(Want.parameters);
       }
     }).catch((error) => {
-      HiLog.e(TAG, 'aboutToAppear logMessage Operation failed. Cause: ' + JSON.stringify(error));
+      HiLog.e(TAG, 'aboutToAppear logMessage Operation failed. Cause:%s ', JSON.stringify(error.message));
     })
   }
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear !!!');
     PreferencesUtil.initDataStorage().then((prefIns) => {
-      HiLog.i(TAG, 'initStorage first done: %s', prefIns);
+      HiLog.i(TAG, 'initStorage first done');
       AppStorageUtil.setPreferences(prefIns);
     }).catch((err) => {
-      HiLog.i(TAG, 'initStorage error : %s', err.message);
+      HiLog.e(TAG, 'initStorage error : %s', JSON.stringify(err.message));
     });
   }
 
   pageRouteHandler(routeMessage) {
-    HiLog.i(TAG, 'pageRouteHandler routeMessage is ' + JSON.stringify(routeMessage));
+    HiLog.i(TAG, 'show pageRouteHandler routeMessage ');
     let uri = "";
     let params = {};
     if (Utils.isEmpty(routeMessage.pageFlag)) {
       this.goToContacts();
-      HiLog.i(TAG, 'pageRouteHandler' + 'routeMessage.pageFlag isEmpty ');
+      HiLog.i(TAG, 'pageRouteHandler and routeMessage.pageFlag isEmpty ');
       return;
     }
     HiLog.i(TAG, 'pageRouteHandler case is ' + routeMessage.pageFlag);
@@ -97,7 +97,7 @@ export class IndexPresenter {
             'contactId': routeMessage.contactId,
           }
         } else {
-          HiLog.i(TAG, 'pageRouteHandler' + 'routeMessage.phoneNumber + ' + routeMessage.phoneNumber);
+          HiLog.i(TAG, 'SHOW pageRouteHandler and routeMessage.phoneNumber ');
           params = {
             'sourceFromCallRecord': true,
             'isNewNumber': true,
@@ -118,7 +118,6 @@ export class IndexPresenter {
         this.editBeforeCall(routeMessage.phoneNumber);
         break;
       case 'page_flag_save_contact': // 新建联系人
-        HiLog.i(TAG, routeMessage.phoneNumber);
         this.addContacts(routeMessage.phoneNumber);
         break;
       case 'page_flag_save_exist_contact': // 保存至已有联系人
@@ -149,10 +148,10 @@ export class IndexPresenter {
         this.goToMyCard();
         break;
       default:
-        HiLog.e(TAG, 'pageRouteHandler' + 'This page is not open.');
+        HiLog.e(TAG, 'pageRouteHandler and This page is not open.');
         break;
     }
-    HiLog.i(TAG, 'final uri is ' + uri);
+    HiLog.i(TAG, 'SHOW final uri');
     router.replace({
       uri: uri,
       params: params
@@ -164,7 +163,6 @@ export class IndexPresenter {
   }
   /* 呼叫前编辑 */
   editBeforeCall(phoneNumber) {
-    HiLog.i(TAG, 'editBeforeCall' + phoneNumber);
     AppStorageUtil.setIsEditNumber(true); // 标识为呼叫前编辑
     AppStorageUtil.setNumTextDialer(phoneNumber); // 赋值电话号码
     this.goToDialer();
@@ -256,7 +254,7 @@ export class PermissionsManage {
         requestPermissions.push(array[i]);
       }
     }
-    HiLog.i(TAG, 'Application initPermissions %s', JSON.stringify(requestPermissions));
+    HiLog.i(TAG, 'SHOW Application initPermissions');
     if (requestPermissions.length == 0 || requestPermissions == []) {
       this.applyFlag = true;
       return;

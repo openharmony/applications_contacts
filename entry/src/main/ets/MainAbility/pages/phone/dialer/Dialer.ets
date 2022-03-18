@@ -301,7 +301,6 @@ export default struct Call {
               Image($r("app.media.menu"))
                 .width(25 * DENSITY)
                 .height(25 * DENSITY)
-                .bindMenu(this.callmenu)
             }
             .width(35 * DENSITY)
             .height(35 * DENSITY)

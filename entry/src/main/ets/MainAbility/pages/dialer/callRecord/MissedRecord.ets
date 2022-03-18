@@ -23,6 +23,7 @@ import Calllog from '../../../model/calllog/CalllogModel'
 import CallLogRepository from '../../../call/repo/CallLogRepository';
 import HiLog from '../../../util/Hilog';
 import DialUtil from '../../../util/DialUtil';
+import dbChangeHelper from './../../../model/common/DbChangeHelper';
 
 const TAG = "MissedRecord ";
 
@@ -40,10 +41,32 @@ export default struct MissedRecord {
 
   aboutToAppear() {
     this.getCallLog();
+    let DAHelper = COMMON.getDAHelper(CONSTANTS.uri.CALLLOG_DB_URI);
+    dbChangeHelper.getInstance().registerDbChangeLister(DAHelper, CONSTANTS.uri.CALL_LOG_URI, (data) => {
+      HiLog.i(TAG, 'refresh');
+      this.getCallLog();
+    });
+    let DAHelper_Contact = COMMON.getDAHelper(CONSTANTS.uri.CONTACT_DB_URI);
+    dbChangeHelper.getInstance().registerDbChangeLister(DAHelper_Contact, CONSTANTS.uri.CONTACT_DB_URI, (data) => {
+      HiLog.i(TAG, 'refresh');
+      this.getCallLog();
+    });
+  }
+
+  aboutToDisappear() {
+    HiLog.i(TAG, 'Contact aboutToDisappear!');
+    let DAHelper = COMMON.getDAHelper(CONSTANTS.uri.CALLLOG_DB_URI);
+    dbChangeHelper.getInstance().unRegisterDbChangeLister(DAHelper, CONSTANTS.uri.CALL_LOG_URI, (data) => {
+      HiLog.i(TAG, 'Contact aboutToDisappear!');
+    });
+    let DAHelper_Contact = COMMON.getDAHelper(CONSTANTS.uri.CONTACT_DB_URI);
+    dbChangeHelper.getInstance().unRegisterDbChangeLister(DAHelper_Contact, CONSTANTS.uri.CONTACT_DB_URI, (data) => {
+      HiLog.i(TAG, 'Contact aboutToDisappear!');
+    });
   }
 
   getCallLog() {
-    var DAHelper = COMMON.getDAHelper(CONSTANTS.uri.CALLLOG_DB_URI);
+    let DAHelper = COMMON.getDAHelper(CONSTANTS.uri.CALLLOG_DB_URI);
     Calllog.getAllCalls(DAHelper, '', data => {
       this.callLogTotalData = data;
     })
@@ -355,7 +378,7 @@ struct ContactItem {
                 uri: "pages/contacts/details/ContactDetail",
                 params: {
                   sourceFromCallRecord: true,
-                  isNewNumber: true,
+                  isNewNumber: JSON.parse(this.msg).quickSearchKey ? false : true,
                   phoneNumberShow: JSON.parse(this.msg).phoneNumber
                 }
               }

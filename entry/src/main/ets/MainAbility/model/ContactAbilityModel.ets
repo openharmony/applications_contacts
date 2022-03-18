@@ -28,6 +28,7 @@ import Utils from '../util/Utils';
 import ArrayUtil from '../util/ArrayUtil';
 import {LooseObject} from '../app';
 import ContactRepository from '../contact/repo/ContactRepository';
+import common from './common';
 
 const TAG = "ContactAbility: ";
 
@@ -62,7 +63,7 @@ export default {
         callBack(addParams.id);
       }
     }).catch(error => {
-      HiLog.e(TAG, 'logMessage insert error: %s', error);
+      HiLog.e(TAG, 'logMessage insert error: %s', JSON.stringify(error.message));
     });
   },
 
@@ -113,6 +114,7 @@ export default {
     this.nickContact(addParams, DAHelper, result, uri);
     this.relationsContact(addParams, DAHelper, result, uri);
     dbChangeHelper.getInstance().notifyChange(DAHelper, Constants.uri.CONTACT_DATA_URI)
+    dbChangeHelper.getInstance().notifyChange(common.getDAHelper(Constants.uri.CALLLOG_DB_URI), Constants.uri.CALL_LOG_URI);
   },
 
   /**
@@ -140,10 +142,10 @@ export default {
       };
       DAHelper.insert(uri, dataContact, (err, data) => {
         if (err) {
-          HiLog.e(TAG, 'name-Operation failed. Cause: %s', err);
+          HiLog.e(TAG, 'name-Operation failed. Cause: %s', JSON.stringify(err.message));
           return;
         }
-        HiLog.d(TAG, 'name-insert data success! data = %s', data);
+        HiLog.d(TAG, 'name-insert data success!');
       })
     }
   },
@@ -199,9 +201,9 @@ export default {
         uri,
         organizationContact
       ).then(data => {
-        HiLog.d(TAG, 'organizationContact-insert data success! data = %s', data);
+        HiLog.d(TAG, 'organizationContact-insert data success!');
       }).catch(error => {
-        HiLog.e(TAG, 'organizationContact-insert contact error: %s', error);
+        HiLog.e(TAG, 'organizationContact-insert contact error: %s', JSON.stringify(error.message));
       });
     }
   },
@@ -225,9 +227,9 @@ export default {
         uri,
         noteContact
       ).then(data => {
-        HiLog.d(TAG, 'noteContact-logMessage insert data success! data = %s', data);
+        HiLog.d(TAG, 'noteContact-logMessage insert data success!');
       }).catch(error => {
-        HiLog.e(TAG, 'noteContact-insert contact error: %s', error);
+        HiLog.e(TAG, 'noteContact-insert contact error: %s', JSON.stringify(error.message));
       });
     }
   },
@@ -242,6 +244,7 @@ export default {
      */
   phoneContact: function (addParams, DAHelper, result, uri) {
     if (addParams.phones != undefined && addParams.phones.length > 0) {
+      let index = 1;
       addParams.phones.forEach(element => {
         if (Utils.isEmpty(element.num)) {
           return;
@@ -249,7 +252,7 @@ export default {
         let phoneContact = {
           'raw_contact_id': result,
           'detail_info': element.num,
-          'extend7': element.id + '',
+          'extend7': (index++).toString(),
           'custom_data': element.numType,
           'type_id': 5,
         };
@@ -257,9 +260,9 @@ export default {
           uri,
           phoneContact
         ).then(data => {
-          HiLog.d(TAG, 'phoneContact-logMessage insert data success! data = %s', data);
+          HiLog.d(TAG, 'phoneContact-logMessage insert data success!');
         }).catch(error => {
-          HiLog.e(TAG, 'phoneContact-insert contact error: %s', error);
+          HiLog.e(TAG, 'phoneContact-insert contact error: %s', JSON.stringify(error.message));
         });
       });
     }
@@ -275,11 +278,15 @@ export default {
      */
   emailContact: function (addParams, DAHelper, result, uri) {
     if (addParams.emails != undefined && addParams.emails.length > 0) {
+      let index = 1;
       addParams.emails.forEach(element => {
+        if (Utils.isEmpty(element.address)) {
+          return;
+        }
         let emailContact = {
           'raw_contact_id': result,
           'detail_info': element.address,
-          'extend7': element.id + '',
+          'extend7': (index++).toString(),
           'custom_data': element.emailType,
           'type_id': 1,
         };
@@ -287,9 +294,9 @@ export default {
           uri,
           emailContact
         ).then(data => {
-          HiLog.d(TAG, 'emailContact-logMessage insert data success! data = %s', data);
+          HiLog.d(TAG, 'emailContact-logMessage insert data success!');
         }).catch(error => {
-          HiLog.e(TAG, 'emailContact-insert contact error: %s', error);
+          HiLog.e(TAG, 'emailContact-insert contact error: %s', JSON.stringify(error.message));
         });
       });
     }
@@ -305,11 +312,15 @@ export default {
      */
   postalContact: function (addParams, DAHelper, result, uri) {
     if (addParams.houses != undefined && addParams.houses.length > 0) {
+      let index = 1;
       addParams.houses.forEach(element => {
+        if (Utils.isEmpty(element.houseName)) {
+          return;
+        }
         let postalContact = {
           'raw_contact_id': result,
           'detail_info': element.houseName,
-          'extend7': element.houseId + '',
+          'extend7': (index++).toString(),
           'custom_data': element.houseType,
           'type_id': 7,
         };
@@ -317,9 +328,9 @@ export default {
           uri,
           postalContact
         ).then(data => {
-          HiLog.d(TAG, 'postalContact-logMessage insert data success! data = %s', data);
+          HiLog.d(TAG, 'postalContact-logMessage insert data success!');
         }).catch(error => {
-          HiLog.e(TAG, 'postalContact-insert contact error: %s', error);
+          HiLog.e(TAG, 'postalContact-insert contact error: %s', JSON.stringify(error.message));
         });
       });
     }
@@ -348,9 +359,9 @@ export default {
           uri,
           eventContact
         ).then(data => {
-          HiLog.d(TAG, 'eventContact-logMessage insert data success! data = %s', data);
+          HiLog.d(TAG, 'eventContact-logMessage insert data success!');
         }).catch(error => {
-          HiLog.e(TAG, 'eventContact-insert contact error: %s', error);
+          HiLog.e(TAG, 'eventContact-insert contact error: %s', JSON.stringify(error.message));
         });
       });
     }
@@ -366,11 +377,15 @@ export default {
      */
   imContact: function (addParams, DAHelper, result, uri) {
     if (addParams.aims != undefined && addParams.aims.length > 0) {
+      let index = 1;
       addParams.aims.forEach(element => {
+        if (Utils.isEmpty(element.aimName)) {
+          return;
+        }
         let imContact = {
           'raw_contact_id': result,
           'detail_info': element.aimName,
-          'extend7': element.aimId + '',
+          'extend7': (index++).toString(),
           'custom_data': element.aimType,
           'type_id': 2,
         };
@@ -378,9 +393,9 @@ export default {
           uri,
           imContact
         ).then(data => {
-          HiLog.d(TAG, 'imContact-logMessage insert data success! data = %s', data);
+          HiLog.d(TAG, 'imContact-logMessage insert data success!');
         }).catch(error => {
-          HiLog.e(TAG, 'imContact-insert contact error:%s', error);
+          HiLog.e(TAG, 'imContact-insert contact error:%s', JSON.stringify(error.message));
         });
       });
     }
@@ -408,9 +423,9 @@ export default {
           uri,
           groupsContact
         ).then(data => {
-          HiLog.d(TAG, 'groupsContact-logMessage insert data success! data = %s', data);
+          HiLog.d(TAG, 'groupsContact-logMessage insert data success!');
         }).catch(error => {
-          HiLog.e(TAG, 'groupsContact-insert contact error:%s', error);
+          HiLog.e(TAG, 'groupsContact-insert contact error:%s', JSON.stringify(error.message));
         });
       });
     }
@@ -438,9 +453,9 @@ export default {
           uri,
           websiteContact
         ).then(data => {
-          HiLog.d(TAG, 'websiteContact-logMessage insert data success! data = %s', data);
+          HiLog.d(TAG, 'websiteContact-logMessage insert data success!');
         }).catch(error => {
-          HiLog.e(TAG, 'websiteContact-insert contact error: %s', error);
+          HiLog.e(TAG, 'websiteContact-insert contact error: %s', JSON.stringify(error.message));
         });
       });
     }
@@ -456,23 +471,25 @@ export default {
      */
   relationsContact: function (addParams, DAHelper, result, uri) {
     if (!Utils.isEmptyList(addParams.relationships)) {
+      let index = 1;
       addParams.relationships.forEach(element => {
-        if (Utils.isEmpty(element.associatedPersonId))
-        return;
+        if (Utils.isEmpty(element.name)) {
+          return;
+        }
         let relationsContact = {
           'raw_contact_id': result,
-          'detail_info': element.associatedPersonId,
-          'extend7': element.associatedType,
-          'custom_data': element.name,
+          'detail_info': element.name,
+          'extend7': (index++).toString(),
+          'custom_data': element.associatedType,
           'type_id': 13,
         };
         DAHelper.insert(
           uri,
           relationsContact
         ).then(data => {
-          HiLog.d(TAG, 'relationsContact-logMessage insert data success! data = %s', data);
+          HiLog.d(TAG, 'relationsContact-logMessage insert data success!');
         }).catch(error => {
-          HiLog.e(TAG, 'relationsContact-insert contact error: %s', error);
+          HiLog.e(TAG, 'relationsContact-insert contact error: %s', JSON.stringify(error.message));
         });
       });
     }
@@ -637,10 +654,10 @@ export default {
         break;
       case DataItemType.RELATION:
         let relation_element = {
-          'id': '',
-          'associatedPersonId': dataItem.getData(),
-          'name': dataItem.getLabelName(),
-          'associatedType': dataItem.getLabelId(),
+          'id': dataItem.getLabelId(),
+          'associatedPersonId': '',
+          'name': dataItem.getData(),
+          'associatedType': dataItem.getLabelName(),
         };
         if (contactDetailInfo.relationships) {
           contactDetailInfo.relationships.push(relation_element);
@@ -750,7 +767,7 @@ export default {
       this.dealParam(DAHelper, addParams);
       callBack(addParams.id);
     }).catch(error => {
-      HiLog.e(TAG, 'updateContact-update contact error: %s', error);
+      HiLog.e(TAG, 'updateContact-update contact error: %s', JSON.stringify(error.message));
       callBack(addParams.id);
     });
   },

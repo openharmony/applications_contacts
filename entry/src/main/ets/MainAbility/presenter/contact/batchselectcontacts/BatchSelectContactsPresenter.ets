@@ -128,10 +128,10 @@ export default class BatchSelectContactsPresenter {
     // 短信新建选择联系人
     featureAbility.terminateSelfWithResult(result)
       .then((data) => {
-        HiLog.i(TAG, "terminateSelfWithResult Operation succeeded: " + data);
+        HiLog.i(TAG, "terminateSelfWithResult Operation succeeded: ");
       })
       .catch((error) => {
-        HiLog.e(TAG, "Operation failed. Cause: " + error);
+        HiLog.e(TAG, "Operation failed. Cause: %s", JSON.stringify(error.message));
       });
   }
 
@@ -399,7 +399,7 @@ export default class BatchSelectContactsPresenter {
      * @param {Object} e event事件
      */
   checkStateChange(index, e) {
-    HiLog.i(TAG, 'checkStateChange index is ' + index + " ,event is " + JSON.stringify(e));
+    HiLog.e(TAG, 'checkStateChange error: %s ', JSON.stringify(e.message));
     HiLog.i(TAG, 'checkStateChange tabIndex is %s', this.tabInfo.tabIndex);
     switch (this.tabInfo.tabIndex) {
     // 最近
@@ -438,7 +438,7 @@ export default class BatchSelectContactsPresenter {
      * @param {Object} e event事件
      */
   changeCallLogItemState(index, e) {
-    HiLog.i(TAG, 'changeCallLogItemState index is' + index + ' , item is ' + JSON.stringify(e));
+    HiLog.e(TAG, 'changeCallLogItemState error : %s ', JSON.stringify(e.message));
     this.callLogTemp[index].checked = e.checked;
     AppStorageUtil.SetOrCreate('callLogTemp', this.callLogTemp);
     if (this.callLogTemp[index].checked) {
@@ -457,7 +457,7 @@ export default class BatchSelectContactsPresenter {
        * @param {Object} e event事件
        */
   changeContactsItemState(index, e) {
-    HiLog.i(TAG, "changeContactsItemState searchLayoutShow is %s", this.contactsInfo.searchLayoutShow);
+    HiLog.i(TAG, "SHOW changeContactsItemState searchLayoutShow");
     let contactId = '';
     if (!this.contactsInfo.searchLayoutShow) {
       // 联系人主列表界面点击复选框
@@ -476,7 +476,7 @@ export default class BatchSelectContactsPresenter {
      * @param {number} contactId 联系人ID
      */
   checkContactsCount(e, contactId) {
-    HiLog.i(TAG, "checkContactsCount searchLayoutShow is %s", this.contactsInfo.searchLayoutShow);
+    HiLog.i(TAG, "SHOW checkContactsCount searchLayoutShow");
     // 当前为搜索页面
     if (this.contactsInfo.searchLayoutShow) {
       this.contactsInfo.searchContactList.forEach(element => {
@@ -634,7 +634,7 @@ export default class BatchSelectContactsPresenter {
     let tempList: any[] = [];
 
     let mergeRule = PreferencesUtil.getCalllogMergeRule();
-    HiLog.i(TAG, 'initCallLog mergeRule is %s ', mergeRule);
+    HiLog.i(TAG, 'SHOW initCallLog mergeRule');
 
     let DAHelper = Common.getDAHelper(Constants.uri.CALLLOG_DB_URI);
     callLogService.getAllCalls(DAHelper, mergeRule, data => {

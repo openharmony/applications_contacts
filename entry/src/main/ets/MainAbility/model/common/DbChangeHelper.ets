@@ -39,10 +39,10 @@ export default class DbChangeHelper {
   notifyChange(dataAbilityHelper, uri: string) {
     dataAbilityHelper.notifyChange(uri, (err, data) => {
       if (err) {
-        HiLog.e(TAG, "notifyChange failed because %s", JSON.stringify(err));
+        HiLog.e(TAG, "notifyChange failed because %s", JSON.stringify(err.messagr));
         return;
       }
-      HiLog.i(TAG, "notifyChange success data : %s", JSON.stringify(data))
+      HiLog.i(TAG, "notifyChange success")
     });
   }
 
@@ -54,9 +54,8 @@ export default class DbChangeHelper {
    * @param callback 回调提供给调用者
    */
   registerDbChangeLister(dataAbilityHelper, uri: string, callback) {
-    HiLog.i(TAG, 'registerDbChangeLister uri : %s', uri);
     dataAbilityHelper.on("dataChange", uri, (data) => {
-      HiLog.i(TAG, 'on success data : %s', JSON.stringify(data))
+      HiLog.i(TAG, 'SHOW success data')
       callback(data)
     });
   }
@@ -71,7 +70,7 @@ export default class DbChangeHelper {
   unRegisterDbChangeLister(dataAbilityHelper, uri: string, callback) {
     dataAbilityHelper.info(TAG + 'unRegisterDbChangeLister uri : ' + uri);
     dataAbilityHelper.off("dataChange", uri, (data) => {
-      HiLog.i(TAG, 'on success data : %s', JSON.stringify(data))
+      HiLog.i(TAG, 'success')
       callback(data)
     });
   }

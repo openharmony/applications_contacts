@@ -17,15 +17,9 @@ import resourceManager from '@ohos.resourceManager';
 import router from '@system.router';
 import util from "../../../util/Utils";
 import HiLog from '../../../util/Hilog';
-import {EmailBean} from "../../../model/bean/EmailBean";
 import {ContactInfo} from "../../../model/bean/ContactInfo";
-import {PhoneNumBean} from "../../../model/bean/PhoneNumBean";
-import {GroupBean} from "../../../model/bean/GroupBean";
-import {HouseBean} from "../../../model/bean/HouseBean";
 import {EventBean} from "../../../model/bean/EventBean";
-import {RelationBean} from "../../../model/bean/RelationBean";
-import {AIMBean} from "../../../model/bean/AIMBean";
-import {AssociatedPersonBean} from "../../../model/bean/AssociatedPersonBean";
+import {PhoneNumBean} from "../../../model/bean/PhoneNumBean";
 import ContactAbility from '../../../model/ContactAbilityModel';
 import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
 import Constants, {DeviceType} from '../../../model/common/Constants';
@@ -87,7 +81,7 @@ struct Accountants {
       }
       if (obj.hasOwnProperty("phoneNumbers") && !util.isEmptyList(obj.phoneNumbers)) {
         let phoTemp = [new PhoneNumBean("1", obj.phoneNumbers[0].phoneNumber, "1", "", "")];
-        this.mPresenter.contactInfoBefore.setPhones(phoTemp)
+        this.mPresenter.contactInfoAfter.setPhones(phoTemp)
       }
     }
     if (this.updataShow == true) {
@@ -664,7 +658,7 @@ struct Accountants {
               .width("832vp")
               .margin({ top: "12vp" })
               .backgroundColor("#FFFFFF")
-              //助理
+              //关联联系人
               ListItem() {
                 Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
                   Column() {
