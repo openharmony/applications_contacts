@@ -638,11 +638,11 @@
     },
     {
       "name": "birth_hock",
-      "value": "  Birthday"
+      "value": "  Data"
     },
     {
       "name": "assistant_hock",
-      "value": "  assistant"
+      "value": "  Associated Person"
     },
     {
       "name": "instant_type_aim",

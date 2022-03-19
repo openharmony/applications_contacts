@@ -26,6 +26,7 @@ import preferencesUtil from '../../util/PreferencesUtil';
 import prompt from '@system.prompt';
 import ContactRepository from '../../contact/repo/ContactRepository';
 import ContactAbilityModel from '../../model/ContactAbilityModel';
+import ContactListDataSource from '../../model/bean/ContactListDataSource';
 
 const TAG = 'ContactListPresenter  ';
 
@@ -55,6 +56,10 @@ export default class ContactListPresenter {
   shareList: Resource[] = [$r("app.string.qr_code"), $r("app.string.v_card"), $r("app.string.text")];
   layoutState: boolean = true;
   settingsMenu: Resource[] = [$r("app.string.contact_setting_type_scancard"), $r("app.string.call_setting_type_setting")];
+  contactListDataSource: ContactListDataSource = new ContactListDataSource();
+  private constructor() {
+    this.refresh();
+  }
 
   public static getInstance(): ContactListPresenter {
     if (ContactListPresenter.sInstance == null) {
@@ -67,7 +72,6 @@ export default class ContactListPresenter {
     HiLog.i(TAG, 'Contact aboutToAppear!');
 
     var DAHelper = common.getDAHelper(Constants.uri.CONTACT_DB_URI);
-    this.refresh();
     dbChangeHelper.getInstance().registerDbChangeLister(DAHelper, Constants.uri.CONTACT_DATA_URI, (data) => {
       this.refresh();
     });
@@ -103,11 +107,14 @@ export default class ContactListPresenter {
     HiLog.i(TAG, 'Contact refresh!');
     var DAHelper = common.getDAHelper(Constants.uri.CONTACT_DB_URI);
     ContactAbilityModel.getAllContact(DAHelper, (result) => {
+      HiLog.i(TAG, 'getAllContact and refresh, length is %s', result.length);
       if (utils.isEmptyList(result)) {
         this.contactList = [];
       } else {
         this.contactList = result;
       }
+
+      this.contactListDataSource.refresh(this.contactList);
     })
   }
 
@@ -138,7 +145,7 @@ export default class ContactListPresenter {
    * 删除弹框确认按钮
    * @param result
    */
-  onDeleteDialogConfirm(item) {
+  onDeleteDialogConfirm(index, item) {
     HiLog.i(TAG, 'onDeleteDialogConfirm !!! ');
     ContactRepository.getInstance().deleteById(item.contactId)
       .then((result) => {
@@ -147,6 +154,9 @@ export default class ContactListPresenter {
           .notifyChange(common.getDAHelper(Constants.uri.CONTACT_DB_URI), Constants.uri.CONTACT_URI);
         dbChangeHelper.getInstance()
           .notifyChange(common.getDAHelper(Constants.uri.CALLLOG_DB_URI), Constants.uri.CALL_LOG_URI);
+      })
+      .catch((error) => {
+        HiLog.e(TAG, "deleteById error %s", JSON.stringify(error.message));
       });
   }
 

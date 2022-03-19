@@ -47,6 +47,7 @@ struct Accountants {
    * 是否展示更多
    */
   @State private showMore: boolean = false;
+  @State eventItemId: number = 0;
   private updataShow = false;
   private pageTitle: Resource = $r("app.string.create_contact");
 
@@ -54,7 +55,10 @@ struct Accountants {
      * 弹窗添加日期
      */
   dialogController: CustomDialogController = new CustomDialogController({
-    builder: showDayTime({ mPresent: $mPresenter, cancel: this.onCancel, confirm: this.onAccept }),
+    builder: showDayTime({ mPresent: $mPresenter,
+      cancel: this.onCancel,
+      confirm: this.onAccept,
+      itemIndex: this.eventItemId }),
     cancel: this.existApp,
     autoCancel: true
   })
@@ -609,52 +613,37 @@ struct Accountants {
               .backgroundColor("#FFFFFF")
               //生日
               ListItem() {
-                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-                  Image($r("app.media.ic_contacts_birthday"))
-                    .objectFit(ImageFit.Contain)
-                    .margin({ left: "24vp", top: "19vp", bottom: "21vp" })
-                    .height("24vp")
-                    .width("24vp")
-
-                  Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-                    Text(this.mPresenter.birthDaySelect)
-                      .fontSize("16fp")
-                      .margin({ bottom: "9vp", top: "9vp" })
-                      .lineHeight("22vp")
-                      .fontWeight(FontWeight.Medium)
-                      .fontColor($r("app.color.colorPrimary"))
-                      .height("22vp")
-                      .width("38vp")
-                      .bindMenu(this.mPresenter.birthdayMenu)
-
-                    Image($r("app.media.ic_public_spinner"))
+                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
+                  Column() {
+                    Image($r("app.media.ic_contacts_birthday"))
                       .objectFit(ImageFit.Contain)
                       .height("24vp")
-                      .width("12vp")
+                      .width("24vp")
+                      .margin({ left: "24vp", top: "19vp", bottom: "21vp", right: "0vp" })
                   }
-                  .margin({ left: "12vp" })
-                  .height("40vp")
-                  .width("72vp")
+                  .alignItems(HorizontalAlign.Start)
+                  .alignSelf(ItemAlign.Start)
 
-                  Flex({
-                    direction: FlexDirection.Column,
-                    alignItems: ItemAlign.Center,
-                    justifyContent: FlexAlign.End
-                  }) {
-                    Text(util.isEmptyList(this.mPresenter.contactInfoBefore.events)
-                      ? $r("app.string.birth_hock")
-                      : this.mPresenter.contactInfoBefore.events[0].data)
-                      .margin({ left: px2vp(10) })
-                      .height("55vp")
-                      .fontSize("15vp")
-                      .fontColor(Color.Gray)
-                  }.onClick(() => {
-                    this.dialogController.open()
-                  })
+                  Column() {
+                    ForEach(this.mPresenter.getArray(this.mPresenter.contactInfoBefore.events)
+                      , (item) => {
+                        ItemEvent({
+                          mPresent: $mPresenter,
+                          controller: this.dialogController,
+                          data: item,
+                          itemIndex: $eventItemId,
+                          typeName: "events"
+                        });
+                      }, item => item.i.toString())
+
+                    AddItem({ mPresent: $mPresenter,
+                      labelName: $r("app.string.add_more"),
+                      typeName: "events" });
+
+                  }.alignItems(HorizontalAlign.Start)
                 }
               }
               .borderRadius("24vp")
-              .height("64vp")
               .width("832vp")
               .margin({ top: "12vp" })
               .backgroundColor("#FFFFFF")
@@ -747,6 +736,7 @@ struct Accountants {
 struct showDayTime {
   private date = new Date(2000, 0, 1);
   @Link  mPresent: any;
+  @Prop itemIndex: number;
   @State
   private showTime: string = this.date.getUTCFullYear() + "年" + (this.date.getMonth() + 1) + "月" + this.date.getDate() + "日";
   controller: CustomDialogController
@@ -780,11 +770,13 @@ struct showDayTime {
         Button($r("app.string.save"))
           .width("50%")
           .onClick(() => {
-            let tempEvent = new EventBean("", this.showTime, "1", "");
-            this.mPresent.contactInfoAfter.setEvents([tempEvent]);
+            if (util.isEmptyObject(this.mPresent.contactInfoAfter.events[this.itemIndex])) {
+              this.mPresent.contactInfoAfter.events[this.itemIndex] = new EventBean("", "", "", "");
+            }
+            this.mPresent.contactInfoAfter.events[this.itemIndex].data = this.showTime;
             this.mPresent.refresh();
-            this.controller.close()
-            this.confirm()
+            this.controller.close();
+            this.confirm();
           }).backgroundColor("#D8D8D8").fontColor($r("app.color.colorPrimary"))
       }
       .height("50vp")
@@ -854,6 +846,93 @@ struct ItemList {
       }
     }
     .height("64vp")
+  }
+
+  @Builder MenuBuilder() {
+    Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
+      ForEach(this.mPresent.getMenuList(this.typeName),
+        (item) => {
+          Text(item.labelRes)
+            .fontSize("16fp")
+            .width("156vp")
+            .height("48vp")
+            .fontColor($r("app.color.colorPrimary"))
+            .textAlign(TextAlign.Start)
+            .margin({ left: "16vp" })
+            .onClick(() => {
+              this.mPresent.menuChange(this.typeName, this.data, item);
+            })
+
+          Divider().height("1vp").width("124vp").color("#33000000")
+        },
+        (item) => item.rawValue.toString())
+    }
+    .width("156vp")
+    .borderRadius("16vp")
+  }
+}
+
+@Component
+struct ItemEvent {
+  @Link mPresent: any;
+  @Link itemIndex: number;
+  private controller: any;
+  private data: any;
+  private typeName: any;
+
+  build() {
+    Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
+      Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
+        Text(this.mPresent.menuSelect(
+          this.typeName,
+          this.data
+        ))
+          .fontSize("16fp")
+          .margin({ bottom: "9vp", top: "9vp" })
+          .lineHeight("22vp")
+          .fontWeight(FontWeight.Medium)
+          .fontColor($r("app.color.colorPrimary"))
+          .height("22vp")
+          .width("38vp")
+          .bindMenu(this.MenuBuilder)
+
+        Image($r("app.media.ic_public_spinner"))
+          .objectFit(ImageFit.Contain)
+          .height("24vp")
+          .width("12vp")
+      }
+      .margin({ left: "12vp" })
+      .height("40vp")
+      .width("72vp")
+
+      Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start, justifyContent: FlexAlign.End }) {
+        Text(
+          util.isEmpty(this.mPresent.getTextDisplay(this.typeName, this.data))
+            ? $r("app.string.birth_hock")
+            : this.mPresent.getTextDisplay(this.typeName, this.data)
+        )
+          .margin({ left: px2vp(10) })
+          .height("55vp")
+          .fontSize("15vp")
+          .fontColor(Color.Gray)
+      }
+      .flexGrow(1)
+      .onClick(() => {
+        this.itemIndex = this.data.i - 1;
+        this.controller.open()
+      })
+
+      Row() {
+        Image($r("app.media.ic_public_close_filled"))
+          .objectFit(ImageFit.Contain)
+          .height("24vp")
+          .width("24vp")
+          .margin({ top: "16vp", right: "28vp", bottom: "16vp" })
+          .onClick(() => {
+            this.mPresent.deleteItem(this.typeName, this.data.i - 1);
+          })
+      }
+    }
   }
 
   @Builder MenuBuilder() {
