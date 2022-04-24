@@ -13,10 +13,10 @@
  * limitations under the License.
  */
 
-import BaseColumns from './BaseColumns.ets';
+import BaseColumns from './BaseColumns';
 
 /**
- * 联系人data表字段常量
+ * Field constants in the contact data table
  */
 export default class DataColumns extends BaseColumns {
   static readonly TYPE_ID: string = "type_id";

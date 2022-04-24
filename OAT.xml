@@ -78,6 +78,30 @@
                 <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
             </filefilter>
             <filefilter
+                desc="Files not to check"
+                name="defaultFilter">
+                <filteritem
+                    desc="build config file"
+                    name=".*.json5"
+                    type="filepath"/>
+                <filteritem
+                    desc="build config file"
+                    name="AppScope/.*.json5"
+                    type="filepath"/>
+                <filteritem
+                    desc="build config file"
+                    name="entry/.*.json5"
+                    type="filepath"/>
+                <filteritem
+                    desc="build config file"
+                    name="entry/src/main/.*.json5"
+                    type="filepath"/>
+                <filteritem
+                    desc="build config file"
+                    name="entry/src/main/ets/MainAbility/workers/.*.js"
+                    type="filepath"/>
+            </filefilter>
+            <filefilter
                 desc="Filters for binary file policies"
                 name="binaryFileTypePolicyFilter">
                 <filteritem

@@ -18,13 +18,12 @@ import DataType from './DataType';
 import {DataItemType} from './DataType';
 
 /**
- * 即时通讯数据类型
+ * IM data type
  */
-export default class Im extends DataType{
+export default class Im extends DataType {
   static readonly CONTENT_ITEM_TYPE: string = "im";
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.IM;
   static readonly PROTOCOL: string = DataType.DATA;
-
   static readonly TYPE_CUSTOM: number = -1;
   static readonly TYPE_AIM: number = 0;
   static readonly TYPE_MSN: number = 1;
@@ -38,10 +37,14 @@ export default class Im extends DataType{
 
   static getTypeLabelResource(type: number) {
     switch (type) {
-      case Im.TYPE_CUSTOM: return $r("app.string.email_type_home");
-      case Im.TYPE_AIM: return $r("app.string.email_type_work");
-      case Im.TYPE_MSN: return $r("app.string.email_type_other");
-      default: return $r("app.string.email_type_custom");
+      case Im.TYPE_CUSTOM:
+        return $r("app.string.email_type_home");
+      case Im.TYPE_AIM:
+        return $r("app.string.email_type_work");
+      case Im.TYPE_MSN:
+        return $r("app.string.email_type_other");
+      default:
+        return $r("app.string.email_type_custom");
     }
   }
 

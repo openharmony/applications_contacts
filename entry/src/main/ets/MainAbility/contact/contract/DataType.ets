@@ -36,7 +36,7 @@ export enum DataItemType {
 }
 
 /**
- * 基本数据类型
+ * Basic Data Type
  */
 export default class DataType {
   static readonly TYPE_CUSTOM: number = 0;
@@ -44,6 +44,4 @@ export default class DataType {
   static readonly DATA: string = DataColumns.DETAIL_INFO;
   static readonly LABEL_ID: string = DataColumns.EXTEND7;
   static readonly LABEL_NAME: string = DataColumns.CUSTOM_DATA;
-
-  static getCont
 }

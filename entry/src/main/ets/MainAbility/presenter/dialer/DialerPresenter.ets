@@ -15,88 +15,84 @@
 
 import vibrator from '@ohos.vibrator';
 import HiLog from '../../util/Hilog';
-import Utils from '../../util/Utils';
-import resourceManager from '@ohos.resourceManager';
-import media from '@ohos.multimedia.media';
-import fileIO from '@ohos.fileio';
+import StringUtil from '../../util/StringUtil';
 import DialUtil from '../../util/DialUtil';
-import appStorage from './../../util/AppStorageUtil';
-import COMMON from '../../model/common';
 import router from '@system.router';
-import LooseObject from './../../model/bean/LooseObject'
 import featureAbility from '@ohos.ability.featureAbility';
 import Constants from './../../model/common/Constants';
+import { AudioHepler } from '../../feature/AudioHepler';
+import PreferencesUtil from './../../util/PreferencesUtil';
 
 const TAG = 'DialerPresenter';
+const DENSITY = 1.5;
+const NUM_BUTTON_BASIC_LENGTH = 50;
+
 /**
- * 拨号盘 P层
+ * dailer presenter
  */
 export default class DialerPresenter {
   private static mPresenter: DialerPresenter;
-
-  // 号码编辑框最大可显示号码长度，依据p40为25个数字
+  private audioWorker: AudioHepler;
   readonly NUM_TEXT_MAX_LENGTH = 20;
-  // 号码编辑框 最大字体 70px时的最大长度
   readonly NUM_TEXT_MAXSIZE_LENGTH = 14;
-  // 号码编辑框数字最大字体大小，单位px
   readonly NUM_TEXT_FONT_SIZE_MAX = 38;
-  readonly TAG = 'DailerTablet';
-  readonly HOST = 'fd://';
-  readonly BASE_PATH = 'data/app/el1/bundle/public/com.ohos.contacts/com.ohos.contacts/assets/entry/resources/rawfile/';
-  // 默认显示拨号盘
-  panelShow: boolean = true;
-  // 默认不显示收展键
-  btnShow: boolean = false;
-  // 电话号码
-  tele_number: string = ''
+  panelShow: boolean = false;
+  btnShow: boolean = true;
+  tele_number: string = "";
   tele_num_size: number = this.NUM_TEXT_FONT_SIZE_MAX;
-  audioPlayer: any = undefined;
-  mAudioPath: string = '';
-  //完整长度号码
-  all_number: string = ''
+  all_number: string = "";
+  dialer_w: number = 50;
+  dialer_h: number = 50;
+  call_w: number = 50;
+  call_h: number = 50;
+  call_p: number = 130 * DENSITY;
+  moveX: number = 0;
+  moveY: number = 800;
+  refreshView: boolean;
 
   static getInstance() {
     if (this.mPresenter == null) {
       this.mPresenter = new DialerPresenter();
-      appStorage.setAndLink('DialerPresenter', this.mPresenter);
     }
     return this.mPresenter;
   }
 
   onPageShow() {
-    // 呼叫前编辑的号码
-    if (appStorage.isEditNumber() && appStorage.getNumTextDialer()) {
-      this.tele_number = COMMON.toStrings(appStorage.getNumTextDialer())
-    }
   }
 
   aboutToAppear() {
-    this.audioPlayer = media.createAudioPlayer();
-    // 音频播放暂时替代
-    HiLog.i(TAG, 'keypad tone');
-    // 设置'dataLoad'事件回调，src属性设置成功后，触发此回调
-    this.audioPlayer.on('dataLoad', () => {
-      HiLog.i(TAG, 'audio set source success');
-      this.audioPlayer.play();
-    });
-    this.audioPlayer.on('play', () => {
-      HiLog.i(TAG, 'audio play success');
-    });
-    this.audioPlayer.on('reset', () => {
-      HiLog.i(TAG, 'audio reset success');
-    });
-    this.audioPlayer.on('finish', () => {
-      HiLog.i(TAG, 'audio play finish');
-    });
+    this.audioWorker = new AudioHepler("AudioWorker", "workers/AudioWorker.js");
+  }
+
+  editPhoneNumber(phoneNum): void{
+    if (StringUtil.isEmpty(phoneNum)) {
+      return;
+    }
+    this.tele_number = phoneNum;
+    this.all_number = phoneNum;
+
+    this.btnShow = false;
+    this.call_w = NUM_BUTTON_BASIC_LENGTH * DENSITY;
+    this.call_h = NUM_BUTTON_BASIC_LENGTH * DENSITY;
+    this.dialer_w = NUM_BUTTON_BASIC_LENGTH * DENSITY;
+    this.dialer_h = NUM_BUTTON_BASIC_LENGTH * DENSITY;
+    this.call_p = 0;
+    this.moveX = 0;
+    this.moveY = 0
+
+    this.deleteTeleNum();
+    this.deleteAddSpace();
+    this.viewNumberTextProc();
   }
 
   onDestroy() {
-    this.audioPlayer.release();
-    this.audioPlayer = undefined;
+    this.audioWorker.postMessage({
+      type: "over"
+    })
   }
 
   /*
-   * 删除号码时，改变字体大小
+   * Change the font size when deleting a number.
    */
   deleteTeleNum() {
     if (this.all_number.length < this.NUM_TEXT_MAX_LENGTH) {
@@ -112,11 +108,11 @@ export default class DialerPresenter {
   }
 
   /*
-   * 删除号码时，添加格式化空格
+   * Add formatting spaces when deleting a number.
    */
   deleteAddSpace() {
-    let teleNumberNoSpace = Utils.removeSpace(this.tele_number);
-    this.all_number = Utils.removeSpace(this.all_number);
+    let teleNumberNoSpace = StringUtil.removeSpace(this.tele_number);
+    this.all_number = StringUtil.removeSpace(this.all_number);
     if (teleNumberNoSpace.length > this.NUM_TEXT_MAXSIZE_LENGTH - 2) {
       this.tele_number = teleNumberNoSpace;
       return;
@@ -127,31 +123,32 @@ export default class DialerPresenter {
         return;
       }
       if (teleNumberNoSpace.length > 3) {
-        var split1 = teleNumberNoSpace.substr(0, 3);
-        var split2 = teleNumberNoSpace.substr(3, teleNumberNoSpace.length - 3);
+        let split1 = teleNumberNoSpace.substr(0, 3);
+        let split2 = teleNumberNoSpace.substr(3, teleNumberNoSpace.length - 3);
         this.tele_number = split1 + ' ' + split2;
-      }
-      if (teleNumberNoSpace.length > 7) {
-        split2 = teleNumberNoSpace.substr(3, 4);
-        var split3 = teleNumberNoSpace.substr(7, teleNumberNoSpace.length - 7);
-        this.tele_number = split1 + ' ' + split2 + ' ' + split3;
+        if (teleNumberNoSpace.length > 7) {
+          split2 = teleNumberNoSpace.substr(3, 4);
+          let split3 = teleNumberNoSpace.substr(7, teleNumberNoSpace.length - 7);
+          this.tele_number = split1 + ' ' + split2 + ' ' + split3;
+        }
       }
     } else {
       if (teleNumberNoSpace.length > 8) {
-        var split4 = teleNumberNoSpace.substr(0, 8);
-        var split5 = teleNumberNoSpace.substr(8, teleNumberNoSpace.length - 8);
+        let split4 = teleNumberNoSpace.substr(0, 8);
+        let split5 = teleNumberNoSpace.substr(8, teleNumberNoSpace.length - 8);
         this.tele_number = split4 + ' ' + split5;
       }
     }
   }
 
   /*
-   * 输入号码时检查是否需要添加格式化空格
+   * Check whether formatting spaces are required when entering a number.
    */
   checkNeedNumberSpace(numText) {
     let isSpace = /[\+;,#\*]/g;
     let isRule = /^\+.*/;
-    if (isSpace.test(numText)) { // 号码字符串中包含特殊字符则不添加空格
+    if (isSpace.test(numText)) {
+      // If the number string contains special characters, no space is added.
       if (isRule.test(numText)) {
         return true;
       } else {
@@ -163,26 +160,22 @@ export default class DialerPresenter {
 
   dialing(phoneNumber) {
     DialUtil.getInstance().dial(phoneNumber, (data, err, value) => {
+      if (!PreferencesUtil.isUsed()) {
+        PreferencesUtil.setIsUsed(true);
+        this.refreshView = !this.refreshView;
+      }
       HiLog.i(TAG, 'dial isEmergencyPhoneNumber : ' + data + ' err : ' + err + ' value : ' + value);
     });
   }
 
   /*
-   * 按键振动
+   * Key vibration
    */
   pressVibrate() {
-    vibrator.vibrate(1000, function (error) {
-      if (error) {
-        HiLog.e(TAG, "pressVibrate error: %s", JSON.stringify(error.message));
-      } else {
-        HiLog.i(TAG, "Callback returned to indicate a successful vibration.");
-      }
-    })
   }
 
-
   /*
-   * 输入号码时添加空格
+   * Add a space when entering a number.
    */
   ifNeedSpace() {
     switch (this.tele_number.length) {
@@ -200,17 +193,17 @@ export default class DialerPresenter {
   }
 
   /*
-   * 输入号码超长处理
+   * Processing of Overlong Input Numbers
    */
   viewNumberTextProc() {
     // 超长后去除全部空格
-    var numStringNoSpace = Utils.removeSpace(this.tele_number);
-    var numStringNoSpace_all = Utils.removeSpace(this.all_number);
+    let numStringNoSpace = StringUtil.removeSpace(this.tele_number);
+    let numStringNoSpace_all = StringUtil.removeSpace(this.all_number);
     this.tele_number = numStringNoSpace_all.length > this.NUM_TEXT_MAX_LENGTH ?
     numStringNoSpace_all.substr(numStringNoSpace_all.length - this.NUM_TEXT_MAX_LENGTH) : this.tele_number;
 
     if (this.tele_number.length > this.NUM_TEXT_MAXSIZE_LENGTH) {
-      this.tele_number = Utils.removeSpace(this.tele_number);
+      this.tele_number = StringUtil.removeSpace(this.tele_number);
     }
     if (this.tele_number.length > this.NUM_TEXT_MAXSIZE_LENGTH) {
       this.tele_num_size = this.NUM_TEXT_FONT_SIZE_MAX * this.NUM_TEXT_MAXSIZE_LENGTH / (this.tele_number.length); // 可视号码在16-25位时，适配font-size
@@ -220,11 +213,10 @@ export default class DialerPresenter {
   }
 
   /*
-   * 根据按键数字播放不同音频资源
+   * Play different audio resources based on key digits.
    */
   playAudio(number) {
     let audioFileName: string = '';
-    HiLog.i(TAG, 'SHOW number');
     switch (number.toString()) {
       case '1':
         audioFileName = '1.ogg';
@@ -265,49 +257,26 @@ export default class DialerPresenter {
       default:
         HiLog.e(TAG, "keytone src is error");
     }
-    HiLog.i(TAG, 'mAudioPath ');
-    if (this.mAudioPath == '') {
-      fileIO.open(this.BASE_PATH + audioFileName).then((fdNumber) => {
-        let fdPath = this.HOST + '' + fdNumber;
-        HiLog.i(TAG, 'first ');
-        this.audioPlayer.src = fdPath;
-      }).catch(error => {
-        HiLog.e(TAG, 'open fd error:%s', JSON.stringify(error.message));
-      });
-    } else if (this.mAudioPath == audioFileName) {
-      this.audioPlayer.seek(0);
-      this.audioPlayer.play();
-    } else {
-      this.audioPlayer.reset();
-      fileIO.open(this.BASE_PATH + audioFileName).then((fdNumber) => {
-        let fdPath = this.HOST + '' + fdNumber;
-        HiLog.i(TAG, 'Show open fd sucess fd');
-        this.audioPlayer.src = fdPath;
-      }).catch(error => {
-        HiLog.e(TAG, 'open fd error:%s', JSON.stringify(error.message));
-      });
-    }
-    this.mAudioPath = audioFileName;
+    let obj = {
+      type: "audio", data: audioFileName
+    };
+    this.audioWorker.postMessage(obj);
   }
   /*
-   * 跳转新建联系人
+   * Jump to New Contact
    */
   jumpToAccountants() {
     router.push({
       uri: "pages/contacts/accountants/Accountants",
       params: {
-        //true编辑 false新建
         updataShow: false,
-        phoneNumbers: [{phoneNumber: this.all_number}]
+        phoneNumbers: [{
+                         phoneNumber: this.all_number
+                       }]
       },
     })
   }
 
-
-  /**
-    * 发送消息
-    *
-    */
   sendMessage() {
     HiLog.i(TAG, 'sendMessage');
     let params = [];
@@ -318,13 +287,8 @@ export default class DialerPresenter {
     this.jumpToMms(params);
   }
 
-  /**
-     * 跳转短信app
-     *
-     * @param {string} params 跳转参数
-     */
   jumpToMms(params) {
-    let actionData: LooseObject = {};
+    let actionData: any = {};
     actionData.contactObjects = JSON.stringify(params);
     actionData.pageFlag = 'conversation';
     let str = {

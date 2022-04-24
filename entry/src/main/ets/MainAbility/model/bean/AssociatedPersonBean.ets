@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 
-export class AssociatedPersonBean{
-  id:string
-  associatedPersonId:string
+export class AssociatedPersonBean {
+  id: string
+  associatedPersonId: string
   name: string
   associatedType: string
-  constructor(id:string, associatedPersonId:string, name: string, associatedType: string){
+  constructor(id: string, associatedPersonId: string, name: string, associatedType: string) {
     this.id = id;
     this.associatedPersonId = associatedPersonId;
     this.name = name;

@@ -17,7 +17,7 @@ import router from '@system.router';
 import DeleteDialogEx from '../../pages/dialog/DeleteDialogEx';
 import ShareDialogEx from '../../pages/dialog/ShareDialogEx';
 import {ContactVo} from '../../model/bean/ContactVo';
-import Utils from '../../util/Utils';
+import StringUtil from '../../util/StringUtil';
 import HiLog from '../../util/HiLog';
 import ContactListPresenter from '../../presenter/contact/ContactListPresenter';
 import ContactRepository from '../../contact/repo/ContactRepository';
@@ -26,7 +26,7 @@ import ContactDelta from '../../contact/repo/ContactDelta';
 const TAG = 'ContactListItemView ';
 
 /**
- * 联系人item组件，主要负责单个联系人的显示;
+ * The contact item component is used to display a single contact.
  */
 @Component
 export default struct ContactListItemView {
@@ -78,84 +78,95 @@ export default struct ContactListItemView {
       justifyContent: FlexAlign.Center,
       alignItems: ItemAlign.Start }) {
 
-      Text(Utils.isEmpty(this.item.showName) ? this.item.phoneNum : this.item.showName)
-        .textAlign(TextAlign.Start)
-        .fontSize($r("app.float.contact_text_size_headline8"))
-        .fontColor('#182431')
-        .fontWeight(FontWeight.Medium)
-        .margin({ top: 10, bottom: 10 })
-        .width('100%')
-        .height($r("app.float.contact_listitem_height"))
-        .visibility(Utils.isEmpty(this.item.showName) ? Visibility.None : Visibility.Visible)
+      if (this.item.title) {
+        Text(this.item.title)
+          .textAlign(TextAlign.Start)
+          .fontSize($r("sys.float.ohos_id_text_size_headline8"))
+          .fontColor($r("sys.color.ohos_id_color_text_primary"))
+          .fontWeight(FontWeight.Medium)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
+          .maxLines(1)
+          .height($r("app.float.id_item_height_max"))
+      }
 
       Text($r("app.string.delete"))
         .width('100%')
-        .height($r("app.float.contact_listitem_index_height"))
+        .height($r("app.float.id_item_height_mid"))
         .textAlign(TextAlign.Start)
-        .fontSize($r("app.float.contact_text_size_body1"))
-        .fontColor('#182431')
+        .fontSize($r("sys.float.ohos_id_text_size_body1"))
+        .fontColor($r("sys.color.ohos_id_color_text_primary"))
         .fontWeight(FontWeight.Regular)
-        .margin({ top: 5 })
         .onClick(() => {
           this.presenter.setCurItem(this.item);
           ContextMenu.close();
           this.deleteDialogControler.open();
         })
     }
-    .borderRadius($r("app.float.contact_emptypage_button_radius"))
+    .borderRadius($r("sys.float.ohos_id_corner_radius_card"))
     .width($r("app.float.contact_longpress_dialog_width"))
-    .padding({ top: 4, bottom: 4 })
+    .padding({
+      left: $r("app.float.id_card_margin_max"),
+      right: $r("app.float.id_card_margin_max"),
+      top: $r("app.float.id_card_margin_mid"),
+      bottom: $r("app.float.id_card_margin_mid")
+    })
   }
 
   build() {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
       Row() {
-        Text(this.item.emptyNameData.substr(this.item.emptyNameData.length - 1, 1))
-          .fontSize(30)
-          .fontWeight(FontWeight.Bold)
-          .fontColor(Color.White)
-          .backgroundColor(this.item.portraitColor)
-          .height($r("app.float.contact_listpage_icon_width_height"))
-          .width($r("app.float.contact_listpage_icon_width_height"))
-          .textAlign(TextAlign.Center)
-          .border({ width: 0, color: Color.White, radius: 40 })
-          .visibility((!Utils.isEmpty(this.item.portraitPath) || (Utils.isEmpty(this.item.portraitPath) && Utils.isEmpty(this.item.showName) && Utils.isEmpty(this.item.phoneNum))) ? Visibility.None : Visibility.Visible)
-
-        Image(Utils.isEmpty(this.item.portraitPath) ? $r("app.media.avatar_filled_honor") : this.item.portraitPath)
-          .width(40)
-          .height(40)
-          .objectFit(ImageFit.Contain)
-          .visibility((!Utils.isEmpty(this.item.portraitPath) || (Utils.isEmpty(this.item.portraitPath) && Utils.isEmpty(this.item.showName) && Utils.isEmpty(this.item.phoneNum))) ? Visibility.Visible : Visibility.None)
+        if (StringUtil.isEmpty(this.item.nameSuffix)) {
+          Image(StringUtil.isEmpty(this.item.portraitPath) ? $r("app.media.ic_user_portrait") : this.item.portraitPath)
+            .width($r("app.float.id_card_image_mid"))
+            .height($r("app.float.id_card_image_mid"))
+            .objectFit(ImageFit.Contain)
+            .borderRadius($r("app.float.id_card_image_mid"))
+            .backgroundColor(this.item.portraitColor)
+        } else {
+          Text(this.item.nameSuffix.toUpperCase())
+            .fontSize(30)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.White)
+            .backgroundColor(this.item.portraitColor)
+            .height($r("app.float.id_card_image_mid"))
+            .width($r("app.float.id_card_image_mid"))
+            .textAlign(TextAlign.Center)
+            .borderRadius($r("app.float.id_card_image_mid"))
+        }
       }
-      .margin({ left: $r("app.float.common_margin") })
+      .height($r("app.float.id_card_image_mid"))
+      .width($r("app.float.id_card_image_mid"))
 
       Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Center }) {
-        Text(Utils.isEmpty(this.item.showName) ? this.item.phoneNum : this.item.showName)
-          //          .fontColor($r("app.color.textColorPrimary"))
-          .fontColor('#182431')
-          .fontSize($r("app.float.contact_text_size_body1"))
+        Text(this.item.title)
+          .fontColor($r("sys.color.ohos_id_color_text_primary"))
+          .fontSize($r("sys.float.ohos_id_text_size_body1"))
           .fontWeight(FontWeight.Medium)
-          .margin({ left: 12, bottom: 2 })
+          .margin({ bottom: $r("app.float.id_card_margin_sm") })
 
-        Text((Utils.isEmpty(this.item.company) ? '' : this.item.company + ' ') + (Utils.isEmpty(this.item.position) ? '' : this.item.position))
-          //          .fontColor($r("app.color.textColorTertiary"))
-          .fontColor('#66182431')
-          .fontSize($r("app.float.contact_text_size_body1"))
-          .fontWeight(FontWeight.Regular)
-          .visibility((Utils.isEmpty(this.item.company) && Utils.isEmpty(this.item.position)) ? Visibility.None : Visibility.Visible)
-          .margin({ left: 12 })
+        if (this.item.subTitle) {
+          Text(this.item.subTitle)
+            .width('100%')
+            .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+            .fontSize($r("sys.float.ohos_id_text_size_body2"))
+            .fontWeight(FontWeight.Regular)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+            .maxLines(1)
+        }
       }
+      .margin({ left: $r("app.float.id_card_margin_xl") })
     }
-    .height($r("app.float.contact_listitem_height"))
+    .height($r("app.float.id_item_height_max"))
     .width('100%')
+    .padding({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_max") })
     .backgroundColor(Color.White)
     .onClick(() => {
       router.push(
         {
           uri: "pages/contacts/details/ContactDetail",
           params: {
-            contactId: this.item.contactId,
-            isNewSource: true
+            sourceHasId: true,
+            contactId: this.item.contactId
           }
         }
       );

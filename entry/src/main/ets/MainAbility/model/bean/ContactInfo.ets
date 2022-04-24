@@ -22,22 +22,21 @@ import {EventBean} from "../bean/EventBean"
 import {AssociatedPersonBean} from "../bean/AssociatedPersonBean"
 
 export class ContactInfo {
-  id: string; // 联系人id主键
-  display_name: string; // 联系人姓名
-  nickname: string; // 昵称
-  //  phonetic_name: string; // 拼音名字
-  phones: PhoneNumBean[]; //手机号 类别等
-  emails: EmailBean []; //邮箱类别等
-  remarks: string; // 备注
-  position: string; // 职位
-  company: string; // 公司
-  aims: AIMBean[]; //AIM类别等
-  houses: HouseBean[]; //住宅类别等
-  websites: string[]; // 网站博客等
-  relationships: AssociatedPersonBean[]; //助理 依次增加
+  id: string;
+  display_name: string;
+  nickname: string;
+  //  phonetic_name: string;
+  phones: PhoneNumBean[];
+  emails: EmailBean [];
+  remarks: string;
+  position: string;
+  company: string;
+  aims: AIMBean[];
+  houses: HouseBean[];
+  websites: string[];
+  relationships: AssociatedPersonBean[];
   events: EventBean[];
   groups: GroupBean[];
-
   constructor(id: string, display_name: string,
               nickname: string, phones: PhoneNumBean[],
               emails: EmailBean[], position: string, company: string, remarks: string,

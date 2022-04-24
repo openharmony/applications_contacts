@@ -14,7 +14,7 @@
  */
 
 /**
- * 表基本字段常量
+ * Table Basic Field Constants
  */
 export default class BaseColumns {
   static readonly ID: string = "id";

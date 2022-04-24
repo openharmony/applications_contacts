@@ -13,6 +13,10 @@
  * limitations under the License.
  */
 
+import HiLog from '../../util/HiLog';
+
+const TAG = "BasicDataSource";
+
 export class BasicDataSource implements IDataSource {
   private listeners: DataChangeListener[] = []
 
@@ -26,28 +30,28 @@ export class BasicDataSource implements IDataSource {
 
   registerDataChangeListener(listener: DataChangeListener): void {
     if (this.listeners.indexOf(listener) < 0) {
-      console.info('add listener')
-      this.listeners.push(listener)
+      HiLog.i(TAG, "BasicDataSource add listener ");
+      this.listeners.push(listener);
     }
   }
 
   unregisterDataChangeListener(listener: DataChangeListener): void {
     const pos = this.listeners.indexOf(listener);
     if (pos >= 0) {
-      console.info('remove listener')
-      this.listeners.splice(pos, 1)
+      HiLog.i(TAG, "BasicDataSource remove listener ");
+      this.listeners.splice(pos, 1);
     }
   }
 
   notifyDataReload(): void {
     this.listeners.forEach(listener => {
-      listener.onDataReloaded()
+      listener.onDataReloaded();
     })
   }
 
   notifyDataAdd(index: number): void {
     this.listeners.forEach(listener => {
-      listener.onDataAdded(index)
+      listener.onDataAdded(index);
     })
   }
 
@@ -59,13 +63,13 @@ export class BasicDataSource implements IDataSource {
 
   notifyDataDelete(index: number): void {
     this.listeners.forEach(listener => {
-      listener.onDataDeleted(index)
+      listener.onDataDeleted(index);
     })
   }
 
   notifyDataMove(from: number, to: number): void {
     this.listeners.forEach(listener => {
-      listener.onDataMoved(from, to)
+      listener.onDataMoved(from, to);
     })
   }
 }

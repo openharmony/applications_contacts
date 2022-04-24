@@ -97,7 +97,6 @@ export default class Contact {
   shareContactByType(type: number) {
   }
 
-  // 照理这个联系人不应该关心，但是日历模块太小，先放这
   addBirthDayToCalendar() {
 
   }

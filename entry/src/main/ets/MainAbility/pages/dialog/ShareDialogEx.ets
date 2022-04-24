@@ -14,7 +14,7 @@
  */
 
 /**
- * 分享弹框，在底部显示;
+ * The sharing dialog box is displayed at the bottom.
  */
 @CustomDialog
 export default struct ShareDialogEx {
@@ -54,7 +54,7 @@ export default struct ShareDialogEx {
         Text(this.cancelText).textAlign(TextAlign.Center)
           .width('100%')
           .fontSize(20)
-          .fontColor($r("app.color.cancel"))
+          .fontColor($r("sys.color.ohos_id_color_text_primary_activated"))
       }
       .width('100%')
       .height(30)

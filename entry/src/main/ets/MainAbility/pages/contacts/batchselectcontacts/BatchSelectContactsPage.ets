@@ -15,19 +15,16 @@
 
 import BatchSelectContactsPresenter from '../../../presenter/contact/batchselectcontacts/BatchSelectContactsPresenter';
 import HiLog from '../../../util/HiLog';
-import Utils from '../../../util/Utils';
+import ArrayUtil from '../../../util/ArrayUtil';
+import EnvironmentProp from '../../../feature/EnvironmentProp';
 import BatchSelectRecentItemView from '../../../component/contact/batchselectcontacts/BatchSelectRecentItemView';
 import BatchSelectContactItemView from '../../../component/contact/batchselectcontacts/BatchSelectContactItemView';
 import BatchTabGuide from '../../../component/contact/batchselectcontacts/BatchTabGuide';
-import util from '../../../util/Utils';
-import {CallBean} from '../../../model/bean/CallBean';
-import {ContactVo} from '../../../model/bean/ContactVo';
-import Constants, {DeviceType} from '../../../model/common/Constants';
 
 const TAG = 'BatchSelectContactsPage ';
 
 /**
- * 短信选择联系人列表界面
+ * Selecting a contact list by SMS
  */
 @Entry
 @Component
@@ -35,51 +32,31 @@ export default struct BatchSelectContactsPage {
   @State mPresenter: BatchSelectContactsPresenter = BatchSelectContactsPresenter.getInstance();
   @State currentIndex: number = 0;
   private controller: TabsController = new TabsController();
-  @State mSizeType: SizeType = Constants.deviceType == DeviceType.WGR ? SizeType.LG : SizeType.SM;
-  @State mColumns: number = Constants.deviceType == DeviceType.WGR ? 12 : 4;
-  @State mGutter: number = Constants.deviceType == DeviceType.WGR ? 12 : 24;
-  @State mMargin: number = Constants.deviceType == DeviceType.WGR ? 12 : 0;
+  @State mSizeType: SizeType = EnvironmentProp.isTablet() ? SizeType.LG : SizeType.SM;
+  @State mColumns: number = EnvironmentProp.isTablet() ? 12 : 4;
+  @State mGutter: number = EnvironmentProp.isTablet() ? 12 : 24;
+  @State mMargin: number = EnvironmentProp.isTablet() ? 12 : 24;
 
-  /**
-   * 函数在创建自定义组件的新实例后，在执行其build函数之前执行。
-   * 允许在aboutToAppear函数中改变状态变量，这些更改将在后续执行build函数中生效。
-   */
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear')
     this.mPresenter.aboutToAppear()
   }
 
-  /**
-   * 函数在自定义组件析构消耗之前执行。
-   * 不允许在aboutToDisappear函数中改变状态变量，特别是@Link变量的修改可能会导致应用程序行为不稳定。
-   */
   aboutToDisappear() {
     HiLog.i(TAG, 'aboutToDisappear')
     this.mPresenter.aboutToDisappear()
   }
 
-  /**
-   * 当此页面显示时触发一次。包括路由过程、应用进入前后台等场景，仅@Entry修饰的自定义组件生效。
-   */
   onPageShow() {
     HiLog.i(TAG, 'onPageShow')
     this.mPresenter.onPageShow()
   }
 
-  /**
-   * 当此页面消失时触发一次。包括路由过程、应用进入前后台等场景，仅@Entry修饰的自定义组件生效。
-   */
   onPageHide() {
     HiLog.i(TAG, 'onPageHide')
     this.mPresenter.onPageHide()
   }
 
-  /**
-   * 当用户点击返回按钮时触发，，仅@Entry修饰的自定义组件生效。
-   * 返回true表示页面自己处理返回逻辑, 不进行页面路由。
-   * 返回false表示使用默认的返回逻辑。
-   * 不返回值会作为false处理。
-   */
   onBackPress() {
     return false;
   }
@@ -87,148 +64,134 @@ export default struct BatchSelectContactsPage {
   build() {
     Column() {
       GridContainer({ columns: this.mColumns, sizeType: this.mSizeType, gutter: this.mGutter, margin: this.mMargin }) {
-        Flex({ direction: FlexDirection.Column }) {
-          Row() {
-            Flex({ direction: FlexDirection.Row,
-              justifyContent: FlexAlign.Start,
-              alignItems: ItemAlign.Center }) {
-              //cancel img
-              Image($r("app.media.ic_public_cancel"))
-                .height($r("app.float.contact_samll_image_width_height"))
-                .width($r("app.float.contact_samll_image_width_height"))
-                .margin({ left: $r("app.float.common_margin") })
-                .onClick(() => {
-                  this.mPresenter.cancel()
+        Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start }) {
+          Flex({
+            direction: FlexDirection.Row,
+            justifyContent: FlexAlign.Start,
+            alignItems: ItemAlign.Center }) {
+            Image($r("app.media.ic_public_cancel"))
+              .height($r("app.float.id_card_image_small"))
+              .width($r("app.float.id_card_image_small"))
+              .flexShrink(0)
+              .margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_xxl") })
+              .onClick(() => {
+                this.mPresenter.cancel()
+              })
+
+            Text(this.mPresenter.selectCount == 0 ? $r('app.string.no_select') : $r('app.string.select_num', this.mPresenter.selectCount))
+              .textAlign(TextAlign.Start)
+              .fontSize(20)
+              .fontWeight(FontWeight.Bold)
+              .fontColor($r("sys.color.ohos_id_color_text_primary"))
+              .flexGrow(1)
+              .flexShrink(1)
+
+            Image($r("app.media.ic_public_ok"))
+              .height($r("app.float.id_card_image_small"))
+              .width($r("app.float.id_card_image_small"))
+              .flexShrink(0)
+              .margin({ right: $r("app.float.id_card_margin_max") })
+              .enabled(!this.mPresenter.selectDisabled)
+              .fillColor(this.mPresenter.selectDisabled ? $r("sys.color.ohos_id_color_tertiary") : $r("sys.color.ohos_id_color_primary"))
+              .onClick(() => {
+                this.mPresenter.comfirm()
+              })
+
+            if (EnvironmentProp.isTablet()) {
+              Image(this.mPresenter.icSelectAll)
+                .width($r("app.float.id_card_image_small"))
+                .height($r("app.float.id_card_image_small"))
+                .flexShrink(0)
+                .objectFit(ImageFit.Contain)
+                .fillColor(this.mPresenter.allSelectTextStyle)
+                .margin({ right: $r("app.float.id_card_margin_max") })
+                .onClick((event: ClickEvent) => {
+                  HiLog.i(TAG, 'clickSelectAll clicked!');
+                  this.mPresenter.clickSelectAll();
                 })
+            }
+          }
+          .width('100%')
+          .height($r("app.float.id_item_height_large"))
+          .flexShrink(0)
 
-              Text(this.mPresenter.selectCount == 0 ? $r('app.string.no_select') : $r('app.string.select_num', this.mPresenter.selectCount))
-                .textAlign(TextAlign.Start)
-                .fontSize(20)
-                .fontWeight(FontWeight.Bold)
-                  //          .fontColor($r("app.color.textColorPrimary"))
-                .fontColor('#182431')
-                .margin({ left: $r("app.float.common_margin_16") })
-                .height($r("app.float.contact_batchselect_title_height"))
-                .layoutWeight(1)
+          BatchTabGuide({ currentIndex: $currentIndex, controller: this.controller })
 
-              //comfirm img
-              Image($r("app.media.ic_public_ok"))
-                .height($r("app.float.contact_samll_image_width_height"))
-                .width($r("app.float.contact_samll_image_width_height"))
-                .margin({ right: $r("app.float.common_margin") })
-                .onClick(() => {
-                  this.mPresenter.comfirm()
+          Tabs({ barPosition: BarPosition.Start, index: this.currentIndex, controller: this.controller }) {
+            TabContent() {
+              if (ArrayUtil.isEmpty(this.mPresenter.callLogTemp)) {
+                NoContactsEmptyView()
+              } else {
+                RecentList({
+                  presenter: $mPresenter
                 })
-
-              if (Constants.deviceType == DeviceType.WGR) {
-                Image($r("app.media.ic_public_select_all"))
-                  .width($r("app.float.contact_samll_image_width_height"))
-                  .height($r("app.float.contact_samll_image_width_height"))
-                  .objectFit(ImageFit.Contain)
-                  .margin({ right: $r("app.float.common_margin") })
-                  .onClick((event: ClickEvent) => {
-                    HiLog.i(TAG, 'clickSelectAll clicked!')
-                    this.mPresenter.clickSelectAll();
-                  })
               }
             }
-            .width('100%')
-            .height($r("app.float.contact_titleguide_height"))
-          }
-          .height($r("app.float.contact_titleguide_height"))
-          .useSizeType({
-            xs: { span: 12, offset: 0 },
-            sm: { span: 4, offset: 0 },
-            md: { span: 12, offset: 0 },
-            lg: { span: 12, offset: 0 }
-          })
 
-          Column() {
-            BatchTabGuide({ currentIndex: $currentIndex, controller: this.controller })
-
-            Tabs({ barPosition: BarPosition.Start, index: this.currentIndex, controller: this.controller }) {
-              TabContent() {
-                if (util.isEmptyList(this.mPresenter.callLogTemp)) {
-                  NoContactsEmptyView()
-                } else {
-                  RecentList({
-                    presenter: $mPresenter
-                  })
-                }
-              }
-
-              TabContent() {
-                if (util.isEmptyList(this.mPresenter.contactsList)) {
-                  NoContactsEmptyView()
-                } else {
-                  ContactsList({
-                    presenter: $mPresenter
-                  })
-                }
+            TabContent() {
+              if (ArrayUtil.isEmpty(this.mPresenter.contactsList)) {
+                NoContactsEmptyView()
+              } else {
+                ContactsList({
+                  presenter: $mPresenter
+                })
               }
             }
-            .vertical(false)
-            .scrollable(true)
-            .barMode(BarMode.Fixed)
-            .barWidth(0)
-            .barHeight(0)
-            .animationDuration(200)
-            .onChange((index: number) => {
-              HiLog.i(TAG, index.toString());
-              this.currentIndex = index;
-              this.mPresenter.onTabChange(index);
-            })
-            .margin({ top: 8 })
           }
-          .flexGrow(1)
-          .useSizeType({
-            xs: { span: 8, offset: 2 },
-            sm: { span: 4, offset: 0 },
-            md: { span: 8, offset: 2 },
-            lg: { span: 8, offset: 2 }
+          .vertical(false)
+          .scrollable(true)
+          .barMode(BarMode.Fixed)
+          .barWidth(0)
+          .barHeight(0)
+          .animationDuration(0)
+          .onChange((index: number) => {
+            this.currentIndex = index;
+            this.mPresenter.onTabChange(index);
           })
+          .flexShrink(1)
+          .margin({ top: $r("app.float.id_card_margin_large") })
 
-          if (Constants.deviceType == DeviceType.PHONE) {
+          if (!EnvironmentProp.isTablet()) {
             Flex({
               direction: FlexDirection.Column,
               justifyContent: FlexAlign.Center,
               alignItems: ItemAlign.Center
             }) {
-              Image($r("app.media.ic_public_select_all"))
-                .width($r("app.float.contact_samll_image_width_height"))
-                .height($r("app.float.contact_samll_image_width_height"))
+              Image(this.mPresenter.icSelectAll)
+                .width($r("app.float.id_card_image_small"))
+                .height($r("app.float.id_card_image_small"))
                 .objectFit(ImageFit.Contain)
+                .fillColor(this.mPresenter.allSelectTextStyle)
 
-              Text($r("app.string.select_all"))
+              Text(this.mPresenter.allSelectMessage)
                 .height(14)
-                .margin({ top: 3 })
+                .margin({ top: $r("app.float.id_card_margin_mid") })
                 .fontSize(10)
-                  //              .fontColor($r("app.color.textColorPrimary"))
-                .fontColor("#182431")
+                .fontColor(this.mPresenter.allSelectTextStyle)
                 .fontWeight(FontWeight.Medium)
             }
-            .height($r("app.float.contact_titleguide_height"))
-            .useSizeType({
-              xs: { span: 8, offset: 2 },
-              sm: { span: 4, offset: 0 },
-              md: { span: 8, offset: 2 },
-              lg: { span: 8, offset: 2 }
-            })
+            .width('100%')
+            .height($r("app.float.id_item_height_large"))
+            .flexShrink(0)
             .onClick((event: ClickEvent) => {
-              HiLog.i(TAG, 'clickSelectAll clicked!')
               this.mPresenter.clickSelectAll();
             })
           }
         }
-        .width("100%")
         .height("100%")
-        .backgroundColor('#F1F3F5')
+        .useSizeType({
+          xs: { span: 8, offset: 2 },
+          sm: { span: 4, offset: 0 },
+          md: { span: 8, offset: 2 },
+          lg: { span: 8, offset: 2 }
+        })
       }
       .width("100%")
       .height("100%")
     }
     .width('100%')
     .height('100%')
+    .backgroundColor($r("sys.color.ohos_id_color_sub_background"))
   }
 }
 
@@ -239,28 +202,20 @@ struct RecentList {
   build() {
     Column() {
       List({ space: 0, initialIndex: 0 }) {
-        ForEach(this.presenter.callLogTemp, (item, index) => {
-          // 插入联系人item
+        ForEach(this.presenter.callLogTemp, (item, index: number) => {
           ListItem() {
-            BatchSelectRecentItemView({
-              item: item,
-              index: index,
-              onRecentItemClicked: (index) => this.presenter.onRecentItemClicked(index)
-            })
-          }
+            Stack({ alignContent: Alignment.BottomEnd }) {
+              BatchSelectRecentItemView({
+                item: item,
+                index: index,
+                onRecentItemClicked: (index) => this.presenter.onRecentItemClicked(index)
+              })
 
-          if (!util.isEmptyList(this.presenter.callLogTemp) && index != this.presenter.callLogTemp.length - 1) {
-            ListItem() {
-              Row() {
+              if (!ArrayUtil.isEmpty(this.presenter.callLogTemp) && index != this.presenter.callLogTemp.length - 1) {
                 Divider()
-                  .vertical(false)
-                  .strokeWidth('0.5vp')
-                  .color('#F1F3F5')
-                  .margin({ left: 76, right: $r("app.float.common_margin") })
+                  .color($r("sys.color.ohos_id_color_list_separator"))
+                  .margin({ left: 76, right: $r("app.float.id_card_margin_max") })
               }
-              .width('100%')
-              .height('0.5')
-              .backgroundColor(Color.White)
             }
           }
         }, (item) => item.id.toString())
@@ -271,8 +226,8 @@ struct RecentList {
     }
     .width('100%')
     .backgroundColor(Color.White)
-    .padding({ top: 4, bottom: 4 })
-    .borderRadius($r("app.float.contact_list_groups_radius"))
+    .padding({ top: $r("app.float.id_card_margin_mid"), bottom: $r("app.float.id_card_margin_mid") })
+    .borderRadius($r("sys.float.ohos_id_corner_radius_card"))
   }
 }
 
@@ -282,42 +237,39 @@ struct ContactsList {
 
   build() {
     Column() {
-      List({ space: 0, initialIndex: 0 }) {
+      List({ initialIndex: this.presenter.initialIndex }) {
         ForEach(this.presenter.contactsList, (item, index) => {
-          // 判断当前item是否为第一个 或与上一个item的namePrefix不同，则插入字母前缀
-          if (index == 0 || !(item.namePrefix == this.presenter.contactsList[index-1].namePrefix)) {
-            ListItem() {
-              Text(item.namePrefix)
-                .fontColor(Color.Black)
-                .fontSize(18)
-                .fontWeight(FontWeight.Medium)
-                .height($r("app.float.contact_listitem_index_height"))
-                .textAlign(TextAlign.End)
-                .padding({ top: 5 })
-            }.margin({ left: $r("app.float.common_margin") })
-          }
 
-          // 插入联系人item
           ListItem() {
-            BatchSelectContactItemView({
-              item: item,
-              index: index,
-              onContactItemClicked: (index, indexChild) => this.presenter.onContactItemClicked(index, indexChild)
-            })
-          }
+            Stack({ alignContent: Alignment.BottomEnd }) {
+              Column() {
+                if (index == 0 || !(item.namePrefix == this.presenter.contactsList[index-1].namePrefix)) {
+                  Flex({ direction: FlexDirection.Column,
+                    justifyContent: FlexAlign.End,
+                    alignItems: ItemAlign.Start }) {
+                    Text(item.namePrefix)
+                      .fontColor($r("sys.color.ohos_fa_text_secondary"))
+                      .fontSize($r("sys.float.ohos_id_text_size_sub_title3"))
+                      .fontWeight(FontWeight.Medium)
+                      .textAlign(TextAlign.Start)
+                  }
+                  .padding({ left: $r("app.float.id_card_margin_max"), bottom: $r("app.float.id_card_margin_large") })
+                  .width('100%')
+                  .height($r("app.float.id_item_height_mid"))
+                }
 
-          if (!util.isEmptyList(this.presenter.contactsList) && index != this.presenter.contactsList.length - 1) {
-            ListItem() {
-              Row() {
-                Divider()
-                  .vertical(false)
-                  .strokeWidth('0.5vp')
-                  .color('#F1F3F5')
-                  .margin({ left: 76, right: $r("app.float.common_margin") })
+                BatchSelectContactItemView({
+                  item: item,
+                  index: index,
+                  onContactItemClicked: (index, indexChild) => this.presenter.onContactItemClicked(index, indexChild)
+                })
               }
-              .width('100%')
-              .height('0.5')
-              .backgroundColor(Color.White)
+
+              if ((index < this.presenter.contactsList.length - 1) && (item.namePrefix === this.presenter.contactsList[index + 1].namePrefix)) {
+                Divider()
+                  .color($r("sys.color.ohos_id_color_list_separator"))
+                  .margin({ left: 76, right: $r("app.float.id_card_margin_max") })
+              }
             }
           }
         }, (item) => item.contactId.toString())
@@ -325,18 +277,12 @@ struct ContactsList {
       .width('100%')
       .listDirection(Axis.Vertical)
       .edgeEffect(EdgeEffect.Spring)
+      .onScrollIndex((firstIndex: number, lastIndex: number) => {
+        this.presenter.resetInitialIndex(firstIndex);
+      })
     }
     .width('100%')
-    .padding({ top: 4, bottom: 4 })
-  }
-}
-
-@Component
-struct GroupsList {
-  @State presenter: BatchSelectContactsPresenter = BatchSelectContactsPresenter.getInstance();
-
-  build() {
-
+    .padding({ top: $r("app.float.id_card_margin_mid"), bottom: $r("app.float.id_card_margin_mid") })
   }
 }
 
@@ -345,24 +291,24 @@ struct NoContactsEmptyView {
   @State presenter: BatchSelectContactsPresenter = BatchSelectContactsPresenter.getInstance();
 
   build() {
-    Flex({ direction: FlexDirection.Column,
+    Flex({
+      direction: FlexDirection.Column,
       justifyContent: FlexAlign.Center,
       alignItems: ItemAlign.Center }) {
       Image($r("app.media.no_contacts_illustration"))
-        .width($r("app.float.contact_emptyview_image_width_height"))
-        .height($r("app.float.contact_emptyview_image_width_height"))
+        .width($r("app.float.id_card_image_large"))
+        .height($r("app.float.id_card_image_large"))
         .objectFit(ImageFit.Contain)
-        .margin({ bottom: 8 })
+        .margin({ bottom: $r("app.float.id_card_margin_large") })
 
       Text(this.presenter.getEmptyText())
-        .fontSize($r("app.float.contact_text_size_body2"))
+        .fontSize($r("sys.float.ohos_id_text_size_body2"))
         .fontWeight(FontWeight.Regular)
-          //          .fontColor($r("app.color.textColorTertiary"))
-        .fontColor('#66182431')
-        .height(19)
+        .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
         .textAlign(TextAlign.Center)
     }
     .width('100%')
     .height('100%')
+    .padding({ bottom: $r("app.float.id_card_margin_large") })
   }
 }

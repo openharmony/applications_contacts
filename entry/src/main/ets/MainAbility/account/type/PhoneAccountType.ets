@@ -27,12 +27,11 @@ import Event from '../../contact/contract/Event';
 import Relation from '../../contact/contract/Relation';
 
 /**
- * 电话账户类型
+ * Phone Account Type
  */
 export default class PhoneAccountType extends AccountType {
   static readonly TYPE_KEY: string = AccountType.PHONE_ACCOUNT_TYPE;
   readonly mineKinds: Map<string, DataKind> = new Map();
-
   constructor() {
     super();
     this.init();
@@ -121,7 +120,6 @@ export default class PhoneAccountType extends AccountType {
     typeList.push(this.buildAimType(Aim.TYPE_ICQ));
     typeList.push(this.buildAimType(Aim.TYPE_JABBER));
     typeList.push(this.buildAimType(Aim.TYPE_CUSTOM));
-
     let kind = new DataKind(Aim.CONTENT_ITEM_TYPE, typeList);
     this.mineKinds.set(Aim.CONTENT_ITEM_TYPE, kind);
   }
@@ -152,7 +150,6 @@ export default class PhoneAccountType extends AccountType {
     typeList.push(this.buildBirthdayType(Birthday.TYPE_LUNARBIRTHDAY));
     typeList.push(this.buildBirthdayType(Birthday.TYPE_ANNIVERSARIES));
     typeList.push(this.buildBirthdayType(Birthday.TYPE_OTHER));
-
     let kind = new DataKind(Birthday.CONTENT_ITEM_TYPE, typeList);
     this.mineKinds.set(Birthday.CONTENT_ITEM_TYPE, kind);
   }

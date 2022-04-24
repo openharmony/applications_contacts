@@ -14,16 +14,13 @@
  */
 
 import Constants from './common/Constants';
-import Utils from '../util/Utils'
-import callLogService from './calllog/CalllogModel';
-import common from './common';
+import StringUtil from '../util/StringUtil';
+import ArrayUtil from '../util/ArrayUtil';
 import HiLog from '../util/HiLog';
 import router from '@system.router';
-import ContactAbilityModel from './ContactAbilityModel'
+import ContactAbilityModel from './ContactAbilityModel';
 import featureAbility from '@ohos.ability.featureAbility';
 import prompt from '@system.prompt';
-import LooseObject from '../model/bean/LooseObject'
-import resourceManager from '@ohos.resourceManager';
 import Birthday from '../contact/contract/Birthday';
 import Relation from '../contact/contract/Relation';
 import House from '../contact/contract/House';
@@ -33,121 +30,53 @@ import Phone from '../contact/contract/Phone';
 import CallLogRepository from '../call/repo/CallLogRepository';
 import ContactRepository from '../contact/repo/ContactRepository';
 import CallLog from '../call/entity/CallLog';
-import DbChangeHelper from '../model/common/DbChangeHelper';
+import {CallType} from '../call/entity/CallLog';
 
+const TAG = 'ContactDetailModel';
 
 /**
- * 联系人详情 逻辑
+ * Contact Details Logic
  */
-
-var TAG = 'contactDetailModel';
-
-const DELETE_CONTACT = 2003; // 删除联系人
-const GET_CONTACT_DETAIL = 2005; // 获取详情
-
-
 export default {
-  // 用作刷新的标签
-  flash: 0,
-  // 更多选项menu
+  // More options menu
   moreMenuOptions: [$r("app.string.delete_contact")],
-  // 短信跳转相关常量
-  CONTRACTS: {
-    MMS_BUNDLE_NAME: "com.ohos.mms",
-    MMS_ABILITY_NAME: "com.ohos.mms.MainAbility",
-    MMS_ENTITIES: 'entity.system.home'
-  },
-  // 信息的标签
-  ITEMTAGS: {
-    TAG_TELLIST: 0,
-    TAG_EMAILLIST: 1,
-    TAG_AIMLIST: 2,
-    TAG_GIVENNAME: 3,
-    TAG_WEBSITELIST: 4,
-    TAG_HOUSELIST: 5,
-    TAG_REMEMBRANCEDAY: 6,
-    TAG_GROUP: 7,
-    TAG_PINYINNAME: 8,
-    TAG_ASSOCIATEDPERSON: 9,
-    TAG_REMARKS: 10,
-  },
-  // 第一条信息的标签
-  firstInfo: 0,
-  /** 展示头像 */
-  showHeaderFlag: true,
-  /** Y坐标移动起始值 */
-  pYStart: 0,
-  /** Y坐标移动值 */
-  pYMove: 0,
-  /** 移动值计算 */
-  directPoint: 0,
-  directPointTemp: 0,
-  /** 界面移动起始X坐标 */
-  touchMoveStartX: 0,
-  /** 界面移动起始Y坐标 */
-  touchMoveStartY: 0,
-  /** 收藏标记 */
+  /** Favorite Tag */
   isFavorite: false,
-  /** 新号码传入的详情展示信息 */
-  newNumberContactDetail: {
-    callTag: ''
-  },
-  /** 展示MENU延时标记 */
-  showMenuTimeOutId: '',
-  /** 长按电话号码对话框显示号码 */
-  showPhoneNumber: '',
-  /** 联系人所有电话号码数 */
-  phoneNumbersLength: 0,
-  /** 剪贴板内容 */
-  copyToClipBoardContent: '',
-  /** 长按地址弹出dialog的title */
-  postalAddressName: '',
-  /** 拨打电话的号码值 */
-  sendNumber: '',
-  /** 删除通话记录索引值 */
-  deleteIndex: '',
-  /**  长按电话号码的索引值 */
-  numLongPressIndexIndex: 0,
-  /** 页面全局X坐标 */
-  globalX: '',
-  /** 页面全局Y坐标 */
-  globalY: '',
-  /** 用于按钮显示折叠后的showNameLast */
+  /** Used to display the collapsed showNameLast button. */
   showNameLastMenu: '',
-  /** 最终显示的头像未知的名称 */
-  showNameLast: '',
-  /** 二维码string值 */
-  qrcodeString: '',
-  /** 通话记录数据是否清除*/
+  /** Check whether the call record data is cleared.*/
   isCallLogClean: false,
 
-  /** 根据联系人详情组装的展示用参数 */
+  /** Indicates whether the new optimized request interface is used.
+   * This field is added to the favorites page for invoking the new interface. */
+  sourceHasId: false,
+  /** Check whether the contact details are obtained. */
+  containContacts: false,
+  /** Jump from call log */
+  sourceHasPhone: false,
+  /** Indicates the incoming phone number of the new number. */
+  phoneNumberShow: '',
+  /** Contact ID */
+  contactId: '',
+  isNewNumber: true,
+  /** Display parameters assembled based on contact details. */
   contactForm: {
+    display_name: '',
+    photoFirstName: '',
+    company: '',
+    position: '',
     phones: [],
     emails: [],
     aims: [],
-    nickname: '',
+    nickname: [],
     websites: [],
     houses: [],
     events: [],
-    remarks: '',
+    remarks: [],
     relationships: [],
-    pinYinName: '',
-    alphaName: '',
-    showGroupsString: '',
-    name: '',
-    display_name: '',
-    namePrefix: '',
-    lastName: '',
-    company: '',
-    position: '',
     numRecords: [],
-    groups: [],
-    /** 底部显示新建联系人底部图标 */
-    showNewContact: false,
-    isNewNumber: false,
   },
-  /** 联系人临时 */
+  /** Contact Temporary */
   contacts: {
     starred: 0,
     contactId: 0,
@@ -184,67 +113,529 @@ export default {
       'phoneAddress': ''
     }
   ],
-  /** 是否是新的优化后的请求接口，新接口调用参照收藏页面跳转，增加该字段 */
-  isNewSource: false,
-  /** 是否已经获取到contacts详情信息 */
-  containContacts: false,
-  /** 电话号码显示默认 */
-  showSetDefault: false,
-  /** 来自于通话记录跳转 */
-  sourceFromCallRecord: false,
-  /** 新号码传入的电话号 */
-  phoneNumberShow: '',
-  /** 联系人ID */
-  contactId: '',
-  /** 是新号码 */
-  isNewNumber: false,
 
   onShow(callback) {
-    // 优化后请求，新对接详情从该页面加载数据（群组，收藏，联系人列表从这里跳转）
-    if (this.isNewSource) {
-      HiLog.i(TAG, 'onShow:contact');
+    // Groups, favorites, contact lists,new contacts.
+    if (this.sourceHasId) {
+      HiLog.i(TAG, 'onShow:sourceHasId');
       let requestData = {
         contactId: this.contactId
       };
-      this.getContactDetail(GET_CONTACT_DETAIL, requestData, () => {
+      this.isNewNumber = false;
+      this.getContactDetail(requestData, () => {
         callback();
       });
     } else if (this.containContacts) {
       HiLog.i(TAG, 'onShow:add');
-      // 新增编辑联系人后跳转至详情，contacts已经传入只加载通话记录
+      // After a contact is added and edited, the details page is displayed.
+      // The contacts have been transferred and only call records are loaded.
+      this.isNewNumber = false;
       this.dealRecordDetailsData();
-    } else if (this.sourceFromCallRecord) {
-      HiLog.i(TAG, 'onShow:newNum');
-      // 未添加联系人且来自于通话记录跳转
-      // 1.根据电话号码查询联系人id
-      // 2.如果不存在联系人，则按照新号码处理，如果存在联系人，则根据第一个联系人id展示详情
-      var DAHelper = common.getDAHelper(Constants.uri.CONTACT_DB_URI);
-      ContactAbilityModel.getIdByTelephone(DAHelper, this.phoneNumberShow, (contactId) => {
-        if (!Utils.isEmpty(contactId)) {
-          // 存在联系人时，将isNewNumber置为false
+    } else if (this.sourceHasPhone) {
+      // call log, mms.
+      HiLog.i(TAG, 'onShow:sourceHasPhone');
+      /** Query the contact ID based on the phone number.
+      If a contact exists,the contact details are displayed based on the first contact ID.*/
+      ContactAbilityModel.getIdByTelephone(this.phoneNumberShow, (contactId) => {
+        if (!StringUtil.isEmpty(contactId)) {
+          // If a contact exists, set isNewNumber to false.
           this.isNewNumber = false;
           let requestData = {
-            contactId: contactId
+            contactId: contactId[0]
           };
-          this.getContactDetail(GET_CONTACT_DETAIL, requestData);
+          this.getContactDetail(requestData);
         } else {
-          // 不存在联系人id则按照新号码处理
+          // If the contact ID does not exist, the new number is used.
           this.getDetailAsNewNumber();
         }
       });
     }
-    HiLog.i(TAG, ' onShow detail');
   },
 
-  /* 没有联系人数据的情况下，显示电话号码的详情 */
+  getContactDetail(data, callback) {
+    HiLog.i(TAG, 'get ContactDetail by id');
+    ContactAbilityModel.getContactById(data.contactId, result => {
+      if (StringUtil.isEmpty(result)) {
+        // If the contact cannot be obtained based on the specified ID, the new number is used.
+        this.getDetailAsNewNumber();
+        return;
+      }
+      this.contactId = result.data.id;
+      this.contacts = result.data;
+      this.contacts.portraitColor = Constants.background.Color[Math.abs(parseInt(result.data.id, 10)) % 6];
+      this.contacts.detailsBgColor = Constants.background.detailColor[Math.abs(parseInt(result.data.id, 10)) % 6];
+      this.dealRecordDetailsData();
+      callback();
+    });
+  },
+
+  dealRecordDetailsData() {
+    // get labelName
+    HiLog.i(TAG, 'deal detail data');
+    this.phoneNumberType();
+    this.emailType();
+    this.instantMessageType();
+    this.residentialType();
+    this.eventsType();
+    this.relationshipsType();
+
+    let newContacts = this.dealContactsToForm();
+    this.contactForm.showMoreButton = false;
+    this.setContactForm(newContacts);
+    this.processingInitializationData();
+  },
+
+  dealContactsToForm() {
+    let newContact: any = {};
+    newContact.display_name = (this.contacts.display_name && this.contacts.display_name.length > 0)
+      ? this.contacts.display_name : '';
+    newContact.photoFirstName = (this.contacts.photoFirstName && this.contacts.photoFirstName.length > 0)
+      ? this.contacts.photoFirstName : '-1';
+    newContact.company = (this.contacts.company && this.contacts.company.length > 0)
+      ? this.contacts.company : '';
+    newContact.position = (this.contacts.position && this.contacts.position.length > 0)
+      ? this.contacts.position : '';
+
+    if (this.contacts.phones && this.contacts.phones.length > 0) {
+      for (let item of this.contacts.phones) {
+        let itemtemp = {
+          id: item.id,
+          data: item.num,
+          type: item.numType,
+          phoneAddress: item.phoneAddress,
+          labelName: item.labelName
+        }
+        if (newContact.phones) {
+          newContact.phones.push(itemtemp);
+        } else {
+          newContact.phones = [itemtemp];
+        }
+      }
+    }
+    if (this.contacts.emails && this.contacts.emails.length > 0) {
+      for (let item of this.contacts.emails) {
+        let itemtemp = {
+          id: item.id,
+          data: item.address,
+          type: item.emailType,
+          labelName: item.labelName
+        }
+        if (newContact.emails) {
+          newContact.emails.push(itemtemp);
+        } else {
+          newContact.emails = [itemtemp];
+        }
+      }
+    }
+    if (this.contacts.aims && this.contacts.aims.length > 0) {
+      for (let item of this.contacts.aims) {
+        let itemtemp = {
+          id: item.aimId,
+          data: item.aimName,
+          type: item.aimType,
+          labelName: item.labelName
+        }
+        if (newContact.aims) {
+          newContact.aims.push(itemtemp);
+        } else {
+          newContact.aims = [itemtemp];
+        }
+      }
+    }
+    if (this.contacts.nickname && this.contacts.nickname.length > 0) {
+      let itemtemp = {
+        id: 0,
+        data: this.contacts.nickname,
+        labelName: $r("app.string.nickname")
+      }
+      newContact.nickname = [itemtemp];
+    }
+    if (this.contacts.websites && this.contacts.websites.length > 0) {
+      let itemtemp = {
+        id: 0,
+        data: this.contacts.websites[0],
+        labelName: $r("app.string.website")
+      }
+      newContact.websites = [itemtemp];
+    }
+    if (this.contacts.houses && this.contacts.houses.length > 0) {
+      for (let item of this.contacts.houses) {
+        let itemtemp = {
+          id: item.houseId,
+          data: item.houseName,
+          type: item.houseType,
+          labelName: item.labelName
+        }
+        if (newContact.houses) {
+          newContact.houses.push(itemtemp);
+        } else {
+          newContact.houses = [itemtemp];
+        }
+      }
+    }
+    if (this.contacts.events && this.contacts.events.length > 0) {
+      for (let item of this.contacts.events) {
+        let itemtemp = {
+          id: item.id,
+          data: item.data,
+          type: item.eventType,
+          labelName: item.labelName
+        }
+        if (newContact.events) {
+          newContact.events.push(itemtemp);
+        } else {
+          newContact.events = [itemtemp];
+        }
+      }
+    }
+    if (this.contacts.remarks && this.contacts.remarks.length > 0) {
+      let itemtemp = {
+        id: 0,
+        data: this.contacts.remarks,
+        labelName: $r("app.string.remarks")
+      }
+      newContact.remarks = [itemtemp];
+    }
+    if (this.contacts.relationships && this.contacts.relationships.length > 0) {
+      for (let item of this.contacts.relationships) {
+        let itemtemp = {
+          id: item.id,
+          data: item.name,
+          type: item.associatedType,
+          labelName: item.labelName
+        }
+        if (newContact.relationships) {
+          newContact.relationships.push(itemtemp);
+        } else {
+          newContact.relationships = [itemtemp];
+        }
+      }
+    }
+    return newContact;
+  },
+
+  setContactForm(newContacts) {
+    HiLog.i(TAG, 'setContactForm');
+    this.contactForm.display_name = (newContacts.display_name && newContacts.display_name.length > 0)
+      ? newContacts.display_name : $r('app.string.noName');
+    this.contactForm.photoFirstName = (newContacts.photoFirstName && newContacts.photoFirstName.length > 0)
+      ? newContacts.photoFirstName.toUpperCase() : '';
+    this.contactForm.company = (newContacts.company && newContacts.company.length > 0)
+      ? newContacts.company : '';
+
+    this.contactForm.position = (newContacts.position && newContacts.position.length > 0)
+      ? newContacts.position : '';
+
+    this.contactForm.phones = (newContacts.phones && newContacts.phones.length > 0)
+      ? newContacts.phones : [];
+
+    this.contactForm.emails = (newContacts.emails && newContacts.emails.length > 0)
+      ? newContacts.emails : [];
+
+    this.contactForm.aims = (newContacts.aims && newContacts.aims.length > 0)
+      ? newContacts.aims : [];
+
+    this.contactForm.nickname = (newContacts.nickname && newContacts.nickname.length > 0)
+      ? newContacts.nickname : [];
+
+    this.contactForm.websites = (newContacts.websites && newContacts.websites.length > 0)
+      ? newContacts.websites : [];
+
+    this.contactForm.houses = (newContacts.houses && newContacts.houses.length > 0)
+      ? newContacts.houses : [];
+
+    this.contactForm.events = (newContacts.events && newContacts.events.length > 0)
+      ? newContacts.events : [];
+
+    this.contactForm.remarks = (newContacts.remarks && newContacts.remarks.length > 0)
+      ? newContacts.remarks : [];
+
+    this.contactForm.relationships = (newContacts.relationships && newContacts.relationships.length > 0)
+      ? newContacts.relationships : [];
+  },
+
+  processingInitializationData : async function() {
+    HiLog.i(TAG, 'processingInitializationData');
+    if (!ArrayUtil.isEmpty(this.contactForm.phones)) {
+      let numbers = [];
+      this.contactForm.phones.forEach(element => {
+        numbers.push(element.data);
+      });
+      /* All call records of all phone numbers of the contact are obtained. */
+      await CallLogRepository.getInstance().findByNumberIn(numbers).then((resultList) => {
+        /* Encapsulate the attributes required on the detail page based on the obtained raw call record data. */
+        this.contactForm.numRecords = this.getDetailMessage(resultList);
+      });
+      /* Encapsulate the attributes required on the detail page based on the obtained raw call record data. */
+    }
+    // Processing Initialization Data
+    this.showNameLastMenu = (this.contactForm.display_name && this.contactForm.display_name.length > 6)
+      ? this.subStringWithEllipsis(this.contactForm.display_name, 7) : this.contactForm.display_name;
+  },
+
+  // Type of obtaining details
+  phoneNumberType() {
+    if (this.contacts.hasOwnProperty('phones') && this.contacts.phones.length > 0) {
+      this.contacts.phones.forEach((element) => {
+        element.labelName = Phone.getTypeLabelResource(parseInt(element.numType, 10));
+        // 归属地
+        element.phoneAddress = (element.phoneAddress == 'N' || StringUtil.isEmpty(element.phoneAddress)) ?
+        $r("app.string.unknown") : element.phoneAddress;
+      });
+    }
+  },
+  emailType() {
+    if (this.contacts.hasOwnProperty('emails') && this.contacts.emails.length > 0) {
+      this.contacts.emails.forEach((element) => {
+        element.labelName = Email.getTypeLabelResource(parseInt(element.emailType, 10));
+      });
+    }
+  },
+  instantMessageType() {
+    if (this.contacts.hasOwnProperty('aims') && this.contacts.aims.length > 0) {
+      this.contacts.aims.forEach((element) => {
+        element.labelName = Aim.getTypeLabelResource(parseInt(element.aimType, 10));
+      });
+    }
+  },
+  residentialType() {
+    if (this.contacts.hasOwnProperty('houses') && this.contacts.houses.length > 0) {
+      this.contacts.houses.forEach((element) => {
+        element.labelName = House.getTypeLabelResource(parseInt(element.houseType, 10));
+      });
+    }
+  },
+  eventsType() {
+    if (this.contacts.hasOwnProperty('events') && this.contacts.events.length > 0) {
+      this.contacts.events.forEach((element) => {
+        element.labelName = Birthday.getTypeLabelResource(parseInt(element.eventType, 10));
+      });
+    }
+  },
+  relationshipsType() {
+    if (this.contacts.hasOwnProperty('relationships') && this.contacts.relationships.length > 0) {
+      this.contacts.relationships.forEach((element) => {
+        element.labelName = Relation.getTypeLabelResource(parseInt(element.associatedType, 10));
+      });
+    }
+  },
+
+  /* Display phone number details when no contact data is available.*/
   getDetailAsNewNumber() {
-    var numbers = [this.phoneNumberShow.replace(/\s+/g, '')];
+    let numbers = [this.phoneNumberShow.replace(/\s+/g, '')];
     this.getNewNumRecords(numbers);
   },
 
+  // Obtains call records and assembles parameters when the call is not a contact.
+  getNewNumRecords : async function(numbers) {
+    let newContacts: any = {};
+    this.contactForm.showMoreButton = false;
+    await CallLogRepository.getInstance().findByNumberIn(numbers).then((resultList) => {
+      /* Encapsulate the attributes required on the detail
+       page based on the obtained raw call record data. */
+      this.contactForm.numRecords = this.getDetailMessage(resultList);
+      /* Creating a Contact Phone List Object */
+      let phoneNumbersTemp = {
+        id: 0,
+        data: "",
+        type: 1,
+        phoneAddress: ""
+      };
+      if (this.contactForm.numRecords.length > 0) {
+        phoneNumbersTemp.phoneAddress = this.contactForm.numRecords[0].callTag;
+      }
+      phoneNumbersTemp.data = this.phoneNumberShow;
+      let phoneNumbersTempList = [phoneNumbersTemp];
+      this.contactForm.phones = phoneNumbersTempList;
+      newContacts.phones = phoneNumbersTempList;
+      // Assemble contacts: originalContacts
+      newContacts.showMoreButton = this.contactForm.showMoreButton;
+      newContacts.numRecords = this.contactForm.numRecords;
+      /* On the page for redirecting to a new number,
+      use the ID of the first call record to obtain
+      the value from the background color of the avatar.*/
+      newContacts.portraitColor = Constants.background.Color[Math.abs(parseInt(this.contactForm.numRecords[0].id, 10)) % 6];
+      newContacts.detailsBgColor = Constants.background.detailColor[Math.abs(parseInt(this.contactForm.numRecords[0].id, 10)) % 6];
+      this.contacts = newContacts;
+      this.contactForm.display_name = (this.contactForm.phones && this.contactForm.phones[0])
+        ? this.contactForm.phones[0].data : '';
+    });
+  },
+
   /**
-    * 清空通话记录弹窗
-    */
+     * Data required for converting the original
+     * callLogList content into call record details
+     *
+     * @param {Array} originList Original Call List
+     * @return {Array} resultList
+     */
+  getDetailMessage(originList: CallLog[]) {
+    let resultList = [];
+    if (ArrayUtil.isEmpty(originList)) {
+      return resultList;
+    }
+    originList.forEach(element => {
+      let callTimeDetail = this.getTimeDetailByCallTime(element);
+      let contactDetailCallsItem = {
+        id: element.id.toString(),
+        phone: element.phoneNumber,
+        name: element.displayName,
+        callTime: element.createTime.toString(),
+        callType: element.callType,
+        callTag: element.numberLocation,
+        simType: element.simType.toString(),
+        isHd: element.isHD,
+        ringTime: element.ringDuration,
+        formatNumber: element.formattedNumber,
+        talkTime: this.getTalkTimeMessage(element),
+        dateDetail: callTimeDetail.date,
+        timeDetail: callTimeDetail.time
+      };
+      resultList.push(contactDetailCallsItem)
+    });
+    return resultList;
+  },
+
+  /**
+     * Obtain the call details of the call record according to the call record.
+     *
+     * @param {Object} callLogElement Call log
+     * @return {string} resultMessage Status information
+     */
+  getTalkTimeMessage(callLogElement: CallLog) {
+    HiLog.i(TAG, 'getTalkTimeMessage callLogElement');
+    let resultMessage: Resource = null;
+    if (callLogElement.callType == CallType.IN) {
+      // Incoming call: The call duration is displayed directly.
+      resultMessage = this.getDescriptionByDuration(callLogElement.talkDuration);
+    } else if (callLogElement.callType == CallType.OUT) {
+      // Outgoing call: If the call duration is 0,
+      // the call is not connected. Otherwise, the call duration is displayed.
+      resultMessage = callLogElement.talkDuration == 0 ? $r('app.string.blockCall')
+                                                       : this.getDescriptionByDuration(callLogElement.talkDuration);
+    } else if (callLogElement.callType == CallType.MISSED) {
+      // Missed: Indicates the ringing duration of the missed caller ID.
+      resultMessage = this.getDescriptionByDuration(callLogElement.ringDuration);
+    } else if (callLogElement.callType == CallType.REJECTED) {
+      // Reject
+      resultMessage = $r('app.string.reject');
+    }
+    return resultMessage;
+  },
+
+  /**
+     * Obtains the call duration based on the specified timestamp. The unit is s.
+     *
+     * @param {number} timeDuration
+     * @return {Object} Return time unit
+     */
+  getDescriptionByDuration(timeDuration) {
+    HiLog.i(TAG, 'getDescriptionByDuration timeDuration');
+    let seconds = parseInt(timeDuration);
+    if (seconds < 60) {
+      // Less than one minute
+      return $r('app.string.secondsFormat', seconds);
+    } else {
+      let minutes = Math.floor(seconds / 60);
+      if (minutes < 60) {
+        // Within an hour
+        return $r('app.string.minutesSecondsFormat', minutes, seconds % 60);
+      } else {
+        let hours = Math.floor(minutes / 60);
+        return $r('app.string.hourMinutesSecondsFormat', hours, minutes % 60, seconds % 3600 % 60);
+      }
+    }
+  },
+
+  /**
+     * Obtain the time details based on the call record generation time.
+     *
+     * @param {number} callTime Initial Talk Time
+     * @return {string} timeDetail Talk time after processing
+     */
+  getTimeDetailByCallTime(element: CallLog) {
+    let callTime = element.createTime.toString();
+    HiLog.i(TAG, 'getTimeDetailByCallTime callTime');
+    let callLogTime = new Date(parseInt(callTime, 10) * 1000);
+    let now = new Date();
+    // time detail
+    let year = callLogTime.getFullYear();
+    let mounth = callLogTime.getMonth() + 1;
+    let day = callLogTime.getDate();
+    let hour = callLogTime.getHours().toString();
+    let minutes = callLogTime.getMinutes() < 10 ? '0' + callLogTime.getMinutes() : callLogTime.getMinutes().toString();
+    // description
+    let timeDetail:any = {};
+    if (now.getFullYear() - callLogTime.getFullYear() == 0) {
+      if (now.getMonth() - callLogTime.getMonth() == 0) {
+        if (now.getDate() - callLogTime.getDate() == 0) {
+          timeDetail.date = "";
+          timeDetail.time = this.getDayMessage(hour,minutes);
+          return timeDetail;
+        }
+      }
+      timeDetail.date = $r("app.string.monthDay", mounth, day);
+      timeDetail.time = this.getDayMessage(hour,minutes);
+    } else {
+      timeDetail.date = $r("app.string.yearMonthDay", year, mounth, day);
+      timeDetail.time = this.getDayMessage(hour,minutes);
+    }
+    return timeDetail;
+  },
+
+  /**
+     * Obtain the description of the time within a day based on the hour.
+     *
+     * @param {number} hour
+     * @return {string} Time node
+     */
+  getDayMessage(hour,minutes) {
+    HiLog.i(TAG, ' getDayMessage');
+    if (hour >= 0 && hour < 5) {
+      return $r("app.string.time_early_morning", hour, minutes);
+    }
+    if (hour >= 5 && hour < 11) {
+      return $r("app.string.time_morning", hour, minutes);
+    }
+    if (hour >= 11 && hour < 13) {
+      return $r("app.string.time_noon", hour, minutes);
+    }
+    if (hour >= 13 && hour < 17) {
+      return $r("app.string.time_afternoon", hour, minutes);
+    }
+    if (hour >= 17 && hour < 19) {
+      return $r("app.string.time_nightfall", hour, minutes);
+    }
+    if (hour >= 19 && hour < 22) {
+      return $r("app.string.time_night", hour, minutes);
+    }
+    if (hour >= 22 && hour < 24) {
+      return $r("app.string.time_middle_night", hour, minutes);
+    }
+  },
+
+  // Edit Contact
+  updateContact() {
+    // Transfer the new number and home area data.
+    if (this.isNewNumber) {
+      this.phoneNumbers[0].phoneNumber = this.phoneNumberShow;
+      this.phoneNumbers[0].phoneAddress = this.contacts.phones[0].phoneAddress;
+    }
+    let upDataShow = false;
+    if (!StringUtil.isEmpty(this.contactId)) {
+      upDataShow = true
+    }
+    router.replace({
+      uri: 'pages/contacts/accountants/Accountants',
+      params: {
+        updataShow: upDataShow,
+        contactForm: this.contacts,
+        phoneNumbers: this.phoneNumbers
+      },
+    });
+  },
+
+  // Clear Call Record dialog box
   clearPhoneRecords() {
     HiLog.i(TAG, ' clearPhoneRecords');
     AlertDialog.show(
@@ -253,13 +644,13 @@ export default {
         alignment: DialogAlignment.Bottom,
         autoCancel: false,
         primaryButton: {
-          value: $r('app.string.cancel'),
+          value: $r('app.string.dialog_cancel'),
           action: () => {
           }
         },
         secondaryButton: {
-          value: $r('app.string.delete'),
-          fontColor: "#da1232",
+          value: $r('app.string.dialog_delete'),
+          fontColor: $r("sys.color.ohos_id_color_handup"),
           action: () => {
             this.clearRecordsMore();
           }
@@ -274,9 +665,31 @@ export default {
     )
   },
 
-  /**
-   * 删除联系人弹窗
-   */
+  // Deleting Call Records
+  clearRecordsMore() {
+    let id = '';
+    let ids = [];
+    for (let index = 0; index < this.contactForm.numRecords.length; index++) {
+      id = this.contactForm.numRecords[index].id;
+      ids.push(id);
+    }
+    this.removeCallLog(ids);
+    this.contactForm.numRecords = [];
+    this.contactForm.showMoreButton = false;
+  },
+
+  // Delete call records based on the ID set.
+  removeCallLog(ids) {
+    HiLog.i(TAG, 'removeCallLog');
+    CallLogRepository.getInstance().deleteByIdIn(ids).then(data => {
+      HiLog.i(TAG, 'removeCallLog Success');
+      this.contactForm.numRecords = null;
+      this.isCallLogClean = true;
+      CallLogRepository.getInstance().notifyChange();
+    })
+  },
+
+  // Deleting a contact
   deleteContact() {
     AlertDialog.show(
       {
@@ -284,13 +697,13 @@ export default {
         alignment: DialogAlignment.Bottom,
         autoCancel: false,
         primaryButton: {
-          value: $r('app.string.cancel'),
+          value: $r('app.string.dialog_cancel'),
           action: () => {
           }
         },
         secondaryButton: {
-          value: $r('app.string.delete'),
-          fontColor: "#da1232",
+          value: $r('app.string.dialog_delete'),
+          fontColor: $r("sys.color.ohos_id_color_handup"),
           action: () => {
             HiLog.i(TAG, 'Callback when the second button is clicked')
             this.doDeleteContact();
@@ -305,14 +718,13 @@ export default {
       }
     )
   },
-  /**
-   * 删除联系人
-   */
+
+  // Delete a contact
   doDeleteContact() {
     ContactRepository.getInstance().deleteById(this.contactId).then((result) => {
       if (result == 0) {
-        DbChangeHelper.getInstance().notifyChange(common.getDAHelper(Constants.uri.CONTACT_DB_URI), Constants.uri.CONTACT_URI);
-        DbChangeHelper.getInstance().notifyChange(common.getDAHelper(Constants.uri.CALLLOG_DB_URI), Constants.uri.CALL_LOG_URI);
+        ContactRepository.getInstance().notifyChange();
+        CallLogRepository.getInstance().notifyChange();
         router.back();
       } else {
         prompt.showToast({
@@ -321,15 +733,11 @@ export default {
       }
     });
   },
-  /**
-    * 发送消息
-    *
-    * @param {number} phoneNumber 手机号码
-    * @param {string} name 姓名
-    */
+
+  // Sending Messages
   sendMessage(phoneNumber, name) {
     HiLog.i(TAG, 'sendMessage success');
-    var params = [];
+    let params = [];
     params.push({
       contactsName: name,
       telephone: phoneNumber,
@@ -338,22 +746,18 @@ export default {
     this.jumpToMms(params);
   },
 
-  /**
-   * 跳转短信app
-   *
-   * @param {string} params 跳转参数
-   */
+  // Switching to the SMS app
   jumpToMms(params) {
-    let actionData: LooseObject = {};
+    let actionData: any = {};
     actionData.contactObjects = JSON.stringify(params);
     actionData.pageFlag = 'conversation';
     let str = {
       'want': {
-        'bundleName': this.CONTRACTS.MMS_BUNDLE_NAME,
-        'abilityName': this.CONTRACTS.MMS_ABILITY_NAME,
+        'bundleName': Constants.string.MMS_BUNDLE_NAME,
+        'abilityName': Constants.string.MMS_ABILITY_NAME,
         'parameters': actionData,
         'entities': [
-          this.CONTRACTS.MMS_ENTITIES,
+          Constants.string.MMS_ENTITIES,
         ]
       },
     };
@@ -364,373 +768,14 @@ export default {
     })
   },
 
-  /** 编辑联系人 */
-  updateContact() {
-    // 新号码传入号码和归属地数据
-    if (this.isNewNumber) {
-      this.phoneNumbers[0].phoneNumber = this.phoneNumberShow;
-      this.phoneNumbers[0].phoneAddress = this.contacts.phones[0].phoneAddress;
-    }
-    this.updateContacts();
-  },
-
-  updateContacts() {
-    let upDataShow = false;
-    if (!Utils.isEmpty(this.contactId)) {
-      upDataShow = true
-    }
-    router.replace({
-      uri: 'pages/contacts/accountants/Accountants',
-      params: {
-        updataShow: upDataShow,
-        contactForm: this.contacts,
-        phoneNumbers: this.phoneNumbers
-      },
-    });
-  },
-
-  /**显示隐藏更多选项*/
-  getMore() {
-    if (Boolean(this.contactForm.showMoreButton) == true) {
-      this.contactForm.showMoreButton = false;
-    }
-    this.dealRecordDetailsData();
-  },
-
-  /**
-     * 将obj对象实现深拷贝
-     *
-     * @param {Object} obj 联系人的contactForm
-     * @return {Object} 返回拷贝对象
-     */
-  copy(obj) {
-    return JSON.parse(JSON.stringify(obj));
-  },
-
-  /**
-     * 获取联系人详细数据
-     *
-     * @param {number} code 2005 FA与PA通行协议码
-     * @param {number} data contactId 联系人ID
-     */
-  getContactDetail(code, data, callback) {
-    HiLog.i(TAG, 'go getContactDetail');
-    var DAHelper = common.getDAHelper(Constants.uri.CONTACT_DB_URI);
-    ContactAbilityModel.getContactById(DAHelper, data.contactId, result => {
-      if (Utils.isEmpty(result)) {
-        // 如果根据指定的id获取不到联系人，则按照新号码处理。
-        this.getDetailAsNewNumber();
-        return;
-      }
-      this.contacts = result.data;
-      this.contacts.portraitColor = Constants.background.Color[Math.abs(parseInt(result.data.id, 10)) % 6];
-      this.contacts.detailsBgColor = Constants.background.detailColor[Math.abs(parseInt(result.data.id, 10)) % 6];
-      this.dealRecordDetailsData();
-      callback();
-    });
-  },
-
-  /**
-     * 请求后台：获取联系人详细数据,同时获取通话记录数据后对展示数据进行组装
-     */
-  dealRecordDetailsData() {
-    // 手机号码类型
-    this.phoneNumberType();
-
-    // 电子邮箱类型
-    this.emailType();
-
-    // 即时消息类型
-    this.instantMessageType();
-
-    // 住宅类型
-    this.residentialType();
-
-    // 生日类型
-    this.eventsType();
-
-    // 关联人类型
-    this.relationshipsType();
-    var newContacts = this.copy(this.contacts);
-
-    var showGroupsString = '';
-
-    this.contactForm.isNewNumber = false;
-    this.contactForm.showMoreButton = false;
-    this.contactForm.display_name = newContacts.display_name;
-    var display_name = this.contactForm.display_name;
-    var frist = display_name.substr(0, 1);
-    this.contactForm.namePrefix = frist.toUpperCase();
-    this.setContactForm(showGroupsString, newContacts);
-    this.contactForm.company = newContacts.company
-    this.contactForm.position = newContacts.position
-    this.processingInitializationData(newContacts);
-  },
-
-  // 获取详细信息的类型
-  // 电话号码类型
-  phoneNumberType() {
-    HiLog.i(TAG, 'phoneNumberType');
-    if (this.contacts.hasOwnProperty('phones') && this.contacts.phones.length > 0) {
-      this.contacts.phones.forEach((element) => {
-        element.labelName = Phone.getTypeLabelResource(parseInt(element.numType, 10));
-        // 归属地
-        element.phoneAddress = (element.phoneAddress == 'N' || Utils.isEmpty(element.phoneAddress)) ? "未知" : element.phoneAddress;
-      });
-    }
-  },
-  // 邮箱类型
-  emailType() {
-    HiLog.i(TAG, 'emailType');
-    if (this.contacts.hasOwnProperty('emails') && this.contacts.emails.length > 0) {
-      this.contacts.emails.forEach((element) => {
-        element.labelName = Email.getTypeLabelResource(parseInt(element.emailType, 10));
-      });
-    }
-  },
-  // aim类型
-  instantMessageType() {
-    HiLog.i(TAG, 'instantMessageType');
-    if (this.contacts.hasOwnProperty('aims') && this.contacts.aims.length > 0) {
-      this.contacts.aims.forEach((element) => {
-            element.aimType = Aim.getTypeLabelResource(parseInt(element.aimType, 10));
-      });
-    }
-  },
-  // 住宅类型
-  residentialType() {
-    HiLog.i(TAG, 'residentialType');
-    if (this.contacts.hasOwnProperty('houses') && this.contacts.houses.length > 0) {
-      this.contacts.houses.forEach((element) => {
-        element.houseType = House.getTypeLabelResource(parseInt(element.houseType, 10));
-      });
-    }
-  },
-  // 纪念日类型
-  eventsType() {
-    HiLog.i(TAG, 'eventsType');
-    if (this.contacts.hasOwnProperty('events') && this.contacts.events.length > 0) {
-      this.contacts.events.forEach((element) => {
-        element.eventName = Birthday.getTypeLabelResource(parseInt(element.eventType, 10));
-      });
-    }
-  },
-  // 关联人类型
-  relationshipsType() {
-    HiLog.i(TAG, 'relationshipsType');
-    if (this.contacts.hasOwnProperty('relationships') && this.contacts.relationships.length > 0) {
-      this.contacts.relationships.forEach((element) => {
-        element.associatedType = Relation.getTypeLabelResource(parseInt(element.associatedType, 10));
-      });
-    }
-  },
-
-  isTotalCountNumber(totalCountNumber, newContacts) {
-    HiLog.i(TAG, 'isTotalCountNumber');
-    totalCountNumber = (newContacts.phones && newContacts.phones.length > 0)
-      ? totalCountNumber + newContacts.phones.length : totalCountNumber;
-
-    totalCountNumber = (newContacts.emails && newContacts.emails.length > 0)
-      ? totalCountNumber + newContacts.emails.length : totalCountNumber;
-
-    totalCountNumber = (newContacts.aims && newContacts.aims.length > 0)
-      ? totalCountNumber + newContacts.aims.length : totalCountNumber;
-
-    totalCountNumber = (newContacts.nickname && newContacts.nickname
-    && newContacts.nickname.length > 0) ? totalCountNumber + 1 : totalCountNumber;
-
-    totalCountNumber = (newContacts.websites && newContacts.websites.length > 0)
-      ? totalCountNumber + newContacts.websites.length : totalCountNumber;
-
-    totalCountNumber = (newContacts.houses && newContacts.houses.length > 0)
-      ? totalCountNumber + newContacts.houses.length : totalCountNumber;
-
-    totalCountNumber = (newContacts.remarks && newContacts.remarks.noteContent
-    && newContacts.remarks.noteContent.length > 0) ? totalCountNumber + 1 : totalCountNumber;
-
-    totalCountNumber = (newContacts.events && newContacts.events.length > 0)
-      ? totalCountNumber + newContacts.events.length : totalCountNumber;
-
-    totalCountNumber = (newContacts.relations && newContacts.relations.length > 0)
-      ? totalCountNumber + newContacts.relations.length : totalCountNumber;
-
-    totalCountNumber = (newContacts.name && newContacts.name.familyNamePhonetic
-    && newContacts.name.familyNamePhonetic.length > 0) ? totalCountNumber + 1 : totalCountNumber;
-
-    totalCountNumber = (newContacts.groups && newContacts.groups.length > 0)
-      ? totalCountNumber + 1 : totalCountNumber;
-
-    return totalCountNumber;
-  },
-
-  setContactForm(showGroupsString, newContacts) {
-    HiLog.i(TAG, 'setContactForm');
-    this.contactForm.lastName = (newContacts.name && newContacts.name.nameSuffix
-    && newContacts.name.nameSuffix.length > 0) ? newContacts.name.nameSuffix : '';
-
-    this.contactForm.company = (newContacts.organization && newContacts.organization.name
-    && newContacts.organization.name.length > 0) ? newContacts.organization.name : '';
-
-    this.contactForm.position = (newContacts.organization && newContacts.organization.title
-    && newContacts.organization.title.length > 0) ? newContacts.organization.title : '';
-
-    this.contactForm.phones = (newContacts.phones && newContacts.phones.length > 0)
-      ? newContacts.phones : [];
-
-    this.contactForm.emails = (newContacts.emails && newContacts.emails.length > 0) ? newContacts.emails : [];
-
-    this.contactForm.aims = (newContacts.aims && newContacts.aims.length > 0)
-      ? newContacts.aims : [];
-
-    this.contactForm.nickname = (newContacts.nickname && newContacts.nickname
-    && newContacts.nickname.length > 0) ? newContacts.nickname : '';
-
-    this.contactForm.websites = (newContacts.websites && newContacts.websites.length > 0)
-      ? newContacts.websites : [];
-
-    this.contactForm.houses = (newContacts.houses && newContacts.houses.length > 0)
-      ? newContacts.houses : [];
-
-    this.contactForm.events = (newContacts.events && newContacts.events.length > 0) ? newContacts.events : [];
-
-    this.contactForm.remarks = (newContacts.remarks && newContacts.remarks.length > 0)
-      ? newContacts.remarks : '';
-
-    this.contactForm.relationships = (newContacts.relationships && newContacts.relationships.length > 0)
-      ? newContacts.relationships : [];
-
-    this.contactForm.pinYinName = (newContacts.pinYinName && newContacts.pinYinName.length > 0)
-      ? newContacts.pinYinName : '';
-
-    this.contactForm.showGroupsString = (showGroupsString && showGroupsString.length > 0) ? showGroupsString : '';
-    this.contactForm.groups = (newContacts.groups && newContacts.groups.length > 0) ? newContacts.groups : [];
-  },
-
-  processingInitializationData(newContacts) {
-    HiLog.i(TAG, 'processingInitializationData');
-    if (!Utils.isEmptyList(this.contactForm.phones)) {
-      var numbers = [];
-      this.contactForm.phones.forEach(element => {
-        numbers.push(element.num);
-      });
-      /* 获取到该联系人的所有电话号码的所有通话记录 */
-      CallLogRepository.getInstance().findByNumberIn(numbers).then((resultList) => {
-        this.contactForm.numRecords = this.getDetailMessage(resultList);
-      });
-      /* 根据获取到的通话记录原始数据封装详请页面需要的属性 */
-    }
-    // 处理初始化数据
-    if (this.sourceFromCallRecord && this.isNewNumber) {
-      this.showNameLast = (this.contactForm.phones && this.contactForm.phones[0])
-        ? this.contactForm.phones[0].num : '';
-    } else {
-      this.showNameLast = (this.contactForm.display_name && this.contactForm.display_name.length > 0)
-        ? this.contactForm.display_name : '';
-    }
-    this.showNameLastMenu = (this.showNameLast && this.showNameLast.length > 6)
-      ? this.subStringWithEllipsis(this.showNameLast, 7) : this.showNameLast;
-    // 将默认电话号码移动至最上边位置
-    if (!Utils.isEmptyList(this.contactForm.phones)) {
-      for (var i = 0; i < this.contactForm.phones.length; i++) {
-        if (this.contactForm.phones[i].isPrimary === 1) {
-          var tempPhoneNumber = newContacts.phones[i];
-          this.contactForm.phones.splice(i, 1);
-          this.contactForm.phones.unshift(tempPhoneNumber);
-        }
-      }
-    }
-  },
-
-  sendNewContent() {
-    router.push({
-      uri: 'pages/contacts/selectContactsList/selectContactsList',
-      params: {
-        type: 'saveContacts',
-        number: this.phoneNumberShow,
-      }
-    });
-  },
-
-  /**
-     * 复制方法
-     *
-     * @param {string} data 需要复制的信息
-     */
-  copyNumber(data) {
-    HiLog.i(TAG, 'copyNumber data');
-    var actionData = {
-      pasteBoardContent: "",
-    };
-    actionData.pasteBoardContent = data;
-  },
-
-  // 通话记录删除
-  clearRecordsMore() {
-    var id = '';
-    var ids = [];
-    for (let index = 0; index < this.contactForm.numRecords.length; index++) {
-      id = this.contactForm.numRecords[index].id;
-      ids.push(id);
-    }
-    this.removeCallLog(ids);
-    this.contactForm.numRecords = [];
-    this.contactForm.showMoreButton = false;
-  },
-
-  /**
-     * 删除通话记录
-     *
-     * @param {Array} ids 删除的通话记录的id集
-     */
-  removeCallLog(ids) {
-    HiLog.i(TAG, 'removeCallLog');
-    CallLogRepository.getInstance().deleteByIdIn(ids).then(data => {
-      HiLog.i(TAG, 'removeCallLog Success');
-      this.contactForm.numRecords = null;
-      this.isCallLogClean = true;
-      DbChangeHelper.getInstance().notifyChange(common.getDAHelper(Constants.uri.CALLLOG_DB_URI), Constants.uri.CALL_LOG_URI);
-    })
-  },
-
-
-  /* 新建联系人 */
-  addContacts() {
-    let show = this.phoneNumberShow.length > 0 ? true : false;
-    router.push({
-      uri: 'pages/contacts/accountants/Accountants',
-      params: {
-        addShow: true,
-        updataShow: false,
-        showWork: true,
-        upHouseShow: true,
-        phones: [
-          {
-            'id': '',
-            'numType': 2,
-            'labelName': '手机',
-            'phoneNumber': this.phoneNumberShow,
-            'phoneAddress': 'N',
-            'blueStyle': false,
-            'showP': show
-          }]
-      },
-    });
-  },
-
-  /**
-      * 截取字符串的前五个字符外加.. 例如：'哈哈哈哈哈哈哈哈' => '哈哈哈哈哈..'
-      *
-      * @param {string} str 对象字符串
-      * @param {number} len 长度
-      * @return {Object} newStr 截取后字符串
-      */
+  // Truncates the first five characters of the string plus..
   subStringWithEllipsis(str, len) {
     let newLength = 0;
     let newStr = '';
     let chineseRegex = /[^\x00-\xff]/g;
     let singleChar = '';
     let strLength = str.replace(chineseRegex, '**').length;
-    for (var i = 0; i < strLength; i++) {
+    for (let i = 0; i < strLength; i++) {
       singleChar = str.charAt(i).toString();
       if (singleChar.match(chineseRegex) != null) {
         newLength += 2;
@@ -746,217 +791,16 @@ export default {
     return newStr;
   },
 
-  /**
-     * 非联系人时，获取通话记录，组装参数
-     *
-     * @param {Array} numbers 手机号码
-     */
-  getNewNumRecords(numbers) {
-    var actionData = {
-      number: [],
-      language: "",
-    };
-    actionData.number = numbers;
-    var newContacts: LooseObject = {
-      phones: [],
-      name: {},
-      isNewNumber: false,
-      showMoreButton: false,
-      numRecords: []
-    };
-    this.contactForm.isNewNumber = true;
-    this.contactForm.showMoreButton = false;
-    this.contactForm.name = this.phoneNumberShow;
-    this.contactForm.showNewContact = true;
-    CallLogRepository.getInstance().findByNumberIn(numbers).then((resultList) => {
-      /* 根据获取到的通话记录原始数据封装详请页面需要的属性 */
-      this.contactForm.numRecords = this.getDetailMessage(resultList);
-      /* 创建联系人电话列表对象 */
-      var phoneNumbersTemp = {
-        id: 0,
-        phoneAddress: "",
-        num: "",
-      };
-      if (this.contactForm.numRecords.length > 0) {
-        phoneNumbersTemp.phoneAddress = this.contactForm.numRecords[0].callTag;
-      }
-      phoneNumbersTemp.num = this.phoneNumberShow;
-      var phoneNumbersTempList = [phoneNumbersTemp];
-      this.contactForm.phones = phoneNumbersTempList;
-      newContacts.phones = phoneNumbersTempList;
-      // 组装 contacts: originalContacts
-      newContacts.name = {
-        'name': this.contactForm.name
-      };
-      newContacts.isNewNumber = this.contactForm.isNewNumber;
-      newContacts.showMoreButton = this.contactForm.showMoreButton;
-      newContacts.numRecords = this.contactForm.numRecords;
-      /* 在新号码跳转详情界面中，使用通话记录第一条的id取模从头像背景色中获取获取 */
-      newContacts.portraitColor = Constants.background.Color[Math.abs(parseInt(this.contactForm.numRecords[0].id, 10)) % 6];
-      newContacts.detailsBgColor = Constants.background.detailColor[Math.abs(parseInt(this.contactForm.numRecords[0].id, 10)) % 6];
-      this.contacts = newContacts;
-      // 处理初始化数据
-      if (this.sourceFromCallRecord && this.isNewNumber) {
-        this.showNameLast = (this.contactForm.phones && this.contactForm.phones[0])
-          ? this.contactForm.phones[0].num : '';
-      } else {
-        this.showNameLast = (this.contactForm.display_name && this.contactForm.display_name.length > 0)
-          ? this.contactForm.display_name : '';
-      }
-      this.showNameLastMenu = (this.showNameLast && this.showNameLast.length > 6)
-        ? this.subStringWithEllipsis(this.showNameLast, 7) : this.showNameLast;
-    });
+  // Implement deep copy of obj objects.
+  copy(obj) {
+    return JSON.parse(JSON.stringify(obj));
   },
 
-  /**
-     * 根据原始callLogList内容转化为通话记录详情需要的数据
-     *
-     * @param {Array} originList 原始通话列表
-     * @return {Array} resultList 结果集
-     */
-  getDetailMessage(originList: CallLog[]) {
-    var resultList = [];
-    if (Utils.isEmptyList(originList)) {
-      return resultList;
+  // Show Hide More Options
+  getMore() {
+    if (Boolean(this.contactForm.showMoreButton) == true) {
+      this.contactForm.showMoreButton = false;
     }
-    originList.forEach(element => {
-      let contactDetailCallsItem = {
-        id: element.id.toString(),
-        phone: element.phoneNumber,
-        name:  element.displayName,
-        callTime: element.createTime.toString(),
-        callType: element.callType,
-        callTag: element.numberLocation,
-        simType: element.simType.toString(),
-        isHd: element.isHD,
-        ringTime: element.ringDuration,
-        formatNumber: element.formattedNumber,
-        talkTime: this.getTalkTimeMessage(element),
-        timeDetail: this.getTimeDetailByCallTime(element)
-      };
-      resultList.push(contactDetailCallsItem)
-    });
-    return resultList;
-  },
-
-  /**
-     * 根据通话记录获取该通话记录的通话详情
-     *
-     * @param {Object} callLogElement 通话记录
-     * @return {string} resultMessage 状态信息
-     */
-  getTalkTimeMessage(callLogElement: CallLog) {
-    HiLog.i(TAG, 'getTalkTimeMessage callLogElement');
-    var resultMessage: Resource = null;
-    if (callLogElement.callType == 1) {
-      // 呼入：直接显示通话时长
-      resultMessage = this.getDescriptionByDuration(callLogElement.talkDuration);
-    } else if (callLogElement.callType == 2) {
-      // 呼出：通话时长为0时，为未接通，否则直接显示通话时长
-      resultMessage = callLogElement.talkDuration == 0 ? $r('app.string.blockCall')
-                                                   : this.getDescriptionByDuration(callLogElement.talkDuration);
-    } else if (callLogElement.callType == 3) {
-      // 未接：未接来电显示响铃时长
-      resultMessage = this.getDescriptionByDuration(callLogElement.talkDuration);
-    } else if (callLogElement.callType == 5) {
-      // 拒接
-      resultMessage = $r('app.string.reject');
-    }
-    return resultMessage;
-  },
-
-  /**
-     * 根据指定的时间戳获取通话时长 timeDuration:单位s
-     *
-     * @param {number} timeDuration 时间周期
-     * @return {Object} 返回时间单位
-     */
-  getDescriptionByDuration(timeDuration) {
-    HiLog.i(TAG, 'getDescriptionByDuration timeDuration');
-    var seconds = parseInt(timeDuration);
-    if (seconds < 60) {
-      // 一分钟以内
-      return $r('app.string.secondsFormat', seconds);
-    } else {
-      var minutes = Math.floor(seconds / 60);
-      if (minutes < 60) {
-        // 一小时以内
-        return $r('app.string.minutesSecondsFormat', minutes, seconds % 60);
-      } else {
-        var hours = Math.floor(minutes / 60);
-        return $r('app.string.hourMinutesSecondsFormat', hours, minutes % 60, seconds % 3600 % 60);
-      }
-    }
-  },
-
-  /**
-     * 根据通话记录生成时间获取时间细节信息
-     *
-     * @param {number} callTime 初始通话时间
-     * @return {string} timeDetail 处理后的通话时间
-     */
-  getTimeDetailByCallTime(element: CallLog) {
-    var callTime = element.createTime.toString();
-    HiLog.i(TAG, 'getTimeDetailByCallTime callTime');
-    // 获取通话记录的时间
-    var callLogTime = new Date(parseInt(callTime, 10) * 1000);
-    // 获取当前的系统时间
-    var now = new Date();
-    var yearDiff = now.getFullYear() - callLogTime.getFullYear();
-    var monthDiff = now.getMonth() - callLogTime.getMonth();
-    var dayDiff = now.getDate() - callLogTime.getDate();
-    var hour = callLogTime.getHours();
-    var timeDetail: string = '';
-    var timeDetail = '';
-    if (yearDiff == 0) { // 同一年份
-      if (monthDiff == 0) { // 同一月份
-        if (dayDiff == 0) { // 同一天
-          /* 例：傍晚18:06 */
-          timeDetail = this.getDayMessage(hour) + callLogTime.getHours() + ':'
-          + (callLogTime.getMinutes() < 10 ? '0' + callLogTime.getMinutes() : callLogTime.getMinutes());
-          return timeDetail;
-        }
-      }
-      timeDetail = (callLogTime.getMonth() + 1) + '月' + callLogTime.getDate() + '日' + ' '
-      + this.getDayMessage(hour) + callLogTime.getHours() + ':'
-      + (callLogTime.getMinutes() < 10 ? '0' + callLogTime.getMinutes() : callLogTime.getMinutes());
-    } else { // 不同年份：显示年月日
-      timeDetail = callLogTime.getFullYear() + '年' + (callLogTime.getMonth() + 1) + '月'
-      + callLogTime.getDate() + '日' + ' ' + this.getDayMessage(hour) + callLogTime.getHours() + ':'
-      + (callLogTime.getMinutes() < 10 ? '0' + callLogTime.getMinutes() : callLogTime.getMinutes());
-    }
-    HiLog.i(TAG, ' timeDetail = ');
-    return timeDetail;
-  },
-
-  /**
-     * 根据小时数获取该时间在一天范围内的描述
-     *
-     * @param {number} hour 时间
-     * @return {string} 时间节点
-     */
-  getDayMessage(hour) {
-    HiLog.i(TAG, ' getDayMessage');
-    if (hour >= 0 && hour < 5) {
-      return '凌晨';
-    }
-    if (hour >= 5 && hour < 11) {
-      return '上午';
-    }
-    if (hour >= 11 && hour < 13) {
-      return '中午';
-    }
-    if (hour >= 13 && hour < 17) {
-      return '下午';
-    }
-    if (hour >= 17 && hour < 19) {
-      return '傍晚';
-    }
-    if (hour >= 19 && hour < 22) {
-      return '晚上';
-    }
-    if (hour >= 22 && hour < 24) {
-      return '半夜';
-    }
+    this.dealRecordDetailsData();
   }
 };

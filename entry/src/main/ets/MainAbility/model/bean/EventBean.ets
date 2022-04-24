@@ -13,17 +13,15 @@
  * limitations under the License.
  */
 
-export class EventBean{
+export class EventBean {
   id: string;
-  data :string;
-  eventType:string;
-  eventName:string;
-
-  constructor(id: string, data: string, eventType: string, eventName: string)  {
+  data: string;
+  eventType: string;
+  eventName: string;
+  constructor(id: string, data: string, eventType: string, eventName: string) {
     this.id = id;
     this.data = data;
     this.eventType = eventType;
     this.eventName = eventName;
   }
-
 }

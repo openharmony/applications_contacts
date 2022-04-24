@@ -18,13 +18,12 @@ import DataType from './DataType';
 import {DataItemType} from './DataType';
 
 /**
- * 昵称数据类型
+ * Nickname Data Type
  */
 export default class Nickname extends DataType {
   static readonly CONTENT_ITEM_TYPE: string = "nickname";
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.NICKNAME;
   static readonly NAME: string = DataType.DATA;
-
   constructor() {
     super();
   }

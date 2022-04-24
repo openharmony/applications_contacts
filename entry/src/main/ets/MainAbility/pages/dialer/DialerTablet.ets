@@ -14,24 +14,17 @@
  */
 
 import CallRecord from './callRecord/CallRecord'
-import Utils from '../../util/Utils';
-import vibrator from '@ohos.vibrator';
 import resourceManager from '@ohos.resourceManager';
-import media from '@ohos.multimedia.media';
-import fileIO from '@ohos.fileio';
 import HiLog from '../../util/Hilog';
-import DialUtil from '../../util/DialUtil';
-import appStorage from '../../util/AppStorageUtil';
-import COMMON from '../../model/common';
 import DialerPresenter from './../../presenter/dialer/DialerPresenter';
+import { DialerInitialPage } from '../../component/dialer/DialerInitialPage';
+import PreferencesUtil from '../../util/PreferencesUtil'
 
 const TAG = 'DialerTablet'
 
 @Component
 struct DialButton {
-  // 按键数字
   @Prop button_number: string
-  // 按键对应的字符
   @Prop button_char: string
   @Link mPresenter: DialerPresenter
 
@@ -45,51 +38,52 @@ struct DialButton {
         }) {
           if (`${this.button_number}` == '*') {
             Image($r("app.media.symbol"))
-              .width($r("app.float.dialer_keypad_height"))
-              .height($r("app.float.dialer_keypad_width"))
+              .width($r("app.float.id_item_height_sm"))
+              .height($r("app.float.id_item_height_sm"))
           } else if (`${this.button_number}` == '#') {
             Image($r("app.media.symbols"))
-              .width($r("app.float.dialer_keypad_height"))
-              .height($r("app.float.dialer_keypad_width"))
+              .width($r("app.float.id_item_height_sm"))
+              .height($r("app.float.id_item_height_sm"))
           } else if (`${this.button_number}` == '0') {
             Text(`${this.button_number}`)
-              .fontSize($r("app.float.dialer_button_number_fontSize"))
-              .fontColor($r('app.color.colorPrimary'))
-              .margin({ top: $r("app.float.dialer_common_very_small_margin1") })
+              .fontSize($r("sys.float.ohos_id_text_size_headline6"))
+              .fontColor($r('sys.color.ohos_id_color_text_primary'))
+              .fontWeight(FontWeight.Medium)
+              .margin({ top: $r("app.float.id_card_margin_mid") })
           } else {
             Text(`${this.button_number}`)
-              .fontSize($r("app.float.dialer_button_number_fontSize"))
-              .fontColor($r('app.color.colorPrimary'))
+              .fontSize($r("sys.float.ohos_id_text_size_headline6"))
+              .fontColor($r('sys.color.ohos_id_color_text_primary'))
+              .fontWeight(FontWeight.Medium)
           }
 
           if ((this.button_char == 'ic')) {
             Image($r("app.media.ic_contacts_voicemail_mini"))
-              .width($r("app.float.dialer_keypad_margin2"))
-              .height($r("app.float.dialer_keypad_margin2"))
+              .width($r("app.float.id_card_margin_xxl"))
+              .height($r("app.float.id_card_margin_xxl"))
           } else if ((this.button_char == '+')) {
             Image($r("app.media.ic_public_add"))
-              .width($r("app.float.dialer_keypad_margin1"))
-              .height($r("app.float.dialer_keypad_margin1"))
+              .width($r("app.float.id_card_margin_xl"))
+              .height($r("app.float.id_card_margin_xl"))
           } else {
             Text(`${this.button_char}`)
-              .fontSize($r("app.float.dialer_button_char_fontSize"))
-              .fontColor($r('app.color.light_colorPrimary'))
+              .fontSize($r("sys.float.ohos_id_text_size_body3"))
+              .fontColor($r('sys.color.ohos_id_color_text_secondary'))
           }
         }
       }
-      .backgroundColor(Color.White)
-      .margin({ right: $r("app.float.dialer_common_margin") })
-      .width($r("app.float.dialer_keypad_button_width"))
+      .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+      .width('100%')
       .height($r("app.float.dialer_keypad_button_height"))
       .onClick(() => {
-        this.mPresenter.pressVibrate();
-        this.mPresenter.playAudio(this.button_number);
         this.mPresenter.ifNeedSpace();
         this.mPresenter.tele_number += this.button_number
         this.mPresenter.all_number += this.button_number
         this.mPresenter.viewNumberTextProc();
+        this.mPresenter.playAudio(this.button_number);
       })
     }
+    .flexShrink(1)
   }
 }
 
@@ -99,7 +93,7 @@ struct DialPad {
 
   build() {
     Column() {
-      Flex({ direction: FlexDirection.Row, justifyContent: FlexAlign.SpaceAround }) {
+      Flex({ direction: FlexDirection.Row }) {
         DialButton({
           button_number: '1',
           button_char: 'ic',
@@ -119,7 +113,7 @@ struct DialPad {
         })
       }
 
-      Flex({ direction: FlexDirection.Row, justifyContent: FlexAlign.SpaceAround }) {
+      Flex({ direction: FlexDirection.Row }) {
         DialButton({
           button_number: '4',
           button_char: 'GHI',
@@ -139,7 +133,7 @@ struct DialPad {
         })
       }
 
-      Flex({ direction: FlexDirection.Row, justifyContent: FlexAlign.SpaceAround }) {
+      Flex({ direction: FlexDirection.Row }) {
         DialButton({
           button_number: '7',
           button_char: 'PQRS',
@@ -159,7 +153,7 @@ struct DialPad {
         })
       }
 
-      Flex({ direction: FlexDirection.Row, justifyContent: FlexAlign.SpaceAround }) {
+      Flex({ direction: FlexDirection.Row }) {
         DialButton({
           button_number: '*',
           button_char: '(P)',
@@ -180,8 +174,8 @@ struct DialPad {
       }
     }
     .width('100%')
-    .height('100%')
-    .backgroundColor(Color.White)
+    .padding({ left: $r("app.float.dialer_keypad_button_height"), right: $r("app.float.dialer_keypad_button_height") })
+    .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
   }
 }
 
@@ -209,7 +203,6 @@ export default struct CallTablet {
     this.mPresenter.onDestroy();
   }
 
-  // bindMenu的文字
   getMenu() {
     let tmpPhoneMenu = [];
     this.menuRes.forEach(element => {
@@ -239,182 +232,174 @@ export default struct CallTablet {
             Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Center }) {
               Text(`${this.mPresenter.tele_number}`)
                 .fontSize(this.mPresenter.tele_num_size)
-                .fontColor($r('app.color.colorPrimary'))
+                .fontColor($r('sys.color.ohos_id_color_text_primary'))
                 .maxLines(1)
             }
             .width('100%')
-            .height($r("app.float.dialer_telephone_number_height"))
+            .height('112vp')
 
-            // 输入完整手机号码时
             if (this.mPresenter.tele_number.length >= 3) {
               Row() {
                 Image($r("app.media.ic_public_add"))
-                  .width($r("app.float.dialer_common_margin"))
-                  .height($r("app.float.dialer_common_margin"))
+                  .width($r("app.float.id_card_margin_max"))
+                  .height($r("app.float.id_card_margin_max"))
                   .margin({
-                    left: $r("app.float.dialer_common_margin"),
-                    right: $r("app.float.dialer_common_small_margin")
+                    left: $r("app.float.id_card_margin_max"),
+                    right: $r("app.float.id_card_margin_xxl")
                   })
 
                 Text($r("app.string.new_contact"))
-                  .fontSize($r("app.float.contact_text_size_body1"))
-                  .fontColor($r('app.color.colorPrimary'))
+                  .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                  .fontColor($r('sys.color.ohos_id_color_text_primary'))
               }
               .width('100%')
-              .height($r("app.float.dialer_button_height"))
+              .height($r("app.float.id_item_height_large"))
               .onClick(() => {
                 this.mPresenter.jumpToAccountants()
               })
 
               Divider()
-                .vertical(false)
-                .strokeWidth(1)
-                .color($r('app.color.light_grey'))
+                .color($r('sys.color.ohos_id_color_list_separator'))
                 .lineCap(LineCapStyle.Square)
-                .width($r("app.float.dialer_divider_width"))
-                .margin({ left: $r("app.float.dialer_common_big_margin") })
+                .width('100%')
+                .padding({ left: $r("app.float.id_item_height_max") })
 
               Row() {
                 Image($r("app.media.ic_public_contacts"))
-                  .width($r("app.float.dialer_common_margin"))
-                  .height($r("app.float.dialer_common_margin"))
+                  .width($r("app.float.id_card_margin_max"))
+                  .height($r("app.float.id_card_margin_max"))
                   .margin({
-                    left: $r("app.float.dialer_common_margin"),
-                    right: $r("app.float.dialer_common_small_margin")
+                    left: $r("app.float.id_card_margin_max"),
+                    right: $r("app.float.id_card_margin_xxl")
                   })
 
                 Text($r("app.string.save_to_existing_contacts"))
-                  .fontSize($r("app.float.contact_text_size_body1"))
-                  .fontColor($r('app.color.colorPrimary'))
+                  .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                  .fontColor($r('sys.color.ohos_id_color_text_primary'))
               }
               .width('100%')
-              .height($r("app.float.dialer_button_height"))
-              .onClick(()=>{
+              .height($r("app.float.id_item_height_large"))
+              .onClick(() => {
               })
 
               Divider()
-                .vertical(false)
-                .strokeWidth(1)
-                .color($r('app.color.light_grey'))
+                .color($r('sys.color.ohos_id_color_list_separator'))
                 .lineCap(LineCapStyle.Square)
-                .width($r("app.float.dialer_divider_width"))
-                .margin({ left: $r("app.float.dialer_common_big_margin") })
+                .width('100%')
+                .padding({ left: $r("app.float.id_item_height_max") })
 
               Row() {
                 Image($r("app.media.ic_public_message"))
-                  .width($r("app.float.dialer_common_margin"))
-                  .height($r("app.float.dialer_common_margin"))
+                  .width($r("app.float.id_card_margin_max"))
+                  .height($r("app.float.id_card_margin_max"))
                   .margin({
-                    left: $r("app.float.dialer_common_margin"),
-                    right: $r("app.float.dialer_common_small_margin")
+                    left: $r("app.float.id_card_margin_max"),
+                    right: $r("app.float.id_card_margin_xxl")
                   })
 
                 Text($r("app.string.send_messages"))
-                  .fontSize($r("app.float.contact_text_size_body1"))
-                  .fontColor($r('app.color.colorPrimary'))
+                  .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                  .fontColor($r('sys.color.ohos_id_color_text_primary'))
               }
               .width('100%')
-              .height($r("app.float.dialer_button_height"))
-              .onClick(()=>{
+              .height($r("app.float.id_item_height_large"))
+              .onClick(() => {
                 this.mPresenter.sendMessage();
               })
 
               Divider()
-                .vertical(false)
-                .strokeWidth(1)
-                .color($r('app.color.light_grey'))
+                .color($r('sys.color.ohos_id_color_list_separator'))
                 .lineCap(LineCapStyle.Square)
-                .width($r("app.float.dialer_divider_width"))
-                .margin({ left: $r("app.float.dialer_common_big_margin") })
+                .width('100%')
+                .padding({ left: $r("app.float.id_item_height_max") })
             }
 
           }
           .width('100%')
           .height('100%')
-          .backgroundColor(Color.White)
+          .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
         } else {
           Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.End }) {
             Button() {
               Image($r("app.media.ic_public_more"))
-                .width($r("app.float.dialer_common_margin"))
-                .height($r("app.float.dialer_common_margin"))
+                .width($r("app.float.id_card_margin_max"))
+                .height($r("app.float.id_card_margin_max"))
             }
-            .width($r("app.float.dialer_middle_button_width"))
-            .height($r("app.float.dialer_middle_button_width"))
-            .backgroundColor(Color.White)
-            .margin({ right: $r("app.float.dialer_keypad_margin1")})
+            .width($r("app.float.id_item_height_mid"))
+            .height($r("app.float.id_item_height_mid"))
+            .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+            .margin({ right: $r("app.float.id_card_margin_xl") })
             .type(ButtonType.Normal)
+            .visibility(Visibility.Hidden)
           }
           .width('100%')
-          .height($r("app.float.dialer_button_height"))
-          .backgroundColor(Color.White)
+          .height($r("app.float.id_item_height_large"))
+          .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
           .zIndex(3)
 
           Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
             Text($r("app.string.dialer"))
-              .fontSize($r("app.float.dialer_phone_number_fontSize"))
+              .fontSize($r("sys.float.ohos_id_text_size_headline6"))
               .fontWeight(FontWeight.Bold)
-              .height($r("app.float.contact_title_height"))
-              .fontColor($r('app.color.colorPrimary'))
-              .margin({ left: $r("app.float.dialer_common_margin") })
+              .fontColor($r('sys.color.ohos_id_color_text_primary'))
+              .margin({ left: $r("app.float.id_card_margin_max") })
           }
           .width('100%')
-          .height($r("app.float.dialer_button_height"))
-          .backgroundColor(Color.White)
+          .height($r("app.float.id_item_height_large"))
+          .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
           .zIndex(3)
 
-          Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Center }) {
-            CallRecord()
+          if (PreferencesUtil.isUsed()) {
+            Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Center }) {
+              CallRecord()
+            }
+            .height('100%')
+            .zIndex(1)
+          } else {
+            DialerInitialPage()
           }
-          .height('100%')
-          .zIndex(1)
         }
       }
-      .alignItems(HorizontalAlign.Center)
       .width('40%')
       .height('100%')
+      .alignItems(HorizontalAlign.Center)
+      .backgroundColor($r("sys.color.ohos_id_color_primary_contrary"))
 
       Column() {
-        Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
-          Column().width('73%').height($r("app.float.dialer_block_height"))
+        Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.End }) {
 
-          Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
-            DialPad({ mPresenter: $mPresenter })
-          }
-          .width('73%')
-          .height($r("app.float.dialer_dialpad_height"))
+          DialPad({ mPresenter: $mPresenter })
 
-          Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.SpaceBetween }) {
+          Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.SpaceAround }) {
             Button()
-              .backgroundColor(Color.White)
-              .width($r("app.float.dialer_common_middle_margin"))
-              .height($r("app.float.dialer_common_middle_margin"))
+              .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+              .width($r("app.float.id_item_height_mid"))
+              .height($r("app.float.id_item_height_mid"))
 
-            // 拨打按钮，悬浮按钮
             Button() {
               Image($r("app.media.ic_public_phone_filled_white"))
-                .width($r("app.float.dialer_dial_icon_width"))
-                .height($r("app.float.dialer_dial_icon_width"))
+                .width($r("app.float.id_item_height_sm"))
+                .height($r("app.float.id_item_height_sm"))
             }
-            .width($r("app.float.dialer_big_button_width"))
-            .height($r("app.float.dialer_big_button_width"))
-            .backgroundColor($r('app.color.colorConnected'))
+            .width('68vp')
+            .height('68vp')
+            .backgroundColor($r('sys.color.ohos_id_color_connected'))
             .onClick(() => {
-              this.mPresenter.dialing(this.mPresenter.all_number);
-              this.mPresenter.tele_number = '';
-              this.mPresenter.all_number = '';
+              if (this.mPresenter.tele_number.length > 0) {
+                this.mPresenter.dialing(this.mPresenter.all_number);
+                this.mPresenter.tele_number = '';
+                this.mPresenter.all_number = '';
+              }
             })
 
-
-            // 删除按钮
             Button() {
               Image($r("app.media.ic_public_dial_delete"))
-                .width($r("app.float.dialer_small_button_width"))
-                .height($r("app.float.dialer_small_button_width"))
+                .width('28vp')
+                .height('28vp')
             }
-            .backgroundColor(Color.White)
-            .width($r("app.float.dialer_middle_button_width"))
-            .height($r("app.float.dialer_middle_button_width"))
+            .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+            .width($r("app.float.id_item_height_mid"))
+            .height($r("app.float.id_item_height_mid"))
             .opacity(this.mPresenter.tele_number.length > 0 ? 1 : 0.6)
             .enabled(this.mPresenter.tele_number.length > 0 ? true : false)
             .gesture(
@@ -427,19 +412,24 @@ export default struct CallTablet {
             .onClick(() => {
               this.mPresenter.pressVibrate();
               this.mPresenter.all_number = this.mPresenter.all_number.substr(0, this.mPresenter.all_number.length - 1)
-              this.mPresenter.deleteAddSpace();
               this.mPresenter.deleteTeleNum();
+              this.mPresenter.deleteAddSpace();
             })
           }
-          .width('52%')
+          .width('100%')
           .height($r("app.float.dialer_keypad_button_height"))
+          .padding({
+            left: $r("app.float.dialer_keypad_button_height"),
+            right: $r("app.float.dialer_keypad_button_height")
+          })
         }
         .width('100%')
         .height('100%')
+        .padding({ bottom: $r("app.float.dialer_keypad_button_height") })
       }
       .width('60%')
       .height('100%')
-      .backgroundColor(Color.White)
+      .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
     }
     .width('100%')
     .height('100%')

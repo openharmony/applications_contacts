@@ -18,7 +18,6 @@ import Email from '../contract/Email';
 
 export default class EmailDateItem extends DataItem {
   readonly values: Map<string, any>;
-
   constructor(values: Map<string, any>) {
     super(values);
   }

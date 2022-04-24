@@ -13,15 +13,14 @@
  * limitations under the License.
  */
 
-import ContactsColumns from './ContactsColumns.ets';
+import ContactsColumns from './ContactsColumns';
 
 /**
- * rawContact数据类型
+ * rawContact data type
  */
-export default class Contacts extends ContactsColumns{
+export default class Contacts extends ContactsColumns {
   static readonly CONTENT_URI: string = "dataability:///com.ohos.contactsdataability";
   static readonly CONTACT_URI: string = Contacts.CONTENT_URI + "/contacts/contact";
-
   constructor() {
     super();
   }

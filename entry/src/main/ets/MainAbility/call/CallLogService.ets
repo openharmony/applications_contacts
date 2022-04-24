@@ -19,54 +19,130 @@ import {CallType} from './entity/CallLog';
 import ArrayUtil from '../util/ArrayUtil';
 import MergedCallLog from './entity/MergedCallLog';
 import StringUtil from '../util/StringUtil';
+import {MergeRule} from './CallLogSetting';
+import CallLogSetting from './CallLogSetting';
 
-
-/**
- * 账户类型服务类，账户类型持有联系人详情如何展示等账号特征信息
- */
 export default class CallLogService implements ICallLogService {
   private static instance: CallLogService;
-
   private constructor() {
   }
 
   public static getInstance(): CallLogService {
     if (!CallLogService.instance) {
-      CallLogService.instance = new CallLogService()
+      CallLogService.instance = new CallLogService();
     }
-    return CallLogService.instance
+    return CallLogService.instance;
+  }
+
+  async init() {
+    CallLogSetting.getInstance();
+  }
+
+  setMergeRule(mergeRule: MergeRule) {
+    CallLogSetting.getInstance().setMergeRule(mergeRule);
+  }
+
+  mergeCallLogs(callLogs: CallLog[]) {
+    if (this.getMergeRule() === MergeRule.CONTACT) {
+      return this.mergeByContact(callLogs);
+    } else {
+      return this.mergeByTime(callLogs);
+    }
+  }
+
+  mergeMissedCalls(callLogs: CallLog[]) {
+    let mergeRule = this.getMergeRule();
+    let callLogList: CallLog[] = [];
+    let missedList: CallLog[] = [];
+    for (let callLog of callLogs) {
+      callLogList.push(callLog);
+      if (callLog.callType == CallType.MISSED ||
+      callLog.callType == CallType.REJECTED) {
+        //Filtering Missed Call Data
+        missedList.push(callLog);
+        let timeList = [];
+        // Filtering by Contact Missed Calls and Redialing
+        if (mergeRule === MergeRule.CONTACT) {
+          for (let k = 0; k < missedList.length; k++) {
+            let missedPhone = missedList[k].phoneNumber;
+            for (let i = 0; i < callLogList.length; i++) {
+              let allSpecialPhone = callLogList[i].phoneNumber;
+              if (missedPhone == allSpecialPhone) {
+                let timeNumber = callLogList[i].createTime;
+                let obj = {
+                  'id': i,
+                  'timeObj': timeNumber,
+                };
+                timeList.push(obj);
+                let max = timeList[0].timeObj;
+                for (let j = 0; j < timeList.length; j++) {
+                  if (timeList[j].timeObj > max) {
+                    max = timeList[j].timeObj;
+                    let n = timeList[j].id;
+                    if (callLogList[n].callType == CallType.OUT) {
+                      missedList.splice(k, 1);
+                    }
+                  } else {
+                    let m = timeList[0].id;
+                    if (callLogList[m].callType == CallType.OUT) {
+                      missedList.splice(k, 1);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if (mergeRule === MergeRule.CONTACT) {
+      return this.mergeByContact(missedList);
+    } else {
+      return this.mergeByTime(missedList);
+    }
   }
 
   /**
-   * 按时间合并情况下，在原通话记录数据基础上完善通话记录业务数据后处理
-   *
-   * @param callLogList 通话记录
+   * In the case of merging by time, the post-processing of the call record
+   * service data is optimized based on the original call record data.
+   * @param callLogList
    * @return
    */
-  mergeByTime(callLogList: CallLog[]) {
-    var resultList = [];
+  private mergeByTime(callLogList: CallLog[]) {
+    let resultList = [];
     if (ArrayUtil.isEmpty(callLogList)) {
       return resultList;
     }
-    let tempElement = new MergedCallLog(callLogList[0]); // 从第一条记录开始，缓存通话记录
-    var tempCallTime = callLogList[0].createTime; // 保留最近一条记录的创建时间，在通话记录合并后，显示该时间。
-    var tempCallType = callLogList[0].callType; // 保留最近一条记录的通话记录类型，在通话记录合并后，显示该类型。
-    var num = 1;
-    var ids = [];
+    // Call records are cached from the first record.
+    let tempElement = new MergedCallLog(callLogList[0]);
+    // Indicates the creation time of the latest record.
+    // After call records are merged, the time is displayed.
+    let tempCallTime = callLogList[0].createTime;
+    // Type of the call record that retains the latest record.
+    // This type is displayed after the call record is combined.
+    let tempCallType = callLogList[0].callType;
+    let num = 1;
+    let ids = [];
     ids.push(callLogList[0].id);
-    for (var i = 1; i < callLogList.length; i++) {
-      var element = callLogList[i];
-      if (this.callLogMergeCheck(tempElement, element)) { // 缓存字段与当前字段校验是否需要合并
+    for (let i = 1; i < callLogList.length; i++) {
+      let element = callLogList[i];
+      // Whether the cached field needs to be combined with the current field
+      if (this.callLogMergeCheck(tempElement, element)) {
         num++;
-        ids.push(element.id); // 将最新记录id放入合并数组
+        // Put the latest record ID into the merged array.
+        ids.push(element.id);
       } else {
-        /* 最新数据和缓存不一致，则替换缓存数据的num及ids数据，并将缓存的数据记录放入结果集*/
+        //If the latest data is inconsistent with the cached data,
+        // replace the num and ids data in the cached data and
+        // save the cached data to the result set.
         tempElement.count = num;
         tempElement.ids = ids;
-        tempElement.createTime = this.formatTime(tempCallTime); // 显示已保存的最近一条记录的创建时间
+        // Displays the creation time of the latest saved record.
+        tempElement.createTime = this.formatTime(tempCallTime);
         tempElement.callType = tempCallType;
         resultList.push(tempElement);
-        /* 重置num及ids为最新计数及记录 ，重置tempCallTime为下条记录的最新创建时间*/
+        /* Reset num and ids to the latest count and record,
+        and reset tempCallTime to the latest creation time of the next record.*/
         num = 1;
         ids = [];
         tempCallTime = element.createTime;
@@ -75,7 +151,7 @@ export default class CallLogService implements ICallLogService {
       }
       tempElement = new MergedCallLog(element);
     }
-    /* 将最后一条缓存数据放入结果集*/
+    /* Put the last piece of cached data into the result set*/
     if (tempElement != null) {
       tempElement.count = num;
       tempElement.ids = ids;
@@ -87,29 +163,34 @@ export default class CallLogService implements ICallLogService {
   }
 
   /**
-   * 按联系人合并的情况下，在原通话记录数据基础上完善通话记录业务数据后处理
+   * In the case of merging by contact, the post-processing
+   * of the call record service data is optimized based on the original call record data.
    *
-   * @param {Array} callLogList 通话记录
-   * @return {Array} 通话记录
+   * @param {Array} callLogList
+   * @return {Array} callLogList
    */
-  mergeByContact(callLogs: CallLog[]) {
-    var resultList = [];
+  private mergeByContact(callLogs: CallLog[]) {
+    let resultList = [];
     if (ArrayUtil.isEmpty(callLogs)) {
       return resultList;
     }
-    var contactTempMap = new Map();
-    var phoneNumberMap = new Map();
-    for (var i = 0; i < callLogs.length; i++) {
-      var element = new MergedCallLog(callLogs[i]);
+    let contactTempMap = new Map();
+    let phoneNumberMap = new Map();
+    for (let i = 0; i < callLogs.length; i++) {
+      let element = new MergedCallLog(callLogs[i]);
       element.createTime = this.formatTime(callLogs[i].createTime);
-      element.count = 1; // 按联系人合并的情况下，合并记录条目固定为1
-      element.ids = [callLogs[i].id]; // 按联系人合并的情况下，合并记录ids固定为本身id
-      if (StringUtil.isEmpty(element.quickSearchKey)) { // 没有联系人的通话记录，按照电话号码合并
+      // In the case of merging by contact, the combined record entry is fixed to 1.
+      element.count = 1;
+      // In the case of merging by contact, the IDs of
+      // the merging record are fixed to the ID of the record.
+      element.ids = [callLogs[i].id];
+      // Call records without contacts are combined by phone number.
+      if (StringUtil.isEmpty(element.quickSearchKey)) {
         if (!phoneNumberMap.has(element.phoneNumber)) {
           resultList.push(element);
           phoneNumberMap.set(element.phoneNumber, callLogs[i].phoneNumber);
         }
-      } else { // 有联系人的通话记录，按照联系人合并
+      } else { // Call records with contacts are merged by contact.
         let isContactKey = contactTempMap.has(element.quickSearchKey);
         if (!isContactKey) {
           resultList.push(element);
@@ -121,43 +202,40 @@ export default class CallLogService implements ICallLogService {
   }
 
   /**
-   * 获取通话时间
+   * Obtain the call time.
    *
-   * @param date 通话记录创建时间戳
-   * @return {object} 通话时间
+   * @param date Call record creation timestamp
+   * @return {object} Talk time
    */
-  formatTime(date) {
-    let result = "";
-    if (isNaN(date)) { // 非数字时，不进行解析
+  private formatTime(date) {
+    let result;
+    // If the value is not a number, the value is not parsed.
+    if (isNaN(date)) {
       return date;
     }
-    var timestamp = parseInt(date) * 1000;
-    // 通话时间
+    let timestamp = parseInt(date) * 1000;
     let callTime = new Date(timestamp);
-    // 当前时间
     let now = new Date();
     if (callTime.getTime() > now.getTime()) {
       result = callTime.getFullYear() + '/' + (callTime.getMonth() + 1) + '/' + callTime.getDate();
     } else if (callTime.getFullYear() == now.getFullYear()) {
-      // 同年
       if (callTime.getMonth() == now.getMonth()) {
-        // 同年同月
+        // Same month of the same year
         let timeDiff = parseInt(((now.getTime() - callTime.getTime()) / 60000).toString());
         let dayDiff = now.getDate() - callTime.getDate();
         if (dayDiff == 0) {
           // 同天
           if (timeDiff == 0) {
-            result = '刚刚';
+            result = $r("app.string.justNow");
           } else if (timeDiff < 60) {
-            result = timeDiff + '分钟前';
+            result = $r("app.string.minutesAgo", timeDiff);
           } else {
             // 'hh:mm'
             result = callTime.getHours()
             + ':' + (callTime.getMinutes() < 10 ? '0' + callTime.getMinutes() : callTime.getMinutes());
           }
         } else if (dayDiff == 1) {
-          // 昨天
-          result = '昨天';
+          result = $r("app.string.yesterday");
         } else {
           result = (callTime.getMonth() + 1) + '/' + callTime.getDate(); // 'MM/dd'
         }
@@ -172,18 +250,20 @@ export default class CallLogService implements ICallLogService {
   }
 
   /**
-   * 按时间合并情况下，校验两条通话记录是否需要合并,需要合并返回true，否则返回false
+   * Checks whether two call records need to be combined when the call records are combined by time.
+   * If the call records need to be combined, true is returned. Otherwise, false is returned.
    *
-   * @param oldElement 合并前通话记录
-   * @param newElement 合并后通话记录
+   * @param oldElement Call records before merging
+   * @param newElement Combined call records
    * @return
    */
   private callLogMergeCheck(oldElement: MergedCallLog, newElement: CallLog) {
-    /* 合并规则：
-       1.电话号码相同前提下才会合并。
-       2.号码相同的前提下，呼叫类型为1,2或3,5则合并。1,2和3,5类型不合并。
+    /* Merge Rules:
+       1. The phone numbers are combined only when the phone numbers are the same.
+        2. If the number is the same and the call type is 1, 2, 3, or 5,
+        the call is combined. Types 1, 2, 3, and 5 are not combined.
     */
-    if (oldElement.phoneNumber.trim() == newElement.phoneNumber.trim()) { // 电话号码相同
+    if (oldElement.phoneNumber.trim() == newElement.phoneNumber.trim()) {
       if (oldElement.callType == CallType.IN || oldElement.callType == CallType.OUT) {
         if (newElement.callType == CallType.IN || newElement.callType == CallType.OUT) {
           return true;
@@ -195,5 +275,9 @@ export default class CallLogService implements ICallLogService {
       }
     }
     return false;
+  }
+
+  private getMergeRule() {
+    return CallLogSetting.getInstance().getMergeRule();
   }
 }

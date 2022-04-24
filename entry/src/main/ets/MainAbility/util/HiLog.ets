@@ -29,6 +29,7 @@ export default class HiLog {
   private static readonly CONTACTS_DOMAIN: string = "00900";
   private static readonly SLASH: string = "/";
   private static readonly COLON: string = ": ";
+
   constructor() {
   }
 

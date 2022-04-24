@@ -341,8 +341,8 @@
       "value": "分享"
     },
     {
-      "name": "noAnswer",
-      "value": "响铃%s"
+      "name": "Ringing",
+      "value": "响铃"
     },
     {
       "name": "reject",
@@ -353,196 +353,20 @@
       "value": "未接通"
     },
     {
-      "name": "years",
-      "value": "年"
-    },
-    {
-      "name": "months",
-      "value": "月"
-    },
-    {
-      "name": "day",
-      "value": "日"
-    },
-    {
-      "name": "hour",
-      "value": "时"
-    },
-    {
-      "name": "minute",
-      "value": "分"
-    },
-    {
-      "name": "seconds",
-      "value": "秒"
-    },
-    {
-      "name": "middleNight",
-      "value": "半夜"
-    },
-    {
-      "name": "evening",
-      "value": "晚上"
-    },
-    {
-      "name": "AM",
-      "value": "上午"
-    },
-    {
-      "name": "PM",
-      "value": "下午"
-    },
-    {
-      "name": "earlyMorning",
-      "value": "清晨"
-    },
-    {
       "name": "justNow",
       "value": "刚刚"
     },
     {
       "name": "minutesAgo",
-      "value": "分钟前"
+      "value": "%d分钟前"
     },
     {
       "name": "yesterday",
       "value": "昨天"
     },
     {
-      "name": "nightfall",
-      "value": "傍晚"
-    },
-    {
-      "name": "noon",
-      "value": "中午"
-    },
-    {
-      "name": "morning",
-      "value": "早上"
-    },
-    {
-      "name": "beforeDawn",
-      "value": "凌晨"
-    },
-    {
       "name": "unknown",
       "value": "未知"
-    },
-    {
-      "name": "timeHour",
-      "value": "小时"
-    },
-    {
-      "name": "AIM",
-      "value": "AIM"
-    },
-    {
-      "name": "WindowsLive",
-      "value": "Windows Live"
-    },
-    {
-      "name": "Yahoo",
-      "value": "雅虎"
-    },
-    {
-      "name": "Skype",
-      "value": "Skype"
-    },
-    {
-      "name": "QQ",
-      "value": "QQ"
-    },
-    {
-      "name": "Hangout",
-      "value": "环聊"
-    },
-    {
-      "name": "ICQ",
-      "value": "ICQ"
-    },
-    {
-      "name": "Jabber",
-      "value": "Jabber"
-    },
-    {
-      "name": "add_more",
-      "value": "添加更多"
-    },
-    {
-      "name": "LunarBirthday",
-      "value": "农历生日"
-    },
-    {
-      "name": "Anniversary",
-      "value": "周年纪念日"
-    },
-    {
-      "name": "birth",
-      "value": "生日"
-    },
-    {
-      "name": "importDay",
-      "value": "其他重要日期"
-    },
-    {
-      "name": "brothers",
-      "value": "兄弟"
-    },
-    {
-      "name": "assistant",
-      "value": "助理"
-    },
-    {
-      "name": "child",
-      "value": "子女"
-    },
-    {
-      "name": "companion",
-      "value": "伴侣"
-    },
-    {
-      "name": "father",
-      "value": "父亲"
-    },
-    {
-      "name": "friend",
-      "value": "朋友"
-    },
-    {
-      "name": "boss",
-      "value": "上司"
-    },
-    {
-      "name": "mother",
-      "value": "母亲"
-    },
-    {
-      "name": "parents",
-      "value": "父母"
-    },
-    {
-      "name": "Partner",
-      "value": "合作伙伴"
-    },
-    {
-      "name": "introducer",
-      "value": "介绍人"
-    },
-    {
-      "name": "relatives",
-      "value": "亲属"
-    },
-    {
-      "name": "sisters",
-      "value": "姐妹"
-    },
-    {
-      "name": "spouse",
-      "value": "配偶"
-    },
-    {
-      "name": "hourMinutes",
-      "value": "%d:%d"
     },
     {
       "name": "monthDay",
@@ -569,48 +393,20 @@
       "value": "姓名"
     },
     {
-      "name": "name_hock",
-      "value": "  姓名"
-    },
-    {
       "name": "new_group",
       "value": "新建群组"
-    },
-    {
-      "name": "nickname_hock",
-      "value": "  昵称"
-    },
-    {
-      "name": "website_hock",
-      "value": "  网站"
-    },
-    {
-      "name": "remarks_hock",
-      "value": "  备注"
     },
     {
       "name": "position",
       "value": "职位"
     },
     {
-      "name": "position_hock",
-      "value": "  职位"
-    },
-    {
       "name": "email",
       "value": "电子邮箱"
     },
     {
-      "name": "email_hock",
-      "value": "  电子邮箱"
-    },
-    {
       "name": "phone_number",
       "value": "电话号码"
-    },
-    {
-      "name": "phone_number_hock",
-      "value": "  电话号码"
     },
     {
       "name": "address_add",
@@ -627,22 +423,6 @@
     {
       "name": "instant_messaging",
       "value": "即时消息"
-    },
-    {
-      "name": "instant_messaging_hock",
-      "value": "  即时消息"
-    },
-    {
-      "name": "address_add_hock",
-      "value": "  地址"
-    },
-    {
-      "name": "assistant_hock",
-      "value": "  关系人"
-    },
-    {
-      "name": "birth_hock",
-      "value": "  日期"
     },
     {
       "name": "instant_type_aim",
@@ -765,10 +545,6 @@
       "value": "单位"
     },
     {
-      "name": "house_type_position_hock",
-      "value": "  单位"
-    },
-    {
       "name": "house_type_other",
       "value": "其他"
     },
@@ -837,6 +613,10 @@
       "value": "全选"
     },
     {
+      "name": "unselect_all",
+      "value": "取消全选"
+    },
+    {
       "name": "recent",
       "value": "最近"
     },
@@ -871,6 +651,46 @@
     {
       "name": "More",
       "value": "更多"
+    },
+    {
+      "name": "support_pinyin",
+      "value": "支持拼音"
+    },
+    {
+      "name": "search_huaxiaofen",
+      "value": "搜索“花小粉 ( "
+    },
+    {
+      "name": "you_can_enter",
+      "value": "en )”，您可依次输入:"
+    },
+    {
+      "name": "time_early_morning",
+      "value": "凌晨%s:%s"
+    },
+    {
+      "name": "time_morning",
+      "value": "上午%s:%s"
+    },
+    {
+      "name": "time_noon",
+      "value": "中午%s:%s"
+    },
+    {
+      "name": "time_afternoon",
+      "value": "下午%s:%s"
+    },
+    {
+      "name": "time_nightfall",
+      "value": "傍晚%s:%s"
+    },
+    {
+      "name": "time_night",
+      "value": "晚上%s:%s"
+    },
+    {
+      "name": "time_middle_night",
+      "value": "半夜%s:%s"
     }
   ]
 }

@@ -14,7 +14,7 @@
  */
 
 /**
- * 电话数据类型-地址
+ * Phone Data Type - Address
  */
 export default class House {
   static readonly CONTENT_ITEM_TYPE: string = "vnd.android.cursor.item/house_v2";

@@ -17,28 +17,27 @@ import Constants from './common/Constants';
 import featureAbility from '@ohos.ability.featureAbility'
 import dataAbility  from '@ohos.data.dataAbility';
 import {ContactVo} from '../model/bean/ContactVo';
-import {PhoneNumBean} from '../model/bean/PhoneNumBean';
 import {ContactInfo} from "../model/bean/ContactInfo";
-import dbChangeHelper from '../model/common/DbChangeHelper';
 import DataItem from '../contact/entity/DataItem';
 import {DataItemType} from '../contact/contract/DataType';
 import Data from '../contact/contract/Data';
 import HiLog from '../util/Hilog';
-import Utils from '../util/Utils';
+import StringUtil from '../util/StringUtil';
 import ArrayUtil from '../util/ArrayUtil';
-import {LooseObject} from '../app';
 import ContactRepository from '../contact/repo/ContactRepository';
-import common from './common';
+import CallLogRepository from '../call/repo/CallLogRepository';
+import PreferencesUtil from './../util/PreferencesUtil'
+import RawContacts from '../contact/contract/RawContacts';
 
 const TAG = "ContactAbility: ";
 
 export default {
   /**
-     * 添加联系人
+     * Add Contact
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} addParams 联系人信息
-     * @param {Object} callBack 回调
+     * @param {string} DAHelper Database path
+     * @param {Object} addParams Contact Information
+     * @param {Object} callBack
     */
   addContact: function (addParams: ContactInfo, DAHelper?, callBack?) {
     if (addParams == undefined || addParams == null) {
@@ -60,6 +59,9 @@ export default {
       this.dealParam(DAHelper, addParams, false);
       if (callBack != undefined) {
         HiLog.d(TAG, 'Start the callback function.');
+        if (!PreferencesUtil.isUsed()) {
+          PreferencesUtil.setIsUsed(true);
+        }
         callBack(addParams.id);
       }
     }).catch(error => {
@@ -68,11 +70,11 @@ export default {
   },
 
   /**
-     * 读取名字，需要优化
-     * 编辑联系人
+     * Read the name, which needs to be optimized.
+     * Edit Contact
      *
-     * @param {Object} addParams 联系人信息
-     * @return {string} 联系人姓名
+     * @param {Object} addParams Contact Information
+     * @return {string} Contact Name
    */
   getDisplayName: function (addParams: ContactInfo): String{
     let displayName = '';
@@ -84,6 +86,14 @@ export default {
       displayName = addParams.company;
     } else if (addParams.hasOwnProperty('position') && addParams.position.length > 0) {
       displayName = addParams.position;
+    } else if (addParams.hasOwnProperty('phones') && addParams.phones.length > 0) {
+      for (let element of addParams.phones) {
+        if (StringUtil.isEmpty(element.num)) {
+          continue;
+        }
+        displayName = element.num;
+        break;
+      }
     } else {
       displayName = '';
     }
@@ -91,11 +101,11 @@ export default {
   },
 
   /**
-     * 将数据转换 存进数据库
+     * Convert the data to the database.
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} addParams 联系人信息
-     * @param {boolean} isCard 是否为名片信息
+     * @param {string} DAHelper Database path
+     * @param {Object} addParams Contact Information
+     * @param {boolean} isCard Indicates whether the information is a business card.
     */
   dealParam: function (DAHelper, addParams: ContactInfo, isCard) {
     let result = addParams.id;
@@ -113,23 +123,28 @@ export default {
     this.websiteContact(addParams, DAHelper, result, uri);
     this.nickContact(addParams, DAHelper, result, uri);
     this.relationsContact(addParams, DAHelper, result, uri);
-    dbChangeHelper.getInstance().notifyChange(DAHelper, Constants.uri.CONTACT_DATA_URI)
-    dbChangeHelper.getInstance().notifyChange(common.getDAHelper(Constants.uri.CALLLOG_DB_URI), Constants.uri.CALL_LOG_URI);
+    ContactRepository.getInstance().notifyChange();
+    CallLogRepository.getInstance().notifyChange();
   },
 
   /**
-     * 联系人姓名存入数据库
+     * Save the contact name to the database.
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {string} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {string} result Contact ID
+     * @param {string} uri Database address
      */
   dataContact: function (addParams, DAHelper, result, uri) {
     let displayName = '';
+    let updateFlag = 0;
     if (addParams.display_name != undefined && addParams.display_name.length > 0) {
       displayName = addParams.display_name;
+    } else {
+      updateFlag = 1;
+      displayName = this.getDisplayName(addParams);
     }
+
     if (displayName.length > 0) {
       let dataContact = {
         'raw_contact_id': result,
@@ -139,6 +154,7 @@ export default {
         'other_lan_last_name': addParams.hasOwnProperty('other_lan_last_name') ? (addParams.other_lan_last_name) : "",
         'other_lan_first_name': addParams.hasOwnProperty('other_lan_first_name') ? (addParams.other_lan_first_name) : "",
         'type_id': 6,
+        'extend7': updateFlag
       };
       DAHelper.insert(
         uri,
@@ -152,12 +168,12 @@ export default {
   },
 
   /**
-     * 联系人昵称信息存入数据库
+     * Save the contact nickname information to the database.
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result Contact ID
+     * @param {string} uri Database address
      */
   nickContact: function (addParams, DAHelper, result, uri) {
     if (addParams.nickname != undefined && addParams.nickname.length > 0) {
@@ -175,12 +191,12 @@ export default {
     }
   },
   /**
-     * 联系人公司职位信息存入数据库
+     * Save the position information of the contact company to the database.
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {string} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {string} result Contact ID
+     * @param {string} uri Database address
      */
   organizationContact: function (addParams, DAHelper, result, uri) {
     let company = '';
@@ -210,12 +226,12 @@ export default {
   },
 
   /**
-     * 联系人备注信息存入数据库
+     * Save the contact remarks to the database.
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result Contact ID
+     * @param {string} uri Database address
      */
   noteContact: function (addParams, DAHelper, result, uri) {
     if (addParams.remarks != undefined && addParams.remarks.length > 0) {
@@ -236,18 +252,18 @@ export default {
   },
 
   /**
-     * 联系人手机号信息存入数据库
+     * The contact mobile number information is saved to the database.
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result Contact ID
+     * @param {string} uri Database address
      */
   phoneContact: function (addParams, DAHelper, result, uri) {
     if (addParams.phones != undefined && addParams.phones.length > 0) {
       let index = 1;
       addParams.phones.forEach(element => {
-        if (Utils.isEmpty(element.num)) {
+        if (StringUtil.isEmpty(element.num)) {
           return;
         }
         let phoneContact = {
@@ -270,18 +286,18 @@ export default {
   },
 
   /**
-     * 联系人邮箱信息存入数据库
+     * Save the contact email information to the database.
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result Contact ID
+     * @param {string} uri Database address
      */
   emailContact: function (addParams, DAHelper, result, uri) {
     if (addParams.emails != undefined && addParams.emails.length > 0) {
       let index = 1;
       addParams.emails.forEach(element => {
-        if (Utils.isEmpty(element.address)) {
+        if (StringUtil.isEmpty(element.address)) {
           return;
         }
         let emailContact = {
@@ -304,18 +320,18 @@ export default {
   },
 
   /**
-     * 联系人地址信息存入数据库
+     * The contact address information is saved to the database.
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result Contact ID
+     * @param {string} uri Database address
      */
   postalContact: function (addParams, DAHelper, result, uri) {
     if (addParams.houses != undefined && addParams.houses.length > 0) {
       let index = 1;
       addParams.houses.forEach(element => {
-        if (Utils.isEmpty(element.houseName)) {
+        if (StringUtil.isEmpty(element.houseName)) {
           return;
         }
         let postalContact = {
@@ -339,18 +355,18 @@ export default {
 
 
   /**
-     * 联系人特殊日期信息存入数据库
+     * Save the contact special date information to the database.
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result Contact ID
+     * @param {string} uri Database address
      */
   eventContact: function (addParams, DAHelper, result, uri) {
     if (addParams.events != undefined && addParams.events.length > 0) {
       let index = 1;
       addParams.events.forEach(element => {
-        if (Utils.isEmpty(element.data)) {
+        if (StringUtil.isEmpty(element.data)) {
           return;
         }
         let eventContact = {
@@ -373,18 +389,18 @@ export default {
   },
 
   /**
-     * 联系人IMA信息存入数据库
+     * Save the contact IMA information to the database.
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result Contact ID
+     * @param {string} uri Database address
      */
   imContact: function (addParams, DAHelper, result, uri) {
     if (addParams.aims != undefined && addParams.aims.length > 0) {
       let index = 1;
       addParams.aims.forEach(element => {
-        if (Utils.isEmpty(element.aimName)) {
+        if (StringUtil.isEmpty(element.aimName)) {
           return;
         }
         let imContact = {
@@ -407,12 +423,12 @@ export default {
   },
 
   /**
-     * 联系人群组信息存入数据库
+     * Save the contact group information to the database.
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result Contact ID
+     * @param {string} uri Database address
      */
   groupsContact: function (addParams, DAHelper, result, uri) {
     if (addParams.groups != undefined && addParams.groups.length > 0) {
@@ -437,17 +453,17 @@ export default {
   },
 
   /**
-     * 联系人website信息存入数据库
+     * Save the contact website information to the database.
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result Contact ID
+     * @param {string} uri Database address
      */
   websiteContact: function (addParams, DAHelper, result, uri) {
-    if (!Utils.isEmptyList(addParams.websites)) {
+    if (!ArrayUtil.isEmpty(addParams.websites)) {
       addParams.websites.forEach(element => {
-        if (Utils.isEmpty(element))
+        if (StringUtil.isEmpty(element))
         return;
         let websiteContact = {
           'raw_contact_id': result,
@@ -467,18 +483,18 @@ export default {
   },
 
   /**
-     * 联系人relation信息存入数据库
+     * The relation information of the contact is saved to the database.
      *
-     * @param {Object} addParams 联系人信息
-     * @param {string} DAHelper 数据库路径
-     * @param {number} result 联系人ID
-     * @param {string} uri 数据库地址
+     * @param {Object} addParams Contact Information
+     * @param {string} DAHelper Database path
+     * @param {number} result Contact ID
+     * @param {string} uri Database address
      */
   relationsContact: function (addParams, DAHelper, result, uri) {
-    if (!Utils.isEmptyList(addParams.relationships)) {
+    if (!ArrayUtil.isEmpty(addParams.relationships)) {
       let index = 1;
       addParams.relationships.forEach(element => {
-        if (Utils.isEmpty(element.name)) {
+        if (StringUtil.isEmpty(element.name)) {
           return;
         }
         let relationsContact = {
@@ -501,22 +517,18 @@ export default {
   },
 
   /**
-     * 查询所有联系人手机号
+     * Querying the Mobile Numbers of All Contacts
      *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} callBack 回调
+     * @param {string} DAHelper
+     * @param {Object} callBack
      */
-  getAllContact: async function (DAHelper?, callBack?) {
-    if (DAHelper == undefined || DAHelper.length == 0) {
-      DAHelper = featureAbility.acquireDataAbilityHelper(Constants.uri.CONTACT_DB_URI);
-    }
-    let contactNumberMap = await this.getAllContactNumbers(DAHelper); // 获取所有联系人及其电话号码的Map映射关系
-
+  getAllContact: async function (callBack?) {
     let contactList = await ContactRepository.getInstance().findAll();
 
-    if (Utils.isEmptyList(contactList)) {
+    if (ArrayUtil.isEmpty(contactList)) {
       HiLog.i(TAG, 'queryContacts-SelectcontactsModel queryContact resultSet is empty!');
-      callBack();
+      let emptyResult: ContactVo[] = [];
+      callBack(emptyResult);
       return;
     }
     let resultList = [];
@@ -530,11 +542,6 @@ export default {
       jsonObj.position = contactItem.position;
       jsonObj.portraitColor = Constants.background.Color[Math.abs(parseInt(jsonObj.contactId)) % 6];
       jsonObj.show = false;
-      jsonObj.phoneNum =
-      contactNumberMap.has(jsonObj.contactId) ?
-        contactNumberMap.get(jsonObj.contactId)[0].phoneNumber
-                                              : "";
-      jsonObj.phoneNumbers = contactNumberMap.has(jsonObj.contactId) ? contactNumberMap.get(jsonObj.contactId) : [];
       jsonObj.setShowName();
       resultList.push(jsonObj);
     };
@@ -542,13 +549,46 @@ export default {
   },
 
   /**
-     * 获取联系人详细数据
+     * 查询所有联系人手机号
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} contactId 联系人数据id
-     * @param {Object} callback 联系人详情
+     * @param {string} DAHelper 数据库地址
+     * @param {Object} callBack 回调
+     */
+  getAllContactWithPhoneNumbers: async function (callBack?) {
+    let contactList = await ContactRepository.getInstance().findByPhoneIsNotNull();
+
+    if (ArrayUtil.isEmpty(contactList)) {
+      HiLog.i(TAG, 'getAllContactWithPhoneNumbers-SelectcontactsModel queryContact resultSet is empty!');
+      let emptyResult: ContactVo[] = [];
+      callBack(emptyResult);
+      return;
+    }
+    let resultList = [];
+    for (let contactItem of contactList) {
+      let jsonObj: ContactVo = new ContactVo("", "", "", "", "", "", true, "", "");
+      jsonObj.contactId = contactItem.id.toString();
+      jsonObj.emptyNameData = contactItem.displayName;
+      jsonObj.namePrefix = contactItem.sortFirstLetter;
+      jsonObj.nameSuffix = contactItem.photoFirstName;
+      jsonObj.company = contactItem.company;
+      jsonObj.position = contactItem.position;
+      jsonObj.portraitColor = Constants.background.Color[Math.abs(parseInt(jsonObj.contactId)) % 6];
+      jsonObj.show = false;
+      jsonObj.phoneNumbers = contactItem.phoneNumbers;
+      jsonObj.setShowName();
+      resultList.push(jsonObj);
+    }
+    ;
+    callBack(resultList);
+  },
+
+  /**
+     * Obtain contact details.
+     *
+     * @param {Object} contactId Contact data ID.
+     * @param {Object} callback Contact details
     */
-  getContactById: async function (DAHelper?, contactId?, callback?) {
+  getContactById: async function (contactId?, callback?) {
     let res = {
       'data': {}
     };
@@ -562,21 +602,23 @@ export default {
       this.dealResult(dataItem, contactDetailInfo);
     }
     contactDetailInfo.id = contact.rowContacts[0].id;
+    contactDetailInfo.photoFirstName = contact.rowContacts[0].values.get(RawContacts.PHOTO_FIRST_NAME);
     res.data = contactDetailInfo;
     callback(res);
   },
 
   /**
-     * 处理联系人详细数据
+     * Process contact details
      *
-     * @param {Object} resultSet 结果集
-     * @param {Object} contactDetailInfo 联系人详情数据
-     * @param {Object} actionData 联系人数据
+     * @param {Object} resultSet
+     * @param {Object} contactDetailInfo Contact details data
+     * @param {Object} actionData Contact data
      */
   dealResult: function (dataItem: DataItem, contactDetailInfo) {
     switch (dataItem.getContentTypeId()) {
       case DataItemType.NAME:
         contactDetailInfo.display_name = dataItem.getData();
+        contactDetailInfo.nameUpdate = dataItem.getLabelId();
         break;
       case DataItemType.PHONE:
         let phone_element = {
@@ -674,66 +716,23 @@ export default {
   },
 
   /**
-     * 查询所有联系人手机号
+     * Obtains the contact ID of the number by phone number
      *
-     * @param {string} DAHelper 数据库地址
-      */
-  getAllContactNumbers: async function (DAHelper) {
-    if (DAHelper == undefined || DAHelper.length == 0) {
-      DAHelper = featureAbility.acquireDataAbilityHelper(Constants.uri.CONTACT_DB_URI);
-    }
-    let resultColumns = ['raw_contact_id', 'detail_info', 'extend7']; // extend7代表labelId
-    let conditionArgs = new dataAbility.DataAbilityPredicates();
-    conditionArgs.equalTo('type_id', '5').orderByAsc('raw_contact_id');
-    let resultSet = await DAHelper.query(Constants.uri.CONTACT_DATA_URI, resultColumns, conditionArgs);
-    if (Utils.isEmpty(resultSet) || resultSet.rowCount == 0) {
-      HiLog.i(TAG, 'getAllContactNumbers-Selectcontacts Model getAllContactNumbers resultSet is empty!');
-      return new Map();
-    }
-    let contactNumberMap = new Map(); // 用于存储联系人及其电话号码的对应关系
-    resultSet.goToFirstRow();
-    let oldContact = resultSet.getString(0);
-    let numberList = [];
-    do {
-      let newContact = resultSet.getString(0);
-      if (oldContact == String(newContact)) { // 如果是同一联系人则把手机号放到同一个list中
-        numberList.push({
-          'phoneNumber': resultSet.getString(1),
-          'labelId': resultSet.getString(2)
-        });
-      } else {
-        // 联系人变化时，存储联系人与手机号码列表的对应关系
-        contactNumberMap.set(oldContact, numberList);
-        oldContact = newContact;
-        // 将最新的号码数据存储到新的numberList
-        numberList = [{
-                        'phoneNumber': resultSet.getString(1),
-                        'labelId': resultSet.getString(2)
-                      }];
-      }
-    } while (resultSet.goToNextRow());
-    contactNumberMap.set(oldContact, numberList);
-    return contactNumberMap;
-  },
-
-  /**
-     * 通过电话号码获取该号码的联系人id
-     *
-     * @param {string} DAHelper 数据库地址
-     * @param {string} number 手机号号码
-     * @param {Object} callBack 联系人Id
+     * @param {string} DAHelper
+     * @param {string} number Mobile number
+     * @param {Object} callBack Contact ID
      */
   getContactIdByNumber: async function (DAHelper, number, callBack) {
     if (DAHelper == undefined || DAHelper.length == 0) {
       DAHelper = featureAbility.acquireDataAbilityHelper(Constants.uri.CONTACT_DB_URI);
     }
-    if (Utils.isEmpty(number)) {
+    if (StringUtil.isEmpty(number)) {
       return;
     }
     let resultColumns = [
       'raw_contact_id',
     ];
-    let cleanNumber = Utils.removeSpace(number);
+    let cleanNumber = StringUtil.removeSpace(number);
     let condition = new dataAbility.DataAbilityPredicates();
     condition.equalTo('detail_info', cleanNumber);
     condition.and();
@@ -741,7 +740,7 @@ export default {
     condition.and();
     condition.equalTo('type_id', '5');
     let resultSet = await DAHelper.query(Constants.uri.CONTACT_DATA_URI, resultColumns, condition);
-    if (Utils.isEmpty(resultSet) || resultSet.rowCount == 0) {
+    if (StringUtil.isEmpty(resultSet) || resultSet.rowCount == 0) {
       HiLog.i(TAG, 'getContactIdByNumber-contactId resultSet is empty!');
       callBack();
       return;
@@ -753,11 +752,11 @@ export default {
   },
 
   /**
-     * 编辑联系人信息
+     * Edit Contact Information
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {Object} addParams  联系人信息
-     * @param {Object} callBack 联系人ID
+     * @param {string} DAHelper
+     * @param {Object} addParams  Contact Information
+     * @param {Object} callBack Contact ID
      */
   updateContact: async function (DAHelper, addParams, callBack) {
     if (DAHelper == undefined || DAHelper.length == 0 || DAHelper == null) {
@@ -777,20 +776,20 @@ export default {
     });
   },
   /**
-     * 根据电话号码查id
+     * Querying IDs by Phone Number
      *
-     * @param {string} DAHelper 数据库路径
-     * @param {string} addParams  电话号码
-     * @param {Object} callBack 联系人ID数组
+     * @param {string} DAHelper
+     * @param {string} addParams  Phone number
+     * @param {Object} callBack Contact ID array
      */
-  getIdByTelephone: async function (DAHelper, number, callBack) {
-    if (DAHelper == undefined || DAHelper.length == 0) {
-      DAHelper = featureAbility.acquireDataAbilityHelper(Constants.uri.CONTACT_DB_URI);
-    }
+  getIdByTelephone: async function (number, callBack) {
+    let DAHelper = featureAbility.acquireDataAbilityHelper(Constants.uri.CONTACT_DB_URI);
     let condition = new dataAbility.DataAbilityPredicates();
     condition.equalTo('detail_info', number)
       .and()
-      .equalTo('type_id', 5);
+      .equalTo('type_id', 5)
+      .and()
+      .equalTo('is_deleted', 0);
     let columns = ["raw_contact_id"];
     let data_row = await DAHelper.query(Constants.uri.CONTACT_DATA_URI, columns, condition)
     data_row.goToFirstRow();

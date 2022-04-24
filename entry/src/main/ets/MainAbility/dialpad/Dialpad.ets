@@ -16,12 +16,11 @@ import PhoneNumber from "../feature/PhoneNumber";
 import SmartSearchList from "./SmartSearchList";
 
 /**
- * 拨号盘对象，提供拨号盘相关服务
+ * Dialpad object, which provides dialpad-related services.
  */
 export default class DialPad {
   private input: string;
   private dialKey: [];
-
   constructor() {
   }
 
@@ -40,7 +39,7 @@ export default class DialPad {
   }
 
   clearInput() {
-    this.input="";
+    this.input = "";
   }
 
   getDialKey() {

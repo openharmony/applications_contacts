@@ -19,7 +19,7 @@ import AccountType from './type/AccountType';
 
 
 /**
- * 账户类型服务类，账户类型持有联系人详情如何展示等账号特征信息
+ * Account type service, which is used to display account characteristics such as account type holding contact details.
  */
 export default class AccountTypeService implements IAccountTypeService {
   constructor() {

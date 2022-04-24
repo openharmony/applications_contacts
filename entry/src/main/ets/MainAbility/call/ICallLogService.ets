@@ -15,12 +15,14 @@
 
 import CallLog from './entity/CallLog';
 import MergedCallLog from '../call/entity/MergedCallLog';
+import {MergeRule} from './CallLogSetting';
 
 /**
- * 通话记录服务类，仅包含通话记录相关，非拨号盘
+ * Call record service class, which contains only call records and is not a dialpad
  */
 export default interface ICallLogService {
-  mergeByTime: (callLogs: CallLog[]) => MergedCallLog[];
-  mergeByContact: (callLogs: CallLog[]) => MergedCallLog[];
-  formatTime: (date :number) => string;
+  init: () => void;
+  setMergeRule: (mergeRule: MergeRule) => void;
+  mergeCallLogs: (callLogs: CallLog[]) => MergedCallLog[];
+  mergeMissedCalls: (callLogs: CallLog[]) => MergedCallLog[];
 }

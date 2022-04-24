@@ -13,30 +13,23 @@
  * limitations under the License.
  */
 
-import Utils from '../../util/Utils';
+import ArrayUtil from '../../util/ArrayUtil';
 import HiLog from '../../util/HiLog';
-import detailModel from '../../model/contactDetailModel';
 import DialUtil from '../../util/DialUtil';
+import {CallType} from '../../call/entity/CallLog';
 
-const TAG = "ContactDetail-calllog"
+const TAG = "ContactDetail-calllog";
 
 /**
- * 通话记录
+ * Call log
  */
 @Component
 struct CallLogListItem {
   private message: string;
-  private title: string;
-  private detailtime: string;
-  private phonenumber: string;
-  private talkTime: string;
   private imgRes: Resource;
   @Link private mDetailModel: any;
 
   aboutToAppear() {
-    this.title = JSON.parse(this.message).timeDetail;
-    this.phonenumber = JSON.parse(this.message).formatNumber;
-    this.talkTime = JSON.parse(this.message).talkTime;
     switch (JSON.parse(this.message).callType) {
       case 1:
         this.imgRes = $r('app.media.ic_contacts_call_in_mini');
@@ -56,50 +49,56 @@ struct CallLogListItem {
   build() {
     Row() {
       Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Start, }) {
-        Text(this.title)
-          .fontWeight(FontWeight.Medium)
-          .fontSize(16)
-          .fontColor(JSON.parse(this.message).callType == "3" ||
-                     JSON.parse(this.message).callType == "5" ? Color.Red : Color.Black)
-          .height("22vp")
+        Row() {
+          Text(JSON.parse(this.message).dateDetail)
+            .fontWeight(FontWeight.Medium)
+            .fontSize($r("sys.float.ohos_id_text_size_body1"))
+            .fontColor($r("sys.color.ohos_id_color_text_primary"))
+          Text(JSON.parse(this.message).timeDetail)
+            .fontWeight(FontWeight.Medium)
+            .fontSize($r("sys.float.ohos_id_text_size_body1"))
+            .fontColor($r("sys.color.ohos_id_color_text_primary"))
+        }
+        .height("22vp")
 
         Row() {
           Image(this.imgRes)
             .objectFit(ImageFit.Fill)
-            .width("12vp")
-            .height("12vp")
-          Text(this.phonenumber)
-            .fontSize(14)
+            .width($r("app.float.id_card_image_xs"))
+            .height($r("app.float.id_card_image_xs"))
+            .opacity(0.4)
+          Text(JSON.parse(this.message).formatNumber)
+            .fontSize($r("sys.float.ohos_id_text_size_body2"))
             .fontWeight(FontWeight.Regular)
-            .fontColor('#182431')
-            .margin({ left: 1 })
+            .fontColor(JSON.parse(this.message).callType == CallType.MISSED || JSON.parse(this.message).callType
+            == CallType.REJECTED ? $r("sys.color.ohos_id_color_handup") : $r("sys.color.ohos_id_color_text_tertiary"))
+            .margin({ left: $r("app.float.id_card_margin_mid") })
         }
         .height("19vp")
-        .opacity(0.4)
-        .margin({ top: 2 })
+        .margin({ top: $r("app.float.id_card_margin_sm") })
       }
 
       Blank();
 
       Row() {
-        Text($r('app.string.noAnswer'))
+        Text($r('app.string.Ringing'))
           .fontWeight(FontWeight.Regular)
-          .fontSize(14)
-          .opacity(0.4)
-          .visibility(JSON.parse(this.message).callType == "3" ? Visibility.Visible : Visibility.None)
+          .fontSize($r("sys.float.ohos_id_text_size_body2"))
+          .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+          .visibility(JSON.parse(this.message).callType == CallType.MISSED ? Visibility.Visible : Visibility.None)
 
-        Text(this.talkTime)
+        Text(JSON.parse(this.message).talkTime)
           .fontWeight(FontWeight.Regular)
-          .fontSize(14)
-          .opacity(0.4)
+          .fontSize($r("sys.float.ohos_id_text_size_body2"))
+          .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
       }
       .height("19vp")
     }
     .width('100%')
-    .height("64vp")
+    .height($r("app.float.id_item_height_max"))
     .padding({ top: 5, bottom: 5 })
     .onClick(() => {
-      DialUtil.getInstance().dial(this.phonenumber, (data, err, value) => {
+      DialUtil.getInstance().dial(JSON.parse(this.message).formatNumber, (data, err, value) => {
         HiLog.i(TAG, 'dial isEmergencyPhoneNumber : ' + data + ' err : ' + err + ' value : ' + value);
       });
     })
@@ -109,7 +108,7 @@ struct CallLogListItem {
   }
 }
 /**
- * 通话记录
+ * Call log
  */
 @Component
 export default struct DetailCalllog {
@@ -117,26 +116,28 @@ export default struct DetailCalllog {
 
   build() {
     Column() {
-      Column().width('100%').height('8vp').backgroundColor($r('app.color.gray_divider'))
+      Divider()
+        .strokeWidth(8)
+        .color($r("sys.color.ohos_id_color_subheading_separator"))
 
       Row() {
         Text($r('app.string.dialer_calllog'))
-          .fontSize(16)
-          .opacity(0.6)
-          .margin({ left: 24 })
+          .fontSize($r("sys.float.ohos_id_text_size_body1"))
+          .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+          .margin({ left: $r("app.float.id_card_margin_max") })
 
         Blank();
 
         Text($r('app.string.clear'))
-          .fontSize(16)
-          .fontColor($r('app.color.colorConnected'))
-          .margin({ right: 24 })
+          .fontSize($r("sys.float.ohos_id_text_size_body1"))
+          .fontColor($r("sys.color.ohos_id_color_connected"))
+          .margin({ right: $r("app.float.id_card_margin_max") })
           .onClick(() => {
             this.mDetailModel.clearPhoneRecords()
           })
       }
       .width('100%')
-      .height('40vp')
+      .height($r("app.float.id_item_height_sm"))
 
       List() {
         ForEach(this.mDetailModel.contactForm.numRecords, (item, index) => {
@@ -147,17 +148,14 @@ export default struct DetailCalllog {
           if (index < this.mDetailModel.contactForm.numRecords.length - 1) {
             ListItem() {
               Divider()
-                .vertical(false)
-                .strokeWidth('1vp')
-                .color(Color.Gray)
-                .opacity(0.6)
+                .color($r("sys.color.ohos_id_color_list_separator"))
             }
           }
         }, item => item.id.toString())
-      }.margin({ left: 24, right: 24 })
+      }.margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_max") })
     }
     .width("100%")
-    .backgroundColor($r('app.color.white'))
-    .visibility(Utils.isEmptyList(this.mDetailModel.contactForm.numRecords) ? Visibility.None : Visibility.Visible)
+    .backgroundColor(Color.White)
+    .visibility(ArrayUtil.isEmpty(this.mDetailModel.contactForm.numRecords) ? Visibility.None : Visibility.Visible)
   }
 }

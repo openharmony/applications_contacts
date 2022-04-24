@@ -13,15 +13,15 @@
  * limitations under the License.
  */
 
-import BaseColumns from '../contract/BaseColumns.ets';
-import DataColumns from '../contract/DataColumns.ets';
-import DAOperation from './DAOperation.ets';
+import BaseColumns from '../contract/BaseColumns';
+import DataColumns from '../contract/DataColumns';
+import DAOperation from './DAOperation';
 import HiLog from '../../util/HiLog';
 
 const TAG = "ValuesDelta";
 
 /**
- * 联系人详情编辑模型
+ * Contact details editing model
  */
 export default class ValuesDelta {
   private readonly _idColumn: string = BaseColumns.ID;

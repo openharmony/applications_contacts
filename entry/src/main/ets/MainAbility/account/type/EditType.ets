@@ -14,12 +14,11 @@
  */
 
 /**
- * 描述联系人数据类型中的一项，包括国际化资源，类型对应在数据库中的值
+ * Describes a contact data type, including internationalization resources. The type corresponds to the value in the database.
  */
 export default class EditType {
   readonly rawValue: number;
   readonly labelRes: Resource;
-
   constructor(rawValue: number, labelRes: Resource) {
     this.rawValue = rawValue;
     this.labelRes = labelRes;

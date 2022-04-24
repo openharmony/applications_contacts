@@ -17,9 +17,9 @@ import DataType from './DataType';
 import {DataItemType} from './DataType';
 
 /**
- * 电话数据类型-关系人
+ * Phone Data Type - Relator
  */
-export default class Relation extends DataType{
+export default class Relation extends DataType {
   static readonly CONTENT_ITEM_TYPE: string = "relation";
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.RELATION;
   static readonly NAME: string = DataType.DATA;

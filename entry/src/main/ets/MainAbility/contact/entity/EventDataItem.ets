@@ -18,7 +18,6 @@ import Event from '../contract/Event';
 
 export default class EventDateItem extends DataItem {
   readonly values: Map<string, any>;
-
   constructor(values: Map<string, any>) {
     super(values);
   }

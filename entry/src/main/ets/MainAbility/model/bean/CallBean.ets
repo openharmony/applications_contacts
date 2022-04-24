@@ -18,21 +18,21 @@ export class CallBean {
   phone: string ;
   name: string ;
   callTime: string ;
-  // 通话类型：1呼入，2呼出，3未接，5拒接
+  // Call type: 1: incoming call; 2: outgoing call; 3: missed call; 5: rejected call
   callType: string ;
-  // 号码归属地
+  // Home area of the number
   callTag: string ;
-  // 通话SIM卡，0：卡1， 1：卡2
+  // Call SIM card. 0: SIM card 1, 1: SIM card 2.
   simType: string ;
-  // 是否高清通话 true：高清通话，false：非高清通话
+  // Indicates whether an HD call is supported. true: HD call; false: non-HD call
   isHd: string ;
-  // 格式化电话号码
+  // Format Phone Number
   formatNumber: string ;
-  // 联系人id
+  // Contact ID.
   contactKey: string ;
-  // 呼叫次数
+  // Call Times
   num: string;
-  // 是否被选中，默认 false
+  // Indicates whether to be selected. The default value is false.
   isChecked: boolean = false;
   portraitColor: string;
   suffix: string;

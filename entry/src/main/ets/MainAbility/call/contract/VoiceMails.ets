@@ -15,29 +15,17 @@
 
 export default class VoiceMail {
   static readonly CONTACT_URI: string = "dataability:///com.ohos.voicemailability";
-
   static readonly ID: string = "id";
-
   static readonly PHONE_NUMBER: string = "phone_number";
-
   static readonly QUICK_SEARCH_KEY: string = "quicksearch_key";
-
   static readonly DISPLAY_NAME: string = "display_name";
-
   static readonly VOICEMAIL_URI: string = "voicemail_uri";
-
   static readonly VOICEMAIL_TYPE: string = "voicemail_type";
-
   static readonly VOICE_FILE_SIZE: string = "voice_file_size";
-
   static readonly VOICE_DURATION: string = "voice_duration";
-
   static readonly VOICE_STATUS: string = "voice_status";
-
   static readonly ORIGIN_TYPE: string = "origin_type";
-
   static readonly CREATE_TIME: string = "create_time";
-
   constructor() {
   }
 }

@@ -18,7 +18,6 @@ import Im from '../contract/Im';
 
 export default class ImDateItem extends DataItem {
   readonly values: Map<string, any>;
-
   constructor(values: Map<string, any>) {
     super(values);
   }

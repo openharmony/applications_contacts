@@ -18,7 +18,6 @@ import Website from '../contract/Website';
 
 export default class WebsiteDataItem extends DataItem {
   readonly values: Map<string, any>;
-
   constructor(values: Map<string, any>) {
     super(values);
   }

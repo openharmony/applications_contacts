@@ -48,7 +48,6 @@ export default class CallLog {
   readonly photoUri: string;
   readonly countryIsoCode: number;
   readonly callType: number;
-
   constructor(builder: CallLogBuilder) {
     this.id = builder.id;
     this.phoneNumber = builder.phoneNumber;
@@ -94,7 +93,7 @@ export default class CallLog {
   }
 
   /**
-   * 将通话记录配置为已读
+   * Configure Call Logs as Read
    */
   read() {
   }

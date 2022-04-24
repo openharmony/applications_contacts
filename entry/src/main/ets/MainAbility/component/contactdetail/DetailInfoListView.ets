@@ -13,13 +13,13 @@
  * limitations under the License.
  */
 
-import contactDetailModel from '../../model/contactDetailModel';
 import HiLog from '../../util/HiLog';
-import Utils from '../../util/Utils';
-import DetailInfoListItemView from './DetailInfoListItemView';
+import StringUtil from '../../util/StringUtil';
+import ArrayUtil from '../../util/ArrayUtil';
 import DialUtil from '../../util/DialUtil';
+import DetailInfoList from './DetailInfoList';
 
-const TAG = "ContactDetail-detailInfoList"
+const TAG = "ContactDetail-detailInfoList";
 
 @Component
 export default struct DetailInfoListView {
@@ -27,59 +27,47 @@ export default struct DetailInfoListView {
 
   build() {
     Column() {
-      // 电话列表
+      //Phone List
       TelList({ mDetailModel: $mDetailModel });
 
-      if (!this.mDetailModel.contactForm.isNewNumber) {
-        // 邮箱列表
-        EmailList({ mDetailModel: $mDetailModel });
+      // email list
+      DetailInfoList({ List: JSON.stringify(this.mDetailModel.contactForm.emails), hasArrow: true });
 
-        // AIM列表
-        AIMList({ mDetailModel: $mDetailModel });
+      // aim List
+      DetailInfoList({ List: JSON.stringify(this.mDetailModel.contactForm.aims), hasArrow: true });
 
-        // 昵称
-        NickName({ mDetailModel: $mDetailModel });
+      // Nickname
+      DetailInfoList({ List: JSON.stringify(this.mDetailModel.contactForm.nickname), hasArrow: false });
 
-        // 网站列表
-        WebSiteList({ mDetailModel: $mDetailModel });
+      // Websites
+      DetailInfoList({ List: JSON.stringify(this.mDetailModel.contactForm.websites), hasArrow: true });
 
-        // 住址列表
-        HouseList({ mDetailModel: $mDetailModel });
+      // residential address
+      DetailInfoList({ List: JSON.stringify(this.mDetailModel.contactForm.houses), hasArrow: false });
 
-        // 生日和纪念日
-        RemembranceDay({ mDetailModel: $mDetailModel });
+      // Remembrance Day
+      DetailInfoList({ List: JSON.stringify(this.mDetailModel.contactForm.events), hasArrow: true });
 
-        // 群组
-        Group({ mDetailModel: $mDetailModel });
+      // Associated Person
+      DetailInfoList({ List: JSON.stringify(this.mDetailModel.contactForm.relationships), hasArrow: true });
 
-        // 姓名拼音
-        PinyinName({ mDetailModel: $mDetailModel });
-
-        // 关联人
-        Relationships({ mDetailModel: $mDetailModel });
-
-        // 备注
-        Remarks({ mDetailModel: $mDetailModel });
-
-        // 更多选项
-        MoreOptions({ mDetailModel: $mDetailModel });
-      }
+      // Remarks
+      DetailInfoList({ List: JSON.stringify(this.mDetailModel.contactForm.remarks), hasArrow: false });
     }
+    .margin({ top: $r("app.float.id_card_margin_max") })
   }
 }
 
 /**
- * 电话列表
+ * Phone List
  */
 @Component
 struct TelList {
   @Link private mDetailModel: any;
+
   @Builder ListDivider() {
     Divider()
-      .vertical(false)
-      .strokeWidth('1vp')
-      .color(Color.Gray)
-      .opacity(0.6)
+      .color($r("sys.color.ohos_id_color_list_separator"))
   }
 
   build() {
@@ -88,6 +76,7 @@ struct TelList {
         ListItem() {
           TelListItem({ message: JSON.stringify(item), mDetailModel: $mDetailModel });
         }
+
         if (index < this.mDetailModel.contactForm.phones.length - 1) {
           ListItem() {
             this.ListDivider()
@@ -95,611 +84,76 @@ struct TelList {
         }
       }, item => (item.id).toString())
     }
-    .visibility(Utils.isEmptyList(this.mDetailModel.contactForm.phones) ? Visibility.None : Visibility.Visible)
-    .backgroundColor($r('app.color.white'))
+    .visibility(ArrayUtil.isEmpty(this.mDetailModel.contactForm.phones) ? Visibility.None : Visibility.Visible)
+    .backgroundColor(Color.White)
   }
 }
 
 /**
- * 电话item
+ * Phone Item
  */
 @Component
 struct TelListItem {
   private message: string
-  private title: string
   @Link private mDetailModel: any;
-
-  aboutToAppear() {
-    this.title = this.mDetailModel.newNumberContactDetail.callTag;
-  }
 
   build() {
     Row() {
       Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Start }) {
-        Text(JSON.parse(this.message).num)
-          .fontSize('16fp')
+        Text(JSON.parse(this.message).data)
+          .fontSize($r("sys.float.ohos_id_text_size_body1"))
+          .fontWeight(FontWeight.Medium)
         Row() {
-          Text(JSON.parse(this.message)
-          .labelName)
-            .fontSize('14fp')
-            .fontColor($r('app.color.textColorPrimary'))
-            .visibility(Utils.isEmpty(JSON.parse(this.message)
-            .labelName) ? Visibility.None : Visibility.Visible)
+          Text(JSON.parse(this.message).labelName)
+            .fontSize($r("sys.float.ohos_id_text_size_body2"))
+            .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+            .fontWeight(FontWeight.Regular)
+            .visibility(StringUtil.isEmpty(JSON.parse(this.message).labelName) ? Visibility.None : Visibility.Visible)
           Text(" - ")
-            .fontSize('14fp')
-            .fontColor($r('app.color.textColorPrimary'))
-            .visibility(Utils.isEmpty(JSON.parse(this.message)
-            .labelName) ? Visibility.None : Visibility.Visible)
+            .fontSize($r("sys.float.ohos_id_text_size_body2"))
+            .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+            .fontWeight(FontWeight.Regular)
+            .visibility(StringUtil.isEmpty(JSON.parse(this.message).labelName) ? Visibility.None : Visibility.Visible)
           Text(JSON.parse(this.message).phoneAddress)
-            .fontSize('14fp')
-            .fontColor($r('app.color.textColorPrimary'))
+            .fontSize($r("sys.float.ohos_id_text_size_body2"))
+            .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+            .fontWeight(FontWeight.Regular)
         }
+        .margin({top: $r("app.float.id_card_margin_sm")})
       }
 
       Blank();
 
       Image($r("app.media.ic_public_phone_filled"))
         .objectFit(ImageFit.Contain)
-        .height("24vp")
-        .width("24vp")
-        .margin({ right: '24vp' })
+        .height($r("app.float.id_card_image_small"))
+        .width($r("app.float.id_card_image_small"))
+        .margin({ right: $r("app.float.id_card_margin_max") })
         .onClick(() => {
-          DialUtil.getInstance().dial(Utils.removeSpace(JSON.parse(this.message).num), (data, err, value) => {
+          DialUtil.getInstance().dial(StringUtil.removeSpace(JSON.parse(this.message).data), (data, err, value) => {
             HiLog.i(TAG, 'dial isEmergencyPhoneNumber : ' + data + ' err : ' + err + ' value : ' + value);
           });
         })
 
       Image($r("app.media.ic_public_message_filled"))
         .objectFit(ImageFit.Contain)
-        .height("24vp")
-        .width("24vp")
+        .height($r("app.float.id_card_image_small"))
+        .width($r("app.float.id_card_image_small"))
         .onClick(() => {
-          this.mDetailModel.sendMessage(JSON.parse(this.message)
-          .num, this.mDetailModel.showNameLast);
+          this.mDetailModel.sendMessage(JSON.parse(this.message).data, this.mDetailModel.contactForm.display_name);
         })
     }
     .width('100%')
-    .height("60vp")
+    .height($r("app.float.id_item_height_max"))
     .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
       .onAction((event: GestureEvent) => {
-        this.mDetailModel.listItemOnLongPressNumber(JSON.parse(this.message)
-        .id);
-      })
-      .onActionEnd(() => {
-
-      })
-    )
-  }
-}
-
-/**
- * 邮件列表
- */
-@Component
-struct EmailList {
-  @Link private mDetailModel: any;
-  @Builder ListDivider() {
-    Divider()
-      .vertical(false)
-      .strokeWidth('1vp')
-      .color(Color.Gray)
-      .opacity(0.6)
-  }
-
-  build() {
-    Column() {
-      this.ListDivider()
-      List() {
-        ForEach(this.mDetailModel.contactForm.emails, (item, index) => {
-          ListItem() {
-            EmailListItem({ message: JSON.stringify(item) });
-          }
-          if (index < this.mDetailModel.contactForm.emails.length - 1) {
-            ListItem() {
-              this.ListDivider()
-            }
-          }
-        }, item => item.id.toString())
-      }
-    }
-    .width("100%")
-    .visibility(Utils.isEmptyList(this.mDetailModel.contactForm.emails) ? Visibility.None : Visibility.Visible)
-  }
-}
-
-/**
- * 邮件item
- */
-@Component
-struct EmailListItem {
-  @Prop message: string;
-
-  build() {
-    Column() {
-      DetailInfoListItemView({ title: JSON.parse(this.message).address,
-        content: JSON.parse(this.message).labelName, hasRow: true })
-    }
-    .onClick(() => {
-    })
-    .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
-      .onAction((event: GestureEvent) => {
+        this.mDetailModel.listItemOnLongPressNumber(JSON.parse(this.message).id);
       }))
   }
 }
 
 /**
- * AIM列表
- */
-@Component
-struct AIMList {
-  @Link private mDetailModel: any;
-  @Builder ListDivider() {
-    Divider()
-      .vertical(false)
-      .strokeWidth('1vp')
-      .color(Color.Gray)
-      .opacity(0.6)
-  }
-
-  build() {
-    Column() {
-      List() {
-        ListItem() {
-          this.ListDivider()
-        }
-        ForEach(this.mDetailModel.contactForm.aims, (item, index) => {
-          ListItem() {
-            AIMListItem({ message: JSON.stringify(item)});
-          }
-          if (index < this.mDetailModel.contactForm.aims.length - 1) {
-            ListItem() {
-              this.ListDivider()
-            }
-          }
-        })
-      }
-    }
-    .width("100%")
-    .visibility(Utils.isEmptyList(this.mDetailModel.contactForm.aims) ? Visibility.None : Visibility.Visible)
-  }
-}
-
-/**
- * AIMlListItem
- */
-@Component
-struct AIMListItem {
-  @Prop message: string;
-
-  build() {
-    Column() {
-      DetailInfoListItemView({ title: JSON.parse(this.message).aimName,
-        content: JSON.parse(this.message).aimType, hasRow: true })
-    }
-    .onClick(() => {
-    })
-    .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
-      .onAction((event: GestureEvent) => {
-      }))
-  }
-}
-
-/**
- * 昵称
- */
-@Component
-struct NickName {
-  @Link private mDetailModel: any;
-  private hasRow:Boolean = false;
-
-  build() {
-    Column() {
-      Divider()
-        .vertical(false)
-        .strokeWidth('1vp')
-        .color(Color.Gray)
-        .opacity(0.6)
-      Row() {
-        Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Start }) {
-          Text(this.mDetailModel.contactForm.nickname)
-            .fontSize(16)
-          Text($r('app.string.nickname'))
-            .fontSize(14)
-            .fontColor($r('app.color.gray'))
-        }
-
-        Blank();
-
-        Image($r('app.media.ic_contacts_arrow_up'))
-          .align(Alignment.Center)
-          .width("20vp")
-          .height("20vp")
-          .visibility(this.hasRow ? Visibility.Visible : Visibility.None)
-          .opacity(0.2)
-      }
-      .width('100%')
-      .height("60vp")
-      .padding({ top: 5, bottom: 5 })
-    }
-    .visibility(Utils.isEmpty(this.mDetailModel.contactForm.nickname) ? Visibility.None : Visibility.Visible)
-    .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
-      .onAction((event: GestureEvent) => {
-
-      })
-      .onActionEnd(() => {
-
-      })
-    )
-  }
-}
-
-/**
- * 网站列表
- */
-@Component
-struct WebSiteList {
-  @Link private mDetailModel: any;
-  @Builder ListDivider() {
-    Divider()
-      .vertical(false)
-      .strokeWidth('1vp')
-      .color(Color.Gray)
-      .opacity(0.6)
-  }
-
-  build() {
-    Column() {
-      List() {
-        ListItem() {
-          this.ListDivider()
-        }
-        ForEach(this.mDetailModel.contactForm.websites, (item, index) => {
-          ListItem() {
-            WebSiteListItem({ message: item });
-          }
-          if (index < this.mDetailModel.contactForm.websites.length - 1) {
-            ListItem() {
-              this.ListDivider()
-            }
-          }
-        })
-      }
-    }
-    .width("100%")
-    .visibility(Utils.isEmptyList(this.mDetailModel.contactForm.websites) ? Visibility.None : Visibility.Visible)
-  }
-}
-
-/**
- * 网站item
- */
-@Component
-struct WebSiteListItem {
-  @Prop message: string;
-
-  build() {
-    Column() {
-      DetailInfoListItemView({ title: this.message, content: $r('app.string.website'), hasRow: true })
-    }
-    .onClick(() => {
-    })
-    .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
-      .onAction((event: GestureEvent) => {
-      }))
-  }
-}
-
-/**
- * 地址列表
- */
-@Component
-struct HouseList {
-  @Link private mDetailModel: any;
-  @Builder ListDivider() {
-    Divider()
-      .vertical(false)
-      .strokeWidth('1vp')
-      .color(Color.Gray)
-      .opacity(0.6)
-  }
-
-  build() {
-    Column() {
-      List() {
-        ListItem() {
-          this.ListDivider()
-        }
-        ForEach(this.mDetailModel.contactForm.houses, (item, index) => {
-          ListItem() {
-            HouseListItem({ message: JSON.stringify(item) });
-          }
-          if (index < this.mDetailModel.contactForm.houses.length - 1) {
-            ListItem() {
-              this.ListDivider()
-            }
-          }
-        })
-      }
-    }
-    .width("100%")
-    .visibility(Utils.isEmptyList(this.mDetailModel.contactForm.houses) ? Visibility.None : Visibility.Visible)
-  }
-}
-
-/**
- * 住址item
- */
-@Component
-struct HouseListItem {
-  @Prop message: string;
-
-  build() {
-    Column() {
-      DetailInfoListItemView({ title: JSON.parse(this.message).houseName,
-        content: JSON.parse(this.message).houseType, hasRow: true })
-    }
-    .onClick(() => {
-    })
-    .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
-      .onAction((event: GestureEvent) => {
-      }))
-  }
-}
-
-/**
- * 纪念日
- */
-@Component
-struct RemembranceDay {
-  @Link private mDetailModel: any;
-  @Builder ListDivider() {
-    Divider()
-      .vertical(false)
-      .strokeWidth('1vp')
-      .color(Color.Gray)
-      .opacity(0.6)
-  }
-
-  build() {
-    Column() {
-      List() {
-        ListItem() {
-          this.ListDivider()
-        }
-        ForEach(this.mDetailModel.contactForm.events, (item, index) => {
-          ListItem() {
-            RemembranceDayItem({ message: JSON.stringify(item) });
-          }
-
-          if (index < this.mDetailModel.contactForm.events.length - 1) {
-            ListItem() {
-              this.ListDivider()
-            }
-          }
-        }, item => item.id.toString())
-      }
-    }
-    .width("100%")
-    .visibility(Utils.isEmptyList(this.mDetailModel.contactForm.events) ? Visibility.None : Visibility.Visible)
-  }
-}
-
-/**
- * 纪念日item
- */
-@Component
-struct RemembranceDayItem {
-  @Prop message: string;
-
-  build() {
-    Column() {
-      DetailInfoListItemView({ title: JSON.parse(this.message).data,
-        content: JSON.parse(this.message).eventName, hasRow: true })
-    }
-    .onClick(() => {
-    })
-    .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
-      .onAction((event: GestureEvent) => {
-      }))
-  }
-}
-
-/**
- * 群组
- */
-@Component
-struct Group {
-  @Link private mDetailModel: any;
-  private hasRow:Boolean = false;
-
-  build() {
-    Column() {
-      Divider()
-        .vertical(false)
-        .strokeWidth('1vp')
-        .color(Color.Gray)
-        .opacity(0.6)
-      Row() {
-        Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Start }) {
-          Text(this.mDetailModel.contactForm.showGroupsString)
-            .fontSize(16)
-          Text($r('app.string.group'))
-            .fontSize(14)
-            .fontColor($r('app.color.gray'))
-        }
-
-        Blank();
-
-        Image($r('app.media.ic_contacts_arrow_up'))
-          .align(Alignment.Center)
-          .width("20vp")
-          .height("20vp")
-          .visibility(this.hasRow ? Visibility.Visible : Visibility.None)
-          .opacity(0.2)
-      }
-      .width('100%')
-      .height("60vp")
-      .padding({ top: 5, bottom: 5 })
-    }
-    .visibility(Utils.isEmpty(this.mDetailModel.contactForm.showGroupsString) ? Visibility.None : Visibility.Visible)
-    .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
-      .onAction((event: GestureEvent) => {
-      }))
-  }
-}
-
-/**
- * 姓名拼音
- */
-@Component
-struct PinyinName {
-  @Link private mDetailModel: any;
-  private hasRow:Boolean = false;
-
-  build() {
-    Column() {
-      Divider()
-        .vertical(false)
-        .strokeWidth('1vp')
-        .color(Color.Gray)
-        .opacity(0.6)
-      Row() {
-        Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Start }) {
-          Text(this.mDetailModel.contactForm.pinYinName)
-            .fontSize(16)
-          Text($r('app.string.name_pinyin'))
-            .fontSize(14)
-            .fontColor($r('app.color.gray'))
-        }
-
-        Blank();
-
-        Image($r('app.media.ic_contacts_arrow_up'))
-          .align(Alignment.Center)
-          .width("20vp")
-          .height("20vp")
-          .visibility(this.hasRow ? Visibility.Visible : Visibility.None)
-          .opacity(0.2)
-      }
-      .width('100%')
-      .height("60vp")
-      .padding({ top: 5, bottom: 5 })
-    }
-    .visibility(Utils.isEmpty(this.mDetailModel.contactForm.pinYinName) ? Visibility.None : Visibility.Visible)
-    .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
-      .onAction((event: GestureEvent) => {
-
-      })
-      .onActionEnd(() => {
-
-      })
-    )
-  }
-}
-
-/**
- * 关联人
- */
-@Component
-struct Relationships {
-  @Link private mDetailModel: any;
-  @Builder ListDivider() {
-    Divider()
-      .vertical(false)
-      .strokeWidth('1vp')
-      .color(Color.Gray)
-      .opacity(0.6)
-  }
-
-  build() {
-    Column() {
-      List() {
-        ListItem() {
-          this.ListDivider()
-        }
-        ForEach(this.mDetailModel.contactForm.relationships, (item, index) => {
-          ListItem() {
-            RelationshipsItem({ message: JSON.stringify(item) });
-          }
-          if (index < this.mDetailModel.contactForm.relationships.length - 1) {
-            ListItem() {
-              this.ListDivider()
-            }
-          }
-        }, item => item.id.toString())
-      }
-    }
-    .width("100%")
-    .visibility(Utils.isEmptyList(this.mDetailModel.contactForm.relationships) ? Visibility.None : Visibility.Visible)
-  }
-}
-
-/**
- * 关联人item
- */
-@Component
-struct RelationshipsItem {
-  @Prop message: string;
-
-  build() {
-    Column() {
-      DetailInfoListItemView({ title: JSON.parse(this.message).name,
-        content: JSON.parse(this.message).associatedType, hasRow: true })
-    }
-    .onClick(() => {
-    })
-    .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
-      .onAction((event: GestureEvent) => {
-      }))
-  }
-}
-
-/**
- * 备注
- */
-@Component
-struct Remarks {
-  @Link private mDetailModel: any;
-  private hasRow:Boolean = false;
-
-  build() {
-    Column() {
-      Divider()
-        .vertical(false)
-        .strokeWidth('1vp')
-        .color(Color.Gray)
-        .opacity(0.6)
-      Row() {
-        Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Start }) {
-          Text(this.mDetailModel.contactForm.remarks)
-            .fontSize(16)
-          Text($r('app.string.remarks'))
-            .fontSize(14)
-            .fontColor($r('app.color.gray'))
-        }
-
-        Blank();
-
-        Image($r('app.media.ic_contacts_arrow_up'))
-          .align(Alignment.Center)
-          .width("20vp")
-          .height("20vp")
-          .visibility(this.hasRow ? Visibility.Visible : Visibility.None)
-          .opacity(0.2)
-      }
-      .width('100%')
-      .height("60vp")
-      .padding({ top: 5, bottom: 5 })
-    }
-    .visibility(Utils.isEmpty(this.mDetailModel.contactForm.remarks) ? Visibility.None : Visibility.Visible)
-    .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
-      .onAction((event: GestureEvent) => {
-      }))
-  }
-}
-
-/**
- * 更多选项
+ * More options
  */
 @Component
 struct MoreOptions {
@@ -708,16 +162,16 @@ struct MoreOptions {
   build() {
     Row() {
       Text($r('app.string.more'))
-        .fontSize(15)
-        .margin({ right: 5 })
-        .fontColor($r('app.color.font_color_more'))
+        .fontSize($r("sys.float.ohos_id_text_size_body1"))
+        .margin({ right: $r("app.float.id_card_margin_max") })
+        .fontColor($r('sys.color.ohos_id_color_connected'))
 
       Image($r('app.media.ic_contacts_details_arrow_down'))
         .objectFit(ImageFit.Contain)
-        .height(16)
-        .width(16)
+        .height($r("app.float.id_card_image_xs"))
+        .width($r("app.float.id_card_image_small"))
     }
-    .height('40vp')
+    .height($r("app.float.id_item_height_sm"))
     .visibility(this.mDetailModel.contactForm.showMoreButton ? Visibility.Visible : Visibility.None)
     .onClick(() => {
       this.mDetailModel.getMore();

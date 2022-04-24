@@ -29,12 +29,13 @@ import StringUtil from '../../util/StringUtil';
 import DataAbility from '@ohos.data.dataAbility';
 import HiLog from '../../util/HiLog';
 import ContactListItem from './ContactListItem';
+import { DataItemType } from '../contract/DataType';
 
 const TAG = "ContactRepository";
 
 /**
- * 联系人存储管理，屏蔽对cp层的依赖
- * 仅限联系人
+ * Contact storage management, shielding dependency on the CP layer
+ * Contacts Only
  */
 export default class ContactRepository implements IContactRepository {
   static readonly RAW_CONTACT_URL: string = RawContacts.CONTENT_URI;
@@ -46,17 +47,17 @@ export default class ContactRepository implements IContactRepository {
 
   public static getInstance(): ContactRepository {
     if (!ContactRepository.instance) {
-      ContactRepository.instance = new ContactRepository()
+      ContactRepository.instance = new ContactRepository();
     }
-    return ContactRepository.instance
+    return ContactRepository.instance;
   }
 
   saveTest() {
     return false;
   }
 
-  private getDataAbilityHelper(){
-    if (this._dataAbilityHelper == undefined || this._dataAbilityHelper == null || this._dataAbilityHelper.length == 0) {
+  private getDataAbilityHelper() {
+    if (this._dataAbilityHelper == undefined || this._dataAbilityHelper == null) {
       this._dataAbilityHelper = FeatureAbility.acquireDataAbilityHelper(Contacts.CONTENT_URI);
     }
     return this._dataAbilityHelper;
@@ -124,17 +125,17 @@ export default class ContactRepository implements IContactRepository {
       dataAbilityHelper.query(Contacts.CONTACT_URI, ContactListItem.COLUMNS, conditionArgs)
         .then(resultSet => {
           let rst: ContactListItem[] = [];
-          resultSet.goToFirstRow();
-          do {
-            let id = resultSet.getLong(resultSet.getColumnIndex(Contacts.ID));
-            if (id < 0) {
-              HiLog.w(TAG, 'findAll: contact id is invalid.');
-              continue;
-            }
-            rst.push(new ContactListItem(resultSet));
-          } while (resultSet.goToNextRow());
-          resultSet.close();
-          resolve(rst);
+          if (resultSet.rowCount === 0) {
+            resultSet.close();
+            resolve(rst);
+          } else {
+            resultSet.goToFirstRow();
+            do {
+              rst.push(new ContactListItem(resultSet));
+            } while (resultSet.goToNextRow());
+            resultSet.close();
+            resolve(rst);
+          }
         })
         .catch(error => {
           HiLog.w(TAG, 'findAll error:%s', JSON.stringify(error.message));
@@ -180,13 +181,90 @@ export default class ContactRepository implements IContactRepository {
     return new ContactList({});
   }
 
-  search(queryStr:string) {
+  search(queryStr: string) {
     return new ContactList({});
   }
 
   findByPhoneIsNotNull() {
+    let dataAbilityHelper = this.getDataAbilityHelper();
+    let that = this;
     return new Promise<ContactListItem[]>(function (resolve, reject) {
-      reject();
+      that.getAllContactNumbers().then((contactNumberMap) => {
+        let conditionArgs = new DataAbility.DataAbilityPredicates();
+        conditionArgs.equalTo(RawContacts.IS_DELETED, '0')
+          .and()
+          .equalTo(Contacts.HAS_PHONE_NUMBER, '1')
+          .orderByAsc(RawContacts.SORT_FIRST_LETTER);
+        dataAbilityHelper.query(Contacts.CONTACT_URI, ContactListItem.COLUMNS, conditionArgs)
+          .then(resultSet => {
+            let rst: ContactListItem[] = [];
+            if (resultSet.rowCount === 0) {
+              resultSet.close();
+              resolve(rst);
+            } else {
+              resultSet.goToFirstRow();
+              do {
+                let id = resultSet.getLong(resultSet.getColumnIndex(Contacts.ID));
+                if (!contactNumberMap.has(id)) {
+                  HiLog.w(TAG, 'findAll: contact id is invalid or contact has no phone number.');
+                  continue;
+                }
+                let contactListItem = new ContactListItem(resultSet);
+                contactListItem.phoneNumbers = contactNumberMap.get(id);
+                rst.push(contactListItem);
+              } while (resultSet.goToNextRow());
+              resultSet.close();
+              resolve(rst);
+            }
+          })
+          .catch(error => {
+            HiLog.w(TAG, 'findAll error:%s', JSON.stringify(error.message));
+            reject(error);
+          });
+      });
+    });
+  }
+
+  /**
+   * 查询所有联系人手机号
+    */
+  private getAllContactNumbers(): Promise<Map<number, []>>{
+    let dataAbilityHelper = this.getDataAbilityHelper();
+    return new Promise<Map<number, []>>(function (resolve, reject) {
+      let resultColumns = [RawContacts.CONTACT_ID, Data.DETAIL_INFO, Data.EXTEND7, Data.CUSTOM_DATA];
+      let conditionArgs = new DataAbility.DataAbilityPredicates();
+      conditionArgs.equalTo(Data.TYPE_ID, DataItemType.PHONE).orderByAsc(RawContacts.CONTACT_ID);
+      dataAbilityHelper.query(Data.CONTENT_URI, resultColumns, conditionArgs).then(resultSet => {
+        if (resultSet == undefined || !resultSet.goToFirstRow()) {
+          HiLog.w(TAG, 'getAllContactNumbers not found.');
+          reject('resultSet is empty.');
+        }
+        // 用于存储联系人及其电话号码的对应关系
+        let contactNumberMap = new Map();
+        let oldContact = resultSet.getLong(resultSet.getColumnIndex(RawContacts.CONTACT_ID));
+        let numberList = [];
+        do {
+          let newContact = resultSet.getLong(resultSet.getColumnIndex(RawContacts.CONTACT_ID));
+          let phoneNumberObj = {
+            'phoneNumber': resultSet.getString(resultSet.getColumnIndex(Data.DETAIL_INFO)),
+            'labelId': resultSet.getString(resultSet.getColumnIndex(Data.EXTEND7)),
+            'numType': resultSet.getString(resultSet.getColumnIndex(Data.CUSTOM_DATA))
+          };
+          // 如果是同一联系人则把手机号放到同一个list中
+          if (oldContact === newContact) {
+            numberList.push(phoneNumberObj);
+          } else {
+            // 联系人变化时，存储联系人与手机号码列表的对应关系
+            contactNumberMap.set(oldContact, numberList);
+            oldContact = newContact;
+            // 将最新的号码数据存储到新的numberList
+            numberList = [phoneNumberObj];
+          }
+        } while (resultSet.goToNextRow());
+        contactNumberMap.set(oldContact, numberList);
+        resultSet.close();
+        resolve(contactNumberMap);
+      });
     });
   }
 
@@ -214,5 +292,21 @@ export default class ContactRepository implements IContactRepository {
 
   deleteByIdIn(ids: number[]) {
     return false;
+  }
+
+  notifyChange() {
+    this.getDataAbilityHelper().notifyChange(Data.CONTENT_URI).then(() => {
+      HiLog.i(TAG, "notifyChange success")
+    }).catch(error => {
+      HiLog.w(TAG, 'notifyChange error:%s', JSON.stringify(error.message));
+    });
+  }
+
+  registerDataChangeObserver(callback) {
+    this.getDataAbilityHelper().on("dataChange", Data.CONTENT_URI, callback);
+  }
+
+  unRegisterDataChangeObserver(callback) {
+    this.getDataAbilityHelper().off("dataChange", Data.CONTENT_URI, callback);
   }
 }

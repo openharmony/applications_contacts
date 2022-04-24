@@ -13,14 +13,13 @@
  * limitations under the License.
  */
 
-import AddressBookIndex from './AddressBookIndex.ets';
-import ContactListItem from './ContactListItem.ets';
+import AddressBookIndex from './AddressBookIndex';
+import ContactListItem from './ContactListItem';
 
 export default class ContactList {
   static readonly CONTACT_PROJECTION_PRIMARY = [];
   readonly bookIndex: AddressBookIndex;
   readonly contacts: ContactListItem[];
-
   constructor(resultSet: any) {
   }
 }

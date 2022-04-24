@@ -13,31 +13,27 @@
  * limitations under the License.
  */
 
-import Utils from '../../util/Utils';
+import StringUtil from '../../util/StringUtil';
 
 /**
- * 联系人列表 数据结构实体
+ * Contact List Data Structure Entity
  */
 export class ContactVo {
   contactId: any;
-  //名字前缀
   namePrefix: string;
-  //名字
   emptyNameData: string;
-  // 公司
   company: string;
-  //  地址
   position: string;
-  //图片颜色
   portraitColor: string;
   show: boolean;
-  //图片地址
   portraitPath: string;
   nameSuffix: string;
   phoneNum: string;
   showName: string;
   phoneNumbers: any[];
   name: NameVo;
+  title: string;
+  subTitle: string;
   constructor(contactId: string,
               namePrefix: string,
               emptyNameData: string,
@@ -60,7 +56,7 @@ export class ContactVo {
   }
 
   public setShowName() {
-    this.showName = !Utils.isEmpty(this.emptyNameData) ? this.emptyNameData : (!Utils.isEmpty(this.company) ? this.company : (!Utils.isEmpty(this.position) ? this.position : ""))
+    this.showName = !StringUtil.isEmpty(this.emptyNameData) ? this.emptyNameData : (!StringUtil.isEmpty(this.company) ? this.company : (!StringUtil.isEmpty(this.position) ? this.position : ""))
   }
 
   public setName(emptyNameData: string, namePrefix: string, nameSuffix: string) {
@@ -70,15 +66,23 @@ export class ContactVo {
   public setphoneNumbers(phoneNumbers: any[]) {
     this.phoneNumbers = phoneNumbers;
   }
+
+  public setTitle(title: string) {
+    this.title = title;
+  }
+
+  public setSubTitle(subTitle: string) {
+    this.subTitle = subTitle;
+  }
 }
 
 export class NameVo {
   fullName: string;
   namePrefix: string;
   nameSuffix: string;
-  searchTextStart:string;
-  searchTextMiddle:string;
-  searchTextEnd:string;
+  searchTextStart: string;
+  searchTextMiddle: string;
+  searchTextEnd: string;
   constructor(emptyNameData: string, namePrefix: string, nameSuffix: string) {
     this.fullName = emptyNameData;
     this.namePrefix = namePrefix;

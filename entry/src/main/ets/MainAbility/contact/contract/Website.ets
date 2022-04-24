@@ -17,7 +17,7 @@ import DataType from './DataType';
 import {DataItemType} from './DataType';
 
 /**
- * 网站数据类型
+ * Web site data type
  */
 export default class Website extends DataType{
   static readonly CONTENT_ITEM_TYPE: string = "website";

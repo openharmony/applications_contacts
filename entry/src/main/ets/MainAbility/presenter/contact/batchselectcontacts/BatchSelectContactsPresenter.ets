@@ -14,16 +14,10 @@
  */
 
 import HiLog from '../../../util/HiLog';
-import appStorage from '../../../util/AppStorageUtil';
-import {ContactVo} from '../../../model/bean/ContactVo';
 import callLogService from '../../../model/calllog/CalllogModel';
 import Constants from '../../../model/common/Constants';
-import PreferencesUtil from '../../../util/PreferencesUtil';
-import Common from '../../../model/common';
-import Utils from '../../../util/Utils';
-import AppStorageUtil from '../../../util/AppStorageUtil';
-import {CallBean} from '../../../model/bean/CallBean';
-import LooseObject from '../../../model/bean/LooseObject';
+import ArrayUtil from '../../../util/ArrayUtil';
+import StringUtil from '../../../util/StringUtil';
 import ContactAbilityModel from '../../../model/ContactAbilityModel';
 import featureAbility from '@ohos.ability.featureAbility';
 import router from '@system.router';
@@ -31,85 +25,68 @@ import router from '@system.router';
 const TAG = 'BatchSelectContactsPresenter ';
 
 /**
- * 短信选择联系人列表 P层
+ * Selecting a contact list by SMS
  */
 export default class BatchSelectContactsPresenter {
   private static sInstance: BatchSelectContactsPresenter;
   sizeType: SizeType = SizeType.LG;
   selectCount: number = 0;
-  // 最近通话记录
+  // Recent Call Records
   callLogTemp: any[] = [];
-  // 联系人列表
   contactsList: any[] = [];
   searchContactList: any[] = [];
-  // 简洁布局
-  layoutState: boolean = true;
-  // 群组列表
   groupList: any[] = [];
   emptyViewText: Resource = $r("app.string.no_recent_contacts");
   controller: TabsController = new TabsController();
   currentIndex: number = 0;
-  //  tabTextSrc: string[] | Resource[] = [$r("app.string.recent"), $r("app.string.contact"), $r("app.string.groups")];
   tabTextSrc: string[] | Resource[] = [$r("app.string.recent"), $r("app.string.contact")];
   tabInfo: TabInfo = new TabInfo(0);
   contactsInfo: ContactsInfo = new ContactsInfo();
-  // 是否显示底部全选按钮，当本页签无数据时，不显示
+  // Whether to display the Select All button at the bottom
   showOption: boolean = false;
-  // 搜索关键字
+  // Search Keyword
   searchText: string = '';
-  // 当前总体已选择的数据，key为电话号码，value为 包含电话号码和姓名的obj
+  // Selected data for the current population，key:phone number，value:name and number
   selectedNumberMap: any = new Map();
-  //是否显示搜索列表
+  // Whether to display the search list
   searchLayoutShow: boolean = false;
   selectDisabled: boolean = true;
   isSelectAll: boolean = false;
+  icSelectAll: Resource = $r("app.media.ic_public_select_all");
+  allSelectMessage: Resource = $r("app.string.select_all");
+  allSelectTextStyle: Resource = $r("sys.color.ohos_id_color_primary");
+  initialIndex: number = 0;
 
   public static getInstance(): BatchSelectContactsPresenter {
     if (BatchSelectContactsPresenter.sInstance == null) {
       BatchSelectContactsPresenter.sInstance = new BatchSelectContactsPresenter();
-      appStorage.setAndLink('batchselectcontactspresenter', BatchSelectContactsPresenter.sInstance);
     }
     return BatchSelectContactsPresenter.sInstance;
   }
 
-  /**
-   * 函数在创建自定义组件的新实例后，在执行其build函数之前执行。
-   * 允许在aboutToAppear函数中改变状态变量，这些更改将在后续执行build函数中生效。
-   */
   aboutToAppear() {
     this.initCallLog();
     this.initContactsList();
   }
 
-  /**
-   * 函数在自定义组件析构消耗之前执行。
-   * 不允许在aboutToDisappear函数中改变状态变量，特别是@Link变量的修改可能会导致应用程序行为不稳定。
-   */
   aboutToDisappear() {
   }
 
-  /**
-   * 当此页面显示时触发一次。包括路由过程、应用进入前后台等场景，仅@Entry修饰的自定义组件生效。
-   */
   onPageShow() {
   }
 
-  /**
-   * 当此页面消失时触发一次。包括路由过程、应用进入前后台等场景，仅@Entry修饰的自定义组件生效。
-   */
   onPageHide() {
   }
 
-  /**
-   * 点击cancel图标
-   */
   cancel() {
     router.back();
   }
 
-  /**
-   * 点击ok图标
-   */
+  resetInitialIndex(firstIndex: number) {
+    HiLog.i(TAG, "resetInitialIndex firstIndex is %s", firstIndex);
+    this.initialIndex = firstIndex;
+  }
+
   comfirm() {
     let checkedList = [];
     this.selectedNumberMap.forEach((value) => {
@@ -125,7 +102,7 @@ export default class BatchSelectContactsPresenter {
         parameters: parameters
       }
     };
-    // 短信新建选择联系人
+    // Selecting a contact for creating an SMS message
     featureAbility.terminateSelfWithResult(result)
       .then((data) => {
         HiLog.i(TAG, "terminateSelfWithResult Operation succeeded: ");
@@ -135,12 +112,6 @@ export default class BatchSelectContactsPresenter {
       });
   }
 
-  /**
-    * 处理选中的联系人的信息
-    *
-    * @param {Array} checkedList 选中的list
-    * @return {boolean} 返回处理后的联系人
-    */
   dealContactName(checkedList) {
     let contacts = [];
     for (let item of checkedList) {
@@ -153,110 +124,79 @@ export default class BatchSelectContactsPresenter {
     return contacts;
   }
 
-  /**
-   * 底部全选按钮被点击
-   */
   clickSelectAll() {
     switch (this.tabInfo.tabIndex) {
-    // 最近页签
       case 0:
-        if (this.tabInfo.recentCount != 0 && this.tabInfo.recentCount == this.tabInfo.recentTotal) { // 已经全选，则取消全选
+        if (this.tabInfo.recentCount != 0 && this.tabInfo.recentCount === this.tabInfo.recentTotal) {
           this.tabInfo.allClickedRecent = false;
           this.unSelectAll();
-        } else { // 未全选,则全部选中
+        } else {
           this.tabInfo.allClickedRecent = true;
           this.selectAll();
         }
         break;
-
-    // 联系人列表页签
       case 1:
-        if (this.tabInfo.contactsCount != 0 && this.tabInfo.contactsCount == this.tabInfo.contactsTotal) {
-          // 已经全选，则取消全选
+        if (this.tabInfo.contactsCount != 0 && this.tabInfo.contactsCount === this.tabInfo.contactsTotal) {
           this.tabInfo.allClickedContacts = false;
           this.unSelectAll();
         } else {
-          // 未全选,则全部选中
           this.tabInfo.allClickedContacts = true;
           this.selectAll();
         }
         break;
-
-    // 群组页签
       case 2:
-        if (this.tabInfo.groupsCount != 0 && this.tabInfo.groupsCount == this.tabInfo.groupsTotal) { // 已经全选，则取消全选
+        if (this.tabInfo.groupsCount != 0 && this.tabInfo.groupsCount === this.tabInfo.groupsTotal) {
           this.tabInfo.allClickedGroups = false;
           this.unSelectAll();
-        } else { // 未全选,则全部选中
+        } else {
           this.tabInfo.allClickedGroups = true;
           this.selectAll();
         }
         break;
-
       default:
         break;
     }
     this.refreshPageMessage();
   }
-  /**
-   * 取消全选
-   * */
+
   unSelectAll() {
     switch (this.tabInfo.tabIndex) {
-    // 最近页签
       case 0:
         this.unSelectAllRecentProc();
         break;
-
-    // 联系人列表页签
       case 1:
         this.unSelectAllContactProc();
         break;
-
-    // 群组页签
-      case 2: // 群组页签
+      case 2:
         this.groupList.forEach(element => {
           element.checked = false;
         });
         this.tabInfo.groupsCount = 0;
         break;
-
       default:
         break;
     }
   }
 
-  /**
-   * 全选列表项, 每个页签在全选时，将自身的选择结果追加给selectCount
-   * */
   selectAll() {
     switch (this.tabInfo.tabIndex) {
-    // 最近页签
       case 0:
         this.selectAllRecentProc();
         break;
-
-    // 联系人列表页签
       case 1:
         this.selectAllContactProc();
         break;
-
-    // 群组页签
       case 2:
         this.groupList.forEach(element => {
           element.checked = true;
         });
         this.tabInfo.groupsCount = this.tabInfo.groupsTotal;
         break;
-
       default:
         break;
     }
   }
 
-  /**
-   * 最近联系列表取消全选
-   * */
   unSelectAllRecentProc() {
     this.callLogTemp.forEach(element => {
       element.checked = false;
@@ -267,9 +207,7 @@ export default class BatchSelectContactsPresenter {
     this.tabInfo.recentCount = 0;
   }
 
-  /* 联系人列表取消全选 */
   unSelectAllContactProc() {
-    // 搜索界面
     if (this.contactsInfo.searchLayoutShow) {
       this.contactsInfo.searchContactList.forEach(element => {
         for (let i = 0; i < element.phoneNumbers.length; i++) {
@@ -279,7 +217,7 @@ export default class BatchSelectContactsPresenter {
           }
         }
       });
-    } else { // 主列表
+    } else {
       this.contactsList.forEach(element => {
         for (let i = 0; i < element.phoneNumbers.length; i++) {
           if (element.phoneNumbers[i].checked) {
@@ -292,7 +230,6 @@ export default class BatchSelectContactsPresenter {
     this.tabInfo.contactsCount = 0;
   }
 
-  /* 最近联系页签全选操作 */
   selectAllRecentProc() {
     this.callLogTemp.forEach(element => {
       element.checked = true;
@@ -301,9 +238,7 @@ export default class BatchSelectContactsPresenter {
     this.tabInfo.recentCount = this.tabInfo.recentTotal;
   }
 
-  /* 联系人全选操作 */
   selectAllContactProc() {
-    // 搜索界面
     if (this.contactsInfo.searchLayoutShow) {
       this.contactsInfo.searchContactList.forEach(element => {
         if (!element.phoneNumbers[0].checked) {
@@ -312,7 +247,6 @@ export default class BatchSelectContactsPresenter {
         }
       });
     } else {
-      // 若是主列表，则只修改主列表数据
       this.contactsList.forEach(element => {
         if (!element.phoneNumbers[0].checked) {
           element.phoneNumbers[0].checked = true;
@@ -323,14 +257,8 @@ export default class BatchSelectContactsPresenter {
     this.tabInfo.contactsCount = this.tabInfo.contactsTotal;
   }
 
-  /**
-     * 校验当前号码是否已被选择
-     *
-     * @param {number} number 号码
-     * @return {Object} 校验当前号码是否已被选择
-     */
   checkIfSelectedNumber(number): boolean {
-    if (Utils.isEmpty(number)) {
+    if (StringUtil.isEmpty(number)) {
       return false;
     }
     return this.selectedNumberMap.has(number.replace(/\s+/g, ''));
@@ -339,19 +267,17 @@ export default class BatchSelectContactsPresenter {
   onTabChange(tabIndex: number) {
     HiLog.i(TAG, 'onTabChange tabIndex is %s', tabIndex);
     this.tabInfo.tabIndex = tabIndex;
+    this.refreshPageMessage();
   }
 
   getEmptyText(): Resource {
     switch (this.tabInfo.tabIndex) {
-    // 最近
       case 0:
         this.emptyViewText = $r("app.string.no_recent_contacts");
         break
-    // 联系人
       case 1:
         this.emptyViewText = $r("app.string.no_select_contacts");
         break
-    // 群组
       case 2:
         this.emptyViewText = $r("app.string.no_group_contacts");
         break
@@ -362,11 +288,6 @@ export default class BatchSelectContactsPresenter {
     return this.emptyViewText;
   }
 
-  /**
-   * 当recent-item被点击的回调
-   *
-   * @param isOn CheckBox是否被选中
-   */
   onRecentItemClicked(index: number) {
     HiLog.i(TAG, 'onRecentItemClicked index is %s', index);
     this.checkStateChange(index, {
@@ -374,15 +295,9 @@ export default class BatchSelectContactsPresenter {
     });
   }
 
-  /**
-   * 当contact-item被点击的回调
-   *
-   * @param isOn CheckBox是否被选中
-   */
   onContactItemClicked(index: number, indexChild: number) {
     HiLog.i(TAG, 'onContactItemClicked index is %s', index);
     HiLog.i(TAG, 'onContactItemClicked indexChild is %s', indexChild);
-
     let event = {
       contactIndex: index,
       numberIndex: indexChild,
@@ -392,55 +307,28 @@ export default class BatchSelectContactsPresenter {
     this.checkStateChange(index, event);
   }
 
-  /**
-     * 列表复选框状态变化
-     *
-     * @param {number} index 下标
-     * @param {Object} e event事件
-     */
-  checkStateChange(index, e) {
-    HiLog.e(TAG, 'checkStateChange error: %s ', JSON.stringify(e.message));
-    HiLog.i(TAG, 'checkStateChange tabIndex is %s', this.tabInfo.tabIndex);
+  checkStateChange(index, event) {
+    HiLog.i(TAG, 'checkStateChange event: %s ', JSON.stringify(event));
     switch (this.tabInfo.tabIndex) {
-    // 最近
       case 0:
-        this.changeCallLogItemState(index, e);
+        this.changeCallLogItemState(index, event);
         break;
-
       case 1:
-        this.changeContactsItemState(index, e);
+        this.changeContactsItemState(index, event);
         break;
-
-    //      case 2:
-    //        this.changeGroupsItemState(index, e);
-    //        break;
-
       default:
         break;
     }
     this.refreshPageMessage();
   }
 
-  /**
-     * 联系人主列表或搜索列表点击复选框事件
-     *
-     * @param {Object} e event事件
-     */
   changeContactState(event) {
-    // 调用统一的复选框变化函数
     this.checkStateChange(event.contactIndex, event);
   }
 
-  /**
-     * 最近页签通话记录复选框状态变化
-     *
-     * @param {number} index 下标
-     * @param {Object} e event事件
-     */
-  changeCallLogItemState(index, e) {
-    HiLog.e(TAG, 'changeCallLogItemState error : %s ', JSON.stringify(e.message));
-    this.callLogTemp[index].checked = e.checked;
-    AppStorageUtil.SetOrCreate('callLogTemp', this.callLogTemp);
+  changeCallLogItemState(index, event) {
+    HiLog.i(TAG, 'changeCallLogItemState event : %s ', JSON.stringify(event));
+    this.callLogTemp[index].checked = event.checked;
     if (this.callLogTemp[index].checked) {
       this.addOrUpdateSelectedNumberMap(this.callLogTemp[index].phoneNumber, this.callLogTemp[index].displayName);
       this.tabInfo.recentCount++;
@@ -450,77 +338,58 @@ export default class BatchSelectContactsPresenter {
     }
   }
 
-  /**
-       * 联系人列表页签通话记录复选框状态变化
-       *
-       * @param {number} index 下标
-       * @param {Object} e event事件
-       */
-  changeContactsItemState(index, e) {
+  changeContactsItemState(index, event) {
     HiLog.i(TAG, "SHOW changeContactsItemState searchLayoutShow");
     let contactId = '';
     if (!this.contactsInfo.searchLayoutShow) {
-      // 联系人主列表界面点击复选框
       contactId = this.contactsList[index].contactId;
     } else {
-      // 联系人搜索列表界面点击复选框
       contactId = this.contactsInfo.searchContactList[index].contactId;
     }
-    this.checkContactsCount(e, contactId);
+    this.checkContactsCount(event, contactId);
   }
 
-  /**
-     * 判断当前是否需要增加或减小联系人计数，若所有子号码及主号码都变为未选中，则减1，如果有任何的号码变为选中，则加一
-     *
-     * @param {Object} e event事件
-     * @param {number} contactId 联系人ID
-     */
-  checkContactsCount(e, contactId) {
+  checkContactsCount(event, contactId) {
     HiLog.i(TAG, "SHOW checkContactsCount searchLayoutShow");
-    // 当前为搜索页面
     if (this.contactsInfo.searchLayoutShow) {
       this.contactsInfo.searchContactList.forEach(element => {
         if (contactId == element.contactId) {
-          if (e.checked) {
-            // 修改前原数据中不存在已选项时，页签计数加1；
+          if (event.checked) {
             if (!this.checkIfNeedCount(element)) {
               this.tabInfo.contactsCount++;
             }
-            element.phoneNumbers[e.numberIndex].checked = true;
+            element.phoneNumbers[event.numberIndex].checked = true;
             this.contactsInfo.contactsNumberCount++;
-            this.addOrUpdateSelectedNumberMap(element.phoneNumbers[e.numberIndex].phoneNumber,
+            this.addOrUpdateSelectedNumberMap(element.phoneNumbers[event.numberIndex].phoneNumber,
               element.name.fullName);
           } else {
-            element.phoneNumbers[e.numberIndex].checked = false;
+            element.phoneNumbers[event.numberIndex].checked = false;
             this.contactsInfo.contactsNumberCount--;
-            // 修改后原数据中不存在已选项时，页签计数减1；
             if (!this.checkIfNeedCount(element)) {
               this.tabInfo.contactsCount--;
             }
-            this.deleteSelectedNumber(element.phoneNumbers[e.numberIndex].phoneNumber);
+            this.deleteSelectedNumber(element.phoneNumbers[event.numberIndex].phoneNumber);
           }
         }
       });
-    } else { // 当前为主列表
+    } else {
       this.contactsList.forEach(element => {
         if (contactId == element.contactId) {
-          if (e.checked) {
-            // 修改前原数据中不存在已选项时，页签计数加1；
+          if (event.checked) {
             if (!this.checkIfNeedCount(element)) {
               this.tabInfo.contactsCount++;
             }
-            element.phoneNumbers[e.numberIndex].checked = true;
+            element.phoneNumbers[event.numberIndex].checked = true;
             this.contactsInfo.contactsNumberCount++;
-            this.addOrUpdateSelectedNumberMap(element.phoneNumbers[e.numberIndex].phoneNumber,
+            this.addOrUpdateSelectedNumberMap(element.phoneNumbers[event.numberIndex].phoneNumber,
               element.name.fullName);
           } else {
-            element.phoneNumbers[e.numberIndex].checked = false;
+            element.phoneNumbers[event.numberIndex].checked = false;
             this.contactsInfo.contactsNumberCount--;
-            // 修改后原数据中不存在已选项时，页签计数减1；
             if (!this.checkIfNeedCount(element)) {
               this.tabInfo.contactsCount--;
             }
-            this.deleteSelectedNumber(element.phoneNumbers[e.numberIndex].phoneNumber);
+            this.deleteSelectedNumber(element.phoneNumbers[event.numberIndex].phoneNumber);
           }
         }
       });
@@ -528,10 +397,10 @@ export default class BatchSelectContactsPresenter {
   }
 
   /**
-    * 判断当前联系人元素是否存在已选项，存在则反true，不存在则反false
+    * Determines whether the current contact element has an option.
     *
-    * @param {Object} contact 联系人数据
-    * @return {boolean} 存在则反true，不存在则反false
+    * @param {Object} contact
+    * @return {boolean} true，false
     */
   checkIfNeedCount(contact) {
     if (contact.phoneNumbers.length > 0) {
@@ -546,8 +415,9 @@ export default class BatchSelectContactsPresenter {
     }
   }
 
-  /* 标题计数刷新函数 */
+  // Header Count Refresh Function
   refreshPageMessage() {
+    HiLog.i(TAG, "refreshPageMessage start !")
     this.selectCount = this.selectedNumberMap.size;
     if (this.selectedNumberMap.size > 0) {
       this.selectDisabled = false;
@@ -555,54 +425,55 @@ export default class BatchSelectContactsPresenter {
     } else {
       this.selectDisabled = true;
       this.isSelectAll = false;
+      this.changeToUnFullSelect();
     }
   }
 
   /**
-   * 校验全选按钮的显示样式
+   * Verify the display style of the Select All button.
    */
   checkAllClickButtonStyle() {
+    HiLog.i(TAG, "checkAllClickButtonStyle start , and tabIndex is " + this.tabInfo.tabIndex);
     switch (this.tabInfo.tabIndex) {
-    // 最近页签
       case 0:
-        if (this.tabInfo.recentCount == this.tabInfo.recentTotal) {
-          //          this.changeToFullSelect();
+        if (this.tabInfo.recentCount === this.tabInfo.recentTotal) {
+          HiLog.i(TAG, "checkAllClickButtonStyle recent select all ");
+          this.changeToFullSelect();
           this.tabInfo.allClickedRecent = true;
         } else {
-          //          this.changeToUnFullSelect();
+          HiLog.i(TAG, "checkAllClickButtonStyle recent unselect all ");
+          this.changeToUnFullSelect();
         }
         break;
-
-    // 联系人列表页签
       case 1:
-        if (this.tabInfo.contactsCount == this.tabInfo.contactsTotal) {
-          //          this.changeToFullSelect();
+        if (this.tabInfo.contactsCount === this.tabInfo.contactsTotal) {
+          HiLog.i(TAG, "checkAllClickButtonStyle contact select all ");
+          this.changeToFullSelect();
           this.tabInfo.allClickedContacts = true;
         } else {
-          //          this.changeToUnFullSelect();
+          HiLog.i(TAG, "checkAllClickButtonStyle contact unselect all ");
+          this.changeToUnFullSelect();
         }
         break;
-
-    //    // 群组页签
-    //      case 2:
-    //        if (this.tabInfo.groupsCount == this.tabInfo.groupsTotal) {
-    //          //          this.changeToFullSelect();
-    //          this.tabInfo.allClickedGroups = true;
-    //        }
-    //        break;
       default:
         break;
     }
   }
 
-  /**
-     * 刷新已选map数据
-     *
-     * @param {number} number 号码
-     * @param {string} name 姓名
-     */
+  changeToFullSelect() {
+    this.icSelectAll = $r("app.media.ic_public_select_all_filled");
+    this.allSelectMessage = $r("app.string.unselect_all");
+    this.allSelectTextStyle = $r("sys.color.ohos_id_color_connected");
+  }
+
+  changeToUnFullSelect() {
+    this.icSelectAll = $r("app.media.ic_public_select_all");
+    this.allSelectMessage = $r("app.string.select_all");
+    this.allSelectTextStyle = $r("sys.color.ohos_id_color_primary");
+  }
+
   addOrUpdateSelectedNumberMap(number, name) {
-    if (Utils.isEmpty(number)) {
+    if (StringUtil.isEmpty(number)) {
       return;
     }
     this.selectedNumberMap.set(number.replace(/\s+/g, ''), {
@@ -611,116 +482,78 @@ export default class BatchSelectContactsPresenter {
     });
   }
 
-  /**
-   * 从已选号码中删除
-   *
-   * @param {number} number 号码
-   */
   deleteSelectedNumber(number) {
-    if (Utils.isEmpty(number)) {
+    if (StringUtil.isEmpty(number)) {
       return;
     }
     this.selectedNumberMap.delete(number.replace(/\s+/g, ''));
   }
 
   /**
-   * 获取最近通话记录
+   * Obtaining Recent Call Records
    * */
   initCallLog() {
     HiLog.i(TAG, 'initCallLog start !');
-    // 用于防止号码重复校验
     let tempMap = new Map();
-    // 用于临时存放不重复的item
     let tempList: any[] = [];
 
-    let mergeRule = PreferencesUtil.getCalllogMergeRule();
-    HiLog.i(TAG, 'SHOW initCallLog mergeRule');
-
-    let DAHelper = Common.getDAHelper(Constants.uri.CALLLOG_DB_URI);
-    callLogService.getAllCalls(DAHelper, mergeRule, data => {
-      AppStorageUtil.setCallLogTotalData(data);
-      if (data.hasOwnProperty('callLogList') && !Utils.isEmptyList(data.callLogList)) {
+    callLogService.getAllCalls(data => {
+      if (data.hasOwnProperty('callLogList') && !ArrayUtil.isEmpty(data.callLogList)) {
         HiLog.i(TAG, 'data  has callLogList key');
         for (let i = 0; i < data.callLogList.length; i++) {
           HiLog.i(TAG, 'callLogList index is %s', i);
           let element = data.callLogList[i];
           let bgColorIndex = parseInt(element.id, 10) % (Constants.background.Color.length);
           element.portraitColor = Constants.background.Color[bgColorIndex];
-          element.suffix = Utils.isEmpty(element.displayName) ? '' : element.displayName.substr(element.displayName.length - 1);
+          element.suffix = StringUtil.isEmpty(element.displayName) ? '' : element.displayName.substr(element.displayName.length - 1);
           element.checked = false;
           // 重复的号码无需显示
-          if (!tempMap.has(Utils.removeSpace(element.phoneNumber))) {
+          if (!tempMap.has(StringUtil.removeSpace(element.phoneNumber))) {
             HiLog.i(TAG, 'callLogList remove same');
             tempList.push(element);
             tempMap.set(element.phoneNumber, null);
           }
-          // 显示最近产生通话记录的50条号码
+          //Displays the 50 numbers that have generated the latest call records.
           if (tempList.length > 50) {
             HiLog.i(TAG, 'callLogList more 50 break!');
             break;
           }
-
         }
       }
-
       this.callLogTemp = tempList;
-      AppStorageUtil.SetOrCreate('callLogTemp', tempList);
       this.tabInfo.recentTotal = this.callLogTemp.length;
       this.checkOptionState();
     });
   }
 
-  buildCalllog(data: LooseObject): CallBean {
-    HiLog.i(TAG, 'buildCalllog start !');
-    if (Utils.isEmptyObject(data)) {
-      HiLog.i(TAG, 'buildCalllog data is empty');
-      return null;
-    }
-    let callbean: CallBean = new CallBean(data.id, data.phone);
-    callbean.setName(data.name)
-      .setCallTime(data.callTime)
-      .setCallType(data.callType)
-      .setCallTag(data.callTag)
-      .setSimType(data.simType)
-      .setIsHd(data.isHd)
-      .setFormatNumber(data.formatNumber)
-      .setContactKey(data.contactKey);
-    HiLog.i(TAG, 'buildCalllog callbean success!');
-    return callbean;
-  }
-
   /**
-   * 校验是否需要显示底部全选按钮
+   * Check whether the Select All button at the bottom needs to be displayed.
    * */
   checkOptionState() {
     switch (this.tabInfo.tabIndex) {
       case 0:
-        Utils.isEmptyList(this.callLogTemp) ? this.showOption = false : this.showOption = true;
+        ArrayUtil.isEmpty(this.callLogTemp) ? this.showOption = false : this.showOption = true;
         break;
-
       case 1:
-        Utils.isEmptyList(this.contactsList) ? this.showOption = false : this.showOption = true;
+        ArrayUtil.isEmpty(this.contactsList) ? this.showOption = false : this.showOption = true;
         break;
-
       case 2:
-        Utils.isEmptyList(this.groupList) ? this.showOption = false : this.showOption = true;
+        ArrayUtil.isEmpty(this.groupList) ? this.showOption = false : this.showOption = true;
         break;
-
       default:
         break;
     }
   }
 
   /*
-     * 初始化联系人列表数据
-     */
+   * Initializing Contact List Data
+   */
   initContactsList() {
     HiLog.i(TAG, 'initContactsList start!');
-    let DAHelper = Common.getDAHelper(Constants.uri.CONTACT_DB_URI);
-    ContactAbilityModel.getAllContact(DAHelper, (resultList) => {
+    ContactAbilityModel.getAllContactWithPhoneNumbers((resultList) => {
       HiLog.i(TAG, 'initContactsList resultList success ' + resultList.length);
       let listTemp: any[] = [];
-      if (!Utils.isEmptyList(resultList)) {
+      if (!ArrayUtil.isEmpty(resultList)) {
         for (let element of resultList) {
           element.name = {};
           element.name.fullName = element.emptyNameData;
@@ -729,14 +562,13 @@ export default class BatchSelectContactsPresenter {
           if (element.phoneNumbers != null && element.phoneNumbers.length > 0) {
             element.phoneNumbers.forEach(childEle => {
               childEle.checked = false;
-              childEle.labelName = this.getPhoneLabelNameById(childEle.labelId);
+              childEle.labelName = this.getPhoneLabelNameById(childEle.numType);
               this.initVariableSpan(element);
             });
             listTemp.push(element);
           }
         }
         this.contactsList = listTemp;
-        AppStorageUtil.SetOrCreate('contactsList', listTemp);
         this.tabInfo.contactsTotal = this.contactsList.length;
         this.contactsInfo.contactsListTotal = this.contactsList.length;
       } else {
@@ -747,14 +579,14 @@ export default class BatchSelectContactsPresenter {
 
 
   /**
-     * 赋值自定义属性，为后面可变字体搜索做准备
-     *
-     * @param {Object} item 联系人数据
-     */
+   * Assign a custom attribute to prepare for later variable font searches
+   *
+   * @param {Object} item contacts data
+   */
   initVariableSpan(item) {
-    // 初始化可变名称
-    let matchString = Utils.getMatchedString(item.emptyNameData, this.searchText);
-    if (Utils.isEmpty(matchString) || Utils.isEmpty(this.searchText.trim())) {
+    // Initialize Variable Names
+    let matchString = StringUtil.getMatchedString(item.emptyNameData, this.searchText);
+    if (StringUtil.isEmpty(matchString) || StringUtil.isEmpty(this.searchText.trim())) {
       item.name.searchTextStart = '';
       item.name.searchTextMiddle = '';
       item.name.searchTextEnd = item.emptyNameData;
@@ -765,11 +597,11 @@ export default class BatchSelectContactsPresenter {
       item.name.searchTextMiddle = name.substr(index, matchString.length);
       item.name.searchTextEnd = name.substr(index + matchString.length);
     }
-    // 初始化可变手机号
+    // Initialize Variable Numbers
     for (let i = 0; i < item.phoneNumbers.length; i++) {
       let phoneNumber = item.phoneNumbers[i].phoneNumber;
-      let matchStringPhone = Utils.getMatchedString(phoneNumber, this.searchText);
-      if (Utils.isEmpty(matchStringPhone) || Utils.isEmpty(this.searchText.trim())) {
+      let matchStringPhone = StringUtil.getMatchedString(phoneNumber, this.searchText);
+      if (StringUtil.isEmpty(matchStringPhone) || StringUtil.isEmpty(this.searchText.trim())) {
         item.phoneNumbers[i].startPhone = '';
         item.phoneNumbers[i].middlePhone = '';
         item.phoneNumbers[i].endPhone = phoneNumber;
@@ -782,48 +614,36 @@ export default class BatchSelectContactsPresenter {
     }
   }
 
-  /**
-   * 根据手机号的LabelId获取LabelName
-   */
   getPhoneLabelNameById(phoneLabelId: string) {
     let labelName: string | Resource = '';
     switch (parseInt(phoneLabelId, 10)) {
       case 1:
         labelName = "住宅";
         break;
-
       case 2:
         labelName = "电话";
         break;
-
       case 3:
         labelName = "单位";
         break;
-
       case 4:
         labelName = "单位传真";
         break;
-
       case 5:
         labelName = "住宅传真";
         break;
-
       case 6:
         labelName = "寻呼机";
         break;
-
       case 7:
         labelName = "其他";
         break;
-
       case 12:
         labelName = "总机";
         break;
-
       case 99:
         labelName = "自定义";
         break;
-
       default:
         break;
     }
@@ -836,11 +656,11 @@ export class TabInfo {
   recentTotal: number = 0;
   contactsTotal: number = 0;
   groupsTotal: number = 0;
-  // 是否点击过全选 ：当点击全选时置为true，当点击取消全选时置为false，适配大数据时的情况
+  // Select All Clicked
   allClickedRecent: boolean = false;
   allClickedContacts: boolean = false;
   allClickedGroups: boolean = false;
-  // 各页签的计数
+  // Count on each tab page
   recentCount: number = 0;
   contactsCount: number = 0;
   groupsCount: number = 0;
@@ -851,31 +671,30 @@ export class TabInfo {
 }
 
 /**
- * 联系人列表相关数据
+ * Data related to the contact list
  */
 export class ContactsInfo {
   searchContactList = [];
-  // 当前已选择的联系人列表，后续大数据时使用
+  // List of selected contacts, which will be used for big data.
   selectedContactMap = new Map();
-  // 是否显示搜索页
+  // Whether to display the search page
   searchLayoutShow: boolean = false;
-  // 搜索匹配条数
+  // Number of Matched Search Records
   searchPhoneNum: number = 0;
-  // 是否是搜索列表
+  // Indicates whether to search a list.
   showSearchList: boolean = false;
-  // 是否显示默认号码
+  // Display Default Number
   showDefaultNumber: boolean = true;
-  // 是否显示子号码列表
+  // Indicates whether to display the child number list.
   showNumberList: boolean = true;
-  // 是否显示主号码复选框
+  // Display primary number check box
   phoneCheckShow: boolean = true;
-  // 是否显示子号码列表复选框
+  // Display child number list check box
   childPhoneCheckShow: boolean = true;
   contactsListCount: number = 0;
   contactsListTotal: number = 0;
-  // 对联系人列表已选择的号码计数
+  // Count of selected numbers in the contact list
   contactsNumberCount: number = 0;
   constructor() {
-
   }
 }

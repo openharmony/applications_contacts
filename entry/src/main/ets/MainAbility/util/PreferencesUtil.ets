@@ -13,89 +13,43 @@
  * limitations under the License.
  */
 
+
 import dataStorage from '@ohos.data.storage';
 import featureAbility from '@ohos.ability.featureAbility';
-import Constants from '../model/common/Constants';
-import HiLog from './HiLog';
-import AppStorageUtil from './AppStorageUtil';
+import common from './../model/common/Constants';
+import ObjectUtil from './ObjectUtil';
 
-const TAG = 'PreferencesUtil->';
+const TAG = 'PreferencesUtil';
+let myDataStorage;
 
-/**
- * 保存全局的数据工具
- */
 export default {
   async initDataStorage() {
+
     let context = featureAbility.getContext();
     let path = await context.getFilesDir();
-    return dataStorage.getStorageSync(path + Constants.string.PATH_OF_PREFERENCES);
+    myDataStorage = dataStorage.getStorageSync(path + "/" + common.string.PATH_OF_PREFERENCES,);
   },
 
-  getPreferencesInstance() {
-    return AppStorageUtil.getPreferences();
+  isUsed() {
+    if (!ObjectUtil.isEmpty(myDataStorage)) {
+      if (myDataStorage.getSync('IsUsed', 0) === 1) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
   },
 
-  /**
-     * 获取值
-     *
-     * @param {string} key value值
-     */
-  getValue(key) {
-    HiLog.i(TAG, 'getValue start: ');
-    let prefIns = this.getPreferencesInstance();
-    return prefIns.getSync(key, Constants.string.EMPTY_STR);
-  },
-
-  /**
-   * 给设置值
-   *
-   * @param keyOfSwitch  key
-   * @param valueOfSwitch  value
-   */
-  setValueForSwitch(keyOfSwitch, valueOfSwitch) {
-    let prefIns = this.getPreferencesInstance();
-    prefIns.putSync(keyOfSwitch, valueOfSwitch);
-    prefIns.flushSync();
-  },
-
-  /**
-   * 是否是简洁布局
-   */
-  getConciseLayout() {
-    let prefIns = this.getPreferencesInstance();
-    return prefIns.getSync(Constants.string.CONCISE_LAYOUT_SWITCH, Constants.bool.TRUE);
-  },
-
-  /**
-     * 查询联系人类型
-     */
-  getAccountRadio() {
-    let prefIns = this.getPreferencesInstance();
-    return prefIns.getSync(Constants.string.DISPLAY_ACCOUNT_RADIO, Constants.string.EMPTY_STR);
-  },
-
-  /**
-     * 自定义联系人视图
-     */
-  getCustomizeView() {
-    let prefIns = this.getPreferencesInstance();
-    return prefIns.getSync(Constants.string.CUSTOMIZE_VIEW_INPUT, Constants.string.EMPTY_STR);
-  },
-
-  /**
-     * 联系人数量
-     */
-  getContactCount() {
-    let prefIns = this.getPreferencesInstance();
-    return prefIns.getSync(Constants.string.CONTACTS_COUNT, Constants.int.ZERO);
-  },
-
-  /**
-     * 通话记录合并规则
-     */
-  getCalllogMergeRule(): string{
-    let prefIns = this.getPreferencesInstance();
-    HiLog.i(TAG, 'getCalllogMergeRule');
-    return prefIns.getSync(Constants.string.CALL_LOG_MERGE_RULE, 'from_time');
+  setIsUsed(isUsed) {
+    if (!ObjectUtil.isEmpty(myDataStorage)) {
+      if (isUsed) {
+        myDataStorage.putSync('IsUsed', 1);
+        myDataStorage.flushSync();
+      } else {
+        myDataStorage.putSync('IsUsed', 0);
+        myDataStorage.flushSync();
+      }
+    }
   },
 }

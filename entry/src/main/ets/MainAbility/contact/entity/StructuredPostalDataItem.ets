@@ -18,7 +18,6 @@ import StructuredPostal from '../contract/StructuredPostal';
 
 export default class StructuredPostalDataItem extends DataItem {
   readonly values: Map<string, any>;
-
   constructor(values: Map<string, any>) {
     super(values);
   }

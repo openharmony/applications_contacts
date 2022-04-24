@@ -38,7 +38,6 @@ export default class CallLogBuilder {
   photoId: number;
   photoUri: string;
   countryIsoCode: number;
-
   constructor(id: number, phoneNumber: string) {
     this.id = id;
     this.phoneNumber = phoneNumber;
@@ -46,7 +45,7 @@ export default class CallLogBuilder {
 
   static fromResultSet(resultSet: any): CallLogBuilder{
     let callLogBuilder = new CallLogBuilder(resultSet.getLong(resultSet.getColumnIndex(Calls.ID)),
-        resultSet.getString(resultSet.getColumnIndex(Calls.PHONE_NUMBER)));
+    resultSet.getString(resultSet.getColumnIndex(Calls.PHONE_NUMBER)));
     callLogBuilder.setDisplayName(resultSet.getString(resultSet.getColumnIndex(Calls.DISPLAY_NAME)));
     callLogBuilder.setCallDirection(resultSet.getLong(resultSet.getColumnIndex(Calls.CALL_DIRECTION)));
     callLogBuilder.setDisplayName(resultSet.getString(resultSet.getColumnIndex(Calls.DISPLAY_NAME)));

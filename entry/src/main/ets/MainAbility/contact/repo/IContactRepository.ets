@@ -19,8 +19,8 @@ import ContactDelta from './ContactDelta';
 import ContactListItem from './ContactListItem';
 
 /**
- * 联系人存储管理，屏蔽对cp层的依赖
- * 仅限联系人
+ * Contact storage management, shielding dependency on the CP layer
+ * Contacts Only
  */
 export default interface IContactRepository {
   save: (contact: ContactDelta) => Promise<Array<any>>;
@@ -33,4 +33,7 @@ export default interface IContactRepository {
   findByMailIsNotNull: () => ContactList;
   deleteByIdIn: (ids: number[]) => boolean;
   deleteById: (id: number) => Promise<number>;
+  notifyChange: () => void;
+  registerDataChangeObserver: (callback) => void;
+  unRegisterDataChangeObserver: (callback) => void;
 }

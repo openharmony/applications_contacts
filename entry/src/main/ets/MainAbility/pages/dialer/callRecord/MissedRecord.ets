@@ -14,285 +14,95 @@
  */
 
 /**
- * 通话记录未接来电
+ * Call Log Missed Calls
  */
-import router from '@system.router';
-import COMMON from '../../../model/common'
-import CONSTANTS from '../../../model/common/Constants'
-import Calllog from '../../../model/calllog/CalllogModel'
-import CallLogRepository from '../../../call/repo/CallLogRepository';
-import HiLog from '../../../util/Hilog';
-import DialUtil from '../../../util/DialUtil';
-import dbChangeHelper from './../../../model/common/DbChangeHelper';
+import CallRecordPresenter from './../../../presenter/dialer/callRecord/CallRecordPresenter'
 
 const TAG = "MissedRecord ";
 
 @Component
 export default struct MissedRecord {
-  @State callLogTotalData: any = {
-    callLogList: [],
-    missedList: [],
-    totalCount: 0,
-    missedCount: 0
-  };
-  @State menuShow: boolean = false;
-  @State currentMsg: string = '';
-  @State offsetY: number = 0;
-
-  aboutToAppear() {
-    this.getCallLog();
-    let DAHelper = COMMON.getDAHelper(CONSTANTS.uri.CALLLOG_DB_URI);
-    dbChangeHelper.getInstance().registerDbChangeLister(DAHelper, CONSTANTS.uri.CALL_LOG_URI, (data) => {
-      HiLog.i(TAG, 'refresh');
-      this.getCallLog();
-    });
-    let DAHelper_Contact = COMMON.getDAHelper(CONSTANTS.uri.CONTACT_DB_URI);
-    dbChangeHelper.getInstance().registerDbChangeLister(DAHelper_Contact, CONSTANTS.uri.CONTACT_DB_URI, (data) => {
-      HiLog.i(TAG, 'refresh');
-      this.getCallLog();
-    });
-  }
-
-  aboutToDisappear() {
-    HiLog.i(TAG, 'Contact aboutToDisappear!');
-    let DAHelper = COMMON.getDAHelper(CONSTANTS.uri.CALLLOG_DB_URI);
-    dbChangeHelper.getInstance().unRegisterDbChangeLister(DAHelper, CONSTANTS.uri.CALL_LOG_URI, (data) => {
-      HiLog.i(TAG, 'Contact aboutToDisappear!');
-    });
-    let DAHelper_Contact = COMMON.getDAHelper(CONSTANTS.uri.CONTACT_DB_URI);
-    dbChangeHelper.getInstance().unRegisterDbChangeLister(DAHelper_Contact, CONSTANTS.uri.CONTACT_DB_URI, (data) => {
-      HiLog.i(TAG, 'Contact aboutToDisappear!');
-    });
-  }
-
-  getCallLog() {
-    let DAHelper = COMMON.getDAHelper(CONSTANTS.uri.CALLLOG_DB_URI);
-    Calllog.getAllCalls(DAHelper, '', data => {
-      this.callLogTotalData = data;
-    })
-  }
+  @Link mPresenter: CallRecordPresenter;
 
   build() {
     Stack() {
-      if (this.callLogTotalData.missedList.length == 0) {
-        Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
-          Image($r('app.media.no_call_records'))
-            .objectFit(ImageFit.Contain)
-            .width($r("app.float.contact_emptyview_image_width_height"))
-            .height($r("app.float.contact_emptyview_image_width_height"))
-            .margin({
-              top: $r("app.float.dialer_calllog_bindmenu_width1"),
-              bottom: $r("app.float.dialer_common_very_small_margin1")
-            })
-          Text($r("app.string.no_dialer_missed_calllog"))
-            .fontSize($r("app.float.contact_text_size_body2"))
-            .fontWeight(FontWeight.Regular)
-            .fontColor($r('app.color.textColorTertiary'))
-            .height($r("app.float.dialer_common_middle_margin"))
-            .textAlign(TextAlign.Center)
-        }
-        .width('100%')
-        .height('100%')
+      if (this.mPresenter.missedList.length === 0) {
+        EmptyView()
       } else {
-        List() {
-          ForEach(this.callLogTotalData.missedList, (item) => {
-            ListItem() {
-              ContactItem({ msg: JSON.stringify(item), show: $menuShow, current: $currentMsg, offsetY: $offsetY });
-            }
-            .height($r("app.float.dialer_listitem_height"))
-            .gesture(
-              // 滑动手势
-            PanGesture({ fingers: 1, direction: PanDirection.Up | PanDirection.Down, distance: 5 })
-              .onActionStart((event: GestureEvent) => {
-                // 关闭长按菜单
-                this.menuShow = false;
-              })
-            )
-          }, item => item.id)
-        }
-        .divider({
-          strokeWidth: 1,
-          color: $r('app.color.light_grey'),
-          startMargin: $r("app.float.dialer_keypad_width"),
-          endMargin: $r("app.float.dialer_common_margin"),
-        })
-        .margin({ bottom: $r("app.float.dialer_calllog_list_margin_bottom") })
-      }
-
-      if (this.menuShow) {
-        Column() {
-          Row() {
-            Text(JSON.parse(this.currentMsg).displayName ?
-              JSON.parse(this.currentMsg).displayName :
-              JSON.parse(this.currentMsg).phoneNumber)
-              .fontSize($r("app.float.dialer_font_size"))
-              .fontColor($r('app.color.colorPrimary'))
-              .fontWeight(FontWeight.Medium)
-              .margin({ left: $r("app.float.dialer_common_small_margin") })
-              .textAlign(TextAlign.Start)
-              .lineHeight($r("app.float.dialer_small_button_width"))
-          }
-          .width($r("app.float.dialer_calllog_bindmenu_width1"))
-          .height($r("app.float.dialer_listitem_height"))
-          .borderRadius($r("app.float.dialer_common_small_margin"))
-          .backgroundColor(Color.White)
-          .onClick(() => {
-            this.menuShow = false;
-          })
-
-          Divider()
-            .vertical(false)
-            .strokeWidth(1)
-            .color($r('app.color.light_grey'))
-            .lineCap(LineCapStyle.Square)
-            .width($r("app.float.dialer_divider_width1"))
-          Row() {
-            Text($r("app.string.send_message"))
-              .fontSize($r("app.float.contact_text_size_body1"))
-              .fontColor($r('app.color.colorPrimary'))
-              .margin({ left: $r("app.float.dialer_common_small_margin") })
-              .textAlign(TextAlign.Start)
-              .lineHeight($r("app.float.dialer_line_height"))
-          }
-          .width($r("app.float.dialer_calllog_bindmenu_width1"))
-          .height($r("app.float.dialer_middle_button_width"))
-          .backgroundColor(Color.White)
-          .onClick(() => {
-            this.menuShow = false;
-          })
-
-          Divider()
-            .vertical(false)
-            .strokeWidth(1)
-            .color($r('app.color.light_grey'))
-            .lineCap(LineCapStyle.Square)
-            .width($r("app.float.dialer_divider_width1"))
-          Row() {
-            Text($r("app.string.copy_phoneNumber"))
-              .fontSize($r("app.float.contact_text_size_body1"))
-              .fontColor($r('app.color.colorPrimary'))
-              .margin({ left: $r("app.float.dialer_common_small_margin") })
-              .textAlign(TextAlign.Start)
-              .lineHeight($r("app.float.dialer_line_height"))
-          }
-          .width($r("app.float.dialer_calllog_bindmenu_width1"))
-          .height($r("app.float.dialer_middle_button_width"))
-          .backgroundColor(Color.White)
-          .onClick(() => {
-            this.menuShow = false;
-          })
-
-          Divider()
-            .vertical(false)
-            .strokeWidth(1)
-            .color($r('app.color.light_grey'))
-            .lineCap(LineCapStyle.Square)
-            .width($r("app.float.dialer_divider_width1"))
-          Row() {
-            Text($r("app.string.edit_beforeCall"))
-              .fontSize($r("app.float.contact_text_size_body1"))
-              .fontColor($r('app.color.colorPrimary'))
-              .margin({ left: $r("app.float.dialer_common_small_margin") })
-              .textAlign(TextAlign.Start)
-              .lineHeight($r("app.float.dialer_line_height"))
-          }
-          .width($r("app.float.dialer_calllog_bindmenu_width1"))
-          .height($r("app.float.dialer_middle_button_width"))
-          .backgroundColor(Color.White)
-          .onClick(() => {
-            this.menuShow = false;
-          })
-
-          Divider()
-            .vertical(false)
-            .strokeWidth(1)
-            .color($r('app.color.light_grey'))
-            .lineCap(LineCapStyle.Square)
-            .width($r("app.float.dialer_divider_width1"))
-          Row() {
-            Text($r("app.string.add_to_blockList"))
-              .fontSize($r("app.float.contact_text_size_body1"))
-              .fontColor($r('app.color.colorPrimary'))
-              .margin({ left: $r("app.float.dialer_common_small_margin") })
-              .textAlign(TextAlign.Start)
-              .lineHeight($r("app.float.dialer_line_height"))
-          }
-          .width($r("app.float.dialer_calllog_bindmenu_width1"))
-          .height($r("app.float.dialer_middle_button_width"))
-          .backgroundColor(Color.White)
-          .onClick(() => {
-            this.menuShow = false;
-          })
-
-          Divider()
-            .vertical(false)
-            .strokeWidth(1)
-            .color($r('app.color.light_grey'))
-            .lineCap(LineCapStyle.Square)
-            .width($r("app.float.dialer_divider_width1"))
-          Row() {
-            Text($r("app.string.delete_call_logs"))
-              .fontSize($r("app.float.contact_text_size_body1"))
-              .fontColor($r('app.color.colorPrimary'))
-              .margin({ left: $r("app.float.dialer_common_small_margin") })
-              .textAlign(TextAlign.Start)
-              .lineHeight($r("app.float.dialer_line_height"))
-          }
-          .width($r("app.float.dialer_calllog_bindmenu_width1"))
-          .height($r("app.float.dialer_middle_button_width"))
-          .borderRadius($r("app.float.dialer_common_small_margin"))
-          .backgroundColor(Color.White)
-          .onClick(() => {
-            this.menuShow = false;
-            CallLogRepository.getInstance().deleteByIdIn(JSON.parse(this.currentMsg).ids).then(data => {
-              this.getCallLog();
-            });
-          })
-        }
-        .borderRadius($r("app.float.dialer_common_small_margin"))
-        .backgroundColor(Color.White)
-        .shadow({ radius: 10, color: $r('app.color.dialer_shadow_color'), offsetX: 2, offsetY: 2 })
-        .position({ x: 200, y: this.offsetY < 416 ? this.offsetY - 170 : 220 })
+        RecordView({ mPresenter: $mPresenter });
       }
     }
   }
 }
 
 @Component
-struct ContactItem {
-  @Link show: boolean
-  @Link current: string
-  @Link offsetY: number
-  @Prop msg: string
+struct RecordView {
+  @Link private mPresenter: any;
 
-  // 拨号拨出
-  dialing(phoneNumber) {
-    DialUtil.getInstance().dial(phoneNumber, (data, err, value) => {
-      HiLog.i(TAG, 'dial isEmergencyPhoneNumber : ' + data + ' err : ' + err + ' value : ' + value);
-    });
+  build() {
+    List() {
+      LazyForEach(this.mPresenter.mMissCallRecordListDataSource, (item, index: number) => {
+        ListItem() {
+          ContactItem({ mPresenter: $mPresenter, item: item });
+        }
+        .height($r("app.float.id_item_height_max"))
+      }, item => item.id)
+    }
+    .divider({
+      strokeWidth: 1,
+      color: $r('sys.color.ohos_id_color_list_separator'),
+      startMargin: $r("app.float.id_item_height_sm"),
+      endMargin: $r("app.float.id_card_margin_max"),
+    })
+    .margin({ bottom: '110vp' })
   }
+}
+
+
+@Component
+struct EmptyView {
+  build() {
+    Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Center }) {
+      Image($r('app.media.no_call_records'))
+        .objectFit(ImageFit.Contain)
+        .width($r("app.float.id_card_image_large"))
+        .height($r("app.float.id_card_image_large"))
+        .margin({ bottom: $r("app.float.id_card_margin_large") })
+      Text($r("app.string.no_dialer_missed_calllog"))
+        .fontSize($r("sys.float.ohos_id_text_size_body2"))
+        .fontWeight(FontWeight.Regular)
+        .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+        .textAlign(TextAlign.Center)
+    }
+    .width('100%')
+    .height('100%')
+    .markAnchor({ x: 0, y: 60 })
+  }
+}
+
+@Component
+struct ContactItem {
+  @Link mPresenter: CallRecordPresenter
+  @State item: any = {};
 
   build() {
     Flex({ direction: FlexDirection.Row,
       justifyContent: FlexAlign.SpaceBetween,
       alignItems: ItemAlign.Center }) {
 
-      // 左侧布局
       Row() {
         Flex({ direction: FlexDirection.Column,
           justifyContent: FlexAlign.Start,
           alignItems: ItemAlign.Center }) {
 
-          if (JSON.parse(this.msg).callType == 3) {
-            // 未接
+          if (this.item.callType == 3) {
             Row() {
               Blank(16)
             }
-          } else if (JSON.parse(this.msg).callType == 5) {
-            // 拒接
+          } else if (this.item.callType == 5) {
             Image($r('app.media.ic_contacts_Reject'))
-              .height($r("app.float.dialer_common_small_margin"))
-              .width($r("app.float.dialer_common_small_margin"))
+              .height($r("app.float.id_card_margin_xxl"))
+              .width($r("app.float.id_card_margin_xxl"))
           } else {
             Row() {
               Blank(16)
@@ -300,11 +110,11 @@ struct ContactItem {
           }
         }
         .margin({
-          right: $r("app.float.dialer_keypad_margin1"),
-          top: $r("app.float.dialer_keypad_margin1"),
-          left: $r("app.float.dialer_keypad_margin1")
+          right: $r("app.float.id_card_margin_xl"),
+          top: $r("app.float.id_card_margin_xl"),
+          left: $r("app.float.id_card_margin_xl")
         })
-        .height($r("app.float.dialer_middle_button_width"))
+        .height($r("app.float.id_item_height_mid"))
 
         Flex({ direction: FlexDirection.Column,
           justifyContent: FlexAlign.Center,
@@ -314,102 +124,179 @@ struct ContactItem {
             justifyContent: FlexAlign.Start,
             alignItems: ItemAlign.Center }) {
 
-            // 未接和拒接标红
-            if (JSON.parse(this.msg).displayName) {
-              Text(JSON.parse(this.msg).displayName)
-                .fontSize($r("app.float.contact_text_size_body1"))
-                .margin({ right: $r("app.float.dialer_common_very_small_margin2") })
-                .fontColor($r('app.color.error'))
+            if (this.item.displayName) {
+              Text(this.item.displayName)
+                .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                .margin({ right: $r("app.float.id_card_margin_large") })
+                .fontColor($r('sys.color.ohos_id_color_warning'))
                 .fontWeight(FontWeight.Medium)
             } else {
-              Text(JSON.parse(this.msg).phoneNumber)
-                .fontSize($r("app.float.contact_text_size_body1"))
-                .margin({ right: $r("app.float.dialer_common_very_small_margin2") })
-                .fontColor($r('app.color.error'))
+              Text(this.item.phoneNumber)
+                .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                .margin({ right: $r("app.float.id_card_margin_large") })
+                .fontColor($r('sys.color.ohos_id_color_warning'))
                 .fontWeight(FontWeight.Medium)
             }
 
-            // 通话次数一次以上才显示通话次数
-            if (JSON.parse(this.msg).count != 1) {
-              Text('(' + JSON.parse(this.msg).count + ')')
-                .fontSize($r("app.float.contact_text_size_body1"))
-                .fontColor($r('app.color.error'))
+            if (this.item.count != 1) {
+              Text('(' + this.item.count + ')')
+                .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                .fontColor($r('sys.color.ohos_id_color_warning'))
                 .fontWeight(FontWeight.Medium)
             }
           }
 
-          // 标签
-          if (JSON.parse(this.msg).numberLocation) {
-            Text(JSON.parse(this.msg).numberLocation)
-              .fontSize($r("app.float.dialer_text_size_body1"))
-              .fontColor($r('app.color.more_light_colorPrimary'))
-              .margin({ top: $r("app.float.dialer_common_very_small_margin1") })
+          if (this.item.numberLocation) {
+            Text(this.item.numberLocation)
+              .fontSize($r("sys.float.ohos_id_text_size_body2"))
+              .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+              .margin({ top: $r("app.float.id_card_margin_mid") })
           } else {
             Text($r("app.string.unknown"))
-              .fontSize($r("app.float.dialer_text_size_body1"))
-              .fontColor($r('app.color.more_light_colorPrimary'))
-              .margin({ top: $r("app.float.dialer_common_very_small_margin1") })
+              .fontSize($r("sys.float.ohos_id_text_size_body2"))
+              .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+              .margin({ top: $r("app.float.id_card_margin_mid") })
           }
 
         }
-        .height($r("app.float.dialer_listitem_height"))
+        .height($r("app.float.id_item_height_max"))
       }
 
-      // 右侧布局
       Row() {
         Flex({ direction: FlexDirection.Column,
           justifyContent: FlexAlign.Center,
           alignItems: ItemAlign.Center }) {
-          Text(JSON.parse(this.msg).createTime)
-            .fontSize($r("app.float.contact_text_size_body2"))
-            .margin({ right: $r("app.float.dialer_keypad_margin1") })
-            .fontColor($r('app.color.more_light_colorPrimary'))
-            .width($r("app.float.dialer_time_width"))
+          Text(this.item.createTime)
+            .fontSize($r("sys.float.ohos_id_text_size_body2"))
+            .margin({ right: $r("app.float.id_card_margin_xl"), top: $r("app.float.id_card_margin_sm") })
+            .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+            .width('80vp')
             .textAlign(TextAlign.End)
         }
+        .height($r("app.float.id_item_height_max"))
 
         Image($r('app.media.ic_public_detail'))
-          .height($r("app.float.dialer_common_margin"))
-          .width($r("app.float.dialer_common_margin"))
-          .margin({ right: $r("app.float.dialer_time_width") })
+          .height($r("app.float.id_card_margin_max"))
+          .width($r("app.float.id_card_margin_max"))
+          .margin({ right: '80vp', top: $r("app.float.id_card_margin_sm") })
           .onClick(() => {
-            router.push(
-              {
-                uri: "pages/contacts/details/ContactDetail",
-                params: {
-                  sourceFromCallRecord: true,
-                  isNewNumber: JSON.parse(this.msg).quickSearchKey ? false : true,
-                  phoneNumberShow: JSON.parse(this.msg).phoneNumber
-                }
-              }
-            )
+            this.mPresenter.jumpToContactDetail(this.item.phoneNumber)
           })
       }
+      .height($r("app.float.id_item_height_max"))
     }
     .width('100%')
-    .height($r("app.float.dialer_listitem_height"))
-    .gesture(
-      // 滑动手势
-    PanGesture({ fingers: 1, direction: PanDirection.Left, distance: 5 })
-      .onActionStart(() => {
-      })
-    )
-    .gesture(
-      // 长按手势
-    LongPressGesture({ repeat: false, fingers: 1, duration: 700 })
-      // 长按动作识别成功时触发
-      .onAction((event: GestureEvent) => {
-        this.show = true;
-        this.current = this.msg;
-        this.offsetY = JSON.parse(JSON.stringify(event))
-        .globalY;
-      })
-    )
+    .height($r("app.float.id_item_height_max"))
     .onClick((event: ClickEvent) => {
-      this.show = false
-      // 跳转到拨打电话界面
-      this.dialing(JSON.parse(this.msg).phoneNumber)
+      this.mPresenter.dialing(this.item.phoneNumber)
     })
+    .bindContextMenu(this.MenuBuilder, ResponseType.LongPress)
+  }
+
+  @Builder MenuBuilder() {
+    Column() {
+      Row() {
+        Text(this.item.displayName ?
+          this.item.displayName :
+          this.item.phoneNumber)
+          .fontSize($r("sys.float.ohos_id_text_size_headline8"))
+          .fontColor($r('sys.color.ohos_id_color_text_primary'))
+          .fontWeight(FontWeight.Medium)
+          .margin({ left: $r("app.float.id_card_margin_xxl") })
+          .textAlign(TextAlign.Start)
+          .lineHeight('28vp')
+      }
+      .width($r("app.float.dialer_calllog_bindmenu_width"))
+      .height($r("app.float.id_item_height_max"))
+      .borderRadius($r("app.float.id_card_margin_xxl"))
+      .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+
+      Divider()
+        .color($r('sys.color.ohos_id_color_list_separator'))
+        .lineCap(LineCapStyle.Square)
+        .width('100%')
+        .padding({ left: $r("app.float.id_card_margin_xxl"), right: $r("app.float.id_card_margin_xxl") })
+      Row() {
+        Text($r("app.string.send_message"))
+          .fontSize($r("sys.float.ohos_id_text_size_body1"))
+          .fontColor($r('sys.color.ohos_id_color_text_primary'))
+          .margin({ left: $r("app.float.id_card_margin_xxl") })
+          .textAlign(TextAlign.Start)
+      }
+      .width($r("app.float.dialer_calllog_bindmenu_width"))
+      .height($r("app.float.id_item_height_mid"))
+      .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+
+      Divider()
+        .color($r('sys.color.ohos_id_color_list_separator'))
+        .lineCap(LineCapStyle.Square)
+        .width('100%')
+        .padding({ left: $r("app.float.id_card_margin_xxl"), right: $r("app.float.id_card_margin_xxl") })
+      Row() {
+        Text($r("app.string.copy_phoneNumber"))
+          .fontSize($r("sys.float.ohos_id_text_size_body1"))
+          .fontColor($r('sys.color.ohos_id_color_text_primary'))
+          .margin({ left: $r("app.float.id_card_margin_xxl") })
+          .textAlign(TextAlign.Start)
+      }
+      .width($r("app.float.dialer_calllog_bindmenu_width"))
+      .height($r("app.float.id_item_height_mid"))
+      .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+
+      Divider()
+        .color($r('sys.color.ohos_id_color_list_separator'))
+        .lineCap(LineCapStyle.Square)
+        .width('100%')
+        .padding({ left: $r("app.float.id_card_margin_xxl"), right: $r("app.float.id_card_margin_xxl") })
+      Row() {
+        Text($r("app.string.edit_beforeCall"))
+          .fontSize($r("sys.float.ohos_id_text_size_body1"))
+          .fontColor($r('sys.color.ohos_id_color_text_primary'))
+          .margin({ left: $r("app.float.id_card_margin_xxl") })
+          .textAlign(TextAlign.Start)
+      }
+      .width($r("app.float.dialer_calllog_bindmenu_width"))
+      .height($r("app.float.id_item_height_mid"))
+      .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+
+      Divider()
+        .color($r('sys.color.ohos_id_color_list_separator'))
+        .lineCap(LineCapStyle.Square)
+        .width('100%')
+        .padding({ left: $r("app.float.id_card_margin_xxl"), right: $r("app.float.id_card_margin_xxl") })
+      Row() {
+        Text($r("app.string.add_to_blockList"))
+          .fontSize($r("sys.float.ohos_id_text_size_body1"))
+          .fontColor($r('sys.color.ohos_id_color_text_primary'))
+          .margin({ left: $r("app.float.id_card_margin_xxl") })
+          .textAlign(TextAlign.Start)
+      }
+      .width($r("app.float.dialer_calllog_bindmenu_width"))
+      .height($r("app.float.id_item_height_mid"))
+      .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+
+      Divider()
+        .color($r('sys.color.ohos_id_color_list_separator'))
+        .lineCap(LineCapStyle.Square)
+        .width('100%')
+        .padding({ left: $r("app.float.id_card_margin_xxl"), right: $r("app.float.id_card_margin_xxl") })
+      Row() {
+        Text($r("app.string.delete_call_logs"))
+          .fontSize($r("sys.float.ohos_id_text_size_body1"))
+          .fontColor($r('sys.color.ohos_id_color_text_primary'))
+          .margin({ left: $r("app.float.id_card_margin_xxl") })
+          .textAlign(TextAlign.Start)
+      }
+      .width($r("app.float.dialer_calllog_bindmenu_width"))
+      .height($r("app.float.id_item_height_mid"))
+      .borderRadius($r("app.float.id_card_margin_xxl"))
+      .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+      .onClick(() => {
+        this.mPresenter.deleteCallLog(this.item.ids);
+      })
+    }
+    .borderRadius($r("app.float.id_card_margin_xxl"))
+    .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
   }
 }
 

@@ -23,84 +23,79 @@ import {PhoneNumBean} from './PhoneNumBean';
 
 export class ContactBean {
   /**
-   * 联系人id主键
+   * Contact ID primary key.
    */
   id: string;
 
   /**
-   * 联系人姓名
+   * Contact Name
    */
   name: string;
 
   /**
-   * 公司
+   * The Company
    */
   company: string;
 
   /**
-   * 职位
+   * Position
    */
   position: string;
 
-
-  // 电话列表// 邮箱列表// 昵称// 网站列表// 生日和纪念日// 铃声// 关联人// 备注// 通话记录
-
   /**
-   * 手机号列表
+   * Mobile Number List
    */
   phoneNumList: PhoneNumBean[];
 
   /**
-   * 邮箱列表
+   * Mailbox List
    */
   emailBeanList: EmailBean[];
 
   /**
-   * 昵称
+   * Nickname
    */
   nickName: string
 
   /**
-   * 网站列表
+   * Website List
    */
   webSitList: string[]
 
   /**
-   * 纪念日列表
+   * Anniversaries List
    */
   remembranceDayList: RemDayBean[]
 
   /**
-   * 铃声
+   * Ringtone
    */
   ringtone: string
 
   /**
-   * 关联人列表
+   * Associated Person List
    */
   associatedPersonList: AssociatedPersonBean[]
 
   /**
-   * 备注
+   * Remarks
    */
   remarks: string
 
   /**
-   * AIM列表
+   * AIM List
    */
   aimList: AIMBean[]
 
   /**
-   * 住址列表
+   * Address List
    */
   houseList: HouseBean[]
 
   /**
-   * 群组列表
+   * Group List
    */
   groupList: GroupBean[]
-
-  // 二维码   背景色   铃声id   拼音名
 
   constructor(
     id: string,

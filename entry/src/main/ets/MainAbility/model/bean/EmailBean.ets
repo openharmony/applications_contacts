@@ -14,13 +14,13 @@
  */
 
 /**
- * 邮箱对象
+ * Mailbox Object
  */
-export class EmailBean{
-  id:string
+export class EmailBean {
+  id: string
   address: string
   emailType: string
-  constructor(id:string,address: string, emailType: string){
+  constructor(id: string, address: string, emailType: string) {
     this.id = id;
     this.address = address;
     this.emailType = emailType;

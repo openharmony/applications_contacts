@@ -18,9 +18,9 @@ import DataType from './DataType';
 import {DataItemType} from './DataType';
 
 /**
- * 地址数据类型
+ * Address Data Type
  */
-export default class StructuredPostal extends DataType{
+export default class StructuredPostal extends DataType {
   static readonly CONTENT_ITEM_TYPE: string = "postal_address";
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.STRUCTURED_POSTAL;
   static readonly FORMATTED_ADDRESS: string = DataType.DATA;
@@ -37,10 +37,14 @@ export default class StructuredPostal extends DataType{
 
   static getTypeLabelResource(type: number) {
     switch (type) {
-      case StructuredPostal.TYPE_HOME: return $r("app.string.email_type_home");
-      case StructuredPostal.TYPE_WORK: return $r("app.string.email_type_work");
-      case StructuredPostal.TYPE_OTHER: return $r("app.string.email_type_other");
-      default: return $r("app.string.email_type_custom");
+      case StructuredPostal.TYPE_HOME:
+        return $r("app.string.email_type_home");
+      case StructuredPostal.TYPE_WORK:
+        return $r("app.string.email_type_work");
+      case StructuredPostal.TYPE_OTHER:
+        return $r("app.string.email_type_other");
+      default:
+        return $r("app.string.email_type_custom");
     }
   }
 
