@@ -27,12 +27,11 @@ import DataAbility from '@ohos.data.dataAbility';
 const TAG = "CallLogRepository";
 
 /**
- * 账户类型服务类，账户类型持有联系人详情如何展示等账号特征信息
+ * Account type service, which is used to display account characteristics such as account type holding contact details.
  */
 export default class CallLogRepository implements ICallLogRepository {
   private static instance: CallLogRepository;
   private _dataAbilityHelper = FeatureAbility.acquireDataAbilityHelper(Calls.CONTENT_URI);
-
   private constructor() {
   }
 
@@ -43,14 +42,13 @@ export default class CallLogRepository implements ICallLogRepository {
     return CallLogRepository.instance
   }
 
-  private getDataAbilityHelper(){
-    if (this._dataAbilityHelper == undefined || this._dataAbilityHelper == null || this._dataAbilityHelper.length == 0) {
+  private getDataAbilityHelper() {
+    if (this._dataAbilityHelper == undefined || this._dataAbilityHelper == null) {
       this._dataAbilityHelper = FeatureAbility.acquireDataAbilityHelper(Calls.CONTENT_URI);
     }
     return this._dataAbilityHelper;
   }
 
-  // 保存单个通话记录，当前无此场景，仅用于测试
   saveOne(callLog: CallLog) {
     let dataAbilityHelper = this.getDataAbilityHelper();
     return new Promise<number>(function (resolve, reject) {
@@ -136,15 +134,20 @@ export default class CallLogRepository implements ICallLogRepository {
       condition.offsetAs(0);
       dataAbilityHelper.query(Calls.CALL_LOG_URI, null, condition).then(resultSet => {
         let rst: CallLog[] = [];
-        resultSet.goToFirstRow();
-        do {
-          let builder = CallLogBuilder.fromResultSet(resultSet);
-          if (builder.id > 0) {
-            rst.push(new CallLog(builder));
-          }
-        } while (resultSet.goToNextRow());
-        resultSet.close();
-        resolve(rst);
+        if (resultSet.rowCount === 0) {
+          resultSet.close();
+          resolve(rst);
+        } else {
+          resultSet.goToFirstRow();
+          do {
+            let builder = CallLogBuilder.fromResultSet(resultSet);
+            if (builder.id > 0) {
+              rst.push(new CallLog(builder));
+            }
+          } while (resultSet.goToNextRow());
+          resultSet.close();
+          resolve(rst);
+        }
       }).catch(error => {
         HiLog.w(TAG, 'findAll error:%s', JSON.stringify(error.message));
         reject();
@@ -165,7 +168,7 @@ export default class CallLogRepository implements ICallLogRepository {
       }
       let realPhoneNumbers = [];
       for (let key in numbers) {
-        var phoneNumber = StringUtil.removeSpace(numbers[key].toString());
+        let phoneNumber = StringUtil.removeSpace(numbers[key].toString());
         realPhoneNumbers.push(phoneNumber);
       }
       let condition = new DataAbility.DataAbilityPredicates();
@@ -173,19 +176,40 @@ export default class CallLogRepository implements ICallLogRepository {
       condition.orderByDesc(Calls.CREATE_TIME);
       dataAbilityHelper.query(Calls.CALL_LOG_URI, null, condition).then(resultSet => {
         let rst: CallLog[] = [];
-        resultSet.goToFirstRow();
-        do {
-          let builder = CallLogBuilder.fromResultSet(resultSet);
-          if (builder.id > 0) {
-            rst.push(new CallLog(builder));
-          }
-        } while (resultSet.goToNextRow());
-        resultSet.close();
-        resolve(rst);
+        if (resultSet.rowCount === 0) {
+          resultSet.close();
+          resolve(rst);
+        } else {
+          resultSet.goToFirstRow();
+          do {
+            let builder = CallLogBuilder.fromResultSet(resultSet);
+            if (builder.id > 0) {
+              rst.push(new CallLog(builder));
+            }
+          } while (resultSet.goToNextRow());
+          resultSet.close();
+          resolve(rst);
+        }
       }).catch(error => {
         HiLog.w(TAG, 'findByNumberIn error:%s', JSON.stringify(error.message));
         reject();
       });
     });
+  }
+
+  notifyChange() {
+    this.getDataAbilityHelper().notifyChange(Calls.CALL_LOG_URI).then((data) => {
+      HiLog.i(TAG, "notifyChange success")
+    }).catch(error => {
+      HiLog.w(TAG, 'notifyChange error:%s', JSON.stringify(error.message));
+    });
+  }
+
+  registerDataChangeObserver(callback) {
+    this.getDataAbilityHelper().on("dataChange", Calls.CALL_LOG_URI, callback);
+  }
+
+  unRegisterDataChangeObserver(callback) {
+    this.getDataAbilityHelper().off("dataChange", Calls.CALL_LOG_URI, callback);
   }
 }

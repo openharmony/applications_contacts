@@ -15,7 +15,7 @@
 import presenter from '../../presenter/navigation/NavigationPresenter';
 
 /**
- * 联系人导航栏页面基础按钮&跳转逻辑;
+ * Basic buttons and jump logic on the contact navigation bar
  */
 @Component
 export struct VerticalTabs {
@@ -31,20 +31,20 @@ export struct VerticalTabs {
       justifyContent: FlexAlign.Center
     }) {
       ForEach(this.tabSrc, item => {
-        Flex({direction: FlexDirection.Column,
+        Flex({ direction: FlexDirection.Column,
           alignItems: ItemAlign.Center,
-          justifyContent: FlexAlign.Center}) {
+          justifyContent: FlexAlign.Center }) {
           Image(this.present.getTabSrc(this.bottomTabIndex, item))
             .objectFit(ImageFit.Contain)
-            .width($r("app.float.contact_samll_image_width_height"))
-            .height($r("app.float.contact_samll_image_width_height"))
-            .fillColor(this.present.getTabTextColor(this.bottomTabIndex, item))
+            .width($r("app.float.id_card_image_small"))
+            .height($r("app.float.id_card_image_small"))
           Text(this.present.getTabText(this.bottomTabIndex, item))
-            .fontSize($r("app.float.contact_text_size_body3"))
+            .fontWeight(FontWeight.Medium)
+            .margin({ top: $r("app.float.id_card_margin_mid") })
+            .fontSize($r("sys.float.ohos_id_text_size_caption"))
             .fontColor(this.present.getTabTextColor(this.bottomTabIndex, item))
         }
-        .width($r("app.float.contact_navigation_width"))
-        .height($r("app.float.contact_navigation_element_height"))
+        .height('130vp')
         .onClick(() => {
           if (this.bottomTabIndex != item) {
             this.controller.changeIndex(item)
@@ -52,13 +52,13 @@ export struct VerticalTabs {
         })
       }, item => item.toString())
     }
-    .width($r("app.float.contact_navigation_width"))
+    .width('96vp')
     .height('100%')
   }
 }
 
 /**
- * 联系人导航栏页面基础按钮&跳转逻辑;
+ * Basic buttons and jump logic on the contact navigation bar
  */
 const DENSITY = 1.5
 
@@ -76,19 +76,19 @@ export struct HorizontalTabs {
       justifyContent: FlexAlign.Center
     }) {
       ForEach(this.tabSrc, item => {
-        Flex({direction: FlexDirection.Column,
+        Flex({ direction: FlexDirection.Column,
           alignItems: ItemAlign.Center,
-          justifyContent: FlexAlign.Center}) {
+          justifyContent: FlexAlign.Center }) {
           Image(this.present.getTabSrc(this.bottomTabIndex, item))
             .objectFit(ImageFit.Contain)
-            .width($r("app.float.contact_samll_image_width_height"))
-            .height($r("app.float.contact_samll_image_width_height"))
-            .fillColor(this.present.getTabTextColor(this.bottomTabIndex, item))
+            .width($r("app.float.id_card_image_small"))
+            .height($r("app.float.id_card_image_small"))
           Text(this.present.getTabText(this.bottomTabIndex, item))
-            .fontSize($r("app.float.contact_text_size_body3"))
+            .fontWeight(FontWeight.Medium)
+            .fontSize($r("sys.float.ohos_id_text_size_caption"))
             .fontColor(this.present.getTabTextColor(this.bottomTabIndex, item))
         }
-        .height($r("app.float.contact_titleguide_height"))
+        .height($r("app.float.id_item_height_large"))
         .layoutWeight(1)
         .onClick(() => {
           if (this.bottomTabIndex != item) {
@@ -97,8 +97,8 @@ export struct HorizontalTabs {
         })
       }, item => item.toString())
     }
-    .height($r("app.float.contact_titleguide_height"))
+    .height($r("app.float.id_item_height_large"))
     .width('100%')
-    .padding({ left: $r("app.float.common_margin"), right: $r("app.float.common_margin") })
+    .padding({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_max") })
   }
 }

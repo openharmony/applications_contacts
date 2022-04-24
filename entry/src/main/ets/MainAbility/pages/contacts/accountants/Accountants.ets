@@ -13,47 +13,39 @@
  * limitations under the License.
  */
 
-import resourceManager from '@ohos.resourceManager';
 import router from '@system.router';
-import util from "../../../util/Utils";
+import ArrayUtil from "../../../util/ArrayUtil";
+import ObjectUtil from "../../../util/ObjectUtil";
+import StringUtil from "../../../util/StringUtil";
+import EnvironmentProp from "../../../feature/EnvironmentProp";
 import HiLog from '../../../util/Hilog';
-import {ContactInfo} from "../../../model/bean/ContactInfo";
-import {EventBean} from "../../../model/bean/EventBean";
-import {PhoneNumBean} from "../../../model/bean/PhoneNumBean";
-import ContactAbility from '../../../model/ContactAbilityModel';
+import { EventBean } from "../../../model/bean/EventBean";
+import { PhoneNumBean } from "../../../model/bean/PhoneNumBean";
 import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
-import Constants, {DeviceType} from '../../../model/common/Constants';
 
 const TAG = 'AddContact  ';
 
 /**
- * 添加联系人外层容器
+ * Add Contact
  */
+@Extend(ListItem) function listItemFancy (topMargin = $r("app.float.id_card_image_xs")) {
+  .borderRadius($r("app.float.id_corner_radius_card"))
+  .width("100%")
+  .margin({ top: topMargin })
+  .padding({
+    top: $r("app.float.id_card_margin_mid"),
+    bottom: $r("app.float.id_card_margin_mid")
+  })
+  .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
+}
+
 @Entry
 @Component
 struct Accountants {
-  /**
-     * 联系人Id
-     */
-  private contactId = "";
-  @State  private routerAvtiveFlag: boolean = false;
   @State  mPresenter: AccountantsPresenter = AccountantsPresenter.getInstance();
-
-  /**
-   * 是否展示职位
-   */
-  @State private isShowPosition: boolean = false;
-  /**
-   * 是否展示更多
-   */
-  @State private showMore: boolean = false;
-  @State eventItemId: number = 0;
+  @State  eventItemId: number = 0;
   private updataShow = false;
   private pageTitle: Resource = $r("app.string.create_contact");
-
-  /**
-     * 弹窗添加日期
-     */
   dialogController: CustomDialogController = new CustomDialogController({
     builder: showDayTime({ mPresent: $mPresenter,
       cancel: this.onCancel,
@@ -78,19 +70,19 @@ struct Accountants {
   aboutToAppear() {
     HiLog.i(TAG, "the Page aboutToAppear Begin !!")
     this.mPresenter.init();
-    if (!util.isEmptyObject(router.getParams())) {
-      let obj = router.getParams();
+    if (!ObjectUtil.isEmpty(router.getParams())) {
+      let obj: any = router.getParams();
       if (obj.hasOwnProperty("updataShow")) {
         this.updataShow = obj.updataShow;
       }
-      if (obj.hasOwnProperty("phoneNumbers") && !util.isEmptyList(obj.phoneNumbers)) {
+      if (obj.hasOwnProperty("phoneNumbers") && !ArrayUtil.isEmpty(obj.phoneNumbers)) {
         let phoTemp = [new PhoneNumBean("1", obj.phoneNumbers[0].phoneNumber, "1", "", "")];
         this.mPresenter.contactInfoAfter.setPhones(phoTemp)
       }
     }
     if (this.updataShow == true) {
       this.pageTitle = $r("app.string.edit_contact");
-      let obj = router.getParams().contactForm;
+      let obj: any = router.getParams().contactForm;
       this.mPresenter.contactId = obj.id;
       this.mPresenter.updateShow = true;
       this.mPresenter.updatesInit();
@@ -102,14 +94,12 @@ struct Accountants {
     this.mPresenter.refresh();
   }
 
-  @State mSizeType: SizeType = Constants.deviceType == DeviceType.WGR ? SizeType.LG : SizeType.SM;
-  @State mColumns: number = Constants.deviceType == DeviceType.WGR ? 12 : 4;
-  @State mGutter: number = Constants.deviceType == DeviceType.WGR ? 12 : 12;
-  @State mMargin: number = Constants.deviceType == DeviceType.WGR ? 12 : 12;
+  @State mSizeType: SizeType = EnvironmentProp.isTablet() ? SizeType.LG : SizeType.SM;
+  @State mColumns: number = EnvironmentProp.isTablet() ? 12 : 4;
+  @State mGutter: number = EnvironmentProp.isTablet() ? 12 : 12;
+  @State mMargin: number = EnvironmentProp.isTablet() ? 12 : 12;
 
   build() {
-
-    //container
     Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
       GridContainer({
         columns: this.mColumns,
@@ -117,73 +107,16 @@ struct Accountants {
         gutter: this.mGutter,
         margin: this.mMargin
       }) {
-        //container
-        Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
-          // 路由跳转管理
+        Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
           Flex() {
             Navigator({ target: 'pages/contacts/details/ContactDetail', type: NavigationType.Replace }) {
             }
-            .active(this.routerAvtiveFlag)
+            .active(this.mPresenter.routerAvtiveFlag)
             .params({
-              contactId: this.contactId,
-              phoneNumber: util.isEmptyList(this.mPresenter.contactInfoAfter.phones) ? "" : this.mPresenter.contactInfoAfter.phones[0].num,
-              homeLocation: "",
-              carries: "",
-              isNewSource: true
+              sourceHasId: true,
+              contactId: this.mPresenter.contactId
             })
           }.visibility(Visibility.None)
-          //头部提交
-          //title
-          Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
-            //cancel img
-            Flex({ alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
-              Image($r("app.media.ic_public_cancel"))
-                .height('24vp')
-                .width('24vp')
-                .margin({ top: "16vp", bottom: "16vp", right: "16vp", left: "24vp" })
-                .onClick(() => {
-                  router.back()
-                })
-              Text(this.pageTitle)
-                .margin({ top: "13vp", bottom: "15vp" })
-                .lineHeight("28vp")
-                .fontSize("20fp")
-                .fontColor($r("app.color.colorPrimary"))
-                .fontWeight("Bold")
-            }
-            .height("56vp")
-            .width("50%")
-
-            //comfirm img 保存按钮
-            Flex({ alignItems: ItemAlign.Center, justifyContent: FlexAlign.End }) {
-              Image($r("app.media.ic_public_ok"))
-                .height("24vp")
-                .width("24vp")
-                .margin({ right: "24vp" })
-                .onClick(() => {
-                  var tempInfo = this.mPresenter.contactInfoAfter;
-                  if (this.mPresenter.isEmptyInfo(tempInfo)) {
-                    if (this.updataShow == false) {
-                      ContactAbility.addContact(tempInfo, null, (arg) => {
-                        this.contactId = arg.toString();
-                        this.routerAvtiveFlag = true;
-                      })
-                    }
-                    else {
-                      tempInfo.id = this.mPresenter.contactId;
-                      ContactAbility.updateContact(null, tempInfo, (arg) => {
-                        this.contactId = arg.toString();
-                        this.routerAvtiveFlag = true;
-                      })
-                    }
-                  }
-                })
-            }
-            .height("56vp")
-            .width("50%")
-          }
-          .width('100%')
-          .height("56vp")
           .useSizeType({
             xs: { span: 4, offset: 0 },
             sm: { span: 4, offset: 0 },
@@ -191,11 +124,59 @@ struct Accountants {
             lg: { span: 12, offset: 0 }
           })
 
-          /**
-         * 添加联系人输入
-         */
+          Row() {
+            Column() {
+              Flex({ alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
+                Image($r("app.media.ic_public_cancel"))
+                  .height($r("app.float.id_card_image_small"))
+                  .width($r("app.float.id_card_image_small"))
+                  .margin({ top: $r("app.float.id_card_margin_xxl"),
+                    bottom: $r("app.float.id_card_margin_xxl"),
+                    right: $r("app.float.id_card_margin_xxl"),
+                    left: $r("app.float.id_card_margin_max") })
+                  .fillColor($r("sys.color.ohos_id_color_primary"))
+                  .onClick(() => {
+                    router.back()
+                  })
+                Text(this.pageTitle)
+                  .margin({ top: "13vp",
+                    bottom: "15vp" })
+                  .lineHeight("28vp")
+                  .fontSize("20fp")
+                  .fontColor($r("sys.color.ohos_id_color_text_primary"))
+                  .fontWeight(FontWeight.Bold)
+              }
+            }
+            .height($r("app.float.id_item_height_large"))
+            .width("50%")
+
+            Column() {
+              Flex({ alignItems: ItemAlign.Center, justifyContent: FlexAlign.End }) {
+                Image($r("app.media.ic_public_ok"))
+                  .width($r("app.float.id_card_image_small"))
+                  .padding({ top: $r("app.float.id_card_margin_xxl"),
+                    bottom: $r("app.float.id_card_margin_xxl") })
+                  .margin({ right: $r("app.float.id_card_margin_max") })
+                  .fillColor(this.mPresenter.getAddState()
+                    ? $r("sys.color.ohos_id_color_primary")
+                    : $r("sys.color.ohos_id_color_tertiary"))
+                  .onClick(() => {
+                    this.mPresenter.saveContact();
+                  })
+              }
+            }
+            .height($r("app.float.id_item_height_large"))
+            .width("50%")
+          }
+          .flexShrink(0)
+          .useSizeType({
+            xs: { span: 4, offset: 0 },
+            sm: { span: 4, offset: 0 },
+            md: { span: 4, offset: 0 },
+            lg: { span: 8, offset: 2 }
+          })
+
           List() {
-            // 头像
             ListItem() {
               Flex({
                 direction: FlexDirection.Column,
@@ -203,121 +184,109 @@ struct Accountants {
                 justifyContent: FlexAlign.Center
               }) {
                 Image($r("app.media.ic_user_portrait"))
-                  .height("56vp")
-                  .width("56vp")
+                  .height($r("app.float.id_item_height_large"))
+                  .width($r("app.float.id_item_height_large"))
                   .objectFit(ImageFit.Contain)
+                  .margin({ top: $r("app.float.id_card_margin_xxl") })
 
                 Text($r("app.string.save_to_phone"))
                   .lineHeight("21vp")
-                  .fontSize("16fp")
-                  .fontColor($r("app.color.colorPrimary"))
-                  .fontWeight("Medium")
+                  .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                  .fontColor($r("sys.color.ohos_id_color_text_primary"))
+                  .fontWeight(FontWeight.Medium)
                   .margin({ top: "18vp" })
-
               }
               .height("144vp")
             }
 
-            //姓名
             ListItem() {
-              Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-                Image($r("app.media.ic_public_contacts"))
-                  .margin({ left: "24vp", top: "19vp", bottom: "21vp" })
-                  .height("24vp")
-                  .width("24vp")
-                  .objectFit(ImageFit.Contain);
-                TextInput({
-                  placeholder: $r("app.string.name_hock"),
-                  text: this.mPresenter.contactInfoBefore.display_name
-                })
-                  .margin({ left: "16" })
-                  .fontSize("16fp")
-                  .caretColor($r("app.color.colorConnected"))
-                  .type(InputType.Normal)
-                  .maxLength(256)
-                  .height("56vp")
-                  .flexGrow(1)
-                  .onChange((value) => {
-                    this.mPresenter.contactInfoAfter.display_name = value;
-                  })
-              }
-            }
-            .borderRadius("24vp")
-            .height("64vp")
-            .width("100%")
-            .margin({ top: "16vp" })
-            .backgroundColor("#FFFFFF");
+              Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start }) {
+                ImageItemLeft({ mImage: $r("app.media.ic_public_contacts") })
 
-            //公司
-            ListItem() {
-              Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-                Image($r("app.media.ic_contacts_company"))
-                  .margin({ left: "24vp", top: "19vp", bottom: "21vp" })
-                  .height("24vp")
-                  .width("24vp")
-                  .objectFit(ImageFit.Contain)
-                TextInput({
-                  placeholder: $r("app.string.house_type_position_hock"),
-                  text: this.mPresenter.contactInfoBefore.company
-                })
-                  .margin({ left: "16" })
-                  .fontSize("16fp")
-                  .caretColor($r("app.color.colorConnected"))
-                  .type(InputType.Normal)
-                  .maxLength(256)
-                  .height("56vp")
-                  .flexGrow(1)
-                  .onChange((arg) => {
-                    this.mPresenter.contactInfoAfter.company = arg.valueOf();
-                    if (!util.isEmpty(arg.valueOf())) {
-                      this.isShowPosition = true;
-                    }
-                  });
-              }
-            }
-            .borderRadius("24vp")
-            .height("64vp")
-            .width("100%")
-            .margin({ top: "12vp" })
-            .backgroundColor("#FFFFFF")
-
-            if (this.isShowPosition) {
-              ListItem() {
-                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
+                Column() {
                   TextInput({
-                    placeholder: $r("app.string.position_hock"),
-                    text: this.mPresenter.contactInfoBefore.position
+                    placeholder: $r("app.string.name"),
+                    text: this.mPresenter.contactInfoBefore.display_name
                   })
-                    .fontSize("16fp")
-                    .caretColor($r("app.color.colorConnected"))
+                    .margin({ right: $r("app.float.id_card_margin_max") })
+                    .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                    .caretColor($r("sys.color.ohos_id_color_connected"))
                     .type(InputType.Normal)
                     .maxLength(256)
-                    .height("56vp")
+                    .height($r("app.float.id_item_height_large"))
                     .flexGrow(1)
-                    .onChange((arg) => {
-                      this.mPresenter.contactInfoAfter.position = arg.valueOf();
+                    .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
+                    .onChange((value) => {
+                      this.mPresenter.addState = true;
+                      this.mPresenter.contactInfoAfter.display_name = value;
                     })
-                    .margin({ left: "64vp" })
                 }
               }
-              .margin({ top: "12vp" })
-              .borderRadius("24vp")
-              .height("64vp")
-              .width("100%")
-              .backgroundColor("#FFFFFF")
             }
-            //手机
+            .listItemFancy($r("app.float.id_card_margin_xxl"))
+
             ListItem() {
-              Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
-                Column() {
-                  Image($r("app.media.ic_public_phone"))
-                    .objectFit(ImageFit.Contain)
-                    .height("24vp")
-                    .width("24vp")
-                    .margin({ left: "24vp", top: "19vp", bottom: "21vp", right: "0vp" })
+              Column() {
+                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start }) {
+                  ImageItemLeft({ mImage: $r("app.media.ic_contacts_company") })
+
+                  Column() {
+                    TextInput({
+                      placeholder: $r("app.string.house_type_position"),
+                      text: this.mPresenter.contactInfoBefore.company
+                    })
+                      .margin({ right: $r("app.float.id_card_margin_max") })
+                      .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                      .caretColor($r("sys.color.ohos_id_color_connected"))
+                      .type(InputType.Normal)
+                      .maxLength(256)
+                      .height($r("app.float.id_item_height_large"))
+                      .flexGrow(1)
+                      .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
+                      .onChange((arg) => {
+                        this.mPresenter.addState = true;
+                        this.mPresenter.contactInfoAfter.company = arg.valueOf();
+                        if (!StringUtil.isEmpty(arg.valueOf())) {
+                          this.mPresenter.isShowPosition = true;
+                        }
+                      })
+                  }
                 }
-                .alignItems(HorizontalAlign.Start)
-                .alignSelf(ItemAlign.Start)
+
+                if (this.mPresenter.isShowPosition) {
+                  Divider()
+                    .padding({ left: "64vp", right: $r("app.float.id_card_margin_max") })
+                    .height($r("app.float.account_Divider_height"))
+                    .width("100%")
+                    .color($r("sys.color.ohos_id_color_list_separator"))
+
+                  Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
+                    TextInput({
+                      placeholder: $r("app.string.position"),
+                      text: this.mPresenter.contactInfoBefore.position
+                    })
+                      .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                      .caretColor($r("sys.color.ohos_id_color_connected"))
+                      .type(InputType.Normal)
+                      .maxLength(256)
+                      .height($r("app.float.id_item_height_large"))
+                      .flexGrow(1)
+                      .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
+                      .onChange((arg) => {
+                        this.mPresenter.addState = true;
+                        this.mPresenter.contactInfoAfter.position = arg.valueOf();
+                      })
+                      .margin({ left: "48vp",
+                        right: $r("app.float.id_card_margin_max") })
+                  }
+                }
+              }
+            }
+            .listItemFancy()
+
+            ListItem() {
+              Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
+                ImageItemLeft({ mImage: $r("app.media.ic_public_phone") })
 
                 Column() {
                   ForEach(this.mPresenter.getArray(this.mPresenter.contactInfoBefore.phones)
@@ -326,7 +295,7 @@ struct Accountants {
                         mPresent: $mPresenter,
                         data: item,
                         typeName: "phone",
-                        placeholder: $r("app.string.phone_number_hock")
+                        placeholder: $r("app.string.phone_number")
                       })
                     }, item => item.i.toString())
 
@@ -337,22 +306,11 @@ struct Accountants {
                 }.alignItems(HorizontalAlign.Start)
               }
             }
-            .borderRadius("24vp")
-            .width("100%")
-            .margin({ top: "12vp" })
-            .backgroundColor("#FFFFFF")
-            //邮件
+            .listItemFancy()
+
             ListItem() {
-              Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
-                Column() {
-                  Image($r("app.media.ic_public_email"))
-                    .objectFit(ImageFit.Contain)
-                    .height("24vp")
-                    .width("24vp")
-                    .margin({ left: "24vp", top: "19vp", bottom: "21vp", right: "0vp" })
-                }
-                .alignItems(HorizontalAlign.Start)
-                .alignSelf(ItemAlign.Start)
+              Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
+                ImageItemLeft({ mImage: $r("app.media.ic_public_email") })
 
                 Column() {
                   ForEach(this.mPresenter.getArray(this.mPresenter.contactInfoBefore.emails)
@@ -361,7 +319,7 @@ struct Accountants {
                         mPresent: $mPresenter,
                         data: item,
                         typeName: "email",
-                        placeholder: $r("app.string.email_hock")
+                        placeholder: $r("app.string.email")
                       })
                     }, item => item.i.toString())
 
@@ -369,102 +327,80 @@ struct Accountants {
                     labelName: $r("app.string.add_more"),
                     typeName: "email" });
 
-                }.alignItems(HorizontalAlign.Start)
+                }
+                .alignItems(HorizontalAlign.Start)
               }
             }
-            .borderRadius("24vp")
-            .width("100%")
-            .margin({ top: "12vp" })
-            .backgroundColor("#FFFFFF")
-            //备注
+            .listItemFancy()
+
             ListItem() {
-              Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-                Image($r("app.media.ic_public_drawer"))
-                  .objectFit(ImageFit.Contain)
-                  .margin({ left: "24vp", top: "19vp", bottom: "21vp" })
-                  .height("24vp")
-                  .width("24vp")
+              Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start }) {
+                ImageItemLeft({ mImage: $r("app.media.ic_public_dwonload") })
 
-                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
+                Column() {
                   Text($r("app.string.remarks"))
-                    .fontSize("16fp")
-                    .lineHeight("22vp")
+                    .fontSize($r("sys.float.ohos_id_text_size_body1"))
                     .fontWeight(FontWeight.Medium)
-                    .fontColor($r("app.color.colorPrimary"))
+                    .fontColor($r("sys.color.ohos_id_color_text_primary"))
+                    .height($r("app.float.id_item_height_large"))
+                    .padding({ left: $r("app.float.id_card_margin_mid") })
+                    .margin({ left: $r("app.float.id_card_margin_xxl") })
                 }
-                .margin({ left: "12vp" })
-                .height("22vp")
-                .width("72vp")
+                .flexShrink(0)
+                .alignItems(HorizontalAlign.Start)
+                .width($r("app.float.account_listItem_text_common_width"))
 
-                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
+                Column() {
                   TextInput({
-                    placeholder: $r("app.string.remarks_hock"),
-                    text: util.isEmpty(this.mPresenter.contactInfoBefore.remarks)
+                    placeholder: $r("app.string.remarks"),
+                    text: StringUtil.isEmpty(this.mPresenter.contactInfoBefore.remarks)
                       ? ""
                       : this.mPresenter.contactInfoBefore.remarks
                   })
-                    .fontSize("16fp")
-                    .caretColor($r("app.color.colorConnected"))
+                    .margin({ left: $r("app.float.id_card_margin_xxl"),
+                      right: $r("app.float.id_card_margin_max") })
+                    .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                    .caretColor($r("sys.color.ohos_id_color_connected"))
                     .type(InputType.Normal)
                     .maxLength(256)
-                    .height("56vp")
+                    .height($r("app.float.id_item_height_large"))
+                    .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
                     .onChange((arg) => {
+                      this.mPresenter.addState = true;
                       this.mPresenter.contactInfoAfter.remarks = arg.valueOf();
                     })
-                    .flexGrow(1)
                 }
+                .flexShrink(1)
               }
             }
-            .borderRadius("24vp")
-            .height("64vp")
-            .width("832vp")
-            .margin({ top: "12vp" })
-            .backgroundColor("#FFFFFF")
+            .listItemFancy()
 
-            if (!this.showMore) {
-              //添加更多项
+            if (!this.mPresenter.showMore) {
               ListItem() {
-                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-                  Image($r("app.media.ic_public_add_norm"))
-                    .objectFit(ImageFit.Contain)
-                    .margin({ left: "24vp", top: "19vp", bottom: "21vp" })
-                    .height("24vp")
-                    .width("24vp")
-                    .fillColor($r("app.color.colorConnected"))
+                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start }) {
+                  ImageItemLeft({ mImage: $r("app.media.ic_public_add_norm"), moreFlag: true })
 
-                  Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-                    Text($r("app.string.addmore"))
-                      .fontSize("16fp")
-                      .lineHeight("22vp")
-                      .fontWeight(FontWeight.Medium)
-                      .fontColor($r("app.color.colorConnected"))
-                      .onClick(() => {
-                        this.showMore = true;
-                      })
-                  }
-                  .width("652vp")
-                  .margin({ left: "12vp" })
-                }
-              }
-              .borderRadius("24vp")
-              .height("64vp")
-              .width("832vp")
-              .margin({ top: "16vp" })
-              .backgroundColor("#FFFFFF");
-            }
-            if (this.showMore) {
-              //即时消息
-              ListItem() {
-                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
                   Column() {
-                    Image($r("app.media.ic_public_message"))
-                      .objectFit(ImageFit.Contain)
-                      .height("24vp")
-                      .width("24vp")
-                      .margin({ left: "24vp", top: "19vp", bottom: "21vp", right: "0vp" })
+                    Text($r("app.string.addmore"))
+                      .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                      .height($r("app.float.id_item_height_large"))
+                      .fontWeight(FontWeight.Medium)
+                      .fontColor($r("sys.color.ohos_id_color_connected"))
+                      .margin({ left: $r("app.float.id_card_margin_xxl") })
                   }
                   .alignItems(HorizontalAlign.Start)
-                  .alignSelf(ItemAlign.Start)
+                  .flexGrow(1)
+                }
+              }
+              .onClick(() => {
+                this.mPresenter.showMore = true;
+              })
+              .listItemFancy()
+            }
+            if (this.mPresenter.showMore) {
+              ListItem() {
+                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
+                  ImageItemLeft({ mImage: $r("app.media.ic_public_message") })
 
                   Column() {
                     ForEach(this.mPresenter.getArray(this.mPresenter.contactInfoBefore.aims)
@@ -473,7 +409,7 @@ struct Accountants {
                           mPresent: $mPresenter,
                           data: item,
                           typeName: "AIM",
-                          placeholder: $r("app.string.instant_messaging_hock")
+                          placeholder: $r("app.string.instant_messaging")
                         })
                       }, item => item.i.toString())
 
@@ -484,22 +420,11 @@ struct Accountants {
                   }.alignItems(HorizontalAlign.Start)
                 }
               }
-              .borderRadius("24vp")
-              .width("100%")
-              .margin({ top: "12vp" })
-              .backgroundColor("#FFFFFF")
-              //住宅
+              .listItemFancy()
+
               ListItem() {
-                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
-                  Column() {
-                    Image($r("app.media.ic_public_home"))
-                      .objectFit(ImageFit.Contain)
-                      .height("24vp")
-                      .width("24vp")
-                      .margin({ left: "24vp", top: "19vp", bottom: "21vp", right: "0vp" })
-                  }
-                  .alignItems(HorizontalAlign.Start)
-                  .alignSelf(ItemAlign.Start)
+                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
+                  ImageItemLeft({ mImage: $r("app.media.ic_public_home") })
 
                   Column() {
                     ForEach(this.mPresenter.getArray(this.mPresenter.contactInfoBefore.houses)
@@ -508,7 +433,7 @@ struct Accountants {
                           mPresent: $mPresenter,
                           data: item,
                           typeName: "house",
-                          placeholder: $r("app.string.address_add_hock")
+                          placeholder: $r("app.string.address_add")
                         })
                       }, item => item.i.toString())
 
@@ -519,110 +444,96 @@ struct Accountants {
                   }.alignItems(HorizontalAlign.Start)
                 }
               }
-              .borderRadius("24vp")
-              .width("100%")
-              .margin({ top: "12vp" })
-              .backgroundColor("#FFFFFF")
-              //昵称
+              .listItemFancy()
+
               ListItem() {
-                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-                  Image($r("app.media.ic_contacts_nickname"))
-                    .objectFit(ImageFit.Contain)
-                    .margin({ left: "24vp", top: "19vp", bottom: "21vp" })
-                    .height("24vp")
-                    .width("24vp")
+                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start }) {
+                  ImageItemLeft({ mImage: $r("app.media.ic_contacts_nickname") })
 
-                  Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
+                  Column() {
                     Text($r("app.string.nickname"))
-                      .fontSize("16fp")
-                      .lineHeight("22vp")
+                      .fontSize($r("sys.float.ohos_id_text_size_body1"))
                       .fontWeight(FontWeight.Medium)
-                      .fontColor($r("app.color.colorPrimary"))
+                      .fontColor($r("sys.color.ohos_id_color_text_primary"))
+                      .height($r("app.float.id_item_height_large"))
+                      .padding({ left: $r("app.float.id_card_margin_mid") })
+                      .margin({ left: $r("app.float.id_card_margin_xxl") })
                   }
-                  .margin({ left: "12vp" })
-                  .height("22vp")
-                  .width("72vp")
+                  .flexShrink(0)
+                  .alignItems(HorizontalAlign.Start)
+                  .width($r("app.float.account_listItem_text_common_width"))
 
-                  Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
+                  Column() {
                     TextInput({
-                      placeholder: $r("app.string.nickname_hock"),
-                      text: util.isEmpty(this.mPresenter.contactInfoBefore.nickname)
+                      placeholder: $r("app.string.nickname"),
+                      text: StringUtil.isEmpty(this.mPresenter.contactInfoBefore.nickname)
                         ? ""
                         : this.mPresenter.contactInfoBefore.nickname
                     })
-                      .fontSize("16fp")
-                      .caretColor($r("app.color.colorConnected"))
+                      .margin({ left: $r("app.float.id_card_margin_xxl"),
+                        right: $r("app.float.id_card_margin_max") })
+                      .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                      .caretColor($r("sys.color.ohos_id_color_connected"))
                       .type(InputType.Normal)
                       .maxLength(256)
-                      .height("56vp")
+                      .height($r("app.float.id_item_height_large"))
+                      .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
                       .onChange((arg) => {
+                        this.mPresenter.addState = true;
                         this.mPresenter.contactInfoAfter.nickname = arg.valueOf();
                       })
-                      .flexGrow(1)
                   }
-
+                  .flexShrink(1)
                 }
               }
-              .borderRadius("24vp")
-              .height("64vp")
-              .width("832vp")
-              .margin({ top: "12vp" })
-              .backgroundColor("#FFFFFF")
-              //网站
-              ListItem() {
-                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-                  Image($r("app.media.ic_public_worldclock"))
-                    .objectFit(ImageFit.Contain)
-                    .margin({ left: "24vp", top: "19vp", bottom: "21vp" })
-                    .height("24vp")
-                    .width("24vp")
-                  Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-                    Text($r("app.string.website"))
-                      .fontSize("16fp")
-                      .lineHeight("22vp")
-                      .fontWeight(FontWeight.Medium)
-                      .fontColor($r("app.color.colorPrimary"))
-                  }
-                  .margin({ left: "12vp" })
-                  .height("22vp")
-                  .width("72vp")
+              .listItemFancy()
 
-                  Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
+              ListItem() {
+                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start }) {
+                  ImageItemLeft({ mImage: $r("app.media.ic_public_worldclock") })
+
+                  Column() {
+                    Text($r("app.string.website"))
+                      .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                      .fontWeight(FontWeight.Medium)
+                      .fontColor($r("sys.color.ohos_id_color_text_primary"))
+                      .height($r("app.float.id_item_height_large"))
+                      .padding({ left: $r("app.float.id_card_margin_mid") })
+                      .margin({ left: $r("app.float.id_card_margin_xxl") })
+                  }
+                  .flexShrink(0)
+                  .alignItems(HorizontalAlign.Start)
+                  .width($r("app.float.account_listItem_text_common_width"))
+
+                  Column() {
                     TextInput({
-                      placeholder: $r("app.string.website_hock"),
-                      text: util.isEmptyList(this.mPresenter.contactInfoBefore.websites)
+                      placeholder: $r("app.string.website"),
+                      text: ArrayUtil.isEmpty(this.mPresenter.contactInfoBefore.websites)
                         ? ""
                         : this.mPresenter.contactInfoAfter.websites[0]
                     })
-                      .fontSize("16fp")
-                      .caretColor($r("app.color.colorConnected"))
+                      .margin({ left: $r("app.float.id_card_margin_xxl"),
+                        right: $r("app.float.id_card_margin_max") })
+                      .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                      .caretColor($r("sys.color.ohos_id_color_connected"))
                       .type(InputType.Normal)
                       .maxLength(256)
-                      .height("56vp")
+                      .height($r("app.float.id_item_height_large"))
+                      .flexGrow(1)
+                      .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
                       .onChange((arg) => {
+                        this.mPresenter.addState = true;
                         this.mPresenter.contactInfoBefore.websites = [arg.valueOf()];
                       })
-                      .flexGrow(1)
                   }
+                  .flexShrink(1)
                 }
               }
-              .borderRadius("24vp")
-              .height("64vp")
-              .width("832vp")
-              .margin({ top: "12vp" })
-              .backgroundColor("#FFFFFF")
-              //生日
+              .listItemFancy()
+
               ListItem() {
-                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
-                  Column() {
-                    Image($r("app.media.ic_contacts_birthday"))
-                      .objectFit(ImageFit.Contain)
-                      .height("24vp")
-                      .width("24vp")
-                      .margin({ left: "24vp", top: "19vp", bottom: "21vp", right: "0vp" })
-                  }
-                  .alignItems(HorizontalAlign.Start)
-                  .alignSelf(ItemAlign.Start)
+                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
+                  ImageItemLeft({ mImage: $r("app.media.ic_contacts_birthday") })
 
                   Column() {
                     ForEach(this.mPresenter.getArray(this.mPresenter.contactInfoBefore.events)
@@ -643,22 +554,11 @@ struct Accountants {
                   }.alignItems(HorizontalAlign.Start)
                 }
               }
-              .borderRadius("24vp")
-              .width("832vp")
-              .margin({ top: "12vp" })
-              .backgroundColor("#FFFFFF")
-              //关联联系人
+              .listItemFancy()
+
               ListItem() {
-                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
-                  Column() {
-                    Image($r("app.media.ic_contacts_assistant"))
-                      .objectFit(ImageFit.Contain)
-                      .height("24vp")
-                      .width("24vp")
-                      .margin({ left: "24vp", top: "19vp", bottom: "21vp", right: "0vp" })
-                  }
-                  .alignItems(HorizontalAlign.Start)
-                  .alignSelf(ItemAlign.Start)
+                Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
+                  ImageItemLeft({ mImage: $r("app.media.ic_contacts_assistant") })
 
                   Column() {
                     ForEach(this.mPresenter.getArray(this.mPresenter.contactInfoBefore.relationships)
@@ -667,7 +567,7 @@ struct Accountants {
                           mPresent: $mPresenter,
                           data: item,
                           typeName: "relationships",
-                          placeholder: $r("app.string.assistant_hock")
+                          placeholder: $r("app.string.relationship_type_assistant")
                         })
                       }, item => item.i.toString())
 
@@ -678,42 +578,39 @@ struct Accountants {
                   }.alignItems(HorizontalAlign.Start)
                 }
               }
-              .borderRadius("24vp")
-              .width("100%")
-              .margin({ top: "12vp" })
-              .backgroundColor("#FFFFFF")
+              .listItemFancy()
             }
 
             if (this.updataShow) {
               ListItem() {
                 Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start }) {
                   Text($r("app.string.from_the_accounts"))
-                    .width('312vp')
-                    .fontFamily('HarmonyHeiTi')
-                    .fontSize('14fp')
-                    .height('19vp')
-                    .fontColor($r("app.color.colorPrimary"))
+                    .fontSize($r("sys.float.ohos_id_text_size_body2"))
+                    .fontColor($r("sys.color.ohos_id_color_text_primary"))
                     .fontWeight(FontWeight.Regular)
-                    .lineHeight('19vp')
+                    .margin({
+                      top: $r("app.float.id_card_margin_max"),
+                      left: $r("app.float.id_card_margin_max")
+                    })
+                    .opacity(0.6)
+
                   Text($r("app.string.phone"))
-                    .width('312vp')
-                    .fontFamily('HarmonyHeiTi')
-                    .fontSize('14fp')
-                    .height('19vp')
-                    .fontColor($r("app.color.colorPrimary"))
+                    .fontSize($r("sys.float.ohos_id_text_size_body2"))
+                    .fontColor($r("sys.color.ohos_id_color_text_primary"))
                     .fontWeight(FontWeight.Regular)
-                    .lineHeight('19vp')
-                    .margin({ top: '8vp' })
+                    .margin({
+                      top: "8vp",
+                      left: $r("app.float.id_card_margin_max"),
+                      bottom: $r("app.float.id_card_margin_max")
+                    })
                 }
               }
               .width("100%")
-              .margin({ top: "12vp" })
             }
-
           }
           .scrollBar(BarState.On)
           .width("100%")
-          .height("100%")
+          .flexShrink(1)
           .alignSelf(ItemAlign.Start)
           .useSizeType({
             xs: { span: 4, offset: 0 },
@@ -725,17 +622,17 @@ struct Accountants {
         .height('100%')
       }
     }
-    .backgroundColor("#D8D8D8")
+    .backgroundColor($r('sys.color.ohos_id_color_sub_background'))
   }
 }
 
 /**
- * 添加日期弹窗
+ * Add Date Pop-up
  */
 @CustomDialog
 struct showDayTime {
   private date = new Date(2000, 0, 1);
-  @Link  mPresent: any;
+  @Link mPresent: any;
   @Prop itemIndex: number;
   @State
   private showTime: string = this.date.getUTCFullYear() + "年" + (this.date.getMonth() + 1) + "月" + this.date.getDate() + "日";
@@ -752,7 +649,7 @@ struct showDayTime {
         .margin({ top: 10, bottom: 10 })
         .textAlign(TextAlign.Center)
 
-      DatePicker({ type: DatePickerType.Date, selected: this.date })
+      DatePicker({ selected: this.date })
         .width("85%")
         .height("200vp")
         .onChange((arg) => {
@@ -766,22 +663,26 @@ struct showDayTime {
           .onClick(() => {
             this.controller.close()
             this.cancel()
-          }).backgroundColor("#D8D8D8").fontColor($r("app.color.colorPrimary"))
+          })
+          .fontColor($r("sys.color.ohos_id_color_text_primary"))
+          .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
         Button($r("app.string.save"))
           .width("50%")
           .onClick(() => {
-            if (util.isEmptyObject(this.mPresent.contactInfoAfter.events[this.itemIndex])) {
-              this.mPresent.contactInfoAfter.events[this.itemIndex] = new EventBean("", "", "", "");
+            this.mPresent.addState = true;
+            if (StringUtil.isEmpty(this.mPresent.contactInfoAfter.events[this.itemIndex].eventType)) {
+              this.mPresent.contactInfoAfter.events[this.itemIndex] = new EventBean("", "", "1", "");
             }
             this.mPresent.contactInfoAfter.events[this.itemIndex].data = this.showTime;
             this.mPresent.refresh();
             this.controller.close();
             this.confirm();
-          }).backgroundColor("#D8D8D8").fontColor($r("app.color.colorPrimary"))
+          })
+          .fontColor($r("sys.color.ohos_id_color_text_primary"))
+          .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
       }
       .height("50vp")
       .width('70%')
-
     }.height("350vp")
   }
 }
@@ -795,57 +696,74 @@ struct ItemList {
 
   build() {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-      Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-        Text(this.mPresent.menuSelect(
-          this.typeName,
-          this.data
-        ))
-          .fontSize("16fp")
-          .margin({ bottom: "9vp", top: "9vp" })
-          .lineHeight("22vp")
-          .fontWeight(FontWeight.Medium)
-          .fontColor($r("app.color.colorPrimary"))
-          .height("22vp")
-          .width("38vp")
-          .bindMenu(this.MenuBuilder)
+      Column() {
+        Row() {
+          Text(this.mPresent.menuSelect(
+            this.typeName,
+            this.data
+          ))
+            .fontSize($r("sys.float.ohos_id_text_size_body1"))
+            .fontWeight(FontWeight.Medium)
+            .fontColor($r("sys.color.ohos_id_color_text_primary"))
+            .maxLines(1)
+            .constraintSize({ minWidth: $r("app.float.account_ItemList_text_width") })
+            .bindMenu(this.MenuBuilder)
 
-        Image($r("app.media.ic_public_spinner"))
-          .objectFit(ImageFit.Contain)
-          .height("24vp")
-          .width("12vp")
+          Image($r("app.media.ic_public_spinner"))
+            .objectFit(ImageFit.Contain)
+            .height($r("app.float.id_card_image_small"))
+            .width($r("app.float.id_card_image_xs"))
+        }
+        .height($r("app.float.id_item_height_sm"))
+        .constraintSize({ minWidth: $r("app.float.account_listItem_text_common_width") })
       }
-      .margin({ left: "12vp" })
-      .height("40vp")
-      .width("72vp")
+      .flexShrink(0)
 
-      Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-        TextInput({
-          placeholder: this.placeholder,
-          text: this.mPresent.getTextDisplay(this.typeName, this.data)
-        })
-          .fontSize("16fp")
-          .caretColor($r("app.color.colorConnected"))
-          .type(InputType.Normal)
-          .maxLength(256)
-          .height("56vp")
-          .onChange((arg) => {
-            this.mPresent.listItemChange(this.typeName, this.data, arg.toString())
-          })
-      }
-      .flexGrow(1)
+      Column() {
+        Row() {
+          Column() {
+            TextInput({
+              placeholder: this.placeholder,
+              text: this.mPresent.getTextDisplay(this.typeName, this.data)
+            })
+              .fontSize($r("sys.float.ohos_id_text_size_body1"))
+              .caretColor($r("sys.color.ohos_id_color_connected"))
+              .type((this.typeName === "phone") ? InputType.Number : InputType.Normal)
+              .maxLength(256)
+              .height("98%")
+              .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
+              .onChange((arg) => {
+                this.mPresent.addState = true;
+                this.mPresent.listItemChange(this.typeName, this.data, arg.toString())
+              })
+          }
+          .alignItems(HorizontalAlign.Start)
+          .flexShrink(1)
 
-      Row() {
-        Image($r("app.media.ic_public_close_filled"))
-          .objectFit(ImageFit.Contain)
-          .height("24vp")
-          .width("24vp")
-          .margin({ top: "16vp", right: "28vp", bottom: "16vp" })
-          .onClick(() => {
-            this.mPresent.deleteItem(this.typeName, this.data.i - 1);
-          })
+          Column() {
+            Image($r("app.media.ic_public_close_filled"))
+              .objectFit(ImageFit.Contain)
+              .height($r("app.float.id_card_image_small"))
+              .width($r("app.float.id_card_image_small"))
+              .fillColor($r("sys.color.ohos_id_color_tertiary"))
+              .onClick(() => {
+                this.mPresent.deleteItem(this.typeName, this.data.i - 1);
+              })
+          }
+          .flexShrink(0)
+        }
+
+        Divider()
+          .padding({ left: $r("app.float.id_card_margin_xxl") })
+          .height($r("app.float.account_Divider_height"))
+          .width("100%")
+          .color($r("sys.color.ohos_id_color_list_separator"))
       }
+      .alignItems(HorizontalAlign.Start)
+      .height($r("app.float.id_item_height_large"))
     }
-    .height("64vp")
+    .margin({ left: $r("app.float.id_card_margin_xxl"),
+      right: $r("app.float.id_card_margin_max") })
   }
 
   @Builder MenuBuilder() {
@@ -853,22 +771,25 @@ struct ItemList {
       ForEach(this.mPresent.getMenuList(this.typeName),
         (item) => {
           Text(item.labelRes)
-            .fontSize("16fp")
-            .width("156vp")
-            .height("48vp")
-            .fontColor($r("app.color.colorPrimary"))
+            .fontSize($r("sys.float.ohos_id_text_size_body1"))
+            .width($r("app.float.account_MenuBuilder_width"))
+            .height($r("app.float.id_item_height_mid"))
+            .fontColor($r("sys.color.ohos_id_color_text_primary"))
             .textAlign(TextAlign.Start)
-            .margin({ left: "16vp" })
+            .margin({ left: $r("app.float.id_card_margin_xxl") })
             .onClick(() => {
               this.mPresent.menuChange(this.typeName, this.data, item);
             })
 
-          Divider().height("1vp").width("124vp").color("#33000000")
+          Divider()
+            .height($r("app.float.account_Divider_height"))
+            .width($r("app.float.account_Divider_width"))
+            .color($r("sys.color.ohos_id_color_list_separator"))
         },
         (item) => item.rawValue.toString())
     }
-    .width("156vp")
-    .borderRadius("16vp")
+    .width($r("app.float.account_MenuBuilder_width"))
+    .borderRadius($r("sys.float.ohos_id_corner_radius_default_l"))
   }
 }
 
@@ -882,57 +803,76 @@ struct ItemEvent {
 
   build() {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-      Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
-        Text(this.mPresent.menuSelect(
-          this.typeName,
-          this.data
-        ))
-          .fontSize("16fp")
-          .margin({ bottom: "9vp", top: "9vp" })
-          .lineHeight("22vp")
-          .fontWeight(FontWeight.Medium)
-          .fontColor($r("app.color.colorPrimary"))
-          .height("22vp")
-          .width("38vp")
-          .bindMenu(this.MenuBuilder)
+      Column() {
+        Row() {
+          Text(this.mPresent.menuSelect(
+            this.typeName,
+            this.data
+          ))
+            .fontSize($r("sys.float.ohos_id_text_size_body1"))
+            .fontWeight(FontWeight.Medium)
+            .fontColor($r("sys.color.ohos_id_color_text_primary"))
+            .textOverflow({ overflow: TextOverflow.None })
+            .maxLines(1)
+            .constraintSize({ minWidth: $r("app.float.account_ItemList_text_width") })
+            .bindMenu(this.MenuBuilder)
 
-        Image($r("app.media.ic_public_spinner"))
-          .objectFit(ImageFit.Contain)
-          .height("24vp")
-          .width("12vp")
+          Image($r("app.media.ic_public_spinner"))
+            .objectFit(ImageFit.Contain)
+            .height($r("app.float.id_card_image_small"))
+            .width($r("app.float.id_card_image_xs"))
+        }
+        .height($r("app.float.id_item_height_sm"))
+        .constraintSize({ minWidth: $r("app.float.account_listItem_text_common_width") })
       }
-      .margin({ left: "12vp" })
-      .height("40vp")
-      .width("72vp")
 
-      Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start, justifyContent: FlexAlign.End }) {
-        Text(
-          util.isEmpty(this.mPresent.getTextDisplay(this.typeName, this.data))
-            ? $r("app.string.birth_hock")
-            : this.mPresent.getTextDisplay(this.typeName, this.data)
-        )
-          .margin({ left: px2vp(10) })
-          .height("55vp")
-          .fontSize("15vp")
-          .fontColor(Color.Gray)
-      }
-      .flexGrow(1)
-      .onClick(() => {
-        this.itemIndex = this.data.i - 1;
-        this.controller.open()
-      })
-
-      Row() {
-        Image($r("app.media.ic_public_close_filled"))
-          .objectFit(ImageFit.Contain)
-          .height("24vp")
-          .width("24vp")
-          .margin({ top: "16vp", right: "28vp", bottom: "16vp" })
+      Column() {
+        Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
+          Column() {
+            Text(
+              StringUtil.isEmpty(this.mPresent.getTextDisplay(this.typeName, this.data))
+                ? $r("app.string.birthday_type_grebirthday")
+                : this.mPresent.getTextDisplay(this.typeName, this.data)
+            )
+              .margin({ left: $r("app.float.id_card_margin_xxl") })
+              .height($r("app.float.id_item_height_large"))
+              .fontSize($r("sys.float.ohos_id_text_size_body1"))
+              .fontColor(
+                StringUtil.isEmpty(this.mPresent.getTextDisplay(this.typeName, this.data))
+                  ? $r("sys.color.ohos_id_color_text_secondary")
+                  : $r("sys.color.ohos_id_color_text_primary")
+              )
+          }
+          .alignItems(HorizontalAlign.Start)
+          .flexGrow(1)
           .onClick(() => {
-            this.mPresent.deleteItem(this.typeName, this.data.i - 1);
+            this.itemIndex = this.data.i - 1;
+            this.controller.open()
           })
+
+          Column() {
+            Image($r("app.media.ic_public_close_filled"))
+              .objectFit(ImageFit.Contain)
+              .height($r("app.float.id_card_image_small"))
+              .width($r("app.float.id_card_image_small"))
+              .fillColor($r("sys.color.ohos_id_color_tertiary"))
+              .onClick(() => {
+                this.mPresent.deleteItem(this.typeName, this.data.i - 1);
+              })
+          }
+        }
+
+        Divider()
+          .padding({ left: $r("app.float.id_card_margin_xxl") })
+          .height($r("app.float.account_Divider_height"))
+          .width("100%")
+          .color($r("sys.color.ohos_id_color_list_separator"))
       }
+      .alignItems(HorizontalAlign.Start)
+      .height($r("app.float.id_item_height_large"))
     }
+    .margin({ left: $r("app.float.id_card_margin_xxl"),
+      right: $r("app.float.id_card_margin_max") })
   }
 
   @Builder MenuBuilder() {
@@ -940,22 +880,25 @@ struct ItemEvent {
       ForEach(this.mPresent.getMenuList(this.typeName),
         (item) => {
           Text(item.labelRes)
-            .fontSize("16fp")
+            .fontSize($r("sys.float.ohos_id_text_size_body1"))
             .width("156vp")
-            .height("48vp")
-            .fontColor($r("app.color.colorPrimary"))
+            .height($r("app.float.id_item_height_mid"))
+            .fontColor($r("sys.color.ohos_id_color_text_primary"))
             .textAlign(TextAlign.Start)
-            .margin({ left: "16vp" })
+            .margin({ left: $r("app.float.id_card_margin_xxl") })
             .onClick(() => {
               this.mPresent.menuChange(this.typeName, this.data, item);
             })
 
-          Divider().height("1vp").width("124vp").color("#33000000")
+          Divider()
+            .height($r("app.float.account_Divider_height"))
+            .width($r("app.float.account_Divider_width"))
+            .color($r("sys.color.ohos_id_color_list_separator"))
         },
         (item) => item.rawValue.toString())
     }
-    .width("156vp")
-    .borderRadius("16vp")
+    .width($r("app.float.account_MenuBuilder_width"))
+    .borderRadius($r("sys.float.ohos_id_corner_radius_default_l"))
   }
 }
 
@@ -969,12 +912,9 @@ struct AddItem {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
       Column() {
         Text(this.labelName)
-          .fontSize("16fp")
-          .margin({ bottom: "9vp", top: "9vp", left: "12vp" })
-          .lineHeight("22vp")
+          .fontSize($r("sys.float.ohos_id_text_size_body1"))
           .fontWeight(FontWeight.Medium)
-          .fontColor($r("app.color.colorPrimary"))
-          .height("22vp")
+          .fontColor($r("sys.color.ohos_id_color_text_secondary"))
       }
       .alignItems(HorizontalAlign.Start)
       .flexGrow(1)
@@ -982,15 +922,39 @@ struct AddItem {
       Column() {
         Image($r("app.media.ic_public_add_norm_filled"))
           .objectFit(ImageFit.Contain)
-          .height("24vp")
-          .width("24vp")
-          .margin({ top: "16vp", right: "12vp", bottom: "16vp" })
+          .height($r("app.float.id_card_image_small"))
+          .width($r("app.float.id_card_image_small"))
+          .fillColor($r("sys.color.ohos_id_color_tertiary"))
           .onClick(() => {
             this.mPresent.addMore(this.typeName);
           })
       }
+      .margin({ right: $r("app.float.id_card_margin_max") })
       .alignItems(HorizontalAlign.End)
     }
-    .height("64vp")
+    .margin({ left: $r("app.float.id_card_margin_xxl") })
+    .height($r("app.float.id_item_height_large"))
+  }
+}
+
+@Component
+struct ImageItemLeft {
+  private mImage: Resource;
+  private moreFlag?: Boolean = false;
+
+  build() {
+    Column() {
+      Image(this.mImage)
+        .objectFit(ImageFit.Contain)
+        .height($r("app.float.id_card_image_small"))
+        .width($r("app.float.id_card_image_small"))
+        .margin({ left: $r("app.float.id_card_margin_max") })
+        .fillColor(this.moreFlag
+          ? $r("sys.color.ohos_id_color_connected")
+          : $r("sys.color.ohos_id_color_secondary"))
+    }
+    .height($r("app.float.id_item_height_large"))
+    .alignItems(HorizontalAlign.Start)
+    .justifyContent(FlexAlign.Center)
   }
 }

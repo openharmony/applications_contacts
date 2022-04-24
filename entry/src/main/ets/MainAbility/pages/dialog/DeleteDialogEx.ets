@@ -14,7 +14,7 @@
  */
 
 /**
- * 删除弹框，在底部显示;
+ * The Delete dialog box is displayed at the bottom.
  */
 @CustomDialog
 export default struct DeleteDialogEx {
@@ -47,7 +47,7 @@ export default struct DeleteDialogEx {
           justifyContent: FlexAlign.Center,
           alignItems: ItemAlign.Center
         }) {
-          Text(this.cancalText).fontColor($r("app.color.cancel")).fontSize(20)
+          Text(this.cancalText).fontColor($r("sys.color.ohos_id_color_text_primary_activated")).fontSize(20)
         }
         .layoutWeight(1)
         .height(35)

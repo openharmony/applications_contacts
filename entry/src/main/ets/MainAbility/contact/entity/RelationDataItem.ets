@@ -18,7 +18,6 @@ import Relation from '../contract/Relation';
 
 export default class RelationDataItem extends DataItem {
   readonly values: Map<string, any>;
-
   constructor(values: Map<string, any>) {
     super(values);
   }

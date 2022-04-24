@@ -17,7 +17,6 @@ import Organization from '../contract/Organization';
 
 export default class NoteDataItem extends DataItem {
   readonly values: Map<string, any>;
-
   constructor(values: Map<string, any>) {
     super(values);
   }

@@ -14,7 +14,7 @@
     },
     {
       "name": "dialer_calllog",
-      "value": "Call log"
+      "value": "CALL LOG"
     },
     {
       "name": "dialer_description",
@@ -261,7 +261,7 @@
       "value": "%d item selected"
     },
     {
-      "name": "concal_favorite",
+      "name": "cancel_favorite",
       "value": "Unfavorites"
     },
     {
@@ -318,11 +318,11 @@
     },
     {
       "name": "website",
-      "value": "Web site"
+      "value": "Website"
     },
     {
       "name": "clear",
-      "value": "Clear"
+      "value": "CLEAR"
     },
     {
       "name": "ringtone",
@@ -341,7 +341,7 @@
       "value": "Share"
     },
     {
-      "name": "noAnswer",
+      "name": "Ringing",
       "value": "Ringing"
     },
     {
@@ -353,192 +353,20 @@
       "value": "Not connected"
     },
     {
-      "name": "years",
-      "value": "Year"
-    },
-    {
-      "name": "months",
-      "value": "Month"
-    },
-    {
-      "name": "day",
-      "value": "Day"
-    },
-    {
-      "name": "hour",
-      "value": "Hour"
-    },
-    {
-      "name": "minute",
-      "value": "Minute"
-    },
-    {
-      "name": "seconds",
-      "value": "Seconds"
-    },
-    {
-      "name": "middleNight",
-      "value": "midnight"
-    },
-    {
-      "name": "evening",
-      "value": "night"
-    },
-    {
-      "name": "AM",
-      "value": "AM"
-    },
-    {
-      "name": "PM",
-      "value": "PM"
-    },
-    {
-      "name": "earlyMorning",
-      "value": "Early morning"
-    },
-    {
       "name": "justNow",
       "value": "Just now"
     },
     {
       "name": "minutesAgo",
-      "value": "minutes Ago"
+      "value": "%dminutes Ago"
     },
     {
       "name": "yesterday",
       "value": "yesterday"
     },
     {
-      "name": "nightfall",
-      "value": "nightfall"
-    },
-    {
-      "name": "noon",
-      "value": "Noon"
-    },
-    {
-      "name": "morning",
-      "value": "Morning"
-    },
-    {
-      "name": "beforeDawn",
-      "value": "Early morning"
-    },
-    {
       "name": "unknown",
       "value": "unknown"
-    },
-    {
-      "name": "timeHour",
-      "value": "Hour"
-    },
-    {
-      "name": "AIM",
-      "value": "AIM"
-    },
-    {
-      "name": "WindowsLive",
-      "value": "Windows Live"
-    },
-    {
-      "name": "Yahoo",
-      "value": "Yahoo"
-    },
-    {
-      "name": "Skype",
-      "value": "Skype"
-    },
-    {
-      "name": "QQ",
-      "value": "QQ"
-    },
-    {
-      "name": "Hangout",
-      "value": "Hangout"
-    },
-    {
-      "name": "ICQ",
-      "value": "ICQ"
-    },
-    {
-      "name": "Jabber",
-      "value": "Jabber"
-    },
-    {
-      "name": "add_more",
-      "value": "Add_More"
-    },
-    {
-      "name": "LunarBirthday",
-      "value": "Lunar Birthday"
-    },
-    {
-      "name": "Anniversary",
-      "value": "Anniversaries"
-    },
-    {
-      "name": "birth",
-      "value": "Birthday"
-    },
-    {
-      "name": "importDay",
-      "value": "Other Important Dates"
-    },
-    {
-      "name": "brothers",
-      "value": "Brother"
-    },
-    {
-      "name": "assistant",
-      "value": "assistant"
-    },
-    {
-      "name": "child",
-      "value": "children"
-    },
-    {
-      "name": "companion",
-      "value": "mates"
-    },
-    {
-      "name": "father",
-      "value": "father"
-    },
-    {
-      "name": "friend",
-      "value": "friend"
-    },
-    {
-      "name": "boss",
-      "value": "bosses"
-    },
-    {
-      "name": "mother",
-      "value": "mother"
-    },
-    {
-      "name": "parents",
-      "value": "parents"
-    },
-    {
-      "name": "Partner",
-      "value": "Partner"
-    },
-    {
-      "name": "introducer",
-      "value": "introducer"
-    },
-    {
-      "name": "relatives",
-      "value": "kinship"
-    },
-    {
-      "name": "sisters",
-      "value": "sisters"
-    },
-    {
-      "name": "spouse",
-      "value": "spouses"
     },
     {
       "name": "hourMinutes",
@@ -546,39 +374,31 @@
     },
     {
       "name": "monthDay",
-      "value": "%d month %d day "
+      "value": "%d/%d  "
     },
     {
       "name": "yearMonthDay",
-      "value": "%d year %d month %d day "
+      "value": "%d/%d/%d "
     },
     {
       "name": "secondsFormat",
-      "value": "%d seconds"
+      "value": "%d s"
     },
     {
       "name": "minutesSecondsFormat",
-      "value": "%d minutes %d seconds"
+      "value": "%d m %d s"
     },
     {
       "name": "hourMinutesSecondsFormat",
-      "value": "%d hour %d minutes %d seconds"
+      "value": "%d h %d m %d s"
     },
     {
       "name": "name",
       "value": "Name"
     },
     {
-      "name": "name_hock",
-      "value": "  Name"
-    },
-    {
       "name": "new_group",
       "value": "Create new group"
-    },
-    {
-      "name": "nickname_hock",
-      "value": "  Nickname"
     },
     {
       "name": "join_group",
@@ -597,52 +417,16 @@
       "value": "Instant Messaging"
     },
     {
-      "name": "instant_messaging_hock",
-      "value": "  Instant Messaging"
-    },
-    {
-      "name": "address_add_hock",
-      "value": "  Address"
-    },
-    {
-      "name": "website_hock",
-      "value": "  Web site"
-    },
-    {
-      "name": "remarks_hock",
-      "value": "  Remarks"
-    },
-    {
       "name": "position",
       "value": "Position"
-    },
-    {
-      "name": "position_hock",
-      "value": "  Position"
     },
     {
       "name": "phone_number",
       "value": "Phone number"
     },
     {
-      "name": "phone_number_hock",
-      "value": "  Phone number"
-    },
-    {
       "name": "email",
       "value": "E-mail"
-    },
-    {
-      "name": "email_hock",
-      "value": "  E-mail"
-    },
-    {
-      "name": "birth_hock",
-      "value": "  Data"
-    },
-    {
-      "name": "assistant_hock",
-      "value": "  Associated Person"
     },
     {
       "name": "instant_type_aim",
@@ -765,10 +549,6 @@
       "value": "Position"
     },
     {
-      "name": "house_type_position_hock",
-      "value": "  Unit"
-    },
-    {
       "name": "house_type_other",
       "value": "Other"
     },
@@ -837,6 +617,10 @@
       "value": "Select All"
     },
     {
+      "name": "unselect_all",
+      "value": "Deselect All"
+    },
+    {
       "name": "recent",
       "value": "Recent"
     },
@@ -871,6 +655,46 @@
     {
       "name": "More",
       "value": "more"
+    },
+    {
+      "name": "support_pinyin",
+      "value": "Support Pinyin"
+    },
+    {
+      "name": "search_huaxiaofen",
+      "value": "Search HuaXiaoFen"
+    },
+    {
+      "name": "you_can_enter",
+      "value": "You can enter"
+    },
+    {
+      "name": "time_early_morning",
+      "value": "%s:%s"
+    },
+    {
+      "name": "time_morning",
+      "value": "%s:%s"
+    },
+    {
+      "name": "time_noon",
+      "value": "%s:%s"
+    },
+    {
+      "name": "time_afternoon",
+      "value": "%s:%s"
+    },
+    {
+      "name": "time_nightfall",
+      "value": "%s:%s"
+    },
+    {
+      "name": "time_night",
+      "value": "%s:%s"
+    },
+    {
+      "name": "time_middle_night",
+      "value": "%s:%s"
     }
   ]
 }

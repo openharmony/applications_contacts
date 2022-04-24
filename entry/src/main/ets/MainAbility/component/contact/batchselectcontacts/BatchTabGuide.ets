@@ -14,7 +14,6 @@
  */
 
 import BatchSelectContactsPresenter from '../../../presenter/contact/batchselectcontacts/BatchSelectContactsPresenter';
-import HiLog from '../../../util/HiLog';
 
 const TAG = 'BatchTabGuide ';
 
@@ -34,22 +33,24 @@ export default struct BatchTabGuide {
           justifyContent: FlexAlign.End,
           alignItems: ItemAlign.Center }) {
           Text(item)
-            .fontSize($r("app.float.contact_text_size_body1"))
-            .fontColor(this.currentIndex == index ? $r("app.color.colorConnected") : $r("app.color.textColorTertiary"))
+            .fontSize($r("sys.float.ohos_id_text_size_body1"))
+            .fontColor(this.currentIndex == index ? $r("sys.color.ohos_id_color_connected") : $r("sys.color.ohos_id_color_text_tertiary"))
             .textAlign(TextAlign.Center)
-            .margin({ bottom: 5 })
+            .margin({ top: 17, bottom: 6 })
+            .fontWeight(FontWeight.Medium)
 
           Divider()
+            .width(index === 1 ? 56 : 32)
             .vertical(false)
-            .strokeWidth('1vp')
-            .color($r("app.color.colorConnected"))
+            .strokeWidth(2)
+            .borderRadius(1)
+            .color($r("sys.color.ohos_id_color_connected"))
             .visibility(this.currentIndex == index ? Visibility.Visible : Visibility.Hidden)
         }
-        .width(60)
-        .height($r("app.float.contact_titleguide_height"))
-        .margin({ left: 5, right: 5 })
+        .width(120)
+        .height($r("app.float.id_item_height_large"))
+        .margin({ left: $r("app.float.id_card_margin_xl"), right: $r("app.float.id_card_margin_xl") })
         .onClick(() => {
-          HiLog.i(TAG, "item clicked currentIndex is " + this.currentIndex + " index is %d", index);
           if (this.currentIndex != index) {
             this.controller.changeIndex(index);
           }
@@ -59,6 +60,6 @@ export default struct BatchTabGuide {
 
     }
     .width('100%')
-    .height($r("app.float.contact_titleguide_height"))
+    .height($r("app.float.id_item_height_large"))
   }
 }

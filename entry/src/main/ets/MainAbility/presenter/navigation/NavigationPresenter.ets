@@ -16,34 +16,43 @@
 const TAG = 'NavigationPresenter  ';
 
 /**
- * 进入联系人底部导航栏
+ * Navigation bar of the contacts
  */
 export default {
   getTabSrc(tabIndex: number, index: number): Resource{
-    let imgSrc = $r('app.media.phone')
+    let imgSrc = $r('app.media.ic_call_filled_actived');
     if (index === 0) {
-      imgSrc = $r("app.media.ic_phonecall_m")
+      imgSrc = $r("app.media.ic_call_filled_normal");
+      if (tabIndex === index) {
+        imgSrc = $r("app.media.ic_call_filled_actived");
+      }
     } else if (index === 1) {
-      imgSrc = $r("app.media.ic_contacts_m")
+      imgSrc = $r("app.media.ic_contacts_normal_filled");
+      if (tabIndex === index) {
+        imgSrc = $r("app.media.ic_contacts_actived_filled");
+      }
     } else {
-      imgSrc = $r("app.media.ic_contacts_favorite_m")
+      imgSrc = $r("app.media.ic_feature_normal_filled");
+      if (tabIndex === index) {
+        imgSrc = $r("app.media.ic_feature_actived_filled");
+      }
     }
-    return imgSrc
+    return imgSrc;
   },
 
   getTabText(tabIndex: number, index: number): Resource {
-    let text = $r('app.string.dialer')
+    let text = $r('app.string.dialer');
     if (index === 1) {
-      text = $r('app.string.contact')
+      text = $r('app.string.contact');
     }
-    return text
+    return text;
   },
 
-  getTabTextColor(tabIndex: number, index: number): string{
-    let color = '#66182431'
+  getTabTextColor(tabIndex: number, index: number): Resource{
+    let color = $r('sys.color.ohos_id_color_bottom_tab_text_off');
     if (tabIndex === index) {
-      color = '#00CB87'
+      color = $r('sys.color.ohos_id_color_connected');
     }
-    return color
+    return color;
   }
 }

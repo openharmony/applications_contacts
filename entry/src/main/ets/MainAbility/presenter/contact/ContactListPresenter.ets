@@ -15,23 +15,17 @@
 
 import router from '@system.router';
 import HiLog from '../../util/HiLog';
-import Constants from '../../model/common/Constants';
 import {ContactVo} from '../../model/bean/ContactVo';
-import {ContactInfo} from '../../model/bean/ContactInfo'
-import common from '../../model/common';
-import dbChangeHelper from '../../model/common/DbChangeHelper';
-import utils from '../../util/Utils';
-import appStorageUtil from '../../util/AppStorageUtil';
-import preferencesUtil from '../../util/PreferencesUtil';
-import prompt from '@system.prompt';
+import ArrayUtil from '../../util/ArrayUtil';
 import ContactRepository from '../../contact/repo/ContactRepository';
+import CallLogRepository from '../../call/repo/CallLogRepository';
 import ContactAbilityModel from '../../model/ContactAbilityModel';
 import ContactListDataSource from '../../model/bean/ContactListDataSource';
 
 const TAG = 'ContactListPresenter  ';
 
 /**
- * 联系人列表被点击的控件类型
+ * Type of the control that is clicked in the contact list.
  */
 export enum ContactClickType {
   LOGIN_IN,
@@ -41,7 +35,7 @@ export enum ContactClickType {
 }
 
 /**
- * 联系人列表逻辑接口模型
+ * Contact List Logical Interface Model
  */
 export default class ContactListPresenter {
   private static sInstance: ContactListPresenter;
@@ -54,11 +48,9 @@ export default class ContactListPresenter {
   contactCount: number = 0;
   isEmptyGroup: boolean = true;
   shareList: Resource[] = [$r("app.string.qr_code"), $r("app.string.v_card"), $r("app.string.text")];
-  layoutState: boolean = true;
   settingsMenu: Resource[] = [$r("app.string.contact_setting_type_scancard"), $r("app.string.call_setting_type_setting")];
   contactListDataSource: ContactListDataSource = new ContactListDataSource();
   private constructor() {
-    this.refresh();
   }
 
   public static getInstance(): ContactListPresenter {
@@ -70,24 +62,16 @@ export default class ContactListPresenter {
 
   aboutToAppear() {
     HiLog.i(TAG, 'Contact aboutToAppear!');
-
-    var DAHelper = common.getDAHelper(Constants.uri.CONTACT_DB_URI);
-    dbChangeHelper.getInstance().registerDbChangeLister(DAHelper, Constants.uri.CONTACT_DATA_URI, (data) => {
-      this.refresh();
-    });
-    dbChangeHelper.getInstance().registerDbChangeLister(DAHelper, Constants.uri.CONTACT_URI, (data) => {
+    this.refresh();
+    ContactRepository.getInstance().registerDataChangeObserver(() => {
       this.refresh();
     });
   }
 
   aboutToDisappear() {
     HiLog.i(TAG, 'Contact aboutToDisappear!');
-    var DAHelper = common.getDAHelper(Constants.uri.CONTACT_DB_URI);
-    dbChangeHelper.getInstance().unRegisterDbChangeLister(DAHelper, Constants.uri.CONTACT_DATA_URI, (data) => {
-      HiLog.i(TAG, 'Contact aboutToDisappear!');
-    });
-    dbChangeHelper.getInstance().unRegisterDbChangeLister(DAHelper, Constants.uri.CONTACT_URI, (data) => {
-      HiLog.i(TAG, 'Contact aboutToDisappear!');
+    ContactRepository.getInstance().unRegisterDataChangeObserver(() => {
+      this.refresh();
     });
   }
 
@@ -105,27 +89,23 @@ export default class ContactListPresenter {
 
   refresh() {
     HiLog.i(TAG, 'Contact refresh!');
-    var DAHelper = common.getDAHelper(Constants.uri.CONTACT_DB_URI);
-    ContactAbilityModel.getAllContact(DAHelper, (result) => {
+    let that = this;
+    ContactAbilityModel.getAllContact((result) => {
       HiLog.i(TAG, 'getAllContact and refresh, length is %s', result.length);
-      if (utils.isEmptyList(result)) {
-        this.contactList = [];
+      if (ArrayUtil.isEmpty(result)) {
+        that.contactList = [];
       } else {
-        this.contactList = result;
+        that.contactList = result;
       }
+      that.contactCount = result.length;
 
       this.contactListDataSource.refresh(this.contactList);
     })
   }
 
-  // 简洁布局选项初始化
-  conciseLayoutInit() {
-    let data = preferencesUtil.getConciseLayout();
-    this.layoutState = data == 'true' ? false : true;
-  }
-
   /**
-   * 联系人列表长按联系人item保存的当前联系人信息，提供给后面删除和分享的操作
+   * Touch and hold the current contact information saved by a contact item in the contact list.
+   * The information can be deleted or shared later.
    *
    * @param curItem
    */
@@ -135,14 +115,15 @@ export default class ContactListPresenter {
   }
 
   /**
-   * 删除弹框取消按钮
+   * Cancel button for deleting a dialog box.
    */
   onDeleteDialogCancel() {
     HiLog.i(TAG, 'onDeleteDialogCancel !!!');
   }
 
   /**
-   * 删除弹框确认按钮
+   * Confirm button for deleting a dialog box
+   *
    * @param result
    */
   onDeleteDialogConfirm(index, item) {
@@ -150,10 +131,8 @@ export default class ContactListPresenter {
     ContactRepository.getInstance().deleteById(item.contactId)
       .then((result) => {
         HiLog.i(TAG, 'onDeleteDialogConfirm result is ' + JSON.stringify(result));
-        dbChangeHelper.getInstance()
-          .notifyChange(common.getDAHelper(Constants.uri.CONTACT_DB_URI), Constants.uri.CONTACT_URI);
-        dbChangeHelper.getInstance()
-          .notifyChange(common.getDAHelper(Constants.uri.CALLLOG_DB_URI), Constants.uri.CALL_LOG_URI);
+        ContactRepository.getInstance().notifyChange();
+        CallLogRepository.getInstance().notifyChange();
       })
       .catch((error) => {
         HiLog.e(TAG, "deleteById error %s", JSON.stringify(error.message));
@@ -161,31 +140,31 @@ export default class ContactListPresenter {
   }
 
   /**
-   * 分享取消按钮
+   * Share Cancel Button
    */
   onShareDialogCancel() {
     HiLog.i(TAG, 'onShareDialogCancel !!! ');
   }
 
   /**
-   * 分享确认按钮
+   * Share confirmation button
    */
   onShareDialogConfirm() {
     HiLog.i(TAG, 'onShareDialogConfirm !!! ');
   }
 
   /**
-   * 分享弹框item点击事件回调
+   * Event callback when an item is clicked in the sharing dialog box
    *
-   * @param item 点击条目的string
-   * @param index 索引
+   * @param item item
+   * @param index index
    */
   onShareItemClick(item: any, index: number | null) {
     HiLog.i(TAG, 'onShareItemClick !!! index is %s', index);
   }
 
   /**
-   * 登录华为账号
+   * Log in to Huawei ID.
    */
   loginAccount() {
     HiLog.i(TAG, 'loginAccount !!');
@@ -198,7 +177,7 @@ export default class ContactListPresenter {
   }
 
   /**
-   * 导入联系人弹框
+   * Import Contact dialog box
    */
   importContact() {
     HiLog.i(TAG, 'importContact !!');
@@ -211,7 +190,7 @@ export default class ContactListPresenter {
   }
 
   /**
-   * 新建联系人
+   * New Contact
    */
   createContact() {
     HiLog.i(TAG, 'createContact !!');
@@ -223,7 +202,7 @@ export default class ContactListPresenter {
   }
 
   /**
-   * 扫名片
+   * Scan the business card.
    */
   scanCard() {
     HiLog.i(TAG, 'scanCard !!');

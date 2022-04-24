@@ -14,48 +14,60 @@
  */
 
 /**
- * 通话记录
+ * call log
  */
 import {AllRecord} from './AllRecord';
 import MissedRecord from './MissedRecord';
+import HiLog from '../../../../util/Hilog';
+import CallRecordPresenter from './../../../../presenter/dialer/callRecord/CallRecordPresenter'
 import {CallLogTabs} from '../../../../component/dialer/CallLogTabs';
 
-const DENSITY = 1.5
+const TAG = "CallRecord_Phone";
 
 @Entry
 @Component
 export default struct CallRecord {
   @State bottomTabIndex: number = 0;
+  @State mPresenter: CallRecordPresenter = CallRecordPresenter.getInstance();
   private controller: TabsController = new TabsController();
 
+  aboutToAppear(){
+    HiLog.i(TAG, 'aboutToAppear');
+    this.mPresenter.aboutToAppear();
+  }
+  aboutToDisappear() {
+    HiLog.i(TAG, 'aboutToDisappear');
+    this.mPresenter.aboutToDisappear();
+  }
+
   build() {
-      Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
-        CallLogTabs({ controller: this.controller, bottomTabIndex: $bottomTabIndex})
+    Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
+      CallLogTabs({ controller: this.controller, bottomTabIndex: $bottomTabIndex })
 
-        Tabs({ barPosition: BarPosition.Start, index: this.bottomTabIndex, controller: this.controller }) {
-          TabContent() {
-            AllRecord()
-          }
-
-          TabContent() {
-            MissedRecord()
-          }
+      Tabs({ barPosition: BarPosition.Start, index: this.bottomTabIndex, controller: this.controller }) {
+        TabContent() {
+          AllRecord({mPresenter:$mPresenter})
         }
-        .onChange((index: number) => {
-          this.bottomTabIndex = index
-        })
-        .vertical(false)
-        .barHeight(0)
-        .barWidth(0)
-        .barMode(BarMode.Fixed)
-        .scrollable(false)
-        .backgroundColor(Color.White)
-        .animationDuration(0)
-        .zIndex(1)
+
+        TabContent() {
+          MissedRecord({mPresenter:$mPresenter})
+        }
       }
-      .width('100%')
-      .height('100%')
-      .layoutWeight(1)
-      .backgroundColor(Color.White)
+      .onChange((index: number) => {
+        this.bottomTabIndex = index
+      })
+      .vertical(false)
+      .barHeight(0)
+      .barWidth(0)
+      .barMode(BarMode.Fixed)
+      .scrollable(false)
+      .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+      .animationDuration(0)
+      .zIndex(1)
+    }
+    .width('100%')
+    .height('100%')
+    .layoutWeight(1)
+    .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
   }
 }

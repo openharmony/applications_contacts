@@ -18,7 +18,7 @@ import Data from '../contract/Data';
 import DataType from '../contract/DataType';
 
 /**
- * 联系人data数据
+ * Contact data
  */
 export default class DataItem {
   readonly values: Map<string, any>;

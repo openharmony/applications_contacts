@@ -13,15 +13,14 @@
  * limitations under the License.
  */
 
-import Contact from '../entity/Contact.ets';
-import RawContactDelta from './RawContactDelta.ets';
-import RawContacts from '../contract/RawContacts.ets';
-import DAOperation from './DAOperation.ets';
+import Contact from '../entity/Contact';
+import RawContactDelta from './RawContactDelta';
+import RawContacts from '../contract/RawContacts';
+import DAOperation from './DAOperation';
 import HiLog from '../../util/Hilog';
 
 export default class ContactDelta {
   readonly rawContactDeltas: RawContactDelta[];
-
   constructor() {
     this.rawContactDeltas = [];
   }
@@ -37,7 +36,7 @@ export default class ContactDelta {
 
   buildDiff() {
     let diff = [];
-    for (var i = 0; i < this.rawContactDeltas.length; i++) {
+    for (let i = 0; i < this.rawContactDeltas.length; i++) {
       let rawContactDelta = this.rawContactDeltas[i];
       rawContactDelta.buildDiff(diff);
     }
@@ -45,7 +44,7 @@ export default class ContactDelta {
   }
 
   private findRawContactId() {
-    for (var i = 0; i < this.rawContactDeltas.length; i++) {
+    for (let i = 0; i < this.rawContactDeltas.length; i++) {
       let rawContactId = this.rawContactDeltas[i].values.getValue(RawContacts.ID);
       if (rawContactId != undefined && rawContactId >= 0) {
         return rawContactId;

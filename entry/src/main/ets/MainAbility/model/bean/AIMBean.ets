@@ -13,17 +13,19 @@
  * limitations under the License.
  */
 
-export class AIMBean{
-  id: string;  // 联系人id主键
-  aimId : string;//aimId
-  aimType : string ;//AIM类型（qq 微博，雅虎等 ）
-  aimName : string;//AIM内容
-
-  constructor(id: string,aimId:string,aimType: string, aimName: string)  {
+export class AIMBean {
+  //Contact ID primary key
+  id: string;
+  //aimId
+  aimId: string;
+  //AIM Type（QQ Weibo, Yahoo...）
+  aimType: string ;
+  //AIM Content
+  aimName: string;
+  constructor(id: string, aimId: string, aimType: string, aimName: string) {
     this.id = id;
     this.aimId = aimId;
     this.aimType = aimType;
     this.aimName = aimName;
   }
-
 }

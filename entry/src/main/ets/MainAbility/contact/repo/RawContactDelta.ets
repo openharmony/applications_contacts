@@ -13,20 +13,20 @@
  * limitations under the License.
  */
 
-import ValuesDelta from './ValuesDelta.ets';
-import DAOperation from './DAOperation.ets';
-import RawContacts from '../contract/RawContacts.ets';
-import Data from '../contract/Data.ets';
-import RawContact from '../entity/RawContact.ets';
+import ValuesDelta from './ValuesDelta';
+import DAOperation from './DAOperation';
+import RawContacts from '../contract/RawContacts';
+import Data from '../contract/Data';
+import RawContact from '../entity/RawContact';
 import HiLog from '../../util/HiLog';
 
 const TAG = "RawContactDelta";
 
 /**
- * 联系人详情编辑模型
+ * Contact details editing model
  */
 export default class RawContactDelta {
-  // 用于存放rawContact表本身的字段
+  // Stores fields in the rawContact table.
   values: ValuesDelta;
   readonly dataValues: Map<number, ValuesDelta[]> = new Map();
   constructor() {
@@ -78,7 +78,6 @@ export default class RawContactDelta {
   buildDiff(diff: DAOperation[]) {
     let isContactInsert = this.isContactInsert();
     let isContactDelete = this.isContactDelete();
-//    let isContactUpdate = !isContactInsert && !isContactDelete;
     let beforeId = this.values.getValue(RawContacts.ID);
     let firstIndex = diff.length;
     let opt = this.values.buildDiff(RawContacts.CONTENT_URI);

@@ -18,7 +18,7 @@ import DataType from './DataType';
 import {DataItemType} from './DataType';
 
 /**
- * 重要节日数据类型
+ * Important Holiday Data Types
  */
 export default class Event extends DataType {
   static readonly CONTENT_ITEM_TYPE: string = "contact_event";
@@ -31,10 +31,14 @@ export default class Event extends DataType {
 
   static getTypeLabelResource(type: number) {
     switch (type) {
-      case Event.TYPE_ANNIVERSARY: return $r("app.string.phone_type_home");
-      case Event.TYPE_BIRTHDAY: return $r("app.string.phone_type_mobile");
-      case Event.TYPE_OTHER: return $r("app.string.phone_type_work");
-      default: return $r("app.string.phone_type_custom");
+      case Event.TYPE_ANNIVERSARY:
+        return $r("app.string.phone_type_home");
+      case Event.TYPE_BIRTHDAY:
+        return $r("app.string.phone_type_mobile");
+      case Event.TYPE_OTHER:
+        return $r("app.string.phone_type_work");
+      default:
+        return $r("app.string.phone_type_custom");
     }
   }
 

@@ -13,15 +13,12 @@
  * limitations under the License.
  */
 
-import BatchSelectContactsPresenter from '../../../presenter/contact/batchselectcontacts/BatchSelectContactsPresenter';
-import {CallBean} from '../../../model/bean/CallBean';
-import Utils from '../../../util/Utils';
-import HiLog from '../../../util/HiLog';
+import StringUtil from '../../../util/StringUtil';
 
-const TAG = 'BatchSelectRecentItemView ';
+const TAG = 'BatchSelectRecentItemView';
 
 /**
- * 选择联系人item组件，主要负责单个联系人的显示;
+ * Select the contact item component, which is responsible for displaying a single contact.
  */
 @Component
 export default struct BatchSelectRecentItemView {
@@ -32,77 +29,72 @@ export default struct BatchSelectRecentItemView {
   build() {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
       Row() {
-        Text(this.item.suffix)
-          .fontSize(20)
-          .fontWeight(FontWeight.Bold)
-          .fontColor(Color.White)
-          .backgroundColor(this.item.portraitColor)
-          .height($r("app.float.contact_listpage_icon_width_height"))
-          .width($r("app.float.contact_listpage_icon_width_height"))
-          .textAlign(TextAlign.Center)
-          .clip(new Circle({ width: 40, height: 40 }))
-          .border({ width: 0, color: Color.White, radius: 40 })
-          .visibility(Utils.isEmpty(this.item.suffix) ? Visibility.None : Visibility.Visible)
-
-        Image($r("app.media.avatar_filled_honor"))
-          .width($r("app.float.contact_listpage_icon_width_height"))
-          .height($r("app.float.contact_listpage_icon_width_height"))
-          .backgroundColor(this.item.portraitColor)
-          .clip(new Circle({ width: 40, height: 40 }))
-          .border({ width: 0, color: Color.White, radius: 40 })
-          .objectFit(ImageFit.Contain)
-          .visibility(Utils.isEmpty(this.item.suffix) ? Visibility.Visible : Visibility.None)
+        if (StringUtil.isEmpty(this.item.suffix)) {
+          Image($r("app.media.ic_user_portrait"))
+            .width($r("app.float.id_card_image_mid"))
+            .height($r("app.float.id_card_image_mid"))
+            .backgroundColor(this.item.portraitColor)
+            .borderRadius($r("app.float.id_card_image_mid"))
+            .objectFit(ImageFit.Contain)
+        } else {
+          Text(this.item.suffix.toUpperCase())
+            .fontSize(20)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.White)
+            .backgroundColor(this.item.portraitColor)
+            .height($r("app.float.id_card_image_mid"))
+            .width($r("app.float.id_card_image_mid"))
+            .textAlign(TextAlign.Center)
+            .borderRadius($r("app.float.id_card_image_mid"))
+        }
       }
-      .width($r("app.float.contact_listpage_icon_width_height"))
-      .height($r("app.float.contact_listpage_icon_width_height"))
-      .margin({ left: $r("app.float.common_margin") })
+      .width($r("app.float.id_card_image_mid"))
+      .height($r("app.float.id_card_image_mid"))
+      .margin({ left: $r("app.float.id_card_margin_max") })
 
       Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Center }) {
-        Text(Utils.isEmpty(this.item.displayName) ? this.item.phoneNumber : this.item.displayName)
-          //          .fontColor($r("app.color.textColorPrimary"))
-          .fontColor('#182431')
-          .fontSize($r("app.float.contact_text_size_body1"))
+        Text(StringUtil.isEmpty(this.item.displayName) ? this.item.phoneNumber : this.item.displayName)
+          .fontColor($r("sys.color.ohos_id_color_text_primary"))
+          .fontSize($r("sys.float.ohos_id_text_size_body1"))
           .fontWeight(FontWeight.Medium)
-          .margin({ left: 12, bottom: 2 })
+          .margin({ left: $r("app.float.id_card_margin_xl"), bottom: $r("app.float.id_card_margin_sm") })
 
         Row() {
           Text(this.item.formattedNumber)
-            //          .fontColor($r("app.color.textColorTertiary"))
-            .fontColor('#66182431')
-            .fontSize($r("app.float.contact_text_size_body1"))
+            .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+            .fontSize($r("sys.float.ohos_id_text_size_body2"))
             .fontWeight(FontWeight.Regular)
-            .visibility(Utils.isEmpty(this.item.formattedNumber) ? Visibility.None : Visibility.Visible)
-            .margin({ left: 12 })
+            .visibility(StringUtil.isEmpty(this.item.formattedNumber) ? Visibility.None : Visibility.Visible)
+            .margin({ left: $r("app.float.id_card_margin_xl") })
 
           Text(this.item.numberLocation)
-            //          .fontColor($r("app.color.textColorTertiary"))
-            .fontColor('#66182431')
-            .fontSize($r("app.float.contact_text_size_body1"))
+            .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+            .fontSize($r("sys.float.ohos_id_text_size_body2"))
             .fontWeight(FontWeight.Regular)
-            .visibility(Utils.isEmpty(this.item.numberLocation) ? Visibility.None : Visibility.Visible)
-            .margin({ left: 12 })
+            .visibility(StringUtil.isEmpty(this.item.numberLocation) ? Visibility.None : Visibility.Visible)
+            .margin({ left: $r("app.float.id_card_margin_xl") })
 
-          if (Utils.isEmpty(this.item.displayName) && Utils.isEmpty(this.item.numberLocation)) {
+          if (StringUtil.isEmpty(this.item.displayName) && StringUtil.isEmpty(this.item.numberLocation)) {
             Text($r("app.string.unknow_location"))
-              //          .fontColor($r("app.color.textColorTertiary"))
-              .fontColor('#66182431')
-              .fontSize($r("app.float.contact_text_size_body1"))
+              .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+              .fontSize($r("sys.float.ohos_id_text_size_body2"))
               .fontWeight(FontWeight.Regular)
-              .margin({ left: 12 })
+              .margin({ left: $r("app.float.id_card_margin_xl") })
           }
         }
       }
       .flexGrow(1)
-      .height($r("app.float.contact_listitem_height"))
+      .height($r("app.float.id_item_height_max"))
 
       Toggle({ type: ToggleType.Checkbox, isOn: this.item.checked })
-        .width($r("app.float.contact_samll_image_width_height"))
-        .height($r("app.float.contact_samll_image_width_height"))
+        .width($r("app.float.id_card_image_small"))
+        .height($r("app.float.id_card_image_small"))
         .enabled(false)
-        .margin({ left: $r("app.float.common_margin"), right: $r("app.float.common_margin") })
+        .margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_max") })
+        .selectedColor($r("sys.color.ohos_id_color_connected"))
 
     }
-    .height($r("app.float.contact_listitem_height"))
+    .height($r("app.float.id_item_height_max"))
     .width('100%')
     .onClick(() => {
       this.onRecentItemClicked(this.index);

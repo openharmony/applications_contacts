@@ -18,7 +18,6 @@ import Phone from '../contract/Phone';
 
 export default class PhoneDateItem extends DataItem {
   readonly values: Map<string, any>;
-
   constructor(values: Map<string, any>) {
     super(values);
   }

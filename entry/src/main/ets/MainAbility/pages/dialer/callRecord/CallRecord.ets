@@ -14,18 +14,32 @@
  */
 
 /**
- * 通话记录
+ * call log
  */
 import AllRecord from './AllRecord';
 import MissedRecord from './MissedRecord';
+import HiLog from '../../../util/Hilog';
+import CallRecordPresenter from './../../../presenter/dialer/callRecord/CallRecordPresenter'
 import {CallLogTabs} from '../../../component/dialer/CallLogTabs';
 
+const TAG = "CallRecord_Tab";
 
 @Entry
 @Component
 export default struct CallRecord {
   @State bottomTabIndex: number = 0;
+  @State mPresenter: CallRecordPresenter = CallRecordPresenter.getInstance();
   private controller: TabsController = new TabsController();
+
+  aboutToAppear(){
+    HiLog.i(TAG, 'aboutToAppear');
+    this.mPresenter.aboutToAppear();
+  }
+  aboutToDisappear() {
+    HiLog.i(TAG, 'aboutToDisappear');
+    this.mPresenter.aboutToDisappear();
+  }
+
 
   build() {
       Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
@@ -33,11 +47,11 @@ export default struct CallRecord {
 
         Tabs({ barPosition: BarPosition.Start, index: this.bottomTabIndex, controller: this.controller }) {
           TabContent() {
-            AllRecord()
+            AllRecord({mPresenter:$mPresenter})
           }
 
           TabContent() {
-            MissedRecord()
+            MissedRecord({mPresenter:$mPresenter})
           }
 
         }
@@ -49,13 +63,13 @@ export default struct CallRecord {
         .barWidth(0)
         .barMode(BarMode.Fixed)
         .scrollable(false)
-        .backgroundColor(Color.White)
+        .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
         .animationDuration(0)
         .zIndex(1)
       }
       .width('100%')
       .height('100%')
       .layoutWeight(1)
-      .backgroundColor(Color.White)
+      .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
   }
 }

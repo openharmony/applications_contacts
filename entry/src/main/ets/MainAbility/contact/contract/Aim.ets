@@ -14,7 +14,7 @@
  */
 
 /**
- * 电话数据类型-即时消息
+ * Phone Data Type - Instant Messaging
  */
 export default class Aim {
   static readonly CONTENT_ITEM_TYPE: string = "vnd.android.cursor.item/aim_v2";

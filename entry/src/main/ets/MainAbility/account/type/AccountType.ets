@@ -14,7 +14,7 @@
  */
 
 /**
- * 基础账户类型
+ * Basic Account Type
  */
 export default abstract class AccountType {
   static readonly PHONE_ACCOUNT_TYPE: string = "com.android.huawei.phone";

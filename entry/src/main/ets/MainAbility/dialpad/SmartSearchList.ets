@@ -14,13 +14,12 @@
  */
 
 /**
- * 拨号盘搜索模型
+ * Dialpad search model
  */
 export default class SmartSearchList {
   readonly yellowPageSmartSearchList: [];
   readonly contactSmartSearchList: [];
   readonly callLogSmartSearchList: [];
-
   constructor() {
   }
 }

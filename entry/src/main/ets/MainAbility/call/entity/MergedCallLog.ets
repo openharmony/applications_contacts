@@ -27,7 +27,6 @@ export default class MergedCallLog {
   numberLocation: string;
   formattedNumber: string;
   simType: number;
-
   constructor(callLog: CallLog) {
     this.id = callLog.id;
     this.callType = callLog.callType;

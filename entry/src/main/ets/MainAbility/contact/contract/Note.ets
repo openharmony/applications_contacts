@@ -18,13 +18,12 @@ import DataType from './DataType';
 import {DataItemType} from './DataType';
 
 /**
- * 备注数据类型
+ * Remark Data Type
  */
 export default class Nickname extends DataType {
   static readonly CONTENT_ITEM_TYPE: string = "note";
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.NOTE;
   static readonly NOTE: string = DataType.DATA;
-
   constructor() {
     super();
   }

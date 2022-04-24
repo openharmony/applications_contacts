@@ -1,128 +1,112 @@
 {
   "float": [
     {
-      "name": "common_margin",
-      "value": "36vp"
-    },
-    {
-      "name": "common_margin_16",
+      "name": "id_corner_radius_card",
       "value": "24vp"
     },
     {
-      "name": "contact_emptypage_button_radius",
-      "value": "30vp"
+      "name": "id_corner_radius_dialog",
+      "value": "24vp"
     },
     {
-      "name": "contact_longpress_dialog_radius",
-      "value": "36vp"
+      "name": "id_card_margin_max",
+      "value": "24vp"
+    },
+    {
+      "name": "id_card_margin_xxxxl",
+      "value": "32vp"
+    },
+    {
+      "name": "id_card_margin_xxxl",
+      "value": "18vp"
+    },
+    {
+      "name": "id_card_margin_xxl",
+      "value": "16vp"
+    },
+    {
+      "name": "id_card_margin_xl",
+      "value": "12vp"
+    },
+    {
+      "name": "id_card_margin_large",
+      "value": "8vp"
+    },
+    {
+      "name": "id_card_margin_mid",
+      "value": "4vp"
+    },
+    {
+      "name": "id_card_margin_sm",
+      "value": "2vp"
+    },
+    {
+      "name": "id_item_height_max",
+      "value": "64vp"
+    },
+    {
+      "name": "id_item_height_large",
+      "value": "56vp"
+    },
+    {
+      "name": "id_item_height_mid",
+      "value": "48vp"
+    },
+    {
+      "name": "id_item_height_sm",
+      "value": "40vp"
+    },
+    {
+      "name": "id_card_image_xs",
+      "value": "12vp"
+    },
+    {
+      "name": "id_card_image_small",
+      "value": "24vp"
+    },
+    {
+      "name": "id_card_image_mid",
+      "value": "40vp"
+    },
+    {
+      "name": "id_card_image_large",
+      "value": "120vp"
     },
     {
       "name": "contact_longpress_dialog_width",
-      "value": "234vp"
-    },
-    {
-      "name": "contact_list_groups_radius",
-      "value": "36vp"
-    },
-    {
-      "name": "contact_emptypage_bottom",
-      "value": "24vp"
-    },
-    {
-      "name": "contact_titleguide_height",
-      "value": "84vp"
-    },
-    {
-      "name": "contact_title_height",
-      "value": "61.5vp"
-    },
-    {
-      "name": "contact_emptypage_button_item_height",
-      "value": "60vp"
-    },
-    {
-      "name": "contact_listitem_height",
-      "value": "96vp"
-    },
-    {
-      "name": "contact_listitem_index_height",
-      "value": "72vp"
-    },
-    {
-      "name": "contact_samll_image_width_height",
-      "value": "36vp"
-    },
-    {
-      "name": "contact_emptyview_image_width_height",
-      "value": "180vp"
-    },
-    {
-      "name": "contact_listpage_icon_width_height",
-      "value": "60vp"
-    },
-    {
-      "name": "contact_text_size_headline8",
-      "value": "30fp"
+      "value": "156vp"
     },
     {
       "name": "contact_text_size_body1",
-      "value": "24fp"
+      "value": "16fp"
     },
     {
-      "name": "contact_text_size_body2",
-      "value": "21fp"
+      "name": "dialer_keypad_button_height",
+      "value": "96vp"
     },
     {
-      "name": "contact_text_size_body3",
-      "value": "15fp"
+      "name": "dialer_calllog_bindmenu_width",
+      "value": "156vp"
     },
     {
-      "name": "contact_text_size_dialer_button",
-      "value": "45fp"
+      "name": "account_MenuBuilder_width",
+      "value": "156vp"
     },
     {
-      "name": "contact_text_size_dialer_char",
-      "value": "18fp"
+      "name": "account_listItem_text_common_width",
+      "value": "72vp"
     },
     {
-      "name": "contact_text_size_contact_title",
-      "value": "45fp"
+      "name": "account_ItemList_text_width",
+      "value": "38vp"
     },
     {
-      "name": "contact_navigation_width",
-      "value": "144vp"
+      "name": "account_Divider_height",
+      "value": "1vp"
     },
     {
-      "name": "contact_navigation_element_height",
-      "value": "195vp"
-    },
-    {
-      "name": "contact_empty_list_all_bottom_height",
-      "value": "357vp"
-    },
-    {
-      "name": "contact_batchselect_title_height",
-      "value": "42vp"
-    },
-    {
-      "name": "dialer_font_size",
-      "value": "20fp"
-    },
-    {
-      "name": "dialer_menu_width",
-      "value": "52.5vp"
-    },
-    {
-      "name": "dialer_menu_height",
-      "value": "52.5vp"
-    },
-    {
-      "name": "dialer_call_button_width",
-      "value": "58.5vp"
-    },
-    {
-      "name": "dialer_call_button_height",
-      "value": "58.5vp"
+      "name": "account_Divider_width",
+      "value": "124vp"
     }
   ]
 }

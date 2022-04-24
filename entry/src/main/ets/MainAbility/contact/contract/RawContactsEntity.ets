@@ -13,15 +13,14 @@
  * limitations under the License.
  */
 
-import BaseColumns from './BaseColumns.ets';
+import BaseColumns from './BaseColumns';
 
 /**
- * rawContact数据类型
+ * rawContact data type
  */
 export default class RawContactsEntity {
   static readonly _ID: string = BaseColumns.ID;
   static readonly CONTENT_URI: string = "dataability:///com.ohos.contactsdataability/raw_contact_entities";
-
   constructor() {
   }
 }

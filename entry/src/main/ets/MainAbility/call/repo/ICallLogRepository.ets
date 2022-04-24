@@ -16,7 +16,7 @@
 import CallLog from '../entity/CallLog';
 
 /**
- * 通话记录仓库操作接口，提供数据库操作方法，屏蔽持久层逻辑
+ * Call record warehouse operation interface, which provides database operation methods and shields the persistence layer logic.
  */
 export default interface ICallLogRepository {
   saveOne: (callLog: CallLog) => Promise<number>;
@@ -32,4 +32,7 @@ export default interface ICallLogRepository {
   findByCallDirectionIn: (callTypes: number[]) => Promise<CallLog[]>;
   findByFeature: (feature: number) => CallLog[];
   findByNumberIn: (numbers: number[]) => Promise<CallLog[]>;
+  notifyChange: () => void;
+  registerDataChangeObserver: (callback) => void;
+  unRegisterDataChangeObserver: (callback) => void;
 }

@@ -16,12 +16,11 @@
 import EditType from './EditType';
 
 /**
- * 描述如何展示和编辑联系人单条Data数据
+ * This topic describes how to display and edit a single data record of a contact.
  */
 export default class DataKind {
   readonly mimeType: string;
   readonly typeList: EditType[] = [];
-
   constructor(mineType: string, typeList: EditType[]) {
     this.mimeType = mineType;
     this.typeList = typeList;

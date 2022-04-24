@@ -14,7 +14,7 @@
  */
 
 /**
- * 电话数据类型-生日
+ * Phone Data Type - Birthday
  */
 export default class Birthday {
   static readonly CONTENT_ITEM_TYPE: string = "vnd.android.cursor.item/birthday_v2";

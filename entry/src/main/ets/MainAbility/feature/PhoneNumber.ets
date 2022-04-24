@@ -19,11 +19,10 @@ import Call from '@ohos.telephony.call';
 const TAG = 'PhoneNumber';
 
 /**
- * 号码对象，提供号码相关服务
+ * Number object, which provides number-related services.
  */
 export default class PhoneNumber {
   readonly number: string;
-
   constructor(number: string) {
     this.number = number;
   }

@@ -13,13 +13,11 @@
  * limitations under the License.
  */
 
-import resourceManager from '@ohos.resourceManager';
-import router from '@system.router';
 import ContactAbility from '../../../model/ContactAbilityModel'
 import HiLog from '../../../util/Hilog';
-import common from "../../../model/common";
-import Constants from "../../../model/common/Constants";
-import util from "../../../util/Utils";
+import StringUtil from "../../../util/StringUtil";
+import ArrayUtil from "../../../util/ArrayUtil";
+import ObjectUtil from "../../../util/ObjectUtil";
 import AccountTypeService from '../../../account/AccountTypeService';
 import AccountType from '../../../account/type/AccountType';
 import Aim from '../../../contact/contract/Aim';
@@ -28,40 +26,40 @@ import Email from '../../../contact/contract/Email';
 import House from '../../../contact/contract/House';
 import Relation from '../../../contact/contract/Relation';
 import Phone from '../../../contact/contract/Phone';
-import {EmailBean} from "../../../model/bean/EmailBean";
-import {ContactInfo} from "../../../model/bean/ContactInfo";
-import {PhoneNumBean} from "../../../model/bean/PhoneNumBean";
-import {HouseBean} from "../../../model/bean/HouseBean";
-import {AIMBean} from "../../../model/bean/AIMBean";
-import {EventBean} from "../../../model/bean/EventBean";
-import {AssociatedPersonBean} from "../../../model/bean/AssociatedPersonBean";
+import { EmailBean } from "../../../model/bean/EmailBean";
+import { ContactInfo } from "../../../model/bean/ContactInfo";
+import { PhoneNumBean } from "../../../model/bean/PhoneNumBean";
+import { HouseBean } from "../../../model/bean/HouseBean";
+import { AIMBean } from "../../../model/bean/AIMBean";
+import { EventBean } from "../../../model/bean/EventBean";
+import { AssociatedPersonBean } from "../../../model/bean/AssociatedPersonBean";
 
 const TAG = 'AccountantsPresenter  ';
 
 /**
- * 添加联系人页面
+ * Add Contact Presenter
  */
 export default class AccountantsPresenter {
-
   private static instance: AccountantsPresenter;
+  static readonly timeSub: number = 1000;
+  clickBefEvent: Date = new Date();
+  clickAftEvent: Date = new Date();
+  contactId: string = "";
+  routerAvtiveFlag: boolean = false;
 
-  // 联系人id
-  contactId:string = "";
-
-  // 编辑模式
+  // update mark
   updateShow: boolean = false;
+  isShowPosition: boolean = false;
+  showMore: boolean = false;
+  addState: boolean = false;
 
-  // 监听更新标识
+  // refresh mark
   changed: boolean = false;
 
-  // 联系人详情
+  // contact detail
   contactInfoBefore: ContactInfo = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
   contactInfoAfter: ContactInfo = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
-
-  // 多子项管理
-  // [1] 占位
-  MagList:any = [];
-
+  MagList: any = [];
   private constructor() {
   }
 
@@ -78,6 +76,8 @@ export default class AccountantsPresenter {
     this.MagList = [1];
     this.contactInfoBefore = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
     this.contactInfoAfter = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
+    this.clickBefEvent = new Date();
+    this.clickAftEvent = this.clickBefEvent;
   }
 
   refresh() {
@@ -88,50 +88,49 @@ export default class AccountantsPresenter {
   updatesInit() {
     HiLog.i(TAG, ' init start');
     this.contactInfoAfter.setID(this.contactId);
-    if(this.updateShow == true ){
+    if (this.updateShow == true) {
       HiLog.i(TAG, ' getPageData start %s', this.contactId);
       this.getPageData(this.contactId);
     }
   }
 
-  isEmptyInfo(afterInfo: any) {
+  isExistenceInfo(afterInfo: any) {
     let flag = false;
-    flag = flag || !util.isEmpty(afterInfo.display_name);
-    flag = flag || !util.isEmpty(afterInfo.nickname);
-    flag = flag || !util.isEmpty(afterInfo.remarks);
-    flag = flag || !util.isEmpty(afterInfo.position);
-    flag = flag || !util.isEmpty(afterInfo.company);
-    if (!util.isEmptyList(afterInfo.phones)) {
-      flag = flag || !util.isEmpty(afterInfo.phones[0].num);
+    flag = flag || !StringUtil.isEmpty(afterInfo.display_name);
+    flag = flag || !StringUtil.isEmpty(afterInfo.nickname);
+    flag = flag || !StringUtil.isEmpty(afterInfo.remarks);
+    flag = flag || !StringUtil.isEmpty(afterInfo.position);
+    flag = flag || !StringUtil.isEmpty(afterInfo.company);
+    if (!ArrayUtil.isEmpty(afterInfo.phones)) {
+      flag = flag || !StringUtil.isEmpty(afterInfo.phones[0].num);
     }
-    if (!util.isEmptyList(afterInfo.emails)) {
-      flag = flag || !util.isEmpty(afterInfo.emails[0].address);
+    if (!ArrayUtil.isEmpty(afterInfo.emails)) {
+      flag = flag || !StringUtil.isEmpty(afterInfo.emails[0].address);
     }
-    if (!util.isEmptyList(afterInfo.aims)) {
-      flag = flag || !util.isEmpty(afterInfo.aims[0].aimName);
+    if (!ArrayUtil.isEmpty(afterInfo.aims)) {
+      flag = flag || !StringUtil.isEmpty(afterInfo.aims[0].aimName);
     }
-    if (!util.isEmptyList(afterInfo.houses)) {
-      flag = flag || !util.isEmpty(afterInfo.houses[0].houseName);
+    if (!ArrayUtil.isEmpty(afterInfo.houses)) {
+      flag = flag || !StringUtil.isEmpty(afterInfo.houses[0].houseName);
     }
-    if (!util.isEmptyList(afterInfo.websites)) {
-      flag = flag || !util.isEmpty(afterInfo.websites[0]);
+    if (!ArrayUtil.isEmpty(afterInfo.websites)) {
+      flag = flag || !StringUtil.isEmpty(afterInfo.websites[0]);
     }
-    if (!util.isEmptyList(afterInfo.events)) {
-      flag = flag || !util.isEmpty(afterInfo.events[0].data);
+    if (!ArrayUtil.isEmpty(afterInfo.events)) {
+      flag = flag || !StringUtil.isEmpty(afterInfo.events[0].data);
     }
-    if (!util.isEmptyList(afterInfo.relationships)) {
-      flag = flag || !util.isEmpty(afterInfo.relationships[0].name);
+    if (!ArrayUtil.isEmpty(afterInfo.relationships)) {
+      flag = flag || !StringUtil.isEmpty(afterInfo.relationships[0].name);
     }
     return flag;
   }
 
   getPageData(id: string) {
-    if (util.isEmpty(id)) {
+    if (StringUtil.isEmpty(id)) {
       HiLog.e(TAG, 'The parameter ID is empty.');
     }
-    var DAHelper = common.getDAHelper(Constants.uri.CONTACT_DB_URI);
-    ContactAbility.getContactById(DAHelper, id, result => {
-      if (util.isEmpty(result)) {
+    ContactAbility.getContactById(id, result => {
+      if (StringUtil.isEmpty(result)) {
         HiLog.e(TAG, 'The result in the database is empty.');
         return;
       }
@@ -139,50 +138,55 @@ export default class AccountantsPresenter {
     });
   }
 
-  private dealRecordDetailsData(data){
+  private dealRecordDetailsData(data) {
     let contactTemp = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
     if (!data.hasOwnProperty('id') || data.id != this.contactId) {
       HiLog.e(TAG, 'Failed to query the database based on the ID.');
       return;
     }
     contactTemp.setID(data.id);
-    if(data.hasOwnProperty('display_name')) {
+    let nameUpdate = 0;
+    if (data.hasOwnProperty('nameUpdate')) {
+      nameUpdate = data.nameUpdate;
+    }
+    if (data.hasOwnProperty('display_name') && nameUpdate == 0) {
       contactTemp.setDisplayName(data.display_name);
     }
-    if(data.hasOwnProperty('nickname')) {
+    if (data.hasOwnProperty('nickname')) {
       contactTemp.setNickName(data.nickname);
     }
-    if(data.hasOwnProperty('phones')) {
+    if (data.hasOwnProperty('phones')) {
       contactTemp.setPhones(data.phones);
     }
-    if(data.hasOwnProperty('emails')) {
+    if (data.hasOwnProperty('emails')) {
       contactTemp.setEmails(data.emails);
     }
-    if(data.hasOwnProperty('remarks')) {
+    if (data.hasOwnProperty('remarks')) {
       contactTemp.setRemarks(data.remarks);
     }
-    if(data.hasOwnProperty('position')) {
+    if (data.hasOwnProperty('position')) {
       contactTemp.setPosition(data.position);
+      this.isShowPosition = true;
     }
-    if(data.hasOwnProperty('company')) {
+    if (data.hasOwnProperty('company')) {
       contactTemp.setCompany(data.company);
     }
-    if(data.hasOwnProperty('aims')) {
+    if (data.hasOwnProperty('aims')) {
       contactTemp.setAims(data.aims);
     }
-    if(data.hasOwnProperty('houses')) {
+    if (data.hasOwnProperty('houses')) {
       contactTemp.setHouses(data.houses);
     }
-    if(data.hasOwnProperty('websites')) {
+    if (data.hasOwnProperty('websites')) {
       contactTemp.setWebsites(data.websites);
     }
-    if(data.hasOwnProperty('relationships')) {
+    if (data.hasOwnProperty('relationships')) {
       contactTemp.setRelationships(data.relationships);
     }
-    if(data.hasOwnProperty('events')) {
+    if (data.hasOwnProperty('events')) {
       contactTemp.setEvents(data.events);
     }
-    if(data.hasOwnProperty('groups')) {
+    if (data.hasOwnProperty('groups')) {
       contactTemp.setGroups(data.groups);
     }
     this.contactInfoBefore = contactTemp;
@@ -190,10 +194,14 @@ export default class AccountantsPresenter {
   }
 
   public getArray(array) {
-    if(util.isEmptyList(array))
+    if (ArrayUtil.isEmpty(array))
     array.push({});
-    let itemList = util.isEmptyList(array) ? this.MagList : array;
-    itemList = itemList.map((item, index) => {return { i: index + 1, item: item };})
+    let itemList = ArrayUtil.isEmpty(array) ? this.MagList : array;
+    itemList = itemList.map((item, index) => {
+      return {
+        i: index + 1, item: item
+      };
+    })
     return itemList;
   }
 
@@ -203,7 +211,7 @@ export default class AccountantsPresenter {
         this.contactInfoAfter.phones.push(new PhoneNumBean("", "", "1", "", ""));
         break;
       case "email":
-        this.contactInfoAfter.emails.push(new EmailBean("", "",  "1"));
+        this.contactInfoAfter.emails.push(new EmailBean("", "", "1"));
         break;
       case "AIM":
         this.contactInfoAfter.aims.push(new AIMBean("", "", "1", ""));
@@ -212,7 +220,7 @@ export default class AccountantsPresenter {
         this.contactInfoAfter.houses.push(new HouseBean("", "", "1", ""));
         break;
       case "relationships":
-        this.contactInfoAfter.relationships.push(new AssociatedPersonBean("1", "", "", ""));
+        this.contactInfoAfter.relationships.push(new AssociatedPersonBean("", "", "", "1"));
         break;
       case "events":
         this.contactInfoAfter.events.push(new EventBean("", "", "1", ""));
@@ -223,35 +231,47 @@ export default class AccountantsPresenter {
     this.refresh();
   }
 
-  public deleteItem(typeName: string, startIndex){
-    switch(typeName){
+  public deleteItem(typeName: string, startIndex) {
+    switch (typeName) {
       case "phone":
-        if(this.contactInfoAfter.phones.length > 1){
+        if (this.contactInfoAfter.phones.length > 1) {
           this.contactInfoAfter.phones.splice(startIndex, 1);
+        } else {
+          this.contactInfoAfter.phones[0].num = "";
         }
         break;
       case "email":
-        if(this.contactInfoAfter.emails.length > 1){
+        if (this.contactInfoAfter.emails.length > 1) {
           this.contactInfoAfter.emails.splice(startIndex, 1);
+        } else {
+          this.contactInfoAfter.emails[0].address = "";
         }
         break;
       case "AIM":
-        if(this.contactInfoAfter.aims.length > 1){
+        if (this.contactInfoAfter.aims.length > 1) {
           this.contactInfoAfter.aims.splice(startIndex, 1);
+        } else {
+          this.contactInfoAfter.aims[0].aimName = "";
         }
       case "house":
-        if(this.contactInfoAfter.houses.length > 1){
+        if (this.contactInfoAfter.houses.length > 1) {
           this.contactInfoAfter.houses.splice(startIndex, 1);
+        } else {
+          this.contactInfoAfter.houses[0].houseName = "";
         }
         break;
       case "relationships":
-        if(this.contactInfoAfter.relationships.length > 1){
+        if (this.contactInfoAfter.relationships.length > 1) {
           this.contactInfoAfter.relationships.splice(startIndex, 1);
+        } else {
+          this.contactInfoAfter.relationships[0].name = "";
         }
         break;
       case "events":
-        if(this.contactInfoAfter.events.length > 1){
+        if (this.contactInfoAfter.events.length > 1) {
           this.contactInfoAfter.events.splice(startIndex, 1);
+        } else {
+          this.contactInfoAfter.events[0].data = "";
         }
         break;
       default:
@@ -299,35 +319,35 @@ export default class AccountantsPresenter {
     return display;
   }
 
-  public listItemChange(typeName: string, data:any, arg:string){
-    switch(typeName){
+  public listItemChange(typeName: string, data: any, arg: string) {
+    switch (typeName) {
       case "phone":
-        if (util.isEmpty(this.contactInfoAfter.phones[data.i - 1].id)) {
+        if (StringUtil.isEmpty(this.contactInfoAfter.phones[data.i - 1].numType)) {
           this.contactInfoAfter.phones[data.i - 1] = new PhoneNumBean("", "", "1", "", "");
         }
         this.contactInfoAfter.phones[data.i - 1].num = arg.toString();
         break;
       case "email":
-        if (util.isEmpty(this.contactInfoAfter.emails[data.i - 1].id)) {
+        if (StringUtil.isEmpty(this.contactInfoAfter.emails[data.i - 1].emailType)) {
           this.contactInfoAfter.emails[data.i - 1] = new EmailBean("", "", "1");
         }
         this.contactInfoAfter.emails[data.i - 1].address = arg.toString();
         break;
       case "AIM":
-        if (util.isEmpty(this.contactInfoAfter.aims[data.i - 1].aimId)) {
+        if (StringUtil.isEmpty(this.contactInfoAfter.aims[data.i - 1].aimType)) {
           this.contactInfoAfter.aims[data.i - 1] = new AIMBean("", "", "1", "");
         }
         this.contactInfoAfter.aims[data.i - 1].aimName = arg.toString();
         break;
       case "house":
-        if (util.isEmpty(this.contactInfoAfter.houses[data.i - 1].houseId)) {
+        if (StringUtil.isEmpty(this.contactInfoAfter.houses[data.i - 1].houseType)) {
           this.contactInfoAfter.houses[data.i - 1] = new HouseBean("", "", "1", "");
         }
         this.contactInfoAfter.houses[data.i - 1].houseName = arg.toString();
         break;
       case "relationships":
-        if (util.isEmpty(this.contactInfoAfter.relationships[data.i - 1].associatedPersonId)) {
-          this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean("1", "", "", "");
+        if (StringUtil.isEmpty(this.contactInfoAfter.relationships[data.i - 1].associatedType)) {
+          this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean("", "", "", "1");
         }
         this.contactInfoAfter.relationships[data.i - 1].name = arg.toString();
         break;
@@ -381,11 +401,11 @@ export default class AccountantsPresenter {
     }
   }
 
-  getMenuList(typeName: string){
+  getMenuList(typeName: string) {
     let accountTypeService = new AccountTypeService();
     let menuKindTypeList;
     let phoneType = accountTypeService.getAccountType(AccountType.PHONE_ACCOUNT_TYPE);
-    switch(typeName){
+    switch (typeName) {
       case "phone":
         menuKindTypeList = phoneType.mineKinds.get(Phone.CONTENT_ITEM_TYPE).typeList;
         break;
@@ -413,37 +433,37 @@ export default class AccountantsPresenter {
   public menuChange(typeName: string, data: any, item: any) {
     switch (typeName) {
       case "phone":
-        if (util.isEmptyObject(this.contactInfoAfter.phones[data.i - 1])) {
+        if (ObjectUtil.isEmpty(this.contactInfoAfter.phones[data.i - 1])) {
           this.contactInfoAfter.phones[data.i - 1] = new PhoneNumBean("", "", "", "", "");
         }
         this.contactInfoAfter.phones[data.i - 1].numType = item.rawValue.toString();
         break;
       case "email":
-        if (util.isEmptyObject(this.contactInfoAfter.emails[data.i - 1])) {
+        if (ObjectUtil.isEmpty(this.contactInfoAfter.emails[data.i - 1])) {
           this.contactInfoAfter.emails[data.i - 1] = new EmailBean("", "", "");
         }
         this.contactInfoAfter.emails[data.i - 1].emailType = item.rawValue.toString();
         break;
       case "AIM":
-        if (util.isEmptyObject(this.contactInfoAfter.aims[data.i - 1])) {
+        if (ObjectUtil.isEmpty(this.contactInfoAfter.aims[data.i - 1])) {
           this.contactInfoAfter.aims[data.i - 1] = new AIMBean("", "", "", "");
         }
         this.contactInfoAfter.aims[data.i - 1].aimType = item.rawValue.toString();
         break;
       case "house":
-        if (util.isEmptyObject(this.contactInfoAfter.houses[data.i - 1])) {
+        if (ObjectUtil.isEmpty(this.contactInfoAfter.houses[data.i - 1])) {
           this.contactInfoAfter.houses[data.i - 1] = new HouseBean("", "", "", "");
         }
         this.contactInfoAfter.houses[data.i - 1].houseType = item.rawValue.toString();
         break;
       case "relationships":
-        if (util.isEmptyObject(this.contactInfoAfter.relationships[data.i - 1])) {
+        if (ObjectUtil.isEmpty(this.contactInfoAfter.relationships[data.i - 1])) {
           this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean("", "", "", "");
         }
         this.contactInfoAfter.relationships[data.i - 1].associatedType = item.rawValue.toString();
         break;
       case "events":
-        if (util.isEmptyObject(this.contactInfoAfter.events[data.i - 1])) {
+        if (ObjectUtil.isEmpty(this.contactInfoAfter.events[data.i - 1])) {
           this.contactInfoAfter.events[data.i - 1] = new EventBean("", "", "", "");
         }
         this.contactInfoAfter.events[data.i - 1].eventType = item.rawValue.toString();
@@ -452,5 +472,38 @@ export default class AccountantsPresenter {
         break;
     }
     this.refresh();
+  }
+
+  public saveContact() {
+    this.clickAftEvent = new Date();
+    if (this.isExistenceInfo(this.contactInfoAfter) && !this.clicksMultiple()) {
+      if (this.updateShow == false) {
+        ContactAbility.addContact(this.contactInfoAfter, null, (arg) => {
+          this.contactId = arg.toString();
+          this.routerAvtiveFlag = true;
+        })
+      }
+      else {
+        ContactAbility.updateContact(null, this.contactInfoAfter, (arg) => {
+          this.contactId = arg.toString();
+          this.routerAvtiveFlag = true;
+        })
+      }
+    }
+  }
+
+  private clicksMultiple() {
+    if (this.clickAftEvent.getTime() - this.clickBefEvent.getTime() > AccountantsPresenter.timeSub) {
+      this.clickBefEvent = this.clickAftEvent;
+      return false;
+    }
+    else {
+      this.clickBefEvent = this.clickAftEvent;
+      return true;
+    }
+  }
+
+  public getAddState() {
+    return this.addState;
   }
 }

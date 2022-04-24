@@ -16,11 +16,10 @@ import DataColumns from './DataColumns';
 import Contacts from './Contacts';
 
 /**
- * rawContact数据类型
+ * rawContact data type
  */
 export default class Data extends DataColumns {
   static readonly CONTENT_URI: string = Contacts.CONTENT_URI + "/contacts/contact_data";
-
   constructor() {
     super();
   }

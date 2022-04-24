@@ -21,7 +21,7 @@ import Data from '../contract/Data';
 import RawContacts from '../contract/RawContacts';
 
 /**
- * 通话记录构造器
+ * Call log constructor
  */
 export default class ContactBuilder {
   readonly id: number;

@@ -15,19 +15,15 @@
 
 import router from '@system.router';
 import HiLog from '../util/HiLog';
-import Utils from '../util/Utils';
+import StringUtil from '../util/StringUtil';
 import featureAbility from '@ohos.ability.featureAbility';
-import AppStorageUtil from '../util/AppStorageUtil';
-import PreferencesUtil from '../util/PreferencesUtil';
-import abilityAccessCtrl from '@ohos.abilityAccessCtrl'
-import bundle from '@ohos.bundle'
 
 const TAG = 'IndexPresenter  ';
 
 export class IndexPresenter {
-  /*当前tab页面*/
   uriTabFlag: boolean = false;
   tabsIndex: number = 0;
+  editPhoneNumber: string = "";
   private static instance: IndexPresenter
 
   public static getInstance(): IndexPresenter {
@@ -41,16 +37,15 @@ export class IndexPresenter {
     HiLog.i(TAG, 'aboutToAppear !!!');
     featureAbility.getWant().then((Want) => {
       HiLog.i(TAG, 'aboutToAppear Want success ');
-      if (Utils.isEmpty(Want.uri) && Utils.isEmpty(Want.parameters.pageFlag)) {
+      if (StringUtil.isEmpty(Want.uri) && StringUtil.isEmpty(Want.parameters.pageFlag)) {
         HiLog.i(TAG, 'pageRouteHandler and routeMessage.pageFlag isEmpty ');
-      } else if (!Utils.isEmpty(Want.uri)) {
+      } else if (!StringUtil.isEmpty(Want.uri)) {
         HiLog.i(TAG, "want uri is not empty!");
         this.pageRouteHandler({
           pageFlag: Want.uri
         });
       } else {
         HiLog.i(TAG, "go pageRouteHandler");
-        // 跳转到3方应用所指定的页面
         this.pageRouteHandler(Want.parameters);
       }
     }).catch((error) => {
@@ -60,47 +55,41 @@ export class IndexPresenter {
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear !!!');
-    PreferencesUtil.initDataStorage().then((prefIns) => {
-      HiLog.i(TAG, 'initStorage first done');
-      AppStorageUtil.setPreferences(prefIns);
-    }).catch((err) => {
-      HiLog.e(TAG, 'initStorage error : %s', JSON.stringify(err.message));
-    });
   }
 
+  // Go to a specified page.
   pageRouteHandler(routeMessage) {
     HiLog.i(TAG, 'show pageRouteHandler routeMessage ');
     let uri = "";
     let params = {};
-    if (Utils.isEmpty(routeMessage.pageFlag)) {
+    if (StringUtil.isEmpty(routeMessage.pageFlag)) {
       this.goToContacts();
       HiLog.i(TAG, 'pageRouteHandler and routeMessage.pageFlag isEmpty ');
       return;
     }
     HiLog.i(TAG, 'pageRouteHandler case is ' + routeMessage.pageFlag);
     switch (routeMessage.pageFlag.toString()) {
-    // ------------------ 三方跳转 index  start ---------------------
-      case 'page_flag_choose_contacts': // 三方跳转至选择联系人
+    // jump to index
+      case 'page_flag_choose_contacts':
         this.tabsIndex = 1;
         this.uriTabFlag = !this.uriTabFlag;
         return;
-      case 'page_flag_dialer': // 三方跳转至拨号盘
+      case 'page_flag_dialer':
         this.tabsIndex = 0;
         this.uriTabFlag = !this.uriTabFlag;
         return;
-    // ------------------ 三方跳转 index  end ---------------------
 
-      case 'page_flag_contact_details': // 三方跳转到详情
+      case 'page_flag_contact_details':
         uri = "pages/contacts/details/ContactDetail";
         if (routeMessage.contactId) {
           params = {
-            'contactId': routeMessage.contactId,
+            'sourceHasId': true,
+            'contactId': routeMessage.contactId
           }
         } else {
           HiLog.i(TAG, 'SHOW pageRouteHandler and routeMessage.phoneNumber ');
           params = {
-            'sourceFromCallRecord': true,
-            'isNewNumber': true,
+            'sourceHasPhone': true,
             'phoneNumberShow': routeMessage.phoneNumber,
           }
         }
@@ -111,40 +100,40 @@ export class IndexPresenter {
       case 'page_flag_contacts':
         uri = 'pages/navigation/navigation';
         params = {
-          'navigationType': 'contacts' // 跳转至联系人
+          'navigationType': 'contacts'
         }
         break;
-      case 'page_flag_edit_before_calling': // 呼叫前编辑
+      case 'page_flag_edit_before_calling':
         this.editBeforeCall(routeMessage.phoneNumber);
         break;
-      case 'page_flag_save_contact': // 新建联系人
+      case 'page_flag_save_contact':
         this.addContacts(routeMessage.phoneNumber);
         break;
-      case 'page_flag_save_exist_contact': // 保存至已有联系人
+      case 'page_flag_save_exist_contact':
         this.saveToContacts(routeMessage.phoneNumber);
         break;
       case 'page_flag_sms_forward':
         uri = 'pages/contacts/batchselectcontacts/batchselectcontacts';
         params = {
-          selectType: 1 // 短信发送跳转到选择联系人界面
+          selectType: 1
         }
         break;
       case 'page_flag_mult_choose':
         uri = 'pages/contacts/batchselectcontacts/BatchSelectContactsPage';
         params = {
-          selectType: 0 // 短信发送跳转到选择联系人界面
+          selectType: 0
         }
         break;
-      case 'page_flag_call_logs': // 三方跳转至通话记录
+      case 'page_flag_call_logs':
         uri = 'pages/navigation/navigation';
         params = {
-          'navigationType': 0 // 跳转至拨号盘界面
+          'navigationType': 0
         }
         break;
       case 'page_flag_missed_calls':
         this.goToMissedCalls();
         break;
-      case 'page_flag_card_details': // 跳转我的名片
+      case 'page_flag_card_details':
         this.goToMyCard();
         break;
       default:
@@ -158,29 +147,21 @@ export class IndexPresenter {
     });
   }
 
-  /* 跳转到我的名片 */
   goToMyCard() {
   }
-  /* 呼叫前编辑 */
+
   editBeforeCall(phoneNumber) {
-    AppStorageUtil.setIsEditNumber(true); // 标识为呼叫前编辑
-    AppStorageUtil.setNumTextDialer(phoneNumber); // 赋值电话号码
-    this.goToDialer();
+    this.editPhoneNumber = phoneNumber;
+    this.tabsIndex = 0;
+    this.uriTabFlag = !this.uriTabFlag;
   }
-  /* 跳转到未接来电界面 */
+
   goToMissedCalls() {
   }
-  /* 跳转至联系人界面 */
+
   goToContacts() {
   }
-  /* 跳转至拨号盘界面 */
-  goToDialer() {
-    router.replace({ // 跳转至拨号盘
-      uri: 'pages/index',
-    });
 
-  }
-  /* 保存至已有联系人 */
   saveToContacts(phoneNumber) {
     router.replace({
       uri: 'pages/contacts/selectContactsList/selectContactsList',
@@ -190,10 +171,10 @@ export class IndexPresenter {
       }
     });
   }
-  /* 新建联系人 */
+
   addContacts(phoneNumber) {
-    var number = phoneNumber.replace(/[^0123456789+]*/g, ''); // 去除所有空格及非数字或+号的字符
-    var show = false;
+    let number = phoneNumber.replace(/[^0123456789+]*/g, '');
+    let show = false;
     let uri = 'pages/contacts/accountants/Accountants';
     router.replace({
       uri: 'pages/contacts/accountants/Accountants',
@@ -230,37 +211,15 @@ export class PermissionsManage {
   }
 
   async initPermissions() {
-    let array: Array<string> = [
+    let requestPermissions: Array<string> = [
       "ohos.permission.READ_CONTACTS",
       "ohos.permission.WRITE_CONTACTS",
       "ohos.permission.MANAGE_VOICEMAIL",
-      "ohos.permission.READ_CALL_LOG",
-      "ohos.permission.PLACE_CALL"
+      "ohos.permission.READ_CALL_LOG"
     ];
-    var bundleFlag = 0;
-    var tokenID = undefined;
-    var userID = 100;
-    var appInfo = await bundle.getApplicationInfo('com.ohos.contacts', bundleFlag, userID);
-    tokenID = appInfo.accessTokenId;
-    var atManager = abilityAccessCtrl.createAtManager();
-    let requestPermissions: Array<string> = [];
-    for (let i = 0;i < array.length; i++) {
-      var result = await atManager.verifyAccessToken(tokenID, array[i]);
-      HiLog.i(TAG, 'Application initPermissions result%s', JSON.stringify(result));
-      if (result == abilityAccessCtrl.GrantStatus.PERMISSION_GRANTED) {
-        // 执行操作
-      } else {
-        // 申请动态授权，使用接口：requestPermissionsFromUser
-        requestPermissions.push(array[i]);
-      }
-    }
-    HiLog.i(TAG, 'SHOW Application initPermissions');
-    if (requestPermissions.length == 0 || requestPermissions == []) {
-      this.applyFlag = true;
-      return;
-    }
     let context = featureAbility.getContext();
-    context.requestPermissionsFromUser(requestPermissions, 1, (data) => {
+    context.requestPermissionsFromUser(requestPermissions, 1, (result) => {
+      let data: any = result;
       HiLog.i(TAG, "data authResults:" + JSON.stringify(data.authResults));
       let authflag = true;
       for (let i = 0; i < data.authResults.length; i++) {

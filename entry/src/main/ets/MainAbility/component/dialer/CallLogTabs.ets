@@ -26,19 +26,21 @@ export struct CallLogTabs {
     }) {
       Column() {
         Text($r("app.string.all_call_logs"))
-          .fontSize('16vp')
+          .fontSize($r("app.float.contact_text_size_body1"))
           .lineHeight('22vp')
-          .fontColor(this.bottomTabIndex == 0 ? '#00CB87' : '#99182431')
-          .margin({ top: 17, bottom: 6  })
+          .fontColor(this.bottomTabIndex == 0 ? $r('sys.color.ohos_id_color_connected') : $r('sys.color.ohos_id_color_text_secondary'))
+          .fontWeight(this.bottomTabIndex == 0 ? FontWeight.Medium : FontWeight.Regular)
+          .margin({ top: 17, bottom: 6 })
 
         Row()
-          .width('64vp')
-          .height('2vp')
-          .backgroundColor('#00CB87')
+          .width($r("app.float.id_item_height_max"))
+          .height($r("app.float.id_card_margin_sm"))
+          .backgroundColor($r('sys.color.ohos_id_color_connected'))
           .visibility(this.bottomTabIndex == 0 ? Visibility.Visible : Visibility.None)
+          .borderRadius($r("app.float.id_card_margin_sm"))
       }
       .width('84vp')
-      .height('56vp')
+      .height($r("app.float.id_item_height_large"))
       .margin({ right: 50 })
       .onClick(() => {
         if (this.bottomTabIndex != 0) {
@@ -48,19 +50,21 @@ export struct CallLogTabs {
 
       Column() {
         Text($r("app.string.missed_call"))
-          .fontSize('16vp')
+          .fontSize($r("app.float.contact_text_size_body1"))
           .lineHeight('22vp')
-          .fontColor(this.bottomTabIndex == 1 ? '#00CB87' : '#99182431')
+          .fontColor(this.bottomTabIndex == 1 ? $r('sys.color.ohos_id_color_connected') : $r('sys.color.ohos_id_color_text_secondary'))
+          .fontWeight(this.bottomTabIndex == 1 ? FontWeight.Medium : FontWeight.Regular)
           .margin({ top: 17, bottom: 6 })
 
         Row()
-          .width('64vp')
-          .height('2vp')
-          .backgroundColor('#00CB87')
+          .width($r("app.float.id_item_height_max"))
+          .height($r("app.float.id_card_margin_sm"))
+          .backgroundColor($r('sys.color.ohos_id_color_connected'))
           .visibility(this.bottomTabIndex == 1 ? Visibility.Visible : Visibility.None)
+          .borderRadius($r("app.float.id_card_margin_sm"))
       }
       .width('84vp')
-      .height('56vp')
+      .height($r("app.float.id_item_height_large"))
       .onClick(() => {
         if (this.bottomTabIndex != 1) {
           this.controller.changeIndex(1)
@@ -68,7 +72,7 @@ export struct CallLogTabs {
       })
     }
     .width('100%')
-    .height('56vp')
+    .height($r("app.float.id_item_height_large"))
     .zIndex(3)
   }
 }

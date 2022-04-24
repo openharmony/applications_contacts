@@ -14,11 +14,10 @@
  */
 
 export class GroupBean {
-  id: string; // 联系人id主键
-  groupId: string; //群組Id
-  groupType: string ; //AIM类型（qq 微博，雅虎等 ）
-  groupName: string; //AIM内容
-
+  id: string;
+  groupId: string;
+  groupType: string;
+  groupName: string;
   constructor(id: string, groupId: string, groupType: string, groupName: string) {
     this.id = id;
     this.groupId = groupId;

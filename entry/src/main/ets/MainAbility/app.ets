@@ -13,21 +13,19 @@
  * limitations under the License.
  */
 
-import AppStorageUtil from './util/AppStorageUtil';
+import CallLogService from './call/CallLogService';
 import HiLog from './util/HiLog';
+import PreferencesUtil from './util/PreferencesUtil';
 
 const TAG = "APP  ";
 
 export default {
   onCreate() {
-    HiLog.i(TAG, 'Application onCreate');
-    AppStorageUtil.initData();
+    HiLog.i(TAG, 'Application onCreate version : 1.0.0.9');
+    CallLogService.getInstance().init();
+    PreferencesUtil.initDataStorage();
   },
   onDestroy() {
     HiLog.i(TAG, 'Application onDestroy');
   },
-}
-
-export interface LooseObject {
-  [key: string]: any
 }

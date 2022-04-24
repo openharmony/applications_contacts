@@ -12,8 +12,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 export default {
     isEmpty: function (list: any[]) {
-        return list == undefined || list == null || list.length == 0;
+        return list == undefined || list == null || (Array.prototype.isPrototypeOf(list) && list.length === 0);
     }
 }

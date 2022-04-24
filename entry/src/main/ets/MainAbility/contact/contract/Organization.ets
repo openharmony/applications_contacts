@@ -18,7 +18,7 @@ import DataType from './DataType';
 import {DataItemType} from './DataType';
 
 /**
- * 组织数据类型
+ * Organization Data Type
  */
 export default class Organization extends DataType{
   static readonly CONTENT_ITEM_TYPE: string = "organization";

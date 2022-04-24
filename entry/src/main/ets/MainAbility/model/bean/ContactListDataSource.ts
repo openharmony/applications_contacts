@@ -13,14 +13,10 @@
  * limitations under the License.
  */
 import BasicDataSource from './BasicDataSource';
-import ContactListPresenter from '../../presenter/contact/ContactListPresenter';
-import {ContactVo} from '../bean/ContactVo';
+import { ContactVo } from '../bean/ContactVo';
 import HiLog from '../../util/HiLog';
-import common from '../../model/common';
-import ContactAbilityModel from '../../model/ContactAbilityModel';
-import Constants from '../../model/common/Constants';
-import utils from '../../util/Utils';
-import ContactRepository from '../../contact/repo/ContactRepository';
+import ArrayUtil from '../../util/ArrayUtil';
+import StringUtil from '../../util/StringUtil';
 
 const TAG = "ContactListDataSource";
 
@@ -35,7 +31,7 @@ export default class ContactListDataSource extends BasicDataSource {
 
     public getData(index: number): any {
         HiLog.i(TAG, "getData index is %s", index);
-        if (utils.isEmptyList(this.contactList) || index >= this.contactList.length) {
+        if (ArrayUtil.isEmpty(this.contactList) || index >= this.contactList.length) {
             HiLog.i(TAG, "getData contactlist is empty");
             return null;
         } else {
@@ -49,6 +45,9 @@ export default class ContactListDataSource extends BasicDataSource {
             } else {
                 showDivifer = false;
             }
+            contact.setTitle(StringUtil.isEmpty(contact.showName) ? contact.phoneNum : contact.showName);
+            let subtitleConcat: string = (!StringUtil.isEmpty(contact.company) && !StringUtil.isEmpty(contact.position)) ? ' | ' : "";
+            contact.setSubTitle((StringUtil.isEmpty(contact.company) ? '' : contact.company).concat(subtitleConcat).concat(StringUtil.isEmpty(contact.position) ? '' : contact.position));
             HiLog.i(TAG, "getData contactlist showIndex is " + showIndex + " , showDivifer is " + showDivifer);
             return {
                 showIndex: showIndex,

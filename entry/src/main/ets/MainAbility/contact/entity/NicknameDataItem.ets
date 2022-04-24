@@ -18,7 +18,6 @@ import Nickname from '../contract/Nickname';
 
 export default class NicknameDateItem extends DataItem {
   readonly values: Map<string, any>;
-
   constructor(values: Map<string, any>) {
     super(values);
   }

@@ -13,10 +13,10 @@
  * limitations under the License.
  */
 
-import Contact from '../entity/Contact.ets';
-import Contacts from '../contract/Contacts.ets';
-import RawContacts from '../contract/RawContacts.ets';
-import ContactBuilder from '../entity/ContactBuilder.ets';
+import Contact from '../entity/Contact';
+import Contacts from '../contract/Contacts';
+import RawContacts from '../contract/RawContacts';
+import ContactBuilder from '../entity/ContactBuilder';
 
 export default class ContactListItem {
   static readonly COLUMNS: string[] = [Contacts.ID, Contacts.QUICK_SEARCH_KEY, RawContacts.DISPLAY_NAME,
@@ -28,6 +28,7 @@ export default class ContactListItem {
   readonly quickSearchKey: string;
   readonly company: string;
   readonly position: string;
+  phoneNumbers: [] = [];
 
   constructor(resultSet: any) {
     this.id = resultSet.getLong(resultSet.getColumnIndex(Contacts.ID));

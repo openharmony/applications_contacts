@@ -13,13 +13,48 @@
  * limitations under the License.
  */
 export default {
-    isEmpty: function (str: string) {
-        return str == undefined || str == null || str == '';
-    },
-    removeSpace: function (str: string) {
-        if (this.isEmpty(str)) {
-            return '';
-        }
-        return str.replace(/[\s]/g, '');
+  isEmpty: function (str: string): boolean {
+    return str == 'undefined' || !str || !/[^\s]/.test(str);
+  },
+  removeSpace: function (str: string): string {
+    if (this.isEmpty(str)) {
+      return '';
     }
+    return str.replace(/[\s]/g, '');
+  },
+  /* Obtains the result string that matches the specified substring in the original character string.
+   Only the result of the first successful match is returned.(The matching rule ignores spaces.)
+   */
+  getMatchedString: function (textValue, regString): string{
+    if (this.isEmpty(textValue) || this.isEmpty(regString)) {
+      return '';
+    }
+    regString = this.removeSpace(regString);
+    let matchedTemp = '';
+
+    // spaces count
+    let k = 0;
+    for (let i = 0; i < textValue.length; i++) {
+      if (textValue.charAt(i) == regString.charAt(0)) {
+        for (let j = 0; j < regString.length; j++) {
+          if (textValue.charAt(i + k + j) == regString.charAt(j) || textValue.charAt(i + k + j) == ' ') {
+            matchedTemp = matchedTemp + textValue.charAt(i + k + j);
+            if (textValue.charAt(i + k + j) == ' ') {
+              // If the main string is a space, the substring is not counted.
+              k++;
+              j--;
+            }
+          } else {
+            k = 0;
+            matchedTemp = '';
+            break;
+          }
+          if (j == regString.length - 1) {
+            return matchedTemp;
+          }
+        }
+      }
+    }
+    return '';
+  }
 }

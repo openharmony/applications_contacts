@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Utils from './Utils';
+import StringUtil from './StringUtil';
 import HiLog from './HiLog';
 import call from '@ohos.telephony.call';
 
@@ -31,17 +31,18 @@ export default class DialUtil {
   }
 
   /**
-   * dial拨号
+   * dial number
    *
-   * @param phoneNum 电话号码
-   * @param callback 拨号回调 data:是否是紧急号码   err：拨号失败  value：拨号结果
+   * @param phoneNum telephone number
+   * @param callback dail callback data:is emergency   err：failure  value：result
    */
   dial(phoneNum: string, callback) {
-    HiLog.i(TAG, 'dial phonenum is ');
-    if (Utils.isEmpty(phoneNum)) {
+    HiLog.i(TAG, 'dial start ');
+    if (StringUtil.isEmpty(phoneNum)) {
+      HiLog.i(TAG, 'dial phoneNum is empty ');
       return;
     }
-    let num: string = Utils.removeSpace(phoneNum);
+    let num: string = StringUtil.removeSpace(phoneNum);
 
     call.isEmergencyPhoneNumber(num, (err, data) => {
       if (err) {
@@ -70,4 +71,3 @@ export default class DialUtil {
     });
   }
 }
-

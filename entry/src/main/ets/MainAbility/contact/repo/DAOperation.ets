@@ -25,7 +25,6 @@ export default class DAOperation {
   predicatesBackReferences?: Map<number, number>;
   interrupted?: boolean;
   expectedCount?: number;
-
   constructor(uri: string, type: number) {
     this.uri = uri;
     this.type = type;

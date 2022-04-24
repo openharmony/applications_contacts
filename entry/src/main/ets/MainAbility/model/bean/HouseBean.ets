@@ -13,17 +13,17 @@
  * limitations under the License.
  */
 
-export class HouseBean{
-  id: string;  // 联系人id主键
-  houseId :string;//住宅Id
-  houseType:string;//住宅类别
-  houseName:string;//住宅地址
-
-  constructor(id: string,houseId: string, houseType: string, houseName: string)  {
+export class HouseBean {
+  // Contact ID primary key.
+  id: string;
+  houseId: string;
+  houseType: string;
+  //Residential address
+  houseName: string;
+  constructor(id: string, houseId: string, houseType: string, houseName: string) {
     this.id = id;
     this.houseId = houseId;
     this.houseType = houseType;
     this.houseName = houseName;
   }
-
 }

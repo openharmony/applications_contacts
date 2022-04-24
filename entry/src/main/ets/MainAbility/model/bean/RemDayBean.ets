@@ -14,14 +14,14 @@
  */
 
 /**
- * 纪念日对象
+ * Remembrance Day Object
  */
-export class RemDayBean{
+export class RemDayBean {
   id: string
   remDayId: string
   data: string
   remDayType: string
-  constructor(id: string, remDayId: string, data: string, remDayType: string){
+  constructor(id: string, remDayId: string, data: string, remDayType: string) {
     this.id = id;
     this.remDayId = remDayId;
     this.data = data;

@@ -14,14 +14,14 @@
  */
 
 /**
- * 电话号码对象
+ * Phone Number Object
  */
 export class PhoneNumBean{
   id:string
   num: string
-  numType: string  // 号码类型：手机，住宅
-  homeArea: string  // 归属地
-  carriers: string  // 运营商
+  numType: string
+  homeArea: string
+  carriers: string
   constructor(id:string, num: string, numType: string,homeArea: string, carriers: string){
     this.id = id;
     this.num = num;
