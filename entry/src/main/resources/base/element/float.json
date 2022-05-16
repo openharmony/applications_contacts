@@ -1,0 +1,143 @@
+{
+  "float": [
+    {
+      "name": "id_corner_radius_card",
+      "value": "24vp"
+    }, {
+      "name": "id_corner_radius_card_mid",
+      "value": "16vp"
+    },
+    {
+      "name": "id_corner_radius_dialog",
+      "value": "24vp"
+    },
+    {
+      "name": "id_card_margin_max",
+      "value": "24vp"
+    },
+    {
+      "name": "id_card_margin_xxxxl",
+      "value": "32vp"
+    },
+    {
+      "name": "id_card_margin_xxxl",
+      "value": "18vp"
+    },
+    {
+      "name": "id_card_margin_xxl",
+      "value": "16vp"
+    },
+    {
+      "name": "id_card_margin_xl",
+      "value": "12vp"
+    },
+    {
+      "name": "id_card_margin_large",
+      "value": "8vp"
+    },
+    {
+      "name": "id_card_margin_mid",
+      "value": "4vp"
+    },
+    {
+      "name": "id_card_margin_sm",
+      "value": "2vp"
+    },
+    {
+      "name": "id_item_height_max",
+      "value": "64vp"
+    },
+    {
+      "name": "id_item_height_large",
+      "value": "56vp"
+    },
+    {
+      "name": "id_item_height_mid",
+      "value": "48vp"
+    },
+    {
+      "name": "id_item_height_sm",
+      "value": "40vp"
+    },
+    {
+      "name": "id_card_image_xs",
+      "value": "12vp"
+    },
+    {
+      "name": "id_card_image_small",
+      "value": "24vp"
+    },
+    {
+      "name": "id_card_image_mid",
+      "value": "40vp"
+    },
+    {
+      "name": "id_card_image_large",
+      "value": "120vp"
+    },
+    {
+      "name": "contact_longpress_dialog_width",
+      "value": "156vp"
+    },
+    {
+      "name": "contact_text_size_body1",
+      "value": "16fp"
+    },
+    {
+      "name": "dialer_keypad_margin1",
+      "value": "12vp"
+    },
+    {
+      "name": "dialer_keypad_button_height",
+      "value": "96vp"
+    },
+    {
+      "name": "dialer_telephone_number_height",
+      "value": "112vp"
+    },
+    {
+      "name": "dialer_common_small_margin",
+      "value": "16vp"
+    },
+    {
+      "name": "dialer_calllog_item_height",
+      "value": "60vp"
+    },
+    {
+      "name": "dialer_calllog_bindmenu_width1",
+      "value": "156vp"
+    },
+    {
+      "name": "dialer_common_very_small_margin1",
+      "value": "5vp"
+    },
+    {
+      "name": "dialer_common_very_small_margin2",
+      "value": "6vp"
+    },
+    {
+      "name": "dialer_calllog_bindmenu_height",
+      "value": "280vp"
+    },
+    {
+      "name": "account_MenuBuilder_width",
+      "value": "156vp"
+    },
+    {
+      "name": "account_listItem_text_common_width",
+      "value": "72vp"
+    },
+    {
+      "name": "account_ItemList_text_width",
+      "value": "38vp"
+    },
+    {
+      "name": "account_Divider_height",
+      "value": "1vp"
+    },
+    {
+      "name": "account_Divider_width",
+      "value": "124vp"
+    }
+  ]
+}
