@@ -2,16 +2,16 @@
   "app": {
     "signingConfigs": [
       {
-        "name": "debug",
+        "name": "default",
         "material": {
-          "storeFile": "sign\\OpenHarmony.p12",
-          "storePassword": "00000016415DCB8BDB5D691A90749335FF8E25F1806A4C11AF9FB4BE8C598A979D787FF01BDB",
+          "storePassword": "000000198E62D3EBAD27221BC23C17589B3C2F7150510F1FEA2EF28DECF81B022C7079AD4243C34E1A",
+          "certpath": "sign/IDE.cer",
           "keyAlias": "OpenHarmony Application CA",
-          "keyPassword": "00000016929E7CB9E098D907A36A4346625D55CC1DC412040BDB794E0CEAF760FDB68B0E8966",
+          "keyPassword": "00000019599D4D854A2568E05D356DD762CB34576298AFC53D9E228813C8711327BB991AC74C0D597E",
+          "profile": "sign/contacts.p7b",
           "signAlg": "SHA256withECDSA",
-          "profile": "sign\\com.ohos.contacts.p7b",
-          "certpath": "sign\\IDE.cer",
-        },
+          "storeFile": "sign/OpenHarmony_stage.p12"
+        }
       }
     ],
     "compileSdkVersion": 9,
@@ -19,9 +19,9 @@
     "products": [
       {
         "name": "default",
-        "signingConfig": "debug",
-      },
-    ],
+        "signingConfig": "default",
+      }
+    ]
   },
   "modules": [
     {
@@ -31,10 +31,10 @@
         {
           "name": "default",
           "applyToProducts": [
-            "default",
-          ],
-        },
-      ],
-    },
-  ],
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
 }
