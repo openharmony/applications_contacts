@@ -1,4 +1,4 @@
 /node_modules
 /.preview
 /build
-/package-lock.json
+/.cxx
