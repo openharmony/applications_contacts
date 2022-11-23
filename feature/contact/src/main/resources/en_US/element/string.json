@@ -1,0 +1,220 @@
+{
+  "string": [
+    {
+      "name": "phone_type_mobile",
+      "value": "phone"
+    },
+    {
+      "name": "phone_type_home",
+      "value": "dwellings"
+    },
+    {
+      "name": "phone_type_work",
+      "value": "unit"
+    },
+    {
+      "name": "phone_type_main",
+      "value": "Switchboard"
+    },
+    {
+      "name": "phone_type_fax_work",
+      "value": "Company Fax"
+    },
+    {
+      "name": "phone_type_fax_home",
+      "value": "Residential Fax"
+    },
+    {
+      "name": "phone_type_pager",
+      "value": "pager"
+    },
+    {
+      "name": "phone_type_other",
+      "value": "other"
+    },
+    {
+      "name": "phone_type_custom",
+      "value": "custom"
+    },
+    {
+      "name": "phone_type_home_expansion",
+      "value": "dwellings  %s"
+    },
+    {
+      "name": "phone_type_mobile_expansion",
+      "value": "phone  %s"
+    },
+    {
+      "name": "phone_type_work_expansion",
+      "value": "unit  %s"
+    },
+    {
+      "name": "phone_type_fax_work_expansion",
+      "value": "Company Fax  %s"
+    },
+    {
+      "name": "phone_type_fax_home_expansion",
+      "value": "Residential Fax  %s"
+    },
+    {
+      "name": "phone_type_pager_expansion",
+      "value": "pager  %s"
+    },
+    {
+      "name": "phone_type_other_expansion",
+      "value": "other  %s"
+    },
+    {
+      "name": "phone_type_main_expansion",
+      "value": "Switchboard  %s"
+    },
+    {
+      "name": "phone_type_custom_expansion",
+      "value": "custom  %s"
+    },
+    {
+      "name": "email_type_home",
+      "value": "Private"
+    },
+    {
+      "name": "email_type_work",
+      "value": "unit"
+    },
+    {
+      "name": "email_type_other",
+      "value": "other"
+    },
+    {
+      "name": "email_type_custom",
+      "value": "custom"
+    },
+    {
+      "name": "instant_type_aim",
+      "value": "AIM"
+    },
+    {
+      "name": "instant_type_windowslive",
+      "value": "WindowsLive"
+    },
+    {
+      "name": "instant_type_yahoo",
+      "value": "Yahoo"
+    },
+    {
+      "name": "instant_type_skype",
+      "value": "Skype"
+    },
+    {
+      "name": "instant_type_qq",
+      "value": "QQ"
+    },
+    {
+      "name": "instant_type_hangouts",
+      "value": "Hangouts"
+    },
+    {
+      "name": "instant_type_icq",
+      "value": "ICQ"
+    },
+    {
+      "name": "instant_type_jabber",
+      "value": "Jabber"
+    },
+    {
+      "name": "instant_type_custom",
+      "value": "Custom"
+    },
+    {
+      "name": "birthday_type_grebirthday",
+      "value": "Birthday"
+    },
+    {
+      "name": "birthday_type_lunarbirthday",
+      "value": "Lunar Birthday"
+    },
+    {
+      "name": "birthday_type_anniversaries",
+      "value": "anniversaries"
+    },
+    {
+      "name": "birthday_type_other",
+      "value": "Other Important Dates"
+    },
+    {
+      "name": "relationship_type_assistant",
+      "value": "Assistant"
+    },
+    {
+      "name": "relationship_type_brother",
+      "value": "Brother"
+    },
+    {
+      "name": "relationship_type_children",
+      "value": "Children"
+    },
+    {
+      "name": "relationship_type_mates",
+      "value": "Mates"
+    },
+    {
+      "name": "relationship_type_father",
+      "value": "Father"
+    },
+    {
+      "name": "relationship_type_friend",
+      "value": "Friend"
+    },
+    {
+      "name": "relationship_type_bosses",
+      "value": "Bosses"
+    },
+    {
+      "name": "relationship_type_mother",
+      "value": "Mother"
+    },
+    {
+      "name": "relationship_type_parents",
+      "value": "Parents"
+    },
+    {
+      "name": "relationship_type_partner",
+      "value": "Partner"
+    },
+    {
+      "name": "relationship_type_introducer",
+      "value": "Introducer"
+    },
+    {
+      "name": "relationship_type_kinship",
+      "value": "Kinship"
+    },
+    {
+      "name": "relationship_type_sisters",
+      "value": "Sisters"
+    },
+    {
+      "name": "relationship_type_spouses",
+      "value": "Spouses"
+    },
+    {
+      "name": "relationship_type_custom",
+      "value": "Custom"
+    },
+    {
+      "name": "house_type_dwelling",
+      "value": "Dwelling"
+    },
+    {
+      "name": "house_type_position",
+      "value": "Position"
+    },
+    {
+      "name": "house_type_other",
+      "value": "Other"
+    },
+    {
+      "name": "house_type_custom",
+      "value": "Custom"
+    }
+  ]
+}
