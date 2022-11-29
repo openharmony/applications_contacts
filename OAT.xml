@@ -77,29 +77,12 @@
                 <!--filteritem type="filepath" name="abcdefg/.*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
                 <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
             </filefilter>
-            <filefilter
-                desc="Files not to check"
-                name="defaultFilter">
-                <filteritem
-                    desc="build config file"
-                    name=".*.json5"
-                    type="filepath"/>
-                <filteritem
-                    desc="build config file"
-                    name="AppScope/.*.json5"
-                    type="filepath"/>
-                <filteritem
-                    desc="build config file"
-                    name="entry/.*.json5"
-                    type="filepath"/>
-                <filteritem
-                    desc="build config file"
-                    name="entry/src/main/.*.json5"
-                    type="filepath"/>
-                <filteritem
-                    desc="build config file"
-                    name="entry/src/main/ets/MainAbility/workers/.*.js"
-                    type="filepath"/>
+            <filefilter name="defaultFilter" desc="Files not to check">
+                <filteritem type="filepath" name=".*.json5" desc="build config file"/>
+                <filteritem type="filepath" name="AppScope/.*.json5" desc="build config file"/>
+                <filteritem type="filepath" name="entry/.*.json5" desc="build config file"/>
+                <filteritem type="filepath" name="entry/src/main/ets/MainAbility/workers/.*.js" desc="worker file"/>
+                <filteritem type="filepath" name="entry/src/main/.*.json5" desc="build config file"/>
             </filefilter>
             <filefilter
                 desc="Filters for binary file policies"

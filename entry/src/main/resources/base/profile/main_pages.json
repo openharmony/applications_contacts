@@ -1,0 +1,11 @@
+{
+  "src": [
+    "pages/index",
+    "pages/contacts/accountants/Accountants",
+    "pages/dialer/callRecord/CallRecord",
+    "pages/contacts/details/ContactDetail",
+    "pages/dialer/DialerTablet",
+    "pages/contacts/batchselectcontacts/BatchSelectContactsPage",
+    "pages/contacts/batchselectcontacts/SingleSelectContactPage"
+  ]
+}

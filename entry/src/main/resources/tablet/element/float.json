@@ -1,6 +1,10 @@
 {
   "float": [
     {
+      "name": "id_divide_width",
+      "value": "1vp"
+    },
+    {
       "name": "id_corner_radius_card",
       "value": "24vp"
     },
@@ -107,6 +111,14 @@
     {
       "name": "account_Divider_width",
       "value": "124vp"
+    },
+    {
+      "name": "DeleteDialogEx_height",
+      "value": "109vp"
+    },
+    {
+      "name": "DeleteDialogEx_width",
+      "value": "336vp"
     }
   ]
 }
