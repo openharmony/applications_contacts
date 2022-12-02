@@ -21,7 +21,7 @@ import { StringUtil } from '../../../../../../../common/src/main/ets/util/String
 @Component
 export default struct BatchSelectContactItemView {
   @State private single: boolean = false;
-  @State private item: any = {};
+  @State private item: { [key: string]: any } = {};
   private onContactItemClicked: Function;
   private onSingleContactItemClick: Function;
   private index: number;
@@ -127,21 +127,21 @@ export default struct BatchSelectContactItemView {
                 .flexGrow(1)
                 .height($r("app.float.id_item_height_mid"))
 
-                Toggle({ type: ToggleType.Checkbox, isOn: (item.checked == undefined) ? false : item.checked })
-                  .width(20)
-                  .height(20)
-                  .enabled(false)
-                  .margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_max") })
-                  .selectedColor($r("sys.color.ohos_id_color_connected"))
+//                Toggle({ type: ToggleType.Checkbox, isOn: (item.checked == undefined) ? false : item.checked })
+//                  .width(20)
+//                  .height(20)
+//                  .enabled(false)
+//                  .margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_max") })
+//                  .selectedColor($r("sys.color.ohos_id_color_connected"))
               }
               .width('100%')
               .height($r("app.float.id_item_height_mid"))
               .onClick(() => {
-                this.onContactItemClicked(this.index, index);
+                this.onSingleContactItemClick(this.item.phoneNumbers[0].phoneNumber, this.item.showName);
               })
             }
           }
-        }, (item, index) => item.toString())
+        }, (item, index) => JSON.stringify(item))
       }
       .listDirection(Axis.Vertical)
       .edgeEffect(EdgeEffect.Spring)

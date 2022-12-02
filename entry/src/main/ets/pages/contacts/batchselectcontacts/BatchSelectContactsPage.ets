@@ -16,7 +16,6 @@
 import BatchSelectContactsPresenter from '../../../presenter/contact/batchselectcontacts/BatchSelectContactsPresenter';
 import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
-import EnvironmentProp from '../../../feature/EnvironmentProp';
 import BatchSelectRecentItemView from '../../../component/contact/batchselectcontacts/BatchSelectRecentItemView';
 import BatchSelectContactItemView from '../../../component/contact/batchselectcontacts/BatchSelectContactItemView';
 import BatchTabGuide from '../../../component/contact/batchselectcontacts/BatchTabGuide';
@@ -215,7 +214,7 @@ struct RecentList {
               }
             }
           }
-        }, (item) => item.calllog.id.toString())
+        }, (item) => JSON.stringify(item))
       }
       .width('100%')
       .listDirection(Axis.Vertical)
@@ -271,7 +270,7 @@ struct ContactsList {
               }
             }
           }
-        }, (item) => item.contact.contactId.toString())
+        }, (item) => JSON.stringify(item))
       }
       .width('100%')
       .listDirection(Axis.Vertical)

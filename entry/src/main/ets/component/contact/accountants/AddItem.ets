@@ -13,11 +13,11 @@
  * limitations under the License.
  */
 
-import EnvironmentProp from '../../../feature/EnvironmentProp';
+import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
 
 @Component
 export struct AddItem {
-  @Link mPresent: any;
+  @Link mPresent: AccountantsPresenter;
   private labelName: Resource;
   private typeName: string;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';

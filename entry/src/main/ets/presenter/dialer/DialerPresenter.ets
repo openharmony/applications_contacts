@@ -271,11 +271,14 @@ export default class DialerPresenter {
       globalThis.context.resourceManager.getRawFileDescriptor(FileName).then(value => {
         HiLog.i(TAG, "getRawFileDescriptor value");
         fileDescriptor = {
-          fd: value.fd
+          fd: value.fd,
+          offset: value.offset,
+          length: value.length
         };
         let obj = {
           type: "audio", data: fileDescriptor
         };
+        HiLog.i(TAG, "getRawFile fileDescriptor is  " + JSON.stringify(obj));
         this.audioWorker.postMessage(obj);
       }).catch(error => {
         HiLog.e(TAG, "getRawFile promise error is " + JSON.stringify(error));

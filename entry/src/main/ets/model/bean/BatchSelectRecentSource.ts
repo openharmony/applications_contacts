@@ -19,7 +19,7 @@ import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil'
 const TAG = "BatchSelectRecentSource";
 
 export default class BatchSelectRecentSource extends BasicDataSource {
-    private callLogs: any[] = [];
+    private callLogs: { [key: string]: any }[] = [];
 
     public totalCount(): number {
         HiLog.i(TAG, "totalCount is " + JSON.stringify(this.callLogs.length));

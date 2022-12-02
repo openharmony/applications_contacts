@@ -19,7 +19,7 @@ import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUti
  * Contact List Data Structure Entity
  */
 export class ContactVo {
-  contactId: any;
+  contactId: string;
   namePrefix: string;
   emptyNameData: string;
   company: string;
@@ -30,7 +30,7 @@ export class ContactVo {
   nameSuffix: string;
   phoneNum: string;
   showName: string;
-  phoneNumbers: any[];
+  phoneNumbers: object[];
   name: NameVo;
   title: string;
   subTitle: string;
@@ -63,7 +63,7 @@ export class ContactVo {
     this.name = new NameVo(emptyNameData, namePrefix, nameSuffix);
   }
 
-  public setphoneNumbers(phoneNumbers: any[]) {
+  public setphoneNumbers(phoneNumbers: object[]) {
     this.phoneNumbers = phoneNumbers;
   }
 

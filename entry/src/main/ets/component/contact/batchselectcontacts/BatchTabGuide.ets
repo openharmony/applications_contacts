@@ -56,7 +56,7 @@ export default struct BatchTabGuide {
           }
         })
 
-      }, (item, index) => item.toString())
+      }, (item, index) => JSON.stringify(item))
 
     }
     .width('100%')

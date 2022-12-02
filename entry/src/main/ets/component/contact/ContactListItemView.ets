@@ -14,6 +14,7 @@
  */
 
 import router from '@ohos.router';
+import { ContactVo } from '../../model/bean/ContactVo';
 import DeleteDialogEx from '../../pages/dialog/DeleteDialogEx';
 import ShareDialogEx from '../../pages/dialog/ShareDialogEx';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
@@ -29,7 +30,7 @@ const TAG = 'ContactListItemView ';
 @Component
 export default struct ContactListItemView {
   private presenter: ContactListPresenter = ContactListPresenter.getInstance();
-  @State item: any = {};
+  @State item: ContactVo = new ContactVo("", "", "", "", "", "", true, "", "");
   @State private index: number = 0;
   @State showIndex: boolean = false;
   @State showDivifer: boolean = false;

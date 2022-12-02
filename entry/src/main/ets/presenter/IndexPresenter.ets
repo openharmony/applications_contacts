@@ -75,14 +75,14 @@ export default class IndexPresenter {
     switch (routeMessage.pageFlag.toString()) {
     // jump to index
       case 'page_flag_dialer':
-        router.back({
+        router.replace({
           url: "pages/Index"
         });
         this.tabsIndex = 0;
         this.uriTabFlag = !this.uriTabFlag;
         return;
       case 'page_flag_choose_contacts':
-        router.back({
+        router.replace({
           url: "pages/Index"
         });
         this.tabsIndex = 1;
@@ -104,10 +104,9 @@ export default class IndexPresenter {
         }
         break;
       case 'page_flag_edit_before_calling':
-        let length: number = parseInt(router.getLength());
-        if (length >= 2) {
-          router.back();
-        }
+        router.replace({
+          url: "pages/Index"
+        });
         this.editBeforeCall(routeMessage.phoneNumber);
         break;
       case 'page_flag_save_contact':
