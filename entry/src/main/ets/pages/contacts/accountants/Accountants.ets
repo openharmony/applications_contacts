@@ -51,7 +51,7 @@ struct Accountants {
   @State  mPresenter: AccountantsPresenter = AccountantsPresenter.getInstance();
   @State  eventItemId: number = 0;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
-  private updataShow = false;
+  @State updataShow : boolean = false;
   private pageTitle: Resource = $r("app.string.create_contact");
   dialogController: CustomDialogController = new CustomDialogController({
     builder: ShowDayTime({ mPresent: $mPresenter,
@@ -177,9 +177,9 @@ struct Accountants {
 
         Image($r("app.media.ic_public_ok"))
           .width($r("app.float.id_card_image_small"))
-          .padding({ top: $r("app.float.id_card_margin_xxl"),
-            bottom: $r("app.float.id_card_margin_xxl") })
-          .margin({ right: $r("app.float.id_card_margin_max") })
+          .height($r("app.float.id_card_image_small"))
+          .margin({ top: $r("app.float.id_card_margin_xxl"),
+            bottom: $r("app.float.id_card_margin_xxl"), right: $r("app.float.id_card_margin_max") })
           .fillColor(this.mPresenter.getAddState()
             ? $r("sys.color.ohos_id_color_primary")
             : $r("sys.color.ohos_id_color_tertiary"))
@@ -263,12 +263,12 @@ struct Accountants {
                       .height($r("app.float.id_item_height_large"))
                       .flexGrow(1)
                       .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
+                      .onClick(() =>{
+                        this.mPresenter.isShowPosition = true;
+                      })
                       .onChange((arg) => {
                         this.mPresenter.contactInfoAfter.company = arg.valueOf();
                         this.mPresenter.textChange(arg);
-                        if (!StringUtil.isEmpty(arg.valueOf())) {
-                          this.mPresenter.isShowPosition = true;
-                        }
                       })
                   }
                   .margin(this.curBp === 'lg' ? {} : { left: $r("app.float.id_card_margin_mid") })
@@ -314,7 +314,7 @@ struct Accountants {
                     , (item) => {
                       ItemList({
                         mPresent: $mPresenter,
-                        data: item,
+                        index: item.i,
                         typeName: "phone",
                         placeholder: $r("app.string.phone_number")
                       })
@@ -338,7 +338,7 @@ struct Accountants {
                     , (item) => {
                       ItemList({
                         mPresent: $mPresenter,
-                        data: item,
+                        index: item.i,
                         typeName: "email",
                         placeholder: $r("app.string.email")
                       })
@@ -428,7 +428,7 @@ struct Accountants {
                       , (item) => {
                         ItemList({
                           mPresent: $mPresenter,
-                          data: item,
+                          index: item.i,
                           typeName: "AIM",
                           placeholder: $r("app.string.instant_messaging")
                         })
@@ -452,7 +452,7 @@ struct Accountants {
                       , (item) => {
                         ItemList({
                           mPresent: $mPresenter,
-                          data: item,
+                          index: item.i,
                           typeName: "house",
                           placeholder: $r("app.string.address_add")
                         })
@@ -562,7 +562,7 @@ struct Accountants {
                         ItemEvent({
                           mPresent: $mPresenter,
                           controller: this.dialogController,
-                          data: item,
+                          index: item.i,
                           itemIndex: $eventItemId,
                           typeName: "events"
                         });
@@ -586,7 +586,7 @@ struct Accountants {
                       , (item) => {
                         ItemList({
                           mPresent: $mPresenter,
-                          data: item,
+                          index: item.i,
                           typeName: "relationships",
                           placeholder: $r("app.string.relation")
                         })
@@ -631,6 +631,7 @@ struct Accountants {
           }
           .scrollBar(BarState.Off)
           .width("100%")
+          .alignListItem(ListItemAlign.Center)
         }
       }
       .margin({left: 12, right: 12})

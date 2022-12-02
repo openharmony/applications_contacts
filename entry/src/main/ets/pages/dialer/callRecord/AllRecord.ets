@@ -19,7 +19,6 @@
 import CallRecordPresenter from './../../../presenter/dialer/callRecord/CallRecordPresenter';
 import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
 import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
-import EnvironmentProp from '../../../feature/EnvironmentProp';
 import IndexPresenter from '../../../presenter/IndexPresenter';
 
 const TAG = "AllRecord ";
@@ -44,7 +43,7 @@ export default struct AllRecord {
 
 @Component
 struct RecordView {
-  @Link private mPresenter: any
+  @Link private mPresenter: { [key: string]: any }
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   recordType: number = 0;
 
@@ -56,7 +55,7 @@ struct RecordView {
           ContactItem({ mPresenter: $mPresenter, item: item });
         }
         .height($r("app.float.id_item_height_max"))
-      }, item => item.id)
+      }, item => JSON.stringify(item))
     }
     .divider({
       strokeWidth: 1,
@@ -95,7 +94,7 @@ struct EmptyView {
     .justifyContent(FlexAlign.Center)
     .width('100%')
     .height('100%')
-    .markAnchor({ x: 0, y: this.curBp === 'lg' ? 60 : 110})
+    .markAnchor({ x: 0, y: this.curBp === 'lg' ? 60 : 110 })
   }
 }
 
@@ -107,7 +106,7 @@ enum MenuType {
 struct ContactItem {
   @State mIndexPresenter: IndexPresenter = IndexPresenter.getInstance();
   @Link mPresenter: CallRecordPresenter
-  @State item: any = {};
+  @State item: { [key: string]: any } = {};
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
 
   build() {
@@ -148,6 +147,7 @@ struct ContactItem {
                 .maxLines(1)
             }
           }
+          .width(176)
 
           Text(this.item.numberLocation
             ? this.item.numberLocation
@@ -166,7 +166,7 @@ struct ContactItem {
         Text(this.item.createTime)
           .fontSize($r("sys.float.ohos_id_text_size_body2"))
           .margin({ right: this.curBp === 'lg' ? '6vp' : $r("app.float.id_card_margin_xl"),
-                    top: $r("app.float.id_card_margin_sm") })
+            top: $r("app.float.id_card_margin_sm") })
           .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
           .width('90vp')
           .textAlign(TextAlign.End)

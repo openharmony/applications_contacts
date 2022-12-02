@@ -23,8 +23,8 @@ export class Phone extends DataType {
   static readonly CONTENT_ITEM_TYPE: string = "phone";
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.PHONE;
   static readonly NUMBER: string = DataType.DATA;
-  static readonly TYPE_HOME: number = 1;
-  static readonly TYPE_MOBILE: number = 2;
+  static readonly TYPE_MOBILE: number = 1;
+  static readonly TYPE_HOME: number = 2;
   static readonly TYPE_WORK: number = 3;
   static readonly TYPE_FAX_WORK: number = 4;
   static readonly TYPE_FAX_HOME: number = 5;

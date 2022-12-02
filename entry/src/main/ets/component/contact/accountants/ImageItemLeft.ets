@@ -35,5 +35,6 @@ export struct ImageItemLeft {
     .height($r("app.float.id_item_height_large"))
     .alignItems(HorizontalAlign.Start)
     .justifyContent(FlexAlign.Center)
+    .flexShrink(0)
   }
 }

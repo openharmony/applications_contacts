@@ -19,7 +19,7 @@
 @Component
 export struct DetailMenu {
   @State showPopup: boolean = false;
-  private menuItems: Array<any>
+  private menuItems: Array<{ [key: string]: any }>
   private menuImage: Resource = $r("app.media.ic_public_more");
   private sizeType: SizeType = SizeType.LG;
   private placement: Placement = Placement.BottomLeft;

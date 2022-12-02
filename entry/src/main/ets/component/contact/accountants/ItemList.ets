@@ -13,13 +13,13 @@
  * limitations under the License.
  */
 
-import EnvironmentProp from '../../../feature/EnvironmentProp';
+import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
 
 @Component
 export struct ItemList {
-  @Link mPresent: any;
-  private data: any;
-  private typeName: any;
+  @Link mPresent: AccountantsPresenter;
+  private index: number;
+  private typeName: string;
   private placeholder: Resource;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
 
@@ -29,7 +29,7 @@ export struct ItemList {
         Row() {
           Text(this.mPresent.menuSelect(
             this.typeName,
-            this.data
+            this.mPresent.getData(this.typeName, this.index - 1)
           ))
             .fontSize($r("sys.float.ohos_id_text_size_body1"))
             .fontWeight(FontWeight.Medium)
@@ -53,7 +53,7 @@ export struct ItemList {
           Column() {
             TextInput({
               placeholder: this.placeholder,
-              text: this.mPresent.getTextDisplay(this.typeName, this.data)
+              text: this.mPresent.getTextDisplay(this.typeName, this.mPresent.getData(this.typeName, this.index - 1))
             })
               .fontSize($r("sys.float.ohos_id_text_size_body1"))
               .caretColor($r("sys.color.ohos_id_color_connected"))
@@ -62,7 +62,7 @@ export struct ItemList {
               .height("98%")
               .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
               .onChange((arg) => {
-                this.mPresent.listItemChange(this.typeName, this.data, arg.toString());
+                this.mPresent.listItemChange(this.typeName, this.mPresent.getData(this.typeName, this.index - 1), arg.toString());
                 this.mPresent.textChange(arg);
               })
           }
@@ -76,11 +76,11 @@ export struct ItemList {
               .width($r("app.float.id_card_image_small"))
               .fillColor($r("sys.color.ohos_id_color_tertiary"))
               .onClick(() => {
-                this.mPresent.deleteItem(this.typeName, this.data.i - 1);
+                this.mPresent.deleteItem(this.typeName, this.index - 1);
               })
           }
           .flexShrink(0)
-        }
+        }.width('100%')
 
         Divider()
           .padding({ left: $r("app.float.id_card_margin_xxl") })
@@ -108,7 +108,7 @@ export struct ItemList {
             .textAlign(TextAlign.Start)
             .margin({ left: $r("app.float.id_card_margin_xxl") })
             .onClick(() => {
-              this.mPresent.menuChange(this.typeName, this.data, item);
+              this.mPresent.menuChange(this.typeName, this.mPresent.getData(this.typeName, this.index - 1), item);
             })
 
           Divider()

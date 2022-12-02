@@ -13,14 +13,14 @@
  * limitations under the License.
  */
 import BasicDataSource from './BasicDataSource';
+import { ContactVo } from './ContactVo';
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 
 const TAG = "BatchSelectContactSource";
 
 export default class BatchSelectContactSource extends BasicDataSource {
-    private contactList: any[] = [];
-    private contactsCount: number = 0;
+    private contactList: ContactVo[] = [];
 
     public totalCount(): number {
         HiLog.i(TAG, "totalCount is %s", this.contactList.length);
@@ -32,8 +32,8 @@ export default class BatchSelectContactSource extends BasicDataSource {
             HiLog.i(TAG, "getData contactlist is empty");
             return null;
         } else {
-            let contact: any = this.contactList[index];
-            let preContact: any = this.contactList[index - 1];
+            let contact: ContactVo = this.contactList[index];
+            let preContact: ContactVo = this.contactList[index - 1];
             let showIndex: boolean = (index == 0 || !(contact.namePrefix === preContact.namePrefix));
             let showDivifer: boolean = false;
             if (index < this.contactList.length - 1) {
@@ -51,7 +51,7 @@ export default class BatchSelectContactSource extends BasicDataSource {
         }
     }
 
-    public refresh(contactList: any[]) {
+    public refresh(contactList: ContactVo[]) {
         HiLog.i(TAG, ' refresh!');
         this.contactList = contactList;
         this.notifyDataReload();

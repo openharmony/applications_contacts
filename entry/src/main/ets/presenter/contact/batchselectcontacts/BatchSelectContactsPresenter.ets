@@ -34,10 +34,10 @@ export default class BatchSelectContactsPresenter {
   sizeType: SizeType = SizeType.LG;
   selectCount: number = 0;
   // Recent Call Records
-  callLogTemp: any[] = [];
-  contactsList: any[] = [];
-  searchContactList: any[] = [];
-  groupList: any[] = [];
+  callLogTemp: Array<any> = [];
+  contactsList: Array<any> = [];
+  searchContactList: Array<any> = [];
+  groupList: Array<any> = [];
   emptyViewText: Resource = $r("app.string.no_recent_contacts");
   controller: TabsController = new TabsController();
   currentIndex: number = 0;
@@ -49,7 +49,7 @@ export default class BatchSelectContactsPresenter {
   // Search Keyword
   searchText: string = '';
   // Selected data for the current population，key:phone number，value:name and number
-  selectedNumberMap: any = new Map();
+  selectedNumberMap: Map<number, any> = new Map();
   // Whether to display the search list
   searchLayoutShow: boolean = false;
   selectDisabled: boolean = true;
@@ -60,7 +60,7 @@ export default class BatchSelectContactsPresenter {
   initialIndex: number = 0;
   recentSource: BatchSelectRecentSource = new BatchSelectRecentSource();
   contactsSource: BatchSelectContactSource = new BatchSelectContactSource();
-  actionData: any = {};
+  actionData: { [key: string]: any } = {};
 
   public static getInstance(): BatchSelectContactsPresenter {
     if (BatchSelectContactsPresenter.sInstance == null) {
