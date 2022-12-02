@@ -153,7 +153,7 @@ struct ContactsList {
               }
             }
           }
-        }, (item) => item.contact.contactId.toString())
+        }, (item) => JSON.stringify(item))
       }
       .width('100%')
       .listDirection(Axis.Vertical)

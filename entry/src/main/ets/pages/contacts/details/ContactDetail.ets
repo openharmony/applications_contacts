@@ -34,11 +34,14 @@ struct ContactDetail {
   @State @Watch("onSimChanged") mSimCardState: SimCardState = SimCardState.getInstance();
   @State mPresenter: DetailPresenter = DetailPresenter.getInstance();
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
-  @State private mMoreMenu: any = [{
-                                     value: "",
-                                     action: () => {
-                                     }
-                                   }];
+  @State private mMoreMenu: Array<{
+    value: string,
+    action: () => void
+  }> = [{
+          value: "",
+          action: () => {
+          }
+        }];
   @State hasFavorited: boolean = false;
   @State haveSimCard: boolean = this.mSimCardState.haveSimCard;
   @State isShow: number = 0;
@@ -92,8 +95,8 @@ struct ContactDetail {
     Stack({ alignContent: Alignment.Bottom }) {
       TopBar({ mPresenter: $mPresenter, moreMenu: $mMoreMenu });
 
-      GridRow({columns: {sm: 4, md: 8, lg: 12}, gutter: {x: {sm: 12, md: 12, lg: 24}, y:0}}) {
-        GridCol({span: {sm: 4, md: 8, lg: 8}, offset: {sm: 0, md: 0, lg: 2}}) {
+      GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: { sm: 12, md: 12, lg: 24 }, y: 0 } }) {
+        GridCol({ span: { sm: 4, md: 8, lg: 8 }, offset: { sm: 0, md: 0, lg: 2 } }) {
           if (this.isShow > 0) {
             Content({ mPresenter: $mPresenter, haveSimCard: $haveSimCard })
           }
@@ -121,17 +124,17 @@ struct ContactDetail {
           })
           .width(this.mPresenter.contactId != undefined ? '50%' : '100%')
 
-            Column() {
-              Image($r("app.media.ic_public_more"))
-                .objectFit(ImageFit.Contain)
-                .height($r("app.float.id_card_image_small"))
-                .width($r("app.float.id_card_image_small"))
-                .margin({ bottom: 3 })
-                .bindMenu(this.MenuBuilder)
-              Text($r('app.string.More'))
-            }
-            .visibility(this.mPresenter.contactId != undefined ? Visibility.Visible : Visibility.None)
-            .width('50%')
+          Column() {
+            Image($r("app.media.ic_public_more"))
+              .objectFit(ImageFit.Contain)
+              .height($r("app.float.id_card_image_small"))
+              .width($r("app.float.id_card_image_small"))
+              .margin({ bottom: 3 })
+              .bindMenu(this.MenuBuilder)
+            Text($r('app.string.More'))
+          }
+          .visibility(this.mPresenter.contactId != undefined ? Visibility.Visible : Visibility.None)
+          .width('50%')
         }
         .alignItems(VerticalAlign.Center)
         .height($r("app.float.id_item_height_large"))
@@ -148,7 +151,7 @@ struct ContactDetail {
 
 @Component
 struct Content {
-  @Link private mPresenter: any;
+  @Link private mPresenter: { [key: string]: any };
   @Link haveSimCard: boolean;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
 
@@ -194,20 +197,21 @@ struct Content {
               .width('100%')
               .textAlign(TextAlign.Center)
 
-            if (!this.mPresenter.isNewNumber) {
-              Column() {
-                if (!StringUtil.isEmpty(this.mPresenter.contactForm.company)) {
-                  Text(this.mPresenter.contactForm.company)
-                    .fontSize($r("sys.float.ohos_id_text_size_body2"))
-                    .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
-                }
-                if (!StringUtil.isEmpty(this.mPresenter.contactForm.position)) {
-                  Text(this.mPresenter.contactForm.position)
-                    .fontSize($r("sys.float.ohos_id_text_size_body2"))
-                    .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
-                }
+            Column() {
+              if (!StringUtil.isEmpty(this.mPresenter.contactForm.company)) {
+                Text(this.mPresenter.contactForm.company)
+                  .fontSize($r("sys.float.ohos_id_text_size_body2"))
+                  .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+                  .textOverflow({ overflow: TextOverflow.Ellipsis })
+              }
+              if (!StringUtil.isEmpty(this.mPresenter.contactForm.position)) {
+                Text(this.mPresenter.contactForm.position)
+                  .fontSize($r("sys.float.ohos_id_text_size_body2"))
+                  .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+                  .textOverflow({ overflow: TextOverflow.Ellipsis })
               }
             }
+
             DetailInfoListView({ mPresenter: $mPresenter, haveSimCard: $haveSimCard });
           }
           .width('100%')
@@ -229,8 +233,8 @@ struct Content {
 @Component
 struct TopBar {
   @State hasFavorited: boolean = false;
-  @Link private mPresenter: any;
-  @Link private moreMenu: any;
+  @Link private mPresenter: { [key: string]: any };
+  @Link private moreMenu: { [key: string]: any };
   @LocalStorageProp('breakpoint') curBp: string = 'sm'
 
   @Builder MenuBuilder() {
@@ -259,6 +263,7 @@ struct TopBar {
         .width($r("app.float.id_card_image_small"))
         .margin({ left: $r("app.float.id_card_margin_max") })
         .onClick(() => {
+          HiLog.i(TAG, "点击返回");
           router.back();
         })
 

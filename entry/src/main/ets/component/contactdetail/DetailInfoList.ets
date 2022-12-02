@@ -20,8 +20,8 @@ import StringFormatUtil from '../../util/StringFormatUtil'
 @Component
 export default struct DetailInfoList {
   private dataType: DataItemType;
-  @Prop List: string;
-  @Prop hasArrow: boolean;
+  private List: string;
+  private hasArrow: boolean;
 
   build() {
     Column() {
@@ -37,7 +37,7 @@ export default struct DetailInfoList {
                 hasArrow: this.hasArrow,
               });
             }
-          }, item => item.id)
+          }, item => JSON.stringify(item))
         }
         .divider({ strokeWidth: $r("app.float.id_divide_width"), color: $r("sys.color.ohos_id_color_list_separator") })
       }

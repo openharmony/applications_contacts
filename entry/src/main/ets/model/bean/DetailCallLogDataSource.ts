@@ -20,7 +20,7 @@ import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil'
 const TAG = "DetailCallLogDataSource";
 
 export default class DetailCallLogDataSource extends BasicDataSource {
-    private detailCallLogList: any[] = [];
+    private detailCallLogList: object[] = [];
 
     public totalCount(): number {
         HiLog.i(TAG, "totalCount is  " + JSON.stringify(this.detailCallLogList.length));

@@ -14,16 +14,16 @@
  */
 
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
-import EnvironmentProp from '../../../feature/EnvironmentProp';
+import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
 import StringFormatUtil from "../../../util/StringFormatUtil";
 
 @Component
 export struct ItemEvent {
-  @Link mPresent: any;
+  @Link mPresent: { [key: string]: any };
   @Link itemIndex: number;
-  private controller: any;
-  private data: any;
-  private typeName: any;
+  private controller: { [key: string]: any };
+  private index: number;
+  private typeName: string;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
 
   build() {
@@ -32,7 +32,7 @@ export struct ItemEvent {
         Row() {
           Text(this.mPresent.menuSelect(
             this.typeName,
-            this.data
+            this.mPresent.getData(this.typeName, this.index - 1)
           ))
             .fontSize($r("sys.float.ohos_id_text_size_body1"))
             .fontWeight(FontWeight.Medium)
@@ -56,15 +56,15 @@ export struct ItemEvent {
         Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
           Column() {
             Text(
-              StringUtil.isEmpty(this.mPresent.getTextDisplay(this.typeName, this.data))
+              StringUtil.isEmpty(this.mPresent.getTextDisplay(this.typeName, this.mPresent.getData(this.typeName, this.index - 1)))
                 ? $r("app.string.date")
-                : StringFormatUtil.stringFormatDateResource(this.data.item.data)
+                : StringFormatUtil.stringFormatDateResource(this.mPresent.getData(this.typeName, this.index - 1).item.data)
             )
               .margin({ left: $r("app.float.id_card_margin_xxl") })
               .height($r("app.float.id_item_height_large"))
               .fontSize($r("sys.float.ohos_id_text_size_body1"))
               .fontColor(
-                StringUtil.isEmpty(this.mPresent.getTextDisplay(this.typeName, this.data))
+                StringUtil.isEmpty(this.mPresent.getTextDisplay(this.typeName, this.mPresent.getData(this.typeName, this.index - 1)))
                   ? $r("sys.color.ohos_id_color_text_secondary")
                   : $r("sys.color.ohos_id_color_text_primary")
               )
@@ -72,7 +72,7 @@ export struct ItemEvent {
           .alignItems(HorizontalAlign.Start)
           .flexGrow(1)
           .onClick(() => {
-            this.itemIndex = this.data.i - 1;
+            this.itemIndex = this.index - 1;
             this.controller.open()
           })
 
@@ -83,7 +83,7 @@ export struct ItemEvent {
               .width($r("app.float.id_card_image_small"))
               .fillColor($r("sys.color.ohos_id_color_tertiary"))
               .onClick(() => {
-                this.mPresent.deleteItem(this.typeName, this.data.i - 1);
+                this.mPresent.deleteItem(this.typeName, this.index - 1);
               })
           }
         }
@@ -115,7 +115,7 @@ export struct ItemEvent {
             .textAlign(TextAlign.Start)
             .margin({ left: $r("app.float.id_card_margin_xxl") })
             .onClick(() => {
-              this.mPresent.menuChange(this.typeName, this.data, item);
+              this.mPresent.menuChange(this.typeName, this.mPresent.getData(this.typeName, this.index - 1), item);
             })
 
           Divider()

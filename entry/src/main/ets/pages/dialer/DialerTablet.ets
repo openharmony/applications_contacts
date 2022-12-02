@@ -24,9 +24,9 @@ const TAG = 'DialerTablet'
 
 @Component
 struct DialButton {
-  @Prop button_number: string
-  @Prop button_char: string
-  @Link mPresenter: DialerPresenter
+  @State button_number: string = '';
+  @State button_char: string = '';
+  @Link mPresenter: DialerPresenter;
 
   build() {
     Column() {
@@ -90,7 +90,7 @@ struct DialButton {
 
 @Component
 struct DialPad {
-  @Link mPresenter: any;
+  @Link mPresenter: DialerPresenter;
 
   build() {
     Column() {
@@ -189,7 +189,7 @@ export default struct CallTablet {
   $r("app.string.call_setting_type_batch_delete"),
   $r("app.string.call_setting_type_harassment_interception"),
   $r("app.string.call_setting_type_setting")];
-  @State private callmenu: any = [{ value: "", action: () => {
+  @State callmenu: { [key: string]: any } = [{ value: "", action: () => {
   } }];
   @State haveSimCard: boolean = false;
 

@@ -25,8 +25,8 @@ const TAG = 'Dialer';
 
 @Component
 struct DialButton {
-  @Prop button_number: string
-  @Prop button_char: string
+  @State button_number: string = ''
+  @State button_char: string = ''
   @Link mPresenter: DialerPresenter
 
   build() {
@@ -68,7 +68,7 @@ struct DialButton {
 
 @Component
 struct DialPad {
-  @Link mPresenter: any;
+  @Link mPresenter: DialerPresenter;
 
   build() {
     Column() {
@@ -122,6 +122,21 @@ export default struct Call {
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear CallTablet ');
+    this.mPresenter.callBtnClick = true;
+    animateTo({
+      duration: 200,
+      curve: Curve.Linear,
+      onFinish: () => {
+        this.mPresenter.callBtnClick = false;
+      }
+    }, () => {
+      this.mPresenter.call_p = 0;
+      this.mPresenter.call_y = 0;
+      this.mPresenter.moveY = 0
+      this.mPresenter.dialerButtonWidth = 56
+      this.mPresenter.dialerButtonHeight = 56
+    })
+    this.mPresenter.btnShow = false;
     this.mSimCardState.getSimCardState();
     this.mSimCardState.addSimChangeListener();
     this.mPresenter.aboutToAppear();
@@ -209,7 +224,6 @@ export default struct Call {
         .width(this.mPresenter.dialerButtonWidth)
         .height(this.mPresenter.dialerButtonHeight)
         .backgroundColor($r('sys.color.ohos_id_color_connected'))
-        .translate({ x: this.mPresenter.call_p === 0 ? 0 : this.panWidth / 2 - 48, y: this.mPresenter.call_y })
         .onClick(() => {
           this.mPresenter.callBtnClick = true;
           if (this.mPresenter.btnShow) {
@@ -240,8 +254,9 @@ export default struct Call {
       .justifyContent(FlexAlign.Center)
       .width($r("app.float.dialer_calllog_item_height"))
       .height($r("app.float.dialer_calllog_item_height"))
-      .margin({ bottom: 20})
+      .margin({ bottom: 20 })
       .zIndex(3)
+      .translate({ x: this.mPresenter.call_p === 0 ? 0 : this.panWidth / 2 - 48, y: this.mPresenter.call_y })
 
       Stack({ alignContent: Alignment.Bottom }) {
         if (this.mPresenter.tele_number.length >= 3 && !this.mPresenter.btnShow) {
@@ -251,7 +266,7 @@ export default struct Call {
                 Image($r("app.media.ic_public_add"))
                   .width($r("app.float.id_card_image_small"))
                   .height($r("app.float.id_card_image_small"))
-                  .margin({ bottom: this.curBp === 'lg'? 0 : '3vp' })
+                  .margin({ bottom: this.curBp === 'lg' ? 0 : '3vp' })
                 Text($r("app.string.new_contact"))
                   .fontSize($r("sys.float.ohos_id_text_size_caption1"))
                   .fontWeight(FontWeight.Medium)
@@ -289,7 +304,7 @@ export default struct Call {
                 Image($r("app.media.ic_public_message"))
                   .width($r("app.float.id_card_image_small"))
                   .height($r("app.float.id_card_image_small"))
-                  .margin({ bottom: this.curBp === 'lg'? 0 : '3vp' })
+                  .margin({ bottom: this.curBp === 'lg' ? 0 : '3vp' })
                 Text($r("app.string.send_messages"))
                   .fontSize($r("sys.float.ohos_id_text_size_caption1"))
                   .fontWeight(FontWeight.Medium)
@@ -374,6 +389,7 @@ export default struct Call {
           .height(80)
         }
         .margin({ top: this.mPresenter.tele_number.length >= 3 ? 55.6 : 0 })
+        .width('100%')
         .zIndex(this.mPresenter.panelShow ? 2 : -1)
       }
       .onTouch(() => {

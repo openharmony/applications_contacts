@@ -15,16 +15,16 @@
 
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
 import { EventBean } from "../../../model/bean/EventBean";
+import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
 import StringFormatUtil from "../../../util/StringFormatUtil"
 
 @CustomDialog
 export struct ShowDayTime {
   private date = new Date(2000, 0, 1);
-  @Link mPresent: any;
+  @Link mPresent: AccountantsPresenter;
   @Prop itemIndex: number;
-  @State
-  private showTime: Resource = $r("app.string.yearMonthDay", this.date.getUTCFullYear(), (this.date.getMonth() + 1), this.date.getDate());
-
+  @State showTime: Resource = $r("app.string.yearMonthDay", this.date.getUTCFullYear(),
+    (this.date.getMonth() + 1), this.date.getDate());
   controller: CustomDialogController
   cancel: () => void
   confirm: () => void
@@ -68,7 +68,10 @@ export struct ShowDayTime {
           this.cancel()
         })
 
-        Line().width(1).height(40).backgroundColor($r("sys.color.ohos_id_color_list_separator")).margin({left:4,right:4})
+        Line().width(1).height(40).backgroundColor($r("sys.color.ohos_id_color_list_separator")).margin({
+          left: 4,
+          right: 4
+        })
 
         Flex({
           direction: FlexDirection.Column,

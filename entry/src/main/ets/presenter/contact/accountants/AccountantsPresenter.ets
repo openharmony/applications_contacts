@@ -59,7 +59,7 @@ export default class AccountantsPresenter {
   // contact detail
   contactInfoBefore: ContactInfo = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
   contactInfoAfter: ContactInfo = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
-  MagList: any = [];
+  MagList: object = [];
 
   private constructor() {
   }
@@ -208,7 +208,37 @@ export default class AccountantsPresenter {
     this.contactInfoAfter = contactTemp;
   }
 
-  public getArray(array) {
+  public getData(type: string, index: number): { [key: string]: any } {
+    let data = new Array<{ [key: string]: any }>();
+    switch (type) {
+      case "phone":
+        data = this.getArray(this.contactInfoBefore.phones);
+        break;
+      case "email":
+        data = this.getArray(this.contactInfoBefore.emails);
+        break;
+      case "AIM":
+        data = this.getArray(this.contactInfoBefore.aims);
+        break;
+      case "house":
+        data = this.getArray(this.contactInfoBefore.houses);
+        break;
+      case "relationships":
+        data = this.getArray(this.contactInfoBefore.relationships);
+        break;
+      case "events":
+        data = this.getArray(this.contactInfoBefore.events);
+        break;
+      default:
+        break;
+    }
+    if (index < data.length) {
+      return data[index];
+    }
+    return {i: index + 1, item: {data:{}}};
+  }
+
+  public getArray(array): Array<{ [key: string]: any }> {
     if (ArrayUtil.isEmpty(array))
     array.push({});
     let itemList = ArrayUtil.isEmpty(array) ? this.MagList : array;
