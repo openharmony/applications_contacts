@@ -23,9 +23,9 @@ const TAG = "ContactDetail-calllog";
  */
 @Component
 struct CallLogListItem {
-  @State message: any = {};
+  @State message: { [key: string]: any } = {};
   private imgRes: Resource;
-  @Link private mPresenter: any;
+  @Link private mPresenter: { [key: string]: any };
 
   aboutToAppear() {
     switch (this.message.callType) {
@@ -110,7 +110,7 @@ struct CallLogListItem {
  */
 @Component
 export default struct DetailCalllog {
-  @Link private mPresenter: any;
+  @Link private mPresenter: { [key: string]: any };
 
   @Builder callLogTitle() {
     Row() {
@@ -168,7 +168,7 @@ export default struct DetailCalllog {
               CallLogListItem({ message: item.callLog, mPresenter: $mPresenter });
             }
           }
-        }, item => item.callLog.id.toString())
+        }, item => JSON.stringify(item))
       }
       .divider({ strokeWidth: $r("app.float.id_divide_width"),color: $r("sys.color.ohos_id_color_list_separator"),
         startMargin: $r("app.float.id_card_margin_max"), endMargin:$r("app.float.id_card_margin_max")})

@@ -2,7 +2,6 @@ import Ability from '@ohos.application.Ability'
 import Window from '@ohos.window'
 import { CallLogService } from '../../../../../feature/call/src/main/ets/CallLogService';
 import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
-import IndexPresenter from '../presenter/IndexPresenter';
 
 const TAG = 'MainAbility ';
 
@@ -23,7 +22,7 @@ export default class MainAbility extends Ability {
     }
 
     onCreate(want, launchParam) {
-        HiLog.i(TAG, 'Application onCreate version : 1.0.0.31');
+        HiLog.i(TAG, 'Application onCreate version : NEW_ARK_1.0');
         CallLogService.getInstance().init();
         globalThis.isFromOnCreate = true;
         globalThis.context = this.context;
@@ -71,9 +70,6 @@ export default class MainAbility extends Ability {
     onForeground() {
         // Ability has brought to foreground
         HiLog.i(TAG, 'Ability onForeground');
-        if (!globalThis.isFromOnCreate) {
-            IndexPresenter.getInstance().getNewWant();
-        }
     }
 
     onBackground() {

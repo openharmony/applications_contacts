@@ -6,7 +6,6 @@ import Log from "@ohos.hilog";
  * dailpad key tone worker
  */
 const parentPort = worker.parentPort;
-const HOST = 'fd://';
 const TAG = "ContactLog";
 const DOMAIN = 0x0900;
 let audioPlayer = undefined;
@@ -23,17 +22,14 @@ parentPort.onmessage = function (e) {
                 });
             }
             let fileName = data.data;
-            let fdNumber = data.data.fd;
             if (mAudioPath == '') {
-                let fdPath = HOST + '' + fdNumber;
-                audioPlayer.src = fdPath;
+                audioPlayer.fdSrc = fileName;
             } else if (mAudioPath == fileName) {
                 audioPlayer.seek(0);
                 audioPlayer.play();
             } else {
                 audioPlayer.reset();
-                let fdPath = HOST + '' + fdNumber;
-                audioPlayer.src = fdPath;
+                audioPlayer.fdSrc = fileName;
             }
             mAudioPath = fileName;
             break;

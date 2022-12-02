@@ -195,11 +195,12 @@ struct ContactContent {
                   }
                 }
               }
-            }, (item) => item.contact.contactId.toString())
+            }, (item) => JSON.stringify(item))
           }
           .width('100%')
           .listDirection(Axis.Vertical)
           .edgeEffect(EdgeEffect.Spring)
+          .padding({bottom: 150})
         }
       }
       .margin({left:24, right:24})

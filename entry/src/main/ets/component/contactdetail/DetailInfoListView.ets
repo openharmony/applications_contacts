@@ -31,37 +31,73 @@ enum MenuType {
 
 @Component
 export default struct DetailInfoListView {
-  @Link mPresenter: any;
+  @Link mPresenter: { [key: string]: any };
   @Link haveSimCard: boolean;
 
   build() {
     Column() {
       //Phone List
-      TelList({ List: JSON.stringify(this.mPresenter.contactForm.phones), mPresenter: $mPresenter, haveSimCard: $haveSimCard });
+      TelList({
+        List: JSON.stringify(this.mPresenter.contactForm.phones),
+        mPresenter: $mPresenter,
+        haveSimCard: $haveSimCard
+      });
 
       // email list
-      DetailInfoList({ List: JSON.stringify(this.mPresenter.contactForm.emails), hasArrow: true, dataType : DataItemType.EMAIL });
+      DetailInfoList({
+        List: JSON.stringify(this.mPresenter.contactForm.emails),
+        hasArrow: true,
+        dataType: DataItemType.EMAIL
+      });
 
       // aim List
-      DetailInfoList({ List: JSON.stringify(this.mPresenter.contactForm.aims), hasArrow: true, dataType : DataItemType.IM });
+      DetailInfoList({
+        List: JSON.stringify(this.mPresenter.contactForm.aims),
+        hasArrow: true,
+        dataType: DataItemType.IM
+      });
 
       // Nickname
-      DetailInfoList({ List: JSON.stringify(this.mPresenter.contactForm.nickname), hasArrow: false, dataType : DataItemType.NICKNAME });
+      DetailInfoList({
+        List: JSON.stringify(this.mPresenter.contactForm.nickname),
+        hasArrow: false,
+        dataType: DataItemType.NICKNAME
+      });
 
       // Websites
-      DetailInfoList({ List: JSON.stringify(this.mPresenter.contactForm.websites), hasArrow: true, dataType : DataItemType.WEBSITE });
+      DetailInfoList({
+        List: JSON.stringify(this.mPresenter.contactForm.websites),
+        hasArrow: true,
+        dataType: DataItemType.WEBSITE
+      });
 
       // residential address
-      DetailInfoList({ List: JSON.stringify(this.mPresenter.contactForm.houses), hasArrow: false, dataType : DataItemType.SIP_ADDRESS });
+      DetailInfoList({
+        List: JSON.stringify(this.mPresenter.contactForm.houses),
+        hasArrow: false,
+        dataType: DataItemType.SIP_ADDRESS
+      });
 
       // Remembrance Day
-      DetailInfoList({ List: JSON.stringify(this.mPresenter.contactForm.events), hasArrow: true, dataType : DataItemType.EVENT });
+      DetailInfoList({
+        List: JSON.stringify(this.mPresenter.contactForm.events),
+        hasArrow: true,
+        dataType: DataItemType.EVENT
+      });
 
       // Associated Person
-      DetailInfoList({ List: JSON.stringify(this.mPresenter.contactForm.relationships), hasArrow: true, dataType : DataItemType.RELATION });
+      DetailInfoList({
+        List: JSON.stringify(this.mPresenter.contactForm.relationships),
+        hasArrow: true,
+        dataType: DataItemType.RELATION
+      });
 
       // Remarks
-      DetailInfoList({ List: JSON.stringify(this.mPresenter.contactForm.remarks), hasArrow: false, dataType : DataItemType.NOTE });
+      DetailInfoList({
+        List: JSON.stringify(this.mPresenter.contactForm.remarks),
+        hasArrow: false,
+        dataType: DataItemType.NOTE
+      });
     }
     .margin({ top: $r("app.float.id_card_margin_max") })
   }
@@ -72,8 +108,8 @@ export default struct DetailInfoListView {
  */
 @Component
 struct TelList {
-  @Prop List:string;
-  @Link private mPresenter: any;
+  @State List:string = '';
+  @Link private mPresenter: { [key: string]: any };
   @Link haveSimCard: boolean;
 
   build() {
@@ -83,7 +119,7 @@ struct TelList {
           ListItem() {
             TelListItem({ message: JSON.stringify(item), mPresenter: $mPresenter, haveSimCard: $haveSimCard });
           }
-        }, item => item.id)
+        }, item => JSON.stringify(item))
       }
       .divider({ strokeWidth: $r("app.float.id_divide_width"), color: $r("sys.color.ohos_id_color_list_separator") })
       .backgroundColor(Color.White)
@@ -97,22 +133,22 @@ struct TelList {
 @Component
 struct TelListItem {
   private message: string;
-  @State mIndexPresenter : IndexPresenter = IndexPresenter.getInstance();
+  @State mIndexPresenter: IndexPresenter = IndexPresenter.getInstance();
   @Link haveSimCard: boolean;
-  @Link private mPresenter: any;
+  @Link private mPresenter: { [key: string]: any };
 
   @Builder MenuBuilder() {
     Flex({ direction: FlexDirection.Column,
       justifyContent: FlexAlign.Center,
       alignItems: ItemAlign.Start }) {
-        Text(JSON.parse(this.message).data)
-          .fontSize($r("sys.float.ohos_id_text_size_headline8"))
-          .fontColor($r('sys.color.ohos_id_color_text_primary'))
-          .fontWeight(FontWeight.Medium)
-          .margin({ left: $r("app.float.id_card_margin_xxl") })
-          .textAlign(TextAlign.Start)
-          .lineHeight('28vp')
-          .height($r("app.float.id_item_height_max"))
+      Text(JSON.parse(this.message).data)
+        .fontSize($r("sys.float.ohos_id_text_size_headline8"))
+        .fontColor($r('sys.color.ohos_id_color_text_primary'))
+        .fontWeight(FontWeight.Medium)
+        .margin({ left: $r("app.float.id_card_margin_xxl") })
+        .textAlign(TextAlign.Start)
+        .lineHeight('28vp')
+        .height($r("app.float.id_item_height_max"))
 
       this.MenuDivider()
       this.MenuView($r("app.string.copy_phoneNumber"), MenuType.Copy)
@@ -172,7 +208,7 @@ struct TelListItem {
             .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
             .fontWeight(FontWeight.Regular)
             .visibility(StringUtil.isEmpty(
-              JSON.parse(this.message)
+            JSON.parse(this.message)
               .phoneAddress) ? Visibility.None : Visibility.Visible)
           Text(JSON.parse(this.message).phoneAddress)
             .fontSize($r("sys.float.ohos_id_text_size_body2"))
@@ -204,9 +240,6 @@ struct TelListItem {
           }
           .backgroundColor(Color.White)
           .margin({ right: $r("app.float.id_card_margin_max") })
-          .onClick(() => {
-            PhoneNumber.fromString(JSON.parse(this.message).num).dial();
-          })
         }
 
         Button({ stateEffect: false }) {
@@ -225,11 +258,14 @@ struct TelListItem {
         .backgroundColor(Color.White)
         .onClick(() => {
           this.mPresenter.sendMessage(JSON.parse(this.message).num,
-            JSON.parse(this.message).data, this.mPresenter.contactForm.display_name);
+          JSON.parse(this.message).data, this.mPresenter.contactForm.display_name);
         })
       }
       .flexShrink(0)
     }
+    .onClick(() => {
+      PhoneNumber.fromString(JSON.parse(this.message).num).dial();
+    })
     .width('100%')
     .height($r("app.float.id_item_height_max"))
     .bindContextMenu(this.MenuBuilder, ResponseType.LongPress)

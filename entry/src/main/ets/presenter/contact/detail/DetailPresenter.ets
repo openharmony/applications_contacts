@@ -70,7 +70,7 @@ export default class DetailPresenter {
   detailCallLogDataSource: DetailCallLogDataSource = new DetailCallLogDataSource();
   private _isCallStateChangeObserved = false;
   /** Contact Temporary */
-  contacts: any = {};
+  contacts: { [key: string]: any } = {};
 
   private constructor() {
   }
@@ -686,11 +686,14 @@ export default class DetailPresenter {
     this.moreMenuOptions.forEach(element => {
       tmpMoreMenu.push({});
     });
-    let mMoreMenu: any = [{
-                            value: "",
-                            action: () => {
-                            }
-                          }];
+    let mMoreMenu: Array<{
+      value: string,
+      action: () => void
+    }> = [{
+            value: "",
+            action: () => {
+            }
+          }];
    mMoreMenu = tmpMoreMenu;
       this.moreMenuOptions.forEach((element, i) => {
         globalThis.context.resourceManager.getString(element.id, (err, typeName) => {

@@ -21,7 +21,7 @@ import { StringUtil } from '../../../../../../../common/src/main/ets/util/String
 @Component
 export default struct BatchSelectRecentItemView {
   private onRecentItemClicked: Function;
-  @State private item: any = {};
+  @State private item: { [key: string]: any } = {};
   private index: number;
 
   build() {

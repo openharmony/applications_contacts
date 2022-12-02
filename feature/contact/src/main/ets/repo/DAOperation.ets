@@ -18,9 +18,9 @@ import FeatureAbility from '@ohos.ability.featureAbility';
 export default class DAOperation {
   readonly uri: string;
   readonly type: number;
-  valuesBucket?: any;
-  valueBackReferences?: any;
-  predicates?: any;
+  valuesBucket?: object;
+  valueBackReferences?: object;
+  predicates?: object;
   predicatesBackReferences?: Map<number, number>;
   interrupted?: boolean;
   expectedCount?: number;
@@ -53,7 +53,7 @@ export default class DAOperation {
     this.valueBackReferences[key] = previousResult;
   }
 
-  withValue(key: string, obj: any) {
+  withValue(key: string, obj: object) {
     if (this.type != FeatureAbility.DataAbilityOperationType.TYPE_INSERT
     && this.type != FeatureAbility.DataAbilityOperationType.TYPE_UPDATE
     && this.type != FeatureAbility.DataAbilityOperationType.TYPE_ASSERT) {
