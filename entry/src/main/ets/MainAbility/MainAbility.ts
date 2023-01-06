@@ -22,7 +22,7 @@ export default class MainAbility extends Ability {
     }
 
     onCreate(want, launchParam) {
-        HiLog.i(TAG, 'Application onCreate version : NEW_ARK_1.0');
+        HiLog.i(TAG, 'Application onCreate version : OH-2022-12-19_changed');
         CallLogService.getInstance().init();
         globalThis.isFromOnCreate = true;
         globalThis.context = this.context;

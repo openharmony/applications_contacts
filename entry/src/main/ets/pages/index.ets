@@ -18,11 +18,11 @@ import callPage from './phone/dialer/Dialer';
 import IndexPresenter from '../presenter/IndexPresenter';
 import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 import { PermissionManager } from '../../../../../common/src/main/ets/permission/PermissionManager';
-import EnvironmentProp from './../feature/EnvironmentProp';
 import DialerPresenter from '../presenter/dialer/DialerPresenter';
 import call from '@ohos.telephony.call';
 import ContactListPresenter from '../presenter/contact/ContactListPresenter';
 import CallRecordPresenter from '../presenter/dialer/callRecord/CallRecordPresenter';
+import device from '@system.device';
 
 const TAG = 'Index ';
 
@@ -52,6 +52,22 @@ struct Index {
   aboutToAppear() {
     this.mPermissionManager.initPermissions();
     this.mIndexPresenter.aboutToAppear();
+    this.getInfo();
+  }
+
+  aboutToDisappear() {
+    this.mIndexPresenter.aboutToDisappear();
+  }
+
+  getInfo() {
+    device.getInfo({
+      success: function (data) {
+        AppStorage.SetOrCreate("windowHeight", data.windowHeight / data.screenDensity)
+      },
+      fail: function (data, code) {
+        HiLog.i(TAG, 'Failed to obtain device information. Error code:' + code + '; Error information: ' + data);
+      },
+    });
   }
 
   build() {

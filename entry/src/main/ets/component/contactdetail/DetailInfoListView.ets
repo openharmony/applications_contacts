@@ -145,7 +145,8 @@ struct TelListItem {
         .fontSize($r("sys.float.ohos_id_text_size_headline8"))
         .fontColor($r('sys.color.ohos_id_color_text_primary'))
         .fontWeight(FontWeight.Medium)
-        .margin({ left: $r("app.float.id_card_margin_xxl") })
+        .textOverflow({ overflow: TextOverflow.Ellipsis })
+        .maxLines(1)
         .textAlign(TextAlign.Start)
         .lineHeight('28vp')
         .height($r("app.float.id_item_height_max"))
@@ -155,6 +156,8 @@ struct TelListItem {
       this.MenuDivider()
       this.MenuView($r("app.string.edit_beforeCall"), MenuType.EditBeforeCall)
     }
+    .padding({ left: $r("app.float.id_card_margin_large"), right: $r("app.float.id_card_margin_large") })
+    .width(144)
     .borderRadius($r("app.float.id_card_margin_xxl"))
     .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
   }
@@ -164,14 +167,15 @@ struct TelListItem {
       Text(menuName)
         .fontSize($r("sys.float.ohos_id_text_size_body1"))
         .fontColor($r('sys.color.ohos_id_color_text_primary'))
-        .margin({ left: $r("app.float.id_card_margin_xxl") })
         .textAlign(TextAlign.Start)
     }
+    .padding({ left: $r("app.float.id_card_margin_large"), right: $r("app.float.id_card_margin_large") })
     .height($r("app.float.id_item_height_mid"))
     .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
     .onClick(() => {
       switch (itemType) {
         case MenuType.Copy:
+          this.mIndexPresenter.getCopy(JSON.parse(this.message).data);
           break;
         case MenuType.EditBeforeCall:
           this.mIndexPresenter.editBeforeCall(JSON.parse(this.message).data);
@@ -186,7 +190,7 @@ struct TelListItem {
       .color($r('sys.color.ohos_id_color_list_separator'))
       .lineCap(LineCapStyle.Square)
       .width('100%')
-      .padding({ left: $r("app.float.id_card_margin_xxl"), right: $r("app.float.id_card_margin_xxl") })
+      .padding({ left: $r("app.float.id_card_margin_large"), right: $r("app.float.id_card_margin_large") })
   }
 
   build() {

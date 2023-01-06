@@ -16,11 +16,14 @@
 import router from '@ohos.router';
 import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
-import EnvironmentProp from '../../../feature/EnvironmentProp';
+import IndexPresenter from '../../../presenter/IndexPresenter';
 import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
-import DetailCalllog from '../../../component/contactdetail/DetailCalllog';
+
+import CallLogListItem from '../../../component/contactdetail/DetailCalllog';
 import DetailInfoListView from '../../../component/contactdetail/DetailInfoListView';
 import { SimCardState } from '../../../../../../../feature/phonenumber/src/main/ets/SimUtil';
+import EnvironmentProp from '../../../feature/EnvironmentProp';
+import device from '@system.device';
 
 const TAG = "ContactDetail";
 let storage = LocalStorage.GetShared()
@@ -73,6 +76,11 @@ struct ContactDetail {
     this.mPresenter.aboutToDisappear();
   }
 
+  onPageShow() {
+    HiLog.i(TAG, 'onPageShow');
+    IndexPresenter.getInstance().getNewWant();
+  }
+
   @Builder MenuBuilder() {
     Column() {
       Text($r("app.string.delete_contact"))
@@ -103,7 +111,7 @@ struct ContactDetail {
         }
       }
       .width('100%')
-      .margin({ bottom: this.curBp === 'lg' ? 0 : $r("app.float.id_item_height_large") })
+      .margin({bottom: 50})
 
       if (this.curBp !== 'lg') {
         Row() {
@@ -118,6 +126,9 @@ struct ContactDetail {
             Text(this.mPresenter.contactId != undefined
               ? $r('app.string.edit')
               : $r("app.string.new_contact"))
+              .fontSize($r("sys.float.ohos_id_text_size_caption"))
+              .fontWeight(FontWeight.Medium)
+              .fontColor($r("sys.color.ohos_id_color_toolbar_text"))
           }
           .onClick(() => {
             this.mPresenter.updateContact();
@@ -132,6 +143,9 @@ struct ContactDetail {
               .margin({ bottom: 3 })
               .bindMenu(this.MenuBuilder)
             Text($r('app.string.More'))
+              .fontSize($r("sys.float.ohos_id_text_size_caption"))
+              .fontWeight(FontWeight.Medium)
+              .fontColor($r("sys.color.ohos_id_color_toolbar_text"))
           }
           .visibility(this.mPresenter.contactId != undefined ? Visibility.Visible : Visibility.None)
           .width('50%')
@@ -154,6 +168,60 @@ struct Content {
   @Link private mPresenter: { [key: string]: any };
   @Link haveSimCard: boolean;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
+  @State colunmHeight: string = "60%";
+
+  @Builder callLogTitle() {
+    Row() {
+      Text($r('app.string.dialer_calllog'))
+        .fontSize($r("sys.float.ohos_id_text_size_body1"))
+        .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+        .margin({ left: $r("app.float.id_card_margin_max") })
+
+      Blank();
+
+      Text($r('app.string.clear'))
+        .fontSize($r("sys.float.ohos_id_text_size_body1"))
+        .fontColor($r("sys.color.ohos_id_color_connected"))
+        .margin({ right: $r("app.float.id_card_margin_max") })
+        .onClick(() => {
+          AlertDialog.show({
+            message: $r('app.string.clear_calllog_sure'),
+            alignment: EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom,
+            autoCancel: true,
+            primaryButton: {
+              value: $r('app.string.dialog_cancel'),
+              action: () => {
+              }
+            },
+            secondaryButton: {
+              value: $r('app.string.dialog_delete'),
+              fontColor: $r("sys.color.ohos_id_color_handup"),
+              action: () => {
+                this.mPresenter.clearAllCallLog();
+              }
+            },
+            offset: {
+              dx: 0, dy: -15
+            },
+            gridCount: 4
+          })
+        })
+    }
+    .width('100%')
+    .height($r("app.float.id_item_height_sm"))
+  }
+
+  toPoint(percent) {
+    var str = percent.replace("%", "");
+    str = str / 100;
+    return str;
+  }
+
+  toPercent(point) {
+    var percent = Number(point * 100).toFixed(4);
+    percent += "%";
+    return percent;
+  }
 
   build() {
     List() {
@@ -164,10 +232,10 @@ struct Content {
               .backgroundColor(Color.White)
               .width("100%")
               .height("51vp")
-              .clip(new Rect({ width: '100%', height: '51vp', radius: [[24, 24], [24, 24], [0, 0], [0, 0]] }))
+              .borderRadius({ topLeft: 24, topRight: 24 })
 
             if (this.mPresenter.isNewNumber || this.mPresenter.contactForm.photoFirstName == '-1') {
-              Image($r("app.media.ic_user_portrait"))
+              Image($r("app.media.ic_user_portrait_morandi"))
                 .height('108vp')
                 .width('108vp')
                 .clip(new Circle({ width: '108vp', height: '108vp' }))
@@ -218,11 +286,44 @@ struct Content {
           .backgroundColor(Color.White)
           .padding({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_max") })
 
-          DetailCalllog({ mPresenter: $mPresenter })
         }
       }
-      .padding({ bottom: $r("app.float.id_card_margin_xxxxl") })
+      .onAreaChange((oldArea: Area, newArea: Area) => {
+        this.mPresenter.changeTopBarBackgroundColor(newArea.globalPosition.y <= -260)
+      })
+
+      ListItemGroup() {
+        LazyForEach(this.mPresenter.detailCallLogDataSource, (item, index) => {
+          ListItem() {
+            Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Start }) {
+              if (item.showTitle) {
+                Divider()
+                  .strokeWidth(8)
+                  .color($r("sys.color.ohos_id_color_subheading_separator"))
+                this.callLogTitle()
+              }
+
+              CallLogListItem({ message: item.callLog, mPresenter: $mPresenter });
+            }
+          }
+          .width("100%")
+        }, item => JSON.stringify(item))
+      }
+      .backgroundColor(Color.White)
+      .onAreaChange((oldArea: Area, newArea: Area) => {
+        var itemHeight = AppStorage.Get("windowHeight") == undefined ? 0 : (Number(newArea.height) - Number(oldArea.height)) / Number(AppStorage.Get("windowHeight"))
+        var itemPoint = this.toPoint(this.colunmHeight) - itemHeight;
+        this.colunmHeight = itemPoint < 0 ? "0%" : this.toPercent(itemPoint)
+      })
       .width("100%")
+
+      ListItem() {
+        Column() {
+        }
+        .height(this.colunmHeight)
+        .width("100%")
+      }
+      .backgroundColor(Color.White)
     }
   }
 }
@@ -302,5 +403,6 @@ struct TopBar {
     .width("100%")
     .position({ x: 0, y: 0 })
     .zIndex(3)
+    .backgroundColor(this.mPresenter.getTopBarBackgroundColor())
   }
 }

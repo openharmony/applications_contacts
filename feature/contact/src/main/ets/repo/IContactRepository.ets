@@ -23,16 +23,16 @@ import ContactListItem from './ContactListItem';
  * Contacts Only
  */
 export default interface IContactRepository {
-  save: (contact: ContactDelta) => Promise<Array<any>>;
-  findById: (id: number) => Promise<Contact>;
-  findByQuickSearchKey: (searchKey: string) => Promise<Contact>;
-  findAll: (actionData: any) => Promise<ContactListItem[]>;
+  save: (contact: ContactDelta, callback) => void;
+  findById: (id: number, callback) => void;
+  findByQuickSearchKey: (searchKey: string, callback) => void;
+  findAll: (actionData: any, callback) => void;
   findAllWithBookIndex: () => ContactList;
   search: (queryStr: string) => ContactList;
-  findByPhoneIsNotNull: () => Promise<ContactListItem[]>;
+  findByPhoneIsNotNull: (callback) => void;
   findByMailIsNotNull: () => ContactList;
   deleteByIdIn: (ids: number[]) => boolean;
-  deleteById: (id: number) => Promise<number>;
+  deleteById: (id: number, callback) => void;
   notifyChange: () => void;
   registerDataChangeObserver: (callback) => void;
   unRegisterDataChangeObserver: (callback) => void;

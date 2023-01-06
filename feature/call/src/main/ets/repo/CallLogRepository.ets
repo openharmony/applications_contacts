@@ -13,14 +13,14 @@
  * limitations under the License.
  */
 
+import dataShare from '@ohos.data.dataShare';
+import dataSharePredicates from "@ohos.data.dataSharePredicates";
 import ICallLogRepository from './ICallLogRepository';
 import { CallLog } from '../entity/CallLog';
 import CallLogBuilder from '../entity/CallLogBuilder';
 import Calls from '../contract/Calls';
 import CallLogDelta from './CallLogDelta';
-import FeatureAbility from '@ohos.ability.featureAbility';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
-import DataAbility from '@ohos.data.dataAbility';
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 
@@ -31,7 +31,7 @@ const TAG = "CallLogRepository";
  */
 export class CallLogRepository implements ICallLogRepository {
   private static instance: CallLogRepository;
-  private _dataAbilityHelper = FeatureAbility.acquireDataAbilityHelper(globalThis.context, Calls.CONTENT_URI);
+  private dataShareHelper;
 
   private constructor() {
   }
@@ -43,42 +43,44 @@ export class CallLogRepository implements ICallLogRepository {
     return CallLogRepository.instance
   }
 
-  private getDataAbilityHelper() {
-    if (this._dataAbilityHelper == undefined || this._dataAbilityHelper == null) {
-      this._dataAbilityHelper = FeatureAbility.acquireDataAbilityHelper(globalThis.context, Calls.CONTENT_URI);
+  private async getDataAbilityHelper() {
+    if (this.dataShareHelper == undefined) {
+      this.dataShareHelper = await dataShare.createDataShareHelper(globalThis.context, Calls.CONTENT_URI);
     }
-    return this._dataAbilityHelper;
+    return this.dataShareHelper;
   }
 
-  saveOne(callLog: CallLog) {
-    let dataAbilityHelper = this.getDataAbilityHelper();
-    return new Promise<number>(function (resolve, reject) {
-      if (callLog.id <= 0) {
+  saveOne(callLog: CallLog, callback) {
+    if (callLog.id <= 0) {
+      this.getDataAbilityHelper().then((dataAbilityHelper) => {
         let callLogDelta = new CallLogDelta(callLog);
         dataAbilityHelper.insert(Calls.CALL_LOG_URI, callLogDelta.createValuesBucket()).then(data => {
-          resolve(data);
+          callback(data);
         }).catch(error => {
           HiLog.w(TAG, 'saveOne error:%s', JSON.stringify(error.message));
-          reject();
+          callback();
         });
-      }
-    });
+      }).catch(error => {
+        HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+        callback();
+      });
+    } else {
+      callback();
+    }
   }
 
-  save(callLogs: CallLog[]) {
-    return false;
-  }
-
-  clear() {
-    let dataAbilityHelper = this.getDataAbilityHelper();
-    return new Promise<number>(function (resolve, reject) {
-      let condition = new DataAbility.DataAbilityPredicates();
+  clear(callback) {
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+      let condition = new dataSharePredicates.DataSharePredicates();
       dataAbilityHelper.delete(Calls.CALL_LOG_URI, condition).then(data => {
-        resolve(data);
+        callback(data);
       }).catch(error => {
         HiLog.w(TAG, 'clear error:%s', JSON.stringify(error.message));
-        reject();
+        callback();
       });
+    }).catch(error => {
+      HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+      callback();
     });
   }
 
@@ -86,21 +88,23 @@ export class CallLogRepository implements ICallLogRepository {
     return false;
   }
 
-  deleteByIdIn(ids: number[]) {
-    let dataAbilityHelper = this.getDataAbilityHelper();
-    return new Promise<number>(function (resolve, reject) {
-      if (ArrayUtil.isEmpty(ids)) {
-        reject();
-        return;
-      }
-      let condition = new DataAbility.DataAbilityPredicates();
+  deleteByIdIn(ids: number[], callback) {
+    if (ArrayUtil.isEmpty(ids)) {
+      callback();
+      return;
+    }
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+      let condition = new dataSharePredicates.DataSharePredicates();
       condition.in(Calls.ID, ids);
       dataAbilityHelper.delete(Calls.CALL_LOG_URI, condition).then(data => {
-        resolve(data);
+        callback(data);
       }).catch(error => {
         HiLog.w(TAG, 'deleteByIdIn error:%s', JSON.stringify(error.message));
-        reject();
+        callback();
       });
+    }).catch(error => {
+      HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+      callback();
     });
   }
 
@@ -120,25 +124,17 @@ export class CallLogRepository implements ICallLogRepository {
     return false;
   }
 
-  findByCallDirectionIn(callTypes: number[]) {
-    return new Promise<CallLog[]>(function (resolve, reject) {
-      resolve([]);
-    });
-  }
-
-  findAll(actionData) {
-    let dataAbilityHelper = this.getDataAbilityHelper();
-    return new Promise<CallLog[]>(function (resolve, reject) {
-      let condition = new DataAbility.DataAbilityPredicates();
-      condition.limitAs(actionData.limit);
-      condition.orderByDesc(Calls.CREATE_TIME);
+  findAll(actionData, callback) {
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+      let condition = new dataSharePredicates.DataSharePredicates();
       let offset = actionData.page < 3 ? (actionData.page - 1) * 50 : (actionData.page - 2) * 500 + 50;
-      condition.offsetAs(offset);
-      dataAbilityHelper.query(Calls.CALL_LOG_URI, null, condition).then(resultSet => {
+      condition.limit(actionData.limit, offset);
+      condition.orderByDesc(Calls.CREATE_TIME);
+      dataAbilityHelper.query(Calls.CALL_LOG_URI, condition, null).then(resultSet => {
         let rst: CallLog[] = [];
         if (resultSet.rowCount === 0) {
           resultSet.close();
-          resolve(rst);
+          callback(rst);
         } else {
           resultSet.goToFirstRow();
           do {
@@ -148,12 +144,15 @@ export class CallLogRepository implements ICallLogRepository {
             }
           } while (resultSet.goToNextRow());
           resultSet.close();
-          resolve(rst);
+          callback(rst);
         }
       }).catch(error => {
         HiLog.w(TAG, 'findAll error:' + JSON.stringify(error.message));
-        reject();
+        callback([]);
       });
+    }).catch(error => {
+      HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+      callback([]);
     });
   }
 
@@ -161,26 +160,25 @@ export class CallLogRepository implements ICallLogRepository {
     return [];
   }
 
-  findByNumberIn(numbers: number[]) {
-    let dataAbilityHelper = this.getDataAbilityHelper();
-    return new Promise<CallLog[]>(function (resolve, reject) {
-      if (ArrayUtil.isEmpty(numbers)) {
-        reject();
-        return;
-      }
+  findByNumberIn(numbers: number[], callback) {
+    if (ArrayUtil.isEmpty(numbers)) {
+      callback([]);
+      return;
+    }
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
       let realPhoneNumbers = [];
       for (let key in numbers) {
         let phoneNumber = StringUtil.removeSpace(numbers[key].toString());
         realPhoneNumbers.push(phoneNumber);
       }
-      let condition = new DataAbility.DataAbilityPredicates();
+      let condition = new dataSharePredicates.DataSharePredicates();
       condition.in(Calls.PHONE_NUMBER, realPhoneNumbers);
       condition.orderByDesc(Calls.CREATE_TIME);
-      dataAbilityHelper.query(Calls.CALL_LOG_URI, null, condition).then(resultSet => {
+      dataAbilityHelper.query(Calls.CALL_LOG_URI, condition, null).then(resultSet => {
         let rst: CallLog[] = [];
         if (resultSet.rowCount === 0) {
           resultSet.close();
-          resolve(rst);
+          callback(rst);
         } else {
           resultSet.goToFirstRow();
           do {
@@ -190,37 +188,49 @@ export class CallLogRepository implements ICallLogRepository {
             }
           } while (resultSet.goToNextRow());
           resultSet.close();
-          resolve(rst);
+          callback(rst);
         }
       }).catch(error => {
         HiLog.w(TAG, 'findByNumberIn error:%s', JSON.stringify(error.message));
-        reject();
+        callback([]);
       });
+    }).catch(error => {
+      HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+      callback([]);
     });
   }
 
   notifyChange() {
-    let dataAbilityHelper = this.getDataAbilityHelper();
-    if (dataAbilityHelper) {
-      dataAbilityHelper.notifyChange(Calls.CALL_LOG_URI).then((data) => {
-        HiLog.i(TAG, "notifyChange success")
-      }).catch(error => {
-        HiLog.w(TAG, 'notifyChange error:%s', JSON.stringify(error.message));
-      });
-    }
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+      if (dataAbilityHelper) {
+        dataAbilityHelper.notifyChange(Calls.CALL_LOG_URI).then((data) => {
+          HiLog.i(TAG, "notifyChange success")
+        }).catch(error => {
+          HiLog.w(TAG, 'notifyChange error:%s' + JSON.stringify(error.message));
+        })
+      }
+    }).catch(error => {
+      HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+    });
   }
 
   registerDataChangeObserver(callback) {
-    let dataAbilityHelper = this.getDataAbilityHelper();
-    if (dataAbilityHelper) {
-      dataAbilityHelper.on("dataChange", Calls.CALL_LOG_URI, callback);
-    }
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+      if (dataAbilityHelper) {
+        dataAbilityHelper.on("dataChange", Calls.CALL_LOG_URI, callback);
+      }
+    }).catch(error => {
+      HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+    });
   }
 
   unRegisterDataChangeObserver(callback) {
-    let dataAbilityHelper = this.getDataAbilityHelper();
-    if (dataAbilityHelper) {
-      dataAbilityHelper.off("dataChange", Calls.CALL_LOG_URI, callback);
-    }
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+      if (dataAbilityHelper) {
+        dataAbilityHelper.off("dataChange", Calls.CALL_LOG_URI, callback);
+      }
+    }).catch(error => {
+      HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+    });
   }
 }

@@ -45,7 +45,8 @@ export default struct ContactListItemView {
       cancelText: $r("app.string.dialog_cancel")
     }),
     autoCancel: false,
-    alignment: DialogAlignment.Center
+    alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
+    gridCount: 4
   });
   deleteDialogControler: CustomDialogController = new CustomDialogController({
     builder: DeleteDialogEx({
@@ -61,7 +62,8 @@ export default struct ContactListItemView {
     }),
     autoCancel: false,
     alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
-    offset: { dx: 0, dy: -16 }
+    offset: { dx: 0, dy: -16 },
+    gridCount: 4
   });
 
   onDeleteClick() {
@@ -168,14 +170,12 @@ export default struct ContactListItemView {
                left: this.curBp === 'lg' ? $r("app.float.id_card_margin_max") : 0,
                right: $r("app.float.id_card_margin_max") })
     .backgroundColor(Color.White)
-    .clip(new Rect({
-      width: "100%",
-      height: "100%",
-      radius: [[this.showIndex ? 24 : 0, this.showIndex ? 24 : 0],
-      [this.showIndex ? 24 : 0, this.showIndex ? 24 : 0],
-      [this.showDivifer ? 0 : 24, this.showDivifer ? 0 : 24],
-      [this.showDivifer ? 0 : 24, this.showDivifer ? 0 : 24]]
-    }))
+    .borderRadius({
+      topLeft: this.showIndex ? 24 : 0,
+      topRight: this.showIndex ? 24 : 0,
+      bottomLeft: this.showDivifer ? 0 : 24,
+      bottomRight: this.showDivifer ? 0 : 24
+    })
     .onClick(() => {
       router.push(
         {

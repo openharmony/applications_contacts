@@ -14,7 +14,7 @@
  */
 
 export default class VoiceMail {
-  static readonly CONTACT_URI: string = "dataability:///com.ohos.voicemailability";
+  static readonly CONTACT_URI: string = "datashare:///com.ohos.voicemailability";
   static readonly ID: string = "id";
   static readonly PHONE_NUMBER: string = "phone_number";
   static readonly QUICK_SEARCH_KEY: string = "quicksearch_key";

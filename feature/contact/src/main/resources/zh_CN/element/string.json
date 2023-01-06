@@ -42,7 +42,7 @@
     },
     {
       "name": "phone_type_mobile_expansion",
-      "value": "电话  %s"
+      "value": "手机  %s"
     },
     {
       "name": "phone_type_work_expansion",

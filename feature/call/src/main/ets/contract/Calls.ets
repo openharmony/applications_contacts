@@ -25,7 +25,7 @@ export enum Direction {
 }
 
 export default class Calls {
-  static readonly CONTENT_URI: string = "dataability:///com.ohos.calllogability";
+  static readonly CONTENT_URI: string = "datashare:///com.ohos.calllogability";
   static readonly CALL_LOG_URI: string = Calls.CONTENT_URI + "/calls/calllog";
   static readonly ID: string = "id";
   static readonly PHONE_NUMBER: string = "phone_number";

@@ -61,16 +61,12 @@ export default class CallRecordPresenter {
     this.isShow = true;
     this.requestItem();
     CallLogRepository.getInstance().registerDataChangeObserver(() => {
-      if (this.isShow) {
-        HiLog.i(TAG, 'refresh');
-        this.requestItem();
-      }
+      HiLog.i(TAG, 'refresh');
+      this.requestItem();
     });
     ContactRepository.getInstance().registerDataChangeObserver(() => {
-      if (this.isShow) {
-        HiLog.i(TAG, 'refresh');
-        this.requestItem();
-      }
+      HiLog.i(TAG, 'refresh');
+      this.requestItem();
     });
     if (!this._isCallStateChangeObserved) {
       observer.on('callStateChange', (callback: {
@@ -90,10 +86,6 @@ export default class CallRecordPresenter {
   aboutToDisappear() {
     HiLog.i(TAG, 'aboutToDisappear!');
     this.isShow = false;
-    CallLogRepository.getInstance().unRegisterDataChangeObserver(() => {
-    });
-    ContactRepository.getInstance().unRegisterDataChangeObserver(() => {
-    });
   }
 
   requestItem() {
@@ -138,9 +130,9 @@ export default class CallRecordPresenter {
         HiLog.i(TAG, 'CallLogs load completed: ' + JSON.stringify(this.callLogList.length));
       } else {
         this.page++;
-          setTimeout(() => {
-            this.refresh();
-          }, this.page == 2 ? 700 : 1);
+        setTimeout(() => {
+          this.refresh();
+        }, this.page == 2 ? 700 : 1);
       }
     })
   }
@@ -150,7 +142,7 @@ export default class CallRecordPresenter {
   }
 
   deleteCallLog(id) {
-    CallLogRepository.getInstance().deleteByIdIn(id).then(data => {
+    CallLogRepository.getInstance().deleteByIdIn(id, data => {
       CallLogRepository.getInstance().notifyChange();
     });
   }

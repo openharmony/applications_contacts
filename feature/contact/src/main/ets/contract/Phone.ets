@@ -31,6 +31,7 @@ export class Phone extends DataType {
   static readonly TYPE_PAGER: number = 6;
   static readonly TYPE_OTHER: number = 7;
   static readonly TYPE_MAIN: number = 12;
+  static readonly TYPE_CUSTOM: number = 99;
 
   static getTypeLabelResource(type: number) {
     switch (type) {

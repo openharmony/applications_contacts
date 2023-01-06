@@ -46,7 +46,7 @@
     },
     {
       "name": "phone_type_mobile_expansion",
-      "value": "电话  %s"
+      "value": "手机  %s"
     },
     {
       "name": "phone_type_work_expansion",
@@ -395,6 +395,10 @@
     {
       "name": "delete_dialog_title",
       "value": "是否删除此联系人"
+    },
+    {
+      "name": "deleteCallLog_dialog_title",
+      "value": "是否删除此通话记录？"
     },
     {
       "name": "save_dialog_title",
