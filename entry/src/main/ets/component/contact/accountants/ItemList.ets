@@ -14,14 +14,22 @@
  */
 
 import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
+import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 
 @Component
 export struct ItemList {
   @Link mPresent: AccountantsPresenter;
+  @State mTextInputValue: string = '';
   private index: number;
   private typeName: string;
   private placeholder: Resource;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
+
+  aboutToAppear() {
+    HiLog.i("ItemList", "aboutToAppear!!!");
+    this.mTextInputValue = this.mPresent.getTextDisplay(this.typeName, this.mPresent.getData(this.typeName,
+      this.index - 1));
+  }
 
   build() {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
@@ -53,7 +61,7 @@ export struct ItemList {
           Column() {
             TextInput({
               placeholder: this.placeholder,
-              text: this.mPresent.getTextDisplay(this.typeName, this.mPresent.getData(this.typeName, this.index - 1))
+              text: this.mTextInputValue
             })
               .fontSize($r("sys.float.ohos_id_text_size_body1"))
               .caretColor($r("sys.color.ohos_id_color_connected"))
@@ -62,7 +70,28 @@ export struct ItemList {
               .height("98%")
               .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
               .onChange((arg) => {
-                this.mPresent.listItemChange(this.typeName, this.mPresent.getData(this.typeName, this.index - 1), arg.toString());
+                HiLog.e("TAG", 'Input typeName is ' + JSON.stringify(this.typeName));
+                HiLog.e("TAG", 'The numLength is ' + JSON.stringify(arg.length));
+                let args = "";
+                switch (arg.length) {
+                  case 3:
+                    args = arg + ' ';
+                    break;
+                  case 8:
+                    args = arg + ' ';
+                    break;
+                  default:
+                    args = arg;
+                    break;
+                }
+                if (this.typeName === "phone") {
+                  this.mTextInputValue = args;
+                } else {
+                  this.mTextInputValue = arg;
+                }
+                HiLog.e("TAG", 'mTextInputValue. ' + JSON.stringify(this.mTextInputValue));
+                this.mPresent.listItemChange(this.typeName, this.mPresent.getData(this.typeName, this.index - 1),
+                    this.typeName === "phone"? args.toString().replace(/\s*/g, "") : arg.toString());
                 this.mPresent.textChange(arg);
               })
           }
@@ -107,6 +136,7 @@ export struct ItemList {
             .fontColor($r("sys.color.ohos_id_color_text_primary"))
             .textAlign(TextAlign.Start)
             .margin({ left: $r("app.float.id_card_margin_xxl") })
+            .padding({left: 10})
             .onClick(() => {
               this.mPresent.menuChange(this.typeName, this.mPresent.getData(this.typeName, this.index - 1), item);
             })

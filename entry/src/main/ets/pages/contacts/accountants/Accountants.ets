@@ -14,6 +14,7 @@
  */
 
 import router from '@ohos.router';
+import IndexPresenter from '../../../presenter/IndexPresenter';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
 import { ObjectUtil } from '../../../../../../../common/src/main/ets/util/ObjectUtil';
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
@@ -59,7 +60,9 @@ struct Accountants {
       confirm: this.onAccept,
       itemIndex: this.eventItemId }),
     cancel: this.existApp,
-    autoCancel: true
+    autoCancel: true,
+    alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
+    gridCount: 4
   })
   deleteDialogControler: CustomDialogController = new CustomDialogController({
     //Components shared by the TIP for creating or updating a contact by mistake and the TIP for deleting a contact
@@ -76,7 +79,8 @@ struct Accountants {
     }),
     autoCancel: true,
     alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
-    offset: { dx: 0, dy: -16 }
+    offset: { dx: 0, dy: -16 },
+    gridCount: 4
   });
 
   onCancel() {
@@ -122,7 +126,9 @@ struct Accountants {
   }
 
   onPageShow() {
+    HiLog.i(TAG, 'onPageShow');
     this.mPresenter.refresh();
+    IndexPresenter.getInstance().getNewWant();
   }
 
   onBackPress() {
@@ -634,10 +640,10 @@ struct Accountants {
           .alignListItem(ListItemAlign.Center)
         }
       }
-      .margin({left: 12, right: 12})
       .height('100%')
       .flexShrink(1)
     }
+    .padding({left: 12, right: 12})
     .width('100%')
     .height('100%')
     .backgroundColor($r('sys.color.ohos_id_color_sub_background'))

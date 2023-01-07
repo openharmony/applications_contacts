@@ -17,19 +17,21 @@ import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil'
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import { CallLogService } from '../../../../../../feature/call/src/main/ets/CallLogService';
 import { CallLogRepository } from '../../../../../../feature/call/src/main/ets/repo/CallLogRepository';
+import { ContactRepository }from '../../../../../../feature/contact/src/main/ets/repo/ContactRepository';
+import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
 
 const TAG = 'CallLogModel';
 
 export default {
   /**
-     * Obtains and caches all 2000 call records.
-     *
-     * @param {string} DAHelper Database path
-     * @param {string} mergeRule  Call Record Type
-     * @param {Object} callBack Call log data
-     */
+   * Obtains and caches all 2000 call records.
+   *
+   * @param {string} DAHelper Database path
+   * @param {string} mergeRule  Call Record Type
+   * @param {Object} callBack Call log data
+   */
   getAllCalls: async function (actionData, callBack) {
-    CallLogRepository.getInstance().findAll(actionData).then(result => {
+    CallLogRepository.getInstance().findAll(actionData, result => {
       let resultData = {
         callLogList: [], missedList: []
       };
@@ -40,7 +42,63 @@ export default {
       }
       resultData.callLogList = CallLogService.getInstance().mergeCallLogs(result);
       resultData.missedList = CallLogService.getInstance().mergeMissedCalls(result);
-      callBack(resultData);
+      let numberList = this.getNumberList(resultData);
+      this.queryContactsName(numberList, resultData, resultData => {
+        callBack(resultData);
+      })
     });
   },
+
+  getNumberList(resultData) {
+    let numberList = [];
+    for (let callLog of resultData.callLogList) {
+      numberList.push(callLog.phoneNumber);
+    }
+    for (let missed of resultData.missedList) {
+      numberList.push(missed.phoneNumber);
+    }
+    return numberList;
+  },
+
+  queryContactsName(numberList, resultData, callback) {
+    if (numberList.length == 0) {
+      HiLog.w(TAG, "queryContactsName, has no number");
+      callback(resultData);
+      return;
+    }
+    ContactRepository.getInstance().queryContactDataByNumber(numberList, contacts => {
+      // Convert the result to Map, key: mobile number, value: name
+      let numberMap = this.getNumberMap(contacts);
+      this.buildName(resultData, numberMap);
+      callback(resultData);
+    });
+  },
+
+  getNumberMap(contacts) {
+    let numberMap = new Map();
+    for (let item of contacts) {
+      if (!StringUtil.isEmpty(item.displayName)) {
+        numberMap.set(item.detailInfo, item.displayName);
+      }
+    }
+    return numberMap;
+  },
+
+  buildName(resultData, numberMap) {
+    // Match the result based on the mobile number.
+    for (let callLog of resultData.callLogList) {
+      if (numberMap.has(callLog.phoneNumber)) {
+        callLog.displayName = numberMap.get(callLog.phoneNumber);
+      } else {
+        callLog.displayName = "";
+      }
+    }
+    for (let missed of resultData.missedList) {
+      if (numberMap.has(missed.phoneNumber)) {
+        missed.displayName = numberMap.get(missed.phoneNumber);
+      } else {
+        missed.displayName = "";
+      }
+    }
+  }
 }

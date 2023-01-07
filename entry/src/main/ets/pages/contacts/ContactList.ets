@@ -134,7 +134,6 @@ struct ContactContent {
         GridCol({span: {sm: 4, md:6, lg: 8}, offset: {sm: 0, md: 1, lg: 2}}) {
           TitleGuide()
         }
-
         GridCol({span: {sm: 4, md:6, lg: 8}, offset: {sm: 0, md: 2, lg: 4}}) {
           Column() {
             Text($r("app.string.contact"))
@@ -155,8 +154,10 @@ struct ContactContent {
           .width('100%')
           .height(82)
         }
+      }
 
-        GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 2, lg: 4 } }) {
+      GridRow({columns: {sm: 4, md: 8, lg: 12}, gutter: {x: 12, y: 0}}) {
+        GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
           List({ space: 0, initialIndex: 0 }) {
             LazyForEach(this.presenter.contactListDataSource, (item, index: number) => {
               ListItem() {
@@ -173,7 +174,7 @@ struct ContactContent {
                       .alignItems(VerticalAlign.Bottom)
                       .direction(Direction.Ltr)
                       .padding({ left: this.curBp === 'lg' ? $r("app.float.id_card_margin_max") : 0,
-                         bottom: $r("app.float.id_card_margin_large")})
+                        bottom: $r("app.float.id_card_margin_large")})
                       .height($r("app.float.id_item_height_mid"))
                     }
 
@@ -189,8 +190,8 @@ struct ContactContent {
                   if (item.showDivifer) {
                     Divider()
                       .color($r("sys.color.ohos_id_color_list_separator"))
-                      .margin({ right: this.curBp === 'lg' ? 76 : 100,
-                        left: this.curBp === 'lg' ? 76 : 100
+                      .margin({right: this.curBp === 'lg' ? 24 : 0,
+                        left: this.curBp === 'lg' ? 76 : 52
                       })
                   }
                 }
@@ -198,13 +199,15 @@ struct ContactContent {
             }, (item) => JSON.stringify(item))
           }
           .width('100%')
+          .height('100%')
           .listDirection(Axis.Vertical)
           .edgeEffect(EdgeEffect.Spring)
-          .padding({bottom: 150})
         }
       }
-      .margin({left:24, right:24})
+      .height('100%')
+      .flexShrink(1)
     }
+    .padding({left:24, right:24})
     .height("100%")
     .width("100%")
   }
@@ -231,7 +234,6 @@ export struct ContactEmptyPage {
             .width('100%')
         }
       }
-      .margin({left:24, right:24})
 
       Column() {
         Image($r('app.media.no_contacts_illustration'))
@@ -247,8 +249,6 @@ export struct ContactEmptyPage {
           .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
           .textAlign(TextAlign.Center)
       }
-      .markAnchor({ x: 60, y: 60 })
-      .position({ x: '50%', y: '40%' })
 
       Column() {
         //This component is temporarily shielded because there is no requirement currently.
@@ -300,9 +300,11 @@ export struct ContactEmptyPage {
 //            this.presenter.scanCard();
 //          })
       }
-      .margin({top: "266vp"})
+      .margin({bottom: 192})
       .width(this.curBp === 'lg' ? '37%' : '50%')
     }
+    .padding({left:24, right:24})
+    .justifyContent(FlexAlign.SpaceBetween)
     .height('100%')
     .width('100%')
   }
