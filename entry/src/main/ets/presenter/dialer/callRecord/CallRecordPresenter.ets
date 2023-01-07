@@ -18,7 +18,6 @@ import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import { ObjectUtil } from '../../../../../../../common/src/main/ets/util/ObjectUtil';
 import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
-import observer from '@ohos.telephony.observer';
 import router from '@ohos.router';
 import { CallLogRepository } from '../../../../../../../feature/call/src/main/ets/repo/CallLogRepository';
 import { ContactRepository } from '../../../../../../../feature/contact/src/main/ets/repo/ContactRepository';
@@ -33,7 +32,6 @@ export default class CallRecordPresenter {
   missedList = [];
   mAllCallRecordListDataSource: CallRecordListDataSource = new CallRecordListDataSource();
   mMissCallRecordListDataSource: CallRecordListDataSource = new CallRecordListDataSource();
-  private _isCallStateChangeObserved = false;
   mDialerPresent: DialerPresenter = DialerPresenter.getInstance();
   isShow: boolean = false;
   page: number = 0;
@@ -68,19 +66,6 @@ export default class CallRecordPresenter {
       HiLog.i(TAG, 'refresh');
       this.requestItem();
     });
-    if (!this._isCallStateChangeObserved) {
-      observer.on('callStateChange', (callback: {
-        state,
-        number,
-      }) => {
-        HiLog.i(TAG, 'callStateChange state' + callback.state);
-        if (callback.state === 0) {
-          HiLog.i(TAG, "callback.state:" + callback.state);
-          ContactRepository.getInstance().notifyChange();
-        }
-      });
-      this._isCallStateChangeObserved = true;
-    }
   }
 
   aboutToDisappear() {

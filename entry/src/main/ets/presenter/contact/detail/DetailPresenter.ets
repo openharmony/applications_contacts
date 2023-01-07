@@ -15,7 +15,6 @@
 
 import router from '@ohos.router';
 import prompt from '@system.prompt';
-import observer from '@ohos.telephony.observer';
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
 import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
@@ -70,7 +69,6 @@ export default class DetailPresenter {
     detailsBgColor: ''
   };
   detailCallLogDataSource: DetailCallLogDataSource = new DetailCallLogDataSource();
-  private _isCallStateChangeObserved = false;
   /** Contact Temporary */
   contacts: { [key: string]: any } = {};
 
@@ -162,19 +160,6 @@ export default class DetailPresenter {
     CallLogRepository.getInstance().registerDataChangeObserver(() => {
       this.refresh();
     });
-    if (!this._isCallStateChangeObserved) {
-      observer.on('callStateChange', (callback: {
-        state,
-        number,
-      }) => {
-        HiLog.i(TAG, 'callStateChange state' + callback.state);
-        if (callback.state === 0) {
-          HiLog.i(TAG, "callback.state:" + callback.state);
-          this.refresh();
-        }
-      });
-      this._isCallStateChangeObserved = true;
-    }
   }
 
   refresh() {
