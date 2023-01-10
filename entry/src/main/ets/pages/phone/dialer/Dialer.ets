@@ -66,6 +66,7 @@ struct DialButton {
       .type(ButtonType.Circle)
       .height('100%')
       .width('100%')
+      .borderRadius('30')
       .onClick(() => {
         this.mPresenter.ifNeedSpace();
         AppStorage.SetOrCreate("tele_number", AppStorage.Get("tele_number") + this.button_number);
@@ -74,6 +75,7 @@ struct DialButton {
         this.mPresenter.playAudio(this.button_number);
       })
     }.height($r("app.float.dialer_calllog_item_height"))
+    .width('33.33%')
   }
 }
 
