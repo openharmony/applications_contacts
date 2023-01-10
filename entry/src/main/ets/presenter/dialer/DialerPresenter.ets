@@ -269,8 +269,8 @@ export default class DialerPresenter {
     if (this.timer) clearTimeout(this.timer);
     let tonePlayer = null;
     let audioRendererInfo = {
-      content : 2,
-      usage : 1,
+      content : 5,
+      usage : 6,
       rendererFlags : 0
     };
     this.timer = setTimeout(async () => {
