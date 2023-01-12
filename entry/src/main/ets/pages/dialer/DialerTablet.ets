@@ -17,6 +17,7 @@ import CallRecord from './callRecord/CallRecord'
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import { DialerInitialPage } from '../../component/dialer/DialerInitialPage';
 import DialerPresenter from '../../presenter/dialer/DialerPresenter';
+import EnvironmentProp from '../../feature/EnvironmentProp';
 import { SimCardState } from '../../../../../../feature/phonenumber/src/main/ets/SimUtil';
 import PreferencesUtil from '../../util/PreferencesUtil';
 
@@ -78,7 +79,7 @@ struct DialButton {
       .height($r("app.float.dialer_keypad_button_height"))
       .onClick(() => {
         this.mPresenter.ifNeedSpace();
-        this.mPresenter.tele_number += this.button_number
+        AppStorage.SetOrCreate("tele_number", AppStorage.Get("tele_number") + this.button_number);
         this.mPresenter.all_number += this.button_number
         this.mPresenter.viewNumberTextProc();
         this.mPresenter.playAudio(this.button_number);
@@ -185,6 +186,7 @@ struct DialPad {
 export default struct CallTablet {
   @State @Watch("onSimChanged") mSimCardState: SimCardState = SimCardState.getInstance();
   @State mPresenter: DialerPresenter = DialerPresenter.getInstance();
+  @StorageLink("tele_number") tele_number: string = "";
   menuRes: Resource[] = [$r("app.string.call_setting_type_paste"),
   $r("app.string.call_setting_type_batch_delete"),
   $r("app.string.call_setting_type_harassment_interception"),
@@ -216,26 +218,26 @@ export default struct CallTablet {
       tmpPhoneMenu.push({});
     });
     this.callmenu = tmpPhoneMenu;
-      this.menuRes.forEach((element, i) => {
-        globalThis.context.resourceManager.getString(element.id, (err, typeName) => {
-          HiLog.i(TAG, typeName);
-          this.callmenu[i] = {
-            value: typeName,
-            action: () => {
-            }
-          };
-        });
+    this.menuRes.forEach((element, i) => {
+      globalThis.context.resourceManager.getString(element.id, (err, typeName) => {
+        HiLog.i(TAG, typeName);
+        this.callmenu[i] = {
+          value: typeName,
+          action: () => {
+          }
+        };
       });
+    });
   }
 
   build() {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
 
       Column() {
-        if (this.mPresenter.tele_number.length > 0) {
+        if (this.tele_number.length > 0) {
           Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
             Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Center }) {
-              Text(`${this.mPresenter.tele_number}`)
+              Text(`${this.tele_number}`)
                 .fontSize(this.mPresenter.tele_num_size)
                 .fontColor($r('sys.color.ohos_id_color_text_primary'))
                 .maxLines(1)
@@ -243,7 +245,7 @@ export default struct CallTablet {
             .width('100%')
             .height('112vp')
 
-            if (this.mPresenter.tele_number.length >= 3) {
+            if (this.tele_number.length >= 3) {
               Row() {
                 Image($r("app.media.ic_public_add"))
                   .width($r("app.float.id_card_margin_max"))
@@ -355,15 +357,11 @@ export default struct CallTablet {
           .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
           .zIndex(3)
 
-          if (PreferencesUtil.isUsed()) {
-            Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Center }) {
-              CallRecord()
-            }
-            .height('100%')
-            .zIndex(1)
-          } else {
-            DialerInitialPage()
+          Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Center }) {
+            CallRecord()
           }
+          .height('100%')
+          .zIndex(1)
         }
       }
       .width('40%')
@@ -390,12 +388,16 @@ export default struct CallTablet {
             }
             .width('68vp')
             .height('68vp')
-            .backgroundColor(this.mSimCardState.haveSimCard
-              ? $r('sys.color.ohos_id_color_connected') : $r('sys.color.ohos_id_color_tertiary'))
+            .backgroundColor($r('sys.color.ohos_id_color_connected'))
+            // Currently, it is not possible to tell whether the device has dial capability.
+            // 1. The dial button in phone is enable.
+            // 2. The dial button in tablet is enable only when sim card is inserted.
+            .opacity(!EnvironmentProp.isTablet() || this.mSimCardState.haveSimCard
+              ? 1 : $r('sys.float.ohos_id_alpha_disabled'))
             .onClick(() => {
-              if (this.mPresenter.tele_number.length > 0) {
+              if (this.tele_number.length > 0) {
                 this.mPresenter.dialing(this.mPresenter.all_number);
-                this.mPresenter.tele_number = '';
+                AppStorage.SetOrCreate("tele_number", '');
                 this.mPresenter.all_number = '';
               }
             })
@@ -409,12 +411,12 @@ export default struct CallTablet {
             .width($r("app.float.id_item_height_max"))
             .height($r("app.float.id_item_height_max"))
             .type(ButtonType.Normal)
-            .opacity(this.mPresenter.tele_number.length > 0 ? 1 : 0.6)
-            .enabled(this.mPresenter.tele_number.length > 0 ? true : false)
+            .opacity(this.tele_number.length > 0 ? 1 : 0.6)
+            .enabled(this.tele_number.length > 0 ? true : false)
             .gesture(
             LongPressGesture({ repeat: false, fingers: 1, duration: 700 })
               .onAction((event: GestureEvent) => {
-                this.mPresenter.tele_number = '';
+                AppStorage.SetOrCreate("tele_number", '');
                 this.mPresenter.all_number = '';
               })
             )

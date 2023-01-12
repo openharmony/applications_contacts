@@ -23,7 +23,7 @@ export struct ShowDayTime {
   private date = new Date(2000, 0, 1);
   @Link mPresent: AccountantsPresenter;
   @Prop itemIndex: number;
-  @State showTime: Resource = $r("app.string.yearMonthDay", this.date.getUTCFullYear(),
+  @State showTime: Resource = $r("app.string.yearMonthDay", this.date.getFullYear(),
     (this.date.getMonth() + 1), this.date.getDate());
   controller: CustomDialogController
   cancel: () => void
@@ -45,9 +45,9 @@ export struct ShowDayTime {
         .width("85%")
         .height("200vp")
         .margin({ bottom: 8 })
-        .onChange((arg) => {
-          this.date = new Date(arg.year, arg.month, arg.day);
-          this.showTime = $r("app.string.yearMonthDay", arg.year, (arg.month + 1), arg.day);
+        .onChange((value: DatePickerResult) => {
+          this.date = new Date(value.year, value.month, value.day);
+          this.showTime = $r("app.string.yearMonthDay", value.year, (value.month + 1), value.day);
         })
 
       Row() {
@@ -87,10 +87,11 @@ export struct ShowDayTime {
         .height(40)
         .onClick(() => {
           this.mPresent.addState = true;
+          this.date.setFullYear(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
           if (StringUtil.isEmpty(this.mPresent.contactInfoAfter.events[this.itemIndex].eventType)) {
             this.mPresent.contactInfoAfter.events[this.itemIndex] = new EventBean("", "", "1", "");
           }
-          this.mPresent.contactInfoAfter.events[this.itemIndex].data = StringFormatUtil.numberFormatDateString(this.date.getUTCFullYear(), this.date.getMonth() + 1, this.date.getDate());
+          this.mPresent.contactInfoAfter.events[this.itemIndex].data = StringFormatUtil.numberFormatDateString(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate());
           this.mPresent.refresh();
           this.controller.close();
           this.confirm();

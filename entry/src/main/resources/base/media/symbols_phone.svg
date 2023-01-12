@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>井号</title>
+    <g id="井号" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle备份-2" x="0" y="0" width="24" height="24"></rect>
+        <path d="M9.725,3.625 L9.724,8 L14.225,8 L14.225,3.625 L15.975,3.625 L15.975,8 L20.35,8 L20.35,9.75 L15.975,9.75 L15.975,14.25 L20.35,14.25 L20.35,16 L15.975,16 L15.975,20.375 L14.225,20.375 L14.225,16 L9.725,16 L9.725,20.375 L7.975,20.375 L7.975,16 L3.6,16 L3.6,14.25 L7.975,14.25 L7.974,9.75 L3.6,9.75 L3.6,8 L7.974,8 L7.975,3.625 L9.725,3.625 Z M14.225,14.25 L14.225,9.75 L9.724,9.75 L9.725,14.25 L14.225,14.25 Z" id="形状结合" fill="#191919"></path>
+    </g>
+</svg>

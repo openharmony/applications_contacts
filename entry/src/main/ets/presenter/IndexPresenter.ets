@@ -14,8 +14,13 @@
  */
 
 import router from '@ohos.router';
+import { CallLogRepository } from '../../../../../feature/call/src/main/ets/repo/CallLogRepository';
+import { ContactRepository } from '../../../../../feature/contact/src/main/ets/repo/ContactRepository';
+import pasteboard from '@ohos.pasteboard';
 import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
+import StringFormatUtil from '../util/StringFormatUtil';
+import CallRecordPresenter from './dialer/callRecord/CallRecordPresenter';
 
 const TAG = 'IndexPresenter  ';
 
@@ -36,10 +41,24 @@ export default class IndexPresenter {
     HiLog.i(TAG, 'onPageShow !!!');
     this.uriTabFlag = !this.uriTabFlag;
     this.getNewWant();
+    if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get("sysTime")) {
+      HiLog.i(TAG, 'DO requestItem');
+      CallRecordPresenter.getInstance().requestItem();
+      AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
+    }
   }
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear !!!');
+    AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
+  }
+
+  aboutToDisappear() {
+    HiLog.i(TAG, 'aboutToDisappear !!!');
+    CallLogRepository.getInstance().unRegisterDataChangeObserver(() => {
+    });
+    ContactRepository.getInstance().unRegisterDataChangeObserver(() => {
+    });
   }
 
   getNewWant() {
@@ -75,14 +94,14 @@ export default class IndexPresenter {
     switch (routeMessage.pageFlag.toString()) {
     // jump to index
       case 'page_flag_dialer':
-        router.replace({
+        router.back({
           url: "pages/Index"
         });
         this.tabsIndex = 0;
         this.uriTabFlag = !this.uriTabFlag;
         return;
       case 'page_flag_choose_contacts':
-        router.replace({
+        router.back({
           url: "pages/Index"
         });
         this.tabsIndex = 1;
@@ -104,9 +123,11 @@ export default class IndexPresenter {
         }
         break;
       case 'page_flag_edit_before_calling':
-        router.replace({
+        router.back({
           url: "pages/Index"
         });
+        this.tabsIndex = 0;
+        this.uriTabFlag = !this.uriTabFlag;
         this.editBeforeCall(routeMessage.phoneNumber);
         break;
       case 'page_flag_save_contact':
@@ -152,8 +173,6 @@ export default class IndexPresenter {
 
   editBeforeCall(phoneNumber) {
     this.editPhoneNumber = phoneNumber;
-    this.tabsIndex = 0;
-    this.uriTabFlag = !this.uriTabFlag;
   }
 
   saveToContacts(phoneNumber) {
@@ -180,6 +199,19 @@ export default class IndexPresenter {
         ],
         'disPlayName': contactName
       }
+    });
+  }
+
+  getCopy(phoneNumber) {
+    HiLog.i(TAG, 'Succeeded PasteData is ' + JSON.stringify(phoneNumber));
+    let pasteData = pasteboard.createPlainTextData(phoneNumber);
+    let systemPasteboard = pasteboard.getSystemPasteboard();
+    systemPasteboard.setPasteData(pasteData, (err, data) => {
+      if (err) {
+        HiLog.e(TAG, 'Failed to set PasteData. Cause: ' + JSON.stringify(err.message));
+        return;
+      }
+      HiLog.i(TAG, 'Succeeded in setting PasteData.');
     });
   }
 

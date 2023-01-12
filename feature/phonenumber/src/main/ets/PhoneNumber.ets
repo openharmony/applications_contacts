@@ -53,10 +53,15 @@ export class PhoneNumber {
     MmsService.sendMessage(this.number, formatnum, name);
   }
 
+  getNumber() {
+    let phoneNumber = this.number;
+    return phoneNumber;
+  }
+
   format() {
     let phoneNumber = this.number;
     let countryId = i18n.getSystemRegion();
-    let phoneNumberFormat= new i18n.PhoneNumberFormat(countryId);
+    let phoneNumberFormat= new i18n.PhoneNumberFormat(countryId, {"type": "INTERNATIONAL"});
     let isNumberValid:boolean = phoneNumberFormat.isValidNumber(phoneNumber);
     let formatNumber = isNumberValid ? phoneNumberFormat.format(phoneNumber) : phoneNumber;
     return formatNumber;

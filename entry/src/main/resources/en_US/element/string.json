@@ -397,6 +397,10 @@
       "value": "Do you want to delete this contact"
     },
     {
+      "name": "deleteCallLog_dialog_title",
+      "value": "Do you want to delete this call log?"
+    },
+    {
       "name": "save_dialog_title",
       "value": "Do you want to save"
     },
@@ -727,6 +731,10 @@
     {
       "name": "you_can_enter",
       "value": "You can enter"
+    },
+    {
+      "name": "time_normal",
+      "value": "%s:%s"
     },
     {
       "name": "time_early_morning",

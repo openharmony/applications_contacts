@@ -68,8 +68,8 @@ export default class ContactListPresenter {
     this.isShow = true;
     this.requestItem();
     ContactRepository.getInstance().registerDataChangeObserver(() => {
-        HiLog.i(TAG, 'Contact registerDataChangeObserver!');
-        this.requestItem();
+      HiLog.i(TAG, 'Contact registerDataChangeObserver!');
+      this.requestItem();
     });
   }
 
@@ -154,15 +154,11 @@ export default class ContactListPresenter {
    */
   onDeleteDialogConfirm(index, item) {
     HiLog.i(TAG, 'onDeleteDialogConfirm !!! ');
-    ContactRepository.getInstance().deleteById(item.contactId)
-      .then((result) => {
-        HiLog.i(TAG, 'onDeleteDialogConfirm result is ' + JSON.stringify(result));
-        ContactRepository.getInstance().notifyChange();
-        CallLogRepository.getInstance().notifyChange();
-      })
-      .catch((error) => {
-        HiLog.e(TAG, "deleteById error %s" + JSON.stringify(error.message));
-      });
+    ContactRepository.getInstance().deleteById(item.contactId, (result) => {
+      HiLog.i(TAG, 'onDeleteDialogConfirm result is ' + JSON.stringify(result));
+      ContactRepository.getInstance().notifyChange();
+      CallLogRepository.getInstance().notifyChange();
+    });
   }
 
   /**

@@ -56,6 +56,7 @@ export default struct BatchSelectContactsPage {
   onBackPress() {
     HiLog.i(TAG, 'onBackPress')
     this.mPresenter.cancel();
+    return true;
   }
 
   build() {
@@ -180,11 +181,11 @@ export default struct BatchSelectContactsPage {
         }
       }
       .height("100%")
-      .margin({left: 12, right: 12})
       .onBreakpointChange((breakpoint: string) => {
         this.curBp = breakpoint
       })
     }
+    .padding({ left: 12, right: 12 })
     .width('100%')
     .height('100%')
     .backgroundColor($r("sys.color.ohos_id_color_sub_background"))

@@ -15,15 +15,16 @@
 
 import MorandiColor from '../model/bean/MorandiColor';
 import featureAbility from '@ohos.ability.featureAbility'
-import dataAbility  from '@ohos.data.dataAbility';
+import dataShare from '@ohos.data.dataShare';
+import dataSharePredicates from "@ohos.data.dataSharePredicates";
 import { ContactVo } from '../model/bean/ContactVo';
 import { ContactInfo } from "../model/bean/ContactInfo";
-import { ContactRepository }from '../../../../../feature/contact/src/main/ets/repo/ContactRepository';
-import { DataItem }from '../../../../../feature/contact/src/main/ets/entity/DataItem';
-import { DataItemType }from '../../../../../feature/contact/src/main/ets/contract/DataType';
-import { Data }from '../../../../../feature/contact/src/main/ets/contract/Data';
-import { RawContacts }from '../../../../../feature/contact/src/main/ets/contract/RawContacts';
-import { Contacts }from '../../../../../feature/contact/src/main/ets/contract/Contacts';
+import { ContactRepository } from '../../../../../feature/contact/src/main/ets/repo/ContactRepository';
+import { DataItem } from '../../../../../feature/contact/src/main/ets/entity/DataItem';
+import { DataItemType } from '../../../../../feature/contact/src/main/ets/contract/DataType';
+import { Data } from '../../../../../feature/contact/src/main/ets/contract/Data';
+import { RawContacts } from '../../../../../feature/contact/src/main/ets/contract/RawContacts';
+import { Contacts } from '../../../../../feature/contact/src/main/ets/contract/Contacts';
 import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
 import { ArrayUtil } from '../../../../../common/src/main/ets/util/ArrayUtil';
@@ -32,25 +33,22 @@ import { PhoneNumber } from '../../../../../feature/phonenumber/src/main/ets/Pho
 import PreferencesUtil from './../util/PreferencesUtil'
 
 const TAG = "ContactAbility: ";
-const PROFILE_CONTACT_DATA_URI = 'dataability:///com.ohos.contactsdataability/profile/contact_data';
+const PROFILE_CONTACT_DATA_URI = 'datashare:///com.ohos.contactsdataability/profile/contact_data';
 
 export default {
   /**
-     * Add Contact
-     *
-     * @param {string} DAHelper Database path
-     * @param {Object} addParams Contact Information
-     * @param {Object} callBack
-    */
-  addContact: function (addParams: ContactInfo, DAHelper?, callBack?) {
+   * Add Contact
+   *
+   * @param {Object} addParams Contact Information
+   * @param {Object} callBack
+   */
+  addContact: async function (addParams: ContactInfo, callBack?) {
     HiLog.i(TAG, 'Start to create a new contact.');
     if (addParams == undefined || addParams == null) {
       HiLog.e(TAG, "The addParams of parameter is NULL");
       return "";
     }
-    if (DAHelper == undefined || DAHelper.length == 0) {
-      DAHelper = featureAbility.acquireDataAbilityHelper(globalThis.context, Contacts.CONTENT_URI);
-    }
+    let DAHelper = await dataShare.createDataShareHelper(globalThis.context, Contacts.CONTENT_URI);
     let insertValues = {
       'display_name': this.getDisplayName(addParams),
     };
@@ -71,13 +69,13 @@ export default {
   },
 
   /**
-     * Read the name, which needs to be optimized.
-     * Edit Contact
-     *
-     * @param {Object} addParams Contact Information
-     * @return {string} Contact Name
+   * Read the name, which needs to be optimized.
+   * Edit Contact
+   *
+   * @param {Object} addParams Contact Information
+   * @return {string} Contact Name
    */
-  getDisplayName: function (addParams: ContactInfo): String{
+  getDisplayName: function (addParams: ContactInfo): String {
     let displayName = '';
     if (addParams.display_name != undefined && addParams.display_name.length > 0) {
       displayName = addParams.display_name;
@@ -92,7 +90,7 @@ export default {
         if (StringUtil.isEmpty(element.num)) {
           continue;
         }
-        displayName = PhoneNumber.fromString(element.num).format();
+        displayName = PhoneNumber.fromString(element.num).getNumber();
         break;
       }
     }
@@ -100,12 +98,12 @@ export default {
   },
 
   /**
-     * Convert the data to the database.
-     *
-     * @param {string} DAHelper Database path
-     * @param {Object} addParams Contact Information
-     * @param {boolean} isCard Indicates whether the information is a business card.
-    */
+   * Convert the data to the database.
+   *
+   * @param {string} DAHelper Database path
+   * @param {Object} addParams Contact Information
+   * @param {boolean} isCard Indicates whether the information is a business card.
+   */
   dealParam: function (DAHelper, addParams: ContactInfo, isCard, callBack) {
     let result = addParams.id;
     let uri = isCard ? PROFILE_CONTACT_DATA_URI : Data.CONTENT_URI;
@@ -136,13 +134,13 @@ export default {
   },
 
   /**
-     * Save the contact name to the database.
-     *
-     * @param {Object} addParams Contact Information
-     * @param {string} DAHelper Database path
-     * @param {string} result Contact ID
-     * @param {string} uri Database address
-     */
+   * Save the contact name to the database.
+   *
+   * @param {Object} addParams Contact Information
+   * @param {string} DAHelper Database path
+   * @param {string} result Contact ID
+   * @param {string} uri Database address
+   */
   dataContact: function (addParams, DAHelper, result, uri) {
     let displayName = '';
     let updateFlag = 0;
@@ -179,13 +177,13 @@ export default {
   },
 
   /**
-     * Save the contact nickname information to the database.
-     *
-     * @param {Object} addParams Contact Information
-     * @param {string} DAHelper Database path
-     * @param {number} result Contact ID
-     * @param {string} uri Database address
-     */
+   * Save the contact nickname information to the database.
+   *
+   * @param {Object} addParams Contact Information
+   * @param {string} DAHelper Database path
+   * @param {number} result Contact ID
+   * @param {string} uri Database address
+   */
   nickContact: function (addParams, DAHelper, result, uri) {
     if (addParams.nickname != undefined && addParams.nickname.length > 0) {
       let nickContact = {
@@ -207,13 +205,13 @@ export default {
     }
   },
   /**
-     * Save the position information of the contact company to the database.
-     *
-     * @param {Object} addParams Contact Information
-     * @param {string} DAHelper Database path
-     * @param {string} result Contact ID
-     * @param {string} uri Database address
-     */
+   * Save the position information of the contact company to the database.
+   *
+   * @param {Object} addParams Contact Information
+   * @param {string} DAHelper Database path
+   * @param {string} result Contact ID
+   * @param {string} uri Database address
+   */
   organizationContact: function (addParams, DAHelper, result, uri) {
     let company = '';
     let position = '';
@@ -245,13 +243,13 @@ export default {
   },
 
   /**
-     * Save the contact remarks to the database.
-     *
-     * @param {Object} addParams Contact Information
-     * @param {string} DAHelper Database path
-     * @param {number} result Contact ID
-     * @param {string} uri Database address
-     */
+   * Save the contact remarks to the database.
+   *
+   * @param {Object} addParams Contact Information
+   * @param {string} DAHelper Database path
+   * @param {number} result Contact ID
+   * @param {string} uri Database address
+   */
   noteContact: function (addParams, DAHelper, result, uri) {
     if (addParams.remarks != undefined && addParams.remarks.length > 0) {
       let noteContact = {
@@ -274,13 +272,13 @@ export default {
   },
 
   /**
-     * The contact mobile number information is saved to the database.
-     *
-     * @param {Object} addParams Contact Information
-     * @param {string} DAHelper Database path
-     * @param {number} result Contact ID
-     * @param {string} uri Database address
-     */
+   * The contact mobile number information is saved to the database.
+   *
+   * @param {Object} addParams Contact Information
+   * @param {string} DAHelper Database path
+   * @param {number} result Contact ID
+   * @param {string} uri Database address
+   */
   phoneContact: function (addParams, DAHelper, result, uri) {
     if (addParams.phones != undefined && addParams.phones.length > 0) {
       let index = 1;
@@ -311,13 +309,13 @@ export default {
   },
 
   /**
-     * Save the contact email information to the database.
-     *
-     * @param {Object} addParams Contact Information
-     * @param {string} DAHelper Database path
-     * @param {number} result Contact ID
-     * @param {string} uri Database address
-     */
+   * Save the contact email information to the database.
+   *
+   * @param {Object} addParams Contact Information
+   * @param {string} DAHelper Database path
+   * @param {number} result Contact ID
+   * @param {string} uri Database address
+   */
   emailContact: function (addParams, DAHelper, result, uri) {
     if (addParams.emails != undefined && addParams.emails.length > 0) {
       let index = 1;
@@ -348,13 +346,13 @@ export default {
   },
 
   /**
-     * The contact address information is saved to the database.
-     *
-     * @param {Object} addParams Contact Information
-     * @param {string} DAHelper Database path
-     * @param {number} result Contact ID
-     * @param {string} uri Database address
-     */
+   * The contact address information is saved to the database.
+   *
+   * @param {Object} addParams Contact Information
+   * @param {string} DAHelper Database path
+   * @param {number} result Contact ID
+   * @param {string} uri Database address
+   */
   postalContact: function (addParams, DAHelper, result, uri) {
     if (addParams.houses != undefined && addParams.houses.length > 0) {
       let index = 1;
@@ -386,13 +384,13 @@ export default {
 
 
   /**
-     * Save the contact special date information to the database.
-     *
-     * @param {Object} addParams Contact Information
-     * @param {string} DAHelper Database path
-     * @param {number} result Contact ID
-     * @param {string} uri Database address
-     */
+   * Save the contact special date information to the database.
+   *
+   * @param {Object} addParams Contact Information
+   * @param {string} DAHelper Database path
+   * @param {number} result Contact ID
+   * @param {string} uri Database address
+   */
   eventContact: function (addParams, DAHelper, result, uri) {
     if (addParams.events != undefined && addParams.events.length > 0) {
       let index = 1;
@@ -423,13 +421,13 @@ export default {
   },
 
   /**
-     * Save the contact IMA information to the database.
-     *
-     * @param {Object} addParams Contact Information
-     * @param {string} DAHelper Database path
-     * @param {number} result Contact ID
-     * @param {string} uri Database address
-     */
+   * Save the contact IMA information to the database.
+   *
+   * @param {Object} addParams Contact Information
+   * @param {string} DAHelper Database path
+   * @param {number} result Contact ID
+   * @param {string} uri Database address
+   */
   imContact: function (addParams, DAHelper, result, uri) {
     if (addParams.aims != undefined && addParams.aims.length > 0) {
       let index = 1;
@@ -460,13 +458,13 @@ export default {
   },
 
   /**
-     * Save the contact group information to the database.
-     *
-     * @param {Object} addParams Contact Information
-     * @param {string} DAHelper Database path
-     * @param {number} result Contact ID
-     * @param {string} uri Database address
-     */
+   * Save the contact group information to the database.
+   *
+   * @param {Object} addParams Contact Information
+   * @param {string} DAHelper Database path
+   * @param {number} result Contact ID
+   * @param {string} uri Database address
+   */
   groupsContact: function (addParams, DAHelper, result, uri) {
     if (addParams.groups != undefined && addParams.groups.length > 0) {
       addParams.groups.forEach(element => {
@@ -493,13 +491,13 @@ export default {
   },
 
   /**
-     * Save the contact website information to the database.
-     *
-     * @param {Object} addParams Contact Information
-     * @param {string} DAHelper Database path
-     * @param {number} result Contact ID
-     * @param {string} uri Database address
-     */
+   * Save the contact website information to the database.
+   *
+   * @param {Object} addParams Contact Information
+   * @param {string} DAHelper Database path
+   * @param {number} result Contact ID
+   * @param {string} uri Database address
+   */
   websiteContact: function (addParams, DAHelper, result, uri) {
     if (!ArrayUtil.isEmpty(addParams.websites)) {
       addParams.websites.forEach(element => {
@@ -526,13 +524,13 @@ export default {
   },
 
   /**
-     * The relation information of the contact is saved to the database.
-     *
-     * @param {Object} addParams Contact Information
-     * @param {string} DAHelper Database path
-     * @param {number} result Contact ID
-     * @param {string} uri Database address
-     */
+   * The relation information of the contact is saved to the database.
+   *
+   * @param {Object} addParams Contact Information
+   * @param {string} DAHelper Database path
+   * @param {number} result Contact ID
+   * @param {string} uri Database address
+   */
   relationsContact: function (addParams, DAHelper, result, uri) {
     if (!ArrayUtil.isEmpty(addParams.relationships)) {
       let index = 1;
@@ -563,14 +561,14 @@ export default {
   },
 
   /**
-     * Querying the Mobile Numbers of All Contacts
-     *
-     * @param {string} DAHelper
-     * @param {Object} callBack
-     */
+   * Querying the Mobile Numbers of All Contacts
+   *
+   * @param {string} DAHelper
+   * @param {Object} callBack
+   */
   getAllContact: async function (actionData, callBack) {
     HiLog.i(TAG, 'Start to query all contacts without PhoneNumbers');
-    ContactRepository.getInstance().findAll(actionData).then(contactList => {
+    ContactRepository.getInstance().findAll(actionData, contactList => {
       if (ArrayUtil.isEmpty(contactList)) {
         HiLog.i(TAG, 'queryContacts-SelectcontactsModel queryContact resultSet is empty!');
         let emptyResult: ContactVo[] = [];
@@ -597,75 +595,76 @@ export default {
   },
 
   /**
-     * 查询所有联系人手机号
-     *
-     * @param {string} DAHelper 数据库地址
-     * @param {Object} callBack 回调
-     */
-  getAllContactWithPhoneNumbers: async function (callBack) {
+   * 查询所有联系人手机号
+   *
+   * @param {string} DAHelper 数据库地址
+   * @param {Object} callBack 回调
+   */
+  getAllContactWithPhoneNumbers: function (callBack) {
     HiLog.i(TAG, 'Start to query all contacts with PhoneNumbers');
-    let contactList = await ContactRepository.getInstance().findByPhoneIsNotNull();
-
-    if (ArrayUtil.isEmpty(contactList)) {
-      HiLog.i(TAG, 'getAllContactWithPhoneNumbers-SelectcontactsModel queryContact resultSet is empty!');
-      let emptyResult: ContactVo[] = [];
-      callBack(emptyResult);
-      return;
-    }
-    let resultList = [];
-    for (let contactItem of contactList) {
-      let jsonObj: ContactVo = new ContactVo("", "", "", "", "", "", true, "", "");
-      jsonObj.contactId = contactItem.id.toString();
-      jsonObj.emptyNameData = contactItem.displayName;
-      jsonObj.namePrefix = contactItem.sortFirstLetter;
-      jsonObj.nameSuffix = contactItem.photoFirstName;
-      jsonObj.company = contactItem.company;
-      jsonObj.position = contactItem.position;
-      jsonObj.portraitColor = MorandiColor.Color[Math.abs(parseInt(jsonObj.contactId)) % 6];
-      jsonObj.show = false;
-      jsonObj.phoneNumbers = contactItem.phoneNumbers;
-      jsonObj.setShowName();
-      resultList.push(jsonObj);
-    }
-    callBack(resultList);
-    HiLog.i(TAG, 'End of querying all contacts');
+    ContactRepository.getInstance().findByPhoneIsNotNull(contactList => {
+      if (ArrayUtil.isEmpty(contactList)) {
+        HiLog.i(TAG, 'getAllContactWithPhoneNumbers-SelectcontactsModel queryContact resultSet is empty!');
+        let emptyResult: ContactVo[] = [];
+        callBack(emptyResult);
+        return;
+      }
+      let resultList = [];
+      for (let contactItem of contactList) {
+        let jsonObj: ContactVo = new ContactVo("", "", "", "", "", "", true, "", "");
+        jsonObj.contactId = contactItem.id.toString();
+        jsonObj.emptyNameData = contactItem.displayName;
+        jsonObj.namePrefix = contactItem.sortFirstLetter;
+        jsonObj.nameSuffix = contactItem.photoFirstName;
+        jsonObj.company = contactItem.company;
+        jsonObj.position = contactItem.position;
+        jsonObj.portraitColor = MorandiColor.Color[Math.abs(parseInt(jsonObj.contactId)) % 6];
+        jsonObj.show = false;
+        jsonObj.phoneNumbers = contactItem.phoneNumbers;
+        jsonObj.setShowName();
+        resultList.push(jsonObj);
+      }
+      callBack(resultList);
+      HiLog.i(TAG, 'End of querying all contacts');
+    });
   },
 
   /**
-     * Obtain contact details.
-     *
-     * @param {Object} contactId Contact data ID.
-     * @param {Object} callback Contact details
-    */
-  getContactById: async function (contactId, callback) {
+   * Obtain contact details.
+   *
+   * @param {Object} contactId Contact data ID.
+   * @param {Object} callback Contact details
+   */
+  getContactById: function (contactId, callback) {
     HiLog.i(TAG, 'Start to query contact by id.');
-    let res = {
-      'data': {}
-    };
-    let contact = await ContactRepository.getInstance().findById(contactId);
-    if (contact == undefined || ArrayUtil.isEmpty(contact.rowContacts)) {
-      HiLog.e(TAG, 'Query contact by id failed.');
+    ContactRepository.getInstance().findById(contactId, contact => {
+      let res = {
+        'data': {}
+      };
+      if (contact == undefined || ArrayUtil.isEmpty(contact.rowContacts)) {
+        HiLog.e(TAG, 'Query contact by id failed.');
+        callback(res);
+        return;
+      }
+      let contactDetailInfo: any = {};
+      for (let dataItem of contact.rowContacts[0].dataItems) {
+        this.dealResult(dataItem, contactDetailInfo);
+      }
+      contactDetailInfo.id = contact.rowContacts[0].id;
+      contactDetailInfo.photoFirstName = contact.rowContacts[0].values.get(RawContacts.PHOTO_FIRST_NAME);
+      res.data = contactDetailInfo;
       callback(res);
-      return;
-    }
-    let contactDetailInfo: any = {};
-    for (let dataItem of contact.rowContacts[0].dataItems) {
-      this.dealResult(dataItem, contactDetailInfo);
-    }
-    contactDetailInfo.id = contact.rowContacts[0].id;
-    contactDetailInfo.photoFirstName = contact.rowContacts[0].values.get(RawContacts.PHOTO_FIRST_NAME);
-    res.data = contactDetailInfo;
-    callback(res);
-    HiLog.i(TAG, 'End of querying contacts by ID.');
+      HiLog.i(TAG, 'End of querying contacts by ID.');
+    });
   },
 
   /**
-     * Process contact details
-     *
-     * @param {Object} resultSet
-     * @param {Object} contactDetailInfo Contact details data
-     * @param {Object} actionData Contact data
-     */
+   * Process contact details
+   *
+   * @param {Object} resultSet
+   * @param {Object} contactDetailInfo Contact details data
+   * @param {Object} actionData Contact data
+   */
   dealResult: function (dataItem: DataItem, contactDetailInfo) {
     switch (dataItem.getContentTypeId()) {
       case DataItemType.NAME:
@@ -768,16 +767,16 @@ export default {
   },
 
   /**
-     * Obtains the contact ID of the number by phone number
-     *
-     * @param {string} DAHelper
-     * @param {string} number Mobile number
-     * @param {Object} callBack Contact ID
-     */
+   * Obtains the contact ID of the number by phone number
+   *
+   * @param {string} DAHelper
+   * @param {string} number Mobile number
+   * @param {Object} callBack Contact ID
+   */
   getContactIdByNumber: async function (DAHelper, number, callBack) {
     HiLog.i(TAG, 'Start to query contacts by phone number.');
     if (DAHelper == undefined || DAHelper.length == 0) {
-      DAHelper = featureAbility.acquireDataAbilityHelper(globalThis.context, Contacts.CONTENT_URI);
+      DAHelper = await dataShare.createDataShareHelper(globalThis.context, Contacts.CONTENT_URI);
     }
     if (StringUtil.isEmpty(number)) {
       return;
@@ -786,7 +785,7 @@ export default {
       'raw_contact_id',
     ];
     let cleanNumber = StringUtil.removeSpace(number);
-    let condition = new dataAbility.DataAbilityPredicates();
+    let condition = new dataSharePredicates.DataSharePredicates();
     condition.equalTo('detail_info', cleanNumber);
     condition.and();
     condition.equalTo('is_deleted', 0);
@@ -806,18 +805,18 @@ export default {
   },
 
   /**
-     * Edit Contact Information
-     *
-     * @param {string} DAHelper
-     * @param {Object} addParams  Contact Information
-     * @param {Object} callBack Contact ID
-     */
+   * Edit Contact Information
+   *
+   * @param {string} DAHelper
+   * @param {Object} addParams  Contact Information
+   * @param {Object} callBack Contact ID
+   */
   updateContact: async function (DAHelper, addParams, callBack) {
     HiLog.i(TAG, 'Start to update contacts.');
     if (DAHelper == undefined || DAHelper.length == 0 || DAHelper == null) {
-      DAHelper = featureAbility.acquireDataAbilityHelper(globalThis.context, Contacts.CONTENT_URI);
+      DAHelper = await dataShare.createDataShareHelper(globalThis.context, Contacts.CONTENT_URI);
     }
-    let condition = new dataAbility.DataAbilityPredicates();
+    let condition = new dataSharePredicates.DataSharePredicates();
     condition.equalTo('raw_contact_id', addParams.id);
     DAHelper.delete(
       Data.CONTENT_URI,
@@ -830,23 +829,23 @@ export default {
     HiLog.i(TAG, 'End to update contacts.');
   },
   /**
-     * Querying IDs by Phone Number
-     *
-     * @param {string} DAHelper
-     * @param {string} addParams  Phone number
-     * @param {Object} callBack Contact ID array
-     */
+   * Querying IDs by Phone Number
+   *
+   * @param {string} DAHelper
+   * @param {string} addParams  Phone number
+   * @param {Object} callBack Contact ID array
+   */
   getIdByTelephone: async function (number, callBack) {
     HiLog.i(TAG, 'Start to query contactID by phone number.');
-    let DAHelper = featureAbility.acquireDataAbilityHelper(globalThis.context, Contacts.CONTENT_URI);
-    let condition = new dataAbility.DataAbilityPredicates();
+    let DAHelper = await dataShare.createDataShareHelper(globalThis.context, Contacts.CONTENT_URI);
+    let condition = new dataSharePredicates.DataSharePredicates();
     condition.equalTo('detail_info', number)
       .and()
       .equalTo('type_id', 5)
       .and()
       .equalTo('is_deleted', 0);
     let columns = ["raw_contact_id"];
-    let data_row = await DAHelper.query(Data.CONTENT_URI, columns, condition);
+    let data_row = await DAHelper.query(Data.CONTENT_URI, condition, columns);
     let resultList = [];
     if (data_row.rowCount <= 0) {
       data_row.close();
