@@ -126,18 +126,15 @@ export default struct BatchSelectContactItemView {
                 }
                 .flexGrow(1)
                 .height($r("app.float.id_item_height_mid"))
-
-//                Toggle({ type: ToggleType.Checkbox, isOn: (item.checked == undefined) ? false : item.checked })
-//                  .width(20)
-//                  .height(20)
-//                  .enabled(false)
-//                  .margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_max") })
-//                  .selectedColor($r("sys.color.ohos_id_color_connected"))
               }
               .width('100%')
               .height($r("app.float.id_item_height_mid"))
               .onClick(() => {
-                this.onSingleContactItemClick(this.item.phoneNumbers[0].phoneNumber, this.item.showName);
+                if (!this.single) {
+                  this.onContactItemClicked(this.index, index);
+                } else {
+                  this.onSingleContactItemClick(this.item.phoneNumbers[index].phoneNumber, this.item.showName);
+                }
               })
             }
           }

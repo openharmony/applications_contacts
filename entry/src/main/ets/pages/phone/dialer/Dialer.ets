@@ -33,10 +33,20 @@ struct DialButton {
     Column() {
       Button() {
         Column() {
-          Text(`${this.button_number}`)
-            .fontSize(25)
-            .fontColor($r('sys.color.ohos_id_color_text_primary'))
-            .fontWeight(FontWeight.Medium)
+          if (`${this.button_number}` == '*') {
+            Image($r("app.media.symbol_phone"))
+              .width(24)
+              .height(24)
+          } else if (`${this.button_number}` == '#') {
+            Image($r("app.media.symbols_phone"))
+              .width(24)
+              .height(24)
+          } else {
+            Text(`${this.button_number}`)
+              .fontSize(25)
+              .fontColor($r('sys.color.ohos_id_color_text_primary'))
+              .fontWeight(FontWeight.Medium)
+          }
           if ((this.button_char == 'ic')) {
             Image($r("app.media.ic_contacts_voicemail_mini"))
               .width(14)
@@ -55,14 +65,17 @@ struct DialButton {
       .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
       .type(ButtonType.Circle)
       .height('100%')
+      .width('100%')
+      .borderRadius('30')
       .onClick(() => {
         this.mPresenter.ifNeedSpace();
-        this.mPresenter.tele_number += this.button_number
+        AppStorage.SetOrCreate("tele_number", AppStorage.Get("tele_number") + this.button_number);
         this.mPresenter.all_number += this.button_number
         this.mPresenter.viewNumberTextProc();
         this.mPresenter.playAudio(this.button_number);
       })
     }.height($r("app.float.dialer_calllog_item_height"))
+    .width('33.33%')
   }
 }
 
@@ -103,7 +116,10 @@ struct DialPad {
 
         DialButton({ button_number: '#', button_char: '(W)', mPresenter: $mPresenter, })
       }.layoutWeight(1)
-    }.width("100%").height(240)
+    }
+    .width("100%")
+    .height(240)
+    .borderRadius(16)
   }
 }
 
@@ -111,6 +127,7 @@ struct DialPad {
 export default struct Call {
   @State mPresenter: DialerPresenter = DialerPresenter.getInstance()
   @State @Watch("onSimChanged") mSimCardState: SimCardState = SimCardState.getInstance();
+  @StorageLink("tele_number") tele_number: string = "";
   @State haveSimCard: boolean = false;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @State panWidth: number = 0;
@@ -145,9 +162,9 @@ export default struct Call {
   build() {
     Stack({ alignContent: Alignment.Bottom }) {
       Column() {
-        if (this.mPresenter.tele_number.length > 0) {
+        if (this.tele_number.length > 0) {
           Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Center }) {
-            Text(`${this.mPresenter.tele_number}`)
+            Text(`${this.tele_number}`)
               .fontSize(this.mPresenter.tele_num_size)
               .fontColor($r('sys.color.ohos_id_color_text_primary'))
               .maxLines(1)
@@ -155,7 +172,7 @@ export default struct Call {
           .width('100%')
           .height($r("app.float.dialer_telephone_number_height"))
         }
-        if (this.mPresenter.tele_number.length === 0) {
+        if (this.tele_number.length === 0) {
           Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Start }) {
             Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.End }) {
               Image($r("app.media.ic_public_more"))
@@ -177,35 +194,29 @@ export default struct Call {
             .width('100%')
             .height($r("app.float.id_item_height_large"))
 
-            if (PreferencesUtil.isUsed()) {
-              Flex({
-                direction: FlexDirection.Column,
-                alignItems: ItemAlign.Center,
-                justifyContent: FlexAlign.Center
-              }) {
-                CallRecord()
-              }
-              .height('100%')
-              .zIndex(1)
-              .onTouch(() => {
-                if (this.mPresenter.callBtnClick) {
-                  return;
-                }
-                HiLog.i(TAG, "dial pad collapse event");
-                this.mPresenter.btnShow = true;
-                this.mPresenter.panelShow = false;
-                animateTo({ duration: 200, curve: Curve.Linear }, () => {
-                  this.mPresenter.call_p = 134;
-                  this.mPresenter.call_y = 6;
-                  this.mPresenter.moveY = 392;
-                  this.mPresenter.dialerButtonWidth = 48;
-                  this.mPresenter.dialerButtonHeight = 48;
-                })
-              })
-            } else {
-              DialerInitialPage()
+            Flex({
+              direction: FlexDirection.Column,
+              alignItems: ItemAlign.Center,
+              justifyContent: FlexAlign.Center
+            }) {
+              CallRecord()
             }
-
+            .height('100%')
+            .zIndex(1)
+            .onTouch(() => {
+              if (this.mPresenter.callBtnClick) {
+                return;
+              }
+              this.mPresenter.btnShow = true;
+              this.mPresenter.panelShow = false;
+              animateTo({ duration: 200, curve: Curve.Linear }, () => {
+                this.mPresenter.call_p = 134;
+                this.mPresenter.call_y = 6;
+                this.mPresenter.moveY = 392;
+                this.mPresenter.dialerButtonWidth = 48;
+                this.mPresenter.dialerButtonHeight = 48;
+              })
+            })
           }
           .width('100%')
           .height('100%')
@@ -224,6 +235,11 @@ export default struct Call {
         .width(this.mPresenter.dialerButtonWidth)
         .height(this.mPresenter.dialerButtonHeight)
         .backgroundColor($r('sys.color.ohos_id_color_connected'))
+        // Currently, it is not possible to tell whether the device has dial capability.
+        // 1. The dial button in phone is enable.
+        // 2. The dial button in tablet is enable only when sim card is inserted.
+        .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.mSimCardState.haveSimCard
+          ? 1 : $r('sys.float.ohos_id_alpha_disabled'))
         .onClick(() => {
           this.mPresenter.callBtnClick = true;
           if (this.mPresenter.btnShow) {
@@ -242,9 +258,9 @@ export default struct Call {
             })
             this.mPresenter.btnShow = false;
           } else {
-            if (this.mPresenter.tele_number.length > 0) {
+            if (this.tele_number.length > 0) {
               this.mPresenter.dialing(this.mPresenter.all_number);
-              this.mPresenter.tele_number = '';
+              AppStorage.SetOrCreate("tele_number", '');
               this.mPresenter.all_number = '';
             }
             this.mPresenter.callBtnClick = false;
@@ -259,7 +275,7 @@ export default struct Call {
       .translate({ x: this.mPresenter.call_p === 0 ? 0 : this.panWidth / 2 - 48, y: this.mPresenter.call_y })
 
       Stack({ alignContent: Alignment.Bottom }) {
-        if (this.mPresenter.tele_number.length >= 3 && !this.mPresenter.btnShow) {
+        if (this.tele_number.length >= 3 && !this.mPresenter.btnShow) {
           Row() {
             Button() {
               Column() {
@@ -323,6 +339,7 @@ export default struct Call {
           .height($r("app.float.id_item_height_large"))
           .offset({ x: 0, y: -336 })
           .zIndex(3)
+          .padding({top : 4})
         }
         Column() {
 
@@ -365,12 +382,12 @@ export default struct Call {
               .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
               .width($r("app.float.dialer_calllog_item_height"))
               .height($r("app.float.dialer_calllog_item_height"))
-              .opacity(this.mPresenter.tele_number.length > 0 ? 1 : 0.5)
-              .enabled(this.mPresenter.tele_number.length > 0 ? true : false)
+              .opacity(this.tele_number.length > 0 ? 1 : 0.5)
+              .enabled(this.tele_number.length > 0 ? true : false)
               .gesture(
               LongPressGesture({ repeat: false, fingers: 1, duration: 700 })
                 .onAction((event: GestureEvent) => {
-                  this.mPresenter.tele_number = '';
+                  AppStorage.SetOrCreate("tele_number", '');
                   this.mPresenter.all_number = '';
                 })
               )
@@ -388,7 +405,7 @@ export default struct Call {
           .alignItems(VerticalAlign.Top)
           .height(80)
         }
-        .margin({ top: this.mPresenter.tele_number.length >= 3 ? 55.6 : 0 })
+        .margin({ top: this.tele_number.length >= 3 ? 55.6 : 0 })
         .width('100%')
         .zIndex(this.mPresenter.panelShow ? 2 : -1)
       }
@@ -396,18 +413,18 @@ export default struct Call {
       })
       .width("100%")
       .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
-      .clip(new Rect(this.mPresenter.tele_number.length >= 3 ? {
-                                                                 width: '100%',
-                                                                 height: '392',
-                                                                 radius: [[24, 24], [24, 24], [0, 0], [0, 0]]
-                                                               } : {
-                                                                     width: '100%',
-                                                                     height: '336',
-                                                                     radius: [[24, 24], [24, 24], [0, 0], [0, 0]]
-                                                                   }))
+      .clip(new Rect(this.tele_number.length >= 3 ? {
+                                                      width: '100%',
+                                                      height: '392',
+                                                      radius: [[24, 24], [24, 24], [0, 0], [0, 0]]
+                                                    } : {
+                                                          width: '100%',
+                                                          height: '336',
+                                                          radius: [[24, 24], [24, 24], [0, 0], [0, 0]]
+                                                        }))
       .zIndex(2)
       .offset({ y: this.mPresenter.moveY })
-      .height(this.mPresenter.tele_number.length >= 3 ? 392 : 336)
+      .height(this.tele_number.length >= 3 ? 392 : 336)
       .padding(this.curBp === 'lg' ? {} : { right: 24, left: 24 })
       .gesture(
       PanGesture({ fingers: 1, direction: PanDirection.Down, distance: 5 })

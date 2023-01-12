@@ -17,6 +17,9 @@
  * Call Log All Calls
  */
 import CallRecordPresenter from './../../../presenter/dialer/callRecord/CallRecordPresenter';
+import EnvironmentProp from '../../../feature/EnvironmentProp';
+import DeleteDialogEx from '../../dialog/DeleteDialogEx';
+import DialerPresenter from '../../../presenter/dialer/DialerPresenter';
 import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
 import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 import IndexPresenter from '../../../presenter/IndexPresenter';
@@ -58,10 +61,10 @@ struct RecordView {
       }, item => JSON.stringify(item))
     }
     .divider({
-      strokeWidth: 1,
+      strokeWidth: 0.5,
       color: $r('sys.color.ohos_id_color_list_separator'),
-      startMargin: $r("app.float.id_item_height_sm"),
-      endMargin: $r("app.float.id_card_margin_max"),
+      startMargin: $r("app.float.id_records_divider_max"),
+      endMargin: $r("app.float.id_card_margin_max")
     })
     .width("100%")
     .margin({ bottom: this.curBp === 'lg' ? '110vp' : 0 })
@@ -94,7 +97,7 @@ struct EmptyView {
     .justifyContent(FlexAlign.Center)
     .width('100%')
     .height('100%')
-    .markAnchor({ x: 0, y: this.curBp === 'lg' ? 60 : 110 })
+    .markAnchor({ x: 0, y: this.curBp === 'sm' ? 60 : 110 })
   }
 }
 
@@ -108,6 +111,23 @@ struct ContactItem {
   @Link mPresenter: CallRecordPresenter
   @State item: { [key: string]: any } = {};
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
+  deleteDialogController: CustomDialogController = new CustomDialogController({
+    //Components shared by the TIP for creating or updating a contact by mistake and the TIP for deleting a contact
+    builder: DeleteDialogEx({
+      cancel: () => {
+        this.deleteDialogController.close();
+      },
+      confirm: () => {
+        this.mPresenter.deleteCallLog(this.item.ids);
+      },
+      title: $r("app.string.deleteCallLog_dialog_title"),
+      cancalText: $r("app.string.cancel"),
+      confrimText: $r("app.string.dialog_delete")
+    }),
+    autoCancel: true,
+    alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
+    offset: { dx: 0, dy: -16 }
+  });
 
   build() {
     Row() {
@@ -121,7 +141,6 @@ struct ContactItem {
           .margin({
             right: $r("app.float.id_card_margin_xl"),
             top: "13vp",
-            left: $r("app.float.id_card_margin_xl"),
             bottom: "35vp"
           })
 
@@ -133,9 +152,9 @@ struct ContactItem {
               .fontWeight(FontWeight.Medium)
               .fontColor((this.item.callType === 3 || this.item.callType === 5) ?
               $r('sys.color.ohos_id_color_warning') : $r('sys.color.ohos_id_color_text_primary'))
-              .constraintSize({ maxWidth: '260vp' })
+              .constraintSize({ maxWidth: this.curBp == "sm" ? 160 : 260 })
               .textOverflow({ overflow: TextOverflow.Ellipsis })
-              .maxLines(2)
+              .maxLines(1)
 
             if (this.item.count != 1) {
               Text('(' + this.item.count + ')')
@@ -147,7 +166,6 @@ struct ContactItem {
                 .maxLines(1)
             }
           }
-          .width(176)
 
           Text(this.item.numberLocation
             ? this.item.numberLocation
@@ -155,35 +173,35 @@ struct ContactItem {
             .fontSize($r("sys.float.ohos_id_text_size_body2"))
             .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
             .margin({ top: $r("app.float.id_card_margin_mid") })
-
         }
         .alignItems(HorizontalAlign.Start)
+        .layoutWeight(1)
+        .margin({right: $r("app.float.id_card_margin_xl")})
         .justifyContent(FlexAlign.Center)
         .height($r("app.float.id_item_height_max"))
-      }
 
-      Row() {
-        Text(this.item.createTime)
-          .fontSize($r("sys.float.ohos_id_text_size_body2"))
-          .margin({ right: this.curBp === 'lg' ? '6vp' : $r("app.float.id_card_margin_xl"),
-            top: $r("app.float.id_card_margin_sm") })
-          .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
-          .width('90vp')
-          .textAlign(TextAlign.End)
-        Image($r('app.media.ic_public_detail'))
-          .height($r("app.float.id_card_margin_max"))
-          .width($r("app.float.id_card_margin_max"))
-          .margin({ top: $r("app.float.id_card_margin_sm"), right: 24 })
-          .onClick(() => {
-            this.mPresenter.jumpToContactDetail(this.item.phoneNumber);
-          })
+        Row() {
+          Text(this.item.createTime)
+            .fontSize($r("sys.float.ohos_id_text_size_body2"))
+            .margin({ right: this.curBp === 'lg' ? '6vp' : $r("app.float.id_card_margin_xl"),
+              top: $r("app.float.id_card_margin_sm") })
+            .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+            .textAlign(TextAlign.End)
+          Image($r('app.media.ic_public_detail'))
+            .height($r("app.float.id_card_margin_max"))
+            .width($r("app.float.id_card_margin_max"))
+            .margin({ top: $r("app.float.id_card_margin_sm"), right: 24 })
+            .onClick(() => {
+              this.mPresenter.jumpToContactDetail(this.item.phoneNumber);
+            })
+        }
+        .height($r("app.float.id_item_height_max"))
+        .margin({right:24})
       }
-      .justifyContent(FlexAlign.End)
-      .height($r("app.float.id_item_height_max"))
     }
-    .justifyContent(FlexAlign.SpaceBetween)
     .width('100%')
     .height($r("app.float.id_item_height_max"))
+    .margin({left:24})
     .onClick((event: ClickEvent) => {
       this.mPresenter.dialing(this.item.phoneNumber)
     })
@@ -199,20 +217,18 @@ struct ContactItem {
           .fontSize($r("sys.float.ohos_id_text_size_headline8"))
           .fontColor($r('sys.color.ohos_id_color_text_primary'))
           .fontWeight(FontWeight.Medium)
-          .margin({ left: $r("app.float.id_card_margin_xxl") })
+          .margin({ left: $r("app.float.id_card_margin_xxl"),right:$r("app.float.id_card_margin_xxl")})
           .textAlign(TextAlign.Start)
           .lineHeight('28vp')
+          .maxLines(1)
+          .textOverflow({overflow:TextOverflow.Ellipsis})
           .height($r("app.float.id_item_height_max"))
       }
-
-      this.MenuDivider()
       this.MenuView($r("app.string.send_message"), MenuType.sendMessage)
       this.MenuDivider()
       this.MenuView($r("app.string.copy_phoneNumber"), MenuType.Copy)
       this.MenuDivider()
       this.MenuView($r("app.string.edit_beforeCall"), MenuType.EditBeforeCall)
-      this.MenuDivider()
-      this.MenuView($r("app.string.add_to_blockList"), MenuType.BlockList)
       this.MenuDivider()
       this.MenuView($r("app.string.delete_call_logs"), MenuType.DeleteCallLogs)
     }
@@ -234,16 +250,19 @@ struct ContactItem {
     .onClick(() => {
       switch (itemType) {
         case MenuType.DeleteCallLogs:
-          this.mPresenter.deleteCallLog(this.item.ids);
+          this.deleteDialogController.open();
           break;
         case MenuType.EditBeforeCall:
-          this.mIndexPresenter.editBeforeCall(this.item.phoneNumber);
+          DialerPresenter.getInstance().editPhoneNumber(this.item.phoneNumber);
           break;
         case MenuType.sendMessage:
           let formatnum = PhoneNumber.fromString(this.item.phoneNumber).format();
           DetailPresenter.getInstance()
             .sendMessage(this.item.phoneNumber, formatnum,
               this.item.displayName ? this.item.displayName : this.item.phoneNumber);
+          break;
+        case MenuType.Copy:
+          this.mIndexPresenter.getCopy(this.item.phoneNumber);
           break;
       }
     })
@@ -253,7 +272,8 @@ struct ContactItem {
     Divider()
       .color($r('sys.color.ohos_id_color_list_separator'))
       .lineCap(LineCapStyle.Square)
-      .width('100%')
+      .width(0)
+      .alignSelf(ItemAlign.Stretch)
       .padding({ left: $r("app.float.id_card_margin_xxl"), right: $r("app.float.id_card_margin_xxl") })
   }
 }

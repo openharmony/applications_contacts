@@ -53,12 +53,13 @@ export default struct SingleSelectContactPage {
   onBackPress() {
     HiLog.i(TAG, 'onBackPress')
     this.mPresenter.cancel();
+    return true;
   }
 
   build() {
     Column() {
-      GridRow({columns: {sm: 4, md: 8, lg: 12}, gutter: {x: {sm: 12, md: 12, lg: 24}, y: 0}}) {
-        GridCol({span: {sm: 4, md: 6, lg: 8}, offset: {sm: 0, md: 1, lg: 2}}) {
+      GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: { sm: 12, md: 12, lg: 24 }, y: 0 } }) {
+        GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
           Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start }) {
             Flex({
               direction: FlexDirection.Row,
@@ -84,6 +85,7 @@ export default struct SingleSelectContactPage {
             .width('100%')
             .height($r("app.float.id_item_height_large"))
             .flexShrink(0)
+
             Row() {
               if (ArrayUtil.isEmpty(this.mPresenter.contactsList)) {
                 NoContactsEmptyView()
@@ -98,11 +100,11 @@ export default struct SingleSelectContactPage {
         }
       }
       .height("100%")
-      .margin({left: 12, right: 12})
       .onBreakpointChange((breakpoint: string) => {
         this.curBp = breakpoint
       })
     }
+    .padding({ left: 12, right: 12 })
     .width('100%')
     .height('100%')
     .backgroundColor($r("sys.color.ohos_id_color_sub_background"))
@@ -143,14 +145,7 @@ struct ContactsList {
                 index: item.index,
                 onSingleContactItemClick: (num, name) => this.presenter.onSingleContactItemClick(num, name),
                 showIndex: item.showIndex,
-                showDivifer: item.showDivifer
               })
-
-              if (item.showDivifer) {
-                Divider()
-                  .color($r("sys.color.ohos_id_color_list_separator"))
-                  .margin({ left: 76, right: $r("app.float.id_card_margin_max") })
-              }
             }
           }
         }, (item) => JSON.stringify(item))

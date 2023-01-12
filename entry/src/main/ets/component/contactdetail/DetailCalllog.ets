@@ -15,6 +15,7 @@
 
 import { PhoneNumber } from '../../../../../../feature/phonenumber';
 import { CallType } from '../../../../../../feature/call/src/main/ets/entity/CallLog';
+import EnvironmentProp from '../../feature/EnvironmentProp';
 
 const TAG = "ContactDetail-calllog";
 
@@ -22,7 +23,7 @@ const TAG = "ContactDetail-calllog";
  * Call log
  */
 @Component
-struct CallLogListItem {
+export default struct CallLogListItem {
   @State message: { [key: string]: any } = {};
   private imgRes: Resource;
   @Link private mPresenter: { [key: string]: any };
@@ -103,78 +104,5 @@ struct CallLogListItem {
     .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
       .onAction((event: GestureEvent) => {
       }))
-  }
-}
-/**
- * Call log
- */
-@Component
-export default struct DetailCalllog {
-  @Link private mPresenter: { [key: string]: any };
-
-  @Builder callLogTitle() {
-    Row() {
-      Text($r('app.string.dialer_calllog'))
-        .fontSize($r("sys.float.ohos_id_text_size_body1"))
-        .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
-        .margin({ left: $r("app.float.id_card_margin_max") })
-
-      Blank();
-
-      Text($r('app.string.clear'))
-        .fontSize($r("sys.float.ohos_id_text_size_body1"))
-        .fontColor($r("sys.color.ohos_id_color_connected"))
-        .margin({ right: $r("app.float.id_card_margin_max") })
-        .onClick(() => {
-          AlertDialog.show({
-            message: $r('app.string.clear_calllog_sure'),
-            alignment: DialogAlignment.Bottom,
-            autoCancel: true,
-            primaryButton: {
-              value: $r('app.string.dialog_cancel'),
-              action: () => {
-              }
-            },
-            secondaryButton: {
-              value: $r('app.string.dialog_delete'),
-              fontColor: $r("sys.color.ohos_id_color_handup"),
-              action: () => {
-                this.mPresenter.clearAllCallLog();
-              }
-            },
-            offset: {
-              dx: 0, dy: -15
-            },
-          })
-        })
-    }
-    .width('100%')
-    .height($r("app.float.id_item_height_sm"))
-  }
-
-  build() {
-    Column() {
-      List() {
-        LazyForEach(this.mPresenter.detailCallLogDataSource, (item, index) => {
-          ListItem() {
-            Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Start }) {
-              if ( item.showTitle ) {
-                Divider()
-                  .strokeWidth(8)
-                  .color($r("sys.color.ohos_id_color_subheading_separator"))
-                this.callLogTitle()
-              }
-
-              CallLogListItem({ message: item.callLog, mPresenter: $mPresenter });
-            }
-          }
-        }, item => JSON.stringify(item))
-      }
-      .divider({ strokeWidth: $r("app.float.id_divide_width"),color: $r("sys.color.ohos_id_color_list_separator"),
-        startMargin: $r("app.float.id_card_margin_max"), endMargin:$r("app.float.id_card_margin_max")})
-    }
-    .height("100%")
-    .width("100%")
-    .backgroundColor(Color.White)
   }
 }

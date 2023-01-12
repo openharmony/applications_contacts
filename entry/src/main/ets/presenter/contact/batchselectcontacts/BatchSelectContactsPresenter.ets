@@ -698,10 +698,10 @@ export default class BatchSelectContactsPresenter {
     let labelName: Resource;
     switch (parseInt(phoneLabelId, 10)) {
       case 1:
-        labelName = $r("app.string.phone_type_home_expansion", phoneNumber);
+        labelName = $r("app.string.phone_type_mobile_expansion", phoneNumber);
         break;
       case 2:
-        labelName = $r("app.string.phone_type_mobile_expansion", phoneNumber);
+        labelName = $r("app.string.phone_type_home_expansion", phoneNumber);
         break;
       case 3:
         labelName = $r("app.string.phone_type_work_expansion", phoneNumber);

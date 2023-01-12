@@ -235,7 +235,7 @@ export default class AccountantsPresenter {
     if (index < data.length) {
       return data[index];
     }
-    return {i: index + 1, item: {data:{}}};
+    return {i: index + 1, item: {}};
   }
 
   public getArray(array): Array<{ [key: string]: any }> {
@@ -525,7 +525,7 @@ export default class AccountantsPresenter {
     this.clickAftEvent = new Date();
     if (this.getAddState() && !this.clicksMultiple()) {
       if (this.updateShow === false) {
-        ContactAbility.addContact(this.contactInfoAfter, null, (arg) => {
+        ContactAbility.addContact(this.contactInfoAfter, (arg) => {
           this.contactId = arg.toString();
           this.routerAvtiveFlag = true;
         })

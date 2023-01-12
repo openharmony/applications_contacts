@@ -19,19 +19,17 @@ import { CallLog } from '../entity/CallLog';
  * Call record warehouse operation interface, which provides database operation methods and shields the persistence layer logic.
  */
 export default interface ICallLogRepository {
-  saveOne: (callLog: CallLog) => Promise<number>;
-  save: (callLogs: CallLog[]) => boolean;
-  clear: () => Promise<number>;
+  saveOne: (callLog: CallLog, callback) => void;
+  clear: (callback) => void;
   deleteById: (id: number) => boolean;
-  deleteByIdIn: (ids: number[]) => Promise<number>;
+  deleteByIdIn: (ids: number[], callback) => void;
   deleteByNumber: (number: string) => boolean;
   deleteByLookupUri: (lookupUri: string) => boolean;
   readByNumber: (number: string) => boolean;
   readById: (id: number) => boolean;
-  findAll: (actionData: any) => Promise<CallLog[]>;
-  findByCallDirectionIn: (callTypes: number[]) => Promise<CallLog[]>;
+  findAll: (actionData: any, callback) => void;
   findByFeature: (feature: number) => CallLog[];
-  findByNumberIn: (numbers: number[]) => Promise<CallLog[]>;
+  findByNumberIn: (numbers: number[], callback) => void;
   notifyChange: () => void;
   registerDataChangeObserver: (callback) => void;
   unRegisterDataChangeObserver: (callback) => void;

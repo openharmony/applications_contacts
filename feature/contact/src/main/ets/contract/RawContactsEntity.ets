@@ -20,7 +20,7 @@ import BaseColumns from './BaseColumns';
  */
 export default class RawContactsEntity {
   static readonly _ID: string = BaseColumns.ID;
-  static readonly CONTENT_URI: string = "dataability:///com.ohos.contactsdataability/raw_contact_entities";
+  static readonly CONTENT_URI: string = "datashare:///com.ohos.contactsdataability/raw_contact_entities";
   constructor() {
   }
 }

@@ -14,6 +14,7 @@
  */
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
+import audio from '@ohos.multimedia.audio';
 import router from '@ohos.router';
 import observer from '@ohos.telephony.observer';
 import { AudioHepler } from '../../feature/AudioHepler';
@@ -33,6 +34,7 @@ export default class DialerPresenter {
   readonly NUM_TEXT_MAX_LENGTH = 20;
   readonly NUM_TEXT_MAXSIZE_LENGTH = 14;
   readonly NUM_TEXT_FONT_SIZE_MAX = 38;
+  private timer:any = null;
   panelShow: boolean = false;
   btnShow: boolean = true;
   tele_number: string = "";
@@ -82,16 +84,12 @@ export default class DialerPresenter {
     if (StringUtil.isEmpty(phoneNum)) {
       return;
     }
-    this.tele_number = phoneNum;
+    AppStorage.SetOrCreate("tele_number", phoneNum);
     this.all_number = phoneNum;
-
-    this.btnShow = false;
-    this.call_p = 0;
-    this.moveY = 0
-
+    this.viewNumberTextProc();
     this.deleteTeleNum();
     this.deleteAddSpace();
-    this.viewNumberTextProc();
+    this.refreshView = !this.refreshView;
   }
 
   onDestroy() {
@@ -104,14 +102,15 @@ export default class DialerPresenter {
    * Change the font size when deleting a number.
    */
   deleteTeleNum() {
+    let number:string = AppStorage.Get("tele_number");
     if (this.all_number.length < this.NUM_TEXT_MAX_LENGTH) {
-      this.tele_number = this.all_number;
+      AppStorage.SetOrCreate("tele_number", this.all_number);
     } else {
-      this.tele_number = this.all_number.substr(this.all_number.length - this.NUM_TEXT_MAX_LENGTH)
+      AppStorage.SetOrCreate("tele_number", this.all_number.substr(this.all_number.length - this.NUM_TEXT_MAX_LENGTH));
     }
-    if (this.tele_number.length > this.NUM_TEXT_MAXSIZE_LENGTH) {
-      this.tele_num_size = this.NUM_TEXT_FONT_SIZE_MAX * this.NUM_TEXT_MAXSIZE_LENGTH / this.tele_number.length;
-    } else if (this.tele_number.length <= this.NUM_TEXT_MAXSIZE_LENGTH) {
+    if (number.length > this.NUM_TEXT_MAXSIZE_LENGTH) {
+      this.tele_num_size = this.NUM_TEXT_FONT_SIZE_MAX * this.NUM_TEXT_MAXSIZE_LENGTH / number.length;
+    } else if (number.length <= this.NUM_TEXT_MAXSIZE_LENGTH) {
       this.tele_num_size = this.NUM_TEXT_FONT_SIZE_MAX;
     }
   }
@@ -120,32 +119,33 @@ export default class DialerPresenter {
    * Add formatting spaces when deleting a number.
    */
   deleteAddSpace() {
-    let teleNumberNoSpace = StringUtil.removeSpace(this.tele_number);
+    let number:string = AppStorage.Get("tele_number");
+    let teleNumberNoSpace = StringUtil.removeSpace(number);
     this.all_number = StringUtil.removeSpace(this.all_number);
     if (teleNumberNoSpace.length > this.NUM_TEXT_MAXSIZE_LENGTH - 2) {
-      this.tele_number = teleNumberNoSpace;
+      AppStorage.SetOrCreate("tele_number", teleNumberNoSpace);
       return;
     }
-    if (this.checkNeedNumberSpace(this.tele_number)) {
+    if (this.checkNeedNumberSpace(number)) {
       if (teleNumberNoSpace.length <= 3) {
-        this.tele_number = teleNumberNoSpace;
+        AppStorage.SetOrCreate("tele_number", teleNumberNoSpace);
         return;
       }
       if (teleNumberNoSpace.length > 3) {
         let split1 = teleNumberNoSpace.substr(0, 3);
         let split2 = teleNumberNoSpace.substr(3, teleNumberNoSpace.length - 3);
-        this.tele_number = split1 + ' ' + split2;
+        AppStorage.SetOrCreate("tele_number", split1 + ' ' + split2);
         if (teleNumberNoSpace.length > 7) {
           split2 = teleNumberNoSpace.substr(3, 4);
           let split3 = teleNumberNoSpace.substr(7, teleNumberNoSpace.length - 7);
-          this.tele_number = split1 + ' ' + split2 + ' ' + split3;
+          AppStorage.SetOrCreate("tele_number", split1 + ' ' + split2 + ' ' + split3);
         }
       }
     } else {
       if (teleNumberNoSpace.length > 8) {
         let split4 = teleNumberNoSpace.substr(0, 8);
         let split5 = teleNumberNoSpace.substr(8, teleNumberNoSpace.length - 8);
-        this.tele_number = split4 + ' ' + split5;
+        AppStorage.SetOrCreate("tele_number", split4 + ' ' + split5);
       }
     }
   }
@@ -184,14 +184,15 @@ export default class DialerPresenter {
    * Add a space when entering a number.
    */
   ifNeedSpace() {
-    switch (this.tele_number.length) {
+    let needNumber:string = AppStorage.Get("tele_number");
+    switch (needNumber.length) {
       case 3:
-        if (this.checkNeedNumberSpace(this.tele_number)) {
-          this.tele_number = this.tele_number + ' ';
+        if (this.checkNeedNumberSpace(needNumber)) {
+          AppStorage.SetOrCreate("tele_number", needNumber + ' ');
         }
         break;
       case 8:
-        this.tele_number = this.tele_number + ' ';
+        AppStorage.SetOrCreate("tele_number", needNumber + ' ');
         break;
       default:
         break;
@@ -203,14 +204,15 @@ export default class DialerPresenter {
    */
   viewNumberTextProc() {
     let numStringNoSpace_all = StringUtil.removeSpace(this.all_number);
-    this.tele_number = numStringNoSpace_all.length > this.NUM_TEXT_MAX_LENGTH ?
-    numStringNoSpace_all.substr(numStringNoSpace_all.length - this.NUM_TEXT_MAX_LENGTH) : this.tele_number;
-
-    if (this.tele_number.length > this.NUM_TEXT_MAXSIZE_LENGTH) {
-      this.tele_number = StringUtil.removeSpace(this.tele_number);
+    let number: string = AppStorage.Get("tele_number");
+    AppStorage.SetOrCreate("tele_number", numStringNoSpace_all.length > this.NUM_TEXT_MAX_LENGTH ?
+    numStringNoSpace_all.substr(numStringNoSpace_all.length - this.NUM_TEXT_MAX_LENGTH) : number
+    );
+    if (number.length > this.NUM_TEXT_MAXSIZE_LENGTH) {
+      AppStorage.SetOrCreate("tele_number", StringUtil.removeSpace(number));
     }
-    if (this.tele_number.length > this.NUM_TEXT_MAXSIZE_LENGTH) {
-      this.tele_num_size = this.NUM_TEXT_FONT_SIZE_MAX * this.NUM_TEXT_MAXSIZE_LENGTH / (this.tele_number.length); // 可视号码在16-25位时，适配font-size
+    if (number.length > this.NUM_TEXT_MAXSIZE_LENGTH) {
+      this.tele_num_size = this.NUM_TEXT_FONT_SIZE_MAX * this.NUM_TEXT_MAXSIZE_LENGTH / (number.length); // 可视号码在16-25位时，适配font-size
     } else {
       this.tele_num_size = this.NUM_TEXT_FONT_SIZE_MAX;
     }
@@ -220,70 +222,71 @@ export default class DialerPresenter {
    * Play different audio resources based on key digits.
    */
   playAudio(number) {
-    let audioFileName: string = '';
     switch (number.toString()) {
       case '1':
-        audioFileName = '1.ogg';
+        this.tonePlayer(1);
         break;
       case '2':
-        audioFileName = '2.ogg';
+        this.tonePlayer(2);
         break;
       case '3':
-        audioFileName = '3.ogg';
+        this.tonePlayer(3);
         break;
       case '4':
-        audioFileName = '4.ogg';
+        this.tonePlayer(4);
         break;
       case '5':
-        audioFileName = '5.ogg';
+        this.tonePlayer(5);
         break;
       case '6':
-        audioFileName = '6.ogg';
+        this.tonePlayer(6);
         break;
       case '7':
-        audioFileName = '7.ogg';
+        this.tonePlayer(7);
         break;
       case '8':
-        audioFileName = '8.ogg';
+        this.tonePlayer(8);
         break;
       case '9':
-        audioFileName = '9.ogg';
+        this.tonePlayer(9);
         break;
       case '0':
-        audioFileName = '0.ogg';
+        this.tonePlayer(0);
         break;
       case '*':
-        audioFileName = '10.ogg';
+        this.tonePlayer(10);
         break;
       case '#':
-        audioFileName = '11.ogg';
+        this.tonePlayer(11);
         break;
       default:
         HiLog.e(TAG, "keytone src is error");
     }
-    this.onResourceManager(audioFileName);
   }
 
-  async onResourceManager(FileName) {
-    HiLog.i(TAG, "getResourceManager start , FileName is :  " + FileName);
-    let fileDescriptor = null;
-      HiLog.i(TAG, "into getResourceManager ");
-      globalThis.context.resourceManager.getRawFileDescriptor(FileName).then(value => {
-        HiLog.i(TAG, "getRawFileDescriptor value");
-        fileDescriptor = {
-          fd: value.fd,
-          offset: value.offset,
-          length: value.length
-        };
-        let obj = {
-          type: "audio", data: fileDescriptor
-        };
-        HiLog.i(TAG, "getRawFile fileDescriptor is  " + JSON.stringify(obj));
-        this.audioWorker.postMessage(obj);
-      }).catch(error => {
-        HiLog.e(TAG, "getRawFile promise error is " + JSON.stringify(error));
-      });
-  }
+  async tonePlayer(type) {
+    HiLog.i(TAG, 'TonePlayer');
+    if (this.timer) clearTimeout(this.timer);
+    let tonePlayer = null;
+    let audioRendererInfo = {
+      content : 5,
+      usage : 6,
+      rendererFlags : 0
+    };
+    this.timer = setTimeout(async () => {
+      try {
+        tonePlayer = await audio.createTonePlayer(audioRendererInfo);
+        await tonePlayer.load(type);
+        await tonePlayer.start();
+        setTimeout(async()=>{
+          await tonePlayer.stop();
+          await tonePlayer.release();
+        }, 30)
+      } catch(err) {
+        HiLog.e(TAG, 'tonePlayer err = ' + JSON.stringify(err));
+      }
+    }, 50)
+  };
 
   /*
    * Jump to New Contact
