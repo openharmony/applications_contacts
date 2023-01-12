@@ -16,8 +16,6 @@
 import CallRecord from '../../dialer/callRecord/CallRecord'
 import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import DialerPresenter from './../../../presenter/dialer/DialerPresenter';
-import { DialerInitialPage } from '../../../component/dialer/DialerInitialPage';
-import PreferencesUtil from './../../../util/PreferencesUtil';
 import EnvironmentProp from '../../../feature/EnvironmentProp';
 import { SimCardState } from '../../../../../../../feature/phonenumber/src/main/ets/SimUtil';
 
@@ -409,8 +407,6 @@ export default struct Call {
         .width('100%')
         .zIndex(this.mPresenter.panelShow ? 2 : -1)
       }
-      .onTouch(() => {
-      })
       .width("100%")
       .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
       .clip(new Rect(this.tele_number.length >= 3 ? {

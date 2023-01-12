@@ -90,7 +90,7 @@ export default {
         if (StringUtil.isEmpty(element.num)) {
           continue;
         }
-        displayName = PhoneNumber.fromString(element.num).format();
+        displayName = PhoneNumber.fromString(element.num).getNumber();
         break;
       }
     }

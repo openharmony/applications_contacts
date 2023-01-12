@@ -733,6 +733,10 @@
       "value": "You can enter"
     },
     {
+      "name": "time_normal",
+      "value": "%s:%s"
+    },
+    {
       "name": "time_early_morning",
       "value": "%s:%s"
     },

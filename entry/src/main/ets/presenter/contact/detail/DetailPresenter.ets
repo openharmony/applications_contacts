@@ -32,6 +32,7 @@ import MorandiColor from '../../../model/bean/MorandiColor';
 import ContactAbilityModel from '../../../model/ContactAbilityModel';
 import DetailCallLogDataSource from '../../../model/bean/DetailCallLogDataSource';
 import EnvironmentProp from '../../../feature/EnvironmentProp';
+import StringFormatUtil from "../../../util/StringFormatUtil"
 
 const TAG = "DetailPresenter";
 
@@ -243,7 +244,7 @@ export default class DetailPresenter {
       for (let item of newContact.phones) {
         let itemtemp = {
           id: item.id,
-          data: PhoneNumber.fromString(item.num).format(),
+          data: PhoneNumber.fromString(item.num).getNumber(),
           num:item.num,
           type: item.numType,
           phoneAddress: item.phoneAddress,
@@ -380,7 +381,7 @@ export default class DetailPresenter {
   async getNewNumCallLog() {
     HiLog.i(TAG, "get new number call log");
     let numbers: any = [this.phoneNumberShow.replace(/\s+/g, '')];
-    let formatNum = PhoneNumber.fromString(this.phoneNumberShow).format();
+    let formatNum = PhoneNumber.fromString(this.phoneNumberShow).getNumber();
     this.contactForm.display_name = formatNum;
     /* Creating a Contact Phone List Object */
     let itemtemp = {
@@ -508,7 +509,11 @@ export default class DetailPresenter {
     // description
     let now = new Date();
     let timeDetail:any = {};
-    timeDetail.time = this.getDayMessage(hour,minutes);
+    if (parseInt(StringFormatUtil.judgeSysTime()) == 12) {
+      timeDetail.time = StringFormatUtil.getDayMessage(hour, minutes);
+    } else {
+      timeDetail.time = $r("app.string.time_normal", hour, minutes);
+    }
     if (now.getFullYear() - callLogTime.getFullYear() == 0) {
       if (now.getMonth() - callLogTime.getMonth() == 0) {
         if (now.getDate() - callLogTime.getDate() == 0) {
@@ -521,36 +526,6 @@ export default class DetailPresenter {
       timeDetail.date = $r("app.string.yearMonthDay", year, mounth, day);
     }
     return timeDetail;
-  }
-
-  /**
-   * Obtain the description of the time within a day based on the hour.
-   *
-   * @param {number} hour
-   * @return {string} Time node
-   */
-  getDayMessage(hour,minutes) {
-    if (hour >= 0 && hour < 5) {
-      return $r("app.string.time_early_morning", hour, minutes);
-    }
-    if (hour >= 5 && hour < 11) {
-      return $r("app.string.time_morning", hour, minutes);
-    }
-    if (hour >= 11 && hour < 13) {
-      return $r("app.string.time_noon", hour, minutes);
-    }
-    if (hour >= 13 && hour < 17) {
-      return $r("app.string.time_afternoon", hour, minutes);
-    }
-    if (hour >= 17 && hour < 19) {
-      return $r("app.string.time_nightfall", hour, minutes);
-    }
-    if (hour >= 19 && hour < 22) {
-      return $r("app.string.time_night", hour, minutes);
-    }
-    if (hour >= 22 && hour < 24) {
-      return $r("app.string.time_middle_night", hour, minutes);
-    }
   }
 
   // Edit Contact

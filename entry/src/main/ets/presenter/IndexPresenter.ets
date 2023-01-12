@@ -19,6 +19,8 @@ import { ContactRepository } from '../../../../../feature/contact/src/main/ets/r
 import pasteboard from '@ohos.pasteboard';
 import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
+import StringFormatUtil from '../util/StringFormatUtil';
+import CallRecordPresenter from './dialer/callRecord/CallRecordPresenter';
 
 const TAG = 'IndexPresenter  ';
 
@@ -39,10 +41,16 @@ export default class IndexPresenter {
     HiLog.i(TAG, 'onPageShow !!!');
     this.uriTabFlag = !this.uriTabFlag;
     this.getNewWant();
+    if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get("sysTime")) {
+      HiLog.i(TAG, 'DO requestItem');
+      CallRecordPresenter.getInstance().requestItem();
+      AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
+    }
   }
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear !!!');
+    AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
   }
 
   aboutToDisappear() {

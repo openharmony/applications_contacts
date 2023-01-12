@@ -18,12 +18,11 @@ import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
 import IndexPresenter from '../../../presenter/IndexPresenter';
 import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
-
+import StringFormatUtil from '../../../util/StringFormatUtil';
 import CallLogListItem from '../../../component/contactdetail/DetailCalllog';
 import DetailInfoListView from '../../../component/contactdetail/DetailInfoListView';
 import { SimCardState } from '../../../../../../../feature/phonenumber/src/main/ets/SimUtil';
 import EnvironmentProp from '../../../feature/EnvironmentProp';
-import device from '@system.device';
 
 const TAG = "ContactDetail";
 let storage = LocalStorage.GetShared()
@@ -55,11 +54,11 @@ struct ContactDetail {
   }
 
   aboutToAppear() {
+    HiLog.i(TAG, 'aboutToAppear:');
+    AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
     setTimeout(() => {
       this.isShow++;
     }, 100);
-
-    HiLog.i(TAG, 'aboutToAppear:');
     let obj: any = router.getParams();
     this.mSimCardState.getSimCardState();
     this.mSimCardState.addSimChangeListener();
@@ -79,6 +78,11 @@ struct ContactDetail {
   onPageShow() {
     HiLog.i(TAG, 'onPageShow');
     IndexPresenter.getInstance().getNewWant();
+    if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get("sysTime")) {
+      HiLog.i(TAG, 'DO refresh detailCallLog');
+      this.mPresenter.refresh();
+      AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
+    }
   }
 
   @Builder MenuBuilder() {
@@ -271,12 +275,14 @@ struct Content {
                   .fontSize($r("sys.float.ohos_id_text_size_body2"))
                   .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
                   .textOverflow({ overflow: TextOverflow.Ellipsis })
+                  .maxLines(StringUtil.isEmpty(this.mPresenter.contactForm.position) ? 2 : 1)
               }
               if (!StringUtil.isEmpty(this.mPresenter.contactForm.position)) {
                 Text(this.mPresenter.contactForm.position)
                   .fontSize($r("sys.float.ohos_id_text_size_body2"))
                   .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
                   .textOverflow({ overflow: TextOverflow.Ellipsis })
+                  .maxLines(1)
               }
             }
 

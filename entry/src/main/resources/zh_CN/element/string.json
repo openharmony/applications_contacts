@@ -733,6 +733,10 @@
       "value": "en )”，您可依次输入:"
     },
     {
+      "name": "time_normal",
+      "value": "%s:%s"
+    },
+    {
       "name": "time_early_morning",
       "value": "凌晨%s:%s"
     },
