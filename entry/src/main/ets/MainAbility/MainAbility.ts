@@ -1,4 +1,4 @@
-import Ability from '@ohos.application.Ability'
+import Ability from '@ohos.app.ability.UIAbility'
 import Window from '@ohos.window'
 import { CallLogService } from '../../../../../feature/call/src/main/ets/CallLogService';
 import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
