@@ -5,7 +5,7 @@ import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 
 const TAG = 'MainAbility ';
 
-export default class MainAbility extends UIAbility {
+export default class MainAbility extends Ability {
     storage: LocalStorage;
 
     updateBreakpoint(windowWidth: number) {
