@@ -36,7 +36,7 @@ struct Index {
   @State @Watch("onIndexChanged") mIndexPresenter: IndexPresenter = IndexPresenter.getInstance();
   mDialerPresenter: DialerPresenter = DialerPresenter.getInstance();
   @State bottomTabIndex: number = call.hasVoiceCapability() ? 0 : 1;
-  @LocalStorageProp('breakpoint') curBp: string = 'sm'
+  @LocalStorageProp('breakpoint') curBp: string = 'sm';
 
   onIndexChanged(): void {
     HiLog.i(TAG, "uriTabIndex change:" + JSON.stringify(this.mIndexPresenter.tabsIndex));

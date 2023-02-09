@@ -32,6 +32,7 @@ export default class Calls {
   static readonly DISPLAY_NAME: string = "display_name";
   static readonly CALL_DIRECTION: string = "call_direction";
   static readonly VOICEMAIL_URI: string = "voicemail_uri";
+  // TODO add simId
   static readonly SIM_TYPE: string = "sim_type";
   static readonly IS_HD: string = "is_hd";
   static readonly IS_READ: string = "is_read";

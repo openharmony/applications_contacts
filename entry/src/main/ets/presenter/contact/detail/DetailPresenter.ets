@@ -32,6 +32,7 @@ import MorandiColor from '../../../model/bean/MorandiColor';
 import ContactAbilityModel from '../../../model/ContactAbilityModel';
 import DetailCallLogDataSource from '../../../model/bean/DetailCallLogDataSource';
 import EnvironmentProp from '../../../feature/EnvironmentProp';
+import StringFormatUtil from "../../../util/StringFormatUtil"
 
 const TAG = "DetailPresenter";
 
@@ -131,7 +132,7 @@ export default class DetailPresenter {
         detailsBgColor: ''
       };
       /** Query the contact ID based on the phone number.
-       If a contact exists,the contact details are displayed based on the first contact ID.*/
+      If a contact exists,the contact details are displayed based on the first contact ID.*/
       await ContactAbilityModel.getIdByTelephone(this.phoneNumberShow, (contactId) => {
         if (!ArrayUtil.isEmpty(contactId)) {
           HiLog.i(TAG,"contactid is exist");
@@ -243,7 +244,7 @@ export default class DetailPresenter {
       for (let item of newContact.phones) {
         let itemtemp = {
           id: item.id,
-          data: PhoneNumber.fromString(item.num).format(),
+          data: PhoneNumber.fromString(item.num).getNumber(),
           num:item.num,
           type: item.numType,
           phoneAddress: item.phoneAddress,
@@ -380,7 +381,7 @@ export default class DetailPresenter {
   async getNewNumCallLog() {
     HiLog.i(TAG, "get new number call log");
     let numbers: any = [this.phoneNumberShow.replace(/\s+/g, '')];
-    let formatNum = PhoneNumber.fromString(this.phoneNumberShow).format();
+    let formatNum = PhoneNumber.fromString(this.phoneNumberShow).getNumber();
     this.contactForm.display_name = formatNum;
     /* Creating a Contact Phone List Object */
     let itemtemp = {
@@ -398,19 +399,19 @@ export default class DetailPresenter {
       this.detailCallLogDataSource.refresh(this.getDetailMessage(resultList));
     });
     if (this.detailCallLogDataSource.totalCount() > 0 ) {
-      let bgColorId = Math.abs(parseInt(this.detailCallLogDataSource.getData(0).callLog.id, 10));
-      this.contactForm.portraitColor = MorandiColor.Color[bgColorId % 6];
-      this.contactForm.detailsBgColor = MorandiColor.detailColor[bgColorId % 6];
+        let bgColorId = Math.abs(parseInt(this.detailCallLogDataSource.getData(0).callLog.id, 10));
+        this.contactForm.portraitColor = MorandiColor.Color[bgColorId % 6];
+        this.contactForm.detailsBgColor = MorandiColor.detailColor[bgColorId % 6];
     }
   }
 
   /**
-   * Data required for converting the original
-   * callLogList content into call record details
-   *
-   * @param {Array} originList Original Call List
-   * @return {Array} resultList
-   */
+     * Data required for converting the original
+     * callLogList content into call record details
+     *
+     * @param {Array} originList Original Call List
+     * @return {Array} resultList
+     */
   getDetailMessage(originList: CallLog[]) {
     let resultList = [];
     if (ArrayUtil.isEmpty(originList)) {
@@ -439,11 +440,11 @@ export default class DetailPresenter {
   }
 
   /**
-   * Obtain the call details of the call record according to the call record.
-   *
-   * @param {Object} callLogElement Call log
-   * @return {string} resultMessage Status information
-   */
+     * Obtain the call details of the call record according to the call record.
+     *
+     * @param {Object} callLogElement Call log
+     * @return {string} resultMessage Status information
+     */
   getTalkTimeMessage(callLogElement: CallLog) {
     let resultMessage: Resource|string = null;
     switch (callLogElement.callType) {
@@ -468,11 +469,11 @@ export default class DetailPresenter {
   }
 
   /**
-   * Obtains the call duration based on the specified timestamp. The unit is s.
-   *
-   * @param {number} timeDuration
-   * @return {Object} Return time unit
-   */
+     * Obtains the call duration based on the specified timestamp. The unit is s.
+     *
+     * @param {number} timeDuration
+     * @return {Object} Return time unit
+     */
   getDescriptionByDuration(timeDuration) {
     let seconds = parseInt(timeDuration);
     if (seconds < 60) {
@@ -491,11 +492,11 @@ export default class DetailPresenter {
   }
 
   /**
-   * Obtain the time details based on the call record generation time.
-   *
-   * @param {number} callTime Initial Talk Time
-   * @return {string} timeDetail Talk time after processing
-   */
+     * Obtain the time details based on the call record generation time.
+     *
+     * @param {number} callTime Initial Talk Time
+     * @return {string} timeDetail Talk time after processing
+     */
   getTimeDetailByCallTime(element: CallLog) {
     let callTime = element.createTime.toString();
     let callLogTime = new Date(parseInt(callTime, 10) * 1000);
@@ -508,7 +509,11 @@ export default class DetailPresenter {
     // description
     let now = new Date();
     let timeDetail:any = {};
-    timeDetail.time = this.getDayMessage(hour,minutes);
+    if (parseInt(StringFormatUtil.judgeSysTime()) == 12) {
+      timeDetail.time = StringFormatUtil.getDayMessage(hour, minutes);
+    } else {
+      timeDetail.time = $r("app.string.time_normal", hour, minutes);
+    }
     if (now.getFullYear() - callLogTime.getFullYear() == 0) {
       if (now.getMonth() - callLogTime.getMonth() == 0) {
         if (now.getDate() - callLogTime.getDate() == 0) {
@@ -523,41 +528,11 @@ export default class DetailPresenter {
     return timeDetail;
   }
 
-  /**
-   * Obtain the description of the time within a day based on the hour.
-   *
-   * @param {number} hour
-   * @return {string} Time node
-   */
-  getDayMessage(hour,minutes) {
-    if (hour >= 0 && hour < 5) {
-      return $r("app.string.time_early_morning", hour, minutes);
-    }
-    if (hour >= 5 && hour < 11) {
-      return $r("app.string.time_morning", hour, minutes);
-    }
-    if (hour >= 11 && hour < 13) {
-      return $r("app.string.time_noon", hour, minutes);
-    }
-    if (hour >= 13 && hour < 17) {
-      return $r("app.string.time_afternoon", hour, minutes);
-    }
-    if (hour >= 17 && hour < 19) {
-      return $r("app.string.time_nightfall", hour, minutes);
-    }
-    if (hour >= 19 && hour < 22) {
-      return $r("app.string.time_night", hour, minutes);
-    }
-    if (hour >= 22 && hour < 24) {
-      return $r("app.string.time_middle_night", hour, minutes);
-    }
-  }
-
   // Edit Contact
   updateContact() {
     let phoneNumbers = [{
-                          'phoneNumber': '',
-                          'phoneAddress': ''}];
+      'phoneNumber': '',
+      'phoneAddress': ''}];
     if (this.isNewNumber) {
       phoneNumbers[0].phoneNumber = this.phoneNumberShow;
       phoneNumbers[0].phoneAddress = this.contactForm?.phones[0]?.phoneAddress;
@@ -598,30 +573,30 @@ export default class DetailPresenter {
   // Deleting a contact
   deleteContact() {
     AlertDialog.show({
-      message: $r('app.string.delete_contact_sure'),
-      alignment: EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom,
-      autoCancel: true,
-      primaryButton: {
-        value: $r('app.string.dialog_cancel'),
-        action: () => {
-        }
-      },
-      secondaryButton: {
-        value: $r('app.string.dialog_delete'),
-        fontColor: $r("sys.color.ohos_id_color_handup"),
-        action: () => {
-          HiLog.i(TAG, 'delete contact')
-          this.doDeleteContact();
-        }
-      },
-      cancel: () => {
-        HiLog.i(TAG, 'Closed callbacks')
-      },
-      offset: {
-        dx: 0, dy: -52
-      },
-      gridCount: 4
-    })
+        message: $r('app.string.delete_contact_sure'),
+        alignment: EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom,
+        autoCancel: true,
+        primaryButton: {
+          value: $r('app.string.dialog_cancel'),
+          action: () => {
+          }
+        },
+        secondaryButton: {
+          value: $r('app.string.dialog_delete'),
+          fontColor: $r("sys.color.ohos_id_color_handup"),
+          action: () => {
+            HiLog.i(TAG, 'delete contact')
+            this.doDeleteContact();
+          }
+        },
+        cancel: () => {
+          HiLog.i(TAG, 'Closed callbacks')
+        },
+        offset: {
+          dx: 0, dy: -52
+        },
+        gridCount: 4
+      })
   }
 
   // Delete a contact
@@ -692,21 +667,21 @@ export default class DetailPresenter {
             action: () => {
             }
           }];
-    mMoreMenu = tmpMoreMenu;
-    this.moreMenuOptions.forEach((element, i) => {
-      globalThis.context.resourceManager.getString(element.id, (err, typeName) => {
-        mMoreMenu[i] = {
-          value: typeName,
-          action: () => {
-            switch (i) {
-              case 0:
-                this.deleteContact();
-                break;
+   mMoreMenu = tmpMoreMenu;
+      this.moreMenuOptions.forEach((element, i) => {
+        globalThis.context.resourceManager.getString(element.id, (err, typeName) => {
+          mMoreMenu[i] = {
+            value: typeName,
+            action: () => {
+              switch (i) {
+                case 0:
+                  this.deleteContact();
+                  break;
+              }
             }
-          }
-        };
+          };
+        });
       });
-    });
     return mMoreMenu;
   }
 }

@@ -18,12 +18,12 @@ import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
 import IndexPresenter from '../../../presenter/IndexPresenter';
 import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
-
+import StringFormatUtil from '../../../util/StringFormatUtil';
 import CallLogListItem from '../../../component/contactdetail/DetailCalllog';
 import DetailInfoListView from '../../../component/contactdetail/DetailInfoListView';
-import { SimCardState } from '../../../../../../../feature/phonenumber/src/main/ets/SimUtil';
+import { simCardState, getSimName, getLastUsedSlotId } from '../../../../../../../feature/phonenumber/src/main/ets/SimUtil';
 import EnvironmentProp from '../../../feature/EnvironmentProp';
-import device from '@system.device';
+import { SelectDialogBuilder } from "../../../component/mutisim/SelectSimIdDialog";
 
 const TAG = "ContactDetail";
 let storage = LocalStorage.GetShared()
@@ -34,7 +34,6 @@ let storage = LocalStorage.GetShared()
 @Entry(storage)
 @Component
 struct ContactDetail {
-  @State @Watch("onSimChanged") mSimCardState: SimCardState = SimCardState.getInstance();
   @State mPresenter: DetailPresenter = DetailPresenter.getInstance();
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @State private mMoreMenu: Array<{
@@ -46,23 +45,50 @@ struct ContactDetail {
           }
         }];
   @State hasFavorited: boolean = false;
-  @State haveSimCard: boolean = this.mSimCardState.haveSimCard;
+  @State haveSimCard: boolean = simCardState.haveSimCard;
+  @State haveMultiSimCard: boolean = simCardState.haveMultiSimCard;
   @State isShow: number = 0;
+  @State builder: SelectDialogBuilder = {
+    title : "",
+    multiSimCardItems: [{
+                          name: "",
+                          img: $r("app.media.ic_public_phone1"),
+                        }, {
+                          name: "",
+                          img: $r("app.media.ic_public_phone2"),
+                        }],
+  };
 
-  onSimChanged(): void {
-    HiLog.i(TAG, "haveSimCard change:" + JSON.stringify(this.mSimCardState.haveSimCard));
-    this.haveSimCard = this.mSimCardState.haveSimCard;
+  onSimChanged = () => {
+    HiLog.i(TAG, "haveSimCard change:" + JSON.stringify(simCardState));
+    this.haveSimCard = simCardState.haveSimCard;
+    this.haveMultiSimCard = simCardState.haveMultiSimCard;
+    this.builder.haveMultiSimCard = simCardState.haveMultiSimCard;
+    this.builder.multiSimCardItems.forEach((item, index, array) => {
+      if (simCardState.isSimReady(index)) {
+        getSimName(index).then(value => {
+          HiLog.i(TAG, "getSimName:" + value + ", index: " + index);
+          this.builder.multiSimCardItems[index].name = value;
+        })
+      } else {
+        this.builder.multiSimCardItems[index].name = "";
+      }
+    })
+    if (this.builder.haveMultiSimCard) {
+      getLastUsedSlotId().then((value)=>{
+        this.builder.lastSimId = value;
+      })
+    }
   }
 
   aboutToAppear() {
+    HiLog.i(TAG, 'aboutToAppear:');
+    AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
     setTimeout(() => {
       this.isShow++;
     }, 100);
-
-    HiLog.i(TAG, 'aboutToAppear:');
     let obj: any = router.getParams();
-    this.mSimCardState.getSimCardState();
-    this.mSimCardState.addSimChangeListener();
+    simCardState.attachObserver(this.onSimChanged);
     HiLog.i(TAG, 'ContactDetail addSimChangeListener:' + this.haveSimCard);
     this.mPresenter.sourceHasId = obj.sourceHasId;
     this.mPresenter.contactId = obj.contactId;
@@ -74,11 +100,17 @@ struct ContactDetail {
 
   aboutToDisappear() {
     this.mPresenter.aboutToDisappear();
+    simCardState.detachObserver(this.onSimChanged);
   }
 
   onPageShow() {
     HiLog.i(TAG, 'onPageShow');
     IndexPresenter.getInstance().getNewWant();
+    if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get("sysTime")) {
+      HiLog.i(TAG, 'DO refresh detailCallLog');
+      this.mPresenter.refresh();
+      AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
+    }
   }
 
   @Builder MenuBuilder() {
@@ -106,7 +138,8 @@ struct ContactDetail {
       GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: { sm: 12, md: 12, lg: 24 }, y: 0 } }) {
         GridCol({ span: { sm: 4, md: 8, lg: 8 }, offset: { sm: 0, md: 0, lg: 2 } }) {
           if (this.isShow > 0) {
-            Content({ mPresenter: $mPresenter, haveSimCard: $haveSimCard })
+            Content({ mPresenter: $mPresenter, haveSimCard: $haveSimCard, haveMultiSimCard: $haveMultiSimCard,
+              selectSimBuilder: $builder })
           }
         }
       }
@@ -167,6 +200,8 @@ struct ContactDetail {
 struct Content {
   @Link private mPresenter: { [key: string]: any };
   @Link haveSimCard: boolean;
+  @Link selectSimBuilder: SelectDialogBuilder;
+  @Link haveMultiSimCard: boolean;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @State colunmHeight: string = "60%";
 
@@ -271,16 +306,18 @@ struct Content {
                   .fontSize($r("sys.float.ohos_id_text_size_body2"))
                   .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
                   .textOverflow({ overflow: TextOverflow.Ellipsis })
+                  .maxLines(StringUtil.isEmpty(this.mPresenter.contactForm.position) ? 2 : 1)
               }
               if (!StringUtil.isEmpty(this.mPresenter.contactForm.position)) {
                 Text(this.mPresenter.contactForm.position)
                   .fontSize($r("sys.float.ohos_id_text_size_body2"))
                   .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
                   .textOverflow({ overflow: TextOverflow.Ellipsis })
+                  .maxLines(1)
               }
             }
-
-            DetailInfoListView({ mPresenter: $mPresenter, haveSimCard: $haveSimCard });
+            DetailInfoListView({ mPresenter: $mPresenter, haveSimCard: $haveSimCard,
+              selectSimBuilder: $selectSimBuilder });
           }
           .width('100%')
           .backgroundColor(Color.White)
@@ -303,7 +340,7 @@ struct Content {
                 this.callLogTitle()
               }
 
-              CallLogListItem({ message: item.callLog, mPresenter: $mPresenter });
+              CallLogListItem({ message: item.callLog, mPresenter: $mPresenter, haveMultiSimCard: $haveMultiSimCard });
             }
           }
           .width("100%")
@@ -364,7 +401,7 @@ struct TopBar {
         .width($r("app.float.id_card_image_small"))
         .margin({ left: $r("app.float.id_card_margin_max") })
         .onClick(() => {
-          HiLog.i(TAG, "点击返回");
+          HiLog.i(TAG, "BackTo-ContactList");
           router.back();
         })
 

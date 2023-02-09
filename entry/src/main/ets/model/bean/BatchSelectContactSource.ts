@@ -23,7 +23,6 @@ export default class BatchSelectContactSource extends BasicDataSource {
     private contactList: ContactVo[] = [];
 
     public totalCount(): number {
-        HiLog.i(TAG, "totalCount is %s", this.contactList.length);
         return this.contactList.length;
     }
 
