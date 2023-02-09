@@ -25,7 +25,6 @@ export default class ContactListDataSource extends BasicDataSource {
     private contactsCount: number = 0;
 
     public totalCount(): number {
-        HiLog.i(TAG, "totalCount is %s" + JSON.stringify(this.contactList.length));
         return this.contactList.length;
     }
 

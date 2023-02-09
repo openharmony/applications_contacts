@@ -13,13 +13,13 @@
  * limitations under the License.
  */
 
-import CallRecord from '../../dialer/callRecord/CallRecord'
+import CallRecord from '../../dialer/callRecord/CallRecord';
 import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import DialerPresenter from './../../../presenter/dialer/DialerPresenter';
-import { DialerInitialPage } from '../../../component/dialer/DialerInitialPage';
-import PreferencesUtil from './../../../util/PreferencesUtil';
 import EnvironmentProp from '../../../feature/EnvironmentProp';
-import { SimCardState } from '../../../../../../../feature/phonenumber/src/main/ets/SimUtil';
+import IndexPresenter from '../../../presenter/IndexPresenter';
+import { simCardState, getSimName } from '../../../../../../../feature/phonenumber/src/main/ets/SimUtil';
+import { DialerButtonView } from "../../../component/dialer/DialerButtonView";
 
 const TAG = 'Dialer';
 
@@ -126,15 +126,28 @@ struct DialPad {
 @Component
 export default struct Call {
   @State mPresenter: DialerPresenter = DialerPresenter.getInstance()
-  @State @Watch("onSimChanged") mSimCardState: SimCardState = SimCardState.getInstance();
   @StorageLink("tele_number") tele_number: string = "";
   @State haveSimCard: boolean = false;
+  @State haveMultiSimCard: boolean = false;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @State panWidth: number = 0;
+  @State simNames :string[] = ["",""]
 
-  onSimChanged(): void {
-    HiLog.i(TAG, "haveSimCard change:" + JSON.stringify(this.mSimCardState.haveSimCard));
-    this.haveSimCard = this.mSimCardState.haveSimCard;
+  onSimChanged = () => {
+    HiLog.i(TAG, "haveSimCard change:" + JSON.stringify(simCardState.haveSimCard));
+    this.haveSimCard = simCardState.haveSimCard;
+    this.haveMultiSimCard = simCardState.haveMultiSimCard;
+    this.simNames.forEach((name, index, array) => {
+      if (simCardState.isSimReady(index)) {
+        getSimName(index).then(value => {
+          HiLog.i(TAG, "getSimName:" + value + ", index: " + index);
+          this.simNames[index] = value;
+        })
+      } else {
+        this.simNames[index] = "";
+      }
+    })
+    this.mPresenter.dialerButtonWidth = this.haveMultiSimCard ? 210 : (this.mPresenter.btnShow ? 48 : 56);
   }
 
   aboutToAppear() {
@@ -150,13 +163,15 @@ export default struct Call {
       this.mPresenter.call_p = 0;
       this.mPresenter.call_y = 0;
       this.mPresenter.moveY = 0
-      this.mPresenter.dialerButtonWidth = 56
+      this.mPresenter.dialerButtonWidth = this.haveMultiSimCard ? 210 : 56;
       this.mPresenter.dialerButtonHeight = 56
     })
     this.mPresenter.btnShow = false;
-    this.mSimCardState.getSimCardState();
-    this.mSimCardState.addSimChangeListener();
+    simCardState.attachObserver(this.onSimChanged);
     this.mPresenter.aboutToAppear();
+  }
+  aboutToDisappear(){
+    simCardState.detachObserver(this.onSimChanged);
   }
 
   build() {
@@ -227,22 +242,22 @@ export default struct Call {
       .height('100%')
 
       Column() {
+        DialerButtonView({
+          mPresenter:$mPresenter,
+          simNames:$simNames,
+          haveSimCard:$haveSimCard,
+          haveMultiSimCard:$haveMultiSimCard
+        }).visibility(this.mPresenter.btnShow? Visibility.None:Visibility.Visible)
         Button() {
-          Image(this.mPresenter.btnShow ? $r("app.media.ic_contacts_dial") : $r("app.media.ic_public_phone_filled_white"))
-            .width(this.mPresenter.btnShow ? $r("app.float.id_card_margin_max") : $r("app.float.id_card_margin_xxxxl"))
-            .height(this.mPresenter.btnShow ? $r("app.float.id_card_margin_max") : $r("app.float.id_card_margin_xxxxl"))
+          Image($r("app.media.ic_contacts_dial") )
+            .width($r("app.float.id_card_margin_max"))
+            .height($r("app.float.id_card_margin_max"))
         }
         .width(this.mPresenter.dialerButtonWidth)
         .height(this.mPresenter.dialerButtonHeight)
         .backgroundColor($r('sys.color.ohos_id_color_connected'))
-        // Currently, it is not possible to tell whether the device has dial capability.
-        // 1. The dial button in phone is enable.
-        // 2. The dial button in tablet is enable only when sim card is inserted.
-        .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.mSimCardState.haveSimCard
-          ? 1 : $r('sys.float.ohos_id_alpha_disabled'))
         .onClick(() => {
           this.mPresenter.callBtnClick = true;
-          if (this.mPresenter.btnShow) {
             animateTo({
               duration: 200,
               curve: Curve.Linear,
@@ -253,22 +268,15 @@ export default struct Call {
               this.mPresenter.call_p = 0;
               this.mPresenter.call_y = 0;
               this.mPresenter.moveY = 0
-              this.mPresenter.dialerButtonWidth = 56
+              this.mPresenter.dialerButtonWidth = this.haveMultiSimCard ? 210 : 56
               this.mPresenter.dialerButtonHeight = 56
             })
             this.mPresenter.btnShow = false;
-          } else {
-            if (this.tele_number.length > 0) {
-              this.mPresenter.dialing(this.mPresenter.all_number);
-              AppStorage.SetOrCreate("tele_number", '');
-              this.mPresenter.all_number = '';
-            }
-            this.mPresenter.callBtnClick = false;
-          }
-        })
+        }).visibility(this.mPresenter.btnShow ? Visibility.Visible : Visibility.None);
+
       }
       .justifyContent(FlexAlign.Center)
-      .width($r("app.float.dialer_calllog_item_height"))
+      .width(this.haveMultiSimCard ? "210vp" : $r("app.float.dialer_calllog_item_height"))
       .height($r("app.float.dialer_calllog_item_height"))
       .margin({ bottom: 20 })
       .zIndex(3)
@@ -370,8 +378,8 @@ export default struct Call {
             .layoutWeight(1)
             .alignItems(HorizontalAlign.Center)
 
-            Text().layoutWeight(1)
-
+            Blank().layoutWeight(1)
+            Blank().layoutWeight(1).visibility(this.haveMultiSimCard ? Visibility.Visible : Visibility.None)
             Column() {
               Button() {
                 Image($r("app.media.ic_contacts_delete"))
@@ -389,9 +397,11 @@ export default struct Call {
                 .onAction((event: GestureEvent) => {
                   AppStorage.SetOrCreate("tele_number", '');
                   this.mPresenter.all_number = '';
+                  IndexPresenter.getInstance().editPhoneNumber = "";
                 })
               )
               .onClick(() => {
+                this.mPresenter.isClickDelete = true;
                 this.mPresenter.pressVibrate();
                 this.mPresenter.all_number = this.mPresenter.all_number.substr(0, this.mPresenter.all_number.length - 1)
                 this.mPresenter.deleteTeleNum();
@@ -409,8 +419,6 @@ export default struct Call {
         .width('100%')
         .zIndex(this.mPresenter.panelShow ? 2 : -1)
       }
-      .onTouch(() => {
-      })
       .width("100%")
       .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
       .clip(new Rect(this.tele_number.length >= 3 ? {

@@ -160,8 +160,8 @@ export default struct ContactListItemView {
         }
       }
       .alignItems(HorizontalAlign.Start)
-      .padding({ top: $r("app.float.id_card_margin_mid"), bottom: $r("app.float.id_card_margin_mid") })
-      .margin({ left: $r("app.float.id_card_margin_xl") })
+      .padding({ top: $r("app.float.id_card_margin_mid"), bottom: $r("app.float.id_card_margin_mid"), right: $r("app.float.id_card_margin_xl") })
+      .margin({ left: $r("app.float.id_card_margin_xl"), right: $r("app.float.id_card_margin_xl") })
     }
     .constraintSize({ minHeight: $r("app.float.id_item_height_max") })
     .width('100%')

@@ -22,7 +22,6 @@ export default class BatchSelectRecentSource extends BasicDataSource {
     private callLogs: { [key: string]: any }[] = [];
 
     public totalCount(): number {
-        HiLog.i(TAG, "totalCount is " + JSON.stringify(this.callLogs.length));
         return this.callLogs.length;
     }
 

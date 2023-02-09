@@ -321,6 +321,14 @@
       "value": "复制号码"
     },
     {
+      "name": "contacts_call_number",
+      "value": "呼叫  %s"
+    },
+    {
+      "name": "choose_sub_recommend",
+      "value": "上次使用此卡联系"
+    },
+    {
       "name": "edit_beforeCall",
       "value": "呼叫前编辑"
     },
@@ -441,7 +449,7 @@
       "value": "已选择%d个"
     },
     {
-      "name": "concal_favorite",
+      "name": "cancel_favorite",
       "value": "取消收藏"
     },
     {
@@ -731,6 +739,10 @@
     {
       "name": "you_can_enter",
       "value": "en )”，您可依次输入:"
+    },
+    {
+      "name": "time_normal",
+      "value": "%s:%s"
     },
     {
       "name": "time_early_morning",

@@ -70,8 +70,6 @@ export struct ItemList {
               .height("98%")
               .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
               .onChange((arg) => {
-                HiLog.e("TAG", 'Input typeName is ' + JSON.stringify(this.typeName));
-                HiLog.e("TAG", 'The numLength is ' + JSON.stringify(arg.length));
                 let args = "";
                 switch (arg.length) {
                   case 3:
@@ -89,7 +87,6 @@ export struct ItemList {
                 } else {
                   this.mTextInputValue = arg;
                 }
-                HiLog.e("TAG", 'mTextInputValue. ' + JSON.stringify(this.mTextInputValue));
                 this.mPresent.listItemChange(this.typeName, this.mPresent.getData(this.typeName, this.index - 1),
                     this.typeName === "phone"? args.toString().replace(/\s*/g, "") : arg.toString());
                 this.mPresent.textChange(arg);

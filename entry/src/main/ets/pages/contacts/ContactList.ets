@@ -202,6 +202,7 @@ struct ContactContent {
           .height('100%')
           .listDirection(Axis.Vertical)
           .edgeEffect(EdgeEffect.Spring)
+          .padding({bottom: 150})
         }
       }
       .height('100%')

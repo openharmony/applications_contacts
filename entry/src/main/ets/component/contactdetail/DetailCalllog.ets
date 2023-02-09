@@ -15,6 +15,7 @@
 
 import { PhoneNumber } from '../../../../../../feature/phonenumber';
 import { CallType } from '../../../../../../feature/call/src/main/ets/entity/CallLog';
+import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import EnvironmentProp from '../../feature/EnvironmentProp';
 
 const TAG = "ContactDetail-calllog";
@@ -26,7 +27,9 @@ const TAG = "ContactDetail-calllog";
 export default struct CallLogListItem {
   @State message: { [key: string]: any } = {};
   private imgRes: Resource;
+  @Link haveMultiSimCard: boolean;
   @Link private mPresenter: { [key: string]: any };
+  private simImgRes: Resource = $r('app.media.stat_sys_sim1');
 
   aboutToAppear() {
     switch (this.message.callType) {
@@ -42,6 +45,13 @@ export default struct CallLogListItem {
       case 5:
         this.imgRes = $r('app.media.ic_contacts_call_rejected_mini');
         break;
+    }
+    if (this.haveMultiSimCard) {
+      if (this.message.simId == 0) {
+        this.simImgRes = $r('app.media.stat_sys_sim1')
+      } else {
+        this.simImgRes = $r('app.media.stat_sys_sim2')
+      }
     }
   }
 
@@ -66,6 +76,12 @@ export default struct CallLogListItem {
             .width($r("app.float.id_card_image_xs"))
             .height($r("app.float.id_card_image_xs"))
             .opacity(0.4)
+          Image(this.simImgRes)
+            .objectFit(ImageFit.Fill)
+            .width($r("app.float.id_card_image_xs"))
+            .height($r("app.float.id_card_image_xs"))
+            .opacity(0.4)
+            .visibility(this.haveMultiSimCard ? Visibility.Visible : Visibility.None)
           Text(this.message.formatNumber)
             .fontSize($r("sys.float.ohos_id_text_size_body2"))
             .fontWeight(FontWeight.Regular)
@@ -99,7 +115,14 @@ export default struct CallLogListItem {
     .height($r("app.float.id_item_height_max"))
     .padding({ top: 5, bottom: 5 })
     .onClick(() => {
-      PhoneNumber.fromString(this.message.formatNumber).dial();
+      HiLog.i(TAG,"CallLogListItem onClick:" + JSON.stringify(this.message))
+      if (this.haveMultiSimCard) {
+        PhoneNumber.fromString(this.message.formatNumber).dial({
+          accountId: this.message.simId,
+        });
+      } else {
+        PhoneNumber.fromString(this.message.formatNumber).dial();
+      }
     })
     .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })
       .onAction((event: GestureEvent) => {

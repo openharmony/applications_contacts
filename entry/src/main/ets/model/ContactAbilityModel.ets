@@ -90,7 +90,7 @@ export default {
         if (StringUtil.isEmpty(element.num)) {
           continue;
         }
-        displayName = PhoneNumber.fromString(element.num).format();
+        displayName = PhoneNumber.fromString(element.num).getNumber();
         break;
       }
     }
@@ -221,7 +221,8 @@ export default {
     if (addParams.position != undefined && addParams.position.length > 0) {
       position = addParams.position;
     }
-    if (addParams.company.length > 0 || addParams.position.length > 0) {
+    if (addParams.company != undefined && addParams.company.length > 0
+    || addParams.position != undefined && addParams.position.length > 0) {
       let organizationContact = {
         'raw_contact_id': result,
         'detail_info': company,

@@ -30,6 +30,8 @@ export class CallLog {
   readonly displayName: string;
   readonly callDirection: number;
   readonly voicemailUri: string;
+  // TODO Add get simID
+  readonly simId:number;
   readonly simType: number;
   readonly isHD: boolean;
   readonly isRead: boolean;
@@ -53,6 +55,7 @@ export class CallLog {
     this.phoneNumber = builder.phoneNumber;
     this.displayName = builder.displayName;
     this.callDirection = builder.callDirection;
+    this.simId = builder.simId;
     this.simType = builder.simType;
     this.isHD = builder.isHD;
     this.isRead = builder.isRead;

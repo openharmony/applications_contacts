@@ -23,6 +23,7 @@ import DialerPresenter from '../../../presenter/dialer/DialerPresenter';
 import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
 import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 import IndexPresenter from '../../../presenter/IndexPresenter';
+import {simCardState} from "../../../../../../../feature/phonenumber/src/main/ets/SimUtil"
 
 const TAG = "AllRecord ";
 
@@ -49,13 +50,22 @@ struct RecordView {
   @Link private mPresenter: { [key: string]: any }
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   recordType: number = 0;
-
+  @State haveMultiSimCard: boolean = simCardState.haveMultiSimCard;
+  onSimStateChange = ()=>{
+    this.haveMultiSimCard = simCardState.haveMultiSimCard;
+  }
+  aboutToAppear(){
+    simCardState.attachObserver(this.onSimStateChange);
+  }
+  aboutToDisappear(){
+    simCardState.detachObserver(this.onSimStateChange);
+  }
   build() {
     List({ space: 0, initialIndex: 0 }) {
       LazyForEach(this.recordType === 0 ? this.mPresenter.mAllCallRecordListDataSource :
       this.mPresenter.mMissCallRecordListDataSource, (item, index: number) => {
         ListItem() {
-          ContactItem({ mPresenter: $mPresenter, item: item });
+          ContactItem({ mPresenter: $mPresenter, item: item, haveMultiSimCard: $haveMultiSimCard});
         }
         .height($r("app.float.id_item_height_max"))
       }, item => JSON.stringify(item))
@@ -111,6 +121,7 @@ struct ContactItem {
   @Link mPresenter: CallRecordPresenter
   @State item: { [key: string]: any } = {};
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
+  @Link haveMultiSimCard: boolean;
   deleteDialogController: CustomDialogController = new CustomDialogController({
     //Components shared by the TIP for creating or updating a contact by mistake and the TIP for deleting a contact
     builder: DeleteDialogEx({
@@ -166,13 +177,21 @@ struct ContactItem {
                 .maxLines(1)
             }
           }
-
-          Text(this.item.numberLocation
-            ? this.item.numberLocation
-            : $r("app.string.unknown"))
-            .fontSize($r("sys.float.ohos_id_text_size_body2"))
-            .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
-            .margin({ top: $r("app.float.id_card_margin_mid") })
+          Row(){
+            Image(this.item.simId == 0 ? $r('app.media.stat_sys_sim1') : $r('app.media.stat_sys_sim2'))
+              .height($r("app.float.dialer_common_small_margin"))
+              .width($r("app.float.dialer_common_small_margin"))
+              .margin({
+                right: $r("app.float.id_card_margin_mid"),
+                top: "4vp",
+              }).visibility(this.haveMultiSimCard ? Visibility.Visible : Visibility.None);
+            Text(this.item.numberLocation
+              ? this.item.numberLocation
+              : $r("app.string.unknown"))
+              .fontSize($r("sys.float.ohos_id_text_size_body2"))
+              .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+              .margin({ top: $r("app.float.id_card_margin_mid") })
+          }
         }
         .alignItems(HorizontalAlign.Start)
         .layoutWeight(1)
@@ -203,7 +222,7 @@ struct ContactItem {
     .height($r("app.float.id_item_height_max"))
     .margin({left:24})
     .onClick((event: ClickEvent) => {
-      this.mPresenter.dialing(this.item.phoneNumber)
+      this.mPresenter.dialing(this.item.phoneNumber,this.item.simId)
     })
     .bindContextMenu(this.MenuBuilder, ResponseType.LongPress)
   }
