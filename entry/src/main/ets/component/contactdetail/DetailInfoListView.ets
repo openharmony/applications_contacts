@@ -22,7 +22,7 @@ import call from '@ohos.telephony.call';
 import EnvironmentProp from '../../feature/EnvironmentProp';
 import { DataItemType } from '../../../../../../feature/contact/src/main/ets/contract/DataType';
 import IndexPresenter from '../../presenter/IndexPresenter';
-
+import { SelectSimIdDialog, SelectDialogBuilder } from '../mutisim/SelectSimIdDialog';
 const TAG = "ContactDetail-detailInfoList";
 
 enum MenuType {
@@ -33,6 +33,7 @@ enum MenuType {
 export default struct DetailInfoListView {
   @Link mPresenter: { [key: string]: any };
   @Link haveSimCard: boolean;
+  @Link selectSimBuilder: SelectDialogBuilder;
 
   build() {
     Column() {
@@ -40,7 +41,8 @@ export default struct DetailInfoListView {
       TelList({
         List: JSON.stringify(this.mPresenter.contactForm.phones),
         mPresenter: $mPresenter,
-        haveSimCard: $haveSimCard
+        haveSimCard: $haveSimCard,
+        selectSimBuilder:$selectSimBuilder
       });
 
       // email list
@@ -111,13 +113,15 @@ struct TelList {
   @State List:string = '';
   @Link private mPresenter: { [key: string]: any };
   @Link haveSimCard: boolean;
+  @Link selectSimBuilder: SelectDialogBuilder;
 
   build() {
     if (!ArrayUtil.isEmpty(JSON.parse(this.List))) {
       List() {
         ForEach(JSON.parse(this.List), item => {
           ListItem() {
-            TelListItem({ message: JSON.stringify(item), mPresenter: $mPresenter, haveSimCard: $haveSimCard });
+            TelListItem({ message: JSON.stringify(item), mPresenter: $mPresenter, haveSimCard: $haveSimCard,
+              selectSimBuilder:$selectSimBuilder });
           }
         }, item => JSON.stringify(item))
       }
@@ -132,10 +136,17 @@ struct TelList {
  */
 @Component
 struct TelListItem {
-  private message: string;
+  @Prop private message: string;
   @State mIndexPresenter: IndexPresenter = IndexPresenter.getInstance();
   @Link haveSimCard: boolean;
   @Link private mPresenter: { [key: string]: any };
+  @Link selectSimBuilder: SelectDialogBuilder;
+  mSelectSlotIdDialog: CustomDialogController = new CustomDialogController({
+    builder: SelectSimIdDialog({builder:$selectSimBuilder}),
+    customStyle: false,
+    autoCancel: true,
+    alignment: DialogAlignment.Bottom
+  })
 
   @Builder MenuBuilder() {
     Flex({ direction: FlexDirection.Column,
@@ -268,7 +279,18 @@ struct TelListItem {
       .flexShrink(0)
     }
     .onClick(() => {
-      PhoneNumber.fromString(JSON.parse(this.message).num).dial();
+      let phoneNum:string = JSON.parse(this.message).num;
+      if (this.selectSimBuilder.haveMultiSimCard) {
+        this.selectSimBuilder.title = $r("app.string.contacts_call_number", phoneNum);
+        this.selectSimBuilder.callback = (value) => {
+          PhoneNumber.fromString(phoneNum).dial({
+            accountId:value,
+          });
+        }
+        this.mSelectSlotIdDialog.open()
+      } else {
+        PhoneNumber.fromString(phoneNum).dial();
+      }
     })
     .width('100%')
     .height($r("app.float.id_item_height_max"))

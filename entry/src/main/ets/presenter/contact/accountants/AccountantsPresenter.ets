@@ -14,6 +14,7 @@
  */
 
 import ContactAbility from '../../../model/ContactAbilityModel'
+import inputMethod from '@ohos.inputMethod';
 import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
@@ -42,6 +43,8 @@ const TAG = 'AccountantsPresenter  ';
 export default class AccountantsPresenter {
   private static instance: AccountantsPresenter;
   static readonly timeSub: number = 1000;
+  getPhones: Array<{}> = [];
+  getEmails: Array<{}> = [];
   clickBefEvent: Date = new Date();
   clickAftEvent: Date = new Date();
   contactId: string = "";
@@ -90,7 +93,7 @@ export default class AccountantsPresenter {
     HiLog.i(TAG, ' init start');
     this.contactInfoAfter.setID(this.contactId);
     if (this.updateShow === true) {
-      HiLog.i(TAG, ' getPageData start %s', this.contactId);
+      HiLog.i(TAG, ' getPageData start ');
       this.getPageData(this.contactId);
     }
   }
@@ -205,6 +208,8 @@ export default class AccountantsPresenter {
       contactTemp.setGroups(data.groups);
     }
     this.contactInfoBefore = contactTemp;
+    this.getPhones = this.getArray(this.contactInfoBefore.phones);
+    this.getEmails = this.getArray(this.contactInfoBefore.emails);
     this.contactInfoAfter = contactTemp;
   }
 
@@ -563,4 +568,17 @@ export default class AccountantsPresenter {
     }
     this.refresh();
   }
+
+  /**
+   * Hide the Keyboard to prevent occlusion dialogs.
+   */
+  hideKeyboard() {
+      inputMethod.getController().hideSoftKeyboard((err) => {
+        if (err === undefined) {
+          HiLog.i(TAG, 'Succeeded in hiding softKeyboard.');
+        } else {
+          HiLog.e(TAG, 'Failed to hideSoftKeyboard: ' + JSON.stringify(err));
+        }
+      })
+    }
 }

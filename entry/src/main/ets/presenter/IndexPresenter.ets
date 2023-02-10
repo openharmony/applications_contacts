@@ -40,6 +40,7 @@ export default class IndexPresenter {
   onPageShow() {
     HiLog.i(TAG, 'onPageShow !!!');
     this.uriTabFlag = !this.uriTabFlag;
+    this.editPhoneNumber = AppStorage.Get("tele_number");
     this.getNewWant();
     if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get("sysTime")) {
       HiLog.i(TAG, 'DO requestItem');

@@ -21,6 +21,7 @@ import MergedCallLog from './entity/MergedCallLog';
 import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
 import {MergeRule} from './CallLogSetting';
 import CallLogSetting from './CallLogSetting';
+import StringFormatUtil from '../../../../../entry/src/main/ets/util/StringFormatUtil';
 
 export class CallLogService implements ICallLogService {
   private static instance: CallLogService;
@@ -223,6 +224,8 @@ export class CallLogService implements ICallLogService {
         // Same month of the same year
         let timeDiff = parseInt(((now.getTime() - callTime.getTime()) / 60000).toString());
         let dayDiff = now.getDate() - callTime.getDate();
+        let hour = callTime.getHours().toString();
+        let minutes = callTime.getMinutes() < 10 ? '0' + callTime.getMinutes() : callTime.getMinutes().toString();
         if (dayDiff == 0) {
           // 同天
           if (timeDiff == 0) {
@@ -230,9 +233,13 @@ export class CallLogService implements ICallLogService {
           } else if (timeDiff < 60) {
             result = $r("app.string.minutesAgo", timeDiff);
           } else {
-            // 'hh:mm'
-            result = callTime.getHours()
-            + ':' + (callTime.getMinutes() < 10 ? '0' + callTime.getMinutes() : callTime.getMinutes());
+            let timeDetail: any = {};
+            if (parseInt(StringFormatUtil.judgeSysTime()) == 12) {
+              timeDetail.time = StringFormatUtil.getDayMessage(hour, minutes);
+            } else {
+              timeDetail.time = $r("app.string.time_normal", hour, minutes);
+            }
+            result = timeDetail.time
           }
         } else if (dayDiff == 1) {
           result = $r("app.string.yesterday");

@@ -17,6 +17,7 @@ import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
 import i18n from '@ohos.i18n';
 import MmsService from './MmsService';
 import TelecomService from './TelecomService';
+import { setLastUsedSlotId } from "./SimUtil";
 
 const TAG = 'PhoneNumber';
 
@@ -33,11 +34,14 @@ export class PhoneNumber {
     return new PhoneNumber(StringUtil.removeSpace(number));
   }
 
-  dial(): Promise<boolean> {
+  dial(options?: any): Promise<boolean> {
     HiLog.i(TAG, 'dial phone.');
     let phoneNumber = this.number;
+    if (options) {
+      setLastUsedSlotId(options.accountId);
+    }
     return new Promise<boolean>(function (resolve, reject) {
-      TelecomService.getInstance().dial(phoneNumber, (data)  => {
+      TelecomService.getInstance().dial(phoneNumber, options, (data)  => {
         HiLog.i(TAG, ` dial data:${JSON.stringify(data)}`);
         if (!!data) {
           resolve(data);
