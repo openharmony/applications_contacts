@@ -14,7 +14,7 @@
  */
 
 import ContactAbility from '../../../model/ContactAbilityModel'
-import inputMethod from '@ohos.inputmethod';
+import inputMethod from '@ohos.inputMethod';
 import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
