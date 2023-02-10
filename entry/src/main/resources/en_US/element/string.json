@@ -321,6 +321,14 @@
       "value": "Copy number"
     },
     {
+      "name": "contacts_call_number",
+      "value": "Call %s"
+    },
+    {
+      "name": "choose_sub_recommend",
+      "value": "This card was used last time"
+    },
+    {
       "name": "edit_beforeCall",
       "value": "Edit before call"
     },

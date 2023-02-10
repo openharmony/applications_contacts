@@ -34,16 +34,17 @@ export default class TelecomService {
    * dial number
    *
    * @param phoneNum telephone number
+   * @param options DialOptions Look @ohos.telephony.call.d.ts
    * @param callback dail callback data:is emergency   err：failure  value：result
    */
-  async dial(phoneNum: string, callback) {
+  async dial(phoneNum: string, options:call.DialOptions, callback) {
     HiLog.i(TAG, 'dial start ');
     if (StringUtil.isEmpty(phoneNum)) {
       HiLog.i(TAG, 'dial phoneNum is empty ');
       return;
     }
     let num: string = StringUtil.removeSpace(phoneNum);
-    call.dial(num, (err, value) => {
+    call.dial(num, options, (err, value) => {
       callback(value);
       if (err) {
         HiLog.e(TAG, 'dial finish err: ' + JSON.stringify(err.message));

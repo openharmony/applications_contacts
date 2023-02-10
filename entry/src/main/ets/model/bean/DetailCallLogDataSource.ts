@@ -23,7 +23,6 @@ export default class DetailCallLogDataSource extends BasicDataSource {
     private detailCallLogList: object[] = [];
 
     public totalCount(): number {
-        HiLog.i(TAG, "totalCount is  " + JSON.stringify(this.detailCallLogList.length));
         return this.detailCallLogList.length;
     }
 

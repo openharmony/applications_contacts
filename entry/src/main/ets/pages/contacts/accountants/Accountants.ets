@@ -49,10 +49,10 @@ let storage = LocalStorage.GetShared();
 @Entry(storage)
 @Component
 struct Accountants {
-  @State  mPresenter: AccountantsPresenter = AccountantsPresenter.getInstance();
-  @State  eventItemId: number = 0;
+  @State mPresenter: AccountantsPresenter = AccountantsPresenter.getInstance();
+  @State eventItemId: number = 0;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
-  @State updataShow : boolean = false;
+  @State updataShow: boolean = false;
   private pageTitle: Resource = $r("app.string.create_contact");
   dialogController: CustomDialogController = new CustomDialogController({
     builder: ShowDayTime({ mPresent: $mPresenter,
@@ -199,8 +199,8 @@ struct Accountants {
       .flexShrink(0)
 
       // contact information
-      GridRow({columns: {sm: 4, md: 8, lg: 12}, gutter: {x: 12, y: 0}}) {
-        GridCol({span: {sm: 4, md:6, lg: 8}, offset: {sm: 0, md: 1, lg: 2}}) {
+      GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: 12, y: 0 } }) {
+        GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
           List() {
             ListItem() {
               Flex({
@@ -269,7 +269,7 @@ struct Accountants {
                       .height($r("app.float.id_item_height_large"))
                       .flexGrow(1)
                       .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
-                      .onClick(() =>{
+                      .onClick(() => {
                         this.mPresenter.isShowPosition = true;
                       })
                       .onChange((arg) => {
@@ -316,7 +316,8 @@ struct Accountants {
                 ImageItemLeft({ mImage: $r("app.media.ic_public_phone") })
 
                 Column() {
-                  ForEach(this.mPresenter.getArray(this.mPresenter.contactInfoBefore.phones)
+                  ForEach(this.updataShow ? this.mPresenter.getPhones
+                                          : this.mPresenter.getArray(this.mPresenter.contactInfoBefore.phones)
                     , (item) => {
                       ItemList({
                         mPresent: $mPresenter,
@@ -340,7 +341,8 @@ struct Accountants {
                 ImageItemLeft({ mImage: $r("app.media.ic_public_email") })
 
                 Column() {
-                  ForEach(this.mPresenter.getArray(this.mPresenter.contactInfoBefore.emails)
+                  ForEach(this.updataShow ? this.mPresenter.getEmails
+                                          : this.mPresenter.getArray(this.mPresenter.contactInfoBefore.emails)
                     , (item) => {
                       ItemList({
                         mPresent: $mPresenter,
@@ -643,7 +645,10 @@ struct Accountants {
       .height('100%')
       .flexShrink(1)
     }
-    .padding({left: 12, right: 12})
+    .onTouch(() => {
+      this.mPresenter.hideKeyboard();
+    })
+    .padding({ left: 12, right: 12 })
     .width('100%')
     .height('100%')
     .backgroundColor($r('sys.color.ohos_id_color_sub_background'))

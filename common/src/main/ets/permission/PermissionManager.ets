@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 import { HiLog } from '../util/HiLog';
+import abilityAccessCtrl from '@ohos.abilityAccessCtrl';
 
 const TAG = 'PermissionManager';
 
@@ -34,15 +35,15 @@ export class PermissionManager {
   }
 
   async initPermissions() {
-    let requestPermissions: Array<string> = [
+    let requestPermissions: Array<any> = [
       "ohos.permission.READ_CONTACTS",
       "ohos.permission.WRITE_CONTACTS",
       "ohos.permission.MANAGE_VOICEMAIL",
       "ohos.permission.READ_CALL_LOG",
       "ohos.permission.WRITE_CALL_LOG"
     ];
-    let context = globalThis.context;
-    context.requestPermissionsFromUser(requestPermissions, 1)
+    let AtManager = abilityAccessCtrl.createAtManager();
+    AtManager.requestPermissionsFromUser(globalThis.context, requestPermissions)
       .then((data) => {
         HiLog.i(TAG, "Auth result is: " + JSON.stringify(data.authResults));
         let authFlag = true;

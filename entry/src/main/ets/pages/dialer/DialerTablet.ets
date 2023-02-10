@@ -18,7 +18,7 @@ import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import { DialerInitialPage } from '../../component/dialer/DialerInitialPage';
 import DialerPresenter from '../../presenter/dialer/DialerPresenter';
 import EnvironmentProp from '../../feature/EnvironmentProp';
-import { SimCardState } from '../../../../../../feature/phonenumber/src/main/ets/SimUtil';
+import { simCardState } from '../../../../../../feature/phonenumber/src/main/ets/SimUtil';
 import PreferencesUtil from '../../util/PreferencesUtil';
 
 const TAG = 'DialerTablet'
@@ -184,7 +184,6 @@ struct DialPad {
 @Entry
 @Component
 export default struct CallTablet {
-  @State @Watch("onSimChanged") mSimCardState: SimCardState = SimCardState.getInstance();
   @State mPresenter: DialerPresenter = DialerPresenter.getInstance();
   @StorageLink("tele_number") tele_number: string = "";
   menuRes: Resource[] = [$r("app.string.call_setting_type_paste"),
@@ -193,22 +192,24 @@ export default struct CallTablet {
   $r("app.string.call_setting_type_setting")];
   @State callmenu: { [key: string]: any } = [{ value: "", action: () => {
   } }];
-  @State haveSimCard: boolean = false;
+  @State haveSimCard: boolean = simCardState.haveSimCard;
+  @State haveMultiSimCard: boolean = simCardState.haveMultiSimCard;
 
-  onSimChanged(): void {
-    HiLog.i(TAG, "haveSimCard change:" + JSON.stringify(this.mSimCardState.haveSimCard));
-    this.haveSimCard = this.mSimCardState.haveSimCard;
+  onSimChanged = () => {
+    HiLog.i(TAG, "haveSimCard change:" + JSON.stringify(simCardState.haveSimCard));
+    this.haveSimCard = simCardState.haveSimCard;
+    this.haveMultiSimCard = simCardState.haveMultiSimCard
   }
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear CallTablet ');
     this.getMenu();
-    this.mSimCardState.getSimCardState();
-    this.mSimCardState.addSimChangeListener();
+    simCardState.attachObserver(this.onSimChanged);
     this.mPresenter.aboutToAppear();
   }
 
   aboutToDisappear() {
+    simCardState.detachObserver(this.onSimChanged);
     this.mPresenter.onDestroy();
   }
 
@@ -375,6 +376,7 @@ export default struct CallTablet {
           DialPad({ mPresenter: $mPresenter })
 
           Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.SpaceAround }) {
+            // TODO multi simcard dial btn
             Button()
               .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
               .width($r("app.float.id_item_height_max"))
@@ -392,7 +394,7 @@ export default struct CallTablet {
             // Currently, it is not possible to tell whether the device has dial capability.
             // 1. The dial button in phone is enable.
             // 2. The dial button in tablet is enable only when sim card is inserted.
-            .opacity(!EnvironmentProp.isTablet() || this.mSimCardState.haveSimCard
+            .opacity(!EnvironmentProp.isTablet() || this.haveSimCard
               ? 1 : $r('sys.float.ohos_id_alpha_disabled'))
             .onClick(() => {
               if (this.tele_number.length > 0) {

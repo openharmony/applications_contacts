@@ -122,8 +122,8 @@ export default class CallRecordPresenter {
     })
   }
 
-  dialing(phoneNumber) {
-    PhoneNumber.fromString(phoneNumber).dial();
+  dialing(phoneNumber, options?: any) {
+    PhoneNumber.fromString(options).dial();
   }
 
   deleteCallLog(id) {

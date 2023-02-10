@@ -37,6 +37,7 @@ export default class DialerPresenter {
   private timer:any = null;
   panelShow: boolean = false;
   btnShow: boolean = true;
+  isClickDelete: boolean = false;
   tele_number: string = "";
   tele_num_size: number = this.NUM_TEXT_FONT_SIZE_MAX;
   all_number: string = "";
@@ -81,15 +82,14 @@ export default class DialerPresenter {
   }
 
   editPhoneNumber(phoneNum): void{
-    if (StringUtil.isEmpty(phoneNum)) {
+    if (StringUtil.isEmpty(phoneNum) || this.isClickDelete) {
+      this.isClickDelete = false;
       return;
     }
     AppStorage.SetOrCreate("tele_number", phoneNum);
     this.all_number = phoneNum;
     this.viewNumberTextProc();
-    this.deleteTeleNum();
     this.deleteAddSpace();
-    this.refreshView = !this.refreshView;
   }
 
   onDestroy() {
@@ -167,9 +167,9 @@ export default class DialerPresenter {
     return true;
   }
 
-  dialing(phoneNumber) {
+  dialing(phoneNumber, options?: any) {
     IndexPresenter.getInstance().editPhoneNumber = "";
-    PhoneNumber.fromString(phoneNumber).dial().then((rst) => {
+    PhoneNumber.fromString(phoneNumber).dial(options).then((rst) => {
       this.refresh();
     });
   }

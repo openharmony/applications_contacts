@@ -22,7 +22,6 @@ export default class CallRecordListDataSource extends BasicDataSource {
     private callLogData: [] = [];
 
     public totalCount(): number {
-        HiLog.i(TAG, "totalCount is %s" + JSON.stringify(this.callLogData.length));
         return this.callLogData.length;
     }
 
