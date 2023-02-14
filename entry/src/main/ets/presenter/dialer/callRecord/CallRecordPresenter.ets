@@ -123,7 +123,7 @@ export default class CallRecordPresenter {
   }
 
   dialing(phoneNumber, options?: any) {
-    PhoneNumber.fromString(options).dial();
+    PhoneNumber.fromString(phoneNumber).dial(options);
   }
 
   deleteCallLog(id) {
