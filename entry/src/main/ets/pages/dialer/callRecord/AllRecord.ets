@@ -222,7 +222,13 @@ struct ContactItem {
     .height($r("app.float.id_item_height_max"))
     .margin({left:24})
     .onClick((event: ClickEvent) => {
-      this.mPresenter.dialing(this.item.phoneNumber,this.item.simId)
+      let options = undefined;
+      if (this.haveMultiSimCard) {
+        options = {
+          accountId: this.item.simId,
+        }
+      }
+      this.mPresenter.dialing(this.item.phoneNumber, options);
     })
     .bindContextMenu(this.MenuBuilder, ResponseType.LongPress)
   }
