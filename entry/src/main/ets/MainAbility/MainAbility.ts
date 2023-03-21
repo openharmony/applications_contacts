@@ -1,4 +1,4 @@
-import Ability from '@ohos.application.Ability'
+import Ability from '@ohos.app.ability.UIAbility'
 import Window from '@ohos.window'
 import WorkFactory, { WorkerType } from "../workers/WorkFactory";
 import { MissedCallService } from '../../../../../feature/call';
