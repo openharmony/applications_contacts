@@ -1,0 +1,13 @@
+{
+  "commonEvents": [
+    {
+      "name":"Subscriber",
+      "permission": "",
+      "types": [],
+      "events": [
+        "usual.event.INCOMING_CALL_MISSED",
+        "contact.event.CANCEL_MISSED"
+      ]
+    }
+  ]
+}

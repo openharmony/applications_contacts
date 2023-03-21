@@ -17,7 +17,6 @@ import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUti
 import audio from '@ohos.multimedia.audio';
 import router from '@ohos.router';
 import observer from '@ohos.telephony.observer';
-import { AudioHepler } from '../../feature/AudioHepler';
 import PreferencesUtil from '../../util/PreferencesUtil';
 import { PhoneNumber } from '../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 import IndexPresenter from '../IndexPresenter';
@@ -29,15 +28,15 @@ const TAG = 'DialerPresenter';
  */
 export default class DialerPresenter {
   private static mPresenter: DialerPresenter;
-  private audioWorker: AudioHepler;
   private _isCallStateChangeObserved = false;
   readonly NUM_TEXT_MAX_LENGTH = 20;
   readonly NUM_TEXT_MAXSIZE_LENGTH = 14;
   readonly NUM_TEXT_FONT_SIZE_MAX = 38;
-  private timer:any = null;
+  private timer: any = null;
   panelShow: boolean = false;
   btnShow: boolean = true;
   isClickDelete: boolean = false;
+  isEmergencyNum: boolean = false;
   tele_number: string = "";
   tele_num_size: number = this.NUM_TEXT_FONT_SIZE_MAX;
   all_number: string = "";
@@ -58,7 +57,6 @@ export default class DialerPresenter {
   }
 
   aboutToAppear() {
-    this.audioWorker = new AudioHepler("AudioWorker", "entry/ets/workers/AudioWorker.js");
     if (!PreferencesUtil.isUsed() && !this._isCallStateChangeObserved) {
       observer.on('callStateChange', (callback: {
         state,
@@ -81,7 +79,7 @@ export default class DialerPresenter {
     }
   }
 
-  editPhoneNumber(phoneNum): void{
+  editPhoneNumber(phoneNum): void {
     if (StringUtil.isEmpty(phoneNum) || this.isClickDelete) {
       this.isClickDelete = false;
       return;
@@ -93,16 +91,13 @@ export default class DialerPresenter {
   }
 
   onDestroy() {
-    this.audioWorker.postMessage({
-      type: "over"
-    })
   }
 
   /*
    * Change the font size when deleting a number.
    */
   deleteTeleNum() {
-    let number:string = AppStorage.Get("tele_number");
+    let number: string = AppStorage.Get("tele_number");
     if (this.all_number.length < this.NUM_TEXT_MAX_LENGTH) {
       AppStorage.SetOrCreate("tele_number", this.all_number);
     } else {
@@ -119,7 +114,7 @@ export default class DialerPresenter {
    * Add formatting spaces when deleting a number.
    */
   deleteAddSpace() {
-    let number:string = AppStorage.Get("tele_number");
+    let number: string = AppStorage.Get("tele_number");
     let teleNumberNoSpace = StringUtil.removeSpace(number);
     this.all_number = StringUtil.removeSpace(this.all_number);
     if (teleNumberNoSpace.length > this.NUM_TEXT_MAXSIZE_LENGTH - 2) {
@@ -184,7 +179,7 @@ export default class DialerPresenter {
    * Add a space when entering a number.
    */
   ifNeedSpace() {
-    let needNumber:string = AppStorage.Get("tele_number");
+    let needNumber: string = AppStorage.Get("tele_number");
     switch (needNumber.length) {
       case 3:
         if (this.checkNeedNumberSpace(needNumber)) {
@@ -269,20 +264,20 @@ export default class DialerPresenter {
     if (this.timer) clearTimeout(this.timer);
     let tonePlayer = null;
     let audioRendererInfo = {
-      content : 5,
-      usage : 6,
-      rendererFlags : 0
+      content: 5,
+      usage: 6,
+      rendererFlags: 0
     };
     this.timer = setTimeout(async () => {
       try {
         tonePlayer = await audio.createTonePlayer(audioRendererInfo);
         await tonePlayer.load(type);
         await tonePlayer.start();
-        setTimeout(async()=>{
+        setTimeout(async () => {
           await tonePlayer.stop();
           await tonePlayer.release();
         }, 30)
-      } catch(err) {
+      } catch (err) {
         HiLog.e(TAG, 'tonePlayer err = ' + JSON.stringify(err));
       }
     }, 50)
@@ -297,7 +292,7 @@ export default class DialerPresenter {
       params: {
         updataShow: false,
         phoneNumbers: [{
-                         phoneNumber: this.all_number
+                         phoneNumber: AppStorage.Get("tele_number")
                        }]
       },
     })

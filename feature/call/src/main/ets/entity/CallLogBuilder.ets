@@ -21,8 +21,7 @@ export default class CallLogBuilder {
   displayName: string;
   callDirection: number;
   voicemailUri: string;
-  // TODO add simId
-  simId:number;
+  simId: number;
   simType: number;
   isHD: boolean;
   isRead: boolean;
@@ -52,7 +51,7 @@ export default class CallLogBuilder {
     callLogBuilder.setCallDirection(resultSet.getLong(resultSet.getColumnIndex(Calls.CALL_DIRECTION)));
     callLogBuilder.setDisplayName(resultSet.getString(resultSet.getColumnIndex(Calls.DISPLAY_NAME)));
     callLogBuilder.setVoicemailUri(resultSet.getString(resultSet.getColumnIndex(Calls.VOICEMAIL_URI)));
-    // TODO add simId
+    callLogBuilder.setSimId(resultSet.getLong(resultSet.getColumnIndex(Calls.SIM_ID)));
     callLogBuilder.setSimType(resultSet.getLong(resultSet.getColumnIndex(Calls.SIM_TYPE)));
     callLogBuilder.setIsHD(resultSet.getLong(resultSet.getColumnIndex(Calls.IS_HD)) > 0 ? true : false);
     callLogBuilder.setIsRead(resultSet.getLong(resultSet.getColumnIndex(Calls.IS_READ)) > 0 ? true : false);
@@ -88,7 +87,11 @@ export default class CallLogBuilder {
     return this;
   }
 
-  // TODO add simID
+  setSimId(simId: number) {
+    this.simId = simId;
+    return this;
+  }
+
   setSimType(simType: number) {
     this.simType = simType;
     return this;

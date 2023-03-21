@@ -43,9 +43,11 @@ export default class ContactListDataSource extends BasicDataSource {
             } else {
                 showDivifer = false;
             }
-            contact.setTitle(StringUtil.isEmpty(contact.showName) ? contact.phoneNum : contact.showName);
-            let subtitleConcat: string = (!StringUtil.isEmpty(contact.company) && !StringUtil.isEmpty(contact.position)) ? ' | ' : "";
-            contact.setSubTitle((StringUtil.isEmpty(contact.company) ? '' : contact.company).concat(subtitleConcat).concat(StringUtil.isEmpty(contact.position) ? '' : contact.position));
+            contact.title = (StringUtil.isEmpty(contact.showName) ? contact.phoneNum : contact.showName);
+            let subtitleConcat: string = (!StringUtil.isEmpty(contact.company) &&
+            !StringUtil.isEmpty(contact.position)) ? ' | ' : "";
+            contact.subTitle = (StringUtil.isEmpty(contact.company) ? '' :
+            contact.company).concat(subtitleConcat).concat(StringUtil.isEmpty(contact.position) ? '' : contact.position);
             return {
                 showIndex: showIndex,
                 showDivifer: showDivifer,

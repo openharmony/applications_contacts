@@ -18,7 +18,6 @@ import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import { DialerInitialPage } from '../../component/dialer/DialerInitialPage';
 import DialerPresenter from '../../presenter/dialer/DialerPresenter';
 import EnvironmentProp from '../../feature/EnvironmentProp';
-import { simCardState } from '../../../../../../feature/phonenumber/src/main/ets/SimUtil';
 import PreferencesUtil from '../../util/PreferencesUtil';
 
 const TAG = 'DialerTablet'
@@ -192,24 +191,16 @@ export default struct CallTablet {
   $r("app.string.call_setting_type_setting")];
   @State callmenu: { [key: string]: any } = [{ value: "", action: () => {
   } }];
-  @State haveSimCard: boolean = simCardState.haveSimCard;
-  @State haveMultiSimCard: boolean = simCardState.haveMultiSimCard;
-
-  onSimChanged = () => {
-    HiLog.i(TAG, "haveSimCard change:" + JSON.stringify(simCardState.haveSimCard));
-    this.haveSimCard = simCardState.haveSimCard;
-    this.haveMultiSimCard = simCardState.haveMultiSimCard
-  }
+  @StorageLink("haveSimCard") haveSimCard: boolean = false;
+  @StorageLink('haveMultiSimCard') haveMultiSimCard: boolean = false;
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear CallTablet ');
     this.getMenu();
-    simCardState.attachObserver(this.onSimChanged);
     this.mPresenter.aboutToAppear();
   }
 
   aboutToDisappear() {
-    simCardState.detachObserver(this.onSimChanged);
     this.mPresenter.onDestroy();
   }
 
@@ -376,7 +367,7 @@ export default struct CallTablet {
           DialPad({ mPresenter: $mPresenter })
 
           Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.SpaceAround }) {
-            // TODO multi simcard dial btn
+            //TODO 双卡拨号按钮
             Button()
               .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
               .width($r("app.float.id_item_height_max"))

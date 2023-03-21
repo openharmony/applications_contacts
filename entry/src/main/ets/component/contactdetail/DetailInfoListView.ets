@@ -13,16 +13,17 @@
  * limitations under the License.
  */
 
-import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
+import { StringUtil, HiLog } from '../../../../../../common';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
-import router from '@ohos.router';
+import DialerPresenter from '../../presenter/dialer/DialerPresenter';
 import { PhoneNumber } from '../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 import DetailInfoList from './DetailInfoList';
 import call from '@ohos.telephony.call';
 import EnvironmentProp from '../../feature/EnvironmentProp';
 import { DataItemType } from '../../../../../../feature/contact/src/main/ets/contract/DataType';
 import IndexPresenter from '../../presenter/IndexPresenter';
-import { SelectSimIdDialog, SelectDialogBuilder } from '../mutisim/SelectSimIdDialog';
+import { SelectDialogBuilder } from '../mutisim/SelectSimIdDialog';
+
 const TAG = "ContactDetail-detailInfoList";
 
 enum MenuType {
@@ -32,7 +33,6 @@ enum MenuType {
 @Component
 export default struct DetailInfoListView {
   @Link mPresenter: { [key: string]: any };
-  @Link haveSimCard: boolean;
   @Link selectSimBuilder: SelectDialogBuilder;
 
   build() {
@@ -41,7 +41,6 @@ export default struct DetailInfoListView {
       TelList({
         List: JSON.stringify(this.mPresenter.contactForm.phones),
         mPresenter: $mPresenter,
-        haveSimCard: $haveSimCard,
         selectSimBuilder:$selectSimBuilder
       });
 
@@ -110,9 +109,8 @@ export default struct DetailInfoListView {
  */
 @Component
 struct TelList {
-  @State List:string = '';
+  @State List: string = '';
   @Link private mPresenter: { [key: string]: any };
-  @Link haveSimCard: boolean;
   @Link selectSimBuilder: SelectDialogBuilder;
 
   build() {
@@ -120,8 +118,7 @@ struct TelList {
       List() {
         ForEach(JSON.parse(this.List), item => {
           ListItem() {
-            TelListItem({ message: JSON.stringify(item), mPresenter: $mPresenter, haveSimCard: $haveSimCard,
-              selectSimBuilder:$selectSimBuilder });
+            TelListItem({ message: JSON.stringify(item), mPresenter: $mPresenter, selectSimBuilder:$selectSimBuilder });
           }
         }, item => JSON.stringify(item))
       }
@@ -138,15 +135,11 @@ struct TelList {
 struct TelListItem {
   @Prop private message: string;
   @State mIndexPresenter: IndexPresenter = IndexPresenter.getInstance();
-  @Link haveSimCard: boolean;
+  @State isEmergencyNum: boolean = false;
+  @StorageLink("haveSimCard") haveSimCard: boolean = false;
+  @StorageLink('haveMultiSimCard') haveMultiSimCard: boolean = false;
   @Link private mPresenter: { [key: string]: any };
   @Link selectSimBuilder: SelectDialogBuilder;
-  mSelectSlotIdDialog: CustomDialogController = new CustomDialogController({
-    builder: SelectSimIdDialog({builder:$selectSimBuilder}),
-    customStyle: false,
-    autoCancel: true,
-    alignment: DialogAlignment.Bottom
-  })
 
   @Builder MenuBuilder() {
     Flex({ direction: FlexDirection.Column,
@@ -180,6 +173,7 @@ struct TelListItem {
         .fontColor($r('sys.color.ohos_id_color_text_primary'))
         .textAlign(TextAlign.Start)
     }
+    .width("100%")
     .padding({ left: $r("app.float.id_card_margin_large"), right: $r("app.float.id_card_margin_large") })
     .height($r("app.float.id_item_height_mid"))
     .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
@@ -189,8 +183,9 @@ struct TelListItem {
           this.mIndexPresenter.getCopy(JSON.parse(this.message).data);
           break;
         case MenuType.EditBeforeCall:
-          this.mIndexPresenter.editBeforeCall(JSON.parse(this.message).data);
-          router.back();
+          AppStorage.SetOrCreate("isRouterBack", true);
+          DialerPresenter.getInstance().editPhoneNumber(JSON.parse(this.message).data);
+          AppStorage.SetOrCreate<boolean>("showDialBtn", true);
           break;
       }
     })
@@ -207,7 +202,7 @@ struct TelListItem {
   build() {
     Flex({ direction: FlexDirection.Row, justifyContent: FlexAlign.SpaceBetween, alignItems: ItemAlign.Center }) {
       Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Start }) {
-        Text(JSON.parse(this.message).data)
+        Text(PhoneNumber.fromString(JSON.parse(this.message).data).format())
           .fontSize($r("sys.float.ohos_id_text_size_body1"))
           .fontWeight(FontWeight.Medium)
           .textOverflow({ overflow: TextOverflow.Ellipsis })
@@ -279,15 +274,33 @@ struct TelListItem {
       .flexShrink(0)
     }
     .onClick(() => {
-      let phoneNum:string = JSON.parse(this.message).num;
-      if (this.selectSimBuilder.haveMultiSimCard) {
-        this.selectSimBuilder.title = $r("app.string.contacts_call_number", phoneNum);
-        this.selectSimBuilder.callback = (value) => {
-          PhoneNumber.fromString(phoneNum).dial({
-            accountId:value,
-          });
+      let phoneNum: string = JSON.parse(this.message).num;
+      if (!this.haveSimCard) {
+        HiLog.i(TAG, "No SIM card!");
+        //TODO Pop-up window for dialing without a SIM card
+        PhoneNumber.fromString(phoneNum).isDialEmergencyNum().then((res) => {
+          this.isEmergencyNum = res;
+        })
+        if (!this.isEmergencyNum) {
+          HiLog.i(TAG, "Is not Emergency Phone Number!");
+          return;
+        } else {
+          HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
+          PhoneNumber.fromString(phoneNum).dial();
         }
-        this.mSelectSlotIdDialog.open()
+      } else if (this.haveMultiSimCard) {
+          this.selectSimBuilder.title = $r("app.string.contacts_call_number", phoneNum);
+          this.selectSimBuilder.callback = (value) => {
+            PhoneNumber.fromString(phoneNum).dial({
+              accountId: value,
+            });
+          }
+        this.selectSimBuilder.lastSimId = this.mPresenter.lastUsedSlotId;
+        let spnList = AppStorage.Get<Array<string|Resource>>('spnList');
+        for (var index = 0; index < spnList.length; index++) {
+          this.selectSimBuilder.multiSimCardItems[index].name =  spnList[index];
+        }
+        this.selectSimBuilder.controller?.open();
       } else {
         PhoneNumber.fromString(phoneNum).dial();
       }

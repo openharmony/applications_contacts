@@ -32,8 +32,17 @@ const TAG = "CallLogRepository";
 export class CallLogRepository implements ICallLogRepository {
   private static instance: CallLogRepository;
   private dataShareHelper;
+  private context: Context
 
   private constructor() {
+  }
+
+  /*
+   * init if Call From serviceAbility globalThis.context is Null
+   *@param ctx Context used for dataShare
+   */
+  init(ctx: Context) {
+    this.context = ctx;
   }
 
   public static getInstance(): CallLogRepository {
@@ -45,7 +54,8 @@ export class CallLogRepository implements ICallLogRepository {
 
   private async getDataAbilityHelper() {
     if (this.dataShareHelper == undefined) {
-      this.dataShareHelper = await dataShare.createDataShareHelper(globalThis.context, Calls.CONTENT_URI);
+      this.dataShareHelper = await dataShare.createDataShareHelper(this.context ? this.context : globalThis.context,
+          Calls.CONTENT_URI);
     }
     return this.dataShareHelper;
   }
@@ -196,6 +206,61 @@ export class CallLogRepository implements ICallLogRepository {
       });
     }).catch(error => {
       HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+      callback([]);
+    });
+  }
+
+  markMissedCallLogAsRead(phoneNum?: string) {
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+      let condition = new dataSharePredicates.DataSharePredicates();
+      condition.equalTo(Calls.IS_READ, 0)
+        .and().equalTo(Calls.CALL_DIRECTION, 0);
+      if (phoneNum && !StringUtil.isEmpty(phoneNum)) {
+        condition.and().equalTo(Calls.PHONE_NUMBER, phoneNum);
+      }
+      dataAbilityHelper.update(Calls.CALL_LOG_URI, condition, {
+        "is_read": 1
+      }).then(value => {
+        HiLog.i(TAG, 'markMissedCallLogIsRead update succ :%d', value);
+      }).catch(error => {
+        HiLog.w(TAG, 'markMissedCallLogIsRead error:%s', JSON.stringify(error.message));
+      });
+    }).catch(error => {
+      HiLog.w(TAG, 'markMissedCallLogIsRead error:%s' + JSON.stringify(error.message));
+    });
+  }
+
+  findMissedCallLogUnread(callback, lastId?: number) {
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+      let condition = new dataSharePredicates.DataSharePredicates();
+      condition.equalTo(Calls.IS_READ, 0).and().equalTo(Calls.CALL_DIRECTION, 0).and().equalTo(Calls.ANSWER_STATE, 0);
+
+      if (lastId && lastId > -1) {
+        condition.and().greaterThan(Calls.ID, lastId);
+      }
+      condition.orderByDesc(Calls.ID);
+      dataAbilityHelper.query(Calls.CALL_LOG_URI, condition, null).then(resultSet => {
+        let rst: CallLog[] = [];
+        if (resultSet.rowCount === 0) {
+          resultSet.close();
+          callback(rst);
+        } else {
+          resultSet.goToFirstRow();
+          do {
+            let builder = CallLogBuilder.fromResultSet(resultSet);
+            if (builder.id > 0) {
+              rst.push(new CallLog(builder));
+            }
+          } while (resultSet.goToNextRow());
+          resultSet.close();
+          callback(rst);
+        }
+      }).catch(error => {
+        HiLog.w(TAG, 'findMissedCallLogUnread resultSet parse error:%s', JSON.stringify(error.message));
+        callback([]);
+      });
+    }).catch(error => {
+      HiLog.w(TAG, 'findMissedCallLogUnread error:%s' + JSON.stringify(error.message));
       callback([]);
     });
   }

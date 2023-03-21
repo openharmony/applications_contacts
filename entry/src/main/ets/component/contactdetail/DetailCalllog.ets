@@ -26,8 +26,10 @@ const TAG = "ContactDetail-calllog";
 @Component
 export default struct CallLogListItem {
   @State message: { [key: string]: any } = {};
+  @State isEmergencyNum: boolean = false;
   private imgRes: Resource;
-  @Link haveMultiSimCard: boolean;
+  @StorageLink("haveMultiSimCard") haveMultiSimCard: boolean = false;
+  @StorageLink("haveSimCard") haveSimCard: boolean = false;
   @Link private mPresenter: { [key: string]: any };
   private simImgRes: Resource = $r('app.media.stat_sys_sim1');
 
@@ -108,20 +110,35 @@ export default struct CallLogListItem {
           .fontSize($r("sys.float.ohos_id_text_size_body2"))
           .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
       }
-      .margin({right: $r("app.float.id_card_margin_max") })
+      .margin({ right: $r("app.float.id_card_margin_max") })
       .height("19vp")
     }
     .width('100%')
     .height($r("app.float.id_item_height_max"))
     .padding({ top: 5, bottom: 5 })
     .onClick(() => {
-      HiLog.i(TAG,"CallLogListItem onClick:" + JSON.stringify(this.message))
+      HiLog.i(TAG, "CallLogListItem onClick:" + JSON.stringify(this.message))
       if (this.haveMultiSimCard) {
         PhoneNumber.fromString(this.message.formatNumber).dial({
           accountId: this.message.simId,
         });
       } else {
-        PhoneNumber.fromString(this.message.formatNumber).dial();
+        if (!this.haveSimCard) {
+          HiLog.i(TAG, "No SIM card!");
+          //TODO Pop-up window for dialing without a SIM card
+          PhoneNumber.fromString(this.message.formatNumber).isDialEmergencyNum().then((res) => {
+            this.isEmergencyNum = res;
+          })
+          if (!this.isEmergencyNum) {
+            HiLog.i(TAG, "Is not Emergency Phone Number!");
+            return;
+          } else {
+            HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
+            PhoneNumber.fromString(this.message.formatNumber).dial();
+          }
+        } else {
+          PhoneNumber.fromString(this.message.formatNumber).dial();
+        }
       }
     })
     .gesture(LongPressGesture({ fingers: 1, repeat: false, duration: 500 })

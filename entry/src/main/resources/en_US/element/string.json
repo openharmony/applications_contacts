@@ -357,6 +357,22 @@
       "value": "Dialing"
     },
     {
+      "name": "contacts_ring_times",
+      "value": "Rang "
+    },
+    {
+      "name": "contacts_time_sec",
+      "value": " sec"
+    },
+    {
+      "name": "dial_back",
+      "value": "DIAL-BACK"
+    },
+    {
+      "name": "message",
+      "value": "MESSAGE"
+    },
+    {
       "name": "recording",
       "value": "Record"
     },
@@ -783,6 +799,18 @@
     {
       "name": "permission_manage_voicemail",
       "value": "Used to manage voicemail。"
+    },
+    {
+      "name": "china_mobile",
+      "value": "China Mobile"
+    },
+    {
+      "name": "china_telecom",
+      "value": "China Telecom"
+    },
+    {
+      "name": "china_unicom",
+      "value": "China Unicom"
     }
   ]
 }

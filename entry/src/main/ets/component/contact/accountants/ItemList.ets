@@ -12,23 +12,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
 import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 
 @Component
 export struct ItemList {
-  @Link mPresent: AccountantsPresenter;
+  @Link @Watch('refresh') mPresent: AccountantsPresenter;
   @State mTextInputValue: string = '';
   private index: number;
   private typeName: string;
   private placeholder: Resource;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
 
-  aboutToAppear() {
-    HiLog.i("ItemList", "aboutToAppear!!!");
+  refresh() {
     this.mTextInputValue = this.mPresent.getTextDisplay(this.typeName, this.mPresent.getData(this.typeName,
       this.index - 1));
+  }
+
+  aboutToAppear() {
+    HiLog.i(this.typeName + this.index, "aboutToAppear!!!");
+    this.refresh()
   }
 
   build() {
@@ -36,8 +39,8 @@ export struct ItemList {
       Column() {
         Row() {
           Text(this.mPresent.menuSelect(
-            this.typeName,
-            this.mPresent.getData(this.typeName, this.index - 1)
+          this.typeName,
+          this.mPresent.getData(this.typeName, this.index - 1)
           ))
             .fontSize($r("sys.float.ohos_id_text_size_body1"))
             .fontWeight(FontWeight.Medium)
@@ -65,7 +68,7 @@ export struct ItemList {
             })
               .fontSize($r("sys.float.ohos_id_text_size_body1"))
               .caretColor($r("sys.color.ohos_id_color_connected"))
-              .type((this.typeName === "phone") ? InputType.PhoneNumber: InputType.Normal)
+              .type((this.typeName === "phone") ? InputType.PhoneNumber : InputType.Normal)
               .maxLength(256)
               .height("98%")
               .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
@@ -88,7 +91,7 @@ export struct ItemList {
                   this.mTextInputValue = arg;
                 }
                 this.mPresent.listItemChange(this.typeName, this.mPresent.getData(this.typeName, this.index - 1),
-                    this.typeName === "phone"? args.toString().replace(/\s*/g, "") : arg.toString());
+                    this.typeName === "phone" ? args.toString().replace(/\s*/g, "") : arg.toString());
                 this.mPresent.textChange(arg);
               })
           }
@@ -102,7 +105,11 @@ export struct ItemList {
               .width($r("app.float.id_card_image_small"))
               .fillColor($r("sys.color.ohos_id_color_tertiary"))
               .onClick(() => {
-                this.mPresent.deleteItem(this.typeName, this.index - 1);
+                try {
+                  this.mPresent.deleteItem(this.typeName, this.index - 1);
+                } catch (err) {
+                  HiLog.e("deleteItem", ' deleteItem error ' + JSON.stringify(err));
+                }
               })
           }
           .flexShrink(0)
@@ -133,7 +140,7 @@ export struct ItemList {
             .fontColor($r("sys.color.ohos_id_color_text_primary"))
             .textAlign(TextAlign.Start)
             .margin({ left: $r("app.float.id_card_margin_xxl") })
-            .padding({left: 10})
+            .padding({ left: 10 })
             .onClick(() => {
               this.mPresent.menuChange(this.typeName, this.mPresent.getData(this.typeName, this.index - 1), item);
             })

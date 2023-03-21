@@ -23,7 +23,8 @@ import DialerPresenter from '../../../presenter/dialer/DialerPresenter';
 import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
 import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 import IndexPresenter from '../../../presenter/IndexPresenter';
-import {simCardState} from "../../../../../../../feature/phonenumber/src/main/ets/SimUtil"
+import { HiLog } from "../../../../../../../common"
+import emitter from '@ohos.events.emitter'
 
 const TAG = "AllRecord ";
 
@@ -32,11 +33,29 @@ export default struct AllRecord {
   @Link mPresenter: CallRecordPresenter;
   /*0all 1miss*/
   recordType: number = 0;
+  emitterId: number = 1;
+  @State callLogListLen: number = 0;
+  @State missedListListLen: number = 0;
+
+  aboutToAppear() {
+    let innerEvent = {
+      eventId: this.emitterId,
+      priority: emitter.EventPriority.HIGH
+    };
+    emitter.on(innerEvent, (data) => {
+      this.callLogListLen = data.data['callLogListLen'];
+      this.missedListListLen = data.data['missedListListLen'];
+    })
+  }
+
+  aboutToDisappear() {
+    emitter.off(this.emitterId);
+  }
 
   build() {
     Stack() {
-      if (this.recordType === 0 ? this.mPresenter.callLogList.length === 0 :
-        this.mPresenter.missedList.length === 0) {
+      if ((this.recordType === 0 ? this.mPresenter.callLogList.length === 0 && this.callLogListLen == 0:
+        this.mPresenter.missedList.length === 0 && this.missedListListLen == 0 )) {
         EmptyView({ recordType: this.recordType })
       } else {
         RecordView({ mPresenter: $mPresenter, recordType: this.recordType });
@@ -50,22 +69,13 @@ struct RecordView {
   @Link private mPresenter: { [key: string]: any }
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   recordType: number = 0;
-  @State haveMultiSimCard: boolean = simCardState.haveMultiSimCard;
-  onSimStateChange = ()=>{
-    this.haveMultiSimCard = simCardState.haveMultiSimCard;
-  }
-  aboutToAppear(){
-    simCardState.attachObserver(this.onSimStateChange);
-  }
-  aboutToDisappear(){
-    simCardState.detachObserver(this.onSimStateChange);
-  }
+
   build() {
     List({ space: 0, initialIndex: 0 }) {
       LazyForEach(this.recordType === 0 ? this.mPresenter.mAllCallRecordListDataSource :
       this.mPresenter.mMissCallRecordListDataSource, (item, index: number) => {
         ListItem() {
-          ContactItem({ mPresenter: $mPresenter, item: item, haveMultiSimCard: $haveMultiSimCard});
+          ContactItem({ mPresenter: $mPresenter, item: item});
         }
         .height($r("app.float.id_item_height_max"))
       }, item => JSON.stringify(item))
@@ -120,8 +130,10 @@ struct ContactItem {
   @State mIndexPresenter: IndexPresenter = IndexPresenter.getInstance();
   @Link mPresenter: CallRecordPresenter
   @State item: { [key: string]: any } = {};
+  @State isEmergencyNum: boolean = false;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
-  @Link haveMultiSimCard: boolean;
+  @StorageLink("haveMultiSimCard") haveMultiSimCard: boolean = false;
+  @StorageLink('haveSimCard') haveSimCard:boolean = false;
   deleteDialogController: CustomDialogController = new CustomDialogController({
     //Components shared by the TIP for creating or updating a contact by mistake and the TIP for deleting a contact
     builder: DeleteDialogEx({
@@ -158,7 +170,7 @@ struct ContactItem {
         Column() {
           Row() {
             Text(this.item.displayName ?
-            this.item.displayName : this.item.phoneNumber)
+            this.item.displayName : PhoneNumber.fromString(this.item.phoneNumber).format())
               .fontSize($r("sys.float.ohos_id_text_size_body1"))
               .fontWeight(FontWeight.Medium)
               .fontColor((this.item.callType === 3 || this.item.callType === 5) ?
@@ -177,7 +189,8 @@ struct ContactItem {
                 .maxLines(1)
             }
           }
-          Row(){
+
+          Row() {
             Image(this.item.simId == 0 ? $r('app.media.stat_sys_sim1') : $r('app.media.stat_sys_sim2'))
               .height($r("app.float.dialer_common_small_margin"))
               .width($r("app.float.dialer_common_small_margin"))
@@ -185,6 +198,18 @@ struct ContactItem {
                 right: $r("app.float.id_card_margin_mid"),
                 top: "4vp",
               }).visibility(this.haveMultiSimCard ? Visibility.Visible : Visibility.None);
+
+            Image($r('app.media.ic_public_contacts_hd'))
+              .height($r("app.float.dialer_common_small_margin"))
+              .width($r("app.float.dialer_common_small_margin"))
+              .onError((event => {
+                HiLog.e(TAG, "ic_public_contacts_hd Image onError" + JSON.stringify(event))
+              }))
+              .margin({
+                right: $r("app.float.id_card_margin_mid"),
+                top: "4vp",
+              }).visibility(this.item.isHD ? Visibility.Visible : Visibility.None);
+
             Text(this.item.numberLocation
               ? this.item.numberLocation
               : $r("app.string.unknown"))
@@ -195,7 +220,7 @@ struct ContactItem {
         }
         .alignItems(HorizontalAlign.Start)
         .layoutWeight(1)
-        .margin({right: $r("app.float.id_card_margin_xl")})
+        .margin({ right: $r("app.float.id_card_margin_xl") })
         .justifyContent(FlexAlign.Center)
         .height($r("app.float.id_item_height_max"))
 
@@ -215,20 +240,34 @@ struct ContactItem {
             })
         }
         .height($r("app.float.id_item_height_max"))
-        .margin({right:24})
+        .margin({ right: 24 })
       }
     }
     .width('100%')
     .height($r("app.float.id_item_height_max"))
-    .margin({left:24})
+    .margin({ left: 24 })
     .onClick((event: ClickEvent) => {
-      let options = undefined;
-      if (this.haveMultiSimCard) {
-        options = {
-          accountId: this.item.simId,
+      if (!this.haveSimCard) {
+        HiLog.i(TAG, "No SIM card!");
+        //TODO Pop-up window for dialing without a SIM card
+        PhoneNumber.fromString(this.item.phoneNumber).isDialEmergencyNum().then((res) => {
+          this.isEmergencyNum = res;
+        })
+        if (!this.isEmergencyNum) {
+          HiLog.i(TAG, "Is not Emergency Phone Number!");
+          return;
+        } else {
+          HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
+          this.mPresenter.dialing(this.item.phoneNumber);
+        }
+      } else {
+        if (this.haveMultiSimCard) {
+          DialerPresenter.getInstance().editPhoneNumber(this.item.phoneNumber);
+          AppStorage.SetOrCreate<boolean>("showDialBtn", true);
+        } else {
+          this.mPresenter.dialing(this.item.phoneNumber);
         }
       }
-      this.mPresenter.dialing(this.item.phoneNumber, options);
     })
     .bindContextMenu(this.MenuBuilder, ResponseType.LongPress)
   }
@@ -242,13 +281,14 @@ struct ContactItem {
           .fontSize($r("sys.float.ohos_id_text_size_headline8"))
           .fontColor($r('sys.color.ohos_id_color_text_primary'))
           .fontWeight(FontWeight.Medium)
-          .margin({ left: $r("app.float.id_card_margin_xxl"),right:$r("app.float.id_card_margin_xxl")})
+          .margin({ left: $r("app.float.id_card_margin_xxl"), right: $r("app.float.id_card_margin_xxl") })
           .textAlign(TextAlign.Start)
           .lineHeight('28vp')
           .maxLines(1)
-          .textOverflow({overflow:TextOverflow.Ellipsis})
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
           .height($r("app.float.id_item_height_max"))
       }
+
       this.MenuView($r("app.string.send_message"), MenuType.sendMessage)
       this.MenuDivider()
       this.MenuView($r("app.string.copy_phoneNumber"), MenuType.Copy)
@@ -257,6 +297,7 @@ struct ContactItem {
       this.MenuDivider()
       this.MenuView($r("app.string.delete_call_logs"), MenuType.DeleteCallLogs)
     }
+    .width("150vp")
     .alignItems(HorizontalAlign.Start)
     .borderRadius($r("app.float.id_card_margin_xxl"))
     .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
@@ -270,6 +311,7 @@ struct ContactItem {
         .margin({ left: $r("app.float.id_card_margin_xxl") })
         .textAlign(TextAlign.Start)
     }
+    .width("100%")
     .height($r("app.float.id_item_height_mid"))
     .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
     .onClick(() => {
@@ -278,7 +320,9 @@ struct ContactItem {
           this.deleteDialogController.open();
           break;
         case MenuType.EditBeforeCall:
+          DialerPresenter.getInstance().isClickDelete = false;
           DialerPresenter.getInstance().editPhoneNumber(this.item.phoneNumber);
+          AppStorage.SetOrCreate<boolean>("showDialBtn", true);
           break;
         case MenuType.sendMessage:
           let formatnum = PhoneNumber.fromString(this.item.phoneNumber).format();
