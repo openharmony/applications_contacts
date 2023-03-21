@@ -1,5 +1,5 @@
 import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
-import AbilityStage from "@oho.app.ability.AbilityStage"
+import AbilityStage from "@ohos.app.ability.AbilityStage"
 import notification from '@ohos.notificationManager';
 
 const TAG = 'ContactListItemView ';
