@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import ContactAbility from '../../../model/ContactAbilityModel'
 import inputMethod from '@ohos.inputMethod';
 import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
@@ -34,6 +33,7 @@ import { HouseBean } from "../../../model/bean/HouseBean";
 import { AIMBean } from "../../../model/bean/AIMBean";
 import { EventBean } from "../../../model/bean/EventBean";
 import { AssociatedPersonBean } from "../../../model/bean/AssociatedPersonBean";
+import PreferencesUtil from './../../../util/PreferencesUtil'
 
 const TAG = 'AccountantsPresenter  ';
 
@@ -43,8 +43,8 @@ const TAG = 'AccountantsPresenter  ';
 export default class AccountantsPresenter {
   private static instance: AccountantsPresenter;
   static readonly timeSub: number = 1000;
-  getPhones: Array<{}> = [];
-  getEmails: Array<{}> = [];
+  getPhones: Array<{ [key: string]: any }> = [];
+  getEmails: Array<{ [key: string]: any }> = [];
   clickBefEvent: Date = new Date();
   clickAftEvent: Date = new Date();
   contactId: string = "";
@@ -74,7 +74,9 @@ export default class AccountantsPresenter {
     return AccountantsPresenter.instance
   }
 
-  init() {
+  refreshState: (presenter: AccountantsPresenter) => void;
+
+  init(refreshState?) {
     this.contactId = "";
     this.updateShow = false;
     this.MagList = [1];
@@ -82,11 +84,15 @@ export default class AccountantsPresenter {
     this.contactInfoAfter = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
     this.clickBefEvent = new Date();
     this.clickAftEvent = this.clickBefEvent;
+    this.refreshState = refreshState;
   }
 
   refresh() {
     this.contactInfoBefore = this.contactInfoAfter;
     this.changed = !this.changed;
+    if (this.refreshState) {
+      this.refreshState(this);
+    }
   }
 
   updatesInit() {
@@ -147,7 +153,10 @@ export default class AccountantsPresenter {
     if (StringUtil.isEmpty(id)) {
       HiLog.e(TAG, 'The parameter ID is empty.');
     }
-    ContactAbility.getContactById(id, result => {
+    globalThis.DataWorker.sendRequest("getContactById", {
+      context: globalThis.context,
+      contactId: id
+    }, result => {
       if (StringUtil.isEmpty(result)) {
         HiLog.e(TAG, 'The result in the database is empty.');
         return;
@@ -240,7 +249,9 @@ export default class AccountantsPresenter {
     if (index < data.length) {
       return data[index];
     }
-    return {i: index + 1, item: {}};
+    return {
+      i: index + 1, item: {}
+    };
   }
 
   public getArray(array): Array<{ [key: string]: any }> {
@@ -258,10 +269,26 @@ export default class AccountantsPresenter {
   public addMore(type: any) {
     switch (type) {
       case "phone":
-        this.contactInfoAfter.phones.push(new PhoneNumBean("", "", "1", "", ""));
+        if (!this.updateShow) {
+          this.contactInfoAfter.phones.push(new PhoneNumBean("", "", "1", "", ""));
+        } else {
+          let add = {
+            i: this.getPhones.length + 1,
+            item: new PhoneNumBean("", "", "1", "", "")
+          }
+          this.getPhones.push(add);
+        }
         break;
       case "email":
-        this.contactInfoAfter.emails.push(new EmailBean("", "", "1"));
+        if (!this.updateShow) {
+          this.contactInfoAfter.emails.push(new EmailBean("", "", "1"));
+        } else {
+          let add = {
+            i: this.getEmails.length + 1,
+            item: new EmailBean("", "", "1")
+          }
+          this.getEmails.push(add);
+        }
         break;
       case "AIM":
         this.contactInfoAfter.aims.push(new AIMBean("", "", "1", ""));
@@ -282,6 +309,7 @@ export default class AccountantsPresenter {
   }
 
   public deleteItem(typeName: string, startIndex) {
+    HiLog.i(TAG, `deleteItem ${typeName} ${startIndex}`);
     switch (typeName) {
       case "phone":
         if (this.contactInfoAfter.phones.length > 1) {
@@ -289,6 +317,7 @@ export default class AccountantsPresenter {
         } else {
           this.contactInfoAfter.phones[0].num = "";
         }
+        this.getPhones = this.getArray(this.contactInfoAfter.phones);
         break;
       case "email":
         if (this.contactInfoAfter.emails.length > 1) {
@@ -296,6 +325,7 @@ export default class AccountantsPresenter {
         } else {
           this.contactInfoAfter.emails[0].address = "";
         }
+        this.getEmails = this.getArray(this.contactInfoAfter.emails);
         break;
       case "AIM":
         if (this.contactInfoAfter.aims.length > 1) {
@@ -373,31 +403,31 @@ export default class AccountantsPresenter {
   public listItemChange(typeName: string, data: any, arg: string) {
     switch (typeName) {
       case "phone":
-        if (StringUtil.isEmpty(this.contactInfoAfter?.phones[data.i - 1]?.numType)) {
+        if (StringUtil.isEmpty(this.contactInfoAfter?.phones[data?.i - 1]?.numType)) {
           this.contactInfoAfter.phones[data.i - 1] = new PhoneNumBean("", "", "1", "", "");
         }
         this.contactInfoAfter.phones[data.i - 1].num = arg.toString();
         break;
       case "email":
-        if (StringUtil.isEmpty(this.contactInfoAfter?.emails[data.i - 1]?.emailType)) {
+        if (StringUtil.isEmpty(this.contactInfoAfter?.emails[data?.i - 1]?.emailType)) {
           this.contactInfoAfter.emails[data.i - 1] = new EmailBean("", "", "1");
         }
         this.contactInfoAfter.emails[data.i - 1].address = arg.toString();
         break;
       case "AIM":
-        if (StringUtil.isEmpty(this.contactInfoAfter?.aims[data.i - 1]?.aimType)) {
+        if (StringUtil.isEmpty(this.contactInfoAfter?.aims[data?.i - 1]?.aimType)) {
           this.contactInfoAfter.aims[data.i - 1] = new AIMBean("", "", "1", "");
         }
         this.contactInfoAfter.aims[data.i - 1].aimName = arg.toString();
         break;
       case "house":
-        if (StringUtil.isEmpty(this.contactInfoAfter?.houses[data.i - 1]?.houseType)) {
+        if (StringUtil.isEmpty(this.contactInfoAfter?.houses[data?.i - 1]?.houseType)) {
           this.contactInfoAfter.houses[data.i - 1] = new HouseBean("", "", "1", "");
         }
         this.contactInfoAfter.houses[data.i - 1].houseName = arg.toString();
         break;
       case "relationships":
-        if (StringUtil.isEmpty(this.contactInfoAfter?.relationships[data.i - 1]?.associatedType)) {
+        if (StringUtil.isEmpty(this.contactInfoAfter?.relationships[data?.i - 1]?.associatedType)) {
           this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean("", "", "", "1");
         }
         this.contactInfoAfter.relationships[data.i - 1].name = arg.toString();
@@ -408,6 +438,9 @@ export default class AccountantsPresenter {
   }
 
   public menuSelect(typeName: string, data: any) {
+    if (data == undefined || data.item == undefined) {
+      return "";
+    }
     let typeId = 1;
     switch (typeName) {
       case "phone":
@@ -530,15 +563,29 @@ export default class AccountantsPresenter {
     this.clickAftEvent = new Date();
     if (this.getAddState() && !this.clicksMultiple()) {
       if (this.updateShow === false) {
-        ContactAbility.addContact(this.contactInfoAfter, (arg) => {
-          this.contactId = arg.toString();
-          this.routerAvtiveFlag = true;
-        })
+        globalThis.DataWorker.sendRequest("addContact",
+          {
+            context: globalThis.context,
+            contactInfoAfter: JSON.stringify(this.contactInfoAfter)
+          }
+          , (arg) => {
+            this.contactId = arg.toString();
+            this.routerAvtiveFlag = true;
+            if (!PreferencesUtil.isUsed()) {
+              PreferencesUtil.setIsUsed(true);
+            }
+          })
       }
       else {
-        ContactAbility.updateContact(null, this.contactInfoAfter, (arg) => {
+        globalThis.DataWorker.sendRequest("updateContact", {
+          context: globalThis.context,
+          contactInfoAfter: JSON.stringify(this.contactInfoAfter)
+        }, (arg) => {
           this.contactId = arg.toString();
           this.routerAvtiveFlag = true;
+          if (!PreferencesUtil.isUsed()) {
+            PreferencesUtil.setIsUsed(true);
+          }
         })
       }
     }
@@ -556,7 +603,9 @@ export default class AccountantsPresenter {
   }
 
   public getAddState() {
-    return this.addState && this.isExistenceInfo(this.contactInfoAfter);
+    if (this.contactInfoAfter) {
+      return this.addState && this.isExistenceInfo(this.contactInfoAfter);
+    }
   }
 
   public textChange(data: string) {
@@ -573,12 +622,12 @@ export default class AccountantsPresenter {
    * Hide the Keyboard to prevent occlusion dialogs.
    */
   hideKeyboard() {
-      inputMethod.getController().hideSoftKeyboard((err) => {
-        if (err === undefined) {
-          HiLog.i(TAG, 'Succeeded in hiding softKeyboard.');
-        } else {
-          HiLog.e(TAG, 'Failed to hideSoftKeyboard: ' + JSON.stringify(err));
-        }
-      })
-    }
+    inputMethod.getController().hideSoftKeyboard((err) => {
+      if (err === undefined) {
+        HiLog.i(TAG, 'Succeeded in hiding softKeyboard.');
+      } else {
+        HiLog.e(TAG, 'Failed to hideSoftKeyboard: ' + JSON.stringify(err));
+      }
+    })
+  }
 }

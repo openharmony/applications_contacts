@@ -40,8 +40,17 @@ export class ContactRepository implements IContactRepository {
   static readonly RAW_CONTACT_URL: string = RawContacts.CONTENT_URI;
   private dataShareHelper;
   private static instance: ContactRepository;
+  private context: Context
 
   private constructor() {
+  }
+
+  /*
+   * init if Call From serviceAbility globalThis.context is Null
+   *@param ctx Context used for dataShare
+   */
+  init(ctx: Context) {
+    this.context = ctx;
   }
 
   public static getInstance(): ContactRepository {
@@ -57,7 +66,8 @@ export class ContactRepository implements IContactRepository {
 
   private async getDataAbilityHelper() {
     if (this.dataShareHelper == undefined) {
-      this.dataShareHelper = await dataShare.createDataShareHelper(globalThis.context, Contacts.CONTENT_URI);
+      this.dataShareHelper = await dataShare.createDataShareHelper(this.context ? this.context : globalThis.context,
+          Contacts.CONTENT_URI);
     }
     return this.dataShareHelper;
   }
@@ -65,7 +75,6 @@ export class ContactRepository implements IContactRepository {
   save(contact: ContactDelta, callback) {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       let opts = contact.buildDiff();
-      // TODO executeBatch not support
       return dataAbilityHelper.executeBatch(ContactRepository.RAW_CONTACT_URL, opts)
         .then(resultSet => {
           callback(resultSet);
@@ -331,24 +340,54 @@ export class ContactRepository implements IContactRepository {
     });
   }
 
-  registerDataChangeObserver(callback) {
-    this.getDataAbilityHelper().then((dataAbilityHelper) => {
-      if (dataAbilityHelper) {
-        dataAbilityHelper.on("dataChange", Data.CONTENT_URI, callback);
-      }
-    }).catch(error => {
-      HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
-    });
+  observers:Array<()=>void> = [];
+
+  callback = ()=>{
+    HiLog.d(TAG, 'Contacts changed: Notifying observers...');
+    for (const observer of this.observers) {
+      observer();
+    }
   }
 
-  unRegisterDataChangeObserver(callback) {
-    this.getDataAbilityHelper().then((dataAbilityHelper) => {
-      if (dataAbilityHelper) {
-        dataAbilityHelper.off("dataChange", Data.CONTENT_URI, callback);
-      }
-    }).catch(error => {
-      HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
-    });
+  registerDataChangeObserver(observer:()=>void) {
+    if (!observer) {
+      HiLog.i(TAG, `registerDataChangeObserver: observer is null.`);
+      return;
+    }
+    if (this.observers.length == 0) {
+      this.getDataAbilityHelper().then((dataAbilityHelper) => {
+        if (dataAbilityHelper) {
+          dataAbilityHelper.on("dataChange", Data.CONTENT_URI, this.callback);
+        }
+      }).catch(error => {
+        HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+      });
+    }
+    const isExist = this.observers.includes(observer);
+    if (isExist) {
+      return HiLog.i(TAG, 'registerDataChangeObserver: Observer has been attached already.');
+    }
+    HiLog.i(TAG, 'registerDataChangeObserver: Attached an observer.');
+    this.observers.push(observer);
+  }
+
+  unRegisterDataChangeObserver(observer:()=>void) {
+    const observerIndex = this.observers.indexOf(observer);
+    if (observerIndex === -1) {
+      HiLog.i(TAG, 'unRegisterDataChangeObserver: Nonexistent observer.');
+      return
+    }
+    this.observers.splice(observerIndex, 1);
+    HiLog.i(TAG, 'unRegisterDataChangeObserver: Detached an observer.');
+    if (this.observers.length == 0) {
+      this.getDataAbilityHelper().then((dataAbilityHelper) => {
+        if (dataAbilityHelper) {
+          dataAbilityHelper.off("dataChange", Data.CONTENT_URI, this.callback);
+        }
+      }).catch(error => {
+        HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+      });
+    }
   }
 
   queryContactDataByNumber(numberList, callback) {
@@ -370,6 +409,8 @@ export class ContactRepository implements IContactRepository {
       condition.equalTo("is_deleted", "0");
       dataAbilityHelper.query(Data.CONTENT_URI, condition, resultColumns).then(resultSet => {
         callback(this.dealContactResultSet(resultSet));
+      }).catch(error => {
+        HiLog.e(TAG, "queryContactDataByNumber query, error: " + JSON.stringify(error.message));
       })
     }).catch(error => {
       HiLog.e(TAG, "queryContactDataByNumber, error: " + JSON.stringify(error.message));

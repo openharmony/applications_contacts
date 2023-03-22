@@ -17,7 +17,7 @@ import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
 import i18n from '@ohos.i18n';
 import MmsService from './MmsService';
 import TelecomService from './TelecomService';
-import { setLastUsedSlotId } from "./SimUtil";
+import call from '@ohos.telephony.call';
 
 const TAG = 'PhoneNumber';
 
@@ -34,11 +34,28 @@ export class PhoneNumber {
     return new PhoneNumber(StringUtil.removeSpace(number));
   }
 
+  isDialEmergencyNum(): Promise<boolean> {
+    let phoneNumber = this.number;
+    return new Promise<boolean>(function (resolve, reject) {
+      call.isEmergencyPhoneNumber(phoneNumber, (err, data) => {
+        if (err) {
+          HiLog.e(TAG, 'isEmergencyPhoneNumber error: ' + JSON.stringify(phoneNumber));
+          reject(err);
+        } else {
+          HiLog.e(TAG, 'isEmergencyPhoneNumber data: ' + JSON.stringify(data));
+          resolve(data);
+        }
+      });
+    });
+  }
+
   dial(options?: any): Promise<boolean> {
     HiLog.i(TAG, 'dial phone.');
     let phoneNumber = this.number;
-    if (options) {
-      setLastUsedSlotId(options.accountId);
+    if (!options && AppStorage.Has('defaultSlot')) {
+      options = {
+        accountId: AppStorage.Get<number>('defaultSlot'),
+      }
     }
     return new Promise<boolean>(function (resolve, reject) {
       TelecomService.getInstance().dial(phoneNumber, options, (data)  => {
@@ -65,7 +82,7 @@ export class PhoneNumber {
   format() {
     let phoneNumber = this.number;
     let countryId = i18n.getSystemRegion();
-    let phoneNumberFormat= new i18n.PhoneNumberFormat(countryId, {"type": "INTERNATIONAL"});
+    let phoneNumberFormat= new i18n.PhoneNumberFormat(countryId);
     let isNumberValid:boolean = phoneNumberFormat.isValidNumber(phoneNumber);
     let formatNumber = isNumberValid ? phoneNumberFormat.format(phoneNumber) : phoneNumber;
     return formatNumber;

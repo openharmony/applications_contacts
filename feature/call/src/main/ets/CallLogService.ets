@@ -15,17 +15,27 @@
 
 import ICallLogService from './ICallLogService';
 import { CallLog } from './entity/CallLog';
-import {CallType} from './entity/CallLog';
+import { CallType } from './entity/CallLog';
 import { ArrayUtil } from '../../../../../common/src/main/ets/util/ArrayUtil';
 import MergedCallLog from './entity/MergedCallLog';
 import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
-import {MergeRule} from './CallLogSetting';
-import CallLogSetting from './CallLogSetting';
+import { MergeRule } from './CallLogSetting';
 import StringFormatUtil from '../../../../../entry/src/main/ets/util/StringFormatUtil';
 
 export class CallLogService implements ICallLogService {
   private static instance: CallLogService;
+  private mergeRule: MergeRule;
+  private context: Context;
+
   private constructor() {
+  }
+
+  /*
+   * init if Call From serviceAbility globalThis.context is Null
+   *@param ctx Context used for dataShare
+   */
+  init(ctx: Context) {
+    this.context = ctx;
   }
 
   public static getInstance(): CallLogService {
@@ -35,12 +45,8 @@ export class CallLogService implements ICallLogService {
     return CallLogService.instance;
   }
 
-  async init() {
-    CallLogSetting.getInstance();
-  }
-
   setMergeRule(mergeRule: MergeRule) {
-    CallLogSetting.getInstance().setMergeRule(mergeRule);
+    this.mergeRule = mergeRule;
   }
 
   mergeCallLogs(callLogs: CallLog[]) {
@@ -234,7 +240,7 @@ export class CallLogService implements ICallLogService {
             result = $r("app.string.minutesAgo", timeDiff);
           } else {
             let timeDetail: any = {};
-            if (parseInt(StringFormatUtil.judgeSysTime()) == 12) {
+            if (parseInt(StringFormatUtil.judgeSysTime(this.context)) == 12) {
               timeDetail.time = StringFormatUtil.getDayMessage(hour, minutes);
             } else {
               timeDetail.time = $r("app.string.time_normal", hour, minutes);
@@ -285,6 +291,6 @@ export class CallLogService implements ICallLogService {
   }
 
   private getMergeRule() {
-    return CallLogSetting.getInstance().getMergeRule();
+    return this.mergeRule;
   }
 }

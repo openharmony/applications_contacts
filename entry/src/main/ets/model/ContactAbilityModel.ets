@@ -14,7 +14,6 @@
  */
 
 import MorandiColor from '../model/bean/MorandiColor';
-import featureAbility from '@ohos.ability.featureAbility'
 import dataShare from '@ohos.data.dataShare';
 import dataSharePredicates from "@ohos.data.dataSharePredicates";
 import { ContactVo } from '../model/bean/ContactVo';
@@ -30,7 +29,6 @@ import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
 import { ArrayUtil } from '../../../../../common/src/main/ets/util/ArrayUtil';
 import { CallLogRepository } from '../../../../../feature/call/src/main/ets/repo/CallLogRepository';
 import { PhoneNumber } from '../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
-import PreferencesUtil from './../util/PreferencesUtil'
 
 const TAG = "ContactAbility: ";
 const PROFILE_CONTACT_DATA_URI = 'datashare:///com.ohos.contactsdataability/profile/contact_data';
@@ -42,18 +40,18 @@ export default {
    * @param {Object} addParams Contact Information
    * @param {Object} callBack
    */
-  addContact: async function (addParams: ContactInfo, callBack?) {
+  addContact: async function (addParams: ContactInfo, callBack?, context?) {
     HiLog.i(TAG, 'Start to create a new contact.');
     if (addParams == undefined || addParams == null) {
       HiLog.e(TAG, "The addParams of parameter is NULL");
       return "";
     }
-    let DAHelper = await dataShare.createDataShareHelper(globalThis.context, Contacts.CONTENT_URI);
+    let DAHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
     let insertValues = {
       'display_name': this.getDisplayName(addParams),
     };
     DAHelper.insert(
-      RawContacts.CONTENT_URI,
+    RawContacts.CONTENT_URI,
       insertValues
     ).then(data => {
       if (data == -1 || data == undefined) {
@@ -124,9 +122,6 @@ export default {
     if (callBack != undefined) {
       HiLog.d(TAG, 'Start the callback function.');
       callBack(addParams.id);
-    }
-    if (!PreferencesUtil.isUsed()) {
-      PreferencesUtil.setIsUsed(true);
     }
 
     ContactRepository.getInstance().notifyChange();
@@ -567,8 +562,11 @@ export default {
    * @param {string} DAHelper
    * @param {Object} callBack
    */
-  getAllContact: async function (actionData, callBack) {
+  getAllContact: async function (actionData, callBack, context?) {
     HiLog.i(TAG, 'Start to query all contacts without PhoneNumbers');
+    if (context) {
+      ContactRepository.getInstance().init(context);
+    }
     ContactRepository.getInstance().findAll(actionData, contactList => {
       if (ArrayUtil.isEmpty(contactList)) {
         HiLog.i(TAG, 'queryContacts-SelectcontactsModel queryContact resultSet is empty!');
@@ -601,8 +599,11 @@ export default {
    * @param {string} DAHelper 数据库地址
    * @param {Object} callBack 回调
    */
-  getAllContactWithPhoneNumbers: function (callBack) {
+  getAllContactWithPhoneNumbers: function (callBack, context?) {
     HiLog.i(TAG, 'Start to query all contacts with PhoneNumbers');
+    if (context) {
+      ContactRepository.getInstance().init(context);
+    }
     ContactRepository.getInstance().findByPhoneIsNotNull(contactList => {
       if (ArrayUtil.isEmpty(contactList)) {
         HiLog.i(TAG, 'getAllContactWithPhoneNumbers-SelectcontactsModel queryContact resultSet is empty!');
@@ -636,8 +637,11 @@ export default {
    * @param {Object} contactId Contact data ID.
    * @param {Object} callback Contact details
    */
-  getContactById: function (contactId, callback) {
+  getContactById: function (contactId, callback, context?) {
     HiLog.i(TAG, 'Start to query contact by id.');
+    if (context) {
+      ContactRepository.getInstance().init(context);
+    }
     ContactRepository.getInstance().findById(contactId, contact => {
       let res = {
         'data': {}
@@ -812,15 +816,15 @@ export default {
    * @param {Object} addParams  Contact Information
    * @param {Object} callBack Contact ID
    */
-  updateContact: async function (DAHelper, addParams, callBack) {
+  updateContact: async function (DAHelper, addParams, callBack, context?) {
     HiLog.i(TAG, 'Start to update contacts.');
     if (DAHelper == undefined || DAHelper.length == 0 || DAHelper == null) {
-      DAHelper = await dataShare.createDataShareHelper(globalThis.context, Contacts.CONTENT_URI);
+      DAHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
     }
     let condition = new dataSharePredicates.DataSharePredicates();
     condition.equalTo('raw_contact_id', addParams.id);
     DAHelper.delete(
-      Data.CONTENT_URI,
+    Data.CONTENT_URI,
       condition,
     ).then(data => {
       this.dealParam(DAHelper, addParams, false, callBack);
@@ -836,9 +840,9 @@ export default {
    * @param {string} addParams  Phone number
    * @param {Object} callBack Contact ID array
    */
-  getIdByTelephone: async function (number, callBack) {
+  getIdByTelephone: async function (number, callBack, context?) {
     HiLog.i(TAG, 'Start to query contactID by phone number.');
-    let DAHelper = await dataShare.createDataShareHelper(globalThis.context, Contacts.CONTENT_URI);
+    let DAHelper = await dataShare.createDataShareHelper(context ?context : globalThis.context, Contacts.CONTENT_URI);
     let condition = new dataSharePredicates.DataSharePredicates();
     condition.equalTo('detail_info', number)
       .and()

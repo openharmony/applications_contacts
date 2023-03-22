@@ -14,4 +14,3 @@
  */
 
 export { PhoneNumber } from './src/main/ets/PhoneNumber'
-export { simCardState, getLastUsedSlotId, getSimName } from './src/main/ets/SimUtil'

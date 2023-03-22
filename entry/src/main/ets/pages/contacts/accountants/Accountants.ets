@@ -64,6 +64,10 @@ struct Accountants {
     alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
     gridCount: 4
   })
+  refreshPresenter = (presenter: AccountantsPresenter) => {
+    HiLog.i(TAG, 'refreshPresenter')
+    this.mPresenter = presenter;
+  }
   deleteDialogControler: CustomDialogController = new CustomDialogController({
     //Components shared by the TIP for creating or updating a contact by mistake and the TIP for deleting a contact
     builder: DeleteDialogEx({
@@ -97,7 +101,7 @@ struct Accountants {
 
   aboutToAppear() {
     HiLog.i(TAG, "the Page aboutToAppear Begin !!")
-    this.mPresenter.init();
+    this.mPresenter.init(this.refreshPresenter);
     if (!ObjectUtil.isEmpty(router.getParams())) {
       let obj: any = router.getParams();
       if (obj.hasOwnProperty("updataShow")) {

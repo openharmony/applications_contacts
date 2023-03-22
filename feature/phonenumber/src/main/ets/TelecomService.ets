@@ -37,7 +37,7 @@ export default class TelecomService {
    * @param options DialOptions Look @ohos.telephony.call.d.ts
    * @param callback dail callback data:is emergency   err：failure  value：result
    */
-  async dial(phoneNum: string, options:call.DialOptions, callback) {
+  async dial(phoneNum: string, options: call.DialOptions, callback) {
     HiLog.i(TAG, 'dial start ');
     if (StringUtil.isEmpty(phoneNum)) {
       HiLog.i(TAG, 'dial phoneNum is empty ');
