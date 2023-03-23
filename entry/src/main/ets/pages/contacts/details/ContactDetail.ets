@@ -21,9 +21,8 @@ import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
 import StringFormatUtil from '../../../util/StringFormatUtil';
 import CallLogListItem from '../../../component/contactdetail/DetailCalllog';
 import DetailInfoListView from '../../../component/contactdetail/DetailInfoListView';
-import { simCardState, getSimName, getLastUsedSlotId } from '../../../../../../../feature/phonenumber/src/main/ets/SimUtil';
 import EnvironmentProp from '../../../feature/EnvironmentProp';
-import { SelectDialogBuilder } from "../../../component/mutisim/SelectSimIdDialog";
+import { SelectSimIdDialog, SelectDialogBuilder } from "../../../component/mutisim/SelectSimIdDialog";
 
 const TAG = "ContactDetail";
 let storage = LocalStorage.GetShared()
@@ -45,11 +44,9 @@ struct ContactDetail {
           }
         }];
   @State hasFavorited: boolean = false;
-  @State haveSimCard: boolean = simCardState.haveSimCard;
-  @State haveMultiSimCard: boolean = simCardState.haveMultiSimCard;
   @State isShow: number = 0;
   @State builder: SelectDialogBuilder = {
-    title : "",
+    title: "",
     multiSimCardItems: [{
                           name: "",
                           img: $r("app.media.ic_public_phone1"),
@@ -58,28 +55,12 @@ struct ContactDetail {
                           img: $r("app.media.ic_public_phone2"),
                         }],
   };
-
-  onSimChanged = () => {
-    HiLog.i(TAG, "haveSimCard change:" + JSON.stringify(simCardState));
-    this.haveSimCard = simCardState.haveSimCard;
-    this.haveMultiSimCard = simCardState.haveMultiSimCard;
-    this.builder.haveMultiSimCard = simCardState.haveMultiSimCard;
-    this.builder.multiSimCardItems.forEach((item, index, array) => {
-      if (simCardState.isSimReady(index)) {
-        getSimName(index).then(value => {
-          HiLog.i(TAG, "getSimName:" + value + ", index: " + index);
-          this.builder.multiSimCardItems[index].name = value;
-        })
-      } else {
-        this.builder.multiSimCardItems[index].name = "";
-      }
-    })
-    if (this.builder.haveMultiSimCard) {
-      getLastUsedSlotId().then((value)=>{
-        this.builder.lastSimId = value;
-      })
-    }
-  }
+  mSelectSlotIdDialog: CustomDialogController = new CustomDialogController({
+    builder: SelectSimIdDialog({ builder: $builder }),
+    customStyle: false,
+    autoCancel: true,
+    alignment: DialogAlignment.Bottom
+  })
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear:');
@@ -88,19 +69,25 @@ struct ContactDetail {
       this.isShow++;
     }, 100);
     let obj: any = router.getParams();
-    simCardState.attachObserver(this.onSimChanged);
-    HiLog.i(TAG, 'ContactDetail addSimChangeListener:' + this.haveSimCard);
     this.mPresenter.sourceHasId = obj.sourceHasId;
     this.mPresenter.contactId = obj.contactId;
     this.mPresenter.sourceHasPhone = obj.sourceHasPhone;
     this.mPresenter.phoneNumberShow = obj.phoneNumberShow;
     this.mPresenter.aboutToAppear();
     this.mMoreMenu = this.mPresenter.getSettingsMenus();
+    let that = this;
+    this.builder.controller = {
+      open() {
+        that.mSelectSlotIdDialog.open();
+      },
+      close() {
+        that.mSelectSlotIdDialog.close();
+      }
+    }
   }
 
   aboutToDisappear() {
     this.mPresenter.aboutToDisappear();
-    simCardState.detachObserver(this.onSimChanged);
   }
 
   onPageShow() {
@@ -115,20 +102,33 @@ struct ContactDetail {
 
   @Builder MenuBuilder() {
     Column() {
-      Text($r("app.string.delete_contact"))
-        .fontSize($r("app.float.id_corner_radius_card_mid"))
-        .textAlign(TextAlign.Start)
-        .fontColor($r("sys.color.ohos_id_color_text_primary"))
-        .lineHeight(19)
-        .width($r("app.float.account_Divider_width"))
-        .height(21)
-        .onClick(() => {
-          this.mPresenter.deleteContact();
-        })
+      this.MenuView($r("app.string.delete_contact"), MenuType.deleteContact)
     }
     .width($r('app.float.account_MenuBuilder_width'))
-    .justifyContent(FlexAlign.Center)
+    .alignItems(HorizontalAlign.Start)
     .height($r("app.float.id_item_height_mid"))
+  }
+
+  @Builder MenuView(menuName, itemType) {
+    Row() {
+      Text(menuName)
+        .fontSize($r("app.float.id_corner_radius_card_mid"))
+        .fontColor($r('sys.color.ohos_id_color_text_primary'))
+        .margin({ left: $r("app.float.id_card_margin_xxl") })
+        .lineHeight(19)
+        .height(21)
+        .textAlign(TextAlign.Start)
+    }
+    .width("100%")
+    .height($r("app.float.id_item_height_mid"))
+    .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+    .onClick(() => {
+      switch (itemType) {
+        case MenuType.deleteContact:
+          this.mPresenter.deleteContact();
+          break;
+      }
+    })
   }
 
   build() {
@@ -138,13 +138,12 @@ struct ContactDetail {
       GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: { sm: 12, md: 12, lg: 24 }, y: 0 } }) {
         GridCol({ span: { sm: 4, md: 8, lg: 8 }, offset: { sm: 0, md: 0, lg: 2 } }) {
           if (this.isShow > 0) {
-            Content({ mPresenter: $mPresenter, haveSimCard: $haveSimCard, haveMultiSimCard: $haveMultiSimCard,
-              selectSimBuilder: $builder })
+            Content({ mPresenter: $mPresenter, selectSimBuilder: $builder })
           }
         }
       }
       .width('100%')
-      .margin({bottom: 50})
+      .margin({ bottom: 50 })
 
       if (this.curBp !== 'lg') {
         Row() {
@@ -192,18 +191,30 @@ struct ContactDetail {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor(this.mPresenter.contactForm.detailsBgColor)
+    .backgroundColor(this.mPresenter.isNewDetail ? this.mPresenter.newNumberBgColor : this.mPresenter.detailsColor)
   }
+}
+
+enum MenuType {
+  //TODO Refine more options
+  deleteContact
 }
 
 @Component
 struct Content {
   @Link private mPresenter: { [key: string]: any };
-  @Link haveSimCard: boolean;
   @Link selectSimBuilder: SelectDialogBuilder;
-  @Link haveMultiSimCard: boolean;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @State colunmHeight: string = "60%";
+  @StorageLink('isRouterBack') @Watch('onBackIndex')  isRouterBack: boolean = false;
+
+  onBackIndex() {
+    if (this.isRouterBack) {
+      router.back();
+      AppStorage.SetOrCreate("indexTabs", 0);
+    }
+    this.isRouterBack = false;
+  }
 
   @Builder callLogTitle() {
     Row() {
@@ -316,8 +327,8 @@ struct Content {
                   .maxLines(1)
               }
             }
-            DetailInfoListView({ mPresenter: $mPresenter, haveSimCard: $haveSimCard,
-              selectSimBuilder: $selectSimBuilder });
+
+            DetailInfoListView({ mPresenter: $mPresenter, selectSimBuilder: $selectSimBuilder });
           }
           .width('100%')
           .backgroundColor(Color.White)
@@ -340,7 +351,7 @@ struct Content {
                 this.callLogTitle()
               }
 
-              CallLogListItem({ message: item.callLog, mPresenter: $mPresenter, haveMultiSimCard: $haveMultiSimCard });
+              CallLogListItem({ message: item.callLog, mPresenter: $mPresenter });
             }
           }
           .width("100%")

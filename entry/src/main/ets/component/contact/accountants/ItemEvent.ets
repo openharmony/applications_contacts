@@ -14,7 +14,7 @@
  */
 
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
-import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
+import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import StringFormatUtil from "../../../util/StringFormatUtil";
 
 @Component
@@ -83,7 +83,11 @@ export struct ItemEvent {
               .width($r("app.float.id_card_image_small"))
               .fillColor($r("sys.color.ohos_id_color_tertiary"))
               .onClick(() => {
-                this.mPresent.deleteItem(this.typeName, this.index - 1);
+                try {
+                  this.mPresent.deleteItem(this.typeName, this.index - 1);
+                } catch (err) {
+                  HiLog.e("deleteItem", ' deleteItem error ' + JSON.stringify(err));
+                }
               })
           }
         }

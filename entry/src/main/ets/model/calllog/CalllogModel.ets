@@ -15,9 +15,8 @@
 
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
-import { CallLogService } from '../../../../../../feature/call/src/main/ets/CallLogService';
-import { CallLogRepository } from '../../../../../../feature/call/src/main/ets/repo/CallLogRepository';
-import { ContactRepository }from '../../../../../../feature/contact/src/main/ets/repo/ContactRepository';
+import { CallLogService, CallLogRepository } from '../../../../../../feature/call';
+import { ContactRepository } from '../../../../../../feature/contact/src/main/ets/repo/ContactRepository';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
 
 const TAG = 'CallLogModel';
@@ -30,7 +29,11 @@ export default {
    * @param {string} mergeRule  Call Record Type
    * @param {Object} callBack Call log data
    */
-  getAllCalls: async function (actionData, callBack) {
+  getAllCalls: async function (actionData, mergeRule, callBack, context?) {
+    if (context) {
+      CallLogRepository.getInstance().init(context);
+    }
+    HiLog.i(TAG, 'getAllCalls in:' + JSON.stringify(actionData));
     CallLogRepository.getInstance().findAll(actionData, result => {
       let resultData = {
         callLogList: [], missedList: []
@@ -40,32 +43,35 @@ export default {
         callBack(resultData);
         return;
       }
+      CallLogService.getInstance().init(context);
+      CallLogService.getInstance().setMergeRule(mergeRule)
       resultData.callLogList = CallLogService.getInstance().mergeCallLogs(result);
       resultData.missedList = CallLogService.getInstance().mergeMissedCalls(result);
       let numberList = this.getNumberList(resultData);
       this.queryContactsName(numberList, resultData, resultData => {
         callBack(resultData);
-      })
+      }, context)
     });
   },
 
   getNumberList(resultData) {
-    let numberList = [];
+    let numberList = new Set();
     for (let callLog of resultData.callLogList) {
-      numberList.push(callLog.phoneNumber);
+      numberList.add(callLog.phoneNumber);
     }
     for (let missed of resultData.missedList) {
-      numberList.push(missed.phoneNumber);
+      numberList.add(missed.phoneNumber);
     }
-    return numberList;
+    return Array.from(numberList);
   },
 
-  queryContactsName(numberList, resultData, callback) {
+  queryContactsName(numberList, resultData, callback, context?) {
     if (numberList.length == 0) {
       HiLog.w(TAG, "queryContactsName, has no number");
       callback(resultData);
       return;
     }
+    ContactRepository.getInstance().init(context);
     ContactRepository.getInstance().queryContactDataByNumber(numberList, contacts => {
       // Convert the result to Map, key: mobile number, value: name
       let numberMap = this.getNumberMap(contacts);

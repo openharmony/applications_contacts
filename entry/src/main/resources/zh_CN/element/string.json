@@ -357,6 +357,22 @@
       "value": "正在拨号..."
     },
     {
+      "name": "contacts_ring_times",
+      "value": "响铃"
+    },
+    {
+      "name": "contacts_time_sec",
+      "value": "秒"
+    },
+    {
+      "name": "dial_back",
+      "value": "回拨"
+    },
+    {
+      "name": "message",
+      "value": "信息"
+    },
+    {
       "name": "recording",
       "value": "录音"
     },
@@ -783,6 +799,18 @@
     {
       "name": "permission_manage_voicemail",
       "value": "用于管理语音信箱。"
+    },
+    {
+      "name": "china_mobile",
+      "value": "中国移动"
+    },
+    {
+      "name": "china_telecom",
+      "value": "中国电信"
+    },
+    {
+      "name": "china_unicom",
+      "value": "中国联通"
     }
   ]
 }

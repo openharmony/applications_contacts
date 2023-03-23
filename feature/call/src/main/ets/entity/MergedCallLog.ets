@@ -20,6 +20,7 @@ export default class MergedCallLog {
   createTime: string;
   count: number;
   ids: number[];
+  isHD: boolean;
   callType: number;
   phoneNumber: string;
   displayName: string;
@@ -27,15 +28,18 @@ export default class MergedCallLog {
   numberLocation: string;
   formattedNumber: string;
   simType: number;
+  simId: number;
   constructor(callLog: CallLog) {
     this.id = callLog.id;
     this.callType = callLog.callType;
+    this.isHD = callLog.isHD;
     this.phoneNumber = callLog.phoneNumber;
     this.displayName = callLog.displayName;
     this.quickSearchKey = callLog.quickSearchKey;
     this.numberLocation = callLog.numberLocation;
     this.formattedNumber = callLog.formattedNumber;
     this.simType = callLog.simType;
+    this.simId = callLog.simId;
     this.ids = [];
   }
 }

@@ -42,6 +42,7 @@ export default class DetailPresenter {
   moreMenuOptions: Resource[] = [$r("app.string.delete_contact")];
   isFavorite: boolean = false;
   showNameLastMenu: string = '';
+  lastUsedSlotId: number = -1;
 
   /** Display parameters */
   sourceHasId: boolean = false;
@@ -49,7 +50,10 @@ export default class DetailPresenter {
   phoneNumberShow: string = '';
   contactId: number;
   isNewNumber: boolean = true;
+  isNewDetail: boolean = false;
   topbarBackgroundColor: ResourceColor = Color.Transparent;
+  newNumberBgColor: string = '';
+  detailsColor: string = '';
   /** detail parameters */
   contactForm: any = {
     display_name: '',
@@ -132,10 +136,13 @@ export default class DetailPresenter {
         detailsBgColor: ''
       };
       /** Query the contact ID based on the phone number.
-      If a contact exists,the contact details are displayed based on the first contact ID.*/
-      await ContactAbilityModel.getIdByTelephone(this.phoneNumberShow, (contactId) => {
+       If a contact exists,the contact details are displayed based on the first contact ID.*/
+      globalThis.DataWorker.sendRequest("getIdByTelephone", {
+        context: globalThis.context,
+        phoneNumber: this.phoneNumberShow
+      }, (contactId) => {
         if (!ArrayUtil.isEmpty(contactId)) {
-          HiLog.i(TAG,"contactid is exist");
+          HiLog.i(TAG, "contactid is exist");
           // If a contact exists, set isNewNumber to false.
           this.isNewNumber = false;
           let requestData = {
@@ -143,11 +150,11 @@ export default class DetailPresenter {
           };
           this.getContactDetail(requestData);
         }
+        if (this.isNewNumber) {
+          // If the contact ID does not exist, the new number is used.
+          this.getNewNumCallLog();
+        }
       });
-      if(this.isNewNumber) {
-        // If the contact ID does not exist, the new number is used.
-        this.getNewNumCallLog();
-      }
     }
     this.registerCallLogObsever();
     this.isNewNumber = true;
@@ -165,7 +172,7 @@ export default class DetailPresenter {
 
   refresh() {
     HiLog.i(TAG, 'refresh call log!');
-    if (this.contactId != undefined){
+    if (this.contactId != undefined) {
       this.getContactCallLog();
     } else {
       this.getNewNumCallLog();
@@ -174,7 +181,10 @@ export default class DetailPresenter {
 
   getContactDetail(data) {
     HiLog.i(TAG, 'get ContactDetail by id');
-    ContactAbilityModel.getContactById(data.contactId, result => {
+    globalThis.DataWorker.sendRequest("getContactById", {
+      context: globalThis.context,
+      contactId: data.contactId
+    }, result => {
       if (StringUtil.isEmpty(result)) {
         // If the contact cannot be obtained based on the specified ID, the new number is used.
         this.getNewNumCallLog();
@@ -184,6 +194,7 @@ export default class DetailPresenter {
       this.contacts = result.data;
       this.contactForm.portraitColor = MorandiColor.Color[Math.abs(parseInt(result.data.id, 10)) % 6];
       this.contactForm.detailsBgColor = MorandiColor.detailColor[Math.abs(parseInt(result.data.id, 10)) % 6];
+      this.detailsColor = MorandiColor.detailColor[Math.abs(parseInt(result.data.id, 10)) % 6];
       this.dealDetailsData();
     });
   }
@@ -235,7 +246,7 @@ export default class DetailPresenter {
     this.contactForm.display_name = (newContact.display_name && newContact.display_name.length > 0)
       ? newContact.display_name : $r('app.string.noName');
     this.contactForm.photoFirstName = (newContact.photoFirstName && newContact.photoFirstName.length > 0)
-      ? newContact.photoFirstName.toUpperCase(): '-1';
+      ? newContact.photoFirstName.toUpperCase() : '-1';
     this.contactForm.company = (newContact.company && newContact.company.length > 0)
       ? newContact.company : '';
     this.contactForm.position = (newContact.position && newContact.position.length > 0)
@@ -245,7 +256,7 @@ export default class DetailPresenter {
         let itemtemp = {
           id: item.id,
           data: PhoneNumber.fromString(item.num).getNumber(),
-          num:item.num,
+          num: item.num,
           type: item.numType,
           phoneAddress: item.phoneAddress,
           labelName: item.labelName
@@ -361,13 +372,21 @@ export default class DetailPresenter {
   async getContactCallLog() {
     HiLog.i(TAG, "get Contact CallLog");
     if (!ArrayUtil.isEmpty(this.contactForm.phones)) {
-      let numbers = [];
+      let numbers: Set<string> = new Set();
       this.contactForm.phones.forEach(element => {
-        numbers.push(element.data);
+        numbers.add(`${element.data}`.replace(/\s+/g, ''));
       });
       /* All call records of all phone numbers of the contact are obtained. */
-      await CallLogRepository.getInstance().findByNumberIn(numbers, (resultList) => {
+      globalThis.DataWorker.sendRequest("findByNumberIn", {
+        context: globalThis.context,
+        numbers: Array.from(numbers)
+      }, (resultList) => {
         /* Encapsulate the attributes required on the detail page based on the obtained raw call record data. */
+        if (!ArrayUtil.isEmpty(resultList)) {
+          this.lastUsedSlotId = resultList[0].simId;
+        } else {
+          this.lastUsedSlotId = -1;
+        }
         this.detailCallLogDataSource.refresh(this.getDetailMessage(resultList));
       });
       /* Encapsulate the attributes required on the detail page based on the obtained raw call record data. */
@@ -379,6 +398,7 @@ export default class DetailPresenter {
 
   // Obtains call records and assembles parameters when the call is not a contact.
   async getNewNumCallLog() {
+    this.isNewDetail = true;
     HiLog.i(TAG, "get new number call log");
     let numbers: any = [this.phoneNumberShow.replace(/\s+/g, '')];
     let formatNum = PhoneNumber.fromString(this.phoneNumberShow).getNumber();
@@ -387,7 +407,7 @@ export default class DetailPresenter {
     let itemtemp = {
       id: 0,
       data: formatNum,
-      num:this.phoneNumberShow,
+      num: this.phoneNumberShow,
       type: 1,
       labelName: $r("app.string.phone_type_mobile"),
       phoneAddress: $r("app.string.unknown")
@@ -395,23 +415,34 @@ export default class DetailPresenter {
     this.contactForm.phones = [itemtemp];
     this.contactForm.portraitColor = MorandiColor.Color[0];
     this.contactForm.detailsBgColor = MorandiColor.detailColor[0];
-    await CallLogRepository.getInstance().findByNumberIn(numbers, (resultList) => {
+    this.newNumberBgColor = MorandiColor.detailColor[0];
+    globalThis.DataWorker.sendRequest("findByNumberIn", {
+      context: globalThis.context,
+      numbers: numbers
+    }, (resultList) => {
+      /* Encapsulate the attributes required on the detail page based on the obtained raw call record data. */
+      if (!ArrayUtil.isEmpty(resultList)) {
+        this.lastUsedSlotId = resultList[0].simId;
+      } else {
+        this.lastUsedSlotId = -1;
+      }
       this.detailCallLogDataSource.refresh(this.getDetailMessage(resultList));
     });
-    if (this.detailCallLogDataSource.totalCount() > 0 ) {
-        let bgColorId = Math.abs(parseInt(this.detailCallLogDataSource.getData(0).callLog.id, 10));
-        this.contactForm.portraitColor = MorandiColor.Color[bgColorId % 6];
-        this.contactForm.detailsBgColor = MorandiColor.detailColor[bgColorId % 6];
+    if (this.detailCallLogDataSource.totalCount() > 0) {
+      let bgColorId = Math.abs(parseInt(this.detailCallLogDataSource.getData(0).callLog.id, 10));
+      this.contactForm.portraitColor = MorandiColor.Color[bgColorId % 6];
+      this.contactForm.detailsBgColor = MorandiColor.detailColor[bgColorId % 6];
+      this.newNumberBgColor = MorandiColor.detailColor[bgColorId % 6];
     }
   }
 
   /**
-     * Data required for converting the original
-     * callLogList content into call record details
-     *
-     * @param {Array} originList Original Call List
-     * @return {Array} resultList
-     */
+   * Data required for converting the original
+   * callLogList content into call record details
+   *
+   * @param {Array} originList Original Call List
+   * @return {Array} resultList
+   */
   getDetailMessage(originList: CallLog[]) {
     let resultList = [];
     if (ArrayUtil.isEmpty(originList)) {
@@ -427,6 +458,7 @@ export default class DetailPresenter {
         callType: element.callType,
         callTag: element.numberLocation,
         simType: element.simType.toString(),
+        simId: element.simId,
         isHd: element.isHD,
         ringTime: element.ringDuration,
         formatNumber: element.formattedNumber,
@@ -440,13 +472,13 @@ export default class DetailPresenter {
   }
 
   /**
-     * Obtain the call details of the call record according to the call record.
-     *
-     * @param {Object} callLogElement Call log
-     * @return {string} resultMessage Status information
-     */
+   * Obtain the call details of the call record according to the call record.
+   *
+   * @param {Object} callLogElement Call log
+   * @return {string} resultMessage Status information
+   */
   getTalkTimeMessage(callLogElement: CallLog) {
-    let resultMessage: Resource|string = null;
+    let resultMessage: Resource | string = null;
     switch (callLogElement.callType) {
       case CallType.IN:
         resultMessage = this.getDescriptionByDuration(callLogElement.talkDuration);
@@ -469,11 +501,11 @@ export default class DetailPresenter {
   }
 
   /**
-     * Obtains the call duration based on the specified timestamp. The unit is s.
-     *
-     * @param {number} timeDuration
-     * @return {Object} Return time unit
-     */
+   * Obtains the call duration based on the specified timestamp. The unit is s.
+   *
+   * @param {number} timeDuration
+   * @return {Object} Return time unit
+   */
   getDescriptionByDuration(timeDuration) {
     let seconds = parseInt(timeDuration);
     if (seconds < 60) {
@@ -492,11 +524,11 @@ export default class DetailPresenter {
   }
 
   /**
-     * Obtain the time details based on the call record generation time.
-     *
-     * @param {number} callTime Initial Talk Time
-     * @return {string} timeDetail Talk time after processing
-     */
+   * Obtain the time details based on the call record generation time.
+   *
+   * @param {number} callTime Initial Talk Time
+   * @return {string} timeDetail Talk time after processing
+   */
   getTimeDetailByCallTime(element: CallLog) {
     let callTime = element.createTime.toString();
     let callLogTime = new Date(parseInt(callTime, 10) * 1000);
@@ -508,7 +540,7 @@ export default class DetailPresenter {
     let minutes = callLogTime.getMinutes() < 10 ? '0' + callLogTime.getMinutes() : callLogTime.getMinutes().toString();
     // description
     let now = new Date();
-    let timeDetail:any = {};
+    let timeDetail: any = {};
     if (parseInt(StringFormatUtil.judgeSysTime()) == 12) {
       timeDetail.time = StringFormatUtil.getDayMessage(hour, minutes);
     } else {
@@ -531,8 +563,9 @@ export default class DetailPresenter {
   // Edit Contact
   updateContact() {
     let phoneNumbers = [{
-      'phoneNumber': '',
-      'phoneAddress': ''}];
+                          'phoneNumber': '',
+                          'phoneAddress': ''
+                        }];
     if (this.isNewNumber) {
       phoneNumbers[0].phoneNumber = this.phoneNumberShow;
       phoneNumbers[0].phoneAddress = this.contactForm?.phones[0]?.phoneAddress;
@@ -564,49 +597,56 @@ export default class DetailPresenter {
   // Delete call records based on the ID set.
   removeCallLog(ids) {
     HiLog.i(TAG, 'removeCallLog');
-    CallLogRepository.getInstance().deleteByIdIn(ids, data => {
+    globalThis.DataWorker.sendRequest("deleteCallLogsById", {
+      context: globalThis.context,
+      ids: ids
+    }, (data) => {
       HiLog.i(TAG, 'removeCallLog Success');
-      CallLogRepository.getInstance().notifyChange();
-    })
+      CallLogRepository.getInstance().notifyChange()
+    });
   }
 
   // Deleting a contact
   deleteContact() {
     AlertDialog.show({
-        message: $r('app.string.delete_contact_sure'),
-        alignment: EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom,
-        autoCancel: true,
-        primaryButton: {
-          value: $r('app.string.dialog_cancel'),
-          action: () => {
-          }
-        },
-        secondaryButton: {
-          value: $r('app.string.dialog_delete'),
-          fontColor: $r("sys.color.ohos_id_color_handup"),
-          action: () => {
-            HiLog.i(TAG, 'delete contact')
-            this.doDeleteContact();
-          }
-        },
-        cancel: () => {
-          HiLog.i(TAG, 'Closed callbacks')
-        },
-        offset: {
-          dx: 0, dy: -52
-        },
-        gridCount: 4
-      })
+      message: $r('app.string.delete_contact_sure'),
+      alignment: EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom,
+      autoCancel: true,
+      primaryButton: {
+        value: $r('app.string.dialog_cancel'),
+        action: () => {
+        }
+      },
+      secondaryButton: {
+        value: $r('app.string.dialog_delete'),
+        fontColor: $r("sys.color.ohos_id_color_handup"),
+        action: () => {
+          HiLog.i(TAG, 'delete contact')
+          this.doDeleteContact();
+        }
+      },
+      cancel: () => {
+        HiLog.i(TAG, 'Closed callbacks')
+      },
+      offset: {
+        dx: 0, dy: -52
+      },
+      gridCount: 4
+    })
   }
 
   // Delete a contact
   doDeleteContact() {
-    ContactRepository.getInstance().deleteById(this.contactId, (result) => {
-      if (result == 0) {
-        ContactRepository.getInstance().notifyChange();
-        CallLogRepository.getInstance().notifyChange();
+    globalThis.DataWorker.sendRequest("deleteContactById", {
+      context: globalThis.context,
+      contactId: this.contactId
+    }, (result) => {
+      if (result == 0 || result == undefined) {
+        ContactRepository.getInstance().notifyChange()
+        CallLogRepository.getInstance().notifyChange()
         router.back();
       } else {
+        HiLog.i(TAG, `doDeleteContact Failed ${JSON.stringify(result)}`);
         prompt.showToast({
           message: 'contactDetail Failed to delete data.'
         });
@@ -667,21 +707,21 @@ export default class DetailPresenter {
             action: () => {
             }
           }];
-   mMoreMenu = tmpMoreMenu;
-      this.moreMenuOptions.forEach((element, i) => {
-        globalThis.context.resourceManager.getString(element.id, (err, typeName) => {
-          mMoreMenu[i] = {
-            value: typeName,
-            action: () => {
-              switch (i) {
-                case 0:
-                  this.deleteContact();
-                  break;
-              }
+    mMoreMenu = tmpMoreMenu;
+    this.moreMenuOptions.forEach((element, i) => {
+      globalThis.context.resourceManager.getString(element.id, (err, typeName) => {
+        mMoreMenu[i] = {
+          value: typeName,
+          action: () => {
+            switch (i) {
+              case 0:
+                this.deleteContact();
+                break;
             }
-          };
-        });
+          }
+        };
       });
+    });
     return mMoreMenu;
   }
 }

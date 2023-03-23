@@ -14,7 +14,7 @@
  */
 
 import router from '@ohos.router';
-import { CallLogRepository } from '../../../../../feature/call/src/main/ets/repo/CallLogRepository';
+import { CallLogRepository, MissedCallService } from '../../../../../feature/call';
 import { ContactRepository } from '../../../../../feature/contact/src/main/ets/repo/ContactRepository';
 import pasteboard from '@ohos.pasteboard';
 import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
@@ -27,8 +27,9 @@ const TAG = 'IndexPresenter  ';
 export default class IndexPresenter {
   private static instance: IndexPresenter;
   uriTabFlag: boolean = false;
-  tabsIndex: number = 0;
+  isEditNum: boolean = false;
   editPhoneNumber: string = "";
+  tabsIndex: number = 0;
 
   public static getInstance(): IndexPresenter {
     if (!IndexPresenter.instance) {
@@ -39,19 +40,33 @@ export default class IndexPresenter {
 
   onPageShow() {
     HiLog.i(TAG, 'onPageShow !!!');
+    if (AppStorage.Get("indexTabs") === 0) {
+      this.tabsIndex = 0;
+    }
     this.uriTabFlag = !this.uriTabFlag;
-    this.editPhoneNumber = AppStorage.Get("tele_number");
+    if (this.isEditNum) {
+      this.editPhoneNumber = AppStorage.Get("tele_number");
+      this.isEditNum = !this.isEditNum;
+    }
+    this.cancelMissedCallNotification()
     this.getNewWant();
     if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get("sysTime")) {
-      HiLog.i(TAG, 'DO requestItem');
+      HiLog.i(TAG, 'DO requestItem cause systemTime changed');
       CallRecordPresenter.getInstance().requestItem();
       AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
     }
   }
 
+  cancelMissedCallNotification() {
+    HiLog.i(TAG, `cancelMissedCallNotification`);
+    MissedCallService.getInstance().init(globalThis.context)
+    MissedCallService.getInstance().cancelAllMissedNotificationAction()
+  }
+
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear !!!');
     AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
+    AppStorage.SetOrCreate('router', router.getState());
   }
 
   aboutToDisappear() {
@@ -96,14 +111,14 @@ export default class IndexPresenter {
     // jump to index
       case 'page_flag_dialer':
         router.back({
-          url: "pages/Index"
+          url: "pages/index"
         });
         this.tabsIndex = 0;
         this.uriTabFlag = !this.uriTabFlag;
         return;
       case 'page_flag_choose_contacts':
         router.back({
-          url: "pages/Index"
+          url: "pages/index"
         });
         this.tabsIndex = 1;
         this.uriTabFlag = !this.uriTabFlag;
@@ -125,18 +140,19 @@ export default class IndexPresenter {
         break;
       case 'page_flag_edit_before_calling':
         router.back({
-          url: "pages/Index"
+          url: "pages/index"
         });
         this.tabsIndex = 0;
         this.uriTabFlag = !this.uriTabFlag;
         this.editBeforeCall(routeMessage.phoneNumber);
-        break;
+        this.isEditNum = true;
+        return;
       case 'page_flag_save_contact':
         this.addContacts(routeMessage);
-        break;
+        return;
       case 'page_flag_save_exist_contact':
         this.saveToContacts(routeMessage.phoneNumber);
-        break;
+        return;
       case 'page_flag_sms_forward':
         router.push({
           url: 'pages/contacts/batchselectcontacts/BatchSelectContactsPage',

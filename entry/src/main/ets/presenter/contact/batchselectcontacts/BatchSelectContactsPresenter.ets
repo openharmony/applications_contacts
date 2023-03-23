@@ -23,6 +23,7 @@ import ContactAbilityModel from '../../../model/ContactAbilityModel';
 import router from '@ohos.router';
 import BatchSelectRecentSource from '../../../model/bean/BatchSelectRecentSource';
 import BatchSelectContactSource from '../../../model/bean/BatchSelectContactSource';
+import CallLogSetting from "../../../../../../../feature/call/src/main/ets/CallLogSetting"
 
 const TAG = 'BatchSelectContactsPresenter ';
 
@@ -314,8 +315,7 @@ export default class BatchSelectContactsPresenter {
   }
 
   onSingleContactItemClick(num: number, name: string) {
-    HiLog.i(TAG, 'onSingleContactItemClick num is ' + num);
-    HiLog.i(TAG, 'onSingleContactItemClick name is ' + name);
+    HiLog.i(TAG, 'onSingleContactItemClick in ');
     this.selectedNumberMap.set(num, {
       name: name,
       number: num
@@ -391,7 +391,7 @@ export default class BatchSelectContactsPresenter {
             element.phoneNumbers[event.numberIndex].checked = true;
             this.contactsInfo.contactsNumberCount++;
             this.addOrUpdateSelectedNumberMap(element.phoneNumbers[event.numberIndex].phoneNumber,
-              element.name.fullName, false, element.contactId);
+            element.name.fullName, false, element.contactId);
           } else {
             element.phoneNumbers[event.numberIndex].checked = false;
             this.contactsInfo.contactsNumberCount--;
@@ -412,7 +412,7 @@ export default class BatchSelectContactsPresenter {
             element.phoneNumbers[event.numberIndex].checked = true;
             this.contactsInfo.contactsNumberCount++;
             this.addOrUpdateSelectedNumberMap(element.phoneNumbers[event.numberIndex].phoneNumber,
-              element.name.fullName, false, element.contactId);
+            element.name.fullName, false, element.contactId);
           } else {
             element.phoneNumbers[event.numberIndex].checked = false;
             this.contactsInfo.contactsNumberCount--;
@@ -428,11 +428,11 @@ export default class BatchSelectContactsPresenter {
   }
 
   /**
-    * Determines whether the current contact element has an option.
-    *
-    * @param {Object} contact
-    * @return {boolean} true，false
-    */
+   * Determines whether the current contact element has an option.
+   *
+   * @param {Object} contact
+   * @return {boolean} true，false
+   */
   checkIfNeedCount(contact) {
     if (contact.phoneNumbers.length > 0) {
       for (let index = 0; index < contact.phoneNumbers.length; index++) {
@@ -577,7 +577,11 @@ export default class BatchSelectContactsPresenter {
     let tempMap = new Map();
     let tempList: any[] = [];
 
-    callLogService.getAllCalls(this.actionData, data => {
+    globalThis.DataWorker?.sendRequest("getAllCalls", {
+      context: globalThis.context,
+      mergeRule: CallLogSetting.getInstance().getMergeRule(),
+      actionData: this.actionData
+    }, (data) => {
       if (data.hasOwnProperty('callLogList') && !ArrayUtil.isEmpty(data.callLogList)) {
         HiLog.i(TAG, 'data  has callLogList key');
         for (let i = 0; i < data.callLogList.length; i++) {
@@ -629,7 +633,9 @@ export default class BatchSelectContactsPresenter {
    */
   initContactsList() {
     HiLog.i(TAG, 'initContactsList start!');
-    ContactAbilityModel.getAllContactWithPhoneNumbers((resultList) => {
+    globalThis.DataWorker.sendRequest("getAllContactWithPhoneNumbers", {
+      context: globalThis.context
+    }, (resultList) => {
       HiLog.i(TAG, 'initContactsList resultList success ' + resultList.length);
       let listTemp: any[] = [];
       if (!ArrayUtil.isEmpty(resultList)) {
@@ -745,6 +751,7 @@ export class TabInfo {
   contactsCount: number = 0;
   groupsCount: number = 0;
   refreshGroupItemState: boolean = false;
+
   constructor(tabIndex: number) {
     this.tabIndex = tabIndex;
   }
@@ -775,6 +782,7 @@ export class ContactsInfo {
   contactsListTotal: number = 0;
   // Count of selected numbers in the contact list
   contactsNumberCount: number = 0;
+
   constructor() {
   }
 }

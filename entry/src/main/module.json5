@@ -39,7 +39,22 @@
               "action.system.home"
             ]
           }
-        ]
+        ],
+      }
+    ],
+    "extensionAbilities": [
+      {
+        "description": "subscriber",
+        "label": "$string:missed_call",
+        "icon": "$media:ic_notification_call_missed",
+        "metadata": [{
+          "name": "ohos.extension.staticSubscriber",
+          "resource": "$profile:static_subscriber_config"
+        }],
+        "name": "Subscriber",
+        "srcEntrance": "./ets/StaticSubscriber/StaticSubscriber.ts",
+        "type": "staticSubscriber",
+        "visible": true
       }
     ],
     "requestPermissions": [
@@ -77,6 +92,12 @@
       },
       {
         "name": "ohos.permission.GET_TELEPHONY_STATE"
+      },
+      {
+        "name": "ohos.permission.NOTIFICATION_CONTROLLER"
+      },
+      {
+        "name": "ohos.permission.START_ABILITIES_FROM_BACKGROUND"
       }
     ]
   }

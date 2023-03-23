@@ -47,11 +47,11 @@ export default struct CallRecord {
         Tabs({ barPosition: BarPosition.Start, index: this.bottomTabIndex, controller: this.controller }) {
           TabContent() {
             AllRecord({mPresenter:$mPresenter,recordType:0})
-          }
+          }.align(Alignment.TopStart)
 
           TabContent() {
             AllRecord({mPresenter:$mPresenter,recordType:1})
-          }
+          }.align(Alignment.TopStart)
 
         }
         .onChange((index: number) => {

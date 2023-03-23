@@ -30,8 +30,7 @@ export class CallLog {
   readonly displayName: string;
   readonly callDirection: number;
   readonly voicemailUri: string;
-  // TODO Add get simID
-  readonly simId:number;
+  readonly simId: number;
   readonly simType: number;
   readonly isHD: boolean;
   readonly isRead: boolean;

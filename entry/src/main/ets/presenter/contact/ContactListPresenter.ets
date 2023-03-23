@@ -19,7 +19,7 @@ import { ContactVo } from '../../model/bean/ContactVo';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 import { CallLogRepository } from '../../../../../../feature/call/src/main/ets/repo/CallLogRepository';
 import { ContactRepository } from '../../../../../../feature/contact/src/main/ets/repo/ContactRepository';
-import ContactAbilityModel from '../../model/ContactAbilityModel';
+import emitter from '@ohos.events.emitter';
 import ContactListDataSource from '../../model/bean/ContactListDataSource';
 
 const TAG = 'ContactListPresenter  ';
@@ -52,6 +52,11 @@ export default class ContactListPresenter {
   settingsMenu: Resource[] = [$r("app.string.contact_setting_type_scancard"), $r("app.string.call_setting_type_setting")];
   contactListDataSource: ContactListDataSource = new ContactListDataSource();
   isShow: boolean = false;
+  onContactChange = () => {
+    HiLog.i(TAG, 'onContactChange refresh');
+    this.requestItem();
+  }
+
   private constructor() {
   }
 
@@ -64,20 +69,14 @@ export default class ContactListPresenter {
   }
 
   aboutToAppear() {
-    HiLog.i(TAG, 'Contact aboutToAppear!');
     this.isShow = true;
     this.requestItem();
-    ContactRepository.getInstance().registerDataChangeObserver(() => {
-      HiLog.i(TAG, 'Contact registerDataChangeObserver!');
-      this.requestItem();
-    });
+    ContactRepository.getInstance().registerDataChangeObserver(this.onContactChange);
   }
 
   aboutToDisappear() {
-    HiLog.i(TAG, 'Contact aboutToDisappear!');
     this.isShow = false;
-    ContactRepository.getInstance().unRegisterDataChangeObserver(() => {
-    });
+    ContactRepository.getInstance().unRegisterDataChangeObserver(this.onContactChange);
   }
 
   onPageShow() {
@@ -110,7 +109,10 @@ export default class ContactListPresenter {
     }
     actionData.page = this.page;
     actionData.limit = this.limit;
-    ContactAbilityModel.getAllContact(actionData, (result) => {
+    globalThis.DataWorker.sendRequest("getAllContact", {
+      actionData: actionData,
+      context: globalThis.context
+    }, (result) => {
       HiLog.i(TAG, 'getAllContact and refresh, length is: ' + JSON.stringify(result.length));
       if (!ArrayUtil.isEmpty(result)) {
         this.contactList = this.contactList.concat(result);
@@ -126,6 +128,15 @@ export default class ContactListPresenter {
           this.refresh();
         }, this.page == 2 ? 700 : 1);
       }
+      let innerEvent = {
+        eventId: 2,
+        priority: emitter.EventPriority.HIGH
+      };
+      emitter.emit(innerEvent, {
+        data: {
+          'contactListListLen': this.contactList.length
+        }
+      });
     })
   }
 

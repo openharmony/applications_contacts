@@ -21,7 +21,6 @@ import {MergeRule} from './CallLogSetting';
  * Call record service class, which contains only call records and is not a dialpad
  */
 export default interface ICallLogService {
-  init: () => void;
   setMergeRule: (mergeRule: MergeRule) => void;
   mergeCallLogs: (callLogs: CallLog[]) => MergedCallLog[];
   mergeMissedCalls: (callLogs: CallLog[]) => MergedCallLog[];
