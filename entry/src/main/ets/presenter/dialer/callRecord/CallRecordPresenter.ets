@@ -13,16 +13,17 @@
  * limitations under the License.
  */
 
-import CallLog from '../../../model/calllog/CalllogModel';
 import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import { ObjectUtil } from '../../../../../../../common/src/main/ets/util/ObjectUtil';
 import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
 import router from '@ohos.router';
-import { CallLogRepository } from '../../../../../../../feature/call/src/main/ets/repo/CallLogRepository';
+import { CallLogRepository } from '../../../../../../../feature/call';
 import { ContactRepository } from '../../../../../../../feature/contact/src/main/ets/repo/ContactRepository';
 import CallRecordListDataSource from './../../../model/bean/CallRecordListDataSource';
+import CallLogSetting from '../../../../../../../feature/call/src/main/ets/CallLogSetting'
 import DialerPresenter from '../../../presenter/dialer/DialerPresenter';
+import emitter from '@ohos.events.emitter';
 
 const TAG = 'CallRecordPresenter'
 
@@ -37,6 +38,7 @@ export default class CallRecordPresenter {
   page: number = 0;
   limit: number = 0;
   dateLength: number = 0;
+  missedLogDateLength: number = 0;
 
   static getInstance() {
     if (CallRecordPresenter.mPresenter == null) {
@@ -55,22 +57,28 @@ export default class CallRecordPresenter {
     this.isShow = false;
   }
 
+  onCallsChange = () => {
+    HiLog.i(TAG, 'onCallsChange refresh');
+    this.requestItem();
+  }
+  onContactChange = () => {
+    HiLog.i(TAG, 'onContactChange refresh');
+    this.requestItem();
+  }
+
   aboutToAppear() {
+    HiLog.i(TAG, 'aboutToAppear!');
     this.isShow = true;
     this.requestItem();
-    CallLogRepository.getInstance().registerDataChangeObserver(() => {
-      HiLog.i(TAG, 'refresh');
-      this.requestItem();
-    });
-    ContactRepository.getInstance().registerDataChangeObserver(() => {
-      HiLog.i(TAG, 'refresh');
-      this.requestItem();
-    });
+    CallLogRepository.getInstance().registerDataChangeObserver(this.onCallsChange);
+    ContactRepository.getInstance().registerDataChangeObserver(this.onContactChange);
   }
 
   aboutToDisappear() {
     HiLog.i(TAG, 'aboutToDisappear!');
     this.isShow = false;
+    CallLogRepository.getInstance().unRegisterDataChangeObserver(this.onCallsChange)
+    ContactRepository.getInstance().unRegisterDataChangeObserver(this.onContactChange);
   }
 
   requestItem() {
@@ -94,9 +102,24 @@ export default class CallRecordPresenter {
     let actionData: any = {};
     actionData.page = this.page;
     actionData.limit = this.limit;
-    CallLog.getAllCalls(actionData, data => {
+    globalThis.DataWorker?.sendRequest("getAllCalls", {
+      context: globalThis.context,
+      mergeRule: CallLogSetting.getInstance().getMergeRule(),
+      actionData: actionData
+    }, (data) => {
       HiLog.i(TAG, 'getAllCalls and refresh, length is ' + JSON.stringify(data.callLogList.length));
       this.dateLength = data.callLogList.length;
+      this.missedLogDateLength = data.missedList.length;
+      let innerEvent = {
+        eventId: 1,
+        priority: emitter.EventPriority.HIGH
+      };
+      emitter.emit(innerEvent, {
+        data: {
+          'callLogListLen': this.dateLength,
+          'missedListListLen': this.missedLogDateLength
+        }
+      });
       if (!ArrayUtil.isEmpty(data.callLogList)) {
         this.callLogList = this.callLogList.concat(data.callLogList);
         this.mDialerPresent.refresh();
@@ -123,12 +146,16 @@ export default class CallRecordPresenter {
   }
 
   dialing(phoneNumber, options?: any) {
-    PhoneNumber.fromString(options).dial();
+    PhoneNumber.fromString(phoneNumber).dial(options);
   }
 
   deleteCallLog(id) {
-    CallLogRepository.getInstance().deleteByIdIn(id, data => {
-      CallLogRepository.getInstance().notifyChange();
+    globalThis.DataWorker.sendRequest("deleteCallLogsById", {
+      context: globalThis.context,
+      ids: id
+    }, (data) => {
+      HiLog.i(TAG, 'deleteCallLog Success');
+      CallLogRepository.getInstance().notifyChange()
     });
   }
 

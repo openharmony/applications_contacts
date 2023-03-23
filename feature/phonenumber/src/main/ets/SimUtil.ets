@@ -45,8 +45,12 @@ class SimCardState {
   private observers: Observer[] = [];
 
   constructor() {
-    this.addSimChangeListener();
-    this.getSimCardState();
+    try {
+      this.addSimChangeListener();
+      this.getSimCardState();
+    } catch (error) {
+      HiLog.w(TAG, "SimCardState, get sim state error.")
+    }
   }
 
   /**
@@ -101,38 +105,28 @@ class SimCardState {
 
   private addSimChangeListener() {
     HiLog.i(TAG, 'addSimChangeListener start ! ');
-    observer.on('simStateChange', {
-      slotId: simId_ONE
-    }, value => {
-      let simState = value?.state;
-      HiLog.i(TAG, 'simStateChange for simId_ONE, SIM value: ' + simState);
-      this.parseSimCardStateForSlot(simId_ONE, simState);
-    });
-    observer.on('simStateChange', {
-      slotId: simId_TWO
-    }, value => {
-      let simState = value?.state;
-      HiLog.i(TAG, 'simStateChange for simId_TWO, SIM value: ' + simState);
-      this.parseSimCardStateForSlot(simId_TWO, simState);
-    });
+    for (let i = 0; i < telephonySim.getMaxSimCount(); i++) {
+      observer.on('simStateChange', {
+        slotId: i
+      }, value => {
+        let simState = value?.state;
+        HiLog.i(TAG, 'simStateChange for simId_ONE, SIM value: ' + simState);
+        this.parseSimCardStateForSlot(i, simState);
+      });
+    }
   }
 
   private getSimCardState() {
     HiLog.i(TAG, '-----getSimCardState-----');
-    telephonySim.getSimState(simId_ONE, (err, value) => {
-      if (err) {
-        HiLog.e(TAG, 'getSimCardState, simId_ONE error: ' + JSON.stringify(err.message));
-      } else {
-        this.parseSimCardStateForSlot(simId_ONE, value)
-      }
-    });
-    telephonySim.getSimState(simId_TWO, (err, value) => {
-      if (err) {
-        HiLog.e(TAG, 'getSimCardState, simId_TWO error: ' + JSON.stringify(err.message));
-      } else {
-        this.parseSimCardStateForSlot(simId_TWO, value)
-      }
-    });
+    for (let i = 0; i < telephonySim.getMaxSimCount(); i++) {
+      telephonySim.getSimState(i, (err, value) => {
+        if (err) {
+          HiLog.e(TAG, `getSimCardState, ${i} error: ${JSON.stringify(err.message)}`);
+        } else {
+          this.parseSimCardStateForSlot(i, value)
+        }
+      });
+    }
   }
 
   private parseSimCardStateForSlot(slotId: number, value) {

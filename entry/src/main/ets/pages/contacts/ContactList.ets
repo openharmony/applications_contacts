@@ -16,7 +16,7 @@
 import ContactListItemView from '../../component/contact/ContactListItemView';
 import ContactListPresenter from '../../presenter/contact/ContactListPresenter';
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
-import EnvironmentProp from '../../feature/EnvironmentProp';
+import emitter from '@ohos.events.emitter';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
 
 const TAG = 'ContactList  ';
@@ -30,33 +30,41 @@ let storage = LocalStorage.GetShared();
 export default struct ContactListPage {
   @State mContactPresenter: ContactListPresenter = ContactListPresenter.getInstance();
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
+  @State contactListListLen: number = 0;
+  emitterId: number = 2;
 
   aboutToAppear() {
     HiLog.i(TAG, 'Contact aboutToAppear!');
     this.mContactPresenter.aboutToAppear();
+    let innerEvent = {
+      eventId: this.emitterId,
+      priority: emitter.EventPriority.HIGH
+    };
+    emitter.on(innerEvent, (data) => {
+      this.contactListListLen = data.data['contactListListLen'];
+    })
   }
 
   aboutToDisappear() {
     HiLog.i(TAG, 'Contact aboutToDisappear!');
     this.mContactPresenter.aboutToDisappear();
+    emitter.off(this.emitterId);
   }
 
   onPageShow() {
-    HiLog.i(TAG, 'onPageShow')
-    this.mContactPresenter.onPageShow()
+    this.mContactPresenter.onPageShow();
   }
 
   onPageHide() {
-    HiLog.i(TAG, 'onPageHide')
-    this.mContactPresenter.onPageHide()
+    this.mContactPresenter.onPageHide();
   }
 
   build() {
     Column() {
-      if (this.mContactPresenter.contactList.length > 0) {
-        ContactContent({ presenter: $mContactPresenter })
-      } else {
+      if (this.mContactPresenter.contactList.length == 0 && this.contactListListLen == 0) {
         ContactEmptyPage({ presenter: $mContactPresenter })
+      } else {
+        ContactContent({ presenter: $mContactPresenter, contactListListLen: $contactListListLen })
       }
     }
     .backgroundColor(this.curBp === 'lg' ? $r("sys.color.ohos_id_color_sub_background") : Color.White)
@@ -96,6 +104,7 @@ struct TitleGuide {
 @Component
 struct ContactContent {
   @Link private presenter: ContactListPresenter;
+  @Link private contactListListLen: number;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
 
   @Builder
@@ -144,7 +153,7 @@ struct ContactContent {
               .lineHeight(42)
               .margin({top:8, bottom: 2})
 
-            Text($r("app.string.contact_num", this.presenter.contactList.length))
+            Text($r("app.string.contact_num", this.contactListListLen))
               .fontSize($r("sys.float.ohos_id_text_size_body2"))
               .fontWeight(FontWeight.Regular)
               .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
@@ -202,7 +211,6 @@ struct ContactContent {
           .height('100%')
           .listDirection(Axis.Vertical)
           .edgeEffect(EdgeEffect.Spring)
-          .padding({bottom: 150})
         }
       }
       .height('100%')

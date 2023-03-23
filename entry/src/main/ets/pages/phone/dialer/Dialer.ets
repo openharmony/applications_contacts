@@ -18,7 +18,6 @@ import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import DialerPresenter from './../../../presenter/dialer/DialerPresenter';
 import EnvironmentProp from '../../../feature/EnvironmentProp';
 import IndexPresenter from '../../../presenter/IndexPresenter';
-import { simCardState, getSimName } from '../../../../../../../feature/phonenumber/src/main/ets/SimUtil';
 import { DialerButtonView } from "../../../component/dialer/DialerButtonView";
 
 const TAG = 'Dialer';
@@ -66,7 +65,6 @@ struct DialButton {
       .type(ButtonType.Circle)
       .height('100%')
       .width('100%')
-      .borderRadius('30')
       .onClick(() => {
         this.mPresenter.ifNeedSpace();
         AppStorage.SetOrCreate("tele_number", AppStorage.Get("tele_number") + this.button_number);
@@ -127,51 +125,56 @@ struct DialPad {
 export default struct Call {
   @State mPresenter: DialerPresenter = DialerPresenter.getInstance()
   @StorageLink("tele_number") tele_number: string = "";
-  @State haveSimCard: boolean = false;
-  @State haveMultiSimCard: boolean = false;
+  @StorageLink("haveMultiSimCard") @Watch("onSimChanged") haveMultiSimCard: boolean = false;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @State panWidth: number = 0;
-  @State simNames :string[] = ["",""]
+  @StorageLink("showDialBtn") @Watch('onShowDialBtnChange') showDialBtn: boolean = false;
 
-  onSimChanged = () => {
-    HiLog.i(TAG, "haveSimCard change:" + JSON.stringify(simCardState.haveSimCard));
-    this.haveSimCard = simCardState.haveSimCard;
-    this.haveMultiSimCard = simCardState.haveMultiSimCard;
-    this.simNames.forEach((name, index, array) => {
-      if (simCardState.isSimReady(index)) {
-        getSimName(index).then(value => {
-          HiLog.i(TAG, "getSimName:" + value + ", index: " + index);
-          this.simNames[index] = value;
-        })
-      } else {
-        this.simNames[index] = "";
-      }
-    })
-    this.mPresenter.dialerButtonWidth = this.haveMultiSimCard ? 210 : (this.mPresenter.btnShow ? 48 : 56);
+  onSimChanged() {
+    HiLog.i(TAG, "haveMultiSimCard change:" + JSON.stringify(this.haveMultiSimCard));
+    this.mPresenter.dialerButtonWidth = this.haveMultiSimCard ? (this.mPresenter.btnShow ? 48 : 210) :
+      (this.mPresenter.btnShow ? 48 : 56);
+  }
+
+  onShowDialBtnChange() {
+    HiLog.i(TAG, 'onShowDialBtnChange ' + this.showDialBtn);
+    if (this.showDialBtn) {
+      HiLog.i(TAG, 'show DialBtn ');
+      this.mPresenter.callBtnClick = true;
+      animateTo({
+        duration: 200,
+        curve: Curve.Linear,
+        onFinish: () => {
+          this.mPresenter.callBtnClick = false;
+        }
+      }, () => {
+        this.mPresenter.call_p = 0;
+        this.mPresenter.call_y = 0;
+        this.mPresenter.moveY = 0
+        this.mPresenter.dialerButtonWidth = this.haveMultiSimCard ? 210 : 56;
+        this.mPresenter.dialerButtonHeight = 56
+      })
+      this.mPresenter.btnShow = false;
+    } else {
+      HiLog.i(TAG, 'hide DialBtn ');
+      this.mPresenter.btnShow = true;
+      animateTo({ duration: 200, curve: Curve.Linear }, () => {
+        this.mPresenter.call_p = 134;
+        this.mPresenter.call_y = 6;
+        this.mPresenter.moveY = 392;
+        this.mPresenter.dialerButtonWidth = 48;
+        this.mPresenter.dialerButtonHeight = 48;
+      })
+    }
   }
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear CallTablet ');
-    this.mPresenter.callBtnClick = true;
-    animateTo({
-      duration: 200,
-      curve: Curve.Linear,
-      onFinish: () => {
-        this.mPresenter.callBtnClick = false;
-      }
-    }, () => {
-      this.mPresenter.call_p = 0;
-      this.mPresenter.call_y = 0;
-      this.mPresenter.moveY = 0
-      this.mPresenter.dialerButtonWidth = this.haveMultiSimCard ? 210 : 56;
-      this.mPresenter.dialerButtonHeight = 56
-    })
-    this.mPresenter.btnShow = false;
-    simCardState.attachObserver(this.onSimChanged);
+    this.showDialBtn = true;
     this.mPresenter.aboutToAppear();
   }
-  aboutToDisappear(){
-    simCardState.detachObserver(this.onSimChanged);
+
+  aboutToDisappear() {
   }
 
   build() {
@@ -218,20 +221,16 @@ export default struct Call {
             }
             .height('100%')
             .zIndex(1)
-            .onTouch(() => {
-              if (this.mPresenter.callBtnClick) {
-                return;
-              }
-              this.mPresenter.btnShow = true;
-              this.mPresenter.panelShow = false;
-              animateTo({ duration: 200, curve: Curve.Linear }, () => {
-                this.mPresenter.call_p = 134;
-                this.mPresenter.call_y = 6;
-                this.mPresenter.moveY = 392;
-                this.mPresenter.dialerButtonWidth = 48;
-                this.mPresenter.dialerButtonHeight = 48;
+            .gesture(
+            SwipeGesture({ fingers: 1, direction: SwipeDirection.Vertical, speed: 150 })
+              .onAction((event: GestureEvent) => {
+                if (this.mPresenter.callBtnClick) {
+                  return;
+                }
+                this.mPresenter.panelShow = false;
+                this.showDialBtn = false;
               })
-            })
+            )
           }
           .width('100%')
           .height('100%')
@@ -243,13 +242,10 @@ export default struct Call {
 
       Column() {
         DialerButtonView({
-          mPresenter:$mPresenter,
-          simNames:$simNames,
-          haveSimCard:$haveSimCard,
-          haveMultiSimCard:$haveMultiSimCard
-        }).visibility(this.mPresenter.btnShow? Visibility.None:Visibility.Visible)
+          mPresenter: $mPresenter,
+        }).visibility(this.mPresenter.btnShow ? Visibility.None : Visibility.Visible)
         Button() {
-          Image($r("app.media.ic_contacts_dial") )
+          Image($r("app.media.ic_contacts_dial"))
             .width($r("app.float.id_card_margin_max"))
             .height($r("app.float.id_card_margin_max"))
         }
@@ -257,22 +253,9 @@ export default struct Call {
         .height(this.mPresenter.dialerButtonHeight)
         .backgroundColor($r('sys.color.ohos_id_color_connected'))
         .onClick(() => {
-          this.mPresenter.callBtnClick = true;
-            animateTo({
-              duration: 200,
-              curve: Curve.Linear,
-              onFinish: () => {
-                this.mPresenter.callBtnClick = false;
-              }
-            }, () => {
-              this.mPresenter.call_p = 0;
-              this.mPresenter.call_y = 0;
-              this.mPresenter.moveY = 0
-              this.mPresenter.dialerButtonWidth = this.haveMultiSimCard ? 210 : 56
-              this.mPresenter.dialerButtonHeight = 56
-            })
-            this.mPresenter.btnShow = false;
-        }).visibility(this.mPresenter.btnShow ? Visibility.Visible : Visibility.None);
+          this.showDialBtn = true;
+        })
+        .visibility(this.mPresenter.btnShow ? Visibility.Visible : Visibility.None);
 
       }
       .justifyContent(FlexAlign.Center)
@@ -347,7 +330,7 @@ export default struct Call {
           .height($r("app.float.id_item_height_large"))
           .offset({ x: 0, y: -336 })
           .zIndex(3)
-          .padding({top : 4})
+          .padding({ top: 4 })
         }
         Column() {
 
@@ -365,14 +348,7 @@ export default struct Call {
               .width($r("app.float.dialer_calllog_item_height"))
               .height($r("app.float.dialer_calllog_item_height"))
               .onClick(() => {
-                this.mPresenter.btnShow = true;
-                animateTo({ duration: 200, curve: Curve.Linear }, () => {
-                  this.mPresenter.call_p = 134;
-                  this.mPresenter.call_y = 6;
-                  this.mPresenter.moveY = 392;
-                  this.mPresenter.dialerButtonWidth = 48;
-                  this.mPresenter.dialerButtonHeight = 48;
-                })
+                this.showDialBtn = false;
               })
             }
             .layoutWeight(1)

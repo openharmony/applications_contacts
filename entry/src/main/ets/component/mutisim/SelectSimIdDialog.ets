@@ -13,9 +13,7 @@
  * limitations under the License.
  */
 
-import { simCardState } from '../../../../../../feature/phonenumber/src/main/ets/SimUtil';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
-import telephonySim from '@ohos.telephony.sim';
+import { HiLog } from '../../../../../../common';
 
 const TAG = "SelectSimIdDialog";
 
@@ -103,10 +101,15 @@ class MultiSimCardItems {
   img: Resource;
 }
 
+interface Controller {
+  close();
+  open();
+}
+
 export class SelectDialogBuilder {
   title: string | Resource;
   multiSimCardItems: Array<MultiSimCardItems>;
   lastSimId?: number = -1;
   callback?: (simId: number) => void;
-  haveMultiSimCard?: boolean;
+  controller?: Controller;
 }

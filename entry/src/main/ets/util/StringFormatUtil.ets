@@ -26,8 +26,8 @@ export default {
     return $r("app.string.yearMonthDay", year, month, day);
   },
 
-  judgeSysTime() {
-    return settings.getValueSync(globalThis.context, settings.date.TIME_FORMAT, "24");
+  judgeSysTime(context?: Context) {
+    return settings.getValueSync(context ? context : globalThis.context, settings.date.TIME_FORMAT, "24");
   },
 
   /**
