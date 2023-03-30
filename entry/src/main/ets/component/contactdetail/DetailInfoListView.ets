@@ -41,7 +41,7 @@ export default struct DetailInfoListView {
       TelList({
         List: JSON.stringify(this.mPresenter.contactForm.phones),
         mPresenter: $mPresenter,
-        selectSimBuilder:$selectSimBuilder
+        selectSimBuilder: $selectSimBuilder
       });
 
       // email list
@@ -118,7 +118,11 @@ struct TelList {
       List() {
         ForEach(JSON.parse(this.List), item => {
           ListItem() {
-            TelListItem({ message: JSON.stringify(item), mPresenter: $mPresenter, selectSimBuilder:$selectSimBuilder });
+            TelListItem({
+              message: JSON.stringify(item),
+              mPresenter: $mPresenter,
+              selectSimBuilder: $selectSimBuilder
+            });
           }
         }, item => JSON.stringify(item))
       }
@@ -280,25 +284,25 @@ struct TelListItem {
         //TODO Pop-up window for dialing without a SIM card
         PhoneNumber.fromString(phoneNum).isDialEmergencyNum().then((res) => {
           this.isEmergencyNum = res;
-        })
-        if (!this.isEmergencyNum) {
-          HiLog.i(TAG, "Is not Emergency Phone Number!");
-          return;
-        } else {
-          HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
-          PhoneNumber.fromString(phoneNum).dial();
-        }
-      } else if (this.haveMultiSimCard) {
-          this.selectSimBuilder.title = $r("app.string.contacts_call_number", phoneNum);
-          this.selectSimBuilder.callback = (value) => {
-            PhoneNumber.fromString(phoneNum).dial({
-              accountId: value,
-            });
+          if (!this.isEmergencyNum) {
+            HiLog.i(TAG, "Is not Emergency Phone Number!");
+            return;
+          } else {
+            HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
+            PhoneNumber.fromString(phoneNum).dial();
           }
+        })
+      } else if (this.haveMultiSimCard) {
+        this.selectSimBuilder.title = $r("app.string.contacts_call_number", phoneNum);
+        this.selectSimBuilder.callback = (value) => {
+          PhoneNumber.fromString(phoneNum).dial({
+            accountId: value,
+          });
+        }
         this.selectSimBuilder.lastSimId = this.mPresenter.lastUsedSlotId;
-        let spnList = AppStorage.Get<Array<string|Resource>>('spnList');
+        let spnList = AppStorage.Get<Array<string | Resource>>('spnList');
         for (var index = 0; index < spnList.length; index++) {
-          this.selectSimBuilder.multiSimCardItems[index].name =  spnList[index];
+          this.selectSimBuilder.multiSimCardItems[index].name = spnList[index];
         }
         this.selectSimBuilder.controller?.open();
       } else {

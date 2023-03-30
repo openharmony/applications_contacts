@@ -45,6 +45,11 @@ struct Index {
     this.mDialerPresenter.editPhoneNumber(this.mIndexPresenter.editPhoneNumber);
   }
 
+  pageTransition() {
+    PageTransitionEnter({ duration: 100 })
+    PageTransitionExit({ duration: 100 })
+  }
+
   onPageShow() {
     this.mIndexPresenter.onPageShow();
   }

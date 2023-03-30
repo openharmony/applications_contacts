@@ -29,16 +29,10 @@ const TAG = 'CallRecordPresenter'
 
 export default class CallRecordPresenter {
   private static mPresenter: CallRecordPresenter;
-  callLogList = [];
-  missedList = [];
   mAllCallRecordListDataSource: CallRecordListDataSource = new CallRecordListDataSource();
   mMissCallRecordListDataSource: CallRecordListDataSource = new CallRecordListDataSource();
   mDialerPresent: DialerPresenter = DialerPresenter.getInstance();
   isShow: boolean = false;
-  page: number = 0;
-  limit: number = 0;
-  dateLength: number = 0;
-  missedLogDateLength: number = 0;
 
   static getInstance() {
     if (CallRecordPresenter.mPresenter == null) {
@@ -57,92 +51,29 @@ export default class CallRecordPresenter {
     this.isShow = false;
   }
 
-  onCallsChange = () => {
-    HiLog.i(TAG, 'onCallsChange refresh');
-    this.requestItem();
-  }
-  onContactChange = () => {
-    HiLog.i(TAG, 'onContactChange refresh');
-    this.requestItem();
-  }
-
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear!');
     this.isShow = true;
-    this.requestItem();
-    CallLogRepository.getInstance().registerDataChangeObserver(this.onCallsChange);
-    ContactRepository.getInstance().registerDataChangeObserver(this.onContactChange);
   }
 
   aboutToDisappear() {
     HiLog.i(TAG, 'aboutToDisappear!');
     this.isShow = false;
-    CallLogRepository.getInstance().unRegisterDataChangeObserver(this.onCallsChange)
-    ContactRepository.getInstance().unRegisterDataChangeObserver(this.onContactChange);
   }
 
-  requestItem() {
-    HiLog.i(TAG, 'CallLogs requestItem!');
-    if (this.page == 0) {
-      this.callLogList = [];
-      this.missedList = [];
-      this.page++;
-      this.refresh();
-    } else {
-      HiLog.i(TAG, 'isLoading');
+  refreshMissedList(missedList) {
+    HiLog.i(TAG, 'refreshMissedList, length is ' + missedList.length);
+    if (!ObjectUtil.isEmpty(this.mMissCallRecordListDataSource)) {
+      this.mMissCallRecordListDataSource.refresh(missedList);
     }
   }
 
-  refresh() {
-    if (this.page == 1) {
-      this.limit = 50;
-    } else {
-      this.limit = 500;
-    }
-    let actionData: any = {};
-    actionData.page = this.page;
-    actionData.limit = this.limit;
-    globalThis.DataWorker?.sendRequest("getAllCalls", {
-      context: globalThis.context,
-      mergeRule: CallLogSetting.getInstance().getMergeRule(),
-      actionData: actionData
-    }, (data) => {
-      HiLog.i(TAG, 'getAllCalls and refresh, length is ' + JSON.stringify(data.callLogList.length));
-      this.dateLength = data.callLogList.length;
-      this.missedLogDateLength = data.missedList.length;
-      let innerEvent = {
-        eventId: 1,
-        priority: emitter.EventPriority.HIGH
-      };
-      emitter.emit(innerEvent, {
-        data: {
-          'callLogListLen': this.dateLength,
-          'missedListListLen': this.missedLogDateLength
-        }
-      });
-      if (!ArrayUtil.isEmpty(data.callLogList)) {
-        this.callLogList = this.callLogList.concat(data.callLogList);
+  refreshCallLogList(callLogList) {
+      HiLog.i(TAG, 'refreshCallLogList, length is ' + callLogList.length);
+      if (!ObjectUtil.isEmpty(this.mAllCallRecordListDataSource)) {
+        this.mAllCallRecordListDataSource.refresh(callLogList);
         this.mDialerPresent.refresh();
       }
-      if (!ArrayUtil.isEmpty(data.missedList)) {
-        this.missedList = this.missedList.concat(data.missedList);
-      }
-      if (!ObjectUtil.isEmpty(this.mAllCallRecordListDataSource)) {
-        this.mAllCallRecordListDataSource.refresh(this.callLogList);
-      }
-      if (!ObjectUtil.isEmpty(this.mMissCallRecordListDataSource)) {
-        this.mMissCallRecordListDataSource.refresh(this.missedList);
-      }
-      if (this.dateLength < this.limit) {
-        this.page = 0;
-        HiLog.i(TAG, 'CallLogs load completed: ' + JSON.stringify(this.callLogList.length));
-      } else {
-        this.page++;
-        setTimeout(() => {
-          this.refresh();
-        }, this.page == 2 ? 700 : 1);
-      }
-    })
   }
 
   dialing(phoneNumber, options?: any) {

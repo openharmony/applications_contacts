@@ -643,8 +643,6 @@ export default class DetailPresenter {
     }, (result) => {
       if (result == 0 || result == undefined) {
         ContactRepository.getInstance().notifyChange()
-        CallLogRepository.getInstance().notifyChange()
-        router.back();
       } else {
         HiLog.i(TAG, `doDeleteContact Failed ${JSON.stringify(result)}`);
         prompt.showToast({
@@ -652,6 +650,7 @@ export default class DetailPresenter {
         });
       }
     });
+    router.back();
   }
 
   // Sending Messages

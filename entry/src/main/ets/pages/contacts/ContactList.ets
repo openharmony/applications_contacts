@@ -15,9 +15,10 @@
 
 import ContactListItemView from '../../component/contact/ContactListItemView';
 import ContactListPresenter from '../../presenter/contact/ContactListPresenter';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog, ArrayUtil } from '../../../../../../common';
 import emitter from '@ohos.events.emitter';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
+import Constants from '../../../../../../common/src/main/ets/Constants';
 
 const TAG = 'ContactList  ';
 let storage = LocalStorage.GetShared();
@@ -33,22 +34,31 @@ export default struct ContactListPage {
   @State contactListListLen: number = 0;
   emitterId: number = 2;
 
+  refresh() {
+    if (AppStorage.Has('contactList')) {
+      let contactList: any = AppStorage.Get('contactList');
+      this.contactListListLen = contactList.length;
+      this.mContactPresenter.refresh(contactList);
+    }
+  }
+
   aboutToAppear() {
     HiLog.i(TAG, 'Contact aboutToAppear!');
     this.mContactPresenter.aboutToAppear();
     let innerEvent = {
-      eventId: this.emitterId,
+      eventId: Constants.Event.CONTACTS_CHANGE,
       priority: emitter.EventPriority.HIGH
     };
-    emitter.on(innerEvent, (data) => {
-      this.contactListListLen = data.data['contactListListLen'];
+    emitter.on(innerEvent, () => {
+      this.refresh();
     })
+    this.refresh();
   }
 
   aboutToDisappear() {
     HiLog.i(TAG, 'Contact aboutToDisappear!');
     this.mContactPresenter.aboutToDisappear();
-    emitter.off(this.emitterId);
+    emitter.off(Constants.Event.CONTACTS_CHANGE);
   }
 
   onPageShow() {
@@ -61,7 +71,7 @@ export default struct ContactListPage {
 
   build() {
     Column() {
-      if (this.mContactPresenter.contactList.length == 0 && this.contactListListLen == 0) {
+      if (this.contactListListLen == 0) {
         ContactEmptyPage({ presenter: $mContactPresenter })
       } else {
         ContactContent({ presenter: $mContactPresenter, contactListListLen: $contactListListLen })

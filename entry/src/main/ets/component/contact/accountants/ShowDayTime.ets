@@ -17,12 +17,14 @@ import { StringUtil } from '../../../../../../../common/src/main/ets/util/String
 import { EventBean } from "../../../model/bean/EventBean";
 import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
 import StringFormatUtil from "../../../util/StringFormatUtil"
+import { Birthday } from '../../../../../../../feature/contact/src/main/ets/contract/Birthday';
 
 @CustomDialog
 export struct ShowDayTime {
   private date = new Date(2000, 0, 1);
   @Link mPresent: AccountantsPresenter;
   @Prop itemIndex: number;
+  @Prop itemType: number;
   @State showTime: Resource = $r("app.string.yearMonthDay", this.date.getFullYear(),
     (this.date.getMonth() + 1), this.date.getDate());
   controller: CustomDialogController
@@ -45,6 +47,7 @@ export struct ShowDayTime {
         .width("85%")
         .height("200vp")
         .margin({ bottom: 8 })
+        .lunar(this.itemType == Birthday.TYPE_LUNARBIRTHDAY)
         .onChange((value: DatePickerResult) => {
           this.date = new Date(value.year, value.month, value.day);
           this.showTime = $r("app.string.yearMonthDay", value.year, (value.month + 1), value.day);
