@@ -22,10 +22,11 @@ export default {
     UNICOM: "China Unicom",
   },
   Event: {
-    CALLS_CANGE: 0,
+    CALLS_CHANGE: 0,
     CONTACTS_CHANGE: 1,
     SLOT_CHANGE: 2,
     SPN_INFO_CHANGED: 3,
-    VOLTE_CHANGE: 4
+    VOLTE_CHANGE: 4,
+    CALLS_MERGE: 5
   }
 }

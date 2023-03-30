@@ -14,13 +14,16 @@
  */
 
 import router from '@ohos.router';
-import { CallLogRepository, MissedCallService } from '../../../../../feature/call';
+import { CallLogRepository } from '../../../../../feature/call';
 import { ContactRepository } from '../../../../../feature/contact/src/main/ets/repo/ContactRepository';
 import pasteboard from '@ohos.pasteboard';
 import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
 import StringFormatUtil from '../util/StringFormatUtil';
 import CallRecordPresenter from './dialer/callRecord/CallRecordPresenter';
+import { missedCallManager } from '../feature/missedCall/MissedCallManager';
+import emitter from '@ohos.events.emitter';
+import Constants from '../../../../../common/src/main/ets/Constants';
 
 const TAG = 'IndexPresenter  ';
 
@@ -30,6 +33,10 @@ export default class IndexPresenter {
   isEditNum: boolean = false;
   editPhoneNumber: string = "";
   tabsIndex: number = 0;
+  innerEvent = {
+    eventId: Constants.Event.CALLS_MERGE,
+    priority: emitter.EventPriority.HIGH
+  };
 
   public static getInstance(): IndexPresenter {
     if (!IndexPresenter.instance) {
@@ -52,15 +59,14 @@ export default class IndexPresenter {
     this.getNewWant();
     if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get("sysTime")) {
       HiLog.i(TAG, 'DO requestItem cause systemTime changed');
-      CallRecordPresenter.getInstance().requestItem();
+      emitter.emit(this.innerEvent)
       AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
     }
   }
 
   cancelMissedCallNotification() {
     HiLog.i(TAG, `cancelMissedCallNotification`);
-    MissedCallService.getInstance().init(globalThis.context)
-    MissedCallService.getInstance().cancelAllMissedNotificationAction()
+    missedCallManager.cancelNotification()
   }
 
   aboutToAppear() {

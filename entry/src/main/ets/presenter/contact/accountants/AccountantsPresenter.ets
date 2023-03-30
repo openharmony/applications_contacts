@@ -312,18 +312,22 @@ export default class AccountantsPresenter {
     HiLog.i(TAG, `deleteItem ${typeName} ${startIndex}`);
     switch (typeName) {
       case "phone":
-        if (this.contactInfoAfter.phones.length > 1) {
-          this.contactInfoAfter.phones.splice(startIndex, 1);
-        } else {
-          this.contactInfoAfter.phones[0].num = "";
+        if (this.contactInfoAfter.phones.length > startIndex) {
+          if (this.contactInfoAfter.phones.length > 0) {
+            this.contactInfoAfter.phones.splice(startIndex, 1);
+          } else {
+            this.contactInfoAfter.phones[0].num = "";
+          }
         }
         this.getPhones = this.getArray(this.contactInfoAfter.phones);
         break;
       case "email":
-        if (this.contactInfoAfter.emails.length > 1) {
-          this.contactInfoAfter.emails.splice(startIndex, 1);
-        } else {
-          this.contactInfoAfter.emails[0].address = "";
+        if (this.contactInfoAfter.phones.length > startIndex) {
+          if (this.contactInfoAfter.emails.length > 0) {
+            this.contactInfoAfter.emails.splice(startIndex, 1);
+          } else {
+            this.contactInfoAfter.emails[0].address = "";
+          }
         }
         this.getEmails = this.getArray(this.contactInfoAfter.emails);
         break;
@@ -333,6 +337,7 @@ export default class AccountantsPresenter {
         } else {
           this.contactInfoAfter.aims[0].aimName = "";
         }
+        break;
       case "house":
         if (this.contactInfoAfter.houses.length > 1) {
           this.contactInfoAfter.houses.splice(startIndex, 1);
@@ -363,77 +368,83 @@ export default class AccountantsPresenter {
 
   public getTextDisplay(typeName: string, data: any) {
     let display: string = "";
-    switch (typeName) {
-      case "phone":
-        if (data.item.hasOwnProperty("num")) {
-          display = data.item.num;
-        }
-        break;
-      case "email":
-        if (data.item.hasOwnProperty("address")) {
-          display = data.item.address;
-        }
-        break;
-      case "AIM":
-        if (data.item.hasOwnProperty("aimName")) {
-          display = data.item.aimName;
-        }
-        break;
-      case "house":
-        if (data.item.hasOwnProperty("houseName")) {
-          display = data.item.houseName;
-        }
-        break;
-      case "relationships":
-        if (data.item.hasOwnProperty("name")) {
-          display = data.item.name;
-        }
-        break;
-      case "events":
-        if (data.item.hasOwnProperty("data")) {
-          display = data.item.data;
-        }
-        break;
-      default:
-        break;
+    if (data && data.item) {
+      switch (typeName) {
+        case "phone":
+          if (data.item.hasOwnProperty("num")) {
+            display = data.item.num;
+          }
+          break;
+        case "email":
+          if (data.item.hasOwnProperty("address")) {
+            display = data.item.address;
+          }
+          break;
+        case "AIM":
+          if (data.item.hasOwnProperty("aimName")) {
+            display = data.item.aimName;
+          }
+          break;
+        case "house":
+          if (data.item.hasOwnProperty("houseName")) {
+            display = data.item.houseName;
+          }
+          break;
+        case "relationships":
+          if (data?.item.hasOwnProperty("name")) {
+            display = data.item.name;
+          }
+          break;
+        case "events":
+          if (data.item.hasOwnProperty("data")) {
+            display = data.item.data;
+          }
+          break;
+        default:
+          break;
+      }
     }
     return display;
   }
 
   public listItemChange(typeName: string, data: any, arg: string) {
-    switch (typeName) {
-      case "phone":
-        if (StringUtil.isEmpty(this.contactInfoAfter?.phones[data?.i - 1]?.numType)) {
-          this.contactInfoAfter.phones[data.i - 1] = new PhoneNumBean("", "", "1", "", "");
-        }
-        this.contactInfoAfter.phones[data.i - 1].num = arg.toString();
-        break;
-      case "email":
-        if (StringUtil.isEmpty(this.contactInfoAfter?.emails[data?.i - 1]?.emailType)) {
-          this.contactInfoAfter.emails[data.i - 1] = new EmailBean("", "", "1");
-        }
-        this.contactInfoAfter.emails[data.i - 1].address = arg.toString();
-        break;
-      case "AIM":
-        if (StringUtil.isEmpty(this.contactInfoAfter?.aims[data?.i - 1]?.aimType)) {
-          this.contactInfoAfter.aims[data.i - 1] = new AIMBean("", "", "1", "");
-        }
-        this.contactInfoAfter.aims[data.i - 1].aimName = arg.toString();
-        break;
-      case "house":
-        if (StringUtil.isEmpty(this.contactInfoAfter?.houses[data?.i - 1]?.houseType)) {
-          this.contactInfoAfter.houses[data.i - 1] = new HouseBean("", "", "1", "");
-        }
-        this.contactInfoAfter.houses[data.i - 1].houseName = arg.toString();
-        break;
-      case "relationships":
-        if (StringUtil.isEmpty(this.contactInfoAfter?.relationships[data?.i - 1]?.associatedType)) {
-          this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean("", "", "", "1");
-        }
-        this.contactInfoAfter.relationships[data.i - 1].name = arg.toString();
-        break;
-      default:
-        break;
+    try {
+      switch (typeName) {
+        case "phone":
+          if (StringUtil.isEmpty(this.contactInfoAfter?.phones[data?.i - 1]?.numType)) {
+            this.contactInfoAfter.phones[data.i - 1] = new PhoneNumBean("", "", "1", "", "");
+          }
+          this.contactInfoAfter.phones[data.i - 1].num = arg.toString();
+          break;
+        case "email":
+          if (StringUtil.isEmpty(this.contactInfoAfter?.emails[data?.i - 1]?.emailType)) {
+            this.contactInfoAfter.emails[data.i - 1] = new EmailBean("", "", "1");
+          }
+          this.contactInfoAfter.emails[data.i - 1].address = arg.toString();
+          break;
+        case "AIM":
+          if (StringUtil.isEmpty(this.contactInfoAfter?.aims[data?.i - 1]?.aimType)) {
+            this.contactInfoAfter.aims[data.i - 1] = new AIMBean("", "", "1", "");
+          }
+          this.contactInfoAfter.aims[data.i - 1].aimName = arg.toString();
+          break;
+        case "house":
+          if (StringUtil.isEmpty(this.contactInfoAfter?.houses[data?.i - 1]?.houseType)) {
+            this.contactInfoAfter.houses[data.i - 1] = new HouseBean("", "", "1", "");
+          }
+          this.contactInfoAfter.houses[data.i - 1].houseName = arg.toString();
+          break;
+        case "relationships":
+          if (StringUtil.isEmpty(this.contactInfoAfter?.relationships[data?.i - 1]?.associatedType)) {
+            this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean("", "", "", "1");
+          }
+          this.contactInfoAfter.relationships[data.i - 1].name = arg.toString();
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      HiLog.e(TAG, "something error happened: " + JSON.stringify(error));
     }
   }
 
