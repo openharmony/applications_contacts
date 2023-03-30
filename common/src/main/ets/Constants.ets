@@ -15,7 +15,7 @@
 export default {
   SPN_CHINA: {
     // TELECOM
-    TELECOM: "泄",
+    TELECOM: "中国电信",
     // MOBILE
     MOBILE: "CMCC",
     // UNICOM
