@@ -12,16 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import CommonEvent from '@ohos.commonEventManager';
 import telephonySim from '@ohos.telephony.sim';
-import Constants from "../../../../../../common/src/main/ets/Constants"
 import { HiLog } from '../../../../../../common';
+import radio from '@ohos.telephony.radio';
+import observer from '@ohos.telephony.observer';
 
 const TAG = "SimOpName"
 
 class SimOpName {
   spnList: Array<string | Resource> = [];
-  spnEventSubscriber: any;
 
   constructor() {
     for (let index = 0; index < telephonySim.getMaxSimCount(); index++) {
@@ -33,47 +32,37 @@ class SimOpName {
    * recycle
    */
   public unsubscribeSpnObserver() {
-    if (this.spnEventSubscriber) {
-      CommonEvent.unsubscribe(this.spnEventSubscriber);
-    }
+      observer.off('networkStateChange');
   }
 
   public initSpnObserver() {
-    let subscribeInfo = {
-      events: ['usual.event.SPN_INFO_CHANGED']
-    };
-    CommonEvent.createSubscriber(subscribeInfo, (err, data) => {
-      if (err) {
-        HiLog.e(TAG, JSON.stringify(err))
-        return
-      }
-      this.spnEventSubscriber = data;
-      CommonEvent.subscribe(data, (err, data) => {
-        if (data && data.parameters) {
-          let spn = data.parameters.CUR_SPN ? data.parameters.CUR_SPN : data.parameters.CUR_PLMN;
-          if (spn) {
-            HiLog.i(TAG, `SPN_INFO_CHANGED notify Sim${data.parameters.CUR_SLOT_ID} Name:${spn}`);
-            this.notifySimName(data.parameters.CUR_SLOT_ID, spn);
+    try {
+      for (let index = 0; index < telephonySim.getMaxSimCount(); index++) {
+        observer.on('networkStateChange', { slotId: index }, data => {
+          if (!data) {
+            HiLog.e(TAG, "there is something wrong with networkState");
+            return
+          } else {
+            HiLog.i(TAG, "observer ON data : " + JSON.stringify(data));
+            let spn = data.longOperatorName ? data.longOperatorName : data.plmnNumeric;
+            if (spn) {
+              HiLog.i(TAG, `networkStateChange notify Sim${index} Name:${spn}`);
+              this.notifySimName(index, spn);
+            }
           }
-        }
-      })
-    });
+        });
+      }
+    } catch (err) {
+      HiLog.e(TAG, "get error: " + JSON.stringify(err));
+    }
   }
 
   public initSimName(simId: number) {
-    telephonySim.getSimSpn(simId, (error, data) => {
+    radio.getNetworkState(simId, (error, data) => {
       if (error || !data) {
-        HiLog.i(TAG, "getSimSpn error" + JSON.stringify(error))
-        telephonySim.getSimOperatorNumeric(simId, (error, opNum) => {
-          if (error) {
-            HiLog.i(TAG, "getSimOperatorNumeric error" + JSON.stringify(error))
-          } else {
-            HiLog.i(TAG, "getSimSpn error, opNum:" + opNum)
-            this.notifySimName(simId, opNum);
-          }
-        })
+        HiLog.e(TAG, "getNetworkState error: " + JSON.stringify(error));
       } else {
-        this.notifySimName(simId, data);
+        this.notifySimName(simId, data.longOperatorName);
       }
     })
   }
@@ -81,13 +70,6 @@ class SimOpName {
   public notifySimName(slot: number, spn: string) {
     HiLog.i(TAG, `notify Sim${slot} Name:${spn}`);
     this.spnList[slot] = spn;
-    if (Constants.SPN_CHINA.MOBILE == spn) {
-      this.spnList[slot] = $r('app.string.china_mobile')
-    } else if (Constants.SPN_CHINA.TELECOM == spn) {
-      this.spnList[slot] = $r('app.string.china_telecom')
-    } else if (Constants.SPN_CHINA.UNICOM == spn) {
-      this.spnList[slot] = $r('app.string.china_unicom')
-    }
     AppStorage.SetOrCreate<Array<string | Resource>>("spnList", this.spnList);
   }
 }

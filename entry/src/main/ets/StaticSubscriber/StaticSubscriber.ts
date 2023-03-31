@@ -23,6 +23,12 @@ export default class StaticSubscriber extends StaticSubscriberExtensionAbility {
         MissedCallService.getInstance().init(this.context);
         if ("usual.event.INCOMING_CALL_MISSED" == event.event) {
             MissedCallService.getInstance().updateMissedCallNotifications();
+        } else if ( "contact.event.CANCEL_MISSED" == event.event) {
+            if (event.parameters?.missedCallData) {
+                MissedCallService.getInstance().cancelMissedNotificationAction(event.parameters?.missedCallData)
+            } else {
+                MissedCallService.getInstance().cancelAllMissedNotificationAction()
+            }
         }
     }
 }

@@ -128,14 +128,14 @@ export default struct CallLogListItem {
           //TODO Pop-up window for dialing without a SIM card
           PhoneNumber.fromString(this.message.formatNumber).isDialEmergencyNum().then((res) => {
             this.isEmergencyNum = res;
+            if (!this.isEmergencyNum) {
+              HiLog.i(TAG, "Is not Emergency Phone Number!");
+              return;
+            } else {
+              HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
+              PhoneNumber.fromString(this.message.formatNumber).dial();
+            }
           })
-          if (!this.isEmergencyNum) {
-            HiLog.i(TAG, "Is not Emergency Phone Number!");
-            return;
-          } else {
-            HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
-            PhoneNumber.fromString(this.message.formatNumber).dial();
-          }
         } else {
           PhoneNumber.fromString(this.message.formatNumber).dial();
         }

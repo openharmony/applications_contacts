@@ -40,22 +40,14 @@ export enum ContactClickType {
 export default class ContactListPresenter {
   private static sInstance: ContactListPresenter;
   indexs: string[] = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '…'];
-  contactList: ContactVo[] = [];
   curItem: ContactVo = new ContactVo("", "", "", "", "", "", true, "", "");
-  page: number = 0;
-  limit: number = 0;
   total: number = 0;
   queryContactsType: string = 'all';
-  contactCount: number = 0;
   isEmptyGroup: boolean = true;
   shareList: Resource[] = [$r("app.string.qr_code"), $r("app.string.v_card"), $r("app.string.text")];
   settingsMenu: Resource[] = [$r("app.string.contact_setting_type_scancard"), $r("app.string.call_setting_type_setting")];
   contactListDataSource: ContactListDataSource = new ContactListDataSource();
   isShow: boolean = false;
-  onContactChange = () => {
-    HiLog.i(TAG, 'onContactChange refresh');
-    this.requestItem();
-  }
 
   private constructor() {
   }
@@ -70,13 +62,10 @@ export default class ContactListPresenter {
 
   aboutToAppear() {
     this.isShow = true;
-    this.requestItem();
-    ContactRepository.getInstance().registerDataChangeObserver(this.onContactChange);
   }
 
   aboutToDisappear() {
     this.isShow = false;
-    ContactRepository.getInstance().unRegisterDataChangeObserver(this.onContactChange);
   }
 
   onPageShow() {
@@ -89,55 +78,9 @@ export default class ContactListPresenter {
     this.isShow = false;
   }
 
-  requestItem() {
-    HiLog.i(TAG, 'Contacts requestItem!');
-    if (this.page == 0) {
-      this.contactList = [];
-      this.page++;
-      this.refresh();
-    } else {
-      HiLog.i(TAG, 'isLoading');
-    }
-  }
 
-  refresh() {
-    let actionData: any = {};
-    if (this.page == 1) {
-      this.limit = 50;
-    } else {
-      this.limit = 500;
-    }
-    actionData.page = this.page;
-    actionData.limit = this.limit;
-    globalThis.DataWorker.sendRequest("getAllContact", {
-      actionData: actionData,
-      context: globalThis.context
-    }, (result) => {
-      HiLog.i(TAG, 'getAllContact and refresh, length is: ' + JSON.stringify(result.length));
-      if (!ArrayUtil.isEmpty(result)) {
-        this.contactList = this.contactList.concat(result);
-      }
-      this.contactCount = result.length;
-      this.contactListDataSource.refresh(this.contactList);
-      if (this.contactCount < this.limit) {
-        this.page = 0;
-        HiLog.i(TAG, 'Contacts load completed: ' + JSON.stringify(this.contactList.length));
-      } else {
-        this.page++;
-        setTimeout(() => {
-          this.refresh();
-        }, this.page == 2 ? 700 : 1);
-      }
-      let innerEvent = {
-        eventId: 2,
-        priority: emitter.EventPriority.HIGH
-      };
-      emitter.emit(innerEvent, {
-        data: {
-          'contactListListLen': this.contactList.length
-        }
-      });
-    })
+  refresh(contactList) {
+    this.contactListDataSource.refresh(contactList);
   }
 
   /**

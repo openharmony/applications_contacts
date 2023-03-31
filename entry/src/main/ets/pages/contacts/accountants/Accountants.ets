@@ -51,6 +51,7 @@ let storage = LocalStorage.GetShared();
 struct Accountants {
   @State mPresenter: AccountantsPresenter = AccountantsPresenter.getInstance();
   @State eventItemId: number = 0;
+  @State eventType: number = 1;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @State updataShow: boolean = false;
   private pageTitle: Resource = $r("app.string.create_contact");
@@ -58,7 +59,8 @@ struct Accountants {
     builder: ShowDayTime({ mPresent: $mPresenter,
       cancel: this.onCancel,
       confirm: this.onAccept,
-      itemIndex: this.eventItemId }),
+      itemIndex: this.eventItemId,
+      itemType: this.eventType}),
     cancel: this.existApp,
     autoCancel: true,
     alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
@@ -86,6 +88,11 @@ struct Accountants {
     offset: { dx: 0, dy: -16 },
     gridCount: 4
   });
+
+  pageTransition() {
+    PageTransitionEnter({ duration: 100 })
+    PageTransitionExit({ duration: 100 })
+  }
 
   onCancel() {
     HiLog.i(TAG, 'Callback when the first button is clicked');
@@ -576,6 +583,7 @@ struct Accountants {
                           controller: this.dialogController,
                           index: item.i,
                           itemIndex: $eventItemId,
+                          eventType: $eventType,
                           typeName: "events"
                         });
                       }, item => item.i.toString())

@@ -22,6 +22,7 @@ import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 const TAG = 'DialerButtonView';
 @Component
 export struct DialerButtonView {
+  emergencyNum: string;
   @Link mPresenter: DialerPresenter;
   @StorageLink("tele_number") tele_number: string = "";
   @StorageLink("haveSimCard") haveSimCard: boolean = false;
@@ -32,17 +33,17 @@ export struct DialerButtonView {
     this.mPresenter.callBtnClick = true;
     if (!this.haveSimCard) {
       HiLog.i(TAG, "No SIM card!");
+      this.emergencyNum = this.mPresenter.all_number;
       //TODO Pop-up window for dialing without a SIM card
       PhoneNumber.fromString(this.mPresenter.all_number).isDialEmergencyNum().then((res) => {
         this.mPresenter.isEmergencyNum = res;
+        if (!this.mPresenter.isEmergencyNum) {
+          HiLog.i(TAG, "Is not Emergency Phone Number!");
+          return;
+        } else {
+          this.mPresenter.dialing(this.emergencyNum);
+        }
       })
-      if (!this.mPresenter.isEmergencyNum) {
-        HiLog.i(TAG, "Is not Emergency Phone Number!");
-        return;
-      } else {
-        HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
-        this.mPresenter.dialing(this.mPresenter.all_number);
-      }
     } else {
       if (this.tele_number.length > 0) {
         this.mPresenter.dialing(this.mPresenter.all_number);
