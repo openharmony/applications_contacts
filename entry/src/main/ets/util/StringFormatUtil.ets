@@ -13,16 +13,20 @@
  * limitations under the License.
  */
 import settings from '@ohos.settings';
+import CalendarUtil from './CalendarUtil'
 
 export default {
   numberFormatDateString(year : number, month : number, day : number) : string {
     return year + "-" + month + "-" + day;
   },
 
-  stringFormatDateResource(data: string): Resource{
+  stringFormatDateResource(data: string, lunar: boolean): Resource|string{
     let year: number = parseInt(data.substr(0, data.indexOf("-")));
     let month: number = parseInt(data.substr(data.indexOf("-") + 1, data.lastIndexOf("-")));
     let day: number = parseInt(data.substr(data.lastIndexOf("-") + 1, data.length));
+    if (lunar) {
+      return CalendarUtil.formatLunarDate(CalendarUtil.getLunarDate(new Date(year,month-1,day)))
+    }
     return $r("app.string.yearMonthDay", year, month, day);
   },
 

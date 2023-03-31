@@ -1,18 +1,21 @@
 import Ability from '@ohos.app.ability.UIAbility'
 import Window from '@ohos.window'
 import WorkFactory, { WorkerType } from "../workers/WorkFactory";
-import { MissedCallService } from '../../../../../feature/call';
-import { PhoneNumber } from '../../../../../feature/phonenumber';
 import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
-import Constants from '../../../../../common/src/main/ets/Constants';
-import Want from '@ohos.application.Want';
+import Want from '@ohos.app.ability.Want';
 import SimManager from '../feature/sim/SimManager';
+import { missedCallManager } from '../feature/missedCall/MissedCallManager';
+import CallsService from "../service/CallsService";
+import ContactsService from "../service/ContactsService";
 
 const TAG = 'MainAbility ';
 
 export default class MainAbility extends Ability {
     storage: LocalStorage;
     simManager: SimManager;
+    mDataWorker = WorkFactory.getWorker(WorkerType.DataWorker);
+    mCallsService: CallsService;
+    mContactsService: ContactsService;
 
     updateBreakpoint(windowWidth: number) {
         let windowWidthVp: number = px2vp(windowWidth);
@@ -28,43 +31,28 @@ export default class MainAbility extends Ability {
     }
 
     onRequest(want: Want, isOnCreate: boolean) {
-        HiLog.i(TAG, "onRequest Contact notification");
         if (!want || !want.parameters) {
             return;
         }
-        const data = want.parameters["missedCallData"];
+        const data: any = want.parameters["missedCallData"];
         const action = want.parameters["action"];
         HiLog.i(TAG, `onRequest action: ${action}`);
-        MissedCallService.getInstance().init(this.context);
-        switch (action) {
-            case 'notification.event.click':
-            case 'notification.event.dial_back':
-                HiLog.i(TAG, "action to dialBack.");
-                if (data) {
-                    MissedCallService.getInstance().cancelMissedNotificationAction(data);
-                }
-                break;
-            case 'notification.event.message':
-                if (data && data.phoneNumber) {
-                    PhoneNumber.fromString(data.phoneNumber).sendMessage()
-                    MissedCallService.getInstance().cancelMissedNotificationAction(data);
-                }
-                break;
-            default:
-                HiLog.i(TAG, "onRequest, no action!")
-                break;
+        if (action != undefined && data != undefined) {
+            missedCallManager.requestMissedCallAction(action, data);
         }
     }
 
     onCreate(want, launchParam) {
         HiLog.i(TAG, 'Application onCreate start');
-        globalThis.DataWorker = WorkFactory.getWorker(WorkerType.DataWorker);
         globalThis.isFromOnCreate = true;
         globalThis.context = this.context;
         globalThis.abilityWant = want;
         this.storage = new LocalStorage()
         this.onRequest(want, true);
         this.simManager = new SimManager();
+        globalThis.DataWorker = this.mDataWorker;
+        this.mCallsService = new CallsService(this.context, this.mDataWorker);
+        this.mContactsService = new ContactsService(this.context, this.mDataWorker);
     }
 
     onNewWant(want, launchParam) {
@@ -76,7 +64,9 @@ export default class MainAbility extends Ability {
 
     onDestroy() {
         HiLog.i(TAG, 'Ability onDestroy');
-        globalThis.DataWorker?.close()
+        this.mDataWorker.close();
+        this.mCallsService.onDestroy();
+        this.mContactsService.onDestroy();
     }
 
     onWindowStageCreate(windowStage: Window.WindowStage) {

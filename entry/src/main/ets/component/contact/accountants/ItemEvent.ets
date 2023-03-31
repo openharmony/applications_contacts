@@ -13,14 +13,18 @@
  * limitations under the License.
  */
 
-import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
-import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
+import { StringUtil, HiLog } from '../../../../../../../common';
+import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
 import StringFormatUtil from "../../../util/StringFormatUtil";
+import { Birthday } from '../../../../../../../feature/contact/src/main/ets/contract/Birthday';
+
+const TAG = "ItemEvent"
 
 @Component
 export struct ItemEvent {
-  @Link mPresent: { [key: string]: any };
+  @Link mPresent: AccountantsPresenter;
   @Link itemIndex: number;
+  @Link eventType: number;
   private controller: { [key: string]: any };
   private index: number;
   private typeName: string;
@@ -58,7 +62,8 @@ export struct ItemEvent {
             Text(
               StringUtil.isEmpty(this.mPresent.getTextDisplay(this.typeName, this.mPresent.getData(this.typeName, this.index - 1)))
                 ? $r("app.string.date")
-                : StringFormatUtil.stringFormatDateResource(this.mPresent.getData(this.typeName, this.index - 1).item.data)
+                : StringFormatUtil.stringFormatDateResource(this.mPresent.getData(this.typeName, this.index - 1).item.data,
+                  this.mPresent.getData(this.typeName, this.index - 1)?.item?.eventType == Birthday.TYPE_LUNARBIRTHDAY)
             )
               .margin({ left: $r("app.float.id_card_margin_xxl") })
               .height($r("app.float.id_item_height_large"))
@@ -72,6 +77,10 @@ export struct ItemEvent {
           .alignItems(HorizontalAlign.Start)
           .flexGrow(1)
           .onClick(() => {
+            let data = this.mPresent.getData(this.typeName, this.index - 1)
+            if (data.item && data.item.hasOwnProperty("eventType")) {
+              this.eventType = Number(data.item.eventType)
+            }
             this.itemIndex = this.index - 1;
             this.controller.open()
           })

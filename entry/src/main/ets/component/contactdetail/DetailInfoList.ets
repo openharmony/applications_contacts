@@ -16,6 +16,7 @@
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 import { DataItemType } from '../../../../../../feature/contact/src/main/ets/contract/DataType';
 import StringFormatUtil from '../../util/StringFormatUtil'
+import { Birthday } from '../../../../../../feature/contact/src/main/ets/contract/Birthday';
 
 @Component
 export default struct DetailInfoList {
@@ -32,7 +33,7 @@ export default struct DetailInfoList {
           ForEach(JSON.parse(this.List), (item, index) => {
             ListItem() {
               DetailInfoListItem({
-                title: this.dataType == DataItemType.EVENT ? StringFormatUtil.stringFormatDateResource(item.data) : item.data,
+                title: this.dataType == DataItemType.EVENT ? StringFormatUtil.stringFormatDateResource(item.data, item?.type == Birthday.TYPE_LUNARBIRTHDAY) : item.data,
                 content: item.labelName,
                 hasArrow: this.hasArrow,
               });

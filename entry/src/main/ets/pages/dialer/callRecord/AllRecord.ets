@@ -23,7 +23,8 @@ import DialerPresenter from '../../../presenter/dialer/DialerPresenter';
 import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
 import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 import IndexPresenter from '../../../presenter/IndexPresenter';
-import { HiLog } from "../../../../../../../common"
+import { HiLog, ArrayUtil } from "../../../../../../../common"
+import Constants from '../../../../../../../common/src/main/ets/Constants';
 import emitter from '@ohos.events.emitter'
 
 const TAG = "AllRecord ";
@@ -34,28 +35,51 @@ export default struct AllRecord {
   /*0all 1miss*/
   recordType: number = 0;
   emitterId: number = 1;
-  @State callLogListLen: number = 0;
-  @State missedListListLen: number = 0;
+  @State callLogListEmpty: boolean = true;
+  @State missedListEmpty: boolean = true;
+
+  refresh() {
+    if (this.recordType === 0) {
+      if (AppStorage.Has('callLogList')) {
+        let callLogList: any = AppStorage.Get('callLogList');
+        const callLogEmpty: boolean = ArrayUtil.isEmpty(callLogList)
+        if (this.callLogListEmpty != callLogEmpty) {
+          this.callLogListEmpty = callLogEmpty;
+        }
+        this.mPresenter.refreshCallLogList(callLogList);
+      }
+    } else {
+      if (AppStorage.Has('missedList')) {
+        let missedList: any = AppStorage.Get('missedList')
+        const missedEmpty: boolean = ArrayUtil.isEmpty(missedList)
+        if (this.missedListEmpty != missedEmpty) {
+          this.missedListEmpty = missedEmpty;
+        }
+        this.mPresenter.refreshMissedList(missedList)
+      }
+    }
+  }
 
   aboutToAppear() {
+    HiLog.i(TAG, 'aboutToAppear,recordType:' + this.recordType)
     let innerEvent = {
-      eventId: this.emitterId,
+      eventId: Constants.Event.CALLS_CHANGE,
       priority: emitter.EventPriority.HIGH
     };
-    emitter.on(innerEvent, (data) => {
-      this.callLogListLen = data.data['callLogListLen'];
-      this.missedListListLen = data.data['missedListListLen'];
+    emitter.on(innerEvent, () => {
+      this.refresh();
     })
+    this.refresh();
   }
 
   aboutToDisappear() {
-    emitter.off(this.emitterId);
+    HiLog.i(TAG, 'aboutToDisappear,recordType:' + this.recordType)
+    emitter.off(Constants.Event.CALLS_CHANGE);
   }
 
   build() {
     Stack() {
-      if ((this.recordType === 0 ? this.mPresenter.callLogList.length === 0 && this.callLogListLen == 0:
-        this.mPresenter.missedList.length === 0 && this.missedListListLen == 0 )) {
+      if ((this.recordType === 0 ? this.callLogListEmpty : this.missedListEmpty)) {
         EmptyView({ recordType: this.recordType })
       } else {
         RecordView({ mPresenter: $mPresenter, recordType: this.recordType });
@@ -75,7 +99,7 @@ struct RecordView {
       LazyForEach(this.recordType === 0 ? this.mPresenter.mAllCallRecordListDataSource :
       this.mPresenter.mMissCallRecordListDataSource, (item, index: number) => {
         ListItem() {
-          ContactItem({ mPresenter: $mPresenter, item: item});
+          ContactItem({ mPresenter: $mPresenter, item: item });
         }
         .height($r("app.float.id_item_height_max"))
       }, item => JSON.stringify(item))
@@ -133,7 +157,7 @@ struct ContactItem {
   @State isEmergencyNum: boolean = false;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @StorageLink("haveMultiSimCard") haveMultiSimCard: boolean = false;
-  @StorageLink('haveSimCard') haveSimCard:boolean = false;
+  @StorageLink('haveSimCard') haveSimCard: boolean = false;
   deleteDialogController: CustomDialogController = new CustomDialogController({
     //Components shared by the TIP for creating or updating a contact by mistake and the TIP for deleting a contact
     builder: DeleteDialogEx({
@@ -252,14 +276,14 @@ struct ContactItem {
         //TODO Pop-up window for dialing without a SIM card
         PhoneNumber.fromString(this.item.phoneNumber).isDialEmergencyNum().then((res) => {
           this.isEmergencyNum = res;
+          if (!this.isEmergencyNum) {
+            HiLog.i(TAG, "Is not Emergency Phone Number!");
+            return;
+          } else {
+            HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
+            this.mPresenter.dialing(this.item.phoneNumber);
+          }
         })
-        if (!this.isEmergencyNum) {
-          HiLog.i(TAG, "Is not Emergency Phone Number!");
-          return;
-        } else {
-          HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
-          this.mPresenter.dialing(this.item.phoneNumber);
-        }
       } else {
         if (this.haveMultiSimCard) {
           DialerPresenter.getInstance().editPhoneNumber(this.item.phoneNumber);
