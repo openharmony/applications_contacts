@@ -15,7 +15,6 @@
 import Notification from "@ohos.notificationManager"
 import WantAgent from '@ohos.app.ability.wantAgent';
 import { HiLog, sharedPreferencesUtils } from '../../../../../../common';
-var notificationManager = globalThis.requireNapi("notificationManager");
 
 const TAG = "MissedCallNotifier";
 
@@ -113,6 +112,16 @@ export class MissedCallNotifier {
   }
 
   /**
+   * get Missed Call BadgeNumber
+   */
+  public async getMissedBadgeNumber() {
+    if (this.missedBadgeNumber == -1) {
+      this.missedBadgeNumber = <number> await sharedPreferencesUtils.getFromPreferences(KEY_MISSED_BADGE_NUM, -1);
+    }
+    return this.missedBadgeNumber;
+  }
+
+  /**
    * cancel Missed Call Notification By NotificationId
    *
    * @param id Notification Id
@@ -122,12 +131,10 @@ export class MissedCallNotifier {
     Notification.cancel(id, this.label).catch(error => {
       HiLog.e(TAG, `cancelNotificationById,err ${JSON.stringify(error)}}`)
     });
-    if (this.missedBadgeNumber == -1) {
-      let badgeNumber: number = <number> await sharedPreferencesUtils.getFromPreferences(KEY_MISSED_BADGE_NUM, -1);
-      badgeNumber -= count;
-      if (badgeNumber >= 0) {
-        this.setMissedBadgeNumber(badgeNumber);
-      }
+    let badgeNumber = await this.getMissedBadgeNumber();
+    badgeNumber -= count;
+    if (badgeNumber >= 0) {
+      this.setMissedBadgeNumber(badgeNumber);
     }
   }
 
@@ -188,6 +195,7 @@ export class MissedCallNotifier {
         wantAgent: wantAgent
       });
     }
+    notificationRequest.removalWantAgent = await this.createWantAgentForCommonEvent(missedCallData, "contact.event.CANCEL_MISSED");
     Notification.publish(notificationRequest).then(() => {
       HiLog.i(TAG, '===>publish promise success req.id : ' + notificationRequest.id);
     }).catch((err) => {
@@ -199,8 +207,24 @@ export class MissedCallNotifier {
   private setMissedBadgeNumber(newBadgeNum: number) {
     HiLog.i(TAG, 'setMissedBadgeNumber :' + newBadgeNum);
     this.missedBadgeNumber = newBadgeNum;
-    notificationManager.setBadgeNumber(newBadgeNum);
+    Notification.setBadgeNumber(newBadgeNum);
     sharedPreferencesUtils.saveToPreferences(KEY_MISSED_BADGE_NUM, newBadgeNum);
+  }
+
+  /**
+   * create wantAgent for common event
+   *
+   * @param mAction
+   * @return return the created WantAgent object.
+   */
+  private async createWantAgentForCommonEvent(missedCallData, action: string) {
+    return await WantAgent.getWantAgent({
+      wants: [{ action: action, parameters: {
+        missedCallData: missedCallData
+      }, }],
+      operationType: WantAgent.OperationType.SEND_COMMON_EVENT,
+      requestCode: 0 // requestCode是WantAgentInfo的请求码，是使用者定义的一个私有值
+    })
   }
 
   private getWantAgent(missedCallData: MissedCallNotifyData, action: string) {

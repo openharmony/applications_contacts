@@ -51,25 +51,25 @@ export class BasicDataSource implements IDataSource {
 
   notifyDataAdd(index: number): void {
     this.listeners.forEach(listener => {
-      listener.onDataAdded(index);
+      listener.onDataAdd(index);
     })
   }
 
   notifyDataChange(index: number): void {
     this.listeners.forEach(listener => {
-      listener.onDataChanged(index)
+      listener.onDataChange(index)
     })
   }
 
   notifyDataDelete(index: number): void {
     this.listeners.forEach(listener => {
-      listener.onDataDeleted(index);
+      listener.onDataDelete(index);
     })
   }
 
   notifyDataMove(from: number, to: number): void {
     this.listeners.forEach(listener => {
-      listener.onDataMoved(from, to);
+      listener.onDataMove(from, to);
     })
   }
 }

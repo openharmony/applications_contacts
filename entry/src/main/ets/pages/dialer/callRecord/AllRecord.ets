@@ -23,58 +23,36 @@ import DialerPresenter from '../../../presenter/dialer/DialerPresenter';
 import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
 import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 import IndexPresenter from '../../../presenter/IndexPresenter';
-import { HiLog, ArrayUtil } from "../../../../../../../common"
-import Constants from '../../../../../../../common/src/main/ets/Constants';
-import emitter from '@ohos.events.emitter'
+import { HiLog } from "../../../../../../../common"
 
 const TAG = "AllRecord ";
 
 @Component
 export default struct AllRecord {
-  @Link mPresenter: CallRecordPresenter;
+  @Link @Watch("onChanged") mPresenter: CallRecordPresenter;
   /*0all 1miss*/
   recordType: number = 0;
-  emitterId: number = 1;
   @State callLogListEmpty: boolean = true;
   @State missedListEmpty: boolean = true;
 
-  refresh() {
-    if (this.recordType === 0) {
-      if (AppStorage.Has('callLogList')) {
-        let callLogList: any = AppStorage.Get('callLogList');
-        const callLogEmpty: boolean = ArrayUtil.isEmpty(callLogList)
-        if (this.callLogListEmpty != callLogEmpty) {
-          this.callLogListEmpty = callLogEmpty;
-        }
-        this.mPresenter.refreshCallLogList(callLogList);
-      }
-    } else {
-      if (AppStorage.Has('missedList')) {
-        let missedList: any = AppStorage.Get('missedList')
-        const missedEmpty: boolean = ArrayUtil.isEmpty(missedList)
-        if (this.missedListEmpty != missedEmpty) {
-          this.missedListEmpty = missedEmpty;
-        }
-        this.mPresenter.refreshMissedList(missedList)
-      }
+  onChanged() {
+    let callLogIsEmpty = this.mPresenter.mAllCallRecordListDataSource.totalCount() <= 0;
+    if (this.callLogListEmpty != callLogIsEmpty) {
+      this.callLogListEmpty = callLogIsEmpty
+    }
+    let missLogIsEmpty = this.mPresenter.mMissCallRecordListDataSource.totalCount() <= 0;
+    if (this.missedListEmpty != missLogIsEmpty) {
+      this.missedListEmpty = missLogIsEmpty
     }
   }
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear,recordType:' + this.recordType)
-    let innerEvent = {
-      eventId: Constants.Event.CALLS_CHANGE,
-      priority: emitter.EventPriority.HIGH
-    };
-    emitter.on(innerEvent, () => {
-      this.refresh();
-    })
-    this.refresh();
+    this.onChanged();
   }
 
   aboutToDisappear() {
     HiLog.i(TAG, 'aboutToDisappear,recordType:' + this.recordType)
-    emitter.off(Constants.Event.CALLS_CHANGE);
   }
 
   build() {
@@ -99,7 +77,7 @@ struct RecordView {
       LazyForEach(this.recordType === 0 ? this.mPresenter.mAllCallRecordListDataSource :
       this.mPresenter.mMissCallRecordListDataSource, (item, index: number) => {
         ListItem() {
-          ContactItem({ mPresenter: $mPresenter, item: item });
+          ContactItem({ mPresenter: $mPresenter, item: item, index: index });
         }
         .height($r("app.float.id_item_height_max"))
       }, item => JSON.stringify(item))
@@ -114,7 +92,8 @@ struct RecordView {
     .margin({ bottom: this.curBp === 'lg' ? '110vp' : 0 })
     .flexShrink(1)
     .listDirection(Axis.Vertical)
-    .edgeEffect(EdgeEffect.Spring)
+    .edgeEffect(EdgeEffect.None)
+    .scrollBar(BarState.Off)
   }
 }
 
@@ -154,6 +133,7 @@ struct ContactItem {
   @State mIndexPresenter: IndexPresenter = IndexPresenter.getInstance();
   @Link mPresenter: CallRecordPresenter
   @State item: { [key: string]: any } = {};
+  index: number;
   @State isEmergencyNum: boolean = false;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @StorageLink("haveMultiSimCard") haveMultiSimCard: boolean = false;
@@ -165,7 +145,7 @@ struct ContactItem {
         this.deleteDialogController.close();
       },
       confirm: () => {
-        this.mPresenter.deleteCallLog(this.item.ids);
+        this.mPresenter.deleteCallLog(this.item.ids, this.index);
       },
       title: $r("app.string.deleteCallLog_dialog_title"),
       cancalText: $r("app.string.cancel"),
@@ -232,7 +212,8 @@ struct ContactItem {
               .margin({
                 right: $r("app.float.id_card_margin_mid"),
                 top: "4vp",
-              }).visibility(this.item.isHD ? Visibility.Visible : Visibility.None);
+              })
+              .visibility(this.item.isHD ? Visibility.Visible : Visibility.None);
 
             Text(this.item.numberLocation
               ? this.item.numberLocation
@@ -261,6 +242,8 @@ struct ContactItem {
             .margin({ top: $r("app.float.id_card_margin_sm"), right: 24 })
             .onClick(() => {
               this.mPresenter.jumpToContactDetail(this.item.phoneNumber);
+              DialerPresenter.getInstance().panelShow = true;
+              AppStorage.SetOrCreate<boolean>("showDialBtn", true);
             })
         }
         .height($r("app.float.id_item_height_max"))
@@ -292,6 +275,8 @@ struct ContactItem {
           this.mPresenter.dialing(this.item.phoneNumber);
         }
       }
+      DialerPresenter.getInstance().panelShow = true;
+      AppStorage.SetOrCreate<boolean>("showDialBtn", true);
     })
     .bindContextMenu(this.MenuBuilder, ResponseType.LongPress)
   }

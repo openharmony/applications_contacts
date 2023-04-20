@@ -81,7 +81,7 @@ export class MissedCallService {
    * @param data MissedCallNotifyData need cancel notify
    */
   public async cancelMissedNotificationAction(data: MissedCallNotifyData) {
-    HiLog.i(TAG, `updateMissedCallNotifications, ${JSON.stringify(data)}`);
+    HiLog.i(TAG, `cancelMissedNotificationAction, ${JSON.stringify(data)}`);
     MissedCallNotifier.getInstance().cancelNotificationById(data.id, data.count);
     CallLogRepository.getInstance().markMissedCallLogAsRead(data.phoneNumber);
   }
@@ -90,9 +90,12 @@ export class MissedCallService {
    * cancelAllMissedNotificationAction
    */
   public async cancelAllMissedNotificationAction() {
-    HiLog.i(TAG, `cancelAllMissedNotificationAction cancel all`);
-    MissedCallNotifier.getInstance().cancelAllNotification();
-    CallLogRepository.getInstance().markMissedCallLogAsRead();
+    let unreadMissed = await MissedCallNotifier.getInstance().getMissedBadgeNumber()
+    if (unreadMissed > 0) {
+      HiLog.i(TAG, `cancelAllMissedNotificationAction cancel all`);
+      MissedCallNotifier.getInstance().cancelAllNotification();
+      CallLogRepository.getInstance().markMissedCallLogAsRead();
+    }
   }
 
   private constructor() {

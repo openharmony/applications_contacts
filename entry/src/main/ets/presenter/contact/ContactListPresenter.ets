@@ -19,11 +19,11 @@ import { ContactVo } from '../../model/bean/ContactVo';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 import { CallLogRepository } from '../../../../../../feature/call/src/main/ets/repo/CallLogRepository';
 import { ContactRepository } from '../../../../../../feature/contact/src/main/ets/repo/ContactRepository';
-import emitter from '@ohos.events.emitter';
 import ContactListDataSource from '../../model/bean/ContactListDataSource';
+import WorkerWrapper from '../../workers/base/WorkerWrapper';
 
 const TAG = 'ContactListPresenter  ';
-
+const DELAY_TIME: number = 1000;
 /**
  * Type of the control that is clicked in the contact list.
  */
@@ -40,19 +40,35 @@ export enum ContactClickType {
 export default class ContactListPresenter {
   private static sInstance: ContactListPresenter;
   indexs: string[] = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '…'];
+  contactListPages: Array<number> = [];
   curItem: ContactVo = new ContactVo("", "", "", "", "", "", true, "", "");
-  total: number = 0;
+  page: number = 0;
+  limit: number = 0;
+  refreshIndex: number = 0;
   queryContactsType: string = 'all';
   isEmptyGroup: boolean = true;
   shareList: Resource[] = [$r("app.string.qr_code"), $r("app.string.v_card"), $r("app.string.text")];
   settingsMenu: Resource[] = [$r("app.string.contact_setting_type_scancard"), $r("app.string.call_setting_type_setting")];
   contactListDataSource: ContactListDataSource = new ContactListDataSource();
   isShow: boolean = false;
+  context: Context;
+  worker: WorkerWrapper;
+  loading: boolean;
+  initStarted: boolean = false;
+  taskId: number = undefined;
+  refreshState: () => void
+  onContactChange = () => {
+    HiLog.i(TAG, 'onContactChange refresh');
+    this.setDelayTask();
+  }
 
   private constructor() {
   }
 
   public static getInstance(): ContactListPresenter {
+    if (globalThis.presenterManager?.contactListPresenter) {
+      return globalThis.presenterManager.contactListPresenter;
+    }
     if (ContactListPresenter.sInstance == null) {
       HiLog.i(TAG, 'Contact getInstance!');
       ContactListPresenter.sInstance = new ContactListPresenter();
@@ -60,28 +76,163 @@ export default class ContactListPresenter {
     return ContactListPresenter.sInstance;
   }
 
+  onCreate(context: Context, worker: WorkerWrapper) {
+    this.context = context;
+    this.worker = worker;
+    ContactRepository.getInstance().registerDataChangeObserver(this.onContactChange);
+  }
+
+  onDestroy() {
+    ContactRepository.getInstance().unRegisterDataChangeObserver(this.onContactChange);
+  }
+
+  bindUI(refreshState?: () => void) {
+    this.refreshState = refreshState;
+  }
+
+  startInit() {
+    if (this.initStarted) {
+      return;
+    }
+    HiLog.i(TAG, "startInit");
+    this.initStarted = true;
+    if (this.page == 0) {
+      this.page++;
+    }
+    this.refreshContinue();
+  }
+
+  cachePageOne() {
+    if (!this.initStarted && !this.loading) {
+      HiLog.i(TAG, "cachePageOne")
+      this.page = 1;
+      this.refreshIndex = 0;
+      this.refreshContinue();
+    } else {
+      HiLog.i(TAG, "no need cachePageOne");
+    }
+  }
+
   aboutToAppear() {
-    this.isShow = true;
+    HiLog.i(TAG, 'Contact aboutToAppear!');
+    this.startInit();
   }
 
   aboutToDisappear() {
-    this.isShow = false;
+    HiLog.i(TAG, 'Contact aboutToDisappear!');
   }
 
-  onPageShow() {
-    HiLog.i(TAG, 'Contact onPageShow!');
-    this.isShow = true;
+  setPageShow(isShow: boolean) {
+    if (this.isShow == isShow) {
+      return;
+    }
+    this.isShow = isShow;
+    if (this.isShow) {
+      this.startInit();
+    }
+    this.contactListDataSource.setIsShow(isShow);
   }
 
-  onPageHide() {
-    HiLog.i(TAG, 'Contact onPageHide!');
-    this.isShow = false;
+  requestItem() {
+    HiLog.i(TAG, 'Contacts requestItem!');
+    if (this.page == 0) {
+      this.page++;
+      this.refreshContinue();
+    } else if (!this.initStarted && !this.loading) {
+      this.cachePageOne();
+    } else {
+      HiLog.i(TAG, 'isLoading');
+    }
   }
 
-
-  refresh(contactList) {
-    this.contactListDataSource.refresh(contactList);
+  setDelayTask() {
+    if (this.taskId != undefined) {
+      clearTimeout(this.taskId);
+      this.taskId = undefined;
+    }
+    let delay: number = 0;
+    if (this.page != 0) {
+      delay += DELAY_TIME;
+    }
+    if (!this.isShow) {
+      delay += DELAY_TIME;
+    }
+    if (delay > 0) {
+      this.taskId = setTimeout(() => {
+        if (this.page != 0) {
+          this.setDelayTask();
+        } else {
+          this.requestItem();
+        }
+      }, delay);
+    } else {
+      this.requestItem();
+    }
   }
+
+  refreshContinue() {
+    if (this.loading) {
+      HiLog.i(TAG, 'refreshContinue is loading');
+      return;
+    }
+    if (this.page == 0) {
+      HiLog.i(TAG, 'refreshContinue end');
+      return;
+    }
+    if (this.page == 1) {
+      this.limit = 50;
+    } else {
+      this.limit = 500;
+    }
+    this.refreshPage(this.page, this.limit, () => {
+      if (this.initStarted) {
+        setTimeout(() => {
+          this.refreshContinue();
+        },!this.isShow ? 700 : 1);
+      }
+    })
+  }
+
+  refreshPage(page: number, limit: number, callback?: () => void) {
+    this.loading = true;
+    let actionData: any = {};
+    actionData.page = page;
+    actionData.limit = limit;
+    this.worker.sendRequest("getAllContact", {
+      actionData: actionData,
+      context: this.context
+    }, (result) => {
+      HiLog.i(TAG, `refreshPage ${page} getAllContact, length is: ` + result.length);
+      if (Array.prototype.isPrototypeOf(result)) {
+        this.contactListDataSource.refresh(this.refreshIndex, this.contactListPages[page -1], result);
+      }
+      this.contactListPages[page -1] = result.length;
+      this.refreshIndex += this.contactListPages[page -1];
+      if (this.refreshState) {
+        this.refreshState();
+      }
+      let contactCount = result.length;
+      if (contactCount < limit) {
+        this.page = 0;
+        HiLog.i(TAG, 'Contacts load completed: ' + JSON.stringify(this.contactListDataSource.totalCount()));
+        if (this.contactListPages.length > page) {
+          this.contactListPages.splice(page, this.contactListPages.length - page);
+        }
+        if (this.contactListDataSource.totalCount() > this.refreshIndex) {
+          this.contactListDataSource.remove(this.refreshIndex, this.contactListDataSource.totalCount() - this.refreshIndex);
+        }
+        this.refreshIndex = 0;
+        this.loading = false;
+      } else {
+        this.page = page + 1;
+        this.loading = false;
+        if (callback) {
+          callback();
+        }
+      }
+    })
+  }
+
 
   /**
    * Touch and hold the current contact information saved by a contact item in the contact list.
@@ -108,11 +259,16 @@ export default class ContactListPresenter {
    */
   onDeleteDialogConfirm(index, item) {
     HiLog.i(TAG, 'onDeleteDialogConfirm !!! ');
-    ContactRepository.getInstance().deleteById(item.contactId, (result) => {
-      HiLog.i(TAG, 'onDeleteDialogConfirm result is ' + JSON.stringify(result));
+    this.worker.sendRequest("deleteContactById", {
+      context: this.context,
+      contactId: item.contactId
+    }, (result) => {
+      if (result) {
+        HiLog.w(TAG, "deleteContactById error:" + JSON.stringify(result))
+      }
       ContactRepository.getInstance().notifyChange();
-      CallLogRepository.getInstance().notifyChange();
     });
+    this.contactListDataSource.remove(index);
   }
 
   /**

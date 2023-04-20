@@ -818,20 +818,24 @@ export default {
    */
   updateContact: async function (DAHelper, addParams, callBack, context?) {
     HiLog.i(TAG, 'Start to update contacts.');
-    if (DAHelper == undefined || DAHelper.length == 0 || DAHelper == null) {
-      DAHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
+    try {
+      if (DAHelper == undefined || DAHelper.length == 0 || DAHelper == null) {
+        DAHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
+      }
+      let condition = new dataSharePredicates.DataSharePredicates();
+      condition.equalTo('raw_contact_id', addParams.id);
+      DAHelper.delete(
+      Data.CONTENT_URI,
+        condition,
+      ).then(data => {
+        this.dealParam(DAHelper, addParams, false, callBack);
+      }).catch(error => {
+        HiLog.e(TAG, 'updateContact-update contact error: %s', JSON.stringify(error.message));
+      });
+      HiLog.i(TAG, 'End to update contacts.');
+    } catch(err) {
+      HiLog.e(TAG, 'updateContact err : ' + JSON.stringify(err));
     }
-    let condition = new dataSharePredicates.DataSharePredicates();
-    condition.equalTo('raw_contact_id', addParams.id);
-    DAHelper.delete(
-    Data.CONTENT_URI,
-      condition,
-    ).then(data => {
-      this.dealParam(DAHelper, addParams, false, callBack);
-    }).catch(error => {
-      HiLog.e(TAG, 'updateContact-update contact error: %s', JSON.stringify(error.message));
-    });
-    HiLog.i(TAG, 'End to update contacts.');
   },
   /**
    * Querying IDs by Phone Number
