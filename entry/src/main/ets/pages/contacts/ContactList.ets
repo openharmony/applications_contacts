@@ -35,22 +35,18 @@ export default struct ContactListPage {
   emitterId: number = 2;
 
   refresh() {
-    if (AppStorage.Has('contactList')) {
-      let contactList: any = AppStorage.Get('contactList');
-      this.contactListListLen = contactList.length;
-      this.mContactPresenter.refresh(contactList);
+    let contactListLen = this.mContactPresenter.contactListDataSource.totalCount();
+    if (this.contactListListLen != contactListLen) {
+      this.contactListListLen = contactListLen;
+      this.mContactPresenter = globalThis.presenterManager.contactListPresenter;
     }
   }
 
   aboutToAppear() {
     HiLog.i(TAG, 'Contact aboutToAppear!');
     this.mContactPresenter.aboutToAppear();
-    let innerEvent = {
-      eventId: Constants.Event.CONTACTS_CHANGE,
-      priority: emitter.EventPriority.HIGH
-    };
-    emitter.on(innerEvent, () => {
-      this.refresh();
+    this.mContactPresenter.bindUI(() => {
+      this.refresh()
     })
     this.refresh();
   }
@@ -59,14 +55,6 @@ export default struct ContactListPage {
     HiLog.i(TAG, 'Contact aboutToDisappear!');
     this.mContactPresenter.aboutToDisappear();
     emitter.off(Constants.Event.CONTACTS_CHANGE);
-  }
-
-  onPageShow() {
-    this.mContactPresenter.onPageShow();
-  }
-
-  onPageHide() {
-    this.mContactPresenter.onPageHide();
   }
 
   build() {
@@ -220,7 +208,8 @@ struct ContactContent {
           .width('100%')
           .height('100%')
           .listDirection(Axis.Vertical)
-          .edgeEffect(EdgeEffect.Spring)
+          .edgeEffect(EdgeEffect.None)
+          .scrollBar(BarState.Off)
         }
       }
       .height('100%')

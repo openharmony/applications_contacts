@@ -39,10 +39,10 @@ export class PhoneNumber {
     return new Promise<boolean>(function (resolve, reject) {
       call.isEmergencyPhoneNumber(phoneNumber, (err, data) => {
         if (err) {
-          HiLog.e(TAG, 'isEmergencyPhoneNumber error: ' + JSON.stringify(phoneNumber));
+          HiLog.e(TAG, 'isEmergencyPhoneNumber error: ' + JSON.stringify(err));
           reject(err);
         } else {
-          HiLog.e(TAG, 'isEmergencyPhoneNumber data: ' + JSON.stringify(data));
+          HiLog.i(TAG, 'isEmergencyPhoneNumber data: ' + JSON.stringify(data));
           resolve(data);
         }
       });

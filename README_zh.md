@@ -46,6 +46,7 @@ Contacts应用是OpenHarmony中预置的系统应用，主要的功能包含拨�
 │               └── app.ets                # 应用生命周期/公共方法存放
 │           ├── resources                  # 资源配置文件存放目录
 │           └── config.json                # 全局配置文件
+├── infra                                  # 构建脚本
 ├── signs                                  # 签名
 └── LICENSE
 ~~~

@@ -22,7 +22,8 @@ const TAG = "ContactListDataSource";
 
 export default class ContactListDataSource extends BasicDataSource {
     private contactList: ContactVo[] = [];
-    private contactsCount: number = 0;
+    private isShow: boolean;
+    private isDataReload: boolean;
 
     public totalCount(): number {
         return this.contactList.length;
@@ -56,9 +57,46 @@ export default class ContactListDataSource extends BasicDataSource {
         }
     }
 
-    public refresh(contactList: ContactVo[]) {
-        HiLog.i(TAG, ' refresh!');
+    public refreshAll(contactList: ContactVo[]) {
+        HiLog.i(TAG, ' refreshAll!');
         this.contactList = contactList;
+        this.setDataReload(true);
+    }
+
+    public setIsShow(isShow: boolean) {
+        if (this.isShow == isShow) {
+            return;
+        }
+        HiLog.i(TAG, ' setIsShow:' + isShow);
+        this.isShow = isShow;
+        this.setDataReload(this.isDataReload)
+    }
+
+    public refresh(start: number, count: number, contactList: ContactVo[]) {
+        HiLog.i(TAG, ' refresh!');
+        this.contactList.splice(start, count, ...contactList);
         this.notifyDataReload();
+        this.setDataReload(true);
+    }
+
+    public remove(index: number, count?) {
+        if (index < 0 || index >= this.totalCount()) {
+            return;
+        }
+        HiLog.i(TAG, ' remove:' + index);
+        this.contactList.splice(index, count ? count : 1);
+        this.notifyDataDelete(index);
+    }
+
+    private setDataReload(isDataReload: boolean) {
+        if (this.isShow) {
+            if (isDataReload) {
+                HiLog.i(TAG, 'notifyDataReload');
+                this.notifyDataReload();
+            }
+            this.isDataReload = false;
+        } else {
+            this.isDataReload = isDataReload;
+        }
     }
 }

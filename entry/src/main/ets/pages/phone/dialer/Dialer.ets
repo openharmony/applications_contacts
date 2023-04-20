@@ -221,16 +221,13 @@ export default struct Call {
             }
             .height('100%')
             .zIndex(1)
-            .gesture(
-            SwipeGesture({ fingers: 1, direction: SwipeDirection.Vertical, speed: 150 })
-              .onAction((event: GestureEvent) => {
-                if (this.mPresenter.callBtnClick) {
-                  return;
-                }
-                this.mPresenter.panelShow = false;
-                this.showDialBtn = false;
-              })
-            )
+            .onTouch(() => {
+              if (this.mPresenter.callBtnClick) {
+                return;
+              }
+              this.mPresenter.panelShow = false;
+              this.showDialBtn = false;
+            })
           }
           .width('100%')
           .height('100%')
