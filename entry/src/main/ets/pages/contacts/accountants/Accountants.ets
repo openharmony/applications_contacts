@@ -332,7 +332,7 @@ struct Accountants {
                     , (item) => {
                       ItemList({
                         mPresent: $mPresenter,
-                        index: item.i,
+                        index: item?.i,
                         typeName: "phone",
                         placeholder: $r("app.string.phone_number")
                       })
@@ -357,7 +357,7 @@ struct Accountants {
                     , (item) => {
                       ItemList({
                         mPresent: $mPresenter,
-                        index: item.i,
+                        index: item?.i,
                         typeName: "email",
                         placeholder: $r("app.string.email")
                       })

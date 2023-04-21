@@ -2,8 +2,8 @@
   "app": {
     "bundleName": "com.ohos.contacts",
     "vendor": "example",
-    "versionCode": 1000000,
-    "versionName": "1.0.4.012",
+    "versionCode": 10000003,
+    "versionName": "1.0.4.022",
     "icon": "$media:app_icon",
     "label": "$string:app_name",
     "distributedNotificationEnabled": true

@@ -28,5 +28,16 @@ export default {
     SPN_INFO_CHANGED: 3,
     VOLTE_CHANGE: 4,
     CALLS_MERGE: 5
+  },
+
+  CONFIG: {
+    useDataWorker: false,
+    needCache: false
+  },
+
+  initConfig(context: Context) {
+    this.CONFIG.useDataWorker = context.resourceManager.getBoolean($r('app.boolean.use_data_worker'));
+    this.CONFIG.needCache = context.resourceManager.getBoolean($r('app.boolean.cache_page_one'));
+    return this.CONFIG
   }
 }

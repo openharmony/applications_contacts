@@ -33,6 +33,9 @@ export default struct CallRecord {
   aboutToAppear(){
     HiLog.i(TAG, 'aboutToAppear');
     this.mPresenter.aboutToAppear();
+    this.mPresenter.bindUI(()=>{
+      this.mPresenter = CallRecordPresenter.getInstance();
+    })
   }
   aboutToDisappear() {
     HiLog.i(TAG, 'aboutToDisappear');
@@ -56,6 +59,7 @@ export default struct CallRecord {
         }
         .onChange((index: number) => {
           this.bottomTabIndex = index
+          this.mPresenter.setTabIndex(index);
         })
         .vertical(false)
         .barHeight(0)

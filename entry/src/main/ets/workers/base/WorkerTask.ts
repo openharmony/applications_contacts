@@ -27,7 +27,7 @@ const TAG = "WorkerTask"
 export abstract class WorkerTask {
     workerPort: ThreadWorkerGlobalScope
 
-    constructor(workerPort: ThreadWorkerGlobalScope) {
+    constructor(workerPort?: ThreadWorkerGlobalScope) {
         HiLog.i(TAG, `WorkerTask constructor`)
         this.workerPort = workerPort;
     }
@@ -39,20 +39,19 @@ export abstract class WorkerTask {
      * @param e message data
      */
     public onmessage(message: MessageEvents) {
-        let data = <WorkerMessage> message.data
-        HiLog.i(TAG, `onmessage ${data.request}`)
         try {
+            let data = <WorkerMessage> message.data
+            HiLog.i(TAG, `onmessage ${data.request}`)
             this.runInWorker(data.request, (v) => {
                 HiLog.i(TAG, "runInWorker callback in")
                 data.param = v;
                 const str = JSON.stringify(data)
                 let buf = buffer.from(str).buffer;
-                this.workerPort.postMessage(buf, [buf]);
+                this.workerPort?.postMessage(buf, [buf]);
             }, data.param);
         } catch (err) {
             HiLog.e(TAG, 'runInWorker err = ' + JSON.stringify(err));
         }
-
     }
 
     public abstract runInWorker(request: string, callBack: (v?: any) => void, param?: any);

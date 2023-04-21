@@ -43,6 +43,13 @@ struct Index {
     this.controller.changeIndex(this.mIndexPresenter.tabsIndex);
     this.bottomTabIndex = this.mIndexPresenter.tabsIndex;
     this.mDialerPresenter.editPhoneNumber(this.mIndexPresenter.editPhoneNumber);
+    if (this.mIndexPresenter.tabsIndex == 0) {
+      ContactListPresenter.getInstance().setPageShow(false);
+      CallRecordPresenter.getInstance().setPageShow(true);
+    } else {
+      CallRecordPresenter.getInstance().setPageShow(false);
+      ContactListPresenter.getInstance().setPageShow(true);
+    }
   }
 
   pageTransition() {
@@ -52,6 +59,18 @@ struct Index {
 
   onPageShow() {
     this.mIndexPresenter.onPageShow();
+    if (this.bottomTabIndex == 0) {
+      ContactListPresenter.getInstance().setPageShow(false);
+      CallRecordPresenter.getInstance().setPageShow(true);
+    } else {
+      CallRecordPresenter.getInstance().setPageShow(false);
+      ContactListPresenter.getInstance().setPageShow(true);
+    }
+  }
+
+  onPageHide() {
+    ContactListPresenter.getInstance().setPageShow(false);
+    CallRecordPresenter.getInstance().setPageShow(false);
   }
 
   aboutToAppear() {
@@ -116,7 +135,6 @@ struct Index {
             .barHeight(0)
             .scrollable(false)
             .animationDuration(0)
-
           }
           .layoutWeight(this.curBp === 'lg' ? 1 : 0)
           .flexShrink(this.curBp === 'lg' ? 0 : 1)
@@ -179,11 +197,11 @@ struct TabBars {
                 this.bottomTabIndex = item;
                 this.mIndexPresenter.tabsIndex = item;
                 if (item == 0) {
-                  ContactListPresenter.getInstance().onPageHide();
-                  CallRecordPresenter.getInstance().onPageShow();
+                  ContactListPresenter.getInstance().setPageShow(false);
+                  CallRecordPresenter.getInstance().setPageShow(true);
                 } else if (item == 1) {
-                  CallRecordPresenter.getInstance().onPageHide();
-                  ContactListPresenter.getInstance().onPageShow();
+                  CallRecordPresenter.getInstance().setPageShow(false);
+                  ContactListPresenter.getInstance().setPageShow(true);
                 }
               }
             })

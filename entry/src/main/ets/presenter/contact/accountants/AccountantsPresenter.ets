@@ -105,48 +105,52 @@ export default class AccountantsPresenter {
   }
 
   isExistenceInfo(afterInfo: any) {
-    let flag = false;
-    flag = flag || !StringUtil.isEmpty(afterInfo.display_name);
-    flag = flag || !StringUtil.isEmpty(afterInfo.nickname);
-    flag = flag || !StringUtil.isEmpty(afterInfo.remarks);
-    flag = flag || !StringUtil.isEmpty(afterInfo.position);
-    flag = flag || !StringUtil.isEmpty(afterInfo.company);
-    if (!ArrayUtil.isEmpty(afterInfo.phones)) {
-      for (let item of afterInfo.phones) {
-        flag = flag || !StringUtil.isEmpty(item.num);
+    if (!afterInfo) {
+      return false;
+    } else {
+      let flag = false;
+      flag = flag || !StringUtil.isEmpty(afterInfo.display_name);
+      flag = flag || !StringUtil.isEmpty(afterInfo.nickname);
+      flag = flag || !StringUtil.isEmpty(afterInfo.remarks);
+      flag = flag || !StringUtil.isEmpty(afterInfo.position);
+      flag = flag || !StringUtil.isEmpty(afterInfo.company);
+      if (!ArrayUtil.isEmpty(afterInfo.phones)) {
+        for (let item of afterInfo.phones) {
+          flag = flag || !StringUtil.isEmpty(item?.num);
+        }
       }
-    }
-    if (!ArrayUtil.isEmpty(afterInfo.emails)) {
-      for (let item of afterInfo.emails) {
-        flag = flag || !StringUtil.isEmpty(item.address);
+      if (!ArrayUtil.isEmpty(afterInfo.emails)) {
+        for (let item of afterInfo.emails) {
+          flag = flag || !StringUtil.isEmpty(item?.address);
+        }
       }
-    }
-    if (!ArrayUtil.isEmpty(afterInfo.aims)) {
-      for (let item of afterInfo.aims) {
-        flag = flag || !StringUtil.isEmpty(item.aimName);
+      if (!ArrayUtil.isEmpty(afterInfo.aims)) {
+        for (let item of afterInfo.aims) {
+          flag = flag || !StringUtil.isEmpty(item?.aimName);
+        }
       }
-    }
-    if (!ArrayUtil.isEmpty(afterInfo.houses)) {
-      for (let item of afterInfo.houses) {
-        flag = flag || !StringUtil.isEmpty(item.houseName);
+      if (!ArrayUtil.isEmpty(afterInfo.houses)) {
+        for (let item of afterInfo.houses) {
+          flag = flag || !StringUtil.isEmpty(item?.houseName);
+        }
       }
-    }
-    if (!ArrayUtil.isEmpty(afterInfo.websites)) {
-      for (let item of afterInfo.websites) {
-        flag = flag || !StringUtil.isEmpty(item);
+      if (!ArrayUtil.isEmpty(afterInfo.websites)) {
+        for (let item of afterInfo.websites) {
+          flag = flag || !StringUtil.isEmpty(item);
+        }
       }
-    }
-    if (!ArrayUtil.isEmpty(afterInfo.events)) {
-      for (let item of afterInfo.events) {
-        flag = flag || !StringUtil.isEmpty(item.data);
+      if (!ArrayUtil.isEmpty(afterInfo.events)) {
+        for (let item of afterInfo.events) {
+          flag = flag || !StringUtil.isEmpty(item?.data);
+        }
       }
-    }
-    if (!ArrayUtil.isEmpty(afterInfo.relationships)) {
-      for (let item of afterInfo.relationships) {
-        flag = flag || !StringUtil.isEmpty(item.name);
+      if (!ArrayUtil.isEmpty(afterInfo.relationships)) {
+        for (let item of afterInfo.relationships) {
+          flag = flag || !StringUtil.isEmpty(item?.name);
+        }
       }
+      return flag;
     }
-    return flag;
   }
 
   getPageData(id: string) {
@@ -526,45 +530,50 @@ export default class AccountantsPresenter {
   }
 
   public menuChange(typeName: string, data: any, item: any) {
-    switch (typeName) {
-      case "phone":
-        if (ObjectUtil.isEmpty(this.contactInfoAfter.phones[data.i - 1])) {
-          this.contactInfoAfter.phones[data.i - 1] = new PhoneNumBean("", "", "", "", "");
-        }
-        this.contactInfoAfter.phones[data.i - 1].numType = item.rawValue.toString();
-        break;
-      case "email":
-        if (ObjectUtil.isEmpty(this.contactInfoAfter.emails[data.i - 1])) {
-          this.contactInfoAfter.emails[data.i - 1] = new EmailBean("", "", "");
-        }
-        this.contactInfoAfter.emails[data.i - 1].emailType = item.rawValue.toString();
-        break;
-      case "AIM":
-        if (ObjectUtil.isEmpty(this.contactInfoAfter.aims[data.i - 1])) {
-          this.contactInfoAfter.aims[data.i - 1] = new AIMBean("", "", "", "");
-        }
-        this.contactInfoAfter.aims[data.i - 1].aimType = item.rawValue.toString();
-        break;
-      case "house":
-        if (ObjectUtil.isEmpty(this.contactInfoAfter.houses[data.i - 1])) {
-          this.contactInfoAfter.houses[data.i - 1] = new HouseBean("", "", "", "");
-        }
-        this.contactInfoAfter.houses[data.i - 1].houseType = item.rawValue.toString();
-        break;
-      case "relationships":
-        if (ObjectUtil.isEmpty(this.contactInfoAfter.relationships[data.i - 1])) {
-          this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean("", "", "", "");
-        }
-        this.contactInfoAfter.relationships[data.i - 1].associatedType = item.rawValue.toString();
-        break;
-      case "events":
-        if (ObjectUtil.isEmpty(this.contactInfoAfter.events[data.i - 1])) {
-          this.contactInfoAfter.events[data.i - 1] = new EventBean("", "", "", "");
-        }
-        this.contactInfoAfter.events[data.i - 1].eventType = item.rawValue.toString();
-        break;
-      default:
-        break;
+    if (data.i) {
+      switch (typeName) {
+        case "phone":
+          if (ObjectUtil.isEmpty(this.contactInfoAfter.phones[data.i - 1])) {
+            this.contactInfoAfter.phones[data.i - 1] = new PhoneNumBean("", "", "", "", "");
+          }
+          this.contactInfoAfter.phones[data.i - 1].numType = item.rawValue.toString();
+          break;
+        case "email":
+          if (ObjectUtil.isEmpty(this.contactInfoAfter.emails[data.i - 1])) {
+            this.contactInfoAfter.emails[data.i - 1] = new EmailBean("", "", "");
+          }
+          this.contactInfoAfter.emails[data.i - 1].emailType = item.rawValue.toString();
+          break;
+        case "AIM":
+          if (ObjectUtil.isEmpty(this.contactInfoAfter.aims[data.i - 1])) {
+            this.contactInfoAfter.aims[data.i - 1] = new AIMBean("", "", "", "");
+          }
+          this.contactInfoAfter.aims[data.i - 1].aimType = item.rawValue.toString();
+          break;
+        case "house":
+          if (ObjectUtil.isEmpty(this.contactInfoAfter.houses[data.i - 1])) {
+            this.contactInfoAfter.houses[data.i - 1] = new HouseBean("", "", "", "");
+          }
+          this.contactInfoAfter.houses[data.i - 1].houseType = item.rawValue.toString();
+          break;
+        case "relationships":
+          if (ObjectUtil.isEmpty(this.contactInfoAfter.relationships[data.i - 1])) {
+            this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean("", "", "", "");
+          }
+          this.contactInfoAfter.relationships[data.i - 1].associatedType = item.rawValue.toString();
+          break;
+        case "events":
+          if (ObjectUtil.isEmpty(this.contactInfoAfter.events[data.i - 1])) {
+            this.contactInfoAfter.events[data.i - 1] = new EventBean("", "", "", "");
+          }
+          this.contactInfoAfter.events[data.i - 1].eventType = item.rawValue.toString();
+          break;
+        default:
+          break;
+      }
+    } else {
+      HiLog.e(TAG, "data.i is Empty!" + JSON.stringify(data));
+      return;
     }
     this.addState = true;
     this.refresh();
@@ -614,8 +623,12 @@ export default class AccountantsPresenter {
   }
 
   public getAddState() {
-    if (this.contactInfoAfter) {
-      return this.addState && this.isExistenceInfo(this.contactInfoAfter);
+    try {
+      if (this.contactInfoAfter) {
+        return this.addState && this.isExistenceInfo(this.contactInfoAfter);
+      }
+    } catch (err) {
+      HiLog.i(TAG, "something err: " + JSON.stringify(err));
     }
   }
 

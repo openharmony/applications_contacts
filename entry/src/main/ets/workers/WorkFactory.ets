@@ -15,7 +15,7 @@
 
 import { ThreadWorkerGlobalScope, MessageEvents } from '@ohos.worker';
 import { HiLog } from "../../../../../common"
-import DataWorkerWrapper, { DataWorkerTask } from "./DataWorkerWrapper"
+import { DataWorkerTask } from "./DataWorkerTask"
 import WorkerWrapper, { WorkerMessage } from "./base/WorkerWrapper"
 import WorkerTask from "./base/WorkerTask"
 
@@ -33,13 +33,10 @@ export default class WorkFactory {
    * @param message worker message data
    * @return WorkerTask for the message
    */
-  static getTask(workerPort: ThreadWorkerGlobalScope, message: MessageEvents): WorkerTask {
-    let data = <WorkerMessage> message.data;
-    let type = data.type;
+  static getTask(type: WorkerType, workerPort?: ThreadWorkerGlobalScope): WorkerTask {
     HiLog.i(TAG, `getTask in ${WorkerType[type]}.`)
     let task: WorkerTask = undefined;
     if (type == WorkerType.DataWorker) {
-      HiLog.w(TAG, "getTask " + type)
       task = DataWorkerTask.getInstance(workerPort);
     }
     HiLog.w(TAG, "getTask end")
@@ -57,7 +54,7 @@ export default class WorkFactory {
     let worker: WorkerWrapper = undefined
     if (type == WorkerType.DataWorker) {
       HiLog.w(TAG, "getWorker " + type)
-      worker = DataWorkerWrapper.getInstance();
+      worker = new WorkerWrapper(WorkerType.DataWorker, globalThis.config.useDataWorker);
     }
     HiLog.w(TAG, "getWorker end")
     return worker;

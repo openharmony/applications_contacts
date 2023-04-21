@@ -25,6 +25,7 @@ export struct MutiDialerButtonView {
   @StorageLink("spnList") simNames: Array<string | Resource> = ["", ""];
   @StorageLink("voLteRegStates") voLteRegStates: boolean[] = [false, false];
   private dailImg = [$r("app.media.ic_public_phone1_filled"), $r("app.media.ic_public_phone2_filled")]
+  private dailHDImg = [$r("app.media.ic_contact_call_1_hd_dial"), $r("app.media.ic_contact_call_2_hd_dial")]
 
   dialClick(slot: number) {
     this.mPresenter.callBtnClick = true;
@@ -43,23 +44,12 @@ export struct MutiDialerButtonView {
       ForEach(this.simNames, (item, index) => {
         //DailButton for voLte
         Row() {
-          Column() {
-            Image(this.dailImg[index])
-              .width(this.voLteRegStates[index] ? "14vp" : "18vp")
-              .height(this.voLteRegStates[index] ? "14vp" : "18vp")
-              .onError((event => {
-                HiLog.e(TAG, "Sim:" + index + " Image onError" + JSON.stringify(event))
-              }))
-            Image($r('app.media.ic_dail_button_volte'))
-              .onError((event => {
-                HiLog.e(TAG, "ic_dail_button_volte Image onError" + JSON.stringify(event))
-              }))
-              .height('10vp')
-              .width('16vp')
-              .visibility(this.voLteRegStates[index] ? Visibility.Visible : Visibility.None)
-          }.width("18vp")
-          .justifyContent(FlexAlign.Center)
-          .alignItems(HorizontalAlign.Center)
+          Image(this.voLteRegStates[index] ? this.dailHDImg[index] : this.dailImg[index])
+            .width("18vp")
+            .height("18vp")
+            .onError((event => {
+              HiLog.e(TAG, "Sim:" + index + " Image onError" + JSON.stringify(event))
+            }))
 
           Text(this.simNames[index])
             .fontColor($r("sys.color.ohos_id_color_primary_contrary"))
