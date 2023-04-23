@@ -1,3 +1,18 @@
+/**
+ * Copyright (c) 2022 Huawei Device Co., Ltd.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import Ability from '@ohos.app.ability.UIAbility'
 import Window from '@ohos.window'
 import WorkFactory, { WorkerType } from "../workers/WorkFactory";
@@ -5,8 +20,7 @@ import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 import Want from '@ohos.app.ability.Want';
 import SimManager from '../feature/sim/SimManager';
 import { missedCallManager } from '../feature/missedCall/MissedCallManager';
-import CallsService from "../service/CallsService";
-import ContactsService from "../service/ContactsService";
+import PresenterManager from '../presenter/PresenterManager';
 
 const TAG = 'MainAbility ';
 
@@ -14,8 +28,6 @@ export default class MainAbility extends Ability {
     storage: LocalStorage;
     simManager: SimManager;
     mDataWorker = WorkFactory.getWorker(WorkerType.DataWorker);
-    mCallsService: CallsService;
-    mContactsService: ContactsService;
 
     updateBreakpoint(windowWidth: number) {
         let windowWidthVp: number = px2vp(windowWidth);
@@ -51,8 +63,8 @@ export default class MainAbility extends Ability {
         this.onRequest(want, true);
         this.simManager = new SimManager();
         globalThis.DataWorker = this.mDataWorker;
-        this.mCallsService = new CallsService(this.context, this.mDataWorker);
-        this.mContactsService = new ContactsService(this.context, this.mDataWorker);
+        globalThis.presenterManager = new PresenterManager(this.context, this.mDataWorker);
+        globalThis.presenterManager.onCreate();
     }
 
     onNewWant(want, launchParam) {
@@ -64,9 +76,8 @@ export default class MainAbility extends Ability {
 
     onDestroy() {
         HiLog.i(TAG, 'Ability onDestroy');
+        globalThis.presenterManager.onDestroy();
         this.mDataWorker.close();
-        this.mCallsService.onDestroy();
-        this.mContactsService.onDestroy();
     }
 
     onWindowStageCreate(windowStage: Window.WindowStage) {

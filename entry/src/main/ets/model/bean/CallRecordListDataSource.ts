@@ -19,7 +19,9 @@ import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil'
 const TAG = "CallRecordListDataSource";
 
 export default class CallRecordListDataSource extends BasicDataSource {
-    private callLogData: [] = [];
+    private callLogData: any[] = [];
+    private isShow: boolean;
+    private isDataReload: boolean;
 
     public totalCount(): number {
         return this.callLogData.length;
@@ -34,9 +36,45 @@ export default class CallRecordListDataSource extends BasicDataSource {
         }
     }
 
-    public refresh(callLogData) {
-        HiLog.i(TAG, ' refresh!');
+    public refreshAll(callLogData) {
+        HiLog.i(TAG, ' refreshAll!');
         this.callLogData = callLogData;
-        this.notifyDataReload();
+        this.setDataReload(true);
+    }
+
+    public setIsShow(isShow: boolean) {
+        if (this.isShow == isShow) {
+            return;
+        }
+        this.isShow = isShow;
+        HiLog.i(TAG, ' setIsShow:' + this.isShow);
+        this.setDataReload(this.isDataReload);
+    }
+
+    public refresh(start: number, count: number, callLogData: []) {
+        HiLog.i(TAG, ' refresh!');
+        this.callLogData.splice(start, count, ...callLogData);
+        this.setDataReload(true);
+    }
+
+    public remove(index: number, count?) {
+        if (index < 0 || index >= this.totalCount()) {
+            return;
+        }
+        HiLog.i(TAG, ' remove:' + index);
+        this.callLogData.splice(index, count ? count : 1);
+        this.notifyDataDelete(index);
+    }
+
+    private setDataReload(isDataReload: boolean) {
+        if (this.isShow) {
+            if (isDataReload) {
+                HiLog.i(TAG, 'notifyDataReload');
+                this.notifyDataReload();
+            }
+            this.isDataReload = false;
+        } else {
+            this.isDataReload = isDataReload;
+        }
     }
 }

@@ -56,42 +56,41 @@ export struct DialerButtonView {
 
   build() {
     Row() {
-      Button() {
-        Image($r('app.media.dial_single_button_volte'))
-          .width($r("app.float.id_item_height_large"))
-          .height($r("app.float.id_item_height_large"))
+      if (!this.haveMultiSimCard) {
+        if (this.haveSimCard && this.haveVoLteReg) {
+          Button() {
+            Image($r('app.media.dial_single_button_hd'))
+              .width($r("app.float.id_item_height_large"))
+              .height($r("app.float.id_item_height_large"))
+          }
+          .width(this.mPresenter.dialerButtonHeight)
+          .height(this.mPresenter.dialerButtonHeight)
+          .backgroundColor($r('sys.color.ohos_id_color_connected'))
+          .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.haveSimCard
+            ? 1 : $r('sys.float.ohos_id_alpha_disabled'))
+          .onClick(() => {
+            this.dialClick();
+          })
+        } else {
+          Button() {
+            Image($r("app.media.ic_public_phone_filled_white"))
+              .width($r("app.float.id_card_margin_xxxxl"))
+              .height($r("app.float.id_card_margin_xxxxl"))
+          }
+          .width(this.mPresenter.dialerButtonHeight)
+          .height(this.mPresenter.dialerButtonHeight)
+          .backgroundColor($r('sys.color.ohos_id_color_connected'))
+          .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.haveSimCard
+            ? 1 : $r('sys.float.ohos_id_alpha_disabled'))
+          .onClick(() => {
+            this.dialClick();
+          })
+        }
+      } else {
+        MutiDialerButtonView({
+          mPresenter: $mPresenter,
+        }).height(this.mPresenter.dialerButtonHeight)
       }
-      .width(this.mPresenter.dialerButtonHeight)
-      .height(this.mPresenter.dialerButtonHeight)
-      .visibility(this.haveMultiSimCard ? Visibility.None : (this.haveSimCard && this.haveVoLteReg ?
-          Visibility.Visible : Visibility.None))
-      .backgroundColor($r('sys.color.ohos_id_color_connected'))
-      .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.haveSimCard
-        ? 1 : $r('sys.float.ohos_id_alpha_disabled'))
-      .onClick(() => {
-        this.dialClick();
-      })
-
-      Button() {
-        Image($r("app.media.ic_public_phone_filled_white"))
-          .width($r("app.float.id_card_margin_xxxxl"))
-          .height($r("app.float.id_card_margin_xxxxl"))
-      }
-      .width(this.mPresenter.dialerButtonHeight)
-      .height(this.mPresenter.dialerButtonHeight)
-      .visibility(this.haveMultiSimCard ? Visibility.None : (this.haveSimCard && this.haveVoLteReg ?
-          Visibility.None : Visibility.Visible))
-      .backgroundColor($r('sys.color.ohos_id_color_connected'))
-      .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.haveSimCard
-        ? 1 : $r('sys.float.ohos_id_alpha_disabled'))
-      .onClick(() => {
-        this.dialClick();
-      })
-
-      MutiDialerButtonView({
-        mPresenter: $mPresenter,
-      }).height(this.mPresenter.dialerButtonHeight)
-        .visibility(this.haveMultiSimCard ? Visibility.Visible : Visibility.None)
     }.width(this.mPresenter.dialerButtonWidth)
     .height(this.mPresenter.dialerButtonHeight)
     .justifyContent(FlexAlign.Center)

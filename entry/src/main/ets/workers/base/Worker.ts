@@ -28,7 +28,9 @@ const TAG = "Worker";
 workerPort.onmessage = function (e: MessageEvents) {
     HiLog.w(TAG, "onmessage");
     if (e.data) {
-        let task = WorkFactory.getTask(workerPort, e)
+        let data =  e.data;
+        let type = data.type;
+        let task = WorkFactory.getTask(type, workerPort)
         task?.onmessage(e);
     } else {
         HiLog.w(TAG, `onmessage ${JSON.stringify(e)} not allow`)

@@ -19,7 +19,7 @@ import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 export struct ItemList {
   @Link @Watch('refresh') mPresent: AccountantsPresenter;
   @State mTextInputValue: string = '';
-  private index: number;
+  private index: number = 0;
   private typeName: string;
   private placeholder: Resource;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
