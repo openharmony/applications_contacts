@@ -15,6 +15,7 @@
 import Notification from "@ohos.notificationManager"
 import WantAgent from '@ohos.app.ability.wantAgent';
 import { HiLog, sharedPreferencesUtils } from '../../../../../../common';
+var notificationManager = globalThis.requireNapi("notificationManager");
 
 const TAG = "MissedCallNotifier";
 
@@ -207,7 +208,7 @@ export class MissedCallNotifier {
   private setMissedBadgeNumber(newBadgeNum: number) {
     HiLog.i(TAG, 'setMissedBadgeNumber :' + newBadgeNum);
     this.missedBadgeNumber = newBadgeNum;
-    Notification.setBadgeNumber(newBadgeNum);
+    notificationManager.setBadgeNumber(newBadgeNum);
     sharedPreferencesUtils.saveToPreferences(KEY_MISSED_BADGE_NUM, newBadgeNum);
   }
 
