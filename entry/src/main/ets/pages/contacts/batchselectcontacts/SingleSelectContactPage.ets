@@ -58,51 +58,13 @@ export default struct SingleSelectContactPage {
 
   build() {
     Column() {
-      GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: { sm: 12, md: 12, lg: 24 }, y: 0 } }) {
-        GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
-          Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start }) {
-            Flex({
-              direction: FlexDirection.Row,
-              justifyContent: FlexAlign.Start,
-              alignItems: ItemAlign.Center }) {
-              Image($r("app.media.ic_public_back"))
-                .height($r("app.float.id_card_image_small"))
-                .width($r("app.float.id_card_image_small"))
-                .flexShrink(0)
-                .margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_xxl") })
-                .onClick(() => {
-                  this.mPresenter.cancel()
-                })
-
-              Text($r('app.string.select_contact'))
-                .textAlign(TextAlign.Start)
-                .fontSize(20)
-                .fontWeight(FontWeight.Bold)
-                .fontColor($r("sys.color.ohos_id_color_text_primary"))
-                .flexGrow(1)
-                .flexShrink(1)
-            }
-            .width('100%')
-            .height($r("app.float.id_item_height_large"))
-            .flexShrink(0)
-
-            Row() {
-              if (ArrayUtil.isEmpty(this.mPresenter.contactsList)) {
-                NoContactsEmptyView()
-              } else {
-                ContactsList({
-                  presenter: $mPresenter
-                })
-              }
-            }
-          }
-          .height("100%")
+        if (ArrayUtil.isEmpty(this.mPresenter.contactsList)) {
+          NoContactsEmptyView()
+        } else {
+          ContactsList({
+            presenter: $mPresenter
+          })
         }
-      }
-      .height("100%")
-      .onBreakpointChange((breakpoint: string) => {
-        this.curBp = breakpoint
-      })
     }
     .padding({ left: 12, right: 12 })
     .width('100%')
@@ -112,50 +74,95 @@ export default struct SingleSelectContactPage {
 }
 
 @Component
+struct TitleGuide {
+  mPresenter: BatchSelectContactsPresenter = BatchSelectContactsPresenter.getInstance();
+
+  build() {
+    Row() {
+      Image($r("app.media.ic_public_back"))
+        .height($r("app.float.id_card_image_small"))
+        .width($r("app.float.id_card_image_small"))
+        .flexShrink(0)
+        .margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_xxl") })
+        .onClick(() => {
+          this.mPresenter.cancel()
+        })
+
+      Text($r('app.string.select_contact'))
+        .textAlign(TextAlign.Start)
+        .fontSize(20)
+        .fontWeight(FontWeight.Bold)
+        .fontColor($r("sys.color.ohos_id_color_text_primary"))
+        .flexGrow(1)
+        .flexShrink(1)
+    }
+    .width('100%')
+    .height($r("app.float.id_item_height_large"))
+    .flexShrink(0)
+  }
+}
+
+@Component
 struct ContactsList {
-  @Link presenter: BatchSelectContactsPresenter;
+  @Link private presenter: BatchSelectContactsPresenter;
+  @LocalStorageProp('breakpoint') curBp: string = 'sm';
 
   build() {
     Column() {
-      List({ initialIndex: this.presenter.initialIndex }) {
-        LazyForEach(this.presenter.contactsSource, (item, index) => {
+      GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: { sm: 12, md: 12, lg: 24 }, y: 0 } }) {
+        GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
+          TitleGuide()
+        }
+      }
+      .height("100%")
+      .onBreakpointChange((breakpoint: string) => {
+        this.curBp = breakpoint
+      })
 
-          ListItem() {
-            Stack({ alignContent: Alignment.BottomEnd }) {
-              Column() {
-                if (item.showIndex) {
-                  Flex({ direction: FlexDirection.Column,
-                    justifyContent: FlexAlign.End,
-                    alignItems: ItemAlign.Start }) {
-                    Text(item.contact.namePrefix)
-                      .fontColor($r("sys.color.ohos_fa_text_secondary"))
-                      .fontSize($r("sys.float.ohos_id_text_size_sub_title3"))
-                      .fontWeight(FontWeight.Medium)
-                      .textAlign(TextAlign.Start)
+      GridRow({columns: {sm: 4, md: 8, lg: 12}, gutter: {x: 12, y: 0}}) {
+        GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
+          List({ initialIndex: this.presenter.initialIndex }) {
+            LazyForEach(this.presenter.contactsSource, (item, index) => {
+              ListItem() {
+                Stack({ alignContent: Alignment.BottomEnd }) {
+                  Column() {
+                    if (item.showIndex) {
+                      Column() {
+                        Text(item.contact.namePrefix)
+                          .fontColor($r("sys.color.ohos_fa_text_secondary"))
+                          .fontSize($r("sys.float.ohos_id_text_size_sub_title3"))
+                          .fontWeight(FontWeight.Medium)
+                          .textAlign(TextAlign.Start)
+                      }
+                      .alignItems(HorizontalAlign.Start)
+                      .padding({ left: $r("app.float.id_card_margin_max"), bottom: $r("app.float.id_card_margin_large") })
+                      .width('100%')
+                      .height($r("app.float.id_item_height_mid"))
+                    }
                   }
-                  .padding({ left: $r("app.float.id_card_margin_max"), bottom: $r("app.float.id_card_margin_large") })
-                  .width('100%')
-                  .height($r("app.float.id_item_height_mid"))
+
+                  BatchSelectContactItemView({
+                    single: item.single = true,
+                    item: item.contact,
+                    index: item.index,
+                    onSingleContactItemClick: (num, name) => this.presenter.onSingleContactItemClick(num, name),
+                    showIndex: item.showIndex,
+                  })
                 }
               }
-
-              BatchSelectContactItemView({
-                single: item.single = true,
-                item: item.contact,
-                index: item.index,
-                onSingleContactItemClick: (num, name) => this.presenter.onSingleContactItemClick(num, name),
-                showIndex: item.showIndex,
-              })
-            }
+            }, (item) => JSON.stringify(item))
           }
-        }, (item) => JSON.stringify(item))
+          .scrollBar(BarState.Off)
+          .width('100%')
+          .listDirection(Axis.Vertical)
+          .edgeEffect(EdgeEffect.Spring)
+          .onScrollIndex((firstIndex: number, lastIndex: number) => {
+            this.presenter.resetInitialIndex(firstIndex);
+          })
+        }
       }
-      .width('100%')
-      .listDirection(Axis.Vertical)
-      .edgeEffect(EdgeEffect.Spring)
-      .onScrollIndex((firstIndex: number, lastIndex: number) => {
-        this.presenter.resetInitialIndex(firstIndex);
-      })
+      .height('100%')
+      .flexShrink(1)
     }
     .width('100%')
     .padding({ top: $r("app.float.id_card_margin_mid"), bottom: $r("app.float.id_card_margin_mid") })

@@ -29,7 +29,7 @@ export default struct BatchSelectContactItemView {
 
   build() {
     Column() {
-      Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
+      Row() {
         Row() {
           if (StringUtil.isEmpty(this.item.nameSuffix)) {
             Image(StringUtil.isEmpty(this.item.portraitPath) ? $r("app.media.ic_user_portrait") : this.item.portraitPath)
@@ -55,7 +55,7 @@ export default struct BatchSelectContactItemView {
         .margin({ left: $r("app.float.id_card_margin_max") })
         .flexShrink(0)
 
-        Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Center }) {
+        Column() {
           Text(StringUtil.isEmpty(this.item.showName) ? this.item.phoneNum : this.item.showName)
             .fontColor($r("sys.color.ohos_id_color_text_primary"))
             .fontSize($r("sys.float.ohos_id_text_size_body1"))
@@ -72,6 +72,8 @@ export default struct BatchSelectContactItemView {
             .textOverflow({ overflow: TextOverflow.Ellipsis })
             .maxLines(2)
         }
+        .justifyContent(FlexAlign.Center)
+        .alignItems(HorizontalAlign.Start)
         .flexGrow(1)
         .flexShrink(1)
         .padding({ top: $r("app.float.id_card_margin_mid"), bottom: $r("app.float.id_card_margin_mid") })
@@ -89,6 +91,8 @@ export default struct BatchSelectContactItemView {
           .selectedColor($r("sys.color.ohos_id_color_connected"))
           .visibility(!this.single ? Visibility.Visible : Visibility.None)
       }
+      .justifyContent(FlexAlign.Start)
+      .alignItems(VerticalAlign.Center)
       .width('100%')
       .height($r("app.float.id_item_height_max"))
       .onClick(() => {

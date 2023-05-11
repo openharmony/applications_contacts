@@ -13,13 +13,12 @@
  * limitations under the License.
  */
 
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog, sharedPreferencesUtils } from 'common';
 import { MissedCallNotifier, MissedCallNotifyData } from "./MissedCallNotifier"
 import { CallLogRepository } from '../repo/CallLogRepository';
 import { ContactRepository } from '../../../../../../feature/contact/src/main/ets/repo/ContactRepository';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
 import { CallLog } from '../entity/CallLog'
-import data_preferences from '@ohos.data.preferences';
 
 const TAG = "MissedCallService";
 const LAST_MISSED_ID: string = "Last_Missed_id"
@@ -28,8 +27,14 @@ const PREFERENCE_NAME: string = "CONTACT_PREFERENCE";
 export class MissedCallService {
   private static sInstance: MissedCallService = undefined;
   private context: Context = undefined;
-  private onCallLogChanged = undefined;
   private lastMissedId = -1;
+  private onCallLogChanged = () => {
+    if (this.lastMissedId != -1) {
+      HiLog.i(TAG, "onCallLogChanged lastMissedId:" + this.lastMissedId);
+      this.sendMissedCallNotify(this.lastMissedId);
+    }
+    this.unRegisterDataChangeObserver();
+  }
 
   /**
    * getInstance for MissedCallService
@@ -48,6 +53,7 @@ export class MissedCallService {
    */
   public init(ctx: Context) {
     this.context = ctx;
+    sharedPreferencesUtils.init(ctx);
     MissedCallNotifier.getInstance().init(ctx);
     CallLogRepository.getInstance().init(ctx);
     ContactRepository.getInstance().init(ctx);
@@ -109,28 +115,17 @@ export class MissedCallService {
   }
 
   private registerDataChangeObserver() {
-    if (!this.onCallLogChanged || this.onCallLogChanged == undefined) {
-      this.onCallLogChanged = () => {
-        HiLog.i(TAG, "onCallLogChanged lastMissedId:" + this.lastMissedId);
-        this.sendMissedCallNotify(this.lastMissedId);
-        this.unRegisterDataChangeObserver();
-      }
-      HiLog.i(TAG, "registerDataChangeObserver");
-      CallLogRepository.getInstance().registerDataChangeObserver(this.onCallLogChanged);
-    }
+    HiLog.i(TAG, "registerDataChangeObserver");
+    CallLogRepository.getInstance().registerDataChangeObserver(this.onCallLogChanged);
   }
 
   private unRegisterDataChangeObserver() {
-    if (this.onCallLogChanged && this.onCallLogChanged != undefined) {
-      this.onCallLogChanged = undefined;
-      HiLog.i(TAG, "unRegisterDataChangeObserver");
-      CallLogRepository.getInstance().unRegisterDataChangeObserver(this.onCallLogChanged);
-    }
+    HiLog.i(TAG, "unRegisterDataChangeObserver");
+    CallLogRepository.getInstance().unRegisterDataChangeObserver(this.onCallLogChanged);
   }
 
   private async getLastNotificationId() {
-    let preferences = await data_preferences.getPreferences(this.getContext(), PREFERENCE_NAME);
-    return <number> await preferences.get(LAST_MISSED_ID, -1);
+    return <number> await sharedPreferencesUtils.getFromPreferences(LAST_MISSED_ID, -1)
   }
 
   private setLastNotificationId(id: number, lastId?: number): boolean {
@@ -138,14 +133,7 @@ export class MissedCallService {
       HiLog.i(TAG, `setLastNotificationId: ${id}`);
       this.lastMissedId = id;
       this.unRegisterDataChangeObserver();
-      data_preferences.getPreferences(this.getContext(), PREFERENCE_NAME, (err, preferences) => {
-        if (err) {
-          HiLog.e(TAG, JSON.stringify(err));
-        } else {
-          preferences.put(LAST_MISSED_ID, id);
-          preferences.flush();
-        }
-      });
+      sharedPreferencesUtils.saveToPreferences(LAST_MISSED_ID, id)
       return true;
     }
     return false;

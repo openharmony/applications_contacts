@@ -128,6 +128,8 @@ struct TelList {
       }
       .divider({ strokeWidth: $r("app.float.id_divide_width"), color: $r("sys.color.ohos_id_color_list_separator") })
       .backgroundColor(Color.White)
+      .scrollBar(BarState.Off)
+      .edgeEffect(EdgeEffect.None)
     }
   }
 }

@@ -2,11 +2,18 @@
   "commonEvents": [
     {
       "name":"Subscriber",
+      "permission": "ohos.permission.PLACE_CALL",
+      "types": [],
+      "events": [
+        "contact.event.CANCEL_MISSED"
+      ]
+    },
+    {
+      "name":"Subscriber",
       "permission": "",
       "types": [],
       "events": [
-        "usual.event.INCOMING_CALL_MISSED",
-        "contact.event.CANCEL_MISSED"
+        "usual.event.INCOMING_CALL_MISSED"
       ]
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "name": "@ohos/account",
+  "name": "account",
   "description": "a npm package which contains arkUI2.0 page",
   "ohos": {
     "org": ""
@@ -10,7 +10,7 @@
   "repository": {},
   "license": "ISC",
   "devDependencies": {
-    "@ohos/common": "file:../../common",
-    "@ohos/contact": "file:../contact"
+    "common": "file:../../common",
+    "contact": "file:../contact"
   }
 }

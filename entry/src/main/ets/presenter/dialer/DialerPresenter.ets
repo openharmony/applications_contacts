@@ -163,7 +163,7 @@ export default class DialerPresenter {
   }
 
   dialing(phoneNumber, options?: any) {
-    IndexPresenter.getInstance().editPhoneNumber = "";
+    this.editPhoneNumber("");
     PhoneNumber.fromString(phoneNumber).dial(options).then((rst) => {
       this.refresh();
     });

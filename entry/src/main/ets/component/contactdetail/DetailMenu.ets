@@ -54,7 +54,8 @@ export struct DetailMenu {
       .listDirection(Axis.Vertical)
       .divider({ strokeWidth: 0.5, color: $r("sys.color.ohos_id_color_list_separator"),
         startMargin: $r("app.float.id_card_margin_max"), endMargin: $r("app.float.id_card_margin_max") })
-      .edgeEffect(EdgeEffect.Spring)
+      .scrollBar(BarState.Off)
+      .edgeEffect(EdgeEffect.None)
       .chainAnimation(false)
     }
     .backgroundColor(Color.White)

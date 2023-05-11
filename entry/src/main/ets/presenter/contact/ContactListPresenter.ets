@@ -55,7 +55,7 @@ export default class ContactListPresenter {
   worker: WorkerWrapper;
   loading: boolean;
   initStarted: boolean = false;
-  taskId: number = undefined;
+  taskId: number = -1;
   refreshState: () => void
   onContactChange = () => {
     HiLog.i(TAG, 'onContactChange refresh');
@@ -91,23 +91,28 @@ export default class ContactListPresenter {
   }
 
   startInit() {
-    if (this.initStarted) {
-      return;
+    if (!this.initStarted) {
+      this.initStarted = true;
+      HiLog.i(TAG, "startInit taskId:" + this.taskId + ",page:" + this.page);
+      if (this.page == 0 || this.taskId !== -1) {
+        this.setDelayTask();
+      } else {
+        this.refreshContinue();
+      }
+    } else if (this.taskId !== -1) {
+      HiLog.i(TAG, "startInit page has init taskId:" + this.taskId + ",page:" + this.page);
+      this.setDelayTask();
     }
-    HiLog.i(TAG, "startInit");
-    this.initStarted = true;
-    if (this.page == 0) {
-      this.page++;
-    }
-    this.refreshContinue();
   }
 
   cachePageOne() {
-    if (!this.initStarted && !this.loading) {
+    if (!this.initStarted) {
       HiLog.i(TAG, "cachePageOne")
-      this.page = 1;
-      this.refreshIndex = 0;
-      this.refreshContinue();
+      if (!this.loading) {
+        this.page = 0;
+        this.refreshIndex = 0;
+      }
+      this.setDelayTask();
     } else {
       HiLog.i(TAG, "no need cachePageOne");
     }
@@ -138,7 +143,7 @@ export default class ContactListPresenter {
     if (this.page == 0) {
       this.page++;
       this.refreshContinue();
-    } else if (!this.initStarted && !this.loading) {
+    } else if (!this.initStarted) {
       this.cachePageOne();
     } else {
       HiLog.i(TAG, 'isLoading');
@@ -146,9 +151,9 @@ export default class ContactListPresenter {
   }
 
   setDelayTask() {
-    if (this.taskId != undefined) {
+    if (this.taskId !== -1) {
       clearTimeout(this.taskId);
-      this.taskId = undefined;
+      this.taskId = -1;
     }
     let delay: number = 0;
     if (this.page != 0) {
@@ -171,10 +176,6 @@ export default class ContactListPresenter {
   }
 
   refreshContinue() {
-    if (this.loading) {
-      HiLog.i(TAG, 'refreshContinue is loading');
-      return;
-    }
     if (this.page == 0) {
       HiLog.i(TAG, 'refreshContinue end');
       return;
@@ -208,27 +209,37 @@ export default class ContactListPresenter {
       }
       this.contactListPages[page -1] = result.length;
       this.refreshIndex += this.contactListPages[page -1];
-      if (this.refreshState) {
-        this.refreshState();
-      }
       let contactCount = result.length;
       if (contactCount < limit) {
-        this.page = 0;
-        HiLog.i(TAG, 'Contacts load completed: ' + JSON.stringify(this.contactListDataSource.totalCount()));
+        HiLog.i(TAG, 'Contacts load completed: ' + this.contactListDataSource.totalCount());
         if (this.contactListPages.length > page) {
           this.contactListPages.splice(page, this.contactListPages.length - page);
         }
         if (this.contactListDataSource.totalCount() > this.refreshIndex) {
           this.contactListDataSource.remove(this.refreshIndex, this.contactListDataSource.totalCount() - this.refreshIndex);
         }
+        if (this.refreshState) {
+          this.refreshState();
+        }
+        this.page = 0;
         this.refreshIndex = 0;
         this.loading = false;
       } else {
-        this.page = page + 1;
-        this.loading = false;
-        if (callback) {
-          callback();
+        if (this.refreshState) {
+          this.refreshState();
         }
+        if (this.taskId === -1) {
+          this.page = page + 1;
+          if (callback) {
+            callback();
+          }
+        } else {
+          // If there's a waiting mission, there's no need to continue.
+          this.page = 0;
+          this.refreshIndex = 0;
+          this.setDelayTask()
+        }
+        this.loading = false;
       }
     })
   }
@@ -266,7 +277,6 @@ export default class ContactListPresenter {
       if (result) {
         HiLog.w(TAG, "deleteContactById error:" + JSON.stringify(result))
       }
-      ContactRepository.getInstance().notifyChange();
     });
     this.contactListDataSource.remove(index);
   }

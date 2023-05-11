@@ -195,7 +195,7 @@ export class MissedCallNotifier {
         wantAgent: wantAgent
       });
     }
-    notificationRequest.removalWantAgent = await this.createWantAgentForCommonEvent(missedCallData, "contact.event.CANCEL_MISSED");
+    notificationRequest.removalWantAgent = await this.createWantAgentForCommonEvent(missedCallData, 'notification.event.cancel');
     Notification.publish(notificationRequest).then(() => {
       HiLog.i(TAG, '===>publish promise success req.id : ' + notificationRequest.id);
     }).catch((err) => {
@@ -217,9 +217,10 @@ export class MissedCallNotifier {
    * @param mAction
    * @return return the created WantAgent object.
    */
-  private async createWantAgentForCommonEvent(missedCallData, action: string) {
+  private async createWantAgentForCommonEvent(missedCallData, action?: string) {
     return await WantAgent.getWantAgent({
-      wants: [{ action: action, parameters: {
+      wants: [{ action: "contact.event.CANCEL_MISSED", parameters: {
+        action: action,
         missedCallData: missedCallData
       }, }],
       operationType: WantAgent.OperationType.SEND_COMMON_EVENT,
@@ -233,8 +234,7 @@ export class MissedCallNotifier {
     data.missedCallData = missedCallData
     if (action == "notification.event.dialBack") {
       HiLog.i(TAG, 'getWantAgent add page_flag_edit_before_calling')
-      data.pageFlag = 'page_flag_edit_before_calling'
-      data.phoneNumber = missedCallData.phoneNumber;
+      return this.createWantAgentForCommonEvent(missedCallData, action);
     }
     return WantAgent.getWantAgent({
       wants: [{

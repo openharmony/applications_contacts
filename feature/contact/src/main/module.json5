@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "contact",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet"
+    ]
+  }
+}

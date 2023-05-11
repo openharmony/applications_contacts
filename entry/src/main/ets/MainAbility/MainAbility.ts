@@ -64,7 +64,7 @@ export default class MainAbility extends Ability {
         this.simManager = new SimManager();
         globalThis.DataWorker = this.mDataWorker;
         globalThis.presenterManager = new PresenterManager(this.context, this.mDataWorker);
-        globalThis.presenterManager.onCreate();
+        globalThis.presenterManager.onCreate(want);
     }
 
     onNewWant(want, launchParam) {
@@ -72,6 +72,7 @@ export default class MainAbility extends Ability {
         globalThis.isFromOnCreate = false;
         globalThis.abilityWant = want;
         this.onRequest(want, false);
+        globalThis.presenterManager.onNewWant(want);
     }
 
     onDestroy() {
@@ -93,7 +94,7 @@ export default class MainAbility extends Ability {
             });
         })
 
-        windowStage.loadContent('pages/index', this.storage, (err, data) => {
+        windowStage.loadContent(globalThis.presenterManager ? globalThis.presenterManager.mainUrl : 'pages/index', this.storage, (err, data) => {
             if (err.code) {
                 HiLog.e(TAG, 'Failed to load the content. Cause: ' + JSON.stringify(err) ?? '');
                 return;

@@ -47,6 +47,8 @@ export default struct ShareDialogEx {
           }
         }, item => item);
       }
+      .scrollBar(BarState.Off)
+      .edgeEffect(EdgeEffect.None)
       .width('100%')
       .flexGrow(1)
 

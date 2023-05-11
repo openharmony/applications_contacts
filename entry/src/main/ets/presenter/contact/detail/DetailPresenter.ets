@@ -602,7 +602,6 @@ export default class DetailPresenter {
       ids: ids
     }, (data) => {
       HiLog.i(TAG, 'removeCallLog Success');
-      CallLogRepository.getInstance().notifyChange()
     });
   }
 
@@ -642,7 +641,7 @@ export default class DetailPresenter {
       contactId: this.contactId
     }, (result) => {
       if (result == 0 || result == undefined) {
-        ContactRepository.getInstance().notifyChange()
+        HiLog.i(TAG, 'doDeleteContact succ');
       } else {
         HiLog.i(TAG, `doDeleteContact Failed ${JSON.stringify(result)}`);
         prompt.showToast({

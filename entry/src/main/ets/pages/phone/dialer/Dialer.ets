@@ -368,9 +368,7 @@ export default struct Call {
               .gesture(
               LongPressGesture({ repeat: false, fingers: 1, duration: 700 })
                 .onAction((event: GestureEvent) => {
-                  AppStorage.SetOrCreate("tele_number", '');
-                  this.mPresenter.all_number = '';
-                  IndexPresenter.getInstance().editPhoneNumber = "";
+                  this.mPresenter.editPhoneNumber("");
                 })
               )
               .onClick(() => {

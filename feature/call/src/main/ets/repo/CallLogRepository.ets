@@ -55,7 +55,7 @@ export class CallLogRepository implements ICallLogRepository {
   private async getDataAbilityHelper() {
     if (this.dataShareHelper == undefined) {
       this.dataShareHelper = await dataShare.createDataShareHelper(this.context ? this.context : globalThis.context,
-          Calls.CONTENT_URI);
+      Calls.CONTENT_URI);
     }
     return this.dataShareHelper;
   }
@@ -279,23 +279,62 @@ export class CallLogRepository implements ICallLogRepository {
     });
   }
 
-  registerDataChangeObserver(callback) {
+  observers: Array<() => void> = [];
+  callback = () => {
+    HiLog.d(TAG, 'CallLog changed: Notifying observers...');
+    for (const observer of this.observers) {
+      observer();
+    }
+  }
+
+  registerCallLogDataChange() {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       if (dataAbilityHelper) {
-        dataAbilityHelper.on("dataChange", Calls.CALL_LOG_URI, callback);
+        dataAbilityHelper.on("dataChange", Calls.CALL_LOG_URI, this.callback);
+        HiLog.i(TAG, "registerCallLogDataChange success")
       }
     }).catch(error => {
       HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
     });
   }
 
-  unRegisterDataChangeObserver(callback) {
+  unregisterCallLogDataChange() {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       if (dataAbilityHelper) {
-        dataAbilityHelper.off("dataChange", Calls.CALL_LOG_URI, callback);
+        dataAbilityHelper.off("dataChange", Calls.CALL_LOG_URI, this.callback);
+        HiLog.i(TAG, "unregisterCallLogDataChange success")
       }
     }).catch(error => {
       HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
     });
+  }
+
+  registerDataChangeObserver(observer: () => void) {
+    if (!observer) {
+      HiLog.i(TAG, `registerDataChangeObserver: observer is null.`);
+      return;
+    }
+    if (this.observers.length == 0) {
+      this.registerCallLogDataChange()
+    }
+    const isExist = this.observers.includes(observer);
+    if (isExist) {
+      return HiLog.i(TAG, 'registerDataChangeObserver: Observer has been attached already.');
+    }
+    HiLog.i(TAG, 'registerDataChangeObserver: Attached an observer.');
+    this.observers.push(observer);
+  }
+
+  unRegisterDataChangeObserver(observer: () => void) {
+    const observerIndex = this.observers.indexOf(observer);
+    if (observerIndex === -1) {
+      HiLog.i(TAG, 'unRegisterDataChangeObserver: Nonexistent observer.');
+      return
+    }
+    this.observers.splice(observerIndex, 1);
+    HiLog.i(TAG, 'unRegisterDataChangeObserver: Detached an observer.');
+    if (this.observers.length == 0) {
+      this.unregisterCallLogDataChange();
+    }
   }
 }

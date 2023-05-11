@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "dialpad",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet"
+    ]
+  }
+}

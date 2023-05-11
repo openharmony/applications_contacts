@@ -12,24 +12,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export default {
-  SPN_CHINA: {
-    // TELECOM
-    TELECOM: "中国电信",
-    // MOBILE
-    MOBILE: "CMCC",
-    // UNICOM
-    UNICOM: "China Unicom",
-  },
-  Event: {
-    CALLS_CHANGE: 0,
-    CONTACTS_CHANGE: 1,
-    SLOT_CHANGE: 2,
-    SPN_INFO_CHANGED: 3,
-    VOLTE_CHANGE: 4,
-    CALLS_MERGE: 5
-  },
 
+export default {
+  Event: {
+    NEW_WANT: 1,
+  },
+  Storage: {
+    mainTabsIndex: "mainTabsIndex",
+    teleNumber: 'teleNumber',
+    targetPage: "targetPage"
+  },
   CONFIG: {
     useDataWorker: false,
     needCache: false

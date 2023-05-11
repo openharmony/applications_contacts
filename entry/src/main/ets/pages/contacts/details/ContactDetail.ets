@@ -69,6 +69,10 @@ struct ContactDetail {
       this.isShow++;
     }, 100);
     let obj: any = router.getParams();
+    if (!obj) {
+      HiLog.i(TAG, "params is Miss or error!")
+      return;
+    }
     this.mPresenter.sourceHasId = obj.sourceHasId;
     this.mPresenter.contactId = obj.contactId;
     this.mPresenter.sourceHasPhone = obj.sourceHasPhone;
@@ -92,7 +96,6 @@ struct ContactDetail {
 
   onPageShow() {
     HiLog.i(TAG, 'onPageShow');
-    IndexPresenter.getInstance().getNewWant();
     if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get("sysTime")) {
       HiLog.i(TAG, 'DO refresh detailCallLog');
       this.mPresenter.refresh();
@@ -210,8 +213,8 @@ struct Content {
 
   onBackIndex() {
     if (this.isRouterBack) {
+      AppStorage.SetOrCreate("mainTabsIndex", 0);
       router.back();
-      AppStorage.SetOrCreate("indexTabs", 0);
     }
     this.isRouterBack = false;
   }
@@ -372,7 +375,8 @@ struct Content {
         .width("100%")
       }
       .backgroundColor(Color.White)
-    }
+    }.scrollBar(BarState.Off)
+    .edgeEffect(EdgeEffect.None)
   }
 }
 

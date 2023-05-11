@@ -123,9 +123,6 @@ export default {
       HiLog.d(TAG, 'Start the callback function.');
       callBack(addParams.id);
     }
-
-    ContactRepository.getInstance().notifyChange();
-    CallLogRepository.getInstance().notifyChange();
   },
 
   /**

@@ -67,7 +67,7 @@ export class ContactRepository implements IContactRepository {
   private async getDataAbilityHelper() {
     if (this.dataShareHelper == undefined) {
       this.dataShareHelper = await dataShare.createDataShareHelper(this.context ? this.context : globalThis.context,
-          Contacts.CONTENT_URI);
+      Contacts.CONTENT_URI);
     }
     return this.dataShareHelper;
   }
@@ -340,28 +340,48 @@ export class ContactRepository implements IContactRepository {
     });
   }
 
-  observers:Array<()=>void> = [];
-
-  callback = ()=>{
+  observers: Array<() => void> = [];
+  contactsUrl: Array<string> = [Contacts.CONTACT_URI, Data.CONTENT_URI];
+  callback = () => {
     HiLog.d(TAG, 'Contacts changed: Notifying observers...');
     for (const observer of this.observers) {
       observer();
     }
   }
 
-  registerDataChangeObserver(observer:()=>void) {
+  registerContactsDataChange() {
+    this.contactsUrl.forEach((url, index, array) => {
+      this.getDataAbilityHelper().then((dataAbilityHelper) => {
+        if (dataAbilityHelper) {
+          dataAbilityHelper.on("dataChange", url, this.callback);
+          HiLog.i(TAG, "registerContactsDataChange success:" + index)
+        }
+      }).catch(error => {
+        HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+      });
+    })
+  }
+
+  unregisterContactsDataChange() {
+    this.contactsUrl.forEach((url, index, array) => {
+      this.getDataAbilityHelper().then((dataAbilityHelper) => {
+        if (dataAbilityHelper) {
+          dataAbilityHelper.off("dataChange", url, this.callback);
+          HiLog.i(TAG, "unregisterContactsDataChange success:" + index)
+        }
+      }).catch(error => {
+        HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+      });
+    })
+  }
+
+  registerDataChangeObserver(observer: () => void) {
     if (!observer) {
       HiLog.i(TAG, `registerDataChangeObserver: observer is null.`);
       return;
     }
     if (this.observers.length == 0) {
-      this.getDataAbilityHelper().then((dataAbilityHelper) => {
-        if (dataAbilityHelper) {
-          dataAbilityHelper.on("dataChange", Data.CONTENT_URI, this.callback);
-        }
-      }).catch(error => {
-        HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
-      });
+      this.registerContactsDataChange()
     }
     const isExist = this.observers.includes(observer);
     if (isExist) {
@@ -371,7 +391,7 @@ export class ContactRepository implements IContactRepository {
     this.observers.push(observer);
   }
 
-  unRegisterDataChangeObserver(observer:()=>void) {
+  unRegisterDataChangeObserver(observer: () => void) {
     const observerIndex = this.observers.indexOf(observer);
     if (observerIndex === -1) {
       HiLog.i(TAG, 'unRegisterDataChangeObserver: Nonexistent observer.');
@@ -380,13 +400,7 @@ export class ContactRepository implements IContactRepository {
     this.observers.splice(observerIndex, 1);
     HiLog.i(TAG, 'unRegisterDataChangeObserver: Detached an observer.');
     if (this.observers.length == 0) {
-      this.getDataAbilityHelper().then((dataAbilityHelper) => {
-        if (dataAbilityHelper) {
-          dataAbilityHelper.off("dataChange", Data.CONTENT_URI, this.callback);
-        }
-      }).catch(error => {
-        HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
-      });
+      this.unregisterContactsDataChange();
     }
   }
 
@@ -421,7 +435,7 @@ export class ContactRepository implements IContactRepository {
   dealContactResultSet(resultSet) {
     let contacts = [];
     while (resultSet?.goToNextRow()) {
-      let contact: {[key: string]: any} = {};
+      let contact: { [key: string]: any } = {};
       contact.detailInfo = resultSet.getString(0);
       contact.displayName = resultSet.getString(1);
       contacts.push(contact);

@@ -1,5 +1,5 @@
 {
-  "name": "@ohos/dialpad",
+  "name": "dialpad",
   "description": "a npm package which contains arkUI2.0 page",
   "ohos": {
     "org": ""
@@ -10,7 +10,7 @@
   "repository": {},
   "license": "ISC",
   "devDependencies": {
-    "@ohos/common": "file:../../common",
-    "@ohos/phonenumber": "file:../feature/phonenumber"
+    "common": "file:../../common",
+    "phonenumber": "file:../phonenumber"
   }
 }

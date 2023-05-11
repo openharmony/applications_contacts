@@ -54,7 +54,6 @@ export default struct ContactListPage {
   aboutToDisappear() {
     HiLog.i(TAG, 'Contact aboutToDisappear!');
     this.mContactPresenter.aboutToDisappear();
-    emitter.off(Constants.Event.CONTACTS_CHANGE);
   }
 
   build() {

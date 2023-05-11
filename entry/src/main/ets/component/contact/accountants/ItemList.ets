@@ -73,6 +73,9 @@ export struct ItemList {
               .height("98%")
               .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
               .onChange((arg) => {
+                if (this.index > 1 && this.index > this.mPresent.getDataArray(this.typeName).length) {
+                  return;
+                }
                 let args = "";
                 switch (arg.length) {
                   case 3:
