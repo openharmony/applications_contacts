@@ -14,6 +14,7 @@
  */
 
 import data_preferences from '@ohos.data.preferences';
+import contextConstant from '@ohos.app.ability.contextConstant'
 
 const NAME: string = "CONTACT_PREFERENCE";
 type ValueType = number | string | boolean | Array<number> | Array<string> | Array<boolean>;
@@ -62,7 +63,9 @@ class SharedPreferencesUtils {
     if (this.mPreferences) {
       return this.mPreferences;
     }
-    return await data_preferences.getPreferences(globalThis.context ? globalThis.context : this.context, NAME);
+    let ctx: Context = this.context ? this.context : globalThis.context;
+    ctx.area = contextConstant.AreaMode.EL1
+    return await data_preferences.getPreferences(ctx, NAME);
   }
 }
 

@@ -14,21 +14,62 @@
  */
 import { HiLog } from "../../../../../common";
 import { MissedCallService } from "../../../../../feature/call";
+import { PhoneNumber } from '../../../../../feature/phonenumber';
+import call from '@ohos.telephony.call';
+import telephonySim from '@ohos.telephony.sim';
 
 const TAG = "StaticSubscriber"
 var StaticSubscriberExtensionAbility = globalThis.requireNapi('application.StaticSubscriberExtensionAbility');
 export default class StaticSubscriber extends StaticSubscriberExtensionAbility {
-    onReceiveEvent(event) {
-        HiLog.i(TAG, 'onReceiveEvent, event:' + JSON.stringify(event));
-        MissedCallService.getInstance().init(this.context);
-        if ("usual.event.INCOMING_CALL_MISSED" == event.event) {
-            MissedCallService.getInstance().updateMissedCallNotifications();
-        } else if ( "contact.event.CANCEL_MISSED" == event.event) {
-            if (event.parameters?.missedCallData) {
-                MissedCallService.getInstance().cancelMissedNotificationAction(event.parameters?.missedCallData)
-            } else {
-                MissedCallService.getInstance().cancelAllMissedNotificationAction()
-            }
+  private async callAction(phoneNumber: string) {
+    HiLog.i(TAG, 'callAction')
+    let readySimCount: number = 0;
+    let readySim = -1;
+    for (let i = 0; i < telephonySim.getMaxSimCount(); i++) {
+      try {
+        const state = await telephonySim.getSimState(i);
+        if (state) {
+          if (this.isSimReady(state)) {
+            readySimCount++;
+            readySim = i;
+          }
         }
+      } catch (err) {
+        HiLog.e(TAG, `callAction, ${i} error: ${JSON.stringify(err.message)}`);
+      }
     }
+    if (readySimCount == 1 && readySim != -1) {
+      PhoneNumber.fromString(phoneNumber).dial({
+        accountId: readySim,
+      })
+    } else {
+      call.makeCall(phoneNumber).catch(err => {
+        HiLog.e(TAG, `callAction,  error: ${JSON.stringify(err)}`);
+      })
+    }
+  }
+
+  private isSimReady(state) {
+    return state == telephonySim.SimState.SIM_STATE_READY || state == telephonySim.SimState.SIM_STATE_LOADED;
+  }
+
+  onReceiveEvent(event) {
+    HiLog.i(TAG, 'onReceiveEvent, event:' + JSON.stringify(event));
+    MissedCallService.getInstance().init(this.context);
+    if ("usual.event.INCOMING_CALL_MISSED" == event.event) {
+      MissedCallService.getInstance().updateMissedCallNotifications();
+    } else if ("contact.event.CANCEL_MISSED" == event.event) {
+      if (event.parameters?.missedCallData) {
+        if ('notification.event.dialBack' == event.parameters?.action) {
+          let phoneNum: string = event.parameters.missedCallData.phoneNumber
+          if (phoneNum) {
+            this.callAction(phoneNum);
+          }
+        }
+        MissedCallService.getInstance().cancelMissedNotificationAction(event.parameters?.missedCallData)
+      } else {
+        MissedCallService.getInstance().cancelAllMissedNotificationAction()
+      }
+    }
+  }
 }

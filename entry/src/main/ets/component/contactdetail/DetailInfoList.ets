@@ -41,6 +41,8 @@ export default struct DetailInfoList {
           }, item => JSON.stringify(item))
         }
         .divider({ strokeWidth: $r("app.float.id_divide_width"), color: $r("sys.color.ohos_id_color_list_separator") })
+        .scrollBar(BarState.Off)
+        .edgeEffect(EdgeEffect.None)
       }
     }
     .width("100%")

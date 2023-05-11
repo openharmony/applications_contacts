@@ -35,6 +35,30 @@
           ]
         }
       ]
+    },
+    {
+      "name": "common",
+      "srcPath": "./common"
+    },
+    {
+      "name": "phonenumber",
+      "srcPath": "./feature/phonenumber"
+    },
+    {
+      "name": "contact",
+      "srcPath": "./feature/contact"
+    },
+    {
+      "name": "account",
+      "srcPath": "./feature/account"
+    },
+    {
+      "name": "call",
+      "srcPath": "./feature/call"
+    },
+    {
+      "name": "dialpad",
+      "srcPath": "./feature/dialpad"
     }
   ]
 }

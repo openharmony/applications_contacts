@@ -69,6 +69,8 @@ export struct SelectSimIdDialog {
       }.divider({
         strokeWidth: 1
       })
+      .scrollBar(BarState.Off)
+      .edgeEffect(EdgeEffect.None)
 
       Text($r("app.string.cancel"))
         .alignSelf(ItemAlign.Center)

@@ -75,7 +75,6 @@ export default class ContactListDataSource extends BasicDataSource {
     public refresh(start: number, count: number, contactList: ContactVo[]) {
         HiLog.i(TAG, ' refresh!');
         this.contactList.splice(start, count, ...contactList);
-        this.notifyDataReload();
         this.setDataReload(true);
     }
 
@@ -85,7 +84,7 @@ export default class ContactListDataSource extends BasicDataSource {
         }
         HiLog.i(TAG, ' remove:' + index);
         this.contactList.splice(index, count ? count : 1);
-        this.notifyDataDelete(index);
+        this.setDataReload(true);
     }
 
     private setDataReload(isDataReload: boolean) {

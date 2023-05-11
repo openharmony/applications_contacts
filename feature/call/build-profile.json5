@@ -1,5 +1,11 @@
 {
-  "apiType": "faMode",
+  "apiType": "stageMode",
   "buildOption": {
-  }
+  },
+  "targets": [
+    {
+      "name": "default",
+//      "runtimeOS": "HarmonyOS"
+    }
+  ]
 }

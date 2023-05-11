@@ -56,11 +56,13 @@ struct Accountants {
   @State updataShow: boolean = false;
   private pageTitle: Resource = $r("app.string.create_contact");
   dialogController: CustomDialogController = new CustomDialogController({
-    builder: ShowDayTime({ mPresent: $mPresenter,
+    builder: ShowDayTime({
+      mPresent: $mPresenter,
       cancel: this.onCancel,
       confirm: this.onAccept,
       itemIndex: this.eventItemId,
-      itemType: this.eventType}),
+      itemType: this.eventType
+    }),
     cancel: this.existApp,
     autoCancel: true,
     alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
@@ -139,7 +141,6 @@ struct Accountants {
   onPageShow() {
     HiLog.i(TAG, 'onPageShow');
     this.mPresenter.refresh();
-    IndexPresenter.getInstance().getNewWant();
   }
 
   onBackPress() {

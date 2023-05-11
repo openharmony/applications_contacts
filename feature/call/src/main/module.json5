@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "call",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet"
+    ]
+  }
+}

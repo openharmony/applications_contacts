@@ -1,5 +1,5 @@
 {
-  "name": "@ohos/common",
+  "name": "common",
   "description": "a npm package which contains arkUI2.0 page",
   "ohos": {
     "org": ""
