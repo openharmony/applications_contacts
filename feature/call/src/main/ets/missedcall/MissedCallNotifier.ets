@@ -15,6 +15,9 @@
 import Notification from "@ohos.notificationManager"
 import WantAgent from '@ohos.app.ability.wantAgent';
 import { HiLog, sharedPreferencesUtils } from '../../../../../../common';
+import notificationSubscribe from '@ohos.notificationSubscribe';
+import call from '@ohos.telephony.call';
+import { NotificationSubscriber } from 'notification/notificationSubscriber';
 
 const TAG = "MissedCallNotifier";
 
@@ -22,6 +25,11 @@ const BUNDLE_NAME: string = 'com.ohos.contacts';
 const ABILITY_NAME: string = 'com.ohos.contacts.MainAbility';
 const GROUP_NAME: string = "MissedCall"
 const KEY_MISSED_BADGE_NUM = 'missed_badge_number'
+const KEY_ID = 'unread_call_notification_id'
+const KEY_DISPLAY_NAME = 'unread_call_notification_displayName'
+const KEY_COUNT = 'unread_call_notification_count'
+const KEY_CREATE_TIME = 'unread_call_notification_create_time'
+const KEY_RING_DURATION = 'unread_call_notification_ring_duration'
 const actionBtnMaps =
   {
     'notification.event.dialBack': $r('app.string.dial_back'),
@@ -42,6 +50,7 @@ export class MissedCallNotifier {
   private context: Context;
   private static sInstance: MissedCallNotifier = undefined;
   private missedBadgeNumber: number = -1;
+  private UnReadMissedCallData: MissedCallNotifyData;
 
   /**
    * getInstance for MissedCallNotifier
@@ -164,16 +173,24 @@ export class MissedCallNotifier {
 
   private async sendNotification(missedCallData: MissedCallNotifyData) {
     const {id, displayName, count, createTime, ringDuration} = missedCallData;
+    sharedPreferencesUtils.saveToPreferences(KEY_ID, id);
+    sharedPreferencesUtils.saveToPreferences(KEY_DISPLAY_NAME, displayName);
+    sharedPreferencesUtils.saveToPreferences(KEY_COUNT, count);
+    sharedPreferencesUtils.saveToPreferences(KEY_CREATE_TIME, createTime);
+    sharedPreferencesUtils.saveToPreferences(KEY_RING_DURATION, ringDuration)
     HiLog.i(TAG, `sendNotification in id:${id}, count:${count}, createTime:${createTime}`)
     let str_text = this.getContext()?.resourceManager.getStringSync($r("app.string.contacts_ring_times")) +
     ringDuration + this.getContext()?.resourceManager.getStringSync($r("app.string.contacts_time_sec"));
+    if (ringDuration === 0) {
+      str_text = $r("app.string.missed_call")
+    }
     const notificationRequest: Notification.NotificationRequest = {
       content: {
         contentType: Notification.ContentType.NOTIFICATION_CONTENT_BASIC_TEXT,
         normal: {
           title: count > 1 ? `${displayName} (${count})` : displayName,
           text: str_text,
-          additionalText: ""
+          additionalText: missedCallData.phoneNumber
         },
       },
       id: id,
@@ -204,6 +221,43 @@ export class MissedCallNotifier {
     HiLog.i(TAG, 'sendNotification end')
   }
 
+  /**
+   * send Unread Call  Notification
+   */
+  public async sendUnreadCallNotification(map: Map<string, string>) {
+    let id: number = <number> await sharedPreferencesUtils.getFromPreferences(KEY_ID, -1);
+    let displayName: string = <string> await  sharedPreferencesUtils.getFromPreferences(KEY_DISPLAY_NAME, "");
+    let count: number = <number> await  sharedPreferencesUtils.getFromPreferences(KEY_COUNT, -1);
+    let createTime: number = <number> await  sharedPreferencesUtils.getFromPreferences(KEY_CREATE_TIME, -1);
+    let ringDuration: number = <number> await  sharedPreferencesUtils.getFromPreferences(KEY_RING_DURATION, -1);
+    let missCallData = map.get("missedPhoneJson")
+    const parameters = JSON.parse(JSON.stringify(missCallData));
+    for (let i = 0; i < parameters.phoneNumberList.length; i++) {
+      const missedPhoneNumber = parameters.phoneNumberList[i]
+      const missedNum = parameters.countList[i]
+      if (i === (parameters.phoneNumberList.length -1)) {
+        this.UnReadMissedCallData = {
+          phoneNumber: missedPhoneNumber,
+          displayName: missedPhoneNumber,
+          id: i,
+          createTime: createTime,
+          count: count,
+          ringDuration: ringDuration
+        }
+      } else {
+        this.UnReadMissedCallData = {
+          phoneNumber: missedPhoneNumber,
+          displayName: missedPhoneNumber,
+          id: i,
+          createTime: createTime,
+          count: count,
+          ringDuration: 0
+        }
+      }
+      this.sendNotification(this.UnReadMissedCallData);
+    }
+  }
+
   private setMissedBadgeNumber(newBadgeNum: number) {
     HiLog.i(TAG, 'setMissedBadgeNumber :' + newBadgeNum);
     this.missedBadgeNumber = newBadgeNum;
@@ -224,7 +278,7 @@ export class MissedCallNotifier {
         missedCallData: missedCallData
       }, }],
       operationType: WantAgent.OperationType.SEND_COMMON_EVENT,
-      requestCode: 0 // requestCode是WantAgentInfo的请求码，是使用者定义的一个私有值
+      requestCode: 0
     })
   }
 

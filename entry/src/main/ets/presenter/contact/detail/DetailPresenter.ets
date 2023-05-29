@@ -54,8 +54,10 @@ export default class DetailPresenter {
   topbarBackgroundColor: ResourceColor = Color.Transparent;
   newNumberBgColor: string = '';
   detailsColor: string = '';
+  isFavorited : string = '0'
   /** detail parameters */
   contactForm: any = {
+    contactId: -1,
     display_name: '',
     photoFirstName: '',
     company: '',
@@ -71,7 +73,8 @@ export default class DetailPresenter {
     relationships: [],
     numRecords: [],
     portraitColor: '',
-    detailsBgColor: ''
+    detailsBgColor: '',
+    favorite: 0
   };
   detailCallLogDataSource: DetailCallLogDataSource = new DetailCallLogDataSource();
   /** Contact Temporary */
@@ -107,7 +110,8 @@ export default class DetailPresenter {
         relationships: [],
         numRecords: [],
         portraitColor: '',
-        detailsBgColor: ''
+        detailsBgColor: '',
+        favorite: 0
       };
       let requestData = {
         contactId: this.contactId
@@ -133,7 +137,8 @@ export default class DetailPresenter {
         relationships: [],
         numRecords: [],
         portraitColor: '',
-        detailsBgColor: ''
+        detailsBgColor: '',
+        favorite: 0
       };
       /** Query the contact ID based on the phone number.
        If a contact exists,the contact details are displayed based on the first contact ID.*/
@@ -195,6 +200,7 @@ export default class DetailPresenter {
       this.contactForm.portraitColor = MorandiColor.Color[Math.abs(parseInt(result.data.id, 10)) % 6];
       this.contactForm.detailsBgColor = MorandiColor.detailColor[Math.abs(parseInt(result.data.id, 10)) % 6];
       this.detailsColor = MorandiColor.detailColor[Math.abs(parseInt(result.data.id, 10)) % 6];
+      this.isFavorited = this.contacts.favorite;
       this.dealDetailsData();
     });
   }
@@ -721,5 +727,34 @@ export default class DetailPresenter {
       });
     });
     return mMoreMenu;
+  }
+
+  updateFavorite(favoriteStatus: number) {
+    HiLog.i(TAG, 'updateFavorite start.');
+    let favoriteForm: any = {}
+    favoriteForm.id = this.contactId;
+    favoriteForm.favorite = favoriteStatus;
+    globalThis.DataWorker.sendRequest("updateFavorite", {
+      context: globalThis.context,
+      favoriteForm: JSON.stringify(favoriteForm)
+    }, (arg) => {
+      HiLog.i(TAG, 'updateFavorite success.');
+    })
+  }
+
+  saveExistingContact() {
+    HiLog.i(TAG, 'updateFavorite start.');
+    router.replaceUrl({
+      url: 'pages/contacts/batchselectcontacts/SingleSelectContactPage',
+      params: {
+        phoneNumberShow: this.phoneNumberShow,
+        contactForm: this.contactForm,
+        contactId: this.contactId,
+        contactsId: this.contacts.id,
+        phones: this.contactForm.phones,
+        editContact: 0,
+        selectType: 0
+      }
+    });
   }
 }

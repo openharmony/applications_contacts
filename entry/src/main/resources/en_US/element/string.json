@@ -270,7 +270,7 @@
     },
     {
       "name": "contact_list_search",
-      "value": "searching for contacts"
+      "value": "Search..."
     },
     {
       "name": "contact_list_search_empty",
@@ -811,6 +811,38 @@
     {
       "name": "china_unicom",
       "value": "China Unicom"
+    },
+    {
+      "name": "common_use",
+      "value": "Common Use"
+    },
+    {
+      "name": "no_favorite",
+      "value": "No favorite"
+    },
+    {
+      "name": "favorite_num",
+      "value": "Favorites %d"
+    },
+    {
+      "name": "common_use_num",
+      "value": "Common Use %d"
+    },
+    {
+      "name": "favorite_remove",
+      "value": "Cancel"
+    },
+    {
+      "name": "contacts_call",
+      "value": "call"
+    },
+    {
+      "name": "set_default_values",
+      "value": "Set default values"
+    },
+    {
+      "name": "found_contacts",
+      "value": "found %d contacts"
     }
   ]
 }

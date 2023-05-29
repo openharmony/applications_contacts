@@ -35,7 +35,7 @@ export default class PresenterManager {
   }
 
   onCreate(want: Want) {
-    HiLog.i(TAG, "onCreate")
+    HiLog.i(TAG, "onCreate");
     this.onRequest(want.parameters, true);
     this.callRecordPresenter.onCreate(this.context, this.worker);
     this.contactListPresenter.onCreate(this.context, this.worker);
@@ -45,7 +45,8 @@ export default class PresenterManager {
   }
 
   onNewWant(want: Want) {
-    this.onRequest(want.parameters, false)
+    HiLog.i(TAG, "onNewWant");
+    this.onRequest(want.parameters, false);
   }
 
   initDataCache() {
@@ -153,13 +154,14 @@ export default class PresenterManager {
     }
     if (isOnCreate) {
       this.mainUrl = url;
+      AppStorage.SetOrCreate('params', params);
     } else {
       AppStorage.SetOrCreate(Constants.Storage.targetPage, {
         url: url,
         pageIndex: pageIndex,
         params: params
       })
-      HiLog.i(TAG, "pageRouteHandler:" + JSON.stringify(AppStorage.Get("targetPage")));
+      HiLog.i(TAG, "pageRouteHandler finish!");
     }
   }
 }

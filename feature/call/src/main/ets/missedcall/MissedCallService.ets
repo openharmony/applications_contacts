@@ -80,6 +80,13 @@ export class MissedCallService {
     this.sendMissedCallNotify(this.lastMissedId);
   }
 
+  /**
+   *
+   * Unread missed call notification
+   */
+  public async unreadCallNotification(map:Map<string,string>) {
+    MissedCallNotifier.getInstance().sendUnreadCallNotification(map);
+  }
 
   /**
    * cancelMissedNotificationAction

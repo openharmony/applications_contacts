@@ -20,8 +20,10 @@ import observer from '@ohos.telephony.observer';
 import PreferencesUtil from '../../util/PreferencesUtil';
 import { PhoneNumber } from '../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 import IndexPresenter from '../IndexPresenter';
-
+import CallRecordListDataSource from '../../model/bean/CallRecordListDataSource';
 const TAG = 'DialerPresenter';
+const SECRET_CODE_START: string = '*#*#';
+const SECRET_CODE_END: string = '#*#*';
 
 /**
  * dialer presenter
@@ -33,9 +35,7 @@ export default class DialerPresenter {
   readonly NUM_TEXT_MAXSIZE_LENGTH = 14;
   readonly NUM_TEXT_FONT_SIZE_MAX = 38;
   private timer: any = null;
-  panelShow: boolean = false;
   btnShow: boolean = true;
-  isClickDelete: boolean = false;
   isEmergencyNum: boolean = false;
   tele_number: string = "";
   tele_num_size: number = this.NUM_TEXT_FONT_SIZE_MAX;
@@ -48,7 +48,9 @@ export default class DialerPresenter {
   dialerRadius = 24;
   refreshView: boolean;
   callBtnClick: boolean;
-
+  secretCode: string = '';
+  mAllCallRecordListDataSource: CallRecordListDataSource = new CallRecordListDataSource();
+  callLogSearchList: any[] = [];
   static getInstance() {
     if (this.mPresenter == null) {
       this.mPresenter = new DialerPresenter();
@@ -80,14 +82,15 @@ export default class DialerPresenter {
   }
 
   editPhoneNumber(phoneNum): void {
-    if (StringUtil.isEmpty(phoneNum) || this.isClickDelete) {
-      this.isClickDelete = false;
+    if (StringUtil.isEmpty(phoneNum)) {
       return;
     }
+    HiLog.i(TAG, 'editPhoneNumber');
     AppStorage.SetOrCreate("tele_number", phoneNum);
     this.all_number = phoneNum;
     this.viewNumberTextProc();
     this.deleteAddSpace();
+//    this.callHistorySearch()
   }
 
   onDestroy() {
@@ -97,6 +100,7 @@ export default class DialerPresenter {
    * Change the font size when deleting a number.
    */
   deleteTeleNum() {
+//    this.callHistorySearch()
     let number: string = AppStorage.Get("tele_number");
     if (this.all_number.length < this.NUM_TEXT_MAX_LENGTH) {
       AppStorage.SetOrCreate("tele_number", this.all_number);
@@ -219,40 +223,40 @@ export default class DialerPresenter {
   playAudio(number) {
     switch (number.toString()) {
       case '1':
-        this.tonePlayer(1);
+        this.tonePlayer(audio.ToneType.TONE_TYPE_DIAL_1);
         break;
       case '2':
-        this.tonePlayer(2);
+        this.tonePlayer(audio.ToneType.TONE_TYPE_DIAL_2);
         break;
       case '3':
-        this.tonePlayer(3);
+        this.tonePlayer(audio.ToneType.TONE_TYPE_DIAL_3);
         break;
       case '4':
-        this.tonePlayer(4);
+        this.tonePlayer(audio.ToneType.TONE_TYPE_DIAL_4);
         break;
       case '5':
-        this.tonePlayer(5);
+        this.tonePlayer(audio.ToneType.TONE_TYPE_DIAL_5);
         break;
       case '6':
-        this.tonePlayer(6);
+        this.tonePlayer(audio.ToneType.TONE_TYPE_DIAL_6);
         break;
       case '7':
-        this.tonePlayer(7);
+        this.tonePlayer(audio.ToneType.TONE_TYPE_DIAL_7);
         break;
       case '8':
-        this.tonePlayer(8);
+        this.tonePlayer(audio.ToneType.TONE_TYPE_DIAL_8);
         break;
       case '9':
-        this.tonePlayer(9);
+        this.tonePlayer(audio.ToneType.TONE_TYPE_DIAL_9);
         break;
       case '0':
-        this.tonePlayer(0);
+        this.tonePlayer(audio.ToneType.TONE_TYPE_DIAL_0);
         break;
       case '*':
-        this.tonePlayer(10);
+        this.tonePlayer(audio.ToneType.TONE_TYPE_DIAL_S);
         break;
       case '#':
-        this.tonePlayer(11);
+        this.tonePlayer(audio.ToneType.TONE_TYPE_DIAL_P);
         break;
       default:
         HiLog.e(TAG, "keytone src is error");
@@ -301,5 +305,68 @@ export default class DialerPresenter {
   sendMessage() {
     let formatnum = PhoneNumber.fromString(this.all_number).format();
     PhoneNumber.fromString(this.all_number).sendMessage(formatnum, formatnum);
+  }
+
+  saveCallRecordExistingContact() {
+    HiLog.i(TAG, 'saveCallRecordExistingContact start.');
+    router.pushUrl({
+      url: 'pages/contacts/batchselectcontacts/SingleSelectContactPage',
+      params: {
+        phoneNumberShow: AppStorage.Get("tele_number"),
+        editContact: 2,
+      }
+    });
+  }
+
+  dealSecretCode(value: string) {
+    let length = value.length;
+    if (length > 8 && value.startsWith(SECRET_CODE_START) && value.endsWith(SECRET_CODE_END)) {
+      let str = value.substring(SECRET_CODE_START.length, length - SECRET_CODE_END.length);
+      this.secretCode = str;
+    } else {
+      this.secretCode = '';
+    }
+  }
+
+  callHistorySearch() {
+    let teleNumber: string = AppStorage.Get("tele_number");
+    globalThis.DataWorker.sendRequest("getQueryT9PhoneNumbers", {
+      favoriteForm: JSON.stringify({favorite:{teleNumber:teleNumber.replace(/\s*/g,"")}}),
+      context: globalThis.context
+    }, (result) => {
+      let nameArray = [];
+      for (let i = 0; i < result.length; i++) {
+        nameArray.push(result[i].showName);
+        result[i].displayName = result[i]?.showName || result[i]?.phoneNumbers[0]?.phoneNumber || '';
+        result[i].phoneNumber = result[i]?.phoneNumbers[0]?.phoneNumber || '';
+      }
+      const queryCall = {context: globalThis.context,mergeRule: '', actionData: {teleNumber:teleNumber.replace(/\s*/g,""), nameArray}};
+      globalThis.DataWorker?.sendRequest("getCallHistorySearch", queryCall, (data) => {
+        this.callLogSearchList = [];
+        if(data.callLogList.length > 0 || result.length > 0){
+          this.callLogSearchList = [...this.callLogSearchList,...result]
+          for (let i = 0; i < data.callLogList.length; i++) {
+            const displayName = data?.callLogList[i]?.displayName || data?.callLogList[i]?.phoneNumber;
+            if(!nameArray.includes(displayName)){
+              nameArray.push(displayName)
+              this.callLogSearchList.push({...data.callLogList[i], displayName});
+            }
+          }
+        }
+        this.mAllCallRecordListDataSource.refreshAll(this.callLogSearchList.sort((a: any, b: any)=> (a.count || 0) - (b.count || 0)));
+      })
+    })
+  }
+
+  jumpToContactDetail(phoneNumber) {
+    router.pushUrl(
+      {
+        url: "pages/contacts/details/ContactDetail",
+        params: {
+          sourceHasPhone: true,
+          phoneNumberShow: phoneNumber
+        }
+      }
+    )
   }
 }

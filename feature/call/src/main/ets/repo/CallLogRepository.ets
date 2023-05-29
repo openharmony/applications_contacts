@@ -19,6 +19,7 @@ import ICallLogRepository from './ICallLogRepository';
 import { CallLog } from '../entity/CallLog';
 import CallLogBuilder from '../entity/CallLogBuilder';
 import Calls from '../contract/Calls';
+import { RawContacts } from '../../../../../contact/src/main/ets/contract/RawContacts';
 import CallLogDelta from './CallLogDelta';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
@@ -55,7 +56,7 @@ export class CallLogRepository implements ICallLogRepository {
   private async getDataAbilityHelper() {
     if (this.dataShareHelper == undefined) {
       this.dataShareHelper = await dataShare.createDataShareHelper(this.context ? this.context : globalThis.context,
-      Calls.CONTENT_URI);
+          Calls.CONTENT_URI);
     }
     return this.dataShareHelper;
   }
@@ -134,10 +135,13 @@ export class CallLogRepository implements ICallLogRepository {
     return false;
   }
 
-  findAll(actionData, callback) {
+  findAll(favorite: number, actionData, callback) {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       let condition = new dataSharePredicates.DataSharePredicates();
       let offset = actionData.page < 3 ? (actionData.page - 1) * 50 : (actionData.page - 2) * 500 + 50;
+      if (0 === favorite) {
+        condition.equalTo(RawContacts.FAVORITE, favorite)
+      }
       condition.limit(actionData.limit, offset);
       condition.orderByDesc(Calls.CREATE_TIME);
       dataAbilityHelper.query(Calls.CALL_LOG_URI, condition, null).then(resultSet => {
@@ -336,5 +340,37 @@ export class CallLogRepository implements ICallLogRepository {
     if (this.observers.length == 0) {
       this.unregisterCallLogDataChange();
     }
+  }
+
+  findSearch(actionData, callback) {
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+      let condition = new dataSharePredicates.DataSharePredicates();
+      condition.in(Calls.DISPLAY_NAME, actionData.nameArray)
+        .or()
+        .like(Calls.PHONE_NUMBER, `%${actionData.teleNumber}%`);
+      dataAbilityHelper.query(Calls.CALL_LOG_URI, condition, null).then(resultSet => {
+        let rst: CallLog[] = [];
+        if (resultSet.rowCount === 0) {
+          resultSet.close();
+          callback(rst);
+        } else {
+          resultSet.goToFirstRow();
+          do {
+            let builder = CallLogBuilder.fromResultSet(resultSet);
+            if (builder.id > 0) {
+              rst.push(new CallLog(builder));
+            }
+          } while (resultSet.goToNextRow());
+          resultSet.close();
+          callback(rst);
+        }
+      }).catch(error => {
+        HiLog.w(TAG, 'findAll error:' + JSON.stringify(error.message));
+        callback([]);
+      });
+    }).catch(error => {
+      HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+      callback([]);
+    });
   }
 }

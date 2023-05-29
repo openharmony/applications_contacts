@@ -21,7 +21,7 @@ import { Birthday } from '../../../../../../../feature/contact/src/main/ets/cont
 
 @CustomDialog
 export struct ShowDayTime {
-  private date = new Date(2000, 0, 1);
+  private date = new Date(1970, 0, 31);
   @Link mPresent: AccountantsPresenter;
   @Prop itemIndex: number;
   @Prop itemType: number;

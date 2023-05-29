@@ -13,10 +13,13 @@
  * limitations under the License.
  */
 
+import router from '@ohos.router';
 import BatchSelectContactsPresenter from '../../../presenter/contact/batchselectcontacts/BatchSelectContactsPresenter';
 import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
 import BatchSelectContactItemView from '../../../component/contact/batchselectcontacts/BatchSelectContactItemView';
+import { AlphabetIndexerPage } from '../alphabetindex/AlphabetIndexerPage';
+import AlphabetIndexerPresenter from '../../../presenter/contact/alphabetindex/AlphabetIndexerPresenter';
 
 const TAG = 'BatchSelectContactsPage ';
 
@@ -32,6 +35,12 @@ export default struct SingleSelectContactPage {
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear')
+    let obj: any = router.getParams();
+    this.mPresenter.editContact = obj?.editContact;
+    this.mPresenter.contactId = obj?.contactId;
+    this.mPresenter.callId = obj?.callId;
+    this.mPresenter.phones = obj?.phones;
+    this.mPresenter.phoneNumberShow = obj?.phoneNumberShow;
     this.mPresenter.aboutToAppear()
   }
 
@@ -52,7 +61,7 @@ export default struct SingleSelectContactPage {
 
   onBackPress() {
     HiLog.i(TAG, 'onBackPress')
-    this.mPresenter.cancel();
+    this.mPresenter.singleBackCancel();
     return true;
   }
 
@@ -85,7 +94,7 @@ struct TitleGuide {
         .flexShrink(0)
         .margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_xxl") })
         .onClick(() => {
-          this.mPresenter.cancel()
+          this.mPresenter.singleBackCancel();
         })
 
       Text($r('app.string.select_contact'))
@@ -106,60 +115,80 @@ struct TitleGuide {
 struct ContactsList {
   @Link private presenter: BatchSelectContactsPresenter;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
+  private scroller: Scroller = new Scroller();
+  @State alphabetSelected: number = 0;
+  @State isAlphabetClicked: boolean = false;
+  @State dragList: boolean = true;
+  @State alphabetIndexPresenter: AlphabetIndexerPresenter = this.presenter.alphabetIndexPresenter;
 
   build() {
     Column() {
-      GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: { sm: 12, md: 12, lg: 24 }, y: 0 } }) {
-        GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
-          TitleGuide()
-        }
-      }
-      .height("100%")
-      .onBreakpointChange((breakpoint: string) => {
-        this.curBp = breakpoint
-      })
-
-      GridRow({columns: {sm: 4, md: 8, lg: 12}, gutter: {x: 12, y: 0}}) {
-        GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
-          List({ initialIndex: this.presenter.initialIndex }) {
-            LazyForEach(this.presenter.contactsSource, (item, index) => {
-              ListItem() {
-                Stack({ alignContent: Alignment.BottomEnd }) {
-                  Column() {
-                    if (item.showIndex) {
-                      Column() {
-                        Text(item.contact.namePrefix)
-                          .fontColor($r("sys.color.ohos_fa_text_secondary"))
-                          .fontSize($r("sys.float.ohos_id_text_size_sub_title3"))
-                          .fontWeight(FontWeight.Medium)
-                          .textAlign(TextAlign.Start)
-                      }
-                      .alignItems(HorizontalAlign.Start)
-                      .padding({ left: $r("app.float.id_card_margin_max"), bottom: $r("app.float.id_card_margin_large") })
-                      .width('100%')
-                      .height($r("app.float.id_item_height_mid"))
-                    }
-                  }
-
-                  BatchSelectContactItemView({
-                    single: item.single = true,
-                    item: item.contact,
-                    index: item.index,
-                    onSingleContactItemClick: (num, name) => this.presenter.onSingleContactItemClick(num, name),
-                    showIndex: item.showIndex,
-                  })
-                }
-              }
-            }, (item) => JSON.stringify(item))
+        GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: { sm: 12, md: 12, lg: 24 }, y: 0 } }) {
+          GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
+            TitleGuide()
           }
-          .scrollBar(BarState.Off)
-          .width('100%')
-          .listDirection(Axis.Vertical)
-          .edgeEffect(EdgeEffect.Spring)
-          .onScrollIndex((firstIndex: number, lastIndex: number) => {
-            this.presenter.resetInitialIndex(firstIndex);
-          })
         }
+        .height("100%")
+        .onBreakpointChange((breakpoint: string) => {
+          this.curBp = breakpoint
+        })
+
+      Stack({ alignContent: Alignment.TopEnd }) {
+        GridRow({columns: {sm: 4, md: 8, lg: 12}, gutter: {x: 12, y: 0}}) {
+          GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
+            List({ initialIndex: this.presenter.initialIndex, scroller: this.scroller }) {
+              LazyForEach(this.presenter.contactsSource, (item, index) => {
+                ListItem() {
+                  Stack({ alignContent: Alignment.BottomEnd }) {
+                    Column() {
+                      if (item.showIndex) {
+                        Column() {
+                          Text(item.contact.namePrefix)
+                            .fontColor($r("sys.color.ohos_fa_text_secondary"))
+                            .fontSize($r("sys.float.ohos_id_text_size_sub_title3"))
+                            .fontWeight(FontWeight.Medium)
+                            .textAlign(TextAlign.Start)
+                        }
+                        .alignItems(HorizontalAlign.Start)
+                        .padding({ left: $r("app.float.id_card_margin_max"), bottom: $r("app.float.id_card_margin_large") })
+                        .width('100%')
+                        .height($r("app.float.id_item_height_mid"))
+                      }
+                    }
+
+                    BatchSelectContactItemView({
+                      single: item.single = true,
+                      item: item.contact,
+                      index: item.index,
+                      onSingleContactItemClick: (num, name) => this.presenter.onSingleContactItemClick(num, name, item.contact),
+                      showIndex: item.showIndex,
+                    })
+                  }
+                }
+              }, (item) => JSON.stringify(item))
+            }
+            .scrollBar(BarState.Off)
+            .width('100%')
+            .listDirection(Axis.Vertical)
+            .edgeEffect(EdgeEffect.Spring)
+            .onScrollIndex((firstIndex: number, lastIndex: number) => {
+              this.presenter.resetInitialIndex(firstIndex);
+              if (!this.isAlphabetClicked) {
+                this.alphabetSelected = this.alphabetIndexPresenter.getAlphabetSelected(firstIndex);
+              }
+            })
+            .onScrollStart(() => {
+              this.dragList = true;
+            })
+            .onScrollStop(() => {
+              this.isAlphabetClicked = false;
+            })
+          }
+        }
+        .height('93%')
+        AlphabetIndexerPage({scroller: this.scroller, presenter: $alphabetIndexPresenter, selected: this.alphabetSelected,
+          isClicked: $isAlphabetClicked, drag: $dragList})
+          .margin({ top: '10%', bottom: '10%' })
       }
       .height('100%')
       .flexShrink(1)

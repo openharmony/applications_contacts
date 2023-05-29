@@ -44,4 +44,5 @@ export default class DataType {
   static readonly DATA: string = DataColumns.DETAIL_INFO;
   static readonly LABEL_ID: string = DataColumns.EXTEND7;
   static readonly LABEL_NAME: string = DataColumns.CUSTOM_DATA;
+  static readonly FAVORITE: string = DataColumns.FAVORITE;
 }

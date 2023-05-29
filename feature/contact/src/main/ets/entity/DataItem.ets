@@ -63,6 +63,7 @@ export class DataItem {
     contentValues.set(Data.SYN_1, resultSet.getString(resultSet.getColumnIndex(Data.SYN_1)));
     contentValues.set(Data.SYN_2, resultSet.getString(resultSet.getColumnIndex(Data.SYN_2)));
     contentValues.set(Data.SYN_3, resultSet.getString(resultSet.getColumnIndex(Data.SYN_3)));
+    contentValues.set(Data.FAVORITE, resultSet.getString(resultSet.getColumnIndex(Data.FAVORITE)));
     return new DataItem(contentValues);
   }
 
@@ -84,5 +85,9 @@ export class DataItem {
 
   getLabelName() {
     return this.values.get(DataType.LABEL_NAME);
+  }
+
+  getFavorite() {
+    return this.values.get(DataType.FAVORITE);
   }
 }

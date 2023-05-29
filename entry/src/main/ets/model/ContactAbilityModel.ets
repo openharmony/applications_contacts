@@ -29,6 +29,9 @@ import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
 import { ArrayUtil } from '../../../../../common/src/main/ets/util/ArrayUtil';
 import { CallLogRepository } from '../../../../../feature/call/src/main/ets/repo/CallLogRepository';
 import { PhoneNumber } from '../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
+import { FavoriteBean } from './bean/FavoriteBean';
+import { CallLog } from '../../../../../feature/call/src/main/ets/entity/CallLog';
+import { SearchContactsBean } from './bean/SearchContactsBean';
 
 const TAG = "ContactAbility: ";
 const PROFILE_CONTACT_DATA_URI = 'datashare:///com.ohos.contactsdataability/profile/contact_data';
@@ -595,13 +598,14 @@ export default {
    *
    * @param {string} DAHelper 数据库地址
    * @param {Object} callBack 回调
+   * @param {Object} addParams  Contact Information
    */
-  getAllContactWithPhoneNumbers: function (callBack, context?) {
+  getAllContactWithPhoneNumbers: function (callBack, addParams, context?) {
     HiLog.i(TAG, 'Start to query all contacts with PhoneNumbers');
     if (context) {
       ContactRepository.getInstance().init(context);
     }
-    ContactRepository.getInstance().findByPhoneIsNotNull(contactList => {
+    ContactRepository.getInstance().findByPhoneIsNotNull(addParams.favorite, addParams.editContact, contactList => {
       if (ArrayUtil.isEmpty(contactList)) {
         HiLog.i(TAG, 'getAllContactWithPhoneNumbers-SelectcontactsModel queryContact resultSet is empty!');
         let emptyResult: ContactVo[] = [];
@@ -668,6 +672,7 @@ export default {
    * @param {Object} actionData Contact data
    */
   dealResult: function (dataItem: DataItem, contactDetailInfo) {
+    contactDetailInfo.favorite = dataItem.getFavorite();
     switch (dataItem.getContentTypeId()) {
       case DataItemType.NAME:
         contactDetailInfo.display_name = dataItem.getData();
@@ -874,5 +879,253 @@ export default {
     } while ((--tempIndex) >= 0)
     data_row.close();
     HiLog.i(TAG, 'End to query contactID by phone number.');
+  },
+
+  /**
+   * Edit Contact Favorite
+   *
+   * @param {string} DAHelper
+   * @param {Object} addParams  Contact Information
+   * @param {Object} callBack Contact ID
+   */
+  updateFavorite: async function (DAHelper, addParams, callBack, context?) {
+    HiLog.i(TAG, 'updateFavorite start.');
+    if (DAHelper == undefined || DAHelper == null || DAHelper.length == 0) {
+      DAHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
+    }
+    let condition = new dataSharePredicates.DataSharePredicates();
+    condition.equalTo('contact_id', addParams.id);
+    const va = {
+      'favorite': addParams.favorite,
+    }
+      DAHelper.update(
+      RawContacts.CONTENT_URI,
+        condition,
+        va
+      ).then(data => {
+        if (data == -1) {
+          HiLog.e(TAG, 'updateFavorite data failed!');
+        }
+        HiLog.i(TAG, 'updateFavorite data success!');
+        callBack(addParams.favorite)
+      }).catch(err => {
+        HiLog.e(TAG, 'updateFavorite failed. Cause: ' + JSON.stringify(err.message));
+      });
+    HiLog.i(TAG, 'updateFavorite end.');
+  },
+
+  /**
+   * Querying the Mobile Numbers of All Favorites
+   *
+   * @param {string} DAHelper
+   * @param {Object} callBack
+   */
+  getAllFavorite: async function (actionData, callBack, context?) {
+    HiLog.i(TAG, 'getAllFavorite start.');
+    if (context) {
+      ContactRepository.getInstance().init(context);
+      ContactRepository.getInstance().findAllFavorite(actionData, favoriteList => {
+        if (ArrayUtil.isEmpty(favoriteList)) {
+          let emptyResult: FavoriteBean[] = [];
+          callBack(emptyResult);
+          return;
+        }
+        let resultList = [];
+        for (let contactItem of favoriteList) {
+          let jsonObj: FavoriteBean = new FavoriteBean('', -1, '', '', '', '', '', true, '', false, 0, '');
+          jsonObj.contactId = contactItem.id.toString();
+          jsonObj.isCommonUseType = 0;
+          jsonObj.displayName = contactItem.displayName;
+          jsonObj.namePrefix = contactItem.sortFirstLetter;
+          jsonObj.nameSuffix = contactItem.photoFirstName;
+          jsonObj.position = contactItem.position;
+          jsonObj.portraitColor = MorandiColor.Color[Math.abs(parseInt(jsonObj.contactId)) % 6];
+          jsonObj.show = contactItem.show;
+          jsonObj.isUsuallyShow = false;
+          jsonObj.favorite = 1;
+          jsonObj.setShowName();
+          resultList.push(jsonObj);
+        }
+        HiLog.i(TAG, 'getAllFavorite data success!');
+        callBack(resultList);
+      });
+    }
+    HiLog.i(TAG, 'getAllFavorite end.');
+  },
+
+  /**
+   * Query call records
+   *
+   * @param {string} DAHelper
+   * @param {Object} callBack call records
+   */
+  getAllUsually: async function (actionData, callBack, context?) {
+    HiLog.i(TAG, 'getAllUsually start.');
+    if (context) {
+      ContactRepository.getInstance().init(context);
+      ContactRepository.getInstance().findAllUsually(actionData, callLog => {
+        if (ArrayUtil.isEmpty(callLog)) {
+          let emptyResult: CallLog[] = [];
+          callBack(emptyResult);
+          return;
+        }
+        let resultList = [];
+        resultList = callLog;
+        HiLog.i(TAG, 'getAllUsually data success! ');
+        callBack(resultList);
+      });
+    }
+    HiLog.i(TAG, 'getAllUsually end.');
+  },
+
+  /**
+   * DisplayName Query Favorite
+   *
+   * @param {string} DAHelper
+   * @param {Object} addParams Contact Information
+   * @param {Object} callBack Contact Information
+   */
+  getDisplayNamesFindUsually:  async function (displayName, usuallyPhone, callBack, context?){
+    HiLog.i(TAG, 'getDisplayNamesFindUsually start.');
+    if (context) {
+      ContactRepository.getInstance().init(context);
+      ContactRepository.getInstance().getDisplayNameByFavorite(displayName, usuallyPhone, favoriteList => {
+        if (ArrayUtil.isEmpty(favoriteList)) {
+          let emptyResult: FavoriteBean[] = [];
+          callBack(emptyResult);
+          return;
+        }
+        let resultList = [];
+        for (let i = 0; i < favoriteList.length; i++) {
+          let jsonObj: FavoriteBean = new FavoriteBean('', -1, '', '', '', '', '', false, '', false, 0, '');
+          jsonObj.contactId = favoriteList[i].id.toString();
+          jsonObj.isCommonUseType = 1;
+          jsonObj.displayName = favoriteList[i].displayName;
+          jsonObj.namePrefix = favoriteList[i].sortFirstLetter;
+          jsonObj.nameSuffix = favoriteList[i].photoFirstName;
+          jsonObj.position = favoriteList[i].position;
+          jsonObj.portraitColor = MorandiColor.Color[Math.abs(parseInt(jsonObj.contactId)) % 6];
+          jsonObj.show = favoriteList[i].show;
+          jsonObj.isUsuallyShow = false;
+          jsonObj.favorite = 0;
+          jsonObj.phoneNum = favoriteList[i].detailInfo;
+          jsonObj.setShowName();
+          resultList.push(jsonObj);
+        }
+        HiLog.i(TAG, 'getDisplayNamesFindUsually sc.');
+        callBack(resultList);
+      })
+    }
+    HiLog.i(TAG, 'getDisplayNamesFindUsually end! ');
+  },
+
+  /**
+   * Move Favorite Data Sorting
+   *
+   * @param {string} DAHelper
+   * @param {Object} addParams Contact Information
+   * @param {Object} callBack favoriteOrder
+   */
+  moveSortFavorite: async function (DAHelper, addParams, callBack, context?) {
+    HiLog.i(TAG, 'moveSortFavorite start.');
+    if (DAHelper == undefined || DAHelper == null || DAHelper.length == 0) {
+      DAHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
+    }
+    let condition = new dataSharePredicates.DataSharePredicates();
+    condition.equalTo('contact_id', addParams.id);
+    const va = {
+      'favorite_order': addParams.favoriteOrder > 9 ? addParams.favoriteOrder : '0' + addParams.favoriteOrder
+    }
+    DAHelper.update(
+    RawContacts.CONTENT_URI,
+      condition,
+      va
+    ).then(data => {
+      if (data == -1) {
+        HiLog.e(TAG, 'moveSortFavorite data failed!');
+        callBack('')
+        return;
+      }
+      HiLog.i(TAG, 'moveSortFavorite data success!');
+      callBack(addParams.favoriteOrder);
+    }).catch(err => {
+      HiLog.e(TAG, 'moveSortFavorite failed. Cause: ' + JSON.stringify(err.message));
+    });
+    HiLog.i(TAG, 'End to update moveSortFavorite.');
+  },
+
+  /**
+   * Querying the Mobile Numbers of Search Contacts
+   *
+   * @param {string} DAHelper
+   * @param {Object} callBack
+   */
+  getSearchContact: async function (actionData, callBack, context?) {
+    HiLog.i(TAG, 'getSearchContact start.');
+    if (context) {
+      ContactRepository.getInstance().init(context);
+    }
+    ContactRepository.getInstance().searchContact(actionData, contactList => {
+      if (ArrayUtil.isEmpty(contactList)) {
+        HiLog.i(TAG, 'getSearchContact resultSet is empty!');
+        let emptyResult: SearchContactsBean[] = [];
+        callBack(emptyResult);
+        return;
+      }
+      let resultList = [];
+      for (let contactItem of contactList) {
+        let jsonObj: SearchContactsBean = new SearchContactsBean('', '', '', '', '', '', '', '', '', 0,'', '', '', '', '', '');
+        jsonObj.id = contactItem.id.toString();
+        jsonObj.accountId = contactItem.accountId;
+        jsonObj.contactId = contactItem.contactId;
+        jsonObj.rawContactId = contactItem.rawContactId;
+        jsonObj.searchName = contactItem.searchName;
+        jsonObj.displayName = contactItem.displayName;
+        jsonObj.phoneticName = contactItem.phoneticName;
+        jsonObj.photoId = contactItem.photoId;
+        jsonObj.photoFileId = contactItem.photoFileId;
+        jsonObj.isDeleted = contactItem.isDeleted;
+        jsonObj.position = contactItem.position;
+        jsonObj.sortFirstLetter = contactItem.sortFirstLetter;
+        jsonObj.photoFirstName = contactItem.photoFirstName;
+        jsonObj.portraitColor = MorandiColor.Color[Math.abs(parseInt(jsonObj.contactId)) % 6];
+        jsonObj.detailInfo = contactItem.detailInfo;
+        jsonObj.hasPhoneNumber = contactItem.hasPhoneNumber;
+        resultList.push(jsonObj);
+      }
+      callBack(resultList);
+      HiLog.i(TAG, 'getSearchContact end.');
+    });
+  },
+
+  getQueryT9PhoneNumbers: function (callBack, addParams, context?) {
+    if (context) {
+      ContactRepository.getInstance().init(context);
+    }
+    ContactRepository.getInstance().queryT9PhoneIsNotNull(addParams.favorite, contactList => {
+      if (ArrayUtil.isEmpty(contactList)) {
+        HiLog.i(TAG, 'getQueryT9PhoneNumbers queryContact resultSet is empty!');
+        let emptyResult: ContactVo[] = [];
+        callBack(emptyResult);
+        return;
+      }
+      let resultList = [];
+      for (let contactItem of contactList) {
+        let jsonObj: ContactVo = new ContactVo("", "", "", "", "", "", true, "", "");
+        jsonObj.contactId = contactItem.id.toString();
+        jsonObj.emptyNameData = contactItem.displayName;
+        jsonObj.namePrefix = contactItem.sortFirstLetter;
+        jsonObj.nameSuffix = contactItem.photoFirstName;
+        jsonObj.company = contactItem.company;
+        jsonObj.position = contactItem.position;
+        jsonObj.portraitColor = MorandiColor.Color[Math.abs(parseInt(jsonObj.contactId)) % 6];
+        jsonObj.show = false;
+        jsonObj.phoneNumbers = contactItem.phoneNumbers;
+        jsonObj.setShowName();
+        resultList.push(jsonObj);
+      }
+      callBack(resultList);
+      HiLog.i(TAG, 'End of querying all contacts');
+    });
   },
 }

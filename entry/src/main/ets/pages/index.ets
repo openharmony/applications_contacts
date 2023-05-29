@@ -14,16 +14,18 @@
  */
 import callTabletPage from './dialer/DialerTablet';
 import contactPage from './contacts/ContactList';
+import favoritePage from './favorites/favoriteList';
 import callPage from './phone/dialer/Dialer';
 import IndexPresenter from '../presenter/IndexPresenter';
-import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
+import { HiLog, StringUtil } from '../../../../../common';
 import { PermissionManager } from '../../../../../common/src/main/ets/permission/PermissionManager';
 import DialerPresenter from '../presenter/dialer/DialerPresenter';
 import call from '@ohos.telephony.call';
 import ContactListPresenter from '../presenter/contact/ContactListPresenter';
 import CallRecordPresenter from '../presenter/dialer/callRecord/CallRecordPresenter';
+import FavoriteListPresenter from '../presenter/favorite/FavoriteListPresenter';
 import device from '@system.device';
-import router from '@ohos.router';
+import emitter from '@ohos.events.emitter';
 
 const TAG = 'Index ';
 
@@ -41,12 +43,14 @@ struct Index {
   @State bottomTabIndex: number = call.hasVoiceCapability() ? 0 : 1;
   @StorageLink("targetPage") @Watch("targetPageChange") targetPage: any = {};
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
+  @State isContactSearch: boolean = false;
+  emitterId: number = 105;
 
   teleNumberChange() {
-    if (AppStorage.Has('teleNumber')) {
-      HiLog.i(TAG, "teleNumberChange:" + this.teleNumber);
-      this.mDialerPresenter.editPhoneNumber(AppStorage.Get('teleNumber'));
-      AppStorage.Delete('teleNumber');
+    if (!StringUtil.isEmpty(this.teleNumber)) {
+      this.mDialerPresenter.editPhoneNumber(this.teleNumber);
+      AppStorage.SetOrCreate("showDialBtn", true);
+      this.teleNumber = "";
     }
   }
 
@@ -54,6 +58,7 @@ struct Index {
     if (this.targetPage && this.targetPage.url) {
       HiLog.i(TAG, "targetPageChange in" + this.targetPage);
       this.mIndexPresenter.goToPage(this.targetPage.url, this.targetPage.pageIndex, this.targetPage.params)
+      this.targetPage = {}
     }
   }
 
@@ -66,12 +71,12 @@ struct Index {
       }
       this.bottomTabIndex = this.mainTabsIndex;
       this.controller.changeIndex(this.mainTabsIndex);
-      if (this.mainTabsIndex == 0) {
-        ContactListPresenter.getInstance().setPageShow(false);
-        CallRecordPresenter.getInstance().setPageShow(true);
+      CallRecordPresenter.getInstance().setPageShow(this.bottomTabIndex == 0);
+      ContactListPresenter.getInstance().setPageShow(this.bottomTabIndex == 1);
+      if (this.mainTabsIndex != 2) {
+        FavoriteListPresenter.getInstance().onPageHide()
       } else {
-        CallRecordPresenter.getInstance().setPageShow(false);
-        ContactListPresenter.getInstance().setPageShow(true);
+        FavoriteListPresenter.getInstance().onPageShow()
       }
     }
   }
@@ -83,13 +88,8 @@ struct Index {
 
   onPageShow() {
     this.mIndexPresenter.onPageShow();
-    if (this.bottomTabIndex == 0) {
-      ContactListPresenter.getInstance().setPageShow(false);
-      CallRecordPresenter.getInstance().setPageShow(true);
-    } else {
-      CallRecordPresenter.getInstance().setPageShow(false);
-      ContactListPresenter.getInstance().setPageShow(true);
-    }
+    CallRecordPresenter.getInstance().setPageShow(this.bottomTabIndex == 0);
+    ContactListPresenter.getInstance().setPageShow(this.bottomTabIndex == 1);
   }
 
   onPageHide() {
@@ -103,10 +103,25 @@ struct Index {
     this.getInfo();
     this.onIndexChanged();
     this.teleNumberChange()
+    let innerEvent = {
+      eventId: this.emitterId,
+      priority: emitter.EventPriority.HIGH
+    };
+    emitter.on(innerEvent, (data) => {
+      this.isContactSearch = data.data['isSearchPage'];
+    })
   }
 
   aboutToDisappear() {
     this.mIndexPresenter.aboutToDisappear();
+    emitter.off(this.emitterId);
+  }
+
+  onBackPress() {
+    if (this.isContactSearch) {
+      ContactListPresenter.getInstance().sendEmitter(false);
+      return true;
+    }
   }
 
   getInfo() {
@@ -134,6 +149,7 @@ struct Index {
             }
             .height('100%')
             .zIndex(3)
+            .visibility(this.isContactSearch ? Visibility.None : Visibility.Visible)
           }
           Column() {
             Tabs({
@@ -152,6 +168,10 @@ struct Index {
               }
               TabContent() {
                 contactPage()
+              }
+
+              TabContent() {
+                favoritePage()
               }
             }
             .width('100%')
@@ -175,6 +195,7 @@ struct Index {
             .width('100%')
             .height($r("app.float.id_item_height_large"))
             .flexShrink(0)
+            .visibility(this.isContactSearch ? Visibility.None : Visibility.Visible)
           }
         }
         .backgroundColor($r("sys.color.ohos_fa_sub_background"))
@@ -189,7 +210,7 @@ struct Index {
 
 @Component
 struct TabBars {
-  private tabSrc: number[] = call.hasVoiceCapability() ? [0, 1] : [1];
+  private tabSrc: number[] = call.hasVoiceCapability() ? [0, 1, 2] : [1];
   private controller: TabsController;
   @Link bottomTabIndex: number;
   @State mIndexPresenter: IndexPresenter = IndexPresenter.getInstance()
@@ -224,9 +245,15 @@ struct TabBars {
               if (item == 0) {
                 ContactListPresenter.getInstance().setPageShow(false);
                 CallRecordPresenter.getInstance().setPageShow(true);
+                FavoriteListPresenter.getInstance().onPageHide();
               } else if (item == 1) {
                 CallRecordPresenter.getInstance().setPageShow(false);
                 ContactListPresenter.getInstance().setPageShow(true);
+                FavoriteListPresenter.getInstance().onPageHide();
+              } else if (item == 2) {
+                CallRecordPresenter.getInstance().setPageShow(false);
+                ContactListPresenter.getInstance().setPageShow(false);
+                FavoriteListPresenter.getInstance().onPageShow();
               }
             }
           })

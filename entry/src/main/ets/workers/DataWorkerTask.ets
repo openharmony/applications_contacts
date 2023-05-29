@@ -37,6 +37,14 @@ export enum DataWorkerConstant {
   "getContactById",
   "updateContact",
   "getIdByTelephone",
+  "updateFavorite",
+  "getAllFavorite",
+  "getAllUsually",
+  "getDisplayNamesFindUsually",
+  "moveSortFavorite",
+  "getSearchContact",
+  "getCallHistorySearch",
+  "getQueryT9PhoneNumbers"
 }
 
 export class DataWorkerTask extends WorkerTask {
@@ -58,7 +66,7 @@ export class DataWorkerTask extends WorkerTask {
     HiLog.i(TAG, `runInWorker ${request}`)
     switch (request) {
       case DataWorkerConstant[DataWorkerConstant.getAllCalls]:
-        CallLog.getAllCalls(param.actionData, param.mergeRule, (data) => {
+        CallLog.getAllCalls(JSON.parse(param.favoriteForm), param.actionData, param.mergeRule, (data) => {
           HiLog.i(TAG, `getAllCalls result: ${JSON.stringify(data).length}`)
           callBack(data);
         }, param.context);
@@ -96,7 +104,7 @@ export class DataWorkerTask extends WorkerTask {
       case DataWorkerConstant[DataWorkerConstant.getAllContactWithPhoneNumbers]:
         ContactAbilityModel.getAllContactWithPhoneNumbers((resultList) => {
           callBack(resultList);
-        }, param.context)
+        }, JSON.parse(param.favoriteForm), param.context)
         break
       case DataWorkerConstant[DataWorkerConstant.getContactById]:
         ContactAbilityModel.getContactById(param.contactId, result => {
@@ -112,6 +120,46 @@ export class DataWorkerTask extends WorkerTask {
         ContactAbilityModel.updateContact(null, JSON.parse(param.contactInfoAfter), (arg) => {
           callBack(arg);
         }, param.context)
+        break
+      case DataWorkerConstant[DataWorkerConstant.updateFavorite]:
+        ContactAbilityModel.updateFavorite(null, JSON.parse(param.favoriteForm), (arg) => {
+          callBack(arg);
+        }, param.context)
+        break
+      case DataWorkerConstant[DataWorkerConstant.getAllFavorite]:
+        ContactAbilityModel.getAllFavorite(param.actionData, (result) => {
+          callBack(result);
+        }, param.context)
+        break
+      case DataWorkerConstant[DataWorkerConstant.getAllUsually]:
+        ContactAbilityModel.getAllUsually(param.actionData, (result) => {
+          callBack(result);
+        }, param.context)
+        break
+      case DataWorkerConstant[DataWorkerConstant.getDisplayNamesFindUsually]:
+        ContactAbilityModel.getDisplayNamesFindUsually(param.displayName, param.usuallyPhone, (result) => {
+          callBack(result);
+        }, param.context)
+        break
+      case DataWorkerConstant[DataWorkerConstant.moveSortFavorite]:
+        ContactAbilityModel.moveSortFavorite(null, JSON.parse(param.favoriteForm), (result) => {
+          callBack(result);
+        }, param.context)
+        break
+      case DataWorkerConstant[DataWorkerConstant.getSearchContact]:
+        ContactAbilityModel.getSearchContact(param.actionData, (result) => {
+          callBack(result);
+        }, param.context)
+        break
+      case DataWorkerConstant[DataWorkerConstant.getCallHistorySearch]:
+        CallLog.getCallHistorySearch(param.actionData, param.mergeRule, (data) => {
+          callBack(data);
+        }, param.context);
+        break
+      case DataWorkerConstant[DataWorkerConstant.getQueryT9PhoneNumbers]:
+        ContactAbilityModel.getQueryT9PhoneNumbers((resultList) => {
+          callBack(resultList);
+        }, JSON.parse(param.favoriteForm), param.context)
         break
       default:
         HiLog.w(TAG, `${request} not allow!!!`)

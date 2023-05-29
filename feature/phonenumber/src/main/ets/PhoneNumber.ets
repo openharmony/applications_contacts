@@ -69,6 +69,20 @@ export class PhoneNumber {
     });
   }
 
+  dialerSpecialCode() {
+    if (this.number.length === 0) {
+      return;
+    }
+    let phoneNumber = this.number;
+    call.inputDialerSpecialCode(phoneNumber, (err) => {
+      if (err) {
+        HiLog.e(TAG, 'inputDialerSpecialCode error: ' + JSON.stringify(err));
+      } else {
+        HiLog.e(TAG, 'inputDialerSpecialCode success');
+      }
+    });
+  }
+
   sendMessage(formatnum?:string, name?: string) {
     HiLog.i(TAG, 'send message.');
     MmsService.sendMessage(this.number, formatnum, name);

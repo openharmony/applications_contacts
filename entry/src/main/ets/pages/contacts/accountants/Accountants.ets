@@ -76,7 +76,17 @@ struct Accountants {
     //Components shared by the TIP for creating or updating a contact by mistake and the TIP for deleting a contact
     builder: DeleteDialogEx({
       cancel: () => {
-        router.back();
+        if (0 === this.mPresenter.editContact){
+          router.replaceUrl({
+            url: 'pages/contacts/details/ContactDetail',
+            params: {
+              sourceHasPhone: true,
+              phoneNumberShow: this.mPresenter.phoneNumberShow
+            }
+          })
+        } else {
+          router.back();
+        }
       },
       confirm: () => {
         this.mPresenter.saveContact();
@@ -132,6 +142,10 @@ struct Accountants {
         let obj: any = router.getParams();
         this.mPresenter.contactId = obj.contactId;
         this.mPresenter.updateShow = true;
+        this.mPresenter.phones = obj.phones;
+        this.mPresenter.editContact = obj.editContact;
+        this.mPresenter.phoneNumberShow = obj.phoneNumberShow;
+        this.mPresenter.callId = obj.callId;
         this.mPresenter.updatesInit();
       }
     }

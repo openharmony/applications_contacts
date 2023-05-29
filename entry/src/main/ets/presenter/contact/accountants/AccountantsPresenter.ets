@@ -55,13 +55,17 @@ export default class AccountantsPresenter {
   isShowPosition: boolean = false;
   showMore: boolean = false;
   addState: boolean = false;
+  phones: string = '';
+  editContact: number = -1;
+  phoneNumberShow: string = '';
+  callId: string = '';
 
   // refresh mark
   changed: boolean = false;
 
   // contact detail
-  contactInfoBefore: ContactInfo = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
-  contactInfoAfter: ContactInfo = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
+  contactInfoBefore: ContactInfo = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0);
+  contactInfoAfter: ContactInfo = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0);
   MagList: object = [];
 
   private constructor() {
@@ -80,8 +84,8 @@ export default class AccountantsPresenter {
     this.contactId = "";
     this.updateShow = false;
     this.MagList = [1];
-    this.contactInfoBefore = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
-    this.contactInfoAfter = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
+    this.contactInfoBefore = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0);
+    this.contactInfoAfter = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0);
     this.clickBefEvent = new Date();
     this.clickAftEvent = this.clickBefEvent;
     this.refreshState = refreshState;
@@ -172,7 +176,7 @@ export default class AccountantsPresenter {
   }
 
   private dealRecordDetailsData(data) {
-    let contactTemp = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], []);
+    let contactTemp = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0);
     if (!data.hasOwnProperty('id') || data.id != this.contactId) {
       HiLog.e(TAG, 'Failed to query the database based on the ID.');
       return;
@@ -223,6 +227,26 @@ export default class AccountantsPresenter {
       contactTemp.setGroups(data.groups);
     }
     this.contactInfoBefore = contactTemp;
+    if (0 === this.editContact) {
+      let saveTemp: Array<{ [key: string]: any }>  = this.getArray(this.phones);
+      for(let i = 0; i < saveTemp.length ; i ++){
+        let phoneNumBean: PhoneNumBean = new PhoneNumBean('','','','','');
+        phoneNumBean.id = saveTemp[i].item.id;
+        phoneNumBean.num = saveTemp[i].item.num;
+        phoneNumBean.numType = saveTemp[i].item.type;
+        phoneNumBean.homeArea = '';
+        phoneNumBean.carriers = '';
+        this.contactInfoBefore.phones.push(phoneNumBean);
+      }
+    } else if (1 === this.editContact || 2 === this.editContact) {
+      let phoneNumBean: PhoneNumBean = new PhoneNumBean('','','','','');
+      phoneNumBean.id = this.callId;
+      phoneNumBean.num = this.phoneNumberShow;
+      phoneNumBean.numType = '';
+      phoneNumBean.homeArea = '';
+      phoneNumBean.carriers = '';
+      this.contactInfoBefore.phones.push(phoneNumBean);
+    }
     this.getPhones = this.getArray(this.contactInfoBefore.phones);
     this.getEmails = this.getArray(this.contactInfoBefore.emails);
     this.contactInfoAfter = contactTemp;

@@ -270,7 +270,7 @@
     },
     {
       "name": "contact_list_search",
-      "value": "搜索联系人"
+      "value": "搜索..."
     },
     {
       "name": "contact_list_search_empty",
@@ -454,7 +454,7 @@
     },
     {
       "name": "no_select",
-      "value": "未选择"
+      "value": "未选中"
     },
     {
       "name": "select_contact",
@@ -811,6 +811,38 @@
     {
       "name": "china_unicom",
       "value": "中国联通"
+    },
+    {
+      "name": "common_use",
+      "value": "常用"
+    },
+    {
+      "name": "no_favorite",
+      "value": "没有收藏"
+    },
+    {
+      "name": "favorite_num",
+      "value": "收藏 %d"
+    },
+    {
+      "name": "common_use_num",
+      "value": "常用 %d"
+    },
+    {
+      "name": "favorite_remove",
+      "value": "取消"
+    },
+    {
+      "name": "contacts_call",
+      "value": "呼叫"
+    },
+    {
+      "name": "set_default_values",
+      "value": "设置默认值"
+    },
+    {
+      "name": "found_contacts",
+      "value": "找到 %d 个联系人"
     }
   ]
 }
