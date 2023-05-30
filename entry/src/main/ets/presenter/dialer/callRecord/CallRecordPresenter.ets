@@ -213,10 +213,13 @@ export default class CallRecordPresenter {
     let actionData: any = {};
     actionData.page = page;
     actionData.limit = limit;
+    let favoriteForm: any = {};
+    favoriteForm.favorite = -1;
     this.worker?.sendRequest("getAllCalls", {
       context: this.context,
       mergeRule: CallLogSetting.getInstance().getMergeRule(),
-      actionData: actionData
+      actionData: actionData,
+      favoriteForm: JSON.stringify(favoriteForm)
     }, (data) => {
       let dateLength = data.callLogList.length;
       HiLog.i(TAG, `refreshPage ${page} and getAllCalls, length is ` + dateLength);
@@ -303,5 +306,17 @@ export default class CallRecordPresenter {
         }
       }
     )
+  }
+
+  saveCallRecordExistingContact(phoneNumber, callId){
+    HiLog.i(TAG, 'saveCallRecordExistingContact start.');
+    router.pushUrl({
+      url: 'pages/contacts/batchselectcontacts/SingleSelectContactPage',
+      params: {
+        phoneNumberShow: phoneNumber,
+        callId: callId,
+        editContact: 1,
+      }
+    });
   }
 }

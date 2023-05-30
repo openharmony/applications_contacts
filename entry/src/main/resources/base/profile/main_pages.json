@@ -6,6 +6,7 @@
     "pages/contacts/details/ContactDetail",
     "pages/dialer/DialerTablet",
     "pages/contacts/batchselectcontacts/BatchSelectContactsPage",
-    "pages/contacts/batchselectcontacts/SingleSelectContactPage"
+    "pages/contacts/batchselectcontacts/SingleSelectContactPage",
+    "pages/favorites/editFavoriteList"
   ]
 }

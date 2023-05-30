@@ -29,12 +29,12 @@ export default {
    * @param {string} mergeRule  Call Record Type
    * @param {Object} callBack Call log data
    */
-  getAllCalls: async function (actionData, mergeRule, callBack, context?) {
+  getAllCalls: async function (param, actionData, mergeRule, callBack, context?) {
     if (context) {
       CallLogRepository.getInstance().init(context);
     }
     HiLog.i(TAG, 'getAllCalls in:' + JSON.stringify(actionData));
-    CallLogRepository.getInstance().findAll(actionData, result => {
+    CallLogRepository.getInstance().findAll(param.favorite, actionData, result => {
       let resultData = {
         callLogList: [], missedList: []
       };
@@ -106,5 +106,30 @@ export default {
         missed.displayName = "";
       }
     }
+  },
+
+  getCallHistorySearch: async function (actionData, mergeRule, callBack, context?) {
+    if (context) {
+      CallLogRepository.getInstance().init(context);
+    }
+    CallLogRepository.getInstance().findSearch(actionData, result => {
+      HiLog.i(TAG, 'getCallHistorySearch resultSet.rowCount :' + JSON.stringify(result.rowCount));
+      let resultData = {
+        callLogList: [], missedList: []
+      };
+      if (ArrayUtil.isEmpty(result)) {
+        HiLog.i(TAG, 'getCallHistorySearch logMessage callLog resultSet is empty!');
+        callBack(resultData);
+        return;
+      }
+      CallLogService.getInstance().init(context);
+      CallLogService.getInstance().setMergeRule(mergeRule)
+      resultData.callLogList = CallLogService.getInstance().mergeCallLogs(result);
+      resultData.missedList = CallLogService.getInstance().mergeMissedCalls(result);
+      let numberList = this.getNumberList(resultData);
+      this.queryContactsName(numberList, resultData, resultData => {
+        callBack(resultData);
+      }, context)
+    });
   }
 }

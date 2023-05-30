@@ -55,4 +55,6 @@ export default class DataColumns extends BaseColumns {
   static readonly SYN_1: string = "syn_1";
   static readonly SYN_2: string = "syn_2";
   static readonly SYN_3: string = "syn_3";
+  static readonly FAVORITE: string = "favorite";
+  static readonly CONTENT_TYPE: string = "content_type";
 }

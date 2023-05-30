@@ -29,6 +29,12 @@ import { Data } from '../contract/Data';
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import ContactListItem from './ContactListItem';
 import { DataItemType } from '../contract/DataType';
+import Calls from '../../../../../call/src/main/ets/contract/Calls';
+import { CallLog } from '../../../../../call/src/main/ets/entity/CallLog';
+import CallLogBuilder from '../../../../../call/src/main/ets/entity/CallLogBuilder';
+import { SearchContacts } from '../contract/SearchContacts';
+import SearchContactListItem from './SearchContactListItem';
+import ContactUsuallyListItem from './ContactUsuallyListItem';
 
 const TAG = "ContactRepository";
 
@@ -207,14 +213,24 @@ export class ContactRepository implements IContactRepository {
     return new ContactList({});
   }
 
-  findByPhoneIsNotNull(callback) {
-    this.getAllContactNumbers((contactNumberMap) => {
+  findByPhoneIsNotNull(favorite: number, editContact: number, callback) {
+    HiLog.i(TAG, 'initContactsList resultList success favoriteForm favorite :' + favorite + "---" + editContact);
+    this.getAllContactNumbers(favorite, editContact, (contactNumberMap) => {
       this.getDataAbilityHelper().then((dataAbilityHelper) => {
         let conditionArgs = new dataSharePredicates.DataSharePredicates();
-        conditionArgs.equalTo(RawContacts.IS_DELETED, '0')
-          .and()
-          .equalTo(Contacts.HAS_PHONE_NUMBER, '1')
-          .orderByAsc(RawContacts.SORT_FIRST_LETTER);
+        if (-1 !== editContact || 0 === favorite) {
+          conditionArgs.equalTo(RawContacts.IS_DELETED, '0');
+          if (0 === favorite) {
+            conditionArgs.and();
+            conditionArgs.equalTo(RawContacts.FAVORITE, 0);
+          }
+          conditionArgs.orderByAsc(RawContacts.SORT_FIRST_LETTER);
+        } else {
+          conditionArgs.equalTo(RawContacts.IS_DELETED, '0')
+            .and()
+            .equalTo(Contacts.HAS_PHONE_NUMBER, '1')
+            .orderByAsc(RawContacts.SORT_FIRST_LETTER);
+        }
         dataAbilityHelper.query(Contacts.CONTACT_URI, conditionArgs, ContactListItem.COLUMNS)
           .then(resultSet => {
             let rst: ContactListItem[] = [];
@@ -251,11 +267,15 @@ export class ContactRepository implements IContactRepository {
   /**
    * 查询所有联系人手机号
    */
-  private getAllContactNumbers(callback) {
+  private getAllContactNumbers(favorite: number, editContact: number, callback) {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       let resultColumns = [RawContacts.CONTACT_ID, Data.DETAIL_INFO, Data.EXTEND7, Data.CUSTOM_DATA];
       let conditionArgs = new dataSharePredicates.DataSharePredicates();
-      conditionArgs.equalTo(Data.TYPE_ID, DataItemType.PHONE).orderByAsc(RawContacts.CONTACT_ID);
+      if (-1 !== editContact || 0 === favorite) {
+        conditionArgs.orderByAsc(RawContacts.CONTACT_ID);
+      } else {
+        conditionArgs.equalTo(Data.TYPE_ID, DataItemType.PHONE).orderByAsc(RawContacts.CONTACT_ID);
+      }
       dataAbilityHelper.query(Data.CONTENT_URI, conditionArgs, resultColumns).then(resultSet => {
         // 用于存储联系人及其电话号码的对应关系
         let contactNumberMap = new Map();
@@ -441,5 +461,237 @@ export class ContactRepository implements IContactRepository {
       contacts.push(contact);
     }
     return contacts;
+  }
+
+  findAllFavorite(actionData, callback) {
+    HiLog.i(TAG, 'refreshUsually findAllFavorite start.');
+    let conditionArgs = new dataSharePredicates.DataSharePredicates();
+    conditionArgs.equalTo(RawContacts.IS_DELETED, '0');
+    conditionArgs.and();
+    conditionArgs.equalTo(RawContacts.FAVORITE, 1);
+    conditionArgs.and();
+    conditionArgs.orderByAsc(RawContacts.FAVORITE_ORDER);
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+      dataAbilityHelper.query(Contacts.CONTACT_URI, conditionArgs, ContactListItem.COLUMNS)
+        .then(resultSet => {
+          let rst: ContactListItem[] = [];
+          if (resultSet.rowCount === 0) {
+            resultSet.close();
+            callback(rst);
+          } else {
+            resultSet.goToFirstRow();
+            do {
+              rst.push(new ContactListItem(resultSet));
+            } while (resultSet.goToNextRow());
+            resultSet.close();
+            HiLog.i(TAG, 'findAllFavorite query data success.');
+            callback(rst);
+          }
+        })
+        .catch(error => {
+          HiLog.e(TAG, 'findAllFavorite error:%s' + JSON.stringify(error.message));
+          callback([]);
+        });
+    }).catch(error => {
+      HiLog.e(TAG, 'findAllFavorite error:%s' + JSON.stringify(error.message));
+      callback([]);
+    });
+  }
+
+  findAllUsually(actionData, callback) {
+    HiLog.i(TAG, 'refreshUsually findAllUsually start.');
+    let conditionArgs = new dataSharePredicates.DataSharePredicates();
+    conditionArgs.groupBy([Calls.DISPLAY_NAME, Calls.PHONE_NUMBER]).distinct();
+    conditionArgs.and();
+    conditionArgs.orderByDesc(Calls.TALK_DURATION);
+    conditionArgs.and();
+    conditionArgs.orderByDesc(Calls.CREATE_TIME);
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+      dataAbilityHelper.query(Calls.CALL_LOG_URI, conditionArgs, null)
+        .then(resultSet => {
+          let rst: CallLog[] = [];
+          if (resultSet.rowCount === 0) {
+            resultSet.close();
+            callback(rst);
+          } else {
+            resultSet.goToFirstRow();
+            do {
+              let builder = CallLogBuilder.fromResultSet(resultSet);
+              if (builder.id > 0) {
+                rst.push(new CallLog(builder));
+              }
+            } while (resultSet.goToNextRow());
+            resultSet.close();
+            HiLog.i(TAG, 'findAllUsually query data success.');
+            callback(rst);
+          }
+        })
+        .catch(error => {
+          HiLog.e(TAG, 'findAllUsually error:%s' + JSON.stringify(error.message));
+          callback([]);
+        });
+    }).catch(error => {
+      HiLog.e(TAG, 'findAllUsually error:%s' + JSON.stringify(error.message));
+      callback([]);
+    });
+  }
+
+  getDisplayNameByFavorite(displayName, usuallyPhone, callback) {
+    HiLog.i(TAG, 'getDisplayNameByFavorite start.');
+    let conditionArgs = new dataSharePredicates.DataSharePredicates();
+    conditionArgs.equalTo(RawContacts.IS_DELETED, '0');
+    conditionArgs.and();
+    conditionArgs.in(RawContacts.DISPLAY_NAME, displayName);
+    conditionArgs.and();
+    conditionArgs.in(Data.DETAIL_INFO, usuallyPhone);
+    conditionArgs.and();
+    conditionArgs.equalTo(RawContacts.FAVORITE, 0);
+    conditionArgs.and();
+    conditionArgs.equalTo(Data.CONTENT_TYPE, 'phone');
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+      dataAbilityHelper.query(Data.CONTENT_URI, conditionArgs, ContactUsuallyListItem.COLUMNS)
+        .then(resultSet => {
+          let rst: ContactUsuallyListItem[] = [];
+          if (resultSet.rowCount === 0) {
+            resultSet.close();
+            callback(rst);
+          } else {
+            resultSet.goToFirstRow();
+            do {
+              rst.push(new ContactUsuallyListItem(resultSet));
+            } while (resultSet.goToNextRow());
+            resultSet.close();
+            HiLog.i(TAG, 'getDisplayNameByFavorite query data sc.');
+            callback(rst);
+          }
+        })
+        .catch(error => {
+          HiLog.e(TAG, 'getDisplayNameByFavorite error:%s' + JSON.stringify(error.message));
+          callback([]);
+        });
+    }).catch(error => {
+      HiLog.e(TAG, 'getDisplayNameByFavorite error:%s' + JSON.stringify(error.message));
+      callback([]);
+    });
+  }
+
+  searchContact(actionData, callback) {
+    HiLog.i(TAG, "searchContact start.");
+    let conditionArgs = new dataSharePredicates.DataSharePredicates();
+    let searchValue: string = actionData.value;
+    conditionArgs.beginWrap()
+    conditionArgs.equalTo(SearchContacts.CONTENT_TYPE, 'phone')
+    conditionArgs.and()
+    conditionArgs.beginWrap()
+    conditionArgs.like(SearchContacts.DETAIL_INFO, '%' + searchValue + '%')
+    conditionArgs.endWrap()
+    conditionArgs.or()
+    conditionArgs.beginWrap()
+    conditionArgs.equalTo(SearchContacts.SORT_FIRST_LETTER, '#')
+    conditionArgs.and()
+    conditionArgs.like(SearchContacts.SEARCH_NAME, '%' + searchValue + '%')
+    conditionArgs.endWrap()
+    conditionArgs.endWrap()
+    conditionArgs.or()
+    conditionArgs.beginWrap()
+    conditionArgs.equalTo(SearchContacts.SORT_FIRST_LETTER, searchValue[0].toUpperCase())
+    conditionArgs.and()
+    conditionArgs.like(SearchContacts.SEARCH_NAME, '%' + searchValue + '%')
+    conditionArgs.and()
+    conditionArgs.equalTo(SearchContacts.CONTENT_TYPE, 'phone')
+    conditionArgs.endWrap()
+    conditionArgs.or()
+    conditionArgs.beginWrap()
+    conditionArgs.equalTo(SearchContacts.SORT_FIRST_LETTER, searchValue.toUpperCase())
+    conditionArgs.and()
+    conditionArgs.equalTo(SearchContacts.CONTENT_TYPE, 'phone')
+    conditionArgs.endWrap()
+    conditionArgs.or()
+    conditionArgs.beginWrap()
+    conditionArgs.like(SearchContacts.SEARCH_NAME, '%' + actionData.value + '%')
+    conditionArgs.and()
+    conditionArgs.equalTo(SearchContacts.CONTENT_TYPE, 'phone')
+    conditionArgs.endWrap()
+    conditionArgs.or()
+    conditionArgs.beginWrap()
+    conditionArgs.like(SearchContacts.SEARCH_NAME, '%' + actionData.value + '%')
+    conditionArgs.and()
+    conditionArgs.equalTo(SearchContacts.CONTENT_TYPE, 'name')
+    conditionArgs.and()
+    conditionArgs.equalTo(SearchContacts.HAS_PHONE_NUMBER, '0')
+    conditionArgs.endWrap()
+    conditionArgs.and()
+    conditionArgs.groupBy([SearchContacts.ROW_CONTACT_ID]).distinct();
+    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+      dataAbilityHelper.query(SearchContacts.CONTENT_URI, conditionArgs, SearchContactListItem.COLUMNS)
+        .then(resultSet => {
+          HiLog.i(TAG, "searchContact resultSet.rowCount : " + JSON.stringify(resultSet.rowCount) );
+          let rst: SearchContactListItem[] = [];
+          let goTo: boolean = false;
+          if (resultSet.rowCount === 0) {
+            resultSet.close();
+            callback(rst);
+          } else {
+            resultSet.goToFirstRow();
+            do {
+              rst.push(new SearchContactListItem(resultSet));
+              goTo = resultSet.goToNextRow();
+            } while (goTo);
+            resultSet.close();
+            HiLog.i(TAG, 'searchContact query data success.');
+            callback(rst);
+          }
+        })
+        .catch(error => {
+          HiLog.i(TAG, 'searchContact error:%s' + JSON.stringify(error.message));
+          callback([]);
+        });
+    }).catch(error => {
+      HiLog.i(TAG, 'searchContact:%s' + JSON.stringify(error.message));
+      callback([]);
+    });
+  }
+
+  queryT9PhoneIsNotNull(favorite: any, callback) {
+    this.getAllContactNumbers(0, 0, (contactNumberMap) => {
+      this.getDataAbilityHelper().then((dataAbilityHelper) => {
+        let conditionArgs = new dataSharePredicates.DataSharePredicates();
+        conditionArgs.like(SearchContacts.DETAIL_INFO, `%${favorite.teleNumber}%`);
+        conditionArgs.equalTo(SearchContacts.CONTENT_TYPE, 'phone');
+        conditionArgs.orderByAsc(SearchContacts.DISPLAY_NAME)
+        dataAbilityHelper.query(
+        SearchContacts.CONTENT_URI,
+          conditionArgs,
+        SearchContactListItem.COLUMNS
+        ).then(resultSet => {
+          let rst: ContactListItem[] = [];
+          if (resultSet.rowCount === 0) {
+            resultSet.close();
+            callback(rst);
+          } else {
+            resultSet.goToFirstRow();
+            do {
+              let id = resultSet.getLong(resultSet.getColumnIndex(Contacts.ID));
+              if (!contactNumberMap.has(id)) {
+                HiLog.w(TAG, 'findAll: contact id is invalid or contact has no phone number.');
+                continue;
+              }
+              let contactListItem = new ContactListItem(resultSet);
+              contactListItem.phoneNumbers = contactNumberMap.get(id);
+              rst.push(contactListItem);
+            } while (resultSet.goToNextRow());
+            resultSet.close();
+            callback(rst);
+          }
+        })
+          .catch(error => {
+            HiLog.w(TAG, 'findAll error:%s' + JSON.stringify(error.message));
+            callback();
+          });
+      }).catch(error => {
+        HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
+        callback();
+      });
+    });
   }
 }

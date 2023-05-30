@@ -37,11 +37,12 @@ export class ContactInfo {
   relationships: AssociatedPersonBean[];
   events: EventBean[];
   groups: GroupBean[];
+  favorite: number;
   constructor(id: string, display_name: string,
               nickname: string, phones: PhoneNumBean[],
               emails: EmailBean[], position: string, company: string, remarks: string,
               aims: AIMBean[], houses: HouseBean[], websites: string[],
-              relationships: AssociatedPersonBean[], events: EventBean[], groups: GroupBean[]) {
+              relationships: AssociatedPersonBean[], events: EventBean[], groups: GroupBean[], favorite: number) {
     this.id = id;
     this.display_name = display_name;
     this.nickname = nickname;
@@ -56,6 +57,7 @@ export class ContactInfo {
     this.relationships = relationships;
     this.events = events;
     this.groups = groups;
+    this.favorite = favorite;
   }
 
   setID(id: string) {

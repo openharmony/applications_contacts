@@ -103,6 +103,9 @@
       },
       {
         "name": "ohos.permission.GET_NETWORK_INFO"
+      },
+      {
+        "name": "ohos.permission.SET_TELEPHONY_STATE"
       }
     ]
   }

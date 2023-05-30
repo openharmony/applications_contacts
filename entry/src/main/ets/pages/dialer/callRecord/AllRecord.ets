@@ -24,8 +24,10 @@ import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
 import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 import IndexPresenter from '../../../presenter/IndexPresenter';
 import { HiLog } from "../../../../../../../common"
+import emitter from '@ohos.events.emitter'
 
 const TAG = "AllRecord ";
+const EMITTER_SAVE_ID = 103;
 
 @Component
 export default struct AllRecord {
@@ -49,10 +51,20 @@ export default struct AllRecord {
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear,recordType:' + this.recordType)
     this.onChanged();
+    let innerEventContact = {
+      eventId: EMITTER_SAVE_ID,
+      priority: emitter.EventPriority.HIGH
+    };
+    emitter.on(innerEventContact, (data) => {
+      let phoneNumber: string = data.data['phoneNumber'];
+      let callId: string = data.data['callId'];
+      this.mPresenter.saveCallRecordExistingContact(phoneNumber, callId);
+    })
   }
 
   aboutToDisappear() {
     HiLog.i(TAG, 'aboutToDisappear,recordType:' + this.recordType)
+     emitter.off(EMITTER_SAVE_ID);
   }
 
   build() {
@@ -125,7 +137,7 @@ struct EmptyView {
 }
 
 enum MenuType {
-  sendMessage, Copy, EditBeforeCall, BlockList, DeleteCallLogs
+  sendMessage, Copy, EditBeforeCall, BlockList, DeleteCallLogs, SaveExistingContacts
 }
 
 @Component
@@ -153,7 +165,8 @@ struct ContactItem {
     }),
     autoCancel: true,
     alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
-    offset: { dx: 0, dy: -16 }
+    offset: { dx: 0, dy: -16 },
+    closeAnimation: { duration: 100 }
   });
 
   build() {
@@ -242,7 +255,6 @@ struct ContactItem {
             .margin({ top: $r("app.float.id_card_margin_sm"), right: 24 })
             .onClick(() => {
               this.mPresenter.jumpToContactDetail(this.item.phoneNumber);
-              DialerPresenter.getInstance().panelShow = true;
               AppStorage.SetOrCreate<boolean>("showDialBtn", true);
             })
         }
@@ -275,7 +287,6 @@ struct ContactItem {
           this.mPresenter.dialing(this.item.phoneNumber);
         }
       }
-      DialerPresenter.getInstance().panelShow = true;
       AppStorage.SetOrCreate<boolean>("showDialBtn", true);
     })
     .bindContextMenu(this.MenuBuilder, ResponseType.LongPress)
@@ -297,14 +308,15 @@ struct ContactItem {
           .textOverflow({ overflow: TextOverflow.Ellipsis })
           .height($r("app.float.id_item_height_max"))
       }
-
-      this.MenuView($r("app.string.send_message"), MenuType.sendMessage)
-      this.MenuDivider()
-      this.MenuView($r("app.string.copy_phoneNumber"), MenuType.Copy)
-      this.MenuDivider()
-      this.MenuView($r("app.string.edit_beforeCall"), MenuType.EditBeforeCall)
-      this.MenuDivider()
-      this.MenuView($r("app.string.delete_call_logs"), MenuType.DeleteCallLogs)
+      this.MenuView($r("app.string.save_to_existing_contacts"), MenuType.SaveExistingContacts, this.item.displayName)
+      this.MenuDivider(MenuType.SaveExistingContacts, this.item.displayName)
+      this.MenuView($r("app.string.send_message"), MenuType.sendMessage, this.item.displayName)
+      this.MenuDivider(MenuType.sendMessage, this.item.displayName)
+      this.MenuView($r("app.string.copy_phoneNumber"), MenuType.Copy, this.item.displayName)
+      this.MenuDivider(MenuType.Copy, this.item.displayName)
+      this.MenuView($r("app.string.edit_beforeCall"), MenuType.EditBeforeCall, this.item.displayName)
+      this.MenuDivider(MenuType.EditBeforeCall, this.item.displayName)
+      this.MenuView($r("app.string.delete_call_logs"), MenuType.DeleteCallLogs, this.item.displayName)
     }
     .width("150vp")
     .alignItems(HorizontalAlign.Start)
@@ -312,7 +324,7 @@ struct ContactItem {
     .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
   }
 
-  @Builder MenuView(menuName, itemType) {
+  @Builder MenuView(menuName, itemType, displayName) {
     Row() {
       Text(menuName)
         .fontSize($r("sys.float.ohos_id_text_size_body1"))
@@ -323,13 +335,14 @@ struct ContactItem {
     .width("100%")
     .height($r("app.float.id_item_height_mid"))
     .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+    .visibility(itemType !== MenuType.SaveExistingContacts || itemType === MenuType.SaveExistingContacts &&
+    '' === displayName ? Visibility.Visible : Visibility.None)
     .onClick(() => {
       switch (itemType) {
         case MenuType.DeleteCallLogs:
           this.deleteDialogController.open();
           break;
         case MenuType.EditBeforeCall:
-          DialerPresenter.getInstance().isClickDelete = false;
           DialerPresenter.getInstance().editPhoneNumber(this.item.phoneNumber);
           AppStorage.SetOrCreate<boolean>("showDialBtn", true);
           break;
@@ -342,16 +355,30 @@ struct ContactItem {
         case MenuType.Copy:
           this.mIndexPresenter.getCopy(this.item.phoneNumber);
           break;
+        case MenuType.SaveExistingContacts:
+         let innerEvent = {
+            eventId: EMITTER_SAVE_ID,
+            priority: emitter.EventPriority.HIGH
+          };
+          emitter.emit(innerEvent, {
+            data: {
+              'callId':  this.item.id,
+              'phoneNumber': this.item.phoneNumber
+            }
+          });
+          break;
       }
     })
   }
 
-  @Builder MenuDivider() {
+  @Builder MenuDivider(itemType, displayName) {
     Divider()
       .color($r('sys.color.ohos_id_color_list_separator'))
       .lineCap(LineCapStyle.Square)
       .width(0)
       .alignSelf(ItemAlign.Stretch)
       .padding({ left: $r("app.float.id_card_margin_xxl"), right: $r("app.float.id_card_margin_xxl") })
+      .visibility(itemType !== MenuType.SaveExistingContacts || itemType === MenuType.SaveExistingContacts &&
+      '' === displayName ? Visibility.Visible : Visibility.None)
   }
 }

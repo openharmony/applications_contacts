@@ -48,7 +48,7 @@ export default {
       return $r("app.string.time_morning", hour, minutes);
     }
     if (hour >= 11 && hour < 13) {
-      return $r("app.string.time_noon", hour >= 12 ? (parseInt(hour) - 12).toString() : hour, minutes);
+      return $r("app.string.time_noon", hour, minutes);
     }
     if (hour >= 13 && hour < 17) {
       return $r("app.string.time_afternoon", (parseInt(hour) - 12).toString(), minutes);

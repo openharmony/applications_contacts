@@ -20,12 +20,12 @@ import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
 import StringFormatUtil from '../util/StringFormatUtil';
 import { missedCallManager } from '../feature/missedCall/MissedCallManager';
 import CallRecordPresenter from './dialer/callRecord/CallRecordPresenter';
+import FavoriteListPresenter from './favorite/FavoriteListPresenter';
 
 const TAG = 'IndexPresenter  ';
 
 export default class IndexPresenter {
   private static instance: IndexPresenter;
-
 
   public static getInstance(): IndexPresenter {
     if (!IndexPresenter.instance) {
@@ -42,27 +42,24 @@ export default class IndexPresenter {
       CallRecordPresenter.getInstance().requestItem();
       AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
     }
+    FavoriteListPresenter.getInstance().onPageShow();
   }
 
-  getCurrentUri() {
-    const state = router?.getState()
-    if (!state) {
-      return '';
-    }
-    return state.path + state.name
+  getCurrentUrl(){
+    let url = router.getState().path+router.getState().name;
+    HiLog.i(TAG,"getCurrentUrl:"+url)
+    return url;
   }
 
   goToPage(url: string, pageIndex?: number, params?) {
-    HiLog.i(TAG, "goToPage:" + url)
-    if (url == this.getCurrentUri() || url == globalThis.presenterManager.mainUrl) {
-      router.back({
-        url: url, params: params
-      })
-      return
-    }
+    HiLog.i(TAG, "goToPage: " + url);
     if (pageIndex != undefined && router.getState().index >= pageIndex) {
-      if (pageIndex == 1) {
-        router.clear();
+      if (url == globalThis.presenterManager?.mainUrl || this.getCurrentUrl() == url) {
+        router.back({
+          url: url,
+          params: params
+        })
+        return;
       }
       router.replaceUrl({
         url: url,
@@ -106,7 +103,10 @@ export default class IndexPresenter {
   getTabSrc(tabIndex: number, index: number): Resource {
     let imgSrc = $r('app.media.ic_call_filled_normal');
     if (index === 1) {
-      imgSrc = $r("app.media.ic_contacts_normal_filled");
+      imgSrc = $r('app.media.ic_contacts_normal_filled');
+    }
+    if (index === 2) {
+      imgSrc = $r('app.media.ic_feature_normal_filled');
     }
     return imgSrc;
   }
@@ -115,6 +115,9 @@ export default class IndexPresenter {
     let text = $r('app.string.dialer');
     if (index === 1) {
       text = $r('app.string.contact');
+    }
+    if (index === 2) {
+      text = $r('app.string.favorite');
     }
     return text;
   }

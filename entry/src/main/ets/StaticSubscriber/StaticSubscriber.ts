@@ -55,9 +55,16 @@ export default class StaticSubscriber extends StaticSubscriberExtensionAbility {
 
   onReceiveEvent(event) {
     HiLog.i(TAG, 'onReceiveEvent, event:' + JSON.stringify(event));
+    const missCallData = JSON.parse(JSON.stringify(event));
+    const parameters = JSON.parse(JSON.stringify(missCallData.parameters));
+    let updateMissedCallNotificationsMap: Map<string, string> = new Map();
     MissedCallService.getInstance().init(this.context);
     if ("usual.event.INCOMING_CALL_MISSED" == event.event) {
       MissedCallService.getInstance().updateMissedCallNotifications();
+      if (parameters.countList != null) {
+        updateMissedCallNotificationsMap.set("missedPhoneJson", missCallData.parameters);
+        MissedCallService.getInstance().unreadCallNotification(updateMissedCallNotificationsMap);
+      }
     } else if ("contact.event.CANCEL_MISSED" == event.event) {
       if (event.parameters?.missedCallData) {
         if ('notification.event.dialBack' == event.parameters?.action) {

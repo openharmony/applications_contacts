@@ -20,7 +20,7 @@ import ContactBuilder from '../entity/ContactBuilder';
 
 export default class ContactListItem {
   static readonly COLUMNS: string[] = [Contacts.ID, Contacts.QUICK_SEARCH_KEY, RawContacts.DISPLAY_NAME,
-  RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME, Contacts.COMPANY, Contacts.POSITION];
+  RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME, Contacts.COMPANY, Contacts.POSITION, RawContacts.FAVORITE_ORDER];
   readonly id: number;
   readonly displayName: string;
   readonly sortFirstLetter: string;
@@ -28,6 +28,7 @@ export default class ContactListItem {
   readonly quickSearchKey: string;
   readonly company: string;
   readonly position: string;
+  readonly favoriteOrder: string;
   phoneNumbers: [] = [];
 
   constructor(resultSet: any) {
@@ -38,6 +39,7 @@ export default class ContactListItem {
     this.quickSearchKey = resultSet.getString(resultSet.getColumnIndex(Contacts.QUICK_SEARCH_KEY));
     this.company = resultSet.getString(resultSet.getColumnIndex(Contacts.COMPANY));
     this.position = resultSet.getString(resultSet.getColumnIndex(Contacts.POSITION));
+    this.favoriteOrder = resultSet.getString(resultSet.getColumnIndex(RawContacts.FAVORITE_ORDER));
   }
 
   createContact() {

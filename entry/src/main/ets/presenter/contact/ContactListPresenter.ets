@@ -19,11 +19,16 @@ import { ContactVo } from '../../model/bean/ContactVo';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 import { CallLogRepository } from '../../../../../../feature/call/src/main/ets/repo/CallLogRepository';
 import { ContactRepository } from '../../../../../../feature/contact/src/main/ets/repo/ContactRepository';
+import emitter from '@ohos.events.emitter';
 import ContactListDataSource from '../../model/bean/ContactListDataSource';
 import WorkerWrapper from '../../workers/base/WorkerWrapper';
+import { SearchContactsBean } from '../../model/bean/SearchContactsBean';
+import SearchContactsSource from '../../model/bean/SearchContactsSource';
+import AlphabetIndexerPresenter from './alphabetindex/AlphabetIndexerPresenter';
 
 const TAG = 'ContactListPresenter  ';
 const DELAY_TIME: number = 1000;
+const EMITTER_SEARCH_ID: number = 105;
 /**
  * Type of the control that is clicked in the contact list.
  */
@@ -50,12 +55,22 @@ export default class ContactListPresenter {
   shareList: Resource[] = [$r("app.string.qr_code"), $r("app.string.v_card"), $r("app.string.text")];
   settingsMenu: Resource[] = [$r("app.string.contact_setting_type_scancard"), $r("app.string.call_setting_type_setting")];
   contactListDataSource: ContactListDataSource = new ContactListDataSource();
+  searchContactsSource: SearchContactsSource = new SearchContactsSource();
   isShow: boolean = false;
   context: Context;
   worker: WorkerWrapper;
   loading: boolean;
   initStarted: boolean = false;
-  taskId: number = -1;
+  contactSearchList: SearchContactsBean[] = [];
+  contactSearchCount: number = 0;
+  tempValue: string = '';
+  taskId: number = -1;;
+  isSearchBackgroundColor: boolean = true;
+  isSearchPage: boolean = false;
+  inputKeyword: string = '';
+  contactList: ContactVo[] = [];
+  alphabetIndexPresenter: AlphabetIndexerPresenter = AlphabetIndexerPresenter.getInstance();
+
   refreshState: () => void
   onContactChange = () => {
     HiLog.i(TAG, 'onContactChange refresh');
@@ -206,6 +221,8 @@ export default class ContactListPresenter {
       HiLog.i(TAG, `refreshPage ${page} getAllContact, length is: ` + result.length);
       if (Array.prototype.isPrototypeOf(result)) {
         this.contactListDataSource.refresh(this.refreshIndex, this.contactListPages[page -1], result);
+        this.contactList.splice(this.refreshIndex, this.contactListPages[page -1], ...result);
+        this.alphabetIndexPresenter.initContactList(this.contactList);
       }
       this.contactListPages[page -1] = result.length;
       this.refreshIndex += this.contactListPages[page -1];
@@ -353,5 +370,57 @@ export default class ContactListPresenter {
         url: ""
       }
     );
+  }
+
+  getSearchContact(value: string) {
+    HiLog.i(TAG, 'getSearchContact start.');
+    if ('' === value) {
+      this.isSearchBackgroundColor = true;
+      this.searchContactsSource.refresh(this.contactSearchList);
+      let innerEvent = {
+        eventId: 102,
+        priority: emitter.EventPriority.HIGH
+      };
+      emitter.emit(innerEvent, {
+        data: {
+          'contactSearchList': 0
+        }
+      });
+      return;
+    }
+    this.tempValue = value;
+    let actionData: any = {};
+    actionData.value = this.tempValue;
+    globalThis.DataWorker.sendRequest("getSearchContact", {
+      actionData: actionData,
+      context: globalThis.context
+    }, (result) => {
+      this.isSearchBackgroundColor = false;
+      this.contactSearchList = result;
+      this.contactSearchCount = this.contactSearchList.length;
+      this.searchContactsSource.refresh(this.contactSearchList);
+      let innerEvent = {
+        eventId: 102,
+        priority: emitter.EventPriority.HIGH
+      };
+      emitter.emit(innerEvent, {
+        data: {
+          'contactSearchList': this.contactSearchCount
+        }
+      });
+    })
+    HiLog.i(TAG, 'getSearchContact end.');
+  }
+
+  sendEmitter(isSearchPage: boolean) {
+    let innerEvent = {
+      eventId: EMITTER_SEARCH_ID,
+      priority: emitter.EventPriority.HIGH
+    };
+    emitter.emit(innerEvent, {
+      data: {
+        'isSearchPage': isSearchPage
+      }
+    });
   }
 }

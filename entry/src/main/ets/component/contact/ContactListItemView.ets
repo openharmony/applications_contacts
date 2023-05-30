@@ -63,7 +63,8 @@ export default struct ContactListItemView {
     autoCancel: false,
     alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
     offset: { dx: 0, dy: -16 },
-    gridCount: 4
+    gridCount: 4,
+    closeAnimation: { duration: 100 }
   });
 
   onDeleteClick() {

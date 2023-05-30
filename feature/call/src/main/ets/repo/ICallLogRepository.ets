@@ -27,7 +27,7 @@ export default interface ICallLogRepository {
   deleteByLookupUri: (lookupUri: string) => boolean;
   readByNumber: (number: string) => boolean;
   readById: (id: number) => boolean;
-  findAll: (actionData: any, callback) => void;
+  findAll: (favorite: number, actionData: any, callback) => void;
   findByFeature: (feature: number) => CallLog[];
   findByNumberIn: (numbers: number[], callback) => void;
   notifyChange: () => void;

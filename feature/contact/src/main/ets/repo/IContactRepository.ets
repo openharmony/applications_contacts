@@ -26,10 +26,10 @@ export default interface IContactRepository {
   save: (contact: ContactDelta, callback) => void;
   findById: (id: number, callback) => void;
   findByQuickSearchKey: (searchKey: string, callback) => void;
-  findAll: (actionData: any, callback) => void;
+  findAll: (favorite: number, actionData: any, callback) => void;
   findAllWithBookIndex: () => ContactList;
   search: (queryStr: string) => ContactList;
-  findByPhoneIsNotNull: (callback) => void;
+  findByPhoneIsNotNull: (favorite: number, editContact: number, callback) => void;
   findByMailIsNotNull: () => ContactList;
   deleteByIdIn: (ids: number[]) => boolean;
   deleteById: (id: number, callback) => void;

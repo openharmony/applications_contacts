@@ -24,6 +24,8 @@ import router from '@ohos.router';
 import BatchSelectRecentSource from '../../../model/bean/BatchSelectRecentSource';
 import BatchSelectContactSource from '../../../model/bean/BatchSelectContactSource';
 import CallLogSetting from "../../../../../../../feature/call/src/main/ets/CallLogSetting"
+import { ContactVo } from '../../../model/bean/ContactVo';
+import AlphabetIndexerPresenter from '../alphabetindex/AlphabetIndexerPresenter';
 
 const TAG = 'BatchSelectContactsPresenter ';
 
@@ -62,6 +64,15 @@ export default class BatchSelectContactsPresenter {
   recentSource: BatchSelectRecentSource = new BatchSelectRecentSource();
   contactsSource: BatchSelectContactSource = new BatchSelectContactSource();
   actionData: { [key: string]: any } = {};
+  alphabetIndexPresenter: AlphabetIndexerPresenter = AlphabetIndexerPresenter.getInstance();
+  editContact: number = -1;
+  contactId: number;
+  /** Contact Temporary */
+  callId: string = '';
+  phones: string = '';
+  phoneNumberShow: string = '';
+  isNewNumber: boolean = false;
+  addFavorite: number = -1;
 
   public static getInstance(): BatchSelectContactsPresenter {
     if (BatchSelectContactsPresenter.sInstance == null) {
@@ -82,6 +93,30 @@ export default class BatchSelectContactsPresenter {
   }
 
   onPageHide() {
+  }
+
+  backCancel() {
+    if (0 === this.addFavorite) {
+      router.back();
+    } else {
+      this.cancel();
+    }
+  }
+
+  singleBackCancel() {
+    if (0 === this.editContact) {
+      router.replaceUrl({
+        url: 'pages/contacts/details/ContactDetail',
+        params: {
+          sourceHasPhone: true,
+          phoneNumberShow: this.phoneNumberShow
+        }
+      })
+    } else if (1 === this.editContact || 2 === this.editContact) {
+      router.back();
+    } else {
+      this.cancel();
+    }
   }
 
   cancel() {
@@ -109,6 +144,31 @@ export default class BatchSelectContactsPresenter {
     this.initialIndex = firstIndex;
   }
 
+  selectBatchContact() {
+    if (0 === this.addFavorite) {
+      this.addFavoriteContacts();
+    } else {
+      this.comfirm()
+    }
+  }
+
+  addFavoriteContacts() {
+    HiLog.i(TAG, 'addFavoriteContacts start.');
+    let checkedList = [];
+    this.contactsList.forEach((value) => {
+      if (value.phoneNumbers.length > 0) {
+        value.phoneNumbers.forEach((values) => {
+          if (values.checked === true) {
+            checkedList.push(value.contactId);
+          }
+        })
+      }
+    })
+    AppStorage.SetOrCreate<Array<string>>('addFavoriteContactData', checkedList);
+    router.back();
+    HiLog.i(TAG, 'addFavoriteContacts end.');
+  }
+
   comfirm() {
     let checkedList = [];
     this.selectedNumberMap.forEach((value) => {
@@ -132,6 +192,41 @@ export default class BatchSelectContactsPresenter {
       .catch((error) => {
         HiLog.e(TAG, "Operation failed. Cause: %s", JSON.stringify(error.message));
       });
+  }
+
+  /**
+   *   Edit Contact
+   */
+  updateContact(contactId: string) {
+    let upDataShow = false;
+    if (contactId != undefined) {
+      upDataShow = true
+    }
+    router.replaceUrl({
+      url: 'pages/contacts/accountants/Accountants',
+      params: {
+        updataShow: upDataShow,
+        contactId: contactId,
+        callId: this.callId,
+        phones: this.phones,
+        editContact: this.editContact,
+        phoneNumberShow: this.phoneNumberShow
+      },
+    });
+  }
+
+  dealContactSelectId(checkedList) {
+    let contacts = [];
+    for (let item of checkedList) {
+      if (item.phoneNumbers) {
+
+      }
+      let contact = {
+        contactId: item.contactId,
+      };
+      contacts.push(contact);
+    }
+    return contacts;
   }
 
   dealContactName(checkedList) {
@@ -314,13 +409,17 @@ export default class BatchSelectContactsPresenter {
     });
   }
 
-  onSingleContactItemClick(num: number, name: string) {
+  onSingleContactItemClick(num: number, name: string, item: ContactVo) {
     HiLog.i(TAG, 'onSingleContactItemClick in ');
     this.selectedNumberMap.set(num, {
       name: name,
       number: num
     });
-    this.comfirm();
+    if (0 === this.editContact || 1 === this.editContact || 2 === this.editContact) {
+      this.updateContact(item.contactId);
+    } else {
+      this.comfirm();
+    }
   }
 
   onContactItemClicked(index: number, indexChild: number) {
@@ -576,11 +675,17 @@ export default class BatchSelectContactsPresenter {
     HiLog.i(TAG, 'initCallLog start !');
     let tempMap = new Map();
     let tempList: any[] = [];
-
+    let favoriteForm: any = {}
+    if (0 === this.addFavorite) {
+      favoriteForm.favorite = 0;
+    } else {
+      favoriteForm.favorite = -1;
+    }
     globalThis.DataWorker?.sendRequest("getAllCalls", {
       context: globalThis.context,
       mergeRule: CallLogSetting.getInstance().getMergeRule(),
-      actionData: this.actionData
+      actionData: this.actionData,
+      favoriteForm: JSON.stringify(favoriteForm)
     }, (data) => {
       if (data.hasOwnProperty('callLogList') && !ArrayUtil.isEmpty(data.callLogList)) {
         HiLog.i(TAG, 'data  has callLogList key');
@@ -633,8 +738,16 @@ export default class BatchSelectContactsPresenter {
    */
   initContactsList() {
     HiLog.i(TAG, 'initContactsList start!');
+    let favoriteForm: any = {}
+    if (0 === this.addFavorite) {
+      favoriteForm.favorite = 0;
+    } else {
+      favoriteForm.favorite = -1;
+    }
+    favoriteForm.editContact = this.editContact
     globalThis.DataWorker.sendRequest("getAllContactWithPhoneNumbers", {
-      context: globalThis.context
+      context: globalThis.context,
+      favoriteForm: JSON.stringify(favoriteForm)
     }, (resultList) => {
       HiLog.i(TAG, 'initContactsList resultList success ' + resultList.length);
       let listTemp: any[] = [];
@@ -657,7 +770,10 @@ export default class BatchSelectContactsPresenter {
         this.contactsSource.refresh(this.contactsList);
         this.tabInfo.contactsTotal = this.contactsList.length;
         this.contactsInfo.contactsListTotal = this.contactsList.length;
+        this.alphabetIndexPresenter.initContactList(this.contactsList);
       } else {
+        HiLog.e(TAG, 'select contact list is empty!' + JSON.stringify(this.contactsList));
+        this.contactsSource.refresh(this.contactsList);
         HiLog.e(TAG, 'select contact list is empty!');
       }
     });

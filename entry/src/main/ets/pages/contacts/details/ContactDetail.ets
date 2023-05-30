@@ -35,6 +35,7 @@ let storage = LocalStorage.GetShared()
 struct ContactDetail {
   @State mPresenter: DetailPresenter = DetailPresenter.getInstance();
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
+  @StorageLink("params") params: { [key: string]: any } = {};
   @State private mMoreMenu: Array<{
     value: string,
     action: () => void
@@ -69,14 +70,17 @@ struct ContactDetail {
       this.isShow++;
     }, 100);
     let obj: any = router.getParams();
-    if (!obj) {
-      HiLog.i(TAG, "params is Miss or error!")
-      return;
+    if (obj != undefined) {
+      this.mPresenter.sourceHasId = obj.sourceHasId;
+      this.mPresenter.contactId = obj.contactId;
+      this.mPresenter.sourceHasPhone = obj.sourceHasPhone;
+      this.mPresenter.phoneNumberShow = obj.phoneNumberShow;
+    } else if (this.params != {}) {
+      this.mPresenter.sourceHasId = this.params.sourceHasId;
+      this.mPresenter.contactId = this.params.contactId;
+      this.mPresenter.sourceHasPhone = this.params.sourceHasPhone;
+      this.mPresenter.phoneNumberShow = this.params.phoneNumberShow;
     }
-    this.mPresenter.sourceHasId = obj.sourceHasId;
-    this.mPresenter.contactId = obj.contactId;
-    this.mPresenter.sourceHasPhone = obj.sourceHasPhone;
-    this.mPresenter.phoneNumberShow = obj.phoneNumberShow;
     this.mPresenter.aboutToAppear();
     this.mMoreMenu = this.mPresenter.getSettingsMenus();
     let that = this;
@@ -151,6 +155,28 @@ struct ContactDetail {
       if (this.curBp !== 'lg') {
         Row() {
           Column() {
+            Image('1' === this.mPresenter.isFavorited ? $r('app.media.ic_public_collected') : $r('app.media.ic_public_collect'))
+              .objectFit(ImageFit.Contain)
+              .height($r("app.float.id_card_image_small"))
+              .width($r("app.float.id_card_image_small"))
+              .margin({ bottom: 3 })
+            Text('1' === this.mPresenter.isFavorited ? $r('app.string.cancel_favorite') : $r('app.string.favorite'))
+              .fontSize($r('sys.float.ohos_id_text_size_caption'))
+              .fontWeight(FontWeight.Medium)
+              .fontColor($r('sys.color.ohos_id_color_toolbar_text'))
+          }
+          .onClick(() => {
+            if ('0' === this.mPresenter.isFavorited) {
+              this.mPresenter.isFavorited = '1';
+            } else {
+              this.mPresenter.isFavorited = '0';
+            }
+            this.mPresenter.updateFavorite(parseInt(this.mPresenter.isFavorited));
+          })
+          .visibility(this.mPresenter.contactId != undefined ? Visibility.Visible : Visibility.None)
+          .width('33%')
+
+          Column() {
             Image(this.mPresenter.contactId != undefined
               ? $r("app.media.ic_public_edit")
               : $r("app.media.ic_public_add"))
@@ -168,10 +194,27 @@ struct ContactDetail {
           .onClick(() => {
             this.mPresenter.updateContact();
           })
-          .width(this.mPresenter.contactId != undefined ? '50%' : '100%')
+          .width(this.mPresenter.contactId != undefined ? '33%' : '50%')
 
           Column() {
-            Image($r("app.media.ic_public_more"))
+            Image($r('app.media.ic_public_contacts_group'))
+              .objectFit(ImageFit.Contain)
+              .height($r('app.float.id_card_image_small'))
+              .width($r('app.float.id_card_image_small'))
+              .margin({ bottom: 3 })
+            Text($r('app.string.save_to_existing_contacts'))
+              .fontSize($r('sys.float.ohos_id_text_size_caption'))
+              .fontWeight(FontWeight.Medium)
+              .fontColor($r('sys.color.ohos_id_color_toolbar_text'))
+          }
+          .onClick(() => {
+            this.mPresenter.saveExistingContact()
+          })
+          .visibility(this.mPresenter.contactId != undefined ? Visibility.None : Visibility.Visible)
+          .width('50%')
+
+          Column() {
+            Image($r('app.media.ic_public_more'))
               .objectFit(ImageFit.Contain)
               .height($r("app.float.id_card_image_small"))
               .width($r("app.float.id_card_image_small"))
@@ -183,7 +226,7 @@ struct ContactDetail {
               .fontColor($r("sys.color.ohos_id_color_toolbar_text"))
           }
           .visibility(this.mPresenter.contactId != undefined ? Visibility.Visible : Visibility.None)
-          .width('50%')
+          .width('33%')
         }
         .alignItems(VerticalAlign.Center)
         .height($r("app.float.id_item_height_large"))

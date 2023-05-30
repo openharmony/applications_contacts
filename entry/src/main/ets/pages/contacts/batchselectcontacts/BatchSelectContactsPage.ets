@@ -19,6 +19,9 @@ import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUt
 import BatchSelectRecentItemView from '../../../component/contact/batchselectcontacts/BatchSelectRecentItemView';
 import BatchSelectContactItemView from '../../../component/contact/batchselectcontacts/BatchSelectContactItemView';
 import BatchTabGuide from '../../../component/contact/batchselectcontacts/BatchTabGuide';
+import router from '@ohos.router';
+import AlphabetIndexerPresenter from '../../../presenter/contact/alphabetindex/AlphabetIndexerPresenter';
+import { AlphabetIndexerPage } from '../alphabetindex/AlphabetIndexerPage';
 
 const TAG = 'BatchSelectContactsPage ';
 
@@ -35,6 +38,8 @@ export default struct BatchSelectContactsPage {
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear')
+    let obj: any = router.getParams();
+    this.mPresenter.addFavorite = obj?.addFavorite;
     this.mPresenter.aboutToAppear()
   }
 
@@ -55,7 +60,7 @@ export default struct BatchSelectContactsPage {
 
   onBackPress() {
     HiLog.i(TAG, 'onBackPress')
-    this.mPresenter.cancel();
+    this.mPresenter.backCancel();
     return true;
   }
 
@@ -74,7 +79,7 @@ export default struct BatchSelectContactsPage {
                 .flexShrink(0)
                 .margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_xxl") })
                 .onClick(() => {
-                  this.mPresenter.cancel()
+                  this.mPresenter.backCancel();
                 })
 
               Text(this.mPresenter.selectCount == 0 ? $r('app.string.no_select') : $r('app.string.select_num', this.mPresenter.selectCount))
@@ -93,7 +98,8 @@ export default struct BatchSelectContactsPage {
                 .enabled(!this.mPresenter.selectDisabled)
                 .fillColor(this.mPresenter.selectDisabled ? $r("sys.color.ohos_id_color_tertiary") : $r("sys.color.ohos_id_color_primary"))
                 .onClick(() => {
-                  this.mPresenter.comfirm()
+                  this.mPresenter.selectBatchContact();
+                  this.mPresenter.contactsList = [];
                 })
 
               if (this.curBp === 'lg') {
@@ -221,6 +227,7 @@ struct RecentList {
       .listDirection(Axis.Vertical)
       .edgeEffect(EdgeEffect.Spring)
     }
+    .height('100%')
     .width('100%')
     .backgroundColor(Color.White)
     .padding({ top: $r("app.float.id_card_margin_mid"), bottom: $r("app.float.id_card_margin_mid") })
@@ -231,54 +238,74 @@ struct RecentList {
 @Component
 struct ContactsList {
   @Link presenter: BatchSelectContactsPresenter;
+  private scroller: Scroller = new Scroller();
+  @State alphabetSelected: number = 0;
+  @State isAlphabetClicked: boolean = false;
+  @State dragList: boolean = true;
+  @State alphabetIndexPresenter: AlphabetIndexerPresenter = this.presenter.alphabetIndexPresenter;
 
   build() {
     Column() {
-      List({ initialIndex: this.presenter.initialIndex }) {
-        LazyForEach(this.presenter.contactsSource, (item, index) => {
+      Stack({ alignContent: Alignment.TopEnd }) {
+        List({ initialIndex: this.presenter.initialIndex, scroller: this.scroller }) {
+          LazyForEach(this.presenter.contactsSource, (item, index) => {
 
-          ListItem() {
-            Stack({ alignContent: Alignment.BottomEnd }) {
-              Column() {
-                if (item.showIndex) {
-                  Flex({ direction: FlexDirection.Column,
-                    justifyContent: FlexAlign.End,
-                    alignItems: ItemAlign.Start }) {
-                    Text(item.contact.namePrefix)
-                      .fontColor($r("sys.color.ohos_fa_text_secondary"))
-                      .fontSize($r("sys.float.ohos_id_text_size_sub_title3"))
-                      .fontWeight(FontWeight.Medium)
-                      .textAlign(TextAlign.Start)
+            ListItem() {
+              Stack({ alignContent: Alignment.BottomEnd }) {
+                Column() {
+                  if (item.showIndex) {
+                    Flex({ direction: FlexDirection.Column,
+                      justifyContent: FlexAlign.End,
+                      alignItems: ItemAlign.Start }) {
+                      Text(item.contact.namePrefix)
+                        .fontColor($r("sys.color.ohos_fa_text_secondary"))
+                        .fontSize($r("sys.float.ohos_id_text_size_sub_title3"))
+                        .fontWeight(FontWeight.Medium)
+                        .textAlign(TextAlign.Start)
+                    }
+                    .padding({ left: $r("app.float.id_card_margin_max"), bottom: $r("app.float.id_card_margin_large") })
+                    .width('100%')
+                    .height($r("app.float.id_item_height_mid"))
                   }
-                  .padding({ left: $r("app.float.id_card_margin_max"), bottom: $r("app.float.id_card_margin_large") })
-                  .width('100%')
-                  .height($r("app.float.id_item_height_mid"))
+
+                  BatchSelectContactItemView({
+                    item: item.contact,
+                    index: item.index,
+                    onContactItemClicked: (index, indexChild) => this.presenter.onContactItemClicked(index, indexChild),
+                    showIndex: item.showIndex,
+                    showDivifer: item.showDivifer
+                  })
                 }
 
-                BatchSelectContactItemView({
-                  item: item.contact,
-                  index: item.index,
-                  onContactItemClicked: (index, indexChild) => this.presenter.onContactItemClicked(index, indexChild),
-                  showIndex: item.showIndex,
-                  showDivifer: item.showDivifer
-                })
-              }
-
-              if (item.showDivifer) {
-                Divider()
-                  .color($r("sys.color.ohos_id_color_list_separator"))
-                  .margin({ left: 76, right: $r("app.float.id_card_margin_max") })
+                if (item.showDivifer) {
+                  Divider()
+                    .color($r("sys.color.ohos_id_color_list_separator"))
+                    .margin({ left: 76, right: $r("app.float.id_card_margin_max") })
+                }
               }
             }
+          }, (item) => JSON.stringify(item))
+        }
+        .width('100%')
+        .listDirection(Axis.Vertical)
+        .edgeEffect(EdgeEffect.Spring)
+        .scrollBar(BarState.Off)
+        .onScrollIndex((firstIndex: number, lastIndex: number) => {
+          this.presenter.resetInitialIndex(firstIndex);
+          if (!this.isAlphabetClicked) {
+            this.alphabetSelected = this.alphabetIndexPresenter.getAlphabetSelected(firstIndex);
           }
-        }, (item) => JSON.stringify(item))
+        })
+        .onScrollStart(() => {
+          this.dragList = true;
+        })
+        .onScrollStop(() => {
+          this.isAlphabetClicked = false;
+        })
+        AlphabetIndexerPage({scroller: this.scroller, presenter: $alphabetIndexPresenter, selected: this.alphabetSelected,
+          isClicked: $isAlphabetClicked, drag: $dragList})
+          .margin({ top: '10%', bottom: '10%' })
       }
-      .width('100%')
-      .listDirection(Axis.Vertical)
-      .edgeEffect(EdgeEffect.Spring)
-      .onScrollIndex((firstIndex: number, lastIndex: number) => {
-        this.presenter.resetInitialIndex(firstIndex);
-      })
     }
     .width('100%')
     .padding({ top: $r("app.float.id_card_margin_mid"), bottom: $r("app.float.id_card_margin_mid") })

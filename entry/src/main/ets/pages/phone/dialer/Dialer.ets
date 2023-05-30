@@ -16,9 +16,8 @@
 import CallRecord from '../../dialer/callRecord/CallRecord';
 import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import DialerPresenter from './../../../presenter/dialer/DialerPresenter';
-import EnvironmentProp from '../../../feature/EnvironmentProp';
-import IndexPresenter from '../../../presenter/IndexPresenter';
 import { DialerButtonView } from "../../../component/dialer/DialerButtonView";
+import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 
 const TAG = 'Dialer';
 
@@ -30,47 +29,59 @@ struct DialButton {
 
   build() {
     Column() {
-      Button() {
-        Column() {
-          if (`${this.button_number}` == '*') {
-            Image($r("app.media.symbol_phone"))
-              .width(24)
-              .height(24)
-          } else if (`${this.button_number}` == '#') {
-            Image($r("app.media.symbols_phone"))
-              .width(24)
-              .height(24)
-          } else {
-            Text(`${this.button_number}`)
-              .fontSize(25)
-              .fontColor($r('sys.color.ohos_id_color_text_primary'))
-              .fontWeight(FontWeight.Medium)
-          }
-          if ((this.button_char == 'ic')) {
-            Image($r("app.media.ic_contacts_voicemail_mini"))
-              .width(14)
-              .height(14)
-          } else if ((this.button_char == '+')) {
-            Text(`${this.button_char}`)
-              .fontColor($r('sys.color.ohos_id_color_text_secondary'))
-              .fontSize(17.5)
-          } else {
-            Text(`${this.button_char}`)
-              .fontColor($r('sys.color.ohos_id_color_text_secondary'))
-              .fontSize($r("sys.float.ohos_id_text_size_chart1"))
+      Column() {
+        Button() {
+          Column() {
+            if (`${this.button_number}` == '*') {
+              Image($r("app.media.symbol_phone"))
+                .width(24)
+                .height(24)
+            } else if (`${this.button_number}` == '#') {
+              Image($r("app.media.symbols_phone"))
+                .width(24)
+                .height(24)
+            } else {
+              Text(`${this.button_number}`)
+                .fontSize(25)
+                .fontColor($r('sys.color.ohos_id_color_text_primary'))
+                .fontWeight(FontWeight.Medium)
+            }
+            if ((this.button_char == 'ic')) {
+              Image($r("app.media.ic_contacts_voicemail_mini"))
+                .width(14)
+                .height(14)
+            } else if ((this.button_char == '+')) {
+              Text(`${this.button_char}`)
+                .fontColor($r('sys.color.ohos_id_color_text_secondary'))
+                .fontSize(17.5)
+            } else {
+              Text(`${this.button_char}`)
+                .fontColor($r('sys.color.ohos_id_color_text_secondary'))
+                .fontSize($r("sys.float.ohos_id_text_size_chart1"))
+            }
           }
         }
+        .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
+        .type(ButtonType.Circle)
+        .height('100%')
+        .width('100%')
       }
-      .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
-      .type(ButtonType.Circle)
-      .height('100%')
+      .justifyContent(FlexAlign.Center)
       .width('100%')
-      .onClick(() => {
-        this.mPresenter.ifNeedSpace();
-        AppStorage.SetOrCreate("tele_number", AppStorage.Get("tele_number") + this.button_number);
-        this.mPresenter.all_number += this.button_number
-        this.mPresenter.viewNumberTextProc();
-        this.mPresenter.playAudio(this.button_number);
+      .onTouch((event: TouchEvent) => {
+        switch (event.type) {
+          case TouchType.Down:
+            this.mPresenter.ifNeedSpace();
+            AppStorage.SetOrCreate("tele_number", AppStorage.Get("tele_number") + this.button_number);
+            this.mPresenter.all_number += this.button_number;
+            this.mPresenter.dealSecretCode(this.mPresenter.all_number);
+            PhoneNumber.fromString(this.mPresenter.secretCode).dialerSpecialCode();
+            this.mPresenter.viewNumberTextProc();
+            this.mPresenter.playAudio(this.button_number);
+            break;
+          case TouchType.Up:
+            break;
+        }
       })
     }.height($r("app.float.dialer_calllog_item_height"))
     .width('33.33%')
@@ -128,7 +139,7 @@ export default struct Call {
   @StorageLink("haveMultiSimCard") @Watch("onSimChanged") haveMultiSimCard: boolean = false;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @State panWidth: number = 0;
-  @StorageLink("showDialBtn") @Watch('onShowDialBtnChange') showDialBtn: boolean = false;
+  @StorageLink("showDialBtn") @Watch('onShowDialBtnChange') showDialBtn: boolean = true;
 
   onSimChanged() {
     HiLog.i(TAG, "haveMultiSimCard change:" + JSON.stringify(this.haveMultiSimCard));
@@ -137,6 +148,10 @@ export default struct Call {
   }
 
   onShowDialBtnChange() {
+    if (this.showDialBtn != this.mPresenter.btnShow) {
+      HiLog.i(TAG, 'onShowDialBtnChange not change');
+      return;
+    }
     HiLog.i(TAG, 'onShowDialBtnChange ' + this.showDialBtn);
     if (this.showDialBtn) {
       HiLog.i(TAG, 'show DialBtn ');
@@ -150,9 +165,9 @@ export default struct Call {
       }, () => {
         this.mPresenter.call_p = 0;
         this.mPresenter.call_y = 0;
-        this.mPresenter.moveY = 0
+        this.mPresenter.moveY = 0;
         this.mPresenter.dialerButtonWidth = this.haveMultiSimCard ? 210 : 56;
-        this.mPresenter.dialerButtonHeight = 56
+        this.mPresenter.dialerButtonHeight = 56;
       })
       this.mPresenter.btnShow = false;
     } else {
@@ -170,7 +185,7 @@ export default struct Call {
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear CallTablet ');
-    this.showDialBtn = true;
+    this.onShowDialBtnChange();
     this.mPresenter.aboutToAppear();
   }
 
@@ -189,6 +204,100 @@ export default struct Call {
           }
           .width('100%')
           .height($r("app.float.dialer_telephone_number_height"))
+          Flex({
+            direction: FlexDirection.Column,
+            alignItems: ItemAlign.Center,
+            justifyContent: FlexAlign.Start
+          }) {
+            List({ space: 0, initialIndex: 0 }) {
+              LazyForEach(this.mPresenter.mAllCallRecordListDataSource, (item, index: number) => {
+                ListItem() {
+                  Flex({
+                    direction: FlexDirection.Row,
+                    justifyContent: FlexAlign.SpaceBetween,
+                    alignItems: ItemAlign.Center
+                  }) {
+                    Column() {
+                      Row() {
+                        ForEach(item.displayName.split(this.tele_number.replace(/\s*/g,"")), (displayName, idx: number) => {
+                          Row() {
+                            Text(displayName.toString())
+                              .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                              .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+                            if(idx === 0 && item.displayName.indexOf(this.tele_number.replace(/\s*/g,"")) !== -1){
+                              Text(this.tele_number.toString().replace(/\s*/g,""))
+                                .fontColor(Color.Blue)
+                                .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                                .fontWeight(FontWeight.Medium)
+                                .constraintSize({ maxWidth: this.curBp == "sm" ? 160 : 260 })
+                                .textOverflow({ overflow: TextOverflow.Ellipsis })
+                                .maxLines(1)
+                            }else if(item.displayName.split(this.tele_number.replace(/\s*/g,"")).length - 1 !== idx) {
+                              Text(this.tele_number.toString().replace(/\s*/g,""))
+
+                                .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                                .fontWeight(FontWeight.Medium)
+                                .fontColor((item.callType === 3 || item.callType === 5) ?
+                                $r('sys.color.ohos_id_color_warning') : $r('sys.color.ohos_id_color_text_primary'))
+                                .constraintSize({ maxWidth: this.curBp == "sm" ? 160 : 260 })
+                                .textOverflow({ overflow: TextOverflow.Ellipsis })
+                                .maxLines(1)
+                            }
+                          }
+                        })
+                      }
+
+                      Row() {
+                        ForEach(item.phoneNumber.split(this.tele_number.replace(/\s*/g,"")), (phoneNumber, idx: number) => {
+                          Row() {
+                            Text(phoneNumber.toString())
+                              .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                              .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+                            if(idx === 0 && item.phoneNumber.indexOf(this.tele_number.replace(/\s*/g,""))!== -1){
+                              Text(this.tele_number.toString().replace(/\s*/g,""))
+                                .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                                .fontColor(Color.Blue)
+                            }else if(item.phoneNumber.split(this.tele_number.replace(/\s*/g,"")).length - 1 !== idx) {
+                              Text(this.tele_number.toString().replace(/\s*/g,""))
+                                .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                                .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+                            }
+                          }
+                        })
+                      }
+                    }.onClick(() => {
+                      this.mPresenter.jumpToContactDetail(item.phoneNumber);
+                    })
+                    .alignItems(HorizontalAlign.Start)
+                    .layoutWeight(1)
+                    .justifyContent(FlexAlign.Center)
+                    .height($r("app.float.id_item_height_max"))
+                    Image($r('app.media.ic_public_detail'))
+                      .height($r('app.float.id_card_margin_max'))
+                      .width($r('app.float.id_card_margin_max'))
+                      .objectFit(ImageFit.Contain)
+                      .borderRadius($r('app.float.id_card_margin_xl'))
+                      .onClick(() => {
+                        this.mPresenter.jumpToContactDetail(item.phoneNumber);
+                    })
+                  }
+                  .margin({
+                    left: $r("app.float.id_card_image_small"),
+                    right: $r("app.float.id_card_image_small")
+                  })
+                }
+                .height($r("app.float.id_item_height_max"))
+              }, item => JSON.stringify(item))
+            }
+            .divider({
+              strokeWidth: 0.5,
+              color: $r('sys.color.ohos_id_color_list_separator'),
+              startMargin: $r("app.float.id_card_margin_max"),
+              endMargin: $r("app.float.id_card_margin_max")
+            })
+          }
+          .height('100%')
+          .zIndex(1)
         }
         if (this.tele_number.length === 0) {
           Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Start }) {
@@ -225,7 +334,6 @@ export default struct Call {
               if (this.mPresenter.callBtnClick) {
                 return;
               }
-              this.mPresenter.panelShow = false;
               this.showDialBtn = false;
             })
           }
@@ -286,22 +394,25 @@ export default struct Call {
             })
 
             //This component is temporarily shielded because there is no requirement currently.
-            //            Button() {
-            //              Column() {
-            //                Image($r("app.media.ic_public_contacts_group"))
-            //                  .width($r("app.float.id_card_image_small"))
-            //                  .height($r("app.float.id_card_image_small"))
-            //                  .margin({ bottom: this.curBp === 'lg' ? 0 : '3vp' })
-            //                Text($r("app.string.save_to_existing_contacts"))
-            //                  .fontSize($r("sys.float.ohos_id_text_size_caption1"))
-            //                  .fontWeight(FontWeight.Medium)
-            //                  .fontColor($r("sys.color.ohos_id_color_text_primary"))
-            //              }
-            //            }
-            //            .layoutWeight(1)
-            //            .type(ButtonType.Normal)
-            //            .height($r("app.float.id_item_height_large"))
-            //            .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
+            Button() {
+              Column() {
+                Image($r("app.media.ic_public_contacts_group"))
+                  .width($r("app.float.id_card_image_small"))
+                  .height($r("app.float.id_card_image_small"))
+                  .margin({ bottom: this.curBp === 'lg' ? 0 : '3vp' })
+                Text($r("app.string.save_to_existing_contacts"))
+                  .fontSize($r("sys.float.ohos_id_text_size_caption1"))
+                  .fontWeight(FontWeight.Medium)
+                  .fontColor($r("sys.color.ohos_id_color_text_primary"))
+              }
+            }
+            .layoutWeight(1)
+            .type(ButtonType.Normal)
+            .height($r("app.float.id_item_height_large"))
+            .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
+            .onClick(() => {
+              this.mPresenter.saveCallRecordExistingContact();
+            })
 
             Button() {
               Column() {
@@ -325,7 +436,7 @@ export default struct Call {
           }
           .width('100%')
           .height($r("app.float.id_item_height_large"))
-          .offset({ x: 0, y: -336 })
+          .offset({ x: -23, y: -336 })
           .zIndex(3)
           .padding({ top: 4 })
         }
@@ -368,13 +479,15 @@ export default struct Call {
               .gesture(
               LongPressGesture({ repeat: false, fingers: 1, duration: 700 })
                 .onAction((event: GestureEvent) => {
+                  AppStorage.SetOrCreate("tele_number", '');
+                  this.mPresenter.all_number = '';
                   this.mPresenter.editPhoneNumber("");
                 })
               )
               .onClick(() => {
-                this.mPresenter.isClickDelete = true;
                 this.mPresenter.pressVibrate();
-                this.mPresenter.all_number = this.mPresenter.all_number.substr(0, this.mPresenter.all_number.length - 1)
+                let number: string = AppStorage.Get("tele_number");
+                this.mPresenter.all_number = number.substr(0, number.length - 1);
                 this.mPresenter.deleteTeleNum();
                 this.mPresenter.deleteAddSpace();
                 this.mPresenter.viewNumberTextProc();
@@ -388,7 +501,7 @@ export default struct Call {
         }
         .margin({ top: this.tele_number.length >= 3 ? 55.6 : 0 })
         .width('100%')
-        .zIndex(this.mPresenter.panelShow ? 2 : -1)
+        .zIndex(this.showDialBtn ? 2 : -1)
       }
       .width("100%")
       .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
