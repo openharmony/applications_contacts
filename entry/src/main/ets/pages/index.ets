@@ -41,7 +41,11 @@ struct Index {
   @StorageLink("teleNumber") @Watch("teleNumberChange") teleNumber: string = '';
   mDialerPresenter: DialerPresenter = DialerPresenter.getInstance();
   @State bottomTabIndex: number = call.hasVoiceCapability() ? 0 : 1;
-  @StorageLink("targetPage") @Watch("targetPageChange") targetPage: any = {};
+  @StorageLink("targetPage") @Watch("targetPageChange") targetPage: {
+    url?: string,
+    pageIndex?: number,
+    params?: any
+  } = {};
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @State isContactSearch: boolean = false;
   emitterId: number = 105;

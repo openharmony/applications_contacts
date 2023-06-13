@@ -142,7 +142,7 @@ export struct FavoriteListItem {
     title: 'test title',
     multiSimCardItems: [],
   };
-  @State item: any = {};
+  @State item: { [key: string]: any } = {};;
   @State builder: SelectNumDialogBuilder = {
     title: $r('app.string.contacts_call'),
     multiNumCardItems: [],

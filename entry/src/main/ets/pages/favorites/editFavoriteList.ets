@@ -296,7 +296,7 @@ struct FavoriteContent {
 @Component
 export struct FavoriteListItem {
   @Link presenter: EditFavoriteListPresenter;
-  @State item: any = {};
+  @State item: { [key: string]: any } = {};
   @Link isEditSelectList: string[];
   @Link selectNumber: number;
   @Link isSelectAll: boolean;
