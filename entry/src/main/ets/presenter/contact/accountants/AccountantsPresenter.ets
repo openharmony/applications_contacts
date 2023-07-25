@@ -578,47 +578,52 @@ export default class AccountantsPresenter {
   }
 
   public menuChange(typeName: string, data: any, item: any) {
-    switch (typeName) {
-      case "phone":
-        if (ObjectUtil.isEmpty(this.contactInfoAfter.phones[data.i - 1])) {
-          this.contactInfoAfter.phones[data.i - 1] = new PhoneNumBean("", "", "", "", "");
-        }
-        this.contactInfoAfter.phones[data.i - 1].numType = item.rawValue.toString();
-        data.numType = item.rawValue.toString();
-        break;
-      case "email":
-        if (ObjectUtil.isEmpty(this.contactInfoAfter.emails[data.i - 1])) {
-          this.contactInfoAfter.emails[data.i - 1] = new EmailBean("", "", "");
-        }
-        this.contactInfoAfter.emails[data.i - 1].emailType = item.rawValue.toString();
-        data.emailType = item.rawValue.toString();
-        break;
-      case "AIM":
-        if (ObjectUtil.isEmpty(this.contactInfoAfter.aims[data.i - 1])) {
-          this.contactInfoAfter.aims[data.i - 1] = new AIMBean("", "", "", "");
-        }
-        this.contactInfoAfter.aims[data.i - 1].aimType = item.rawValue.toString();
-        break;
-      case "house":
-        if (ObjectUtil.isEmpty(this.contactInfoAfter.houses[data.i - 1])) {
-          this.contactInfoAfter.houses[data.i - 1] = new HouseBean("", "", "", "");
-        }
-        this.contactInfoAfter.houses[data.i - 1].houseType = item.rawValue.toString();
-        break;
-      case "relationships":
-        if (ObjectUtil.isEmpty(this.contactInfoAfter.relationships[data.i - 1])) {
-          this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean("", "", "", "");
-        }
-        this.contactInfoAfter.relationships[data.i - 1].associatedType = item.rawValue.toString();
-        break;
-      case "events":
-        if (ObjectUtil.isEmpty(this.contactInfoAfter.events[data.i - 1])) {
-          this.contactInfoAfter.events[data.i - 1] = new EventBean("", "", "", "");
-        }
-        this.contactInfoAfter.events[data.i - 1].eventType = item.rawValue.toString();
-        break;
-      default:
-        break;
+    if (data.i) {
+      switch (typeName) {
+        case "phone":
+          if (ObjectUtil.isEmpty(this.contactInfoAfter.phones[data.i - 1])) {
+            this.contactInfoAfter.phones[data.i - 1] = new PhoneNumBean("", "", "", "", "");
+          }
+          this.contactInfoAfter.phones[data.i - 1].numType = item.rawValue.toString();
+          data.numType = item.rawValue.toString();
+          break;
+        case "email":
+          if (ObjectUtil.isEmpty(this.contactInfoAfter.emails[data.i - 1])) {
+            this.contactInfoAfter.emails[data.i - 1] = new EmailBean("", "", "");
+          }
+          this.contactInfoAfter.emails[data.i - 1].emailType = item.rawValue.toString();
+          data.emailType = item.rawValue.toString();
+          break;
+        case "AIM":
+          if (ObjectUtil.isEmpty(this.contactInfoAfter.aims[data.i - 1])) {
+            this.contactInfoAfter.aims[data.i - 1] = new AIMBean("", "", "", "");
+          }
+          this.contactInfoAfter.aims[data.i - 1].aimType = item.rawValue.toString();
+          break;
+        case "house":
+          if (ObjectUtil.isEmpty(this.contactInfoAfter.houses[data.i - 1])) {
+            this.contactInfoAfter.houses[data.i - 1] = new HouseBean("", "", "", "");
+          }
+          this.contactInfoAfter.houses[data.i - 1].houseType = item.rawValue.toString();
+          break;
+        case "relationships":
+          if (ObjectUtil.isEmpty(this.contactInfoAfter.relationships[data.i - 1])) {
+            this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean("", "", "", "");
+          }
+          this.contactInfoAfter.relationships[data.i - 1].associatedType = item.rawValue.toString();
+          break;
+        case "events":
+          if (ObjectUtil.isEmpty(this.contactInfoAfter.events[data.i - 1])) {
+            this.contactInfoAfter.events[data.i - 1] = new EventBean("", "", "", "");
+          }
+          this.contactInfoAfter.events[data.i - 1].eventType = item.rawValue.toString();
+          break;
+        default:
+          break;
+      }
+    } else {
+      HiLog.e(TAG, "data.i is Empty!" + JSON.stringify(data));
+      return;
     }
     this.addState = true;
     this.refresh();
