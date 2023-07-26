@@ -72,38 +72,10 @@ struct Accountants {
     HiLog.i(TAG, 'refreshPresenter')
     this.mPresenter = presenter;
   }
-  deleteDialogControler: CustomDialogController = new CustomDialogController({
-    //Components shared by the TIP for creating or updating a contact by mistake and the TIP for deleting a contact
-    builder: DeleteDialogEx({
-      cancel: () => {
-        if (0 === this.mPresenter.editContact){
-          router.replaceUrl({
-            url: 'pages/contacts/details/ContactDetail',
-            params: {
-              sourceHasPhone: true,
-              phoneNumberShow: this.mPresenter.phoneNumberShow
-            }
-          })
-        } else {
-          router.back();
-        }
-      },
-      confirm: () => {
-        this.mPresenter.saveContact();
-      },
-      title: $r("app.string.save_dialog_title"),
-      cancalText: $r("app.string.dialog_not_save"),
-      confrimText: $r("app.string.save")
-    }),
-    autoCancel: true,
-    alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
-    offset: { dx: 0, dy: -16 },
-    gridCount: 4
-  });
 
   pageTransition() {
-    PageTransitionEnter({ duration: 100 })
-    PageTransitionExit({ duration: 100 })
+    PageTransitionEnter({ duration: 50 })
+    PageTransitionExit({ duration: 50 })
   }
 
   onCancel() {
@@ -118,11 +90,8 @@ struct Accountants {
     HiLog.i(TAG, 'Click the callback in the blank area');
   }
 
-  aboutToAppear() {
-    HiLog.i(TAG, "the Page aboutToAppear Begin !!")
-    this.mPresenter.init(this.refreshPresenter);
-    if (!ObjectUtil.isEmpty(router.getParams())) {
-      let obj: any = router.getParams();
+  parseParams(obj) {
+    if (!ObjectUtil.isEmpty(obj)) {
       if (obj.hasOwnProperty("updataShow")) {
         this.updataShow = obj.updataShow;
       }
@@ -137,17 +106,30 @@ struct Accountants {
         this.mPresenter.contactInfoAfter.setDisplayName(obj.disPlayName);
         this.mPresenter.addState = true;
       }
-      if (this.updataShow === true) {
-        this.pageTitle = $r("app.string.edit_contact");
-        let obj: any = router.getParams();
-        this.mPresenter.contactId = obj.contactId;
-        this.mPresenter.updateShow = true;
-        this.mPresenter.phones = obj.phones;
-        this.mPresenter.editContact = obj.editContact;
-        this.mPresenter.phoneNumberShow = obj.phoneNumberShow;
-        this.mPresenter.callId = obj.callId;
-        this.mPresenter.updatesInit();
-      }
+    }
+  }
+
+  aboutToAppear() {
+    HiLog.i(TAG, "the Page aboutToAppear Begin !!")
+    AppStorage.SetOrCreate("isAccountantsPag", true);
+    this.mPresenter.init(this.refreshPresenter);
+    let obj: any = router.getParams();
+    let params = AppStorage.Get("params");
+    if (!ObjectUtil.isEmpty(obj)) {
+      this.parseParams(obj)
+    } else if (!ObjectUtil.isEmpty(params)) {
+      this.parseParams(params)
+      AppStorage.Delete("params");
+    }
+    if (this.updataShow === true && obj) {
+      this.pageTitle = $r("app.string.edit_contact");
+      this.mPresenter.contactId = obj?.contactId;
+      this.mPresenter.updateShow = true;
+      this.mPresenter.phones = obj?.phones;
+      this.mPresenter.editContact = obj?.editContact;
+      this.mPresenter.phoneNumberShow = obj?.phoneNumberShow;
+      this.mPresenter.callId = obj?.callId;
+      this.mPresenter.updatesInit();
     }
     HiLog.i(TAG, "the Page aboutToAppear End");
   }
@@ -159,8 +141,33 @@ struct Accountants {
 
   onBackPress() {
     HiLog.i(TAG, "onBackPress");
-    if (this.mPresenter.getAddState()) {
-      this.deleteDialogControler.open();
+    if (this.mPresenter.addState) {
+      AlertDialog.show(
+        {
+          message: $r("app.string.save_dialog_title"),
+          autoCancel: true,
+          alignment: EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom,
+          primaryButton: {
+            value: $r("app.string.dialog_not_save"),
+            action: () => {
+              HiLog.i(TAG, 'AlertDialog cancel');
+              router.back();
+            }
+          },
+          secondaryButton: {
+            value: $r("app.string.save"),
+            fontColor: $r("sys.color.ohos_id_color_handup"),
+            action: () => {
+              HiLog.i(TAG, 'AlertDialog saveContact');
+              this.mPresenter.saveContact();
+            }
+          },
+          offset: {
+            dx: 0, dy: -16
+          },
+          gridCount: 4
+        }
+      )
     } else {
       router.back();
     }
@@ -189,9 +196,35 @@ struct Accountants {
             right: $r("app.float.id_card_margin_xxl"),
             left: $r("app.float.id_card_margin_max") })
           .fillColor($r("sys.color.ohos_id_color_primary"))
+          .key("AddContact_CANCEL")
           .onClick(() => {
-            if (this.mPresenter.getAddState()) {
-              this.deleteDialogControler.open();
+            if (this.mPresenter.addState) {
+              AlertDialog.show(
+                {
+                  message: $r("app.string.save_dialog_title"),
+                  autoCancel: true,
+                  alignment: EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom,
+                  primaryButton: {
+                    value: $r("app.string.dialog_not_save"),
+                    action: () => {
+                      HiLog.i(TAG, 'AlertDialog cancel');
+                      router.back();
+                    }
+                  },
+                  secondaryButton: {
+                    value: $r("app.string.save"),
+                    fontColor: $r("sys.color.ohos_id_color_handup"),
+                    action: () => {
+                      HiLog.i(TAG, 'AlertDialog saveContact');
+                      this.mPresenter.saveContact();
+                    }
+                  },
+                  offset: {
+                    dx: 0, dy: -15
+                  },
+                  gridCount: 4
+                }
+              )
             } else {
               router.back()
             }
@@ -212,9 +245,10 @@ struct Accountants {
           .height($r("app.float.id_card_image_small"))
           .margin({ top: $r("app.float.id_card_margin_xxl"),
             bottom: $r("app.float.id_card_margin_xxl"), right: $r("app.float.id_card_margin_max") })
-          .fillColor(this.mPresenter.getAddState()
+          .fillColor(this.mPresenter.saveClickEnable()
             ? $r("sys.color.ohos_id_color_primary")
             : $r("sys.color.ohos_id_color_tertiary"))
+          .key("AddContact_OK")
           .onClick(() => {
             this.mPresenter.saveContact();
           })
@@ -351,7 +385,7 @@ struct Accountants {
                         typeName: "phone",
                         placeholder: $r("app.string.phone_number")
                       })
-                    }, item => item.i.toString())
+                    }, item => item?.i.toString())
 
                   AddItem({ mPresent: $mPresenter,
                     labelName: $r("app.string.add_more"),
@@ -376,7 +410,7 @@ struct Accountants {
                         typeName: "email",
                         placeholder: $r("app.string.email")
                       })
-                    }, item => item.i.toString())
+                    }, item => item?.i.toString())
 
                   AddItem({ mPresent: $mPresenter,
                     labelName: $r("app.string.add_more"),
@@ -403,7 +437,6 @@ struct Accountants {
                 }
                 .flexShrink(0)
                 .alignItems(HorizontalAlign.Start)
-                .width($r("app.float.account_listItem_text_common_width"))
 
                 Column() {
                   TextInput({
@@ -462,11 +495,11 @@ struct Accountants {
                       , (item) => {
                         ItemList({
                           mPresent: $mPresenter,
-                          index: item.i,
+                          index: item?.i,
                           typeName: "AIM",
                           placeholder: $r("app.string.instant_messaging")
                         })
-                      }, item => item.i.toString())
+                      }, item => item?.i.toString())
 
                     AddItem({ mPresent: $mPresenter,
                       labelName: $r("app.string.add_more"),
@@ -486,11 +519,11 @@ struct Accountants {
                       , (item) => {
                         ItemList({
                           mPresent: $mPresenter,
-                          index: item.i,
+                          index: item?.i,
                           typeName: "house",
                           placeholder: $r("app.string.address_add")
                         })
-                      }, item => item.i.toString())
+                      }, item => item?.i.toString())
 
                     AddItem({ mPresent: $mPresenter,
                       labelName: $r("app.string.add_more"),
@@ -516,7 +549,6 @@ struct Accountants {
                   }
                   .flexShrink(0)
                   .alignItems(HorizontalAlign.Start)
-                  .width($r("app.float.account_listItem_text_common_width"))
 
                   Column() {
                     TextInput({
@@ -558,7 +590,6 @@ struct Accountants {
                   }
                   .flexShrink(0)
                   .alignItems(HorizontalAlign.Start)
-                  .width($r("app.float.account_listItem_text_common_width"))
 
                   Column() {
                     TextInput({
@@ -596,12 +627,12 @@ struct Accountants {
                         ItemEvent({
                           mPresent: $mPresenter,
                           controller: this.dialogController,
-                          index: item.i,
+                          index: item?.i,
                           itemIndex: $eventItemId,
                           eventType: $eventType,
                           typeName: "events"
                         });
-                      }, item => item.i.toString())
+                      }, item => item?.i.toString())
 
                     AddItem({ mPresent: $mPresenter,
                       labelName: $r("app.string.add_more"),
@@ -621,11 +652,11 @@ struct Accountants {
                       , (item) => {
                         ItemList({
                           mPresent: $mPresenter,
-                          index: item.i,
+                          index: item?.i,
                           typeName: "relationships",
                           placeholder: $r("app.string.relation")
                         })
-                      }, item => item.i.toString())
+                      }, item => item?.i.toString())
 
                     AddItem({ mPresent: $mPresenter,
                       labelName: $r("app.string.add_more"),
@@ -672,9 +703,9 @@ struct Accountants {
       .height('100%')
       .flexShrink(1)
     }
-    .onTouch(() => {
-      this.mPresenter.hideKeyboard();
-    })
+      .onTouch(() => {
+        this.mPresenter.hideKeyboard();
+      })
     .padding({ left: 12, right: 12 })
     .width('100%')
     .height('100%')
