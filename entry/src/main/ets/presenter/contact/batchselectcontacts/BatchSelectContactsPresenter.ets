@@ -455,15 +455,17 @@ export default class BatchSelectContactsPresenter {
 
   changeCallLogItemState(index, event) {
     HiLog.i(TAG, 'changeCallLogItemState event :  ' + JSON.stringify(event));
-    this.callLogTemp[index].checked = event.checked;
-    this.recentSource.refreshSpecificOne(index, event.checked)
+    if (this.callLogTemp[index]) {
+      this.callLogTemp[index].checked = event.checked;
+      this.recentSource.refreshSpecificOne(index, event.checked)
 
-    if (this.callLogTemp[index].checked) {
-      this.addOrUpdateSelectedNumberMap(this.callLogTemp[index].phoneNumber, this.callLogTemp[index].displayName, true, this.callLogTemp[index].quickSearchKey);
-      this.tabInfo.recentCount++;
-    } else {
-      this.deleteSelectedNumber(this.callLogTemp[index].phoneNumber, this.callLogTemp[index].displayName, true, this.callLogTemp[index].quickSearchKey);
-      this.tabInfo.recentCount--;
+      if (this.callLogTemp[index].checked) {
+        this.addOrUpdateSelectedNumberMap(this.callLogTemp[index].phoneNumber, this.callLogTemp[index].displayName, true, this.callLogTemp[index].quickSearchKey);
+        this.tabInfo.recentCount++;
+      } else {
+        this.deleteSelectedNumber(this.callLogTemp[index].phoneNumber, this.callLogTemp[index].displayName, true, this.callLogTemp[index].quickSearchKey);
+        this.tabInfo.recentCount--;
+      }
     }
   }
 
