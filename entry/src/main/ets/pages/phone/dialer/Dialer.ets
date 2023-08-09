@@ -436,7 +436,7 @@ export default struct Call {
           }
           .width('100%')
           .height($r("app.float.id_item_height_large"))
-          .offset({ x: -23, y: -336 })
+          .offset({ y: -336 })
           .zIndex(3)
           .padding({ top: 4 })
         }
