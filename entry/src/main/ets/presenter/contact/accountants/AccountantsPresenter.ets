@@ -530,7 +530,7 @@ export default class AccountantsPresenter {
   }
 
   public menuChange(typeName: string, data: any, item: any) {
-    if (data.i) {
+    if (data && data.i) {
       switch (typeName) {
         case "phone":
           if (ObjectUtil.isEmpty(this.contactInfoAfter.phones[data.i - 1])) {
