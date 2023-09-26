@@ -104,6 +104,14 @@
                     name="entry/src/main/resources/rawfile/.*.ogg"
                     type="filepath"/>
             </filefilter>
+            <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
+                <filteritem type="filepath" name="hvigorw" desc="Build Files"/>
+                <filteritem type="filepath" name="hvigorw.bat" desc="Build Files"/>
+            </filefilter>
+            <filefilter name="copyrightPolicyFilter" desc="Filters for copyright header policies">
+                <filteritem type="filepath" name="hvigorw" desc="Build Files"/>
+                <filteritem type="filepath" name="hvigorw.bat" desc="Build Files"/>
+            </filefilter>
 
         </filefilterlist>
         <licensematcherlist>
