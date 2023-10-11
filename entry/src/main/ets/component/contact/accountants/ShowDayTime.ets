@@ -91,7 +91,8 @@ export struct ShowDayTime {
         .onClick(() => {
           this.mPresent.addState = true;
           this.date.setFullYear(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
-          if (StringUtil.isEmpty(this.mPresent.contactInfoAfter.events[this.itemIndex].eventType)) {
+          let eventBean = this.mPresent.contactInfoAfter.events[this.itemIndex];
+          if (!eventBean || StringUtil.isEmpty(eventBean.eventType)) {
             this.mPresent.contactInfoAfter.events[this.itemIndex] = new EventBean("", "", "1", "");
           }
           this.mPresent.contactInfoAfter.events[this.itemIndex].data = StringFormatUtil.numberFormatDateString(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate());

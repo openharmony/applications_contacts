@@ -370,7 +370,6 @@ export struct FavoriteListItem {
               if (0 === this.item.favorite.isCommonUseType) {
                 Text(this.item.favorite.displayName)
                   .maxLines(1)
-                  .fontSize(40)
                   .textOverflow({ overflow: TextOverflow.Ellipsis })
                   .fontWeight(FontWeight.Bold)
                   .fontColor(Color.Black)
@@ -383,7 +382,6 @@ export struct FavoriteListItem {
                 Column() {
                   Text(this.item.favorite.displayName)
                     .maxLines(1)
-                    .fontSize(40)
                     .fontWeight(FontWeight.Bold)
                     .textOverflow({ overflow: TextOverflow.Ellipsis })
                     .fontColor(Color.Black)
