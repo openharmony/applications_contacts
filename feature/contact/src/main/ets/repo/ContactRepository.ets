@@ -386,6 +386,7 @@ export class ContactRepository implements IContactRepository {
     this.contactsUrl.forEach((url, index, array) => {
       this.getDataAbilityHelper().then((dataAbilityHelper) => {
         if (dataAbilityHelper) {
+          HiLog.i(TAG, "start unregisterContactsDataChange:" + index)
           dataAbilityHelper.off("dataChange", url, this.callback);
           HiLog.i(TAG, "unregisterContactsDataChange success:" + index)
         }
