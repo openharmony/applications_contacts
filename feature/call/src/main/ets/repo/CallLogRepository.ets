@@ -305,6 +305,7 @@ export class CallLogRepository implements ICallLogRepository {
   unregisterCallLogDataChange() {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       if (dataAbilityHelper) {
+        HiLog.i(TAG, "start unregisterCallLogDataChange");
         dataAbilityHelper.off("dataChange", Calls.CALL_LOG_URI, this.callback);
         HiLog.i(TAG, "unregisterCallLogDataChange success")
       }
