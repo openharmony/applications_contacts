@@ -42,7 +42,6 @@ export default class IndexPresenter {
       CallRecordPresenter.getInstance().requestItem();
       AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
     }
-    FavoriteListPresenter.getInstance().onPageShow();
   }
 
   getCurrentUrl(){
