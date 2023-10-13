@@ -88,6 +88,7 @@ export default class AccountantsPresenter {
     this.contactInfoBefore = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0);
     this.contactInfoAfter = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0);
     this.refreshState = refreshState;
+    this.routerAvtiveFlag = false;
   }
 
   refresh() {
