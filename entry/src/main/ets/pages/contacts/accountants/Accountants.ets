@@ -55,6 +55,10 @@ struct Accountants {
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @State updataShow: boolean = false;
   private pageTitle: Resource = $r("app.string.create_contact");
+  @LocalStorageProp('keyBoardHeightPx') @Watch("updateListHeight") keyBoardHeight: number = 0;
+  @LocalStorageProp('windowHeightPx') @Watch("updateListHeight") windowHeight: number = 0;
+  @LocalStorageProp('windowAvoidAreaHeightPx') @Watch("updateListHeight") windowAvoidAreaHeight: number = 0;
+  @State listHeight: number = 0;
   dialogController: CustomDialogController = new CustomDialogController({
     builder: ShowDayTime({ mPresent: $mPresenter,
       cancel: this.onCancel,
@@ -89,6 +93,11 @@ struct Accountants {
     gridCount: 4
   });
 
+  updateListHeight() {
+    let listHeight = px2vp(this.windowHeight - this.keyBoardHeight - this.windowAvoidAreaHeight);
+    this.listHeight = listHeight;
+  }
+
   pageTransition() {
     PageTransitionEnter({ duration: 100 })
     PageTransitionExit({ duration: 100 })
@@ -108,6 +117,7 @@ struct Accountants {
 
   aboutToAppear() {
     HiLog.i(TAG, "the Page aboutToAppear Begin !!")
+    this.updateListHeight();
     this.mPresenter.init(this.refreshPresenter);
     if (!ObjectUtil.isEmpty(router.getParams())) {
       let obj: any = router.getParams();
@@ -649,6 +659,7 @@ struct Accountants {
               .width("100%")
             }
           }
+          .height(this.listHeight)
           .scrollBar(BarState.Off)
           .width("100%")
           .alignListItem(ListItemAlign.Center)

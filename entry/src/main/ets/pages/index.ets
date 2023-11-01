@@ -205,7 +205,6 @@ struct TabBars {
                 }
               }
             })
-            .width($r("app.float.id_card_image_mid"))
             .height($r("app.float.id_card_image_mid"))
           }
           .justifyContent(FlexAlign.Center)
