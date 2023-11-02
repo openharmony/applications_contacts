@@ -1,5 +1,5 @@
 {
-    "name": "@ohos/contacts_standard",
+    "name": "@ohos/contacts",
     "description": "Contacts app for standard system.",
     "version": "3.1",
     "license": "Apache License 2.0",
@@ -10,7 +10,7 @@
     "dirs": {},
     "scripts": {},
     "component": {
-        "name": "contacts_standard",
+        "name": "contacts",
         "subsystem": "applications",
         "syscap": [
             "SystemCapability.Applications.Contacts"
