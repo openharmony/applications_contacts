@@ -326,7 +326,7 @@ export default class AccountantsPresenter {
         this.getPhones = this.getArray(this.contactInfoAfter.phones);
         break;
       case "email":
-        if (this.contactInfoAfter.phones.length > startIndex) {
+        if (this.contactInfoAfter.emails.length > startIndex) {
           if (this.contactInfoAfter.emails.length > 0) {
             this.contactInfoAfter.emails.splice(startIndex, 1);
           } else {
