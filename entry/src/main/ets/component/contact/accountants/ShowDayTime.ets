@@ -18,6 +18,8 @@ import { EventBean } from "../../../model/bean/EventBean";
 import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
 import StringFormatUtil from "../../../util/StringFormatUtil"
 import { Birthday } from '../../../../../../../feature/contact/src/main/ets/contract/Birthday';
+import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
+import CalendarUtil from '../../../util/CalendarUtil';
 
 @CustomDialog
 export struct ShowDayTime {
@@ -25,11 +27,59 @@ export struct ShowDayTime {
   @Link mPresent: AccountantsPresenter;
   @Prop itemIndex: number;
   @Prop itemType: number;
-  @State showTime: Resource = $r("app.string.yearMonthDay", this.date.getFullYear(),
-    (this.date.getMonth() + 1), this.date.getDate());
+  showTime: ResourceStr = $r("app.string.yearMonthDay", this.date.getFullYear(),
+                            (this.date.getMonth() + 1), this.date.getDate());
+  private finalDate: string = StringFormatUtil.numberFormatDateString(this.date.getFullYear(), this.date.getMonth() + 1,
+                              this.date.getDate())
   controller: CustomDialogController
   cancel: () => void
   confirm: () => void
+  onChangeStatus: number = 0;
+
+  aboutToAppear() {
+    this.date = new Date();
+    const data = this.mPresent.contactInfoAfter?.events[this.itemIndex]?.data;
+    if(!StringUtil.isEmpty(data)) {
+      const dataArray = data.split("-");
+      if(!ArrayUtil.isEmpty(dataArray) && dataArray.length == 3) {
+        this.date = new Date(Number.parseInt(dataArray[0]), Number.parseInt(dataArray[1])-1, Number.parseInt(dataArray[2]))
+      }
+    }
+
+    this.showTime = this.formatDateShowTime(this.date)
+  }
+
+  aboutToDisappear() {
+    this.onChangeStatus = 0;
+  }
+
+  isLunarDateType() {
+    return this.itemType == Birthday.TYPE_LUNARBIRTHDAY
+  }
+
+  formatLunarShowTime(date: Date) {
+    const lunarStr = CalendarUtil.formatLunarDate(CalendarUtil.getLunarDate(date));
+    return lunarStr
+  }
+
+  formatDateShowTime(finalDate: Date | string): ResourceStr {
+    let isLunar = this.isLunarDateType();
+    let showTime: ResourceStr;
+    let date = new Date(finalDate);
+    let weekList = [$r("app.string.sunday"), $r("app.string.monday"), $r("app.string.tuesday"), $r("app.string.wednesday"),
+                    $r("app.string.thursday"), $r("app.string.friday"), $r("app.string.saturday")]
+    let weekIndex = date.getDay();
+    let week = weekList[weekIndex];
+    let resourceStr: string = globalThis.context.resourceManager.getStringSync(week);
+    if(isLunar) {
+      showTime = this.formatLunarShowTime(date);
+      showTime += '' + resourceStr;
+    } else {
+      showTime = $r("app.string.yearMonthDay", this.date.getFullYear(), (this.date.getMonth() + 1),
+                    this.date.getDate())
+    }
+    return showTime
+  }
 
   build() {
     Column() {
@@ -49,8 +99,9 @@ export struct ShowDayTime {
         .margin({ bottom: 8 })
         .lunar(this.itemType == Birthday.TYPE_LUNARBIRTHDAY)
         .onChange((value: DatePickerResult) => {
-          this.date = new Date(value.year, value.month, value.day);
-          this.showTime = $r("app.string.yearMonthDay", value.year, (value.month + 1), value.day);
+          this.onChangeStatus = 1
+          this.finalDate = StringFormatUtil.numberFormatDateString(value.year, value.month as number + 1, value.day)
+          this.showTime = this.formatDateShowTime(this.finalDate)
         })
 
       Row() {
@@ -90,11 +141,15 @@ export struct ShowDayTime {
         .height(40)
         .onClick(() => {
           this.mPresent.addState = true;
-          this.date.setFullYear(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
           if (StringUtil.isEmpty(this.mPresent.contactInfoAfter.events[this.itemIndex].eventType)) {
             this.mPresent.contactInfoAfter.events[this.itemIndex] = new EventBean("", "", "1", "");
           }
-          this.mPresent.contactInfoAfter.events[this.itemIndex].data = StringFormatUtil.numberFormatDateString(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate());
+          if(this.mPresent.contactInfoAfter?.events[this.itemIndex]?.data == "") {
+            this.mPresent.contactInfoAfter.events[this.itemIndex].data = this.finalDate;
+          }
+          if(this.onChangeStatus === 1) {
+            this.mPresent.contactInfoAfter.events[this.itemIndex].data = this.finalDate;
+          }
           this.mPresent.refresh();
           this.controller.close();
           this.confirm();

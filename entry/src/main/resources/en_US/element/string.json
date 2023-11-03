@@ -589,6 +589,34 @@
       "value": "%d s"
     },
     {
+      "name": "sunday",
+      "value": "Sunday"
+    },
+    {
+      "name": "monday",
+      "value": "Monday"
+    },
+    {
+      "name": "tuesday",
+      "value": "Tuesday"
+    },
+    {
+      "name": "wednesday",
+      "value": "Wednesday"
+    },
+    {
+      "name": "thursday",
+      "value": "Thursday"
+    },
+    {
+      "name": "friday",
+      "value": "Friday"
+    },
+    {
+      "name": "saturday",
+      "value": "Saturday"
+    },
+    {
       "name": "minutesSecondsFormat",
       "value": "%d m %d s"
     },

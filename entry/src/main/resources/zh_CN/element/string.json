@@ -589,6 +589,34 @@
       "value": "%d年%d月%d日 "
     },
     {
+      "name": "sunday",
+      "value": "周日"
+    },
+    {
+      "name": "monday",
+      "value": "周一"
+    },
+    {
+      "name": "tuesday",
+      "value": "周二"
+    },
+    {
+      "name": "wednesday",
+      "value": "周三"
+    },
+    {
+      "name": "thursday",
+      "value": "周四"
+    },
+    {
+      "name": "friday",
+      "value": "周五"
+    },
+    {
+      "name": "saturday",
+      "value": "周六"
+    },
+    {
       "name": "secondsFormat",
       "value": "%d秒"
     },
