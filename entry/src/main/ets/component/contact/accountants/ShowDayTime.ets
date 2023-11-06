@@ -37,7 +37,6 @@ export struct ShowDayTime {
   onChangeStatus: number = 0;
 
   aboutToAppear() {
-    this.date = new Date();
     const data = this.mPresent.contactInfoAfter?.events[this.itemIndex]?.data;
     if(!StringUtil.isEmpty(data)) {
       const dataArray = data.split("-");
