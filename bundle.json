@@ -1,7 +1,7 @@
 {
     "name": "@ohos/contacts",
     "description": "Contacts app for standard system.",
-    "version": "3.1",
+    "version": "3.0",
     "license": "Apache License 2.0",
     "publishAs": "code-segment",
     "segment": {
