@@ -48,6 +48,7 @@ export default class DialerPresenter {
   dialerRadius = 24;
   refreshView: boolean;
   callBtnClick: boolean;
+  isPalyAudioing: boolean = false;
   secretCode: string = '';
   mAllCallRecordListDataSource: CallRecordListDataSource = new CallRecordListDataSource();
   callLogSearchList: any[] = [];
@@ -264,27 +265,32 @@ export default class DialerPresenter {
   }
 
   async tonePlayer(type) {
-    HiLog.i(TAG, 'TonePlayer');
-    if (this.timer) clearTimeout(this.timer);
+    HiLog.i(TAG, 'TonePlayer type: '+type);
+    let that = this;
     let tonePlayer = null;
     let audioRendererInfo = {
       content: 5,
       usage: 6,
       rendererFlags: 0
     };
-    this.timer = setTimeout(async () => {
-      try {
-        tonePlayer = await audio.createTonePlayer(audioRendererInfo);
-        await tonePlayer.load(type);
-        await tonePlayer.start();
-        setTimeout(async () => {
-          await tonePlayer.stop();
-          await tonePlayer.release();
-        }, 30)
-      } catch (err) {
-        HiLog.e(TAG, 'tonePlayer err = ' + JSON.stringify(err));
-      }
-    }, 50)
+
+    if (this.isPalyAudioing == false){
+      HiLog.i(TAG, 'TonePlayer beginCreate');
+      this.isPalyAudioing = true;
+      tonePlayer = await audio.createTonePlayer(audioRendererInfo);
+      HiLog.i(TAG, 'TonePlayer begin load');
+      await tonePlayer.load(type);
+      HiLog.i(TAG, 'TonePlayer begin start');
+      await tonePlayer.start();
+      HiLog.i(TAG, 'TonePlayer start end');
+      setTimeout(async () => {
+        HiLog.i(TAG, 'TonePlayer stop begin');
+        that.isPalyAudioing = false;
+        await tonePlayer.stop();
+        HiLog.i(TAG, 'TonePlayer stop end');
+        await tonePlayer.release();
+      }, 15)
+    }
   };
 
   /*
