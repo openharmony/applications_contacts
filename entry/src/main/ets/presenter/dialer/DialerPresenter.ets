@@ -275,19 +275,13 @@ export default class DialerPresenter {
     };
 
     if (this.isPalyAudioing == false){
-      HiLog.i(TAG, 'TonePlayer beginCreate');
       this.isPalyAudioing = true;
       tonePlayer = await audio.createTonePlayer(audioRendererInfo);
-      HiLog.i(TAG, 'TonePlayer begin load');
       await tonePlayer.load(type);
-      HiLog.i(TAG, 'TonePlayer begin start');
       await tonePlayer.start();
-      HiLog.i(TAG, 'TonePlayer start end');
       setTimeout(async () => {
-        HiLog.i(TAG, 'TonePlayer stop begin');
         that.isPalyAudioing = false;
         await tonePlayer.stop();
-        HiLog.i(TAG, 'TonePlayer stop end');
         await tonePlayer.release();
       }, 15)
     }
