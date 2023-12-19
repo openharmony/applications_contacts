@@ -96,6 +96,7 @@ struct ContactDetail {
 
   aboutToDisappear() {
     this.mPresenter.aboutToDisappear();
+    this.mSelectSlotIdDialog = null;
   }
 
   onPageShow() {

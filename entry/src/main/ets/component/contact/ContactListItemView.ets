@@ -67,6 +67,11 @@ export default struct ContactListItemView {
     closeAnimation: { duration: 100 }
   });
 
+  aboutToDisappear() {
+    this.shareDialogControler = null;
+    this.deleteDialogControler = null;
+  }
+
   onDeleteClick() {
     HiLog.i(TAG, 'onDeleteClick');
     this.deleteDialogControler.open();

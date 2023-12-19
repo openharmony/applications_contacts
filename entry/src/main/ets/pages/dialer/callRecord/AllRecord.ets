@@ -169,6 +169,10 @@ struct ContactItem {
     closeAnimation: { duration: 100 }
   });
 
+  aboutToDisappear() {
+    this.deleteDialogController = null;
+  }
+
   build() {
     Row() {
       Row() {
