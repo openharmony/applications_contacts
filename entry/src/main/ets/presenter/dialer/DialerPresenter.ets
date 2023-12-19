@@ -265,7 +265,7 @@ export default class DialerPresenter {
   }
 
   async tonePlayer(type) {
-    HiLog.i(TAG, 'TonePlayer type: '+type);
+    HiLog.i(TAG, 'TonePlayer type: ' + type);
     let that = this;
     let tonePlayer = null;
     let audioRendererInfo = {
@@ -274,7 +274,7 @@ export default class DialerPresenter {
       rendererFlags: 0
     };
 
-    if (this.isPalyAudioing == false){
+    if (!this.isPalyAudioing){
       this.isPalyAudioing = true;
       tonePlayer = await audio.createTonePlayer(audioRendererInfo);
       await tonePlayer.load(type);
