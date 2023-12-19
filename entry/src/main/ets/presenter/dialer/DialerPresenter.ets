@@ -274,7 +274,7 @@ export default class DialerPresenter {
       rendererFlags: 0
     };
 
-    if (!this.isPalyAudioing){
+    if (!this.isPalyAudioing) {
       this.isPalyAudioing = true;
       tonePlayer = await audio.createTonePlayer(audioRendererInfo);
       await tonePlayer.load(type);
