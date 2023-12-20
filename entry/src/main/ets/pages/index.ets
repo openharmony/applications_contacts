@@ -140,75 +140,61 @@ struct Index {
   }
 
   build() {
-    Column() {
-      if (this.mPermissionManager.isAllPermissionsGranted()) {
+    if (this.mPermissionManager.isAllPermissionsGranted()) {
         Flex({
           direction: this.curBp === 'lg' ? FlexDirection.Row : FlexDirection.Column,
           alignItems: ItemAlign.Start,
           justifyContent: FlexAlign.Start
         }) {
           if (this.curBp === 'lg') {
-            Column() {
-              TabBars({ controller: this.controller, bottomTabIndex: $bottomTabIndex })
-            }
-            .height('100%')
-            .zIndex(3)
-            .visibility(this.isContactSearch ? Visibility.None : Visibility.Visible)
+            TabBars({ controller: this.controller, bottomTabIndex: $bottomTabIndex })
+              .visibility(this.isContactSearch ? Visibility.None : Visibility.Visible)
           }
-          Column() {
-            Tabs({
-              barPosition: this.curBp === 'lg' ? BarPosition.Start : BarPosition.End,
-              index: this.bottomTabIndex,
-              controller: this.controller
-            }) {
-              if (this.curBp !== 'lg') {
-                TabContent() {
-                  callPage()
-                }
-              } else {
-                TabContent() {
-                  callTabletPage()
-                }
-              }
+          Tabs({
+            barPosition: BarPosition.End,
+            index: this.bottomTabIndex,
+            controller: this.controller
+          }) {
+            if (this.curBp !== 'lg') {
               TabContent() {
-                contactPage()
+                callPage()
               }
-
+            } else {
               TabContent() {
-                favoritePage()
+                callTabletPage()
               }
             }
-            .width('100%')
-            .vertical(false)
-            .barMode(BarMode.Fixed)
-            .barWidth(0)
-            .barHeight(0)
-            .scrollable(false)
-            .animationDuration(0)
+            TabContent() {
+              contactPage()
+            }
+            TabContent() {
+              favoritePage()
+            }
           }
-          .layoutWeight(this.curBp === 'lg' ? 1 : 0)
-          .flexShrink(this.curBp === 'lg' ? 0 : 1)
+          .width(this.curBp === 'lg' ? null : '100%')
           .height(this.curBp === 'lg' ? '100%' : null)
-          .width(this.curBp === 'lg' ? 0 : '100%')
+          .vertical(false)
+          .barMode(BarMode.Fixed)
+          .barWidth(0)
+          .barHeight(0)
+          .scrollable(false)
+          .animationDuration(0)
+          .layoutWeight(1)
 
           if (this.curBp !== 'lg') {
-            Column() {
-              TabBars({ controller: this.controller, bottomTabIndex: $bottomTabIndex })
-            }
-            .backgroundColor($r("sys.color.ohos_id_color_sub_background"))
-            .width('100%')
-            .height($r("app.float.id_item_height_large"))
-            .flexShrink(0)
-            .visibility(this.isContactSearch ? Visibility.None : Visibility.Visible)
+            TabBars({ controller: this.controller, bottomTabIndex: $bottomTabIndex })
+              .backgroundColor($r("sys.color.ohos_id_color_sub_background"))
+              .visibility(this.isContactSearch ? Visibility.None : Visibility.Visible)
           }
         }
         .backgroundColor($r("sys.color.ohos_fa_sub_background"))
         .width('100%')
         .height('100%')
-      }
+      } else {
+        Column()
+          .width('100%')
+          .height('100%')
     }
-    .width('100%')
-    .height('100%')
   }
 }
 

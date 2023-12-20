@@ -62,15 +62,11 @@ export default struct FavoriteList {
   }
 
   build() {
-    Column() {
-      if (this.favoriteListListLen === 0) {
-        FavoriteEmptyPage({ presenter: $mFavoriteListPresenter, isEdit: $isEdit });
-      } else {
-        FavoriteContent({ presenter: $mFavoriteListPresenter });
-      }
+    if (this.favoriteListListLen === 0) {
+      FavoriteEmptyPage({ presenter: $mFavoriteListPresenter, isEdit: $isEdit });
+    } else {
+      FavoriteContent({ presenter: $mFavoriteListPresenter });
     }
-    .width('100%')
-    .height('100%')
   }
 }
 
@@ -81,56 +77,51 @@ struct FavoriteContent {
   isUsuallyShow: boolean = false;
 
   build() {
-    Stack({ alignContent: Alignment.BottomEnd }) {
-      Column() {
-        GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: 12, y: 0 } }) {
-          GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
-            TitleGuide({ mPresenter: $mPresenter });
-          }
-
-          GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 2, lg: 4 } }) {
-            Column() {
-              Text($r('app.string.favorite'))
-                .fontSize(30)
-                .fontWeight(FontWeight.Bold)
-                .fontColor($r('sys.color.ohos_id_color_text_primary'))
-                .margin({ bottom: $r("app.float.id_card_margin_sm") })
-                .lineHeight(42)
-                .margin({ top: 8, bottom: 2 })
-            }
-            .alignItems(HorizontalAlign.Start)
-            .width('100%')
-            .height(82)
-          }
+     Column() {
+      GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: 12, y: 0 } }) {
+        GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
+          TitleGuide({ mPresenter: $mPresenter });
         }
-
-        GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: 12, y: 0 } }) {
-          GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
-            List({ space: 0, initialIndex: 0 }) {
-              LazyForEach(this.presenter.favoriteDataSource, (item, index: number) => {
-                ListItem() {
-                  FavoriteListItem({ presenter: $mPresenter, item: item, mPresenter: $presenter });
-                }
-              }, (item) => JSON.stringify(item))
-            }
-            .scrollBar(BarState.Off)
-            .editMode(true)
-            .width('100%')
-            .height('100%')
-            .listDirection(Axis.Vertical)
-            .edgeEffect(EdgeEffect.Spring)
+        GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 2, lg: 4 } }) {
+          Column() {
+            Text($r('app.string.favorite'))
+              .fontSize(30)
+              .fontWeight(FontWeight.Bold)
+              .fontColor($r('sys.color.ohos_id_color_text_primary'))
+              .margin({ bottom: $r("app.float.id_card_margin_sm") })
+              .lineHeight(42)
+              .margin({ top: 8, bottom: 2 })
           }
+          .alignItems(HorizontalAlign.Start)
+          .width('100%')
+          .height(82)
         }
-        .height('100%')
-        .flexShrink(1)
       }
-      .padding({ left: 24, right: 24 })
+      GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: 12, y: 0 } }) {
+        GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
+          List({ space: 0, initialIndex: 0 }) {
+            LazyForEach(this.presenter.favoriteDataSource, (item, index: number) => {
+              ListItem() {
+                FavoriteListItem({ presenter: $mPresenter, item: item, mPresenter: $presenter });
+              }
+            }, (item) => JSON.stringify(item))
+          }
+          .scrollBar(BarState.Off)
+          .editMode(true)
+          .width('100%')
+          .height('100%')
+          .listDirection(Axis.Vertical)
+          .edgeEffect(EdgeEffect.Spring)
+        }
+      }
       .height('100%')
-      .width('100%')
+      .flexShrink(1)
     }
-    .backgroundColor(Color.White)
+    .padding({ left: 24, right: 24 })
     .height('100%')
     .width('100%')
+    .backgroundColor(Color.White)
+
   }
 }
 
