@@ -134,6 +134,10 @@ struct Accountants {
     HiLog.i(TAG, "the Page aboutToAppear End");
   }
 
+  aboutToDisappear() {
+    this.dialogController = null;
+  }
+
   onPageShow() {
     HiLog.i(TAG, 'onPageShow');
     this.mPresenter.refresh();

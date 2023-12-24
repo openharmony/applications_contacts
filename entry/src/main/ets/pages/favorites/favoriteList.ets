@@ -151,6 +151,10 @@ export struct FavoriteListItem {
   @StorageLink("haveSimCard") haveSimCard: boolean = false;
   @StorageLink('haveMultiSimCard') haveMultiSimCard: boolean = false;
 
+  aboutToDisappear() {
+    this.mSelectSlotIdDialog = null;
+  }
+
   build() {
     Stack({ alignContent: Alignment.BottomEnd }) {
       Column() {
