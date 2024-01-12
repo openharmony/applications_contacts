@@ -94,11 +94,15 @@ struct Index {
     this.mIndexPresenter.onPageShow();
     CallRecordPresenter.getInstance().setPageShow(this.bottomTabIndex == 0);
     ContactListPresenter.getInstance().setPageShow(this.bottomTabIndex == 1);
+    if (this.bottomTabIndex == 2) {
+      FavoriteListPresenter.getInstance().onPageShow();
+    }
   }
 
   onPageHide() {
     ContactListPresenter.getInstance().setPageShow(false);
     CallRecordPresenter.getInstance().setPageShow(false);
+    FavoriteListPresenter.getInstance().onPageHide();
   }
 
   aboutToAppear() {
