@@ -17,7 +17,7 @@
  * Phone Data Type - Birthday
  */
 export class Birthday {
-  static readonly CONTENT_ITEM_TYPE: string = "vnd.android.cursor.item/birthday_v2";
+  static readonly CONTENT_ITEM_TYPE: string = "vnd.cursor.item/birthday_v2";
   static readonly TYPE_GREBIRTHDAY: number = 1;
   static readonly TYPE_LUNARBIRTHDAY: number = 2;
   static readonly TYPE_ANNIVERSARIES: number = 3;

@@ -81,7 +81,7 @@ export default class PhoneAccountType extends AccountType {
     typeList.push(this.buildImType(Im.TYPE_YAHOO));
     typeList.push(this.buildImType(Im.TYPE_SKYPE));
     typeList.push(this.buildImType(Im.TYPE_QQ));
-    typeList.push(this.buildImType(Im.TYPE_GOOGLE_TALK));
+    typeList.push(this.buildImType(Im.TYPE_TALK));
     typeList.push(this.buildImType(Im.TYPE_JABBER));
     typeList.push(this.buildImType(Im.TYPE_CUSTOM));
     let kind = new DataKind(Im.CONTENT_ITEM_TYPE, typeList);
