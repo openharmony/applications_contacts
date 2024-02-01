@@ -234,7 +234,7 @@ export default class CallRecordPresenter {
       this.callLogIndex += this.callLogListPages[page-1];
       this.missedListPages[page - 1] = data.missedList.length;
       this.missedIndex += this.missedListPages[page - 1];
-      if (dateLength < limit) {
+      if (data.callLogTotal < limit) {
         HiLog.i(TAG, 'CallLogs load completed: ' + this.mAllCallRecordListDataSource.totalCount());
         if (this.callLogListPages.length > page) {
           this.callLogListPages.splice(page, this.callLogListPages.length - page);

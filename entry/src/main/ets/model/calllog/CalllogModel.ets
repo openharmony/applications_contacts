@@ -36,7 +36,7 @@ export default {
     HiLog.i(TAG, 'getAllCalls in:' + JSON.stringify(actionData));
     CallLogRepository.getInstance().findAll(param.favorite, actionData, result => {
       let resultData = {
-        callLogList: [], missedList: []
+        callLogList: [], missedList: [], callLogTotal: 0
       };
       if (ArrayUtil.isEmpty(result)) {
         HiLog.i(TAG, 'getAllCalls logMessage callLog resultSet is empty!');
@@ -47,6 +47,7 @@ export default {
       CallLogService.getInstance().setMergeRule(mergeRule)
       resultData.callLogList = CallLogService.getInstance().mergeCallLogs(result);
       resultData.missedList = CallLogService.getInstance().mergeMissedCalls(result);
+      resultData.callLogTotal = result.length;
       let numberList = this.getNumberList(resultData);
       this.queryContactsName(numberList, resultData, resultData => {
         callBack(resultData);
