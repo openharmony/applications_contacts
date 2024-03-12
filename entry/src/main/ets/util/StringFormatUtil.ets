@@ -31,6 +31,7 @@ export default {
   },
 
   judgeSysTime(context?: Context) {
+    Hilog.i('judgeSysTime', 'init judgeSysTime');
     return settings.getValueSync(context ? context : globalThis.context, settings.date.TIME_FORMAT, "24");
   },
 
