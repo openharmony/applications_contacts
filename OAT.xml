@@ -83,6 +83,7 @@
                 <filteritem type="filepath" name="entry/.*.json5" desc="build config file"/>
                 <filteritem type="filepath" name="entry/src/main/ets/MainAbility/workers/.*.js" desc="worker file"/>
                 <filteritem type="filepath" name="entry/src/main/.*.json5" desc="build config file"/>
+                <filteritem type="filename" name="hvigorfile.js" desc="build config file"/>
             </filefilter>
             <filefilter
                 desc="Filters for binary file policies"
