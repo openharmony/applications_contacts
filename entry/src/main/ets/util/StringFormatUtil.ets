@@ -14,7 +14,9 @@
  */
 import settings from '@ohos.settings';
 import CalendarUtil from './CalendarUtil'
+import { HiLog } from "../../../../../common"
 
+const TAG = 'StringFormatUtil'
 export default {
   numberFormatDateString(year : number, month : number, day : number) : string {
     return year + "-" + month + "-" + day;
@@ -31,6 +33,7 @@ export default {
   },
 
   judgeSysTime(context?: Context) {
+    HiLog.i(TAG, 'judgeSysTime', 'init judgeSysTime');
     return settings.getValueSync(context ? context : globalThis.context, settings.date.TIME_FORMAT, "24");
   },
 
