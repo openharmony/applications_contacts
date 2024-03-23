@@ -37,6 +37,7 @@ export default struct ContactListPage {
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @State contactListListLen: number = 0;
   emitterId: number = 2;
+  @State contactListTouchable: boolean = true;
 
   refresh() {
     let contactListLen = this.mContactPresenter.contactListDataSource.totalCount();
@@ -72,8 +73,13 @@ export default struct ContactListPage {
       ContactEmptyPage({ presenter: $mContactPresenter })
         .backgroundColor(this.curBp === 'lg' ? $r("sys.color.ohos_id_color_sub_background") : Color.White)
     } else {
-      ContactContent({ presenter: $mContactPresenter, contactListListLen: $contactListListLen })
+      ContactContent({
+        presenter: $mContactPresenter,
+        contactListListLen: $contactListListLen,
+        contactListTouchable: $contactListTouchable
+      })
         .backgroundColor(this.curBp === 'lg' ? $r("sys.color.ohos_id_color_sub_background") : Color.White)
+        .hitTestBehavior(this.contactListTouchable ? HitTestMode.Default : HitTestMode.Block)
     }
   }
 }
@@ -117,6 +123,7 @@ struct ContactContent {
   @State dragList: boolean = true;
   @State alphabetIndexPresenter: AlphabetIndexerPresenter = this.presenter.alphabetIndexPresenter;
   @State type: number = 0;
+  @Link contactListTouchable: boolean;
 
   @Builder
   GroupsView(imageRes: Resource, title: string | Resource, showArrow: boolean) {
@@ -241,7 +248,8 @@ struct ContactContent {
                         item: item.contact,
                         index: index,
                         showIndex: item.showIndex,
-                        showDivifer: item.showDivifer
+                        showDivifer: item.showDivifer,
+                        contactListTouchable: $contactListTouchable
                       })
                     }
                     .alignItems(HorizontalAlign.Start)
