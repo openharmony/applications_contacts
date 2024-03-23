@@ -34,6 +34,7 @@ export default struct ContactListItemView {
   @State private index: number = 0;
   @State showIndex: boolean = false;
   @State showDivifer: boolean = false;
+  @Link contactListTouchable: boolean;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   shareDialogControler: CustomDialogController = new CustomDialogController({
     builder: ShareDialogEx({
@@ -193,6 +194,13 @@ export default struct ContactListItemView {
         }
       );
     })
-    .bindContextMenu(this.MenuBuilder, ResponseType.LongPress)
+    .bindContextMenu(this.MenuBuilder, ResponseType.LongPress, {
+      onAppear: () => {
+        this.contactListTouchable = false;
+      },
+      onDisappear: () => {
+        this.contactListTouchable = true;
+      }
+    })
   }
 }
