@@ -548,8 +548,10 @@ export default class DetailPresenter {
     let now = new Date();
     let timeDetail: any = {};
     if (parseInt(StringFormatUtil.judgeSysTime()) == 12) {
+      HiLog.i(TAG, 'getTimeDetailByCallTime 12');
       timeDetail.time = StringFormatUtil.getDayMessage(hour, minutes);
     } else {
+      HiLog.i(TAG, 'getTimeDetailByCallTime 24');
       timeDetail.time = $r("app.string.time_normal", hour, minutes);
     }
     if (now.getFullYear() - callLogTime.getFullYear() == 0) {
