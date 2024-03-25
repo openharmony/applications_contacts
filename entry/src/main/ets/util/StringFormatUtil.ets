@@ -34,8 +34,14 @@ export default {
   },
 
   judgeSysTime(context?: Context) {
-    HiLog.i(TAG, 'judgeSysTime', 'init judgeSysTime');
-    return settings.getValueSync(context ? context : globalThis.context, settings.date.TIME_FORMAT, "24");
+    let timeFormat = APPStorage.get("timeFormat") as string;
+    if (timeFormat === undefined){
+      HiLog.i(TAG, 'judgeSysTime', 'init judgeSysTime');
+      timeFormat=settings.getValueSync(globalThis.context, settings.date.TIME_FORMAT, "24");
+      APPStorage.setOrCreate("timeFormat",timeFormat);
+    }
+    HiLog.i(TAG, 'judgeSysTime', 'calljudgeSysTime:+ timeFormat');
+    return timeFormat
   },
 
   /**

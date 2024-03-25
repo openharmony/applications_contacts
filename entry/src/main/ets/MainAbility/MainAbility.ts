@@ -21,13 +21,18 @@ import Want from '@ohos.app.ability.Want';
 import SimManager from '../feature/sim/SimManager';
 import { missedCallManager } from '../feature/missedCall/MissedCallManager';
 import PresenterManager from '../presenter/PresenterManager';
-
+import datashare from '@ohos.data.datashare';
+import settings from '@ohos.settings';
+import DataShareHelper from "@ohos.data.dataShare";
+const SETTING_TIME_FORMAT_URI ='datashare:///com.phos.settingsdata/entry/settingsdata/SETTINGSDATA?Proxy=true&key='
+settings.data.TIME_FORMAT;
 const TAG = 'MainAbility ';
 
 export default class MainAbility extends Ability {
     storage: LocalStorage;
     simManager: SimManager;
     mDataWorker = WorkFactory.getWorker(WorkerType.DataWorker);
+    settingDataShareHelper: DataShareHelper.DataShareHelper = null;
 
     updateBreakpoint(windowWidth: number) {
         let windowWidthVp: number = px2vp(windowWidth);
@@ -65,6 +70,7 @@ export default class MainAbility extends Ability {
         globalThis.DataWorker = this.mDataWorker;
         globalThis.presenterManager = new PresenterManager(this.context, this.mDataWorker);
         globalThis.presenterManager.onCreate(want);
+        this.subscribeTimeFormatChange();
     }
 
     onNewWant(want, launchParam) {
@@ -75,11 +81,38 @@ export default class MainAbility extends Ability {
         globalThis.presenterManager.onNewWant(want);
     }
 
+    subscribeTimeFormatChange(): void{
+        HiLog.i(TAG, 'subscribeTimeFormatChange');
+        try {
+            dataShare.createDataShareHelper(globalThis.context, SETTING_TIME_FORMAT_URI).then((data) => {
+                HiLog.i(TAG, 'createDataShareHelper succeed');
+                this.settingDataShareHelper = data;
+                this.settingDataShareHelper.on("dataChange", SETTING_TIME_FORMAT_URI, () => {
+                    let timeFormat = settings.getValueSync(globalThis.context, settings.date.TIME_FORMAT, "24");
+                    HiLog.i(TAG, 'refreshTimeFormat: ' + timeFormat);
+                    AppStorage.setOrCreate("timeFormat", timeFormat);
+                });
+            }).catch((err) => {
+                HiLog.e(TAG, `createDataShareHelper error: code: ${err.code}, message: ${err.message} `);
+            });
+        } catch (err) {
+            HiLog.e(TAG, `createDataShareHelper error: code: ${err.code}, message: ${err.message} `);
+        }
+    }
+
     onDestroy() {
         HiLog.i(TAG, 'Ability onDestroy');
-        globalThis.presenterManager.onDestroy();
+        try {
+            if (this.settingDataShareHelper !== null) {
+                this.settingDataShareHelper.off("dataChange", SETTING_TIME_FORMAT_URI);
+            }
+        } catch (err) {
+            HiLog.e(TAG, `settingDataShareHelper.off error: code: ${err.code}, message: ${err.message} `);
+        }
+        this.pageManager.onDestroy();
         this.mDataWorker.close();
     }
+
 
     onWindowStageCreate(windowStage: Window.WindowStage) {
         // Main window is created, set main page for this ability
