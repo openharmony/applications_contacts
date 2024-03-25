@@ -21,10 +21,10 @@ import Want from '@ohos.app.ability.Want';
 import SimManager from '../feature/sim/SimManager';
 import { missedCallManager } from '../feature/missedCall/MissedCallManager';
 import PresenterManager from '../presenter/PresenterManager';
-import datashare from '@ohos.data.datashare';
+import dataShare from '@ohos.data.dataShare';
 import settings from '@ohos.settings';
 import DataShareHelper from "@ohos.data.dataShare";
-const SETTING_TIME_FORMAT_URI ='datashare:///com.phos.settingsdata/entry/settingsdata/SETTINGSDATA?Proxy=true&key='
+const SETTING_TIME_FORMAT_URI ='dataShare:///com.phos.settingsdata/entry/settingsdata/SETTINGSDATA?Proxy=true&key='
 settings.data.TIME_FORMAT;
 const TAG = 'MainAbility ';
 
