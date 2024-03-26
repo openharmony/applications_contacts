@@ -18,6 +18,7 @@ import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
 import router from '@ohos.router';
 import { FavoriteBean } from '../../model/bean/FavoriteBean';
+import { FavoriteListBean } from '../../model/bean/FavoriteListBean';
 
 const TAG = 'EditFavoriteList';
 
@@ -100,20 +101,10 @@ struct FavoriteContent {
   @State positionYDown: number = 0;
   @State positionYUp: number = 0;
 
-  @Builder pixelMapBuilder() {
-    Column() {
-      FavoriteListItem({
-        item: this.item,
-        isEditSelectList: $isEditSelectList,
-        presenter: $favoriteListPresenter,
-        selectNumber: $selectNumber,
-        isSelectAll: $isSelectAll,
-        usuallyNumber: $usuallyNumber,
-        favoriteNumber: $favoriteNumber,
-        isEditDrag: this.isEditDrag
-      })
-    }
-  }
+  @State listItemExchange: boolean = false;
+  @State curDragItemIndex: number = -1;
+  @State dragItemOpacity: number = 1;
+  @State translateY: number = 0;
 
   build() {
     Stack({ alignContent: Alignment.BottomEnd }) {
@@ -149,29 +140,49 @@ struct FavoriteContent {
             List({ space: 0, initialIndex: 0 }) {
               LazyForEach(this.presenter.favoriteDataSource, (item, index: number) => {
                 ListItem() {
-                  FavoriteListItem({
-                    item: item,
-                    isEditSelectList: $isEditSelectList,
-                    presenter: $favoriteListPresenter,
-                    selectNumber: $selectNumber,
-                    isSelectAll: $isSelectAll,
-                    usuallyNumber: $usuallyNumber,
-                    favoriteNumber: $favoriteNumber,
-                    isEditDrag: false
-                  })
-                }
-                .onDragStart((event: DragEvent, extraParams: string) => {
-                  console.log('ListItem onDragStarts, ' + extraParams)
-                  var jsonString = JSON.parse(extraParams)
-                  if (jsonString.selectedIndex >= this.favoriteNumber) {
-                    console.log('List onDragStarts , return ')
-                    return;
+                  Column() {
+                    if (1 === item.favorite.isCommonUseType) {
+                      Text($r('app.string.common_use_num', this.usuallyNumber))
+                        .fontSize($r('sys.float.ohos_id_text_size_body2'))
+                        .fontWeight(FontWeight.Regular)
+                        .fontColor('#666666')
+                        .lineHeight(19)
+                        .textAlign(TextAlign.Center)
+                        .margin({ top: $r('app.float.id_card_margin_xxl'), bottom: $r('app.float.id_card_margin_xxl') })
+                        .borderRadius($r('app.float.id_card_image_mid'))
+                        .visibility(item.favorite.isUsuallyShow ? Visibility.Visible : Visibility.None)
+                    } else if (0 === item.favorite.isCommonUseType && item.index === 0) {
+                      Text($r('app.string.favorite_num', this.favoriteNumber))
+                        .fontSize($r('sys.float.ohos_id_text_size_body2'))
+                        .fontWeight(FontWeight.Regular)
+                        .fontColor('#666666')
+                        .lineHeight(19)
+                        .textAlign(TextAlign.Center)
+                        .margin({ top: $r('app.float.id_card_margin_xxl'), bottom: $r('app.float.id_card_margin_xxl') })
+                        .borderRadius($r('app.float.id_card_image_mid'))
+                    }
+
+                    FavoriteListItem({
+                      item: item,
+                      isEditSelectList: $isEditSelectList,
+                      presenter: $favoriteListPresenter,
+                      selectNumber: $selectNumber,
+                      isSelectAll: $isSelectAll,
+                      usuallyNumber: $usuallyNumber,
+                      favoriteNumber: $favoriteNumber,
+                      curDragItemIndex: $curDragItemIndex,
+                      dragItemOpacity: $dragItemOpacity,
+                      translateY: $translateY,
+                      isEditDrag: $isEditDrag,
+                      isDragShow: $isDragShow,
+                      index: index,
+                      listItemExchange: $listItemExchange
+                    })
+                      .opacity(index === this.curDragItemIndex ? this.dragItemOpacity : 1)
+                      .translate({y: index === this.curDragItemIndex ? this.translateY : 0})
                   }
-                  this.isEditDrag = true;
-                  this.select = jsonString.selectedIndex;
-                  this.item = item;
-                  return this.pixelMapBuilder();
-                })
+                  .alignItems(HorizontalAlign.Start)
+                }
               }, (item) => JSON.stringify(item))
             }
             .editMode(true)
@@ -302,33 +313,24 @@ export struct FavoriteListItem {
   @Link isSelectAll: boolean;
   @Link usuallyNumber: number;
   @Link favoriteNumber: number;
-  isEditDrag: boolean = false;
+  @Link isEditDrag: boolean = false;
+  @State index: number = -1;
+  @Link curDragItemIndex: number;
+  @Link dragItemOpacity: number;
+  @Link translateY: number;
+  @State preTranslateY: number = 0;
+  @State dragItemHeightLimit: number = 42;
+  @Link isDragShow: boolean;
+  @State dragItemHeight: number = 64;
+  @Link @Watch('updateListItemShow') listItemExchange: boolean;
+
+  updateListItemShow() {
+    this.item = this.presenter.favoriteDataSource.getData(this.index) as FavoriteListBean;
+  }
 
   build() {
     Stack({ alignContent: Alignment.BottomEnd }) {
       Column() {
-        if (1 === this.item.favorite.isCommonUseType) {
-          Text($r('app.string.common_use_num', this.usuallyNumber))
-            .fontSize($r('sys.float.ohos_id_text_size_body2'))
-            .fontWeight(FontWeight.Regular)
-            .fontColor('#666666')
-            .lineHeight(19)
-            .textAlign(TextAlign.Center)
-            .margin({ top: $r('app.float.id_card_margin_xxl'), bottom: $r('app.float.id_card_margin_xxl') })
-            .borderRadius($r('app.float.id_card_image_mid'))
-            .visibility(this.item.favorite.isUsuallyShow ? Visibility.Visible : Visibility.None)
-        } else if (0 === this.item.favorite.isCommonUseType && this.item.index === 0) {
-          Text($r('app.string.favorite_num', this.favoriteNumber))
-            .fontSize($r('sys.float.ohos_id_text_size_body2'))
-            .fontWeight(FontWeight.Regular)
-            .fontColor('#666666')
-            .lineHeight(19)
-            .textAlign(TextAlign.Center)
-            .margin({ top: $r('app.float.id_card_margin_xxl'), bottom: $r('app.float.id_card_margin_xxl') })
-            .borderRadius($r('app.float.id_card_image_mid'))
-            .visibility(this.isEditDrag ? Visibility.None : Visibility.Visible)
-        }
-
         Row() {
           Flex({
             direction: FlexDirection.Row,
@@ -344,6 +346,82 @@ export struct FavoriteListItem {
                   .borderRadius($r('app.float.id_card_image_mid'))
                   .margin({ right: $r('app.float.id_card_image_xs') })
                   .width('10%')
+                  .gesture(
+                    PanGesture({direction: PanDirection.Vertical, distance: 1})
+                      .onActionStart((event: GestureEvent) => {
+                        let fingerData = event.fingerList[0];
+                        if (!fingerData) {
+                          return;
+                        }
+
+                        this.curDragItemIndex = this.index;
+                        this.dragItemOpacity = 0;
+                        this.translateY = 0;
+                        this.preTranslateY = 0;
+
+                        animateTo({
+                          duration: 200,
+                          curve: Curve.EaseOut,
+                          iterations: 1,
+                          playMode: PlayMode.Normal
+                        }, () => {
+                          this.dragItemOpacity = 1;
+                        })
+                        this.isEditDrag = true;
+                      })
+                      .onActionUpdate((event: GestureEvent) => {
+                        if (this.isEditDrag) {
+                          let offsetY = event.offsetY - this.preTranslateY;
+                          this.preTranslateY = event.offsetY;
+                          let tempY = this.translateY + offsetY;
+                          if (Math.abs(tempY) > this.dragItemHeightLimit) {
+                            const tempList = this.presenter.favoriteDataSource.getFavoriteList();
+                            if (tempY > 0) {
+                              if (this.curDragItemIndex < tempList.length - 1) {
+                                if (tempList[this.curDragItemIndex + 1].isCommonUseType) {
+                                  return;
+                                }
+                                this.isDragShow = true;
+
+                                let tempItem = this.presenter.favoriteDataSource.getFavoriteList()
+                                  .splice(this.curDragItemIndex, 1)[0];
+                                this.presenter.favoriteDataSource.getFavoriteList()
+                                  .splice(this.curDragItemIndex + 1, 0, tempItem);
+
+                                this.translateY = (tempY - this.dragItemHeight) % this.dragItemHeight;
+                                this.curDragItemIndex = this.curDragItemIndex + 1;
+
+                                this.listItemExchange = !this.listItemExchange;
+                              }
+                            } else {
+                              if (this.curDragItemIndex > 0) {
+                                this.isDragShow = true;
+
+                                let tempItem = this.presenter.favoriteDataSource.getFavoriteList()
+                                  .splice(this.curDragItemIndex, 1)[0];
+                                this.presenter.favoriteDataSource.getFavoriteList()
+                                  .splice(this.curDragItemIndex - 1, 0, tempItem);
+
+                                this.translateY = (tempY + this.dragItemHeight) % this.dragItemHeight;
+                                this.curDragItemIndex = this.curDragItemIndex - 1;
+
+                                this.listItemExchange = !this.listItemExchange;
+                              }
+                            }
+                          } else {
+                            this.translateY += offsetY;
+                          }
+                        }
+                      })
+                      .onActionEnd(() => {
+                        this.isEditDrag = false;
+                        this.curDragItemIndex = -1;
+                      })
+                      .onActionCancel(() => {
+                        this.isEditDrag = false;
+                        this.curDragItemIndex = -1;
+                      })
+                  )
               }
               Row() {
                 if (StringUtil.isEmpty(this.item.favorite.nameSuffix)) {

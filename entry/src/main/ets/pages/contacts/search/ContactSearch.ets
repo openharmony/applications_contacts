@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 import ContactListPresenter from '../../../presenter/contact/ContactListPresenter';
-import { StringUtil } from '../../../../../../../common/';
+import { StringUtil, HiLog } from '../../../../../../../common/';
 import emitter from '@ohos.events.emitter';
 import BatchSelectContactsPresenter from '../../../presenter/contact/batchselectcontacts/BatchSelectContactsPresenter';
 import router from '@ohos.router';
@@ -65,6 +65,7 @@ export struct ContactSearch {
                     weight: FontWeight.Normal,
                     style: FontStyle.Normal
                   })
+                  .key('searchContact')
                   .type(InputType.Normal)
                   .caretColor($r('sys.color.ohos_id_color_text_primary_activated'))
                   .enterKeyType(EnterKeyType.Search)
@@ -79,6 +80,7 @@ export struct ContactSearch {
                     this.presenter.inputKeyword = value
                     this.presenter.getSearchContact(this.presenter.inputKeyword);
                   })
+                  .enableKeyboardOnFocus(true)
 
                 Flex({ justifyContent: FlexAlign.SpaceBetween, alignItems: ItemAlign.Center }) {
                   Image($r("app.media.ic_public_search"))
@@ -114,6 +116,12 @@ export struct ContactSearch {
           .width('100%')
           .backgroundColor(Color.White)
           .padding({ left: $r('app.float.id_card_image_small'), right: $r('app.float.id_card_image_small') })
+          .onVisibleAreaChange([0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
+            if (isVisible && currentRatio == 1.0) {
+              HiLog.i(TAG, 'requestFocus');
+              focusControl.requestFocus('searchContact');
+            }
+          })
         }
       }
       .visibility(this.type === 1 || this.type === 2 ? Visibility.None : Visibility.Visible)
