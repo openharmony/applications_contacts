@@ -24,8 +24,7 @@ import PresenterManager from '../presenter/PresenterManager';
 import dataShare from '@ohos.data.dataShare';
 import settings from '@ohos.settings';
 import DataShareHelper from "@ohos.data.dataShare";
-const SETTING_TIME_FORMAT_URI ='dataShare:///com.phos.settingsdata/entry/settingsdata/SETTINGSDATA?Proxy=true&key='
-settings.data.TIME_FORMAT;
+const SETTING_TIME_FORMAT_URI ='dataShare:///com.phos.settingsdata/entry/settingsdata/SETTINGSDATA?Proxy=true&key=' +settings.date.TIME_FORMAT;
 const TAG = 'MainAbility ';
 
 export default class MainAbility extends Ability {
@@ -109,7 +108,7 @@ export default class MainAbility extends Ability {
         } catch (err) {
             HiLog.e(TAG, `settingDataShareHelper.off error: code: ${err.code}, message: ${err.message} `);
         }
-        this.pageManager.onDestroy();
+        globalThis.presenterManager.onDestroy();
         this.mDataWorker.close();
     }
 
