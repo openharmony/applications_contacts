@@ -279,8 +279,9 @@ struct ContactContent {
       .padding({ left: 24, right: 24 })
       .height("100%")
       .width("100%")
-      ContactSearch({ presenter: $presenter, type: $type })
-        .visibility(this.presenter.isSearchPage ? Visibility.Visible : Visibility.None)
+      if (this.presenter.isSearchPage) {
+        ContactSearch({ presenter: $presenter, type: $type })
+      }
 	AlphabetIndexerPage({scroller: this.scroller, presenter: $alphabetIndexPresenter, selected: this.alphabetSelected,
         isClicked: $isAlphabetClicked, drag: $dragList})
         .margin({top: '30%', bottom: '10%'})
