@@ -313,7 +313,7 @@ export struct FavoriteListItem {
   @Link isSelectAll: boolean;
   @Link usuallyNumber: number;
   @Link favoriteNumber: number;
-  @Link isEditDrag: boolean = false;
+  @Link isEditDrag: boolean;
   @State index: number = -1;
   @Link curDragItemIndex: number;
   @Link dragItemOpacity: number;
