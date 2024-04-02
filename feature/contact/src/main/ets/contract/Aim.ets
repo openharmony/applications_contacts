@@ -17,7 +17,7 @@
  * Phone Data Type - Instant Messaging
  */
 export class Aim {
-  static readonly CONTENT_ITEM_TYPE: string = "vnd.android.cursor.item/aim_v2";
+  static readonly CONTENT_ITEM_TYPE: string = "vnd.cursor.item/aim_v2";
   static readonly TYPE_AIM: number = 1;
   static readonly TYPE_WINDOWSLIVE: number = 2;
   static readonly TYPE_YAHOO: number = 3;
