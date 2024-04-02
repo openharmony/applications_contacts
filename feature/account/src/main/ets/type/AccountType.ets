@@ -17,8 +17,8 @@
  * Basic Account Type
  */
 export abstract class AccountType {
-  static readonly PHONE_ACCOUNT_TYPE: string = "com.android.huawei.phone";
-  static readonly PAGE_SETTING_TYPE: string = "com.android.huawei.setting";
+  static readonly PHONE_ACCOUNT_TYPE: string = "com.huawei.phone";
+  static readonly PAGE_SETTING_TYPE: string = "com.huawei.setting";
 
   constructor() {
   }

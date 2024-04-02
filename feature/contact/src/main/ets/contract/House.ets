@@ -17,7 +17,7 @@
  * Phone Data Type - Address
  */
 export class House {
-  static readonly CONTENT_ITEM_TYPE: string = "vnd.android.cursor.item/house_v2";
+  static readonly CONTENT_ITEM_TYPE: string = "vnd.cursor.item/house_v2";
   static readonly TYPE_DWELLING: number = 1;
   static readonly TYPE_POSITION: number = 2;
   static readonly TYPE_OTHER: number = 3;

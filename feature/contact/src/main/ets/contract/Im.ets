@@ -29,7 +29,7 @@ export class Im extends DataType {
   static readonly TYPE_YAHOO: number = 2;
   static readonly TYPE_SKYPE: number = 3;
   static readonly TYPE_QQ: number = 4;
-  static readonly TYPE_GOOGLE_TALK: number = 5;
+  static readonly TYPE_TALK: number = 5;
   static readonly TYPE_ICQ: number = 6;
   static readonly TYPE_JABBER: number = 7;
   static readonly TYPE_INVALID: number = -2;
