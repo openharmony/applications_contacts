@@ -17,13 +17,13 @@ import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 import Constants from '../../../../../common/src/main/ets/Constants';
 import ContactListPresenter from './contact/ContactListPresenter';
 import CallRecordPresenter from './dialer/callRecord/CallRecordPresenter';
-import WorkerWrapper from "../workers/base/WorkerWrapper";
+import WorkerWrapper from '../workers/base/WorkerWrapper';
 import Want from '@ohos.app.ability.Want';
 
 const TAG = 'PageManager'
 
 export default class PresenterManager {
-  mainUrl: string = "pages/index";
+  mainUrl: string = 'pages/index';
   context: Context;
   worker: WorkerWrapper;
   callRecordPresenter: CallRecordPresenter = CallRecordPresenter.getInstance();
@@ -35,17 +35,17 @@ export default class PresenterManager {
   }
 
   onCreate(want: Want) {
-    HiLog.i(TAG, "onCreate");
+    HiLog.i(TAG, 'onCreate');
     this.onRequest(want.parameters, true);
     this.callRecordPresenter.onCreate(this.context, this.worker);
     this.contactListPresenter.onCreate(this.context, this.worker);
-    if (this.mainUrl == "pages/index" && globalThis.config.needCache) {
+    if (this.mainUrl == 'pages/index' && globalThis.config.needCache) {
       this.initDataCache();
     }
   }
 
   onNewWant(want: Want) {
-    HiLog.i(TAG, "onNewWant");
+    HiLog.i(TAG, 'onNewWant');
     this.onRequest(want.parameters, false);
   }
 
@@ -55,7 +55,7 @@ export default class PresenterManager {
   }
 
   onDestroy() {
-    HiLog.i(TAG, "onDestroy")
+    HiLog.i(TAG, 'onDestroy')
     this.callRecordPresenter.onDestroy();
     this.contactListPresenter.onDestroy();
   }
@@ -63,7 +63,7 @@ export default class PresenterManager {
   // Go to a specified page.
   onRequest(parameters: { [key: string]: Object }, isOnCreate: boolean) {
     HiLog.i(TAG, 'show pageRouteHandler routeMessage ');
-    let url = "pages/index";
+    let url = 'pages/index';
     let params = {};
     let pageIndex = 1;
     if (parameters?.pageFlag) {
@@ -83,7 +83,7 @@ export default class PresenterManager {
           }
           break;
         case 'page_flag_contact_details':
-          url = "pages/contacts/details/ContactDetail";
+          url = 'pages/contacts/details/ContactDetail';
           pageIndex = 2;
           if (parameters.contactId) {
             params = {
@@ -161,7 +161,7 @@ export default class PresenterManager {
         pageIndex: pageIndex,
         params: params
       })
-      HiLog.i(TAG, "pageRouteHandler finish!");
+      HiLog.i(TAG, 'pageRouteHandler finish!');
     }
   }
 }

@@ -70,7 +70,7 @@ export struct ContactSearch {
                   .enterKeyType(EnterKeyType.Search)
                   .margin({ left: $r('app.float.id_card_image_small'), right: $r('app.float.id_card_image_small') })
                   .padding({ left: $r('app.float.id_card_margin_xxxxl') })
-                  .height($r("app.float.id_item_height_mid"))
+                  .height($r('app.float.id_item_height_mid'))
                   .border({
                     color: $r('sys.color.ohos_id_color_fourth'),
                     radius: $r('app.float.id_card_margin_max')
@@ -81,7 +81,7 @@ export struct ContactSearch {
                   })
 
                 Flex({ justifyContent: FlexAlign.SpaceBetween, alignItems: ItemAlign.Center }) {
-                  Image($r("app.media.ic_public_search"))
+                  Image($r('app.media.ic_public_search'))
                     .width($r('app.float.id_card_margin_xxxl'))
                     .height($r('app.float.id_card_margin_xxxl'))
                     .margin({ left: $r('app.float.id_card_margin_xxxxl') })
@@ -134,11 +134,11 @@ export struct ContactSearch {
                     Row() {
                       Row() {
                         if (StringUtil.isEmpty(item?.contact?.photoFirstName)) {
-                          Image(StringUtil.isEmpty(item?.contact?.portraitPath) ? $r("app.media.ic_user_portrait") : item?.contact?.portraitPath)
-                            .width($r("app.float.id_card_image_mid"))
-                            .height($r("app.float.id_card_image_mid"))
+                          Image(StringUtil.isEmpty(item?.contact?.portraitPath) ? $r('app.media.ic_user_portrait') : item?.contact?.portraitPath)
+                            .width($r('app.float.id_card_image_mid'))
+                            .height($r('app.float.id_card_image_mid'))
                             .objectFit(ImageFit.Contain)
-                            .borderRadius($r("app.float.id_card_image_mid"))
+                            .borderRadius($r('app.float.id_card_image_mid'))
                             .backgroundColor(item?.contact?.portraitColor)
 
                         } else {
@@ -147,43 +147,43 @@ export struct ContactSearch {
                             .fontWeight(FontWeight.Bold)
                             .fontColor(Color.White)
                             .backgroundColor(item?.contact?.portraitColor)
-                            .height($r("app.float.id_card_image_mid"))
-                            .width($r("app.float.id_card_image_mid"))
+                            .height($r('app.float.id_card_image_mid'))
+                            .width($r('app.float.id_card_image_mid'))
                             .textAlign(TextAlign.Center)
-                            .borderRadius($r("app.float.id_card_image_mid"))
+                            .borderRadius($r('app.float.id_card_image_mid'))
                         }
                       }
-                      .height($r("app.float.id_card_image_mid"))
-                      .width($r("app.float.id_card_image_mid"))
+                      .height($r('app.float.id_card_image_mid'))
+                      .width($r('app.float.id_card_image_mid'))
 
                       Column() {
                         Row() {
                           ForEach(item?.contact?.displayName.split(this.presenter.inputKeyword), (itemData1, idx: number) => {
                             Row() {
                               Text(itemData1.toString())
-                                .fontSize($r("sys.float.ohos_id_text_size_body2"))
+                                .fontSize($r('sys.float.ohos_id_text_size_body2'))
                                 .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
                                 .fontWeight(FontWeight.Medium)
-                                .margin({ bottom: $r("app.float.id_card_margin_sm") })
+                                .margin({ bottom: $r('app.float.id_card_margin_sm') })
                                 .textOverflow({ overflow: TextOverflow.Ellipsis })
                                 .maxLines(2)
                               if (idx === 0) {
                                 if (item?.contact?.displayName.indexOf(this.presenter.inputKeyword) !== -1) {
                                   Text(this.presenter.inputKeyword.toString())
-                                    .fontSize($r("sys.float.ohos_id_text_size_body2"))
+                                    .fontSize($r('sys.float.ohos_id_text_size_body2'))
                                     .fontColor(Color.Blue)
                                     .fontWeight(FontWeight.Medium)
-                                    .margin({ bottom: $r("app.float.id_card_margin_sm") })
+                                    .margin({ bottom: $r('app.float.id_card_margin_sm') })
                                     .textOverflow({ overflow: TextOverflow.Ellipsis })
                                     .maxLines(2)
                                 }
                               } else if (item?.contact?.displayName.split(this.presenter.inputKeyword)
                                 .length - 1 !== idx) {
                                 Text(this.presenter.inputKeyword.toString())
-                                  .fontSize($r("sys.float.ohos_id_text_size_body2"))
+                                  .fontSize($r('sys.float.ohos_id_text_size_body2'))
                                   .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
                                   .fontWeight(FontWeight.Medium)
-                                  .margin({ bottom: $r("app.float.id_card_margin_sm") })
+                                  .margin({ bottom: $r('app.float.id_card_margin_sm') })
                                   .textOverflow({ overflow: TextOverflow.Ellipsis })
                                   .maxLines(2)
                               }
@@ -199,16 +199,16 @@ export struct ContactSearch {
                                   .fontSize($r('sys.float.ohos_id_text_size_body2'))
                                   .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
                                   .fontWeight(FontWeight.Medium)
-                                  .margin({ bottom: $r("app.float.id_card_margin_sm") })
+                                  .margin({ bottom: $r('app.float.id_card_margin_sm') })
                                   .textOverflow({ overflow: TextOverflow.Ellipsis })
                                   .maxLines(2)
                                 if (idx === 0) {
                                   if (item?.contact?.detailInfo.indexOf(this.presenter.inputKeyword) !== -1) {
                                     Text(this.presenter.inputKeyword.toString())
-                                      .fontSize($r("sys.float.ohos_id_text_size_body2"))
+                                      .fontSize($r('sys.float.ohos_id_text_size_body2'))
                                       .fontColor(Color.Blue)
                                       .fontWeight(FontWeight.Medium)
-                                      .margin({ bottom: $r("app.float.id_card_margin_sm") })
+                                      .margin({ bottom: $r('app.float.id_card_margin_sm') })
                                       .textOverflow({ overflow: TextOverflow.Ellipsis })
                                       .maxLines(2)
                                   }
@@ -218,7 +218,7 @@ export struct ContactSearch {
                                     .fontSize($r('sys.float.ohos_id_text_size_body2'))
                                     .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
                                     .fontWeight(FontWeight.Medium)
-                                    .margin({ bottom: $r("app.float.id_card_margin_sm") })
+                                    .margin({ bottom: $r('app.float.id_card_margin_sm') })
                                     .textOverflow({ overflow: TextOverflow.Ellipsis })
                                     .maxLines(2)
                                 }
@@ -229,20 +229,20 @@ export struct ContactSearch {
                       }
                       .alignItems(HorizontalAlign.Start)
                       .padding({
-                        top: $r("app.float.id_card_margin_mid"),
-                        bottom: $r("app.float.id_card_margin_mid"),
+                        top: $r('app.float.id_card_margin_mid'),
+                        bottom: $r('app.float.id_card_margin_mid'),
                       })
-                      .margin({ left: $r("app.float.id_card_margin_xl") })
+                      .margin({ left: $r('app.float.id_card_margin_xl') })
                     }
-                    .constraintSize({ minHeight: $r("app.float.id_item_height_max") })
+                    .constraintSize({ minHeight: $r('app.float.id_item_height_max') })
                     .width('100%')
-                    .height($r("app.float.id_item_height_large"))
+                    .height($r('app.float.id_item_height_large'))
 
                     Divider()
-                      .color($r("sys.color.ohos_id_color_list_separator"))
+                      .color($r('sys.color.ohos_id_color_list_separator'))
                       .visibility(this.contactSearchNumber > 1 && this.contactSearchNumber - item.index > 1 ? Visibility.Visible : Visibility.None)
                       .margin({
-                        left: $r("app.float.id_item_height_large"),
+                        left: $r('app.float.id_item_height_large'),
                         right: $r('app.float.id_card_image_small')
                       })
                   }
@@ -251,7 +251,7 @@ export struct ContactSearch {
                   if (this.type === 0) {
                     router.pushUrl(
                       {
-                        url: "pages/contacts/details/ContactDetail",
+                        url: 'pages/contacts/details/ContactDetail',
                         params: {
                           sourceHasId: true,
                           contactId: item.contact.contactId
@@ -273,17 +273,17 @@ export struct ContactSearch {
         .height('100%')
         .flexShrink(1)
       }
-      .height("100%")
-      .width("100%")
+      .height('100%')
+      .width('100%')
       .padding({ left: this.type === 0 && this.contactSearchNumber > 0 ? $r('app.float.id_card_image_small') : 0 })
       .visibility(this.contactSearchNumber > 0 && !this.presenter.isSearchBackgroundColor ? Visibility.Visible : Visibility.None)
 
       ContactSearchEmptyPage({ contactSearchNumber: $contactSearchNumber, presenter: $presenter, type: $type });
     }
     .padding({ bottom: $r('app.float.dialer_calllog_item_height') })
-    .height("100%")
-    .width("100%")
-    .backgroundColor(this.type === 1 || this.type === 2 ? $r("sys.color.ohos_id_color_sub_background") : this.type === 0 && this.contactSearchNumber > 0 ? Color.White : '#450a0a0a')
+    .height('100%')
+    .width('100%')
+    .backgroundColor(this.type === 1 || this.type === 2 ? $r('sys.color.ohos_id_color_sub_background') : this.type === 0 && this.contactSearchNumber > 0 ? Color.White : '#450a0a0a')
   }
 }
 
@@ -297,9 +297,9 @@ export struct ContactSearchEmptyPage {
     Column() {
       Image($r('app.media.no_contacts_illustration'))
         .objectFit(ImageFit.Contain)
-        .width($r("app.float.id_card_image_large"))
-        .height($r("app.float.id_card_image_large"))
-        .margin({ bottom: $r("app.float.id_card_margin_large") })
+        .width($r('app.float.id_card_image_large'))
+        .height($r('app.float.id_card_image_large'))
+        .margin({ bottom: $r('app.float.id_card_margin_large') })
 
       Text($r('app.string.contact_list_search_empty'))
         .width($r('app.float.id_card_image_large'))
@@ -318,7 +318,7 @@ export struct ContactSearchEmptyPage {
     .justifyContent(FlexAlign.Center)
     .height('100%')
     .width('100%')
-    .backgroundColor(this.type === 1 ? $r("sys.color.ohos_id_color_sub_background") : Color.White)
+    .backgroundColor(this.type === 1 ? $r('sys.color.ohos_id_color_sub_background') : Color.White)
     .visibility(this.contactSearchNumber > 0 ? (!this.presenter.isSearchBackgroundColor ? Visibility.Visible : Visibility.None) :
       (this.presenter.isSearchBackgroundColor ? Visibility.None : Visibility.Visible))
   }

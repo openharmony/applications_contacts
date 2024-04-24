@@ -20,7 +20,7 @@ import {DataItemType} from './DataType';
  * IM data type
  */
 export class Im extends DataType {
-  static readonly CONTENT_ITEM_TYPE: string = "im";
+  static readonly CONTENT_ITEM_TYPE: string = 'im';
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.IM;
   static readonly PROTOCOL: string = DataType.DATA;
   static readonly TYPE_CUSTOM: number = -1;
@@ -37,13 +37,13 @@ export class Im extends DataType {
   static getTypeLabelResource(type: number) {
     switch (type) {
       case Im.TYPE_CUSTOM:
-        return $r("app.string.email_type_home");
+        return $r('app.string.email_type_home');
       case Im.TYPE_AIM:
-        return $r("app.string.email_type_work");
+        return $r('app.string.email_type_work');
       case Im.TYPE_MSN:
-        return $r("app.string.email_type_other");
+        return $r('app.string.email_type_other');
       default:
-        return $r("app.string.email_type_custom");
+        return $r('app.string.email_type_custom');
     }
   }
 

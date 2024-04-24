@@ -20,7 +20,7 @@ import {DataItemType} from './DataType';
  * Phone Data Type
  */
 export class Phone extends DataType {
-  static readonly CONTENT_ITEM_TYPE: string = "phone";
+  static readonly CONTENT_ITEM_TYPE: string = 'phone';
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.PHONE;
   static readonly NUMBER: string = DataType.DATA;
   static readonly TYPE_MOBILE: number = 1;
@@ -36,23 +36,23 @@ export class Phone extends DataType {
   static getTypeLabelResource(type: number) {
     switch (type) {
       case Phone.TYPE_HOME:
-        return $r("app.string.phone_type_home");
+        return $r('app.string.phone_type_home');
       case Phone.TYPE_MOBILE:
-        return $r("app.string.phone_type_mobile");
+        return $r('app.string.phone_type_mobile');
       case Phone.TYPE_WORK:
-        return $r("app.string.phone_type_work");
+        return $r('app.string.phone_type_work');
       case Phone.TYPE_FAX_WORK:
-        return $r("app.string.phone_type_fax_work");
+        return $r('app.string.phone_type_fax_work');
       case Phone.TYPE_FAX_HOME:
-        return $r("app.string.phone_type_fax_home");
+        return $r('app.string.phone_type_fax_home');
       case Phone.TYPE_PAGER:
-        return $r("app.string.phone_type_pager");
+        return $r('app.string.phone_type_pager');
       case Phone.TYPE_OTHER:
-        return $r("app.string.phone_type_other");
+        return $r('app.string.phone_type_other');
       case Phone.TYPE_MAIN:
-        return $r("app.string.phone_type_main");
+        return $r('app.string.phone_type_main');
       default:
-        return $r("app.string.phone_type_custom");
+        return $r('app.string.phone_type_custom');
     }
   }
 

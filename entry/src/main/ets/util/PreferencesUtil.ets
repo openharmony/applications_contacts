@@ -16,7 +16,7 @@
 
 export default {
   isUsed() {
-      return AppStorage.Get("IsUsed") == 1;
+      return AppStorage.Get('IsUsed') == 1;
   },
 
   setIsUsed(isUsed) {

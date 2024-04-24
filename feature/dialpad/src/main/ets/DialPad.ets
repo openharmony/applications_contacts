@@ -12,8 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PhoneNumber } from "../../../../../feature/phonenumber/src/main/ets/PhoneNumber";
-import SmartSearchList from "./entity/SmartSearchList";
+import { PhoneNumber } from '../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
+import SmartSearchList from './entity/SmartSearchList';
 
 /**
  * Dialpad object, which provides dialpad-related services.
@@ -39,7 +39,7 @@ export default class DialPad {
   }
 
   clearInput() {
-    this.input = "";
+    this.input = '';
   }
 
   getDialKey() {

@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 
-import { WorkerMessage } from "./WorkerWrapper"
+import { WorkerMessage } from './WorkerWrapper'
 import { ThreadWorkerGlobalScope, MessageEvents } from '@ohos.worker';
-import { HiLog } from "../../../../../../common"
-import buffer from "@ohos.buffer"
+import { HiLog } from '../../../../../../common'
+import buffer from '@ohos.buffer'
 
-const TAG = "WorkerTask"
+const TAG = 'WorkerTask'
 /*
  * WorkerTask
  *
@@ -43,7 +43,7 @@ export abstract class WorkerTask {
             let data = <WorkerMessage> message.data
             HiLog.i(TAG, `onmessage ${data.request}`)
             this.runInWorker(data.request, (v) => {
-                HiLog.i(TAG, "runInWorker callback in")
+                HiLog.i(TAG, 'runInWorker callback in')
                 data.param = v;
                 const str = JSON.stringify(data)
                 let buf = buffer.from(str).buffer;

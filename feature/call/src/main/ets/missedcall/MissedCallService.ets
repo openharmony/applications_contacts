@@ -14,15 +14,15 @@
  */
 
 import { HiLog, sharedPreferencesUtils } from 'common';
-import { MissedCallNotifier, MissedCallNotifyData } from "./MissedCallNotifier"
+import { MissedCallNotifier, MissedCallNotifyData } from './MissedCallNotifier'
 import { CallLogRepository } from '../repo/CallLogRepository';
 import { ContactRepository } from '../../../../../../feature/contact/src/main/ets/repo/ContactRepository';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
 import { CallLog } from '../entity/CallLog'
 
-const TAG = "MissedCallService";
-const LAST_MISSED_ID: string = "Last_Missed_id"
-const PREFERENCE_NAME: string = "CONTACT_PREFERENCE";
+const TAG = 'MissedCallService';
+const LAST_MISSED_ID: string = 'Last_Missed_id'
+const PREFERENCE_NAME: string = 'CONTACT_PREFERENCE';
 
 export class MissedCallService {
   private static sInstance: MissedCallService = undefined;
@@ -30,7 +30,7 @@ export class MissedCallService {
   private lastMissedId = -1;
   private onCallLogChanged = () => {
     if (this.lastMissedId != -1) {
-      HiLog.i(TAG, "onCallLogChanged lastMissedId:" + this.lastMissedId);
+      HiLog.i(TAG, 'onCallLogChanged lastMissedId:' + this.lastMissedId);
       this.sendMissedCallNotify(this.lastMissedId);
     }
     this.unRegisterDataChangeObserver();
@@ -63,7 +63,7 @@ export class MissedCallService {
    * updateAllMissedCallNotifications
    */
   public async updateAllMissedCallNotifications() {
-    HiLog.i(TAG, "updateMissedCallNotifications");
+    HiLog.i(TAG, 'updateMissedCallNotifications');
     MissedCallNotifier.getInstance().cancelAllNotification();
     this.sendMissedCallNotify();
   }
@@ -76,7 +76,7 @@ export class MissedCallService {
       this.lastMissedId = await this.getLastNotificationId();
     }
     this.registerDataChangeObserver();
-    HiLog.i(TAG, "updateMissedCallNotifications, lastMissedId:" + this.lastMissedId);
+    HiLog.i(TAG, 'updateMissedCallNotifications, lastMissedId:' + this.lastMissedId);
     this.sendMissedCallNotify(this.lastMissedId);
   }
 
@@ -122,12 +122,12 @@ export class MissedCallService {
   }
 
   private registerDataChangeObserver() {
-    HiLog.i(TAG, "registerDataChangeObserver");
+    HiLog.i(TAG, 'registerDataChangeObserver');
     CallLogRepository.getInstance().registerDataChangeObserver(this.onCallLogChanged);
   }
 
   private unRegisterDataChangeObserver() {
-    HiLog.i(TAG, "unRegisterDataChangeObserver");
+    HiLog.i(TAG, 'unRegisterDataChangeObserver');
     CallLogRepository.getInstance().unRegisterDataChangeObserver(this.onCallLogChanged);
   }
 
@@ -148,9 +148,9 @@ export class MissedCallService {
 
   private sendMissedCallNotify(lastId?: number) {
     CallLogRepository.getInstance().findMissedCallLogUnread((data: CallLog[]) => {
-      HiLog.i(TAG, "sendMissedCallNotify, callLog unread count:" + data.length);
+      HiLog.i(TAG, 'sendMissedCallNotify, callLog unread count:' + data.length);
       if (data.length <= 0 || !this.setLastNotificationId(data[0].id, lastId)) {
-        HiLog.i(TAG, "sendMissedCallNotify, No new CallLog.");
+        HiLog.i(TAG, 'sendMissedCallNotify, No new CallLog.');
         return;
       }
       let phoneNums = new Set();
@@ -184,7 +184,7 @@ export class MissedCallService {
 
   private queryContactsName(numberList, callback) {
     if (numberList.length == 0) {
-      HiLog.w(TAG, "queryContactsName, has no number");
+      HiLog.w(TAG, 'queryContactsName, has no number');
       callback(new Map());
       return;
     }

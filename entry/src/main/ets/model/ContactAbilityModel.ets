@@ -15,9 +15,9 @@
 
 import MorandiColor from '../model/bean/MorandiColor';
 import dataShare from '@ohos.data.dataShare';
-import dataSharePredicates from "@ohos.data.dataSharePredicates";
+import dataSharePredicates from '@ohos.data.dataSharePredicates';
 import { ContactVo } from '../model/bean/ContactVo';
-import { ContactInfo } from "../model/bean/ContactInfo";
+import { ContactInfo } from '../model/bean/ContactInfo';
 import { ContactRepository } from '../../../../../feature/contact/src/main/ets/repo/ContactRepository';
 import { DataItem } from '../../../../../feature/contact/src/main/ets/entity/DataItem';
 import { DataItemType } from '../../../../../feature/contact/src/main/ets/contract/DataType';
@@ -33,7 +33,7 @@ import { FavoriteBean } from './bean/FavoriteBean';
 import { CallLog } from '../../../../../feature/call/src/main/ets/entity/CallLog';
 import { SearchContactsBean } from './bean/SearchContactsBean';
 
-const TAG = "ContactAbility: ";
+const TAG = 'ContactAbility: ';
 const PROFILE_CONTACT_DATA_URI = 'datashare:///com.ohos.contactsdataability/profile/contact_data';
 
 export default {
@@ -46,8 +46,8 @@ export default {
   addContact: async function (addParams: ContactInfo, callBack?, context?) {
     HiLog.i(TAG, 'Start to create a new contact.');
     if (addParams == undefined || addParams == null) {
-      HiLog.e(TAG, "The addParams of parameter is NULL");
-      return "";
+      HiLog.e(TAG, 'The addParams of parameter is NULL');
+      return '';
     }
     let DAHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
     let insertValues = {
@@ -151,9 +151,9 @@ export default {
         'raw_contact_id': result,
         'detail_info': displayName,
         'alpha_name': displayName,
-        'phonetic_name': addParams.hasOwnProperty('phonetic_name') ? (addParams.phonetic_name) : "",
-        'other_lan_last_name': addParams.hasOwnProperty('other_lan_last_name') ? (addParams.other_lan_last_name) : "",
-        'other_lan_first_name': addParams.hasOwnProperty('other_lan_first_name') ? (addParams.other_lan_first_name) : "",
+        'phonetic_name': addParams.hasOwnProperty('phonetic_name') ? (addParams.phonetic_name) : '',
+        'other_lan_last_name': addParams.hasOwnProperty('other_lan_last_name') ? (addParams.other_lan_last_name) : '',
+        'other_lan_first_name': addParams.hasOwnProperty('other_lan_first_name') ? (addParams.other_lan_first_name) : '',
         'type_id': 6,
         'extend7': updateFlag
       };
@@ -576,7 +576,7 @@ export default {
       }
       let resultList = [];
       for (let contactItem of contactList) {
-        let jsonObj: ContactVo = new ContactVo("", "", "", "", "", "", true, "", "");
+        let jsonObj: ContactVo = new ContactVo('', '', '', '', '', '', true, '', '');
         jsonObj.contactId = contactItem.id.toString();
         jsonObj.emptyNameData = contactItem.displayName;
         jsonObj.namePrefix = contactItem.sortFirstLetter;
@@ -614,7 +614,7 @@ export default {
       }
       let resultList = [];
       for (let contactItem of contactList) {
-        let jsonObj: ContactVo = new ContactVo("", "", "", "", "", "", true, "", "");
+        let jsonObj: ContactVo = new ContactVo('', '', '', '', '', '', true, '', '');
         jsonObj.contactId = contactItem.id.toString();
         jsonObj.emptyNameData = contactItem.displayName;
         jsonObj.namePrefix = contactItem.sortFirstLetter;
@@ -741,7 +741,7 @@ export default {
           'id': dataItem.getLabelId(),
           'data': dataItem.getData(),
           'eventType': dataItem.getLabelName(),
-          'eventName': ""
+          'eventName': ''
         };
         if (contactDetailInfo.events) {
           contactDetailInfo.events.push(event_element);
@@ -855,7 +855,7 @@ export default {
       .equalTo('type_id', 5)
       .and()
       .equalTo('is_deleted', 0);
-    let columns = ["raw_contact_id"];
+    let columns = ['raw_contact_id'];
     let data_row = await DAHelper.query(Data.CONTENT_URI, condition, columns);
     let resultList = [];
     if (data_row.rowCount <= 0) {
@@ -868,7 +868,7 @@ export default {
     let tempIndex = data_row.rowCount;
     let index = 0;
     do {
-      resultList.push(data_row.getString(data_row.getColumnIndex("raw_contact_id")));
+      resultList.push(data_row.getString(data_row.getColumnIndex('raw_contact_id')));
       if ((++index) >= maxRows) {
         data_row.close();
         callBack(resultList);
@@ -1111,7 +1111,7 @@ export default {
       }
       let resultList = [];
       for (let contactItem of contactList) {
-        let jsonObj: ContactVo = new ContactVo("", "", "", "", "", "", true, "", "");
+        let jsonObj: ContactVo = new ContactVo('', '', '', '', '', '', true, '', '');
         jsonObj.contactId = contactItem.id.toString();
         jsonObj.emptyNameData = contactItem.displayName;
         jsonObj.namePrefix = contactItem.sortFirstLetter;

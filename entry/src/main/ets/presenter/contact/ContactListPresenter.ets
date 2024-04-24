@@ -46,14 +46,14 @@ export default class ContactListPresenter {
   private static sInstance: ContactListPresenter;
   indexs: string[] = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '…'];
   contactListPages: Array<number> = [];
-  curItem: ContactVo = new ContactVo("", "", "", "", "", "", true, "", "");
+  curItem: ContactVo = new ContactVo('', '', '', '', '', '', true, '', '');
   page: number = 0;
   limit: number = 0;
   refreshIndex: number = 0;
   queryContactsType: string = 'all';
   isEmptyGroup: boolean = true;
-  shareList: Resource[] = [$r("app.string.qr_code"), $r("app.string.v_card"), $r("app.string.text")];
-  settingsMenu: Resource[] = [$r("app.string.contact_setting_type_scancard"), $r("app.string.call_setting_type_setting")];
+  shareList: Resource[] = [$r('app.string.qr_code'), $r('app.string.v_card'), $r('app.string.text')];
+  settingsMenu: Resource[] = [$r('app.string.contact_setting_type_scancard'), $r('app.string.call_setting_type_setting')];
   contactListDataSource: ContactListDataSource = new ContactListDataSource();
   searchContactsSource: SearchContactsSource = new SearchContactsSource();
   isShow: boolean = false;
@@ -108,28 +108,28 @@ export default class ContactListPresenter {
   startInit() {
     if (!this.initStarted) {
       this.initStarted = true;
-      HiLog.i(TAG, "startInit taskId:" + this.taskId + ",page:" + this.page);
+      HiLog.i(TAG, 'startInit taskId:' + this.taskId + ',page:' + this.page);
       if (this.page == 0 || this.taskId !== -1) {
         this.setDelayTask();
       } else {
         this.refreshContinue();
       }
     } else if (this.taskId !== -1) {
-      HiLog.i(TAG, "startInit page has init taskId:" + this.taskId + ",page:" + this.page);
+      HiLog.i(TAG, 'startInit page has init taskId:' + this.taskId + ',page:' + this.page);
       this.setDelayTask();
     }
   }
 
   cachePageOne() {
     if (!this.initStarted) {
-      HiLog.i(TAG, "cachePageOne")
+      HiLog.i(TAG, 'cachePageOne')
       if (!this.loading) {
         this.page = 0;
         this.refreshIndex = 0;
       }
       this.setDelayTask();
     } else {
-      HiLog.i(TAG, "no need cachePageOne");
+      HiLog.i(TAG, 'no need cachePageOne');
     }
   }
 
@@ -214,7 +214,7 @@ export default class ContactListPresenter {
     let actionData: any = {};
     actionData.page = page;
     actionData.limit = limit;
-    this.worker.sendRequest("getAllContact", {
+    this.worker.sendRequest('getAllContact', {
       actionData: actionData,
       context: this.context
     }, (result) => {
@@ -287,12 +287,12 @@ export default class ContactListPresenter {
    */
   onDeleteDialogConfirm(index, item) {
     HiLog.i(TAG, 'onDeleteDialogConfirm !!! ');
-    this.worker.sendRequest("deleteContactById", {
+    this.worker.sendRequest('deleteContactById', {
       context: this.context,
       contactId: item.contactId
     }, (result) => {
       if (result) {
-        HiLog.w(TAG, "deleteContactById error:" + JSON.stringify(result))
+        HiLog.w(TAG, 'deleteContactById error:' + JSON.stringify(result))
       }
     });
     this.contactListDataSource.remove(index);
@@ -329,7 +329,7 @@ export default class ContactListPresenter {
     HiLog.i(TAG, 'loginAccount !!');
     router.push(
       {
-        url: "",
+        url: '',
         params: {}
       }
     );
@@ -342,7 +342,7 @@ export default class ContactListPresenter {
     HiLog.i(TAG, 'importContact !!');
     router.push(
       {
-        url: "",
+        url: '',
         params: {}
       }
     );
@@ -355,7 +355,7 @@ export default class ContactListPresenter {
     HiLog.i(TAG, 'createContact !!');
     router.push(
       {
-        url: "pages/contacts/accountants/Accountants"
+        url: 'pages/contacts/accountants/Accountants'
       }
     );
   }
@@ -367,7 +367,7 @@ export default class ContactListPresenter {
     HiLog.i(TAG, 'scanCard !!');
     router.push(
       {
-        url: ""
+        url: ''
       }
     );
   }
@@ -391,7 +391,7 @@ export default class ContactListPresenter {
     this.tempValue = value;
     let actionData: any = {};
     actionData.value = this.tempValue;
-    globalThis.DataWorker.sendRequest("getSearchContact", {
+    globalThis.DataWorker.sendRequest('getSearchContact', {
       actionData: actionData,
       context: globalThis.context
     }, (result) => {

@@ -74,15 +74,15 @@ export default class Contact {
   }
 
   protected getSharedText() {
-    return "我是被分享的文本";
+    return '我是被分享的文本';
   }
 
   protected getSharedQRCode() {
-    return "我是被分享的二维码";
+    return '我是被分享的二维码';
   }
 
   protected getSharedVcard() {
-    return "我是被分享的Vcard";
+    return '我是被分享的Vcard';
   }
   /**
    * type:

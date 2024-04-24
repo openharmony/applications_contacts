@@ -73,11 +73,11 @@ export default struct BatchSelectContactsPage {
               direction: FlexDirection.Row,
               justifyContent: FlexAlign.Start,
               alignItems: ItemAlign.Center }) {
-              Image($r("app.media.ic_public_cancel"))
-                .height($r("app.float.id_card_image_small"))
-                .width($r("app.float.id_card_image_small"))
+              Image($r('app.media.ic_public_cancel'))
+                .height($r('app.float.id_card_image_small'))
+                .width($r('app.float.id_card_image_small'))
                 .flexShrink(0)
-                .margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_xxl") })
+                .margin({ left: $r('app.float.id_card_margin_max'), right: $r('app.float.id_card_margin_xxl') })
                 .onClick(() => {
                   this.mPresenter.backCancel();
                 })
@@ -86,17 +86,17 @@ export default struct BatchSelectContactsPage {
                 .textAlign(TextAlign.Start)
                 .fontSize(20)
                 .fontWeight(FontWeight.Bold)
-                .fontColor($r("sys.color.ohos_id_color_text_primary"))
+                .fontColor($r('sys.color.ohos_id_color_text_primary'))
                 .flexGrow(1)
                 .flexShrink(1)
 
-              Image($r("app.media.ic_public_ok"))
-                .height($r("app.float.id_card_image_small"))
-                .width($r("app.float.id_card_image_small"))
+              Image($r('app.media.ic_public_ok'))
+                .height($r('app.float.id_card_image_small'))
+                .width($r('app.float.id_card_image_small'))
                 .flexShrink(0)
-                .margin({ right: $r("app.float.id_card_margin_max") })
+                .margin({ right: $r('app.float.id_card_margin_max') })
                 .enabled(!this.mPresenter.selectDisabled)
-                .fillColor(this.mPresenter.selectDisabled ? $r("sys.color.ohos_id_color_tertiary") : $r("sys.color.ohos_id_color_primary"))
+                .fillColor(this.mPresenter.selectDisabled ? $r('sys.color.ohos_id_color_tertiary') : $r('sys.color.ohos_id_color_primary'))
                 .onClick(() => {
                   this.mPresenter.selectBatchContact();
                   this.mPresenter.contactsList = [];
@@ -104,12 +104,12 @@ export default struct BatchSelectContactsPage {
 
               if (this.curBp === 'lg') {
                 Image(this.mPresenter.icSelectAll)
-                  .width($r("app.float.id_card_image_small"))
-                  .height($r("app.float.id_card_image_small"))
+                  .width($r('app.float.id_card_image_small'))
+                  .height($r('app.float.id_card_image_small'))
                   .flexShrink(0)
                   .objectFit(ImageFit.Contain)
                   .fillColor(this.mPresenter.allSelectTextStyle)
-                  .margin({ right: $r("app.float.id_card_margin_max") })
+                  .margin({ right: $r('app.float.id_card_margin_max') })
                   .onClick((event: ClickEvent) => {
                     HiLog.i(TAG, 'clickSelectAll clicked!');
                     this.mPresenter.clickSelectAll();
@@ -117,7 +117,7 @@ export default struct BatchSelectContactsPage {
               }
             }
             .width('100%')
-            .height($r("app.float.id_item_height_large"))
+            .height($r('app.float.id_item_height_large'))
             .flexShrink(0)
 
             BatchTabGuide({ currentIndex: $currentIndex, controller: this.controller })
@@ -154,7 +154,7 @@ export default struct BatchSelectContactsPage {
               this.mPresenter.onTabChange(index);
             })
             .flexShrink(1)
-            .margin({ top: $r("app.float.id_card_margin_large") })
+            .margin({ top: $r('app.float.id_card_margin_large') })
 
             if (this.curBp !== 'lg') {
               Flex({
@@ -163,30 +163,30 @@ export default struct BatchSelectContactsPage {
                 alignItems: ItemAlign.Center
               }) {
                 Image(this.mPresenter.icSelectAll)
-                  .width($r("app.float.id_card_image_small"))
-                  .height($r("app.float.id_card_image_small"))
+                  .width($r('app.float.id_card_image_small'))
+                  .height($r('app.float.id_card_image_small'))
                   .objectFit(ImageFit.Contain)
                   .fillColor(this.mPresenter.allSelectTextStyle)
 
                 Text(this.mPresenter.allSelectMessage)
                   .height(14)
-                  .margin({ top: $r("app.float.id_card_margin_mid") })
+                  .margin({ top: $r('app.float.id_card_margin_mid') })
                   .fontSize(10)
                   .fontColor(this.mPresenter.allSelectTextStyle)
                   .fontWeight(FontWeight.Medium)
               }
               .width('100%')
-              .height($r("app.float.id_item_height_large"))
+              .height($r('app.float.id_item_height_large'))
               .flexShrink(0)
               .onClick((event: ClickEvent) => {
                 this.mPresenter.clickSelectAll();
               })
             }
           }
-          .height("100%")
+          .height('100%')
         }
       }
-      .height("100%")
+      .height('100%')
       .onBreakpointChange((breakpoint: string) => {
         this.curBp = breakpoint
       })
@@ -194,7 +194,7 @@ export default struct BatchSelectContactsPage {
     .padding({ left: 12, right: 12 })
     .width('100%')
     .height('100%')
-    .backgroundColor($r("sys.color.ohos_id_color_sub_background"))
+    .backgroundColor($r('sys.color.ohos_id_color_sub_background'))
   }
 }
 
@@ -216,8 +216,8 @@ struct RecentList {
 
               if (item.showDivifer) {
                 Divider()
-                  .color($r("sys.color.ohos_id_color_list_separator"))
-                  .margin({ left: 76, right: $r("app.float.id_card_margin_max") })
+                  .color($r('sys.color.ohos_id_color_list_separator'))
+                  .margin({ left: 76, right: $r('app.float.id_card_margin_max') })
               }
             }
           }
@@ -230,8 +230,8 @@ struct RecentList {
     .height('100%')
     .width('100%')
     .backgroundColor(Color.White)
-    .padding({ top: $r("app.float.id_card_margin_mid"), bottom: $r("app.float.id_card_margin_mid") })
-    .borderRadius($r("sys.float.ohos_id_corner_radius_card"))
+    .padding({ top: $r('app.float.id_card_margin_mid'), bottom: $r('app.float.id_card_margin_mid') })
+    .borderRadius($r('sys.float.ohos_id_corner_radius_card'))
   }
 }
 
@@ -258,14 +258,14 @@ struct ContactsList {
                       justifyContent: FlexAlign.End,
                       alignItems: ItemAlign.Start }) {
                       Text(item.contact.namePrefix)
-                        .fontColor($r("sys.color.ohos_fa_text_secondary"))
-                        .fontSize($r("sys.float.ohos_id_text_size_sub_title3"))
+                        .fontColor($r('sys.color.ohos_fa_text_secondary'))
+                        .fontSize($r('sys.float.ohos_id_text_size_sub_title3'))
                         .fontWeight(FontWeight.Medium)
                         .textAlign(TextAlign.Start)
                     }
-                    .padding({ left: $r("app.float.id_card_margin_max"), bottom: $r("app.float.id_card_margin_large") })
+                    .padding({ left: $r('app.float.id_card_margin_max'), bottom: $r('app.float.id_card_margin_large') })
                     .width('100%')
-                    .height($r("app.float.id_item_height_mid"))
+                    .height($r('app.float.id_item_height_mid'))
                   }
 
                   BatchSelectContactItemView({
@@ -279,8 +279,8 @@ struct ContactsList {
 
                 if (item.showDivifer) {
                   Divider()
-                    .color($r("sys.color.ohos_id_color_list_separator"))
-                    .margin({ left: 76, right: $r("app.float.id_card_margin_max") })
+                    .color($r('sys.color.ohos_id_color_list_separator'))
+                    .margin({ left: 76, right: $r('app.float.id_card_margin_max') })
                 }
               }
             }
@@ -308,7 +308,7 @@ struct ContactsList {
       }
     }
     .width('100%')
-    .padding({ top: $r("app.float.id_card_margin_mid"), bottom: $r("app.float.id_card_margin_mid") })
+    .padding({ top: $r('app.float.id_card_margin_mid'), bottom: $r('app.float.id_card_margin_mid') })
   }
 }
 
@@ -321,20 +321,20 @@ struct NoContactsEmptyView {
       direction: FlexDirection.Column,
       justifyContent: FlexAlign.Center,
       alignItems: ItemAlign.Center }) {
-      Image($r("app.media.no_contacts_illustration"))
-        .width($r("app.float.id_card_image_large"))
-        .height($r("app.float.id_card_image_large"))
+      Image($r('app.media.no_contacts_illustration'))
+        .width($r('app.float.id_card_image_large'))
+        .height($r('app.float.id_card_image_large'))
         .objectFit(ImageFit.Contain)
-        .margin({ bottom: $r("app.float.id_card_margin_large") })
+        .margin({ bottom: $r('app.float.id_card_margin_large') })
 
       Text(this.presenter.getEmptyText())
-        .fontSize($r("sys.float.ohos_id_text_size_body2"))
+        .fontSize($r('sys.float.ohos_id_text_size_body2'))
         .fontWeight(FontWeight.Regular)
-        .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+        .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
         .textAlign(TextAlign.Center)
     }
     .width('100%')
     .height('100%')
-    .padding({ bottom: $r("app.float.id_card_margin_large") })
+    .padding({ bottom: $r('app.float.id_card_margin_large') })
   }
 }

@@ -20,7 +20,7 @@ import {DataItemType} from './DataType';
  * Web site data type
  */
 export class Website extends DataType{
-  static readonly CONTENT_ITEM_TYPE: string = "website";
+  static readonly CONTENT_ITEM_TYPE: string = 'website';
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.WEBSITE;
   static readonly URL: string = DataType.DATA;
 

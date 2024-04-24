@@ -18,7 +18,7 @@ import DataColumns from '../contract/DataColumns';
 import DAOperation from './DAOperation';
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 
-const TAG = "ValuesDelta";
+const TAG = 'ValuesDelta';
 
 /**
  * Contact details editing model
@@ -93,10 +93,10 @@ export default class ValuesDelta {
       opt.valuesBucket = this.mapToObj(this.after);
     } else if (this.isDelete()) {
       opt = DAOperation.newDelete(targetUri);
-      opt.predicates = this._idColumn + "=" + this.getValue(this._idColumn);
+      opt.predicates = this._idColumn + '=' + this.getValue(this._idColumn);
     } else if (this.isUpdate) {
       opt = DAOperation.newUpdate(targetUri);
-      opt.predicates = this._idColumn + "=" + this.getValue(this._idColumn);
+      opt.predicates = this._idColumn + '=' + this.getValue(this._idColumn);
       opt.valuesBucket = this.mapToObj(this.after);
     } else {
       HiLog.i(TAG, 'buildDiff do nothing.');

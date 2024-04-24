@@ -20,7 +20,7 @@ import {DataItemType} from './DataType';
  * Phone Data Type - Relator
  */
 export class Relation extends DataType {
-  static readonly CONTENT_ITEM_TYPE: string = "relation";
+  static readonly CONTENT_ITEM_TYPE: string = 'relation';
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.RELATION;
   static readonly NAME: string = DataType.DATA;
   static readonly TYPE_ASSISTANT: number = 1;
@@ -41,37 +41,37 @@ export class Relation extends DataType {
   static getTypeLabelResource(type: number) {
     switch (type) {
       case Relation.TYPE_CHILD:
-        return $r("app.string.relationship_type_children");
+        return $r('app.string.relationship_type_children');
       case Relation.TYPE_DOMESTIC_PARTNER:
-        return $r("app.string.relationship_type_partner");
+        return $r('app.string.relationship_type_partner');
       case Relation.TYPE_ASSISTANT:
-        return $r("app.string.relationship_type_assistant");
+        return $r('app.string.relationship_type_assistant');
       case Relation.TYPE_BROTHER:
-        return $r("app.string.relationship_type_brother");
+        return $r('app.string.relationship_type_brother');
       case Relation.TYPE_PARTNER:
-        return $r("app.string.relationship_type_mates");
+        return $r('app.string.relationship_type_mates');
       case Relation.TYPE_FATHER:
-        return $r("app.string.relationship_type_father");
+        return $r('app.string.relationship_type_father');
       case Relation.TYPE_FRIEND:
-        return $r("app.string.relationship_type_friend");
+        return $r('app.string.relationship_type_friend');
       case Relation.TYPE_MANAGER:
-        return $r("app.string.relationship_type_bosses");
+        return $r('app.string.relationship_type_bosses');
       case Relation.TYPE_MOTHER:
-        return $r("app.string.relationship_type_mother");
+        return $r('app.string.relationship_type_mother');
       case Relation.TYPE_PARENTS:
-        return $r("app.string.relationship_type_parents");
+        return $r('app.string.relationship_type_parents');
       case Relation.TYPE_REFERRED_BY:
-        return $r("app.string.relationship_type_introducer");
+        return $r('app.string.relationship_type_introducer');
       case Relation.TYPE_RELATIVE:
-        return $r("app.string.relationship_type_kinship");
+        return $r('app.string.relationship_type_kinship');
       case Relation.TYPE_SISTERS:
-        return $r("app.string.relationship_type_sisters");
+        return $r('app.string.relationship_type_sisters');
       case Relation.TYPE_SPOUSES:
-        return $r("app.string.relationship_type_spouses");
+        return $r('app.string.relationship_type_spouses');
       case Relation.TYPE_CUSTOM:
-        return $r("app.string.relationship_type_custom");
+        return $r('app.string.relationship_type_custom');
       default:
-        return $r("app.string.relationship_type_custom");
+        return $r('app.string.relationship_type_custom');
     }
   }
 

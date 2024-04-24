@@ -16,8 +16,8 @@ import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 
 const TAG = 'MmsService ';
 // mms
-const MMS_BUNDLE_NAME = "com.ohos.mms";
-const MMS_ABILITY_NAME = "com.ohos.mms.MainAbility";
+const MMS_BUNDLE_NAME = 'com.ohos.mms';
+const MMS_ABILITY_NAME = 'com.ohos.mms.MainAbility';
 const MMS_ENTITIES = 'entity.system.home';
 
 export default class MmsService {

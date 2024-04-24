@@ -21,7 +21,7 @@ import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import CallRecordPresenter from './../../../presenter/dialer/callRecord/CallRecordPresenter'
 import {CallLogTabs} from '../../../component/dialer/CallLogTabs';
 
-const TAG = "CallRecord_Tab";
+const TAG = 'CallRecord_Tab';
 
 @Entry
 @Component

@@ -17,7 +17,7 @@
  * Phone Data Type - Instant Messaging
  */
 export class Aim {
-  static readonly CONTENT_ITEM_TYPE: string = "vnd.cursor.item/aim_v2";
+  static readonly CONTENT_ITEM_TYPE: string = 'vnd.cursor.item/aim_v2';
   static readonly TYPE_AIM: number = 1;
   static readonly TYPE_WINDOWSLIVE: number = 2;
   static readonly TYPE_YAHOO: number = 3;
@@ -31,25 +31,25 @@ export class Aim {
   static getTypeLabelResource(type: number) {
     switch (type) {
       case Aim.TYPE_AIM:
-        return $r("app.string.instant_type_aim");
+        return $r('app.string.instant_type_aim');
       case Aim.TYPE_WINDOWSLIVE:
-        return $r("app.string.instant_type_windowslive");
+        return $r('app.string.instant_type_windowslive');
       case Aim.TYPE_YAHOO:
-        return $r("app.string.instant_type_yahoo");
+        return $r('app.string.instant_type_yahoo');
       case Aim.TYPE_SKYPE:
-        return $r("app.string.instant_type_skype");
+        return $r('app.string.instant_type_skype');
       case Aim.TYPE_QQ:
-        return $r("app.string.instant_type_qq");
+        return $r('app.string.instant_type_qq');
       case Aim.TYPE_HANGOUTS:
-        return $r("app.string.instant_type_hangouts");
+        return $r('app.string.instant_type_hangouts');
       case Aim.TYPE_ICQ:
-        return $r("app.string.instant_type_icq");
+        return $r('app.string.instant_type_icq');
       case Aim.TYPE_JABBER:
-        return $r("app.string.instant_type_jabber");
+        return $r('app.string.instant_type_jabber');
       case Aim.TYPE_CUSTOM:
-        return $r("app.string.instant_type_custom");
+        return $r('app.string.instant_type_custom');
       default:
-        return $r("app.string.instant_type_custom");
+        return $r('app.string.instant_type_custom');
     }
   }
 

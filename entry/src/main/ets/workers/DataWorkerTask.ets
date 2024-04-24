@@ -13,38 +13,38 @@
  * limitations under the License.
  */
 
-import { HiLog } from "../../../../../common"
-import { WorkerType } from "./WorkFactory"
-import WorkerWrapper from "./base/WorkerWrapper"
-import WorkerTask from "./base/WorkerTask"
+import { HiLog } from '../../../../../common'
+import { WorkerType } from './WorkFactory'
+import WorkerWrapper from './base/WorkerWrapper'
+import WorkerTask from './base/WorkerTask'
 import { ThreadWorkerGlobalScope } from '@ohos.worker';
 import CallLog from '../model/calllog/CalllogModel';
 import { CallLogRepository } from '../../../../../feature/call';
 import { ContactRepository } from '../../../../../feature/contact';
 import ContactAbilityModel from '../model/ContactAbilityModel';
 
-const TAG = "DataWorkerTask"
+const TAG = 'DataWorkerTask'
 
 
 export enum DataWorkerConstant {
-  "deleteCallLogsById",
-  "getAllCalls",
-  "findByNumberIn",
-  "deleteContactById",
-  "addContact",
-  "getAllContact",
-  "getAllContactWithPhoneNumbers",
-  "getContactById",
-  "updateContact",
-  "getIdByTelephone",
-  "updateFavorite",
-  "getAllFavorite",
-  "getAllUsually",
-  "getDisplayNamesFindUsually",
-  "moveSortFavorite",
-  "getSearchContact",
-  "getCallHistorySearch",
-  "getQueryT9PhoneNumbers"
+  'deleteCallLogsById',
+  'getAllCalls',
+  'findByNumberIn',
+  'deleteContactById',
+  'addContact',
+  'getAllContact',
+  'getAllContactWithPhoneNumbers',
+  'getContactById',
+  'updateContact',
+  'getIdByTelephone',
+  'updateFavorite',
+  'getAllFavorite',
+  'getAllUsually',
+  'getDisplayNamesFindUsually',
+  'moveSortFavorite',
+  'getSearchContact',
+  'getCallHistorySearch',
+  'getQueryT9PhoneNumbers'
 }
 
 export class DataWorkerTask extends WorkerTask {
@@ -55,7 +55,7 @@ export class DataWorkerTask extends WorkerTask {
   }
 
   static getInstance(workerPort: ThreadWorkerGlobalScope) {
-    HiLog.i(TAG, "getInstance in.")
+    HiLog.i(TAG, 'getInstance in.')
     if (DataWorkerTask.sInstance == undefined || DataWorkerTask.sInstance.workerPort == undefined) {
       DataWorkerTask.sInstance = new DataWorkerTask(workerPort);
     }

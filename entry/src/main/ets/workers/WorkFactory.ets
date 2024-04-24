@@ -14,12 +14,12 @@
  */
 
 import { ThreadWorkerGlobalScope, MessageEvents } from '@ohos.worker';
-import { HiLog } from "../../../../../common"
-import { DataWorkerTask } from "./DataWorkerTask"
-import WorkerWrapper, { WorkerMessage } from "./base/WorkerWrapper"
-import WorkerTask from "./base/WorkerTask"
+import { HiLog } from '../../../../../common'
+import { DataWorkerTask } from './DataWorkerTask'
+import WorkerWrapper, { WorkerMessage } from './base/WorkerWrapper'
+import WorkerTask from './base/WorkerTask'
 
-const TAG = "WorkFactory"
+const TAG = 'WorkFactory'
 
 export enum WorkerType {
   DataWorker,
@@ -39,7 +39,7 @@ export default class WorkFactory {
     if (type == WorkerType.DataWorker) {
       task = DataWorkerTask.getInstance(workerPort);
     }
-    HiLog.w(TAG, "getTask end")
+    HiLog.w(TAG, 'getTask end')
     return task;
   }
 
@@ -53,10 +53,10 @@ export default class WorkFactory {
     HiLog.i(TAG, `getWorker in ${WorkerType[type]}.`)
     let worker: WorkerWrapper = undefined
     if (type == WorkerType.DataWorker) {
-      HiLog.w(TAG, "getWorker " + type)
+      HiLog.w(TAG, 'getWorker ' + type)
       worker = new WorkerWrapper(WorkerType.DataWorker, globalThis.config.useDataWorker);
     }
-    HiLog.w(TAG, "getWorker end")
+    HiLog.w(TAG, 'getWorker end')
     return worker;
   }
 }

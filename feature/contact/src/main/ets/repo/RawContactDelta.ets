@@ -19,7 +19,7 @@ import { RawContacts } from '../contract/RawContacts';
 import { Data } from '../contract/Data';
 import RawContact from '../entity/RawContact';
 
-const TAG = "RawContactDelta";
+const TAG = 'RawContactDelta';
 
 /**
  * Contact details editing model

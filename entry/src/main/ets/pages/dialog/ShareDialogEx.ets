@@ -56,7 +56,7 @@ export default struct ShareDialogEx {
         Text(this.cancelText).textAlign(TextAlign.Center)
           .width('100%')
           .fontSize(20)
-          .fontColor($r("sys.color.ohos_id_color_text_primary_activated"))
+          .fontColor($r('sys.color.ohos_id_color_text_primary_activated'))
       }
       .width('100%')
       .height(30)

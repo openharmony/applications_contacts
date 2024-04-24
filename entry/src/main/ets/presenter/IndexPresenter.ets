@@ -37,21 +37,21 @@ export default class IndexPresenter {
   onPageShow() {
     HiLog.i(TAG, 'onPageShow !!!');
     this.cancelMissedCallNotification()
-    if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get("sysTime")) {
+    if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get('sysTime')) {
       HiLog.i(TAG, 'DO requestItem cause systemTime changed');
       CallRecordPresenter.getInstance().requestItem();
-      AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
+      AppStorage.SetOrCreate('sysTime', parseInt(StringFormatUtil.judgeSysTime()));
     }
   }
 
   getCurrentUrl(){
     let url = router.getState().path+router.getState().name;
-    HiLog.i(TAG,"getCurrentUrl:"+url)
+    HiLog.i(TAG,'getCurrentUrl:'+url)
     return url;
   }
 
   goToPage(url: string, pageIndex?: number, params?) {
-    HiLog.i(TAG, "goToPage: " + url);
+    HiLog.i(TAG, 'goToPage: ' + url);
     if (pageIndex != undefined && router.getState().index >= pageIndex) {
       if (url == globalThis.presenterManager?.mainUrl || this.getCurrentUrl() == url) {
         router.back({
@@ -79,7 +79,7 @@ export default class IndexPresenter {
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear !!!');
-    AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
+    AppStorage.SetOrCreate('sysTime', parseInt(StringFormatUtil.judgeSysTime()));
   }
 
   aboutToDisappear() {

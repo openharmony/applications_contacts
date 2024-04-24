@@ -17,8 +17,8 @@
  * Basic Account Type
  */
 export abstract class AccountType {
-  static readonly PHONE_ACCOUNT_TYPE: string = "com.phone";
-  static readonly PAGE_SETTING_TYPE: string = "com.setting";
+  static readonly PHONE_ACCOUNT_TYPE: string = 'com.phone';
+  static readonly PAGE_SETTING_TYPE: string = 'com.setting';
 
   constructor() {
   }

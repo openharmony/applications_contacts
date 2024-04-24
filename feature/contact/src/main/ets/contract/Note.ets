@@ -20,7 +20,7 @@ import {DataItemType} from './DataType';
  * Remark Data Type
  */
 export class Nickname extends DataType {
-  static readonly CONTENT_ITEM_TYPE: string = "note";
+  static readonly CONTENT_ITEM_TYPE: string = 'note';
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.NOTE;
   static readonly NOTE: string = DataType.DATA;
   constructor() {

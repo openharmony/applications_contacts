@@ -17,7 +17,7 @@
  * Phone Data Type - Address
  */
 export class House {
-  static readonly CONTENT_ITEM_TYPE: string = "vnd.cursor.item/house_v2";
+  static readonly CONTENT_ITEM_TYPE: string = 'vnd.cursor.item/house_v2';
   static readonly TYPE_DWELLING: number = 1;
   static readonly TYPE_POSITION: number = 2;
   static readonly TYPE_OTHER: number = 3;
@@ -26,15 +26,15 @@ export class House {
   static getTypeLabelResource(type: number) {
     switch (type) {
       case House.TYPE_DWELLING:
-        return $r("app.string.house_type_dwelling");
+        return $r('app.string.house_type_dwelling');
       case House.TYPE_POSITION:
-        return $r("app.string.house_type_position");
+        return $r('app.string.house_type_position');
       case House.TYPE_OTHER:
-        return $r("app.string.house_type_other");
+        return $r('app.string.house_type_other');
       case House.TYPE_CUSTOM:
-        return $r("app.string.house_type_custom");
+        return $r('app.string.house_type_custom');
       default:
-        return $r("app.string.house_type_custom");
+        return $r('app.string.house_type_custom');
     }
   }
 
