@@ -33,8 +33,8 @@ export default struct BatchTabGuide {
           justifyContent: FlexAlign.End,
           alignItems: ItemAlign.Center }) {
           Text(item)
-            .fontSize($r("sys.float.ohos_id_text_size_body1"))
-            .fontColor(this.currentIndex == index ? $r("sys.color.ohos_id_color_connected") : $r("sys.color.ohos_id_color_text_tertiary"))
+            .fontSize($r('sys.float.ohos_id_text_size_body1'))
+            .fontColor(this.currentIndex == index ? $r('sys.color.ohos_id_color_connected') : $r('sys.color.ohos_id_color_text_tertiary'))
             .textAlign(TextAlign.Center)
             .margin({ top: 17, bottom: 6 })
             .fontWeight(FontWeight.Medium)
@@ -44,12 +44,12 @@ export default struct BatchTabGuide {
             .vertical(false)
             .strokeWidth(2)
             .borderRadius(1)
-            .color($r("sys.color.ohos_id_color_connected"))
+            .color($r('sys.color.ohos_id_color_connected'))
             .visibility(this.currentIndex == index ? Visibility.Visible : Visibility.Hidden)
         }
         .width(120)
-        .height($r("app.float.id_item_height_large"))
-        .margin({ left: $r("app.float.id_card_margin_xl"), right: $r("app.float.id_card_margin_xl") })
+        .height($r('app.float.id_item_height_large'))
+        .margin({ left: $r('app.float.id_card_margin_xl'), right: $r('app.float.id_card_margin_xl') })
         .onClick(() => {
           if (this.currentIndex != index) {
             this.controller.changeIndex(index);
@@ -60,6 +60,6 @@ export default struct BatchTabGuide {
 
     }
     .width('100%')
-    .height($r("app.float.id_item_height_large"))
+    .height($r('app.float.id_item_height_large'))
   }
 }

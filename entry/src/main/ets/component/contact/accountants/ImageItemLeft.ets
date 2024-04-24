@@ -25,14 +25,14 @@ export struct ImageItemLeft {
     Column() {
       Image(this.mImage)
         .objectFit(ImageFit.Contain)
-        .height($r("app.float.id_card_image_small"))
-        .width($r("app.float.id_card_image_small"))
-        .margin({ left: this.curBp === 'lg' ? $r("app.float.id_card_margin_max") : $r("app.float.id_card_margin_xl") })
+        .height($r('app.float.id_card_image_small'))
+        .width($r('app.float.id_card_image_small'))
+        .margin({ left: this.curBp === 'lg' ? $r('app.float.id_card_margin_max') : $r('app.float.id_card_margin_xl') })
         .fillColor(this.moreFlag
-          ? $r("sys.color.ohos_id_color_connected")
-          : $r("sys.color.ohos_id_color_secondary"))
+          ? $r('sys.color.ohos_id_color_connected')
+          : $r('sys.color.ohos_id_color_secondary'))
     }
-    .height($r("app.float.id_item_height_large"))
+    .height($r('app.float.id_item_height_large'))
     .alignItems(HorizontalAlign.Start)
     .justifyContent(FlexAlign.Center)
     .flexShrink(0)

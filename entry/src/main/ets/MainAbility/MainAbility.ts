@@ -15,7 +15,7 @@
 
 import Ability from '@ohos.app.ability.UIAbility'
 import Window from '@ohos.window'
-import WorkFactory, { WorkerType } from "../workers/WorkFactory";
+import WorkFactory, { WorkerType } from '../workers/WorkFactory';
 import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 import Want from '@ohos.app.ability.Want';
 import SimManager from '../feature/sim/SimManager';
@@ -46,8 +46,8 @@ export default class MainAbility extends Ability {
         if (!want || !want.parameters) {
             return;
         }
-        const data: any = want.parameters["missedCallData"];
-        const action = want.parameters["action"];
+        const data: any = want.parameters['missedCallData'];
+        const action = want.parameters['action'];
         HiLog.i(TAG, `onRequest action: ${action}`);
         if (action != undefined && data != undefined) {
             missedCallManager.requestMissedCallAction(action, data);

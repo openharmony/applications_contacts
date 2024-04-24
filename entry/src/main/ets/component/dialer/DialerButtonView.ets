@@ -15,7 +15,7 @@
 
 import EnvironmentProp from '../../feature/EnvironmentProp';
 import DialerPresenter from '../../presenter/dialer/DialerPresenter';
-import { MutiDialerButtonView } from "../mutisim/MutiDialerButtonView"
+import { MutiDialerButtonView } from '../mutisim/MutiDialerButtonView'
 import { PhoneNumber } from '../../../../../../feature/phonenumber';
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 
@@ -24,21 +24,21 @@ const TAG = 'DialerButtonView';
 export struct DialerButtonView {
   emergencyNum: string;
   @Link mPresenter: DialerPresenter;
-  @StorageLink("tele_number") tele_number: string = "";
-  @StorageLink("haveSimCard") haveSimCard: boolean = false;
-  @StorageLink("haveMultiSimCard") haveMultiSimCard: boolean = false;
-  @StorageLink("haveVoLteReg") haveVoLteReg: boolean = false;
+  @StorageLink('tele_number') tele_number: string = '';
+  @StorageLink('haveSimCard') haveSimCard: boolean = false;
+  @StorageLink('haveMultiSimCard') haveMultiSimCard: boolean = false;
+  @StorageLink('haveVoLteReg') haveVoLteReg: boolean = false;
 
   dialClick() {
     this.mPresenter.callBtnClick = true;
     if (!this.haveSimCard) {
-      HiLog.i(TAG, "No SIM card!");
+      HiLog.i(TAG, 'No SIM card!');
       this.emergencyNum = this.mPresenter.all_number;
       //TODO Pop-up window for dialing without a SIM card
       PhoneNumber.fromString(this.mPresenter.all_number).isDialEmergencyNum().then((res) => {
         this.mPresenter.isEmergencyNum = res;
         if (!this.mPresenter.isEmergencyNum) {
-          HiLog.i(TAG, "Is not Emergency Phone Number!");
+          HiLog.i(TAG, 'Is not Emergency Phone Number!');
           return;
         } else {
           this.mPresenter.dialing(this.emergencyNum);
@@ -49,7 +49,7 @@ export struct DialerButtonView {
         this.mPresenter.dialing(this.mPresenter.all_number);
       }
     }
-    AppStorage.SetOrCreate("tele_number", '');
+    AppStorage.SetOrCreate('tele_number', '');
     this.mPresenter.all_number = '';
     this.mPresenter.callBtnClick = false;
   }
@@ -60,8 +60,8 @@ export struct DialerButtonView {
         if (this.haveSimCard && this.haveVoLteReg) {
           Button() {
             Image($r('app.media.dial_single_button_hd'))
-              .width($r("app.float.id_item_height_large"))
-              .height($r("app.float.id_item_height_large"))
+              .width($r('app.float.id_item_height_large'))
+              .height($r('app.float.id_item_height_large'))
           }
           .width(this.mPresenter.dialerButtonHeight)
           .height(this.mPresenter.dialerButtonHeight)
@@ -73,9 +73,9 @@ export struct DialerButtonView {
           })
         } else {
           Button() {
-            Image($r("app.media.ic_public_phone_filled_white"))
-              .width($r("app.float.id_card_margin_xxxxl"))
-              .height($r("app.float.id_card_margin_xxxxl"))
+            Image($r('app.media.ic_public_phone_filled_white'))
+              .width($r('app.float.id_card_margin_xxxxl'))
+              .height($r('app.float.id_card_margin_xxxxl'))
           }
           .width(this.mPresenter.dialerButtonHeight)
           .height(this.mPresenter.dialerButtonHeight)

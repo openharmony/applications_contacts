@@ -249,8 +249,10 @@ struct ContactItem {
         Row() {
           Text(this.item.createTime)
             .fontSize($r("sys.float.ohos_id_text_size_body2"))
-            .margin({ right: this.curBp === 'lg' ? '6vp' : $r("app.float.id_card_margin_xl"),
-              top: $r("app.float.id_card_margin_sm") })
+            .margin({
+              right: this.curBp === 'lg' ? '6vp' : $r("app.float.id_card_margin_xl"),
+              top: $r("app.float.id_card_margin_sm")
+            })
             .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
             .textAlign(TextAlign.End)
           Image($r('app.media.ic_public_detail'))

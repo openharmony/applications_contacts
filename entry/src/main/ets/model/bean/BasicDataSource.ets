@@ -15,7 +15,7 @@
 
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 
-const TAG = "BasicDataSource";
+const TAG = 'BasicDataSource';
 
 export class BasicDataSource implements IDataSource {
   private listeners: DataChangeListener[] = []
@@ -30,7 +30,7 @@ export class BasicDataSource implements IDataSource {
 
   registerDataChangeListener(listener: DataChangeListener): void {
     if (this.listeners.indexOf(listener) < 0) {
-      HiLog.i(TAG, "BasicDataSource add listener ");
+      HiLog.i(TAG, 'BasicDataSource add listener ');
       this.listeners.push(listener);
     }
   }
@@ -38,7 +38,7 @@ export class BasicDataSource implements IDataSource {
   unregisterDataChangeListener(listener: DataChangeListener): void {
     const pos = this.listeners.indexOf(listener);
     if (pos >= 0) {
-      HiLog.i(TAG, "BasicDataSource remove listener ");
+      HiLog.i(TAG, 'BasicDataSource remove listener ');
       this.listeners.splice(pos, 1);
     }
   }

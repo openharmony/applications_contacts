@@ -29,7 +29,7 @@ class VoLteState {
         this.initVoLteListener(i);
       }
     } catch (error) {
-      HiLog.w(TAG, "VoLteState, get VoLte state error:" + JSON.stringify(error));
+      HiLog.w(TAG, 'VoLteState, get VoLte state error:' + JSON.stringify(error));
     }
   }
 
@@ -39,7 +39,7 @@ class VoLteState {
         this.removeVoLteListener(i);
       }
     } catch (error) {
-      HiLog.w(TAG, "VoLteState, removeVoLteListeners error:" + JSON.stringify(error));
+      HiLog.w(TAG, 'VoLteState, removeVoLteListeners error:' + JSON.stringify(error));
     }
   }
 
@@ -55,7 +55,7 @@ class VoLteState {
     });
     radio.getImsRegInfo(slot, radio.ImsServiceType.TYPE_VOICE, (err, data) => {
       if (err) {
-        HiLog.w(TAG, "getImsRegInfo err:" + JSON.stringify(err))
+        HiLog.w(TAG, 'getImsRegInfo err:' + JSON.stringify(err))
       } else {
         HiLog.i(TAG, `getImsRegInfo: data->${JSON.stringify(data)}`);
         this.parseVoLteState(slot, data.imsRegState);
@@ -77,8 +77,8 @@ class VoLteState {
     }
     this.voLteRegStates[slotId] = voLte;
     this.haveVoLteReg = this.voLteRegStates[0] || this.voLteRegStates[1];
-    AppStorage.SetOrCreate<boolean>("haveVoLteReg", this.haveVoLteReg);
-    AppStorage.SetOrCreate<boolean[]>("voLteRegStates", this.voLteRegStates);
+    AppStorage.SetOrCreate<boolean>('haveVoLteReg', this.haveVoLteReg);
+    AppStorage.SetOrCreate<boolean[]>('voLteRegStates', this.voLteRegStates);
     HiLog.i(TAG, `parseVoLteState: state changed slotId${slotId}  volte->${voLte}, haveVoLteReg:${this.haveVoLteReg}`);
     if (this.mListener) {
       this.mListener();

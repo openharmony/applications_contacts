@@ -14,22 +14,22 @@
  */
 
 export class CallBean {
-  readonly id: string ;
-  phone: string ;
-  name: string ;
-  callTime: string ;
+  readonly id: string;
+  phone: string;
+  name: string;
+  callTime: string;
   // Call type: 1: incoming call; 2: outgoing call; 3: missed call; 5: rejected call
-  callType: string ;
+  callType: string;
   // Home area of the number
-  callTag: string ;
+  callTag: string;
   // Call SIM card. 0: SIM card 1, 1: SIM card 2.
-  simType: string ;
+  simType: string;
   // Indicates whether an HD call is supported. true: HD call; false: non-HD call
-  isHd: string ;
+  isHd: string;
   // Format Phone Number
-  formatNumber: string ;
+  formatNumber: string;
   // Contact ID.
-  contactKey: string ;
+  contactKey: string;
   // Call Times
   num: string;
   // Indicates whether to be selected. The default value is false.

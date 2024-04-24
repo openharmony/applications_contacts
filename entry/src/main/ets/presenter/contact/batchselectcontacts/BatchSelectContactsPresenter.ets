@@ -23,7 +23,7 @@ import ContactAbilityModel from '../../../model/ContactAbilityModel';
 import router from '@ohos.router';
 import BatchSelectRecentSource from '../../../model/bean/BatchSelectRecentSource';
 import BatchSelectContactSource from '../../../model/bean/BatchSelectContactSource';
-import CallLogSetting from "../../../../../../../feature/call/src/main/ets/CallLogSetting"
+import CallLogSetting from '../../../../../../../feature/call/src/main/ets/CallLogSetting'
 import { ContactVo } from '../../../model/bean/ContactVo';
 import AlphabetIndexerPresenter from '../alphabetindex/AlphabetIndexerPresenter';
 
@@ -41,10 +41,10 @@ export default class BatchSelectContactsPresenter {
   contactsList: Array<any> = [];
   searchContactList: Array<any> = [];
   groupList: Array<any> = [];
-  emptyViewText: Resource = $r("app.string.no_recent_contacts");
+  emptyViewText: Resource = $r('app.string.no_recent_contacts');
   controller: TabsController = new TabsController();
   currentIndex: number = 0;
-  tabTextSrc: string[] | Resource[] = [$r("app.string.recent"), $r("app.string.contact")];
+  tabTextSrc: string[] | Resource[] = [$r('app.string.recent'), $r('app.string.contact')];
   tabInfo: TabInfo = new TabInfo(0);
   contactsInfo: ContactsInfo = new ContactsInfo();
   // Whether to display the Select All button at the bottom
@@ -57,9 +57,9 @@ export default class BatchSelectContactsPresenter {
   searchLayoutShow: boolean = false;
   selectDisabled: boolean = true;
   isSelectAll: boolean = false;
-  icSelectAll: Resource = $r("app.media.ic_public_select_all");
-  allSelectMessage: Resource = $r("app.string.select_all");
-  allSelectTextStyle: Resource = $r("sys.color.ohos_id_color_primary");
+  icSelectAll: Resource = $r('app.media.ic_public_select_all');
+  allSelectMessage: Resource = $r('app.string.select_all');
+  allSelectTextStyle: Resource = $r('sys.color.ohos_id_color_primary');
   initialIndex: number = 0;
   recentSource: BatchSelectRecentSource = new BatchSelectRecentSource();
   contactsSource: BatchSelectContactSource = new BatchSelectContactSource();
@@ -121,7 +121,7 @@ export default class BatchSelectContactsPresenter {
 
   cancel() {
     let parameters = {
-      contactObjects: ""
+      contactObjects: ''
     };
     let result = {
       resultCode: 0,
@@ -132,15 +132,15 @@ export default class BatchSelectContactsPresenter {
     // Selecting a contact for creating an SMS message
     globalThis.context?.terminateSelfWithResult(result)
       .then((data) => {
-        HiLog.i(TAG, "terminateSelfWithResult Operation succeeded: ");
+        HiLog.i(TAG, 'terminateSelfWithResult Operation succeeded: ');
       })
       .catch((error) => {
-        HiLog.e(TAG, "Operation failed. Cause: %s", JSON.stringify(error.message));
+        HiLog.e(TAG, 'Operation failed. Cause: %s', JSON.stringify(error.message));
       });
   }
 
   resetInitialIndex(firstIndex: number) {
-    HiLog.i(TAG, "resetInitialIndex firstIndex is %s", firstIndex);
+    HiLog.i(TAG, 'resetInitialIndex firstIndex is %s', firstIndex);
     this.initialIndex = firstIndex;
   }
 
@@ -187,10 +187,10 @@ export default class BatchSelectContactsPresenter {
     // Selecting a contact for creating an SMS message
     globalThis.context?.terminateSelfWithResult(result)
       .then((data) => {
-        HiLog.i(TAG, "terminateSelfWithResult Operation succeeded ");
+        HiLog.i(TAG, 'terminateSelfWithResult Operation succeeded ');
       })
       .catch((error) => {
-        HiLog.e(TAG, "Operation failed. Cause: %s", JSON.stringify(error.message));
+        HiLog.e(TAG, 'Operation failed. Cause: %s', JSON.stringify(error.message));
       });
   }
 
@@ -387,16 +387,16 @@ export default class BatchSelectContactsPresenter {
   getEmptyText(): Resource {
     switch (this.tabInfo.tabIndex) {
       case 0:
-        this.emptyViewText = $r("app.string.no_recent_contacts");
+        this.emptyViewText = $r('app.string.no_recent_contacts');
         break
       case 1:
-        this.emptyViewText = $r("app.string.no_select_contacts");
+        this.emptyViewText = $r('app.string.no_select_contacts');
         break
       case 2:
-        this.emptyViewText = $r("app.string.no_group_contacts");
+        this.emptyViewText = $r('app.string.no_group_contacts');
         break
       default:
-        this.emptyViewText = $r("app.string.no_recent_contacts");
+        this.emptyViewText = $r('app.string.no_recent_contacts');
         break
     }
     return this.emptyViewText;
@@ -470,7 +470,7 @@ export default class BatchSelectContactsPresenter {
   }
 
   changeContactsItemState(index, event) {
-    HiLog.i(TAG, "SHOW changeContactsItemState searchLayoutShow");
+    HiLog.i(TAG, 'SHOW changeContactsItemState searchLayoutShow');
     let contactId = '';
     if (!this.contactsInfo.searchLayoutShow) {
       contactId = this.contactsList[index].contactId;
@@ -481,7 +481,7 @@ export default class BatchSelectContactsPresenter {
   }
 
   checkContactsCount(event, contactId) {
-    HiLog.i(TAG, "SHOW checkContactsCount searchLayoutShow");
+    HiLog.i(TAG, 'SHOW checkContactsCount searchLayoutShow');
     if (this.contactsInfo.searchLayoutShow) {
       this.contactsInfo.searchContactList.forEach(element => {
         if (contactId == element.contactId) {
@@ -549,7 +549,7 @@ export default class BatchSelectContactsPresenter {
 
   // Header Count Refresh Function
   refreshPageMessage() {
-    HiLog.i(TAG, "refreshPageMessage start !")
+    HiLog.i(TAG, 'refreshPageMessage start !')
     this.selectCount = this.selectedNumberMap.size;
     if (this.selectedNumberMap.size > 0) {
       this.selectDisabled = false;
@@ -565,25 +565,25 @@ export default class BatchSelectContactsPresenter {
    * Verify the display style of the Select All button.
    */
   checkAllClickButtonStyle() {
-    HiLog.i(TAG, "checkAllClickButtonStyle start , and tabIndex is " + this.tabInfo.tabIndex);
+    HiLog.i(TAG, 'checkAllClickButtonStyle start , and tabIndex is ' + this.tabInfo.tabIndex);
     switch (this.tabInfo.tabIndex) {
       case 0:
         if (this.tabInfo.recentCount === this.tabInfo.recentTotal) {
-          HiLog.i(TAG, "checkAllClickButtonStyle recent select all ");
+          HiLog.i(TAG, 'checkAllClickButtonStyle recent select all ');
           this.changeToFullSelect();
           this.tabInfo.allClickedRecent = true;
         } else {
-          HiLog.i(TAG, "checkAllClickButtonStyle recent unselect all ");
+          HiLog.i(TAG, 'checkAllClickButtonStyle recent unselect all ');
           this.changeToUnFullSelect();
         }
         break;
       case 1:
         if (this.tabInfo.contactsCount === this.tabInfo.contactsTotal) {
-          HiLog.i(TAG, "checkAllClickButtonStyle contact select all ");
+          HiLog.i(TAG, 'checkAllClickButtonStyle contact select all ');
           this.changeToFullSelect();
           this.tabInfo.allClickedContacts = true;
         } else {
-          HiLog.i(TAG, "checkAllClickButtonStyle contact unselect all ");
+          HiLog.i(TAG, 'checkAllClickButtonStyle contact unselect all ');
           this.changeToUnFullSelect();
         }
         break;
@@ -593,19 +593,19 @@ export default class BatchSelectContactsPresenter {
   }
 
   changeToFullSelect() {
-    this.icSelectAll = $r("app.media.ic_public_select_all_filled");
-    this.allSelectMessage = $r("app.string.unselect_all");
-    this.allSelectTextStyle = $r("sys.color.ohos_id_color_connected");
+    this.icSelectAll = $r('app.media.ic_public_select_all_filled');
+    this.allSelectMessage = $r('app.string.unselect_all');
+    this.allSelectTextStyle = $r('sys.color.ohos_id_color_connected');
   }
 
   changeToUnFullSelect() {
-    this.icSelectAll = $r("app.media.ic_public_select_all");
-    this.allSelectMessage = $r("app.string.select_all");
-    this.allSelectTextStyle = $r("sys.color.ohos_id_color_primary");
+    this.icSelectAll = $r('app.media.ic_public_select_all');
+    this.allSelectMessage = $r('app.string.select_all');
+    this.allSelectTextStyle = $r('sys.color.ohos_id_color_primary');
   }
 
   addOrUpdateSelectedNumberMap(number, name, isCalllogs, keyOrId) {
-    HiLog.i(TAG, "addOrUpdateSelectedNumberMap isCalllogs is " + isCalllogs + " , keyOrId is " + keyOrId);
+    HiLog.i(TAG, 'addOrUpdateSelectedNumberMap isCalllogs is ' + isCalllogs + ' , keyOrId is ' + keyOrId);
     if (StringUtil.isEmpty(number)) {
       return;
     }
@@ -617,7 +617,7 @@ export default class BatchSelectContactsPresenter {
   }
 
   deleteSelectedNumber(number, name, isCalllogs, keyOrId) {
-    HiLog.i(TAG, "deleteSelectedNumber isCalllogs is " + isCalllogs + " , keyOrId is " + keyOrId);
+    HiLog.i(TAG, 'deleteSelectedNumber isCalllogs is ' + isCalllogs + ' , keyOrId is ' + keyOrId);
     if (StringUtil.isEmpty(number)) {
       return;
     }
@@ -626,7 +626,7 @@ export default class BatchSelectContactsPresenter {
   }
 
   updataConnectedContact(number, name, isCalllogs, keyOrId, isAdd) {
-    HiLog.i(TAG, "updataConnectedContact isCalllogs is " + isCalllogs + " , keyOrId is " + keyOrId);
+    HiLog.i(TAG, 'updataConnectedContact isCalllogs is ' + isCalllogs + ' , keyOrId is ' + keyOrId);
     if (isCalllogs) {
       this.contactsList.forEach(element => {
         if (!ObjectUtil.isEmpty(element) && element.contactId == keyOrId) {
@@ -683,7 +683,7 @@ export default class BatchSelectContactsPresenter {
     } else {
       favoriteForm.favorite = -1;
     }
-    globalThis.DataWorker?.sendRequest("getAllCalls", {
+    globalThis.DataWorker?.sendRequest('getAllCalls', {
       context: globalThis.context,
       mergeRule: CallLogSetting.getInstance().getMergeRule(),
       actionData: this.actionData,
@@ -747,7 +747,7 @@ export default class BatchSelectContactsPresenter {
       favoriteForm.favorite = -1;
     }
     favoriteForm.editContact = this.editContact
-    globalThis.DataWorker.sendRequest("getAllContactWithPhoneNumbers", {
+    globalThis.DataWorker.sendRequest('getAllContactWithPhoneNumbers', {
       context: globalThis.context,
       favoriteForm: JSON.stringify(favoriteForm)
     }, (resultList) => {
@@ -822,31 +822,31 @@ export default class BatchSelectContactsPresenter {
     let labelName: Resource;
     switch (parseInt(phoneLabelId, 10)) {
       case 1:
-        labelName = $r("app.string.phone_type_mobile_expansion", phoneNumber);
+        labelName = $r('app.string.phone_type_mobile_expansion', phoneNumber);
         break;
       case 2:
-        labelName = $r("app.string.phone_type_home_expansion", phoneNumber);
+        labelName = $r('app.string.phone_type_home_expansion', phoneNumber);
         break;
       case 3:
-        labelName = $r("app.string.phone_type_work_expansion", phoneNumber);
+        labelName = $r('app.string.phone_type_work_expansion', phoneNumber);
         break;
       case 4:
-        labelName = $r("app.string.phone_type_fax_work_expansion", phoneNumber);
+        labelName = $r('app.string.phone_type_fax_work_expansion', phoneNumber);
         break;
       case 5:
-        labelName = $r("app.string.phone_type_fax_home_expansion", phoneNumber);
+        labelName = $r('app.string.phone_type_fax_home_expansion', phoneNumber);
         break;
       case 6:
-        labelName = $r("app.string.phone_type_pager_expansion", phoneNumber);
+        labelName = $r('app.string.phone_type_pager_expansion', phoneNumber);
         break;
       case 7:
-        labelName = $r("app.string.phone_type_other_expansion", phoneNumber);
+        labelName = $r('app.string.phone_type_other_expansion', phoneNumber);
         break;
       case 12:
-        labelName = $r("app.string.phone_type_main_expansion", phoneNumber);
+        labelName = $r('app.string.phone_type_main_expansion', phoneNumber);
         break;
       case 99:
-        labelName = $r("app.string.phone_type_custom_expansion", phoneNumber);
+        labelName = $r('app.string.phone_type_custom_expansion', phoneNumber);
         break;
       default:
         break;

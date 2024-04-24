@@ -17,7 +17,7 @@ import { ContactVo } from './ContactVo';
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 
-const TAG = "BatchSelectContactSource";
+const TAG = 'BatchSelectContactSource';
 
 export default class BatchSelectContactSource extends BasicDataSource {
     private contactList: ContactVo[] = [];
@@ -28,7 +28,7 @@ export default class BatchSelectContactSource extends BasicDataSource {
 
     public getData(index: number): any {
         if (ArrayUtil.isEmpty(this.contactList) || index >= this.contactList.length) {
-            HiLog.i(TAG, "getData contactlist is empty");
+            HiLog.i(TAG, 'getData contactlist is empty');
             return null;
         } else {
             let contact: ContactVo = this.contactList[index];

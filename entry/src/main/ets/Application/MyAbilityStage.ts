@@ -15,7 +15,7 @@
 
 import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 import Constants from '../../../../../common/src/main/ets/Constants';
-import AbilityStage from "@ohos.app.ability.AbilityStage"
+import AbilityStage from '@ohos.app.ability.AbilityStage'
 import notification from '@ohos.notificationManager';
 
 const TAG = 'MyAbilityStage ';
@@ -24,16 +24,16 @@ export default class MyAbilityStage extends AbilityStage {
     onCreate() {
         HiLog.i(TAG, 'AbilityStage onCreate');
         notification.setNotificationEnable({
-            bundle: "com.ohos.contacts"
+            bundle: 'com.ohos.contacts'
         }, true, (err, data) => {
             if (err) {
-                HiLog.e(TAG, "enableNotification err: " + JSON.stringify(err));
+                HiLog.e(TAG, 'enableNotification err: ' + JSON.stringify(err));
             }
         })
         notification.addSlot({
             type: notification.SlotType.SOCIAL_COMMUNICATION,
             level: notification.SlotLevel.LEVEL_HIGH,
-            desc: "missedCall",
+            desc: 'missedCall',
             lockscreenVisibility: 2
         })
         globalThis.config = Constants.initConfig(this.context);

@@ -26,27 +26,27 @@ export struct AddItem {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
       Column() {
         Text(this.labelName)
-          .fontSize($r("sys.float.ohos_id_text_size_body1"))
+          .fontSize($r('sys.float.ohos_id_text_size_body1'))
           .fontWeight(FontWeight.Medium)
-          .fontColor($r("sys.color.ohos_id_color_text_secondary"))
+          .fontColor($r('sys.color.ohos_id_color_text_secondary'))
       }
       .alignItems(HorizontalAlign.Start)
       .flexGrow(1)
 
       Column() {
-        Image($r("app.media.ic_public_add_norm_filled"))
+        Image($r('app.media.ic_public_add_norm_filled'))
           .objectFit(ImageFit.Contain)
-          .height($r("app.float.id_card_image_small"))
-          .width($r("app.float.id_card_image_small"))
-          .fillColor($r("sys.color.ohos_id_color_tertiary"))
+          .height($r('app.float.id_card_image_small'))
+          .width($r('app.float.id_card_image_small'))
+          .fillColor($r('sys.color.ohos_id_color_tertiary'))
       }
-      .margin({ right: this.curBp === 'lg' ? $r("app.float.id_card_margin_max") : $r("app.float.id_card_margin_xl") })
+      .margin({ right: this.curBp === 'lg' ? $r('app.float.id_card_margin_max') : $r('app.float.id_card_margin_xl') })
       .alignItems(HorizontalAlign.End)
     }
     .onClick(() => {
       this.mPresent.addMore(this.typeName);
     })
-    .margin({ left: $r("app.float.id_card_margin_xxl") })
-    .height(this.curBp === 'lg' ? $r("app.float.id_item_height_large") : $r("app.float.id_item_height_mid"))
+    .margin({ left: $r('app.float.id_card_margin_xxl') })
+    .height(this.curBp === 'lg' ? $r('app.float.id_item_height_large') : $r('app.float.id_item_height_mid'))
   }
 }

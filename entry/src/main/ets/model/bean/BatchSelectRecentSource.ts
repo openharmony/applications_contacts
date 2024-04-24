@@ -16,7 +16,7 @@ import BasicDataSource from './BasicDataSource';
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 
-const TAG = "BatchSelectRecentSource";
+const TAG = 'BatchSelectRecentSource';
 
 export default class BatchSelectRecentSource extends BasicDataSource {
     private callLogs: { [key: string]: any }[] = [];
@@ -26,9 +26,9 @@ export default class BatchSelectRecentSource extends BasicDataSource {
     }
 
     public getData(index: number): any {
-        HiLog.i(TAG, "getData index is " + JSON.stringify(index));
+        HiLog.i(TAG, 'getData index is ' + JSON.stringify(index));
         if (ArrayUtil.isEmpty(this.callLogs) || index >= this.callLogs.length) {
-            HiLog.i(TAG, "getData calllog is empty");
+            HiLog.i(TAG, 'getData calllog is empty');
             return null;
         } else {
             let showDivifer: boolean = !ArrayUtil.isEmpty(this.callLogs) && (index != (this.callLogs.length - 1));

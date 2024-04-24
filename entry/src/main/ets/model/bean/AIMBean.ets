@@ -19,7 +19,7 @@ export class AIMBean {
   //aimId
   aimId: string;
   //AIM Type（QQ Weibo, Yahoo...）
-  aimType: string ;
+  aimType: string;
   //AIM Content
   aimName: string;
   constructor(id: string, aimId: string, aimType: string, aimName: string) {

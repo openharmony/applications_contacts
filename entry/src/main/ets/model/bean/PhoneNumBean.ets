@@ -16,13 +16,14 @@
 /**
  * Phone Number Object
  */
-export class PhoneNumBean{
+export class PhoneNumBean {
   id:string
   num: string
   numType: string
   homeArea: string
   carriers: string
-  constructor(id:string, num: string, numType: string,homeArea: string, carriers: string){
+
+  constructor(id: string, num: string, numType: string, homeArea: string, carriers: string) {
     this.id = id;
     this.num = num;
     this.numType = numType;

@@ -30,7 +30,7 @@ export struct ItemList {
   }
 
   aboutToAppear() {
-    HiLog.i(this.typeName + this.index, "aboutToAppear!!!");
+    HiLog.i(this.typeName + this.index, 'aboutToAppear!!!');
     this.refresh()
   }
 
@@ -42,20 +42,20 @@ export struct ItemList {
           this.typeName,
           this.mPresent.getData(this.typeName, this.index - 1)
           ))
-            .fontSize($r("sys.float.ohos_id_text_size_body1"))
+            .fontSize($r('sys.float.ohos_id_text_size_body1'))
             .fontWeight(FontWeight.Medium)
-            .fontColor($r("sys.color.ohos_id_color_text_primary"))
+            .fontColor($r('sys.color.ohos_id_color_text_primary'))
             .maxLines(1)
-            .constraintSize({ minWidth: $r("app.float.account_ItemList_text_width") })
+            .constraintSize({ minWidth: $r('app.float.account_ItemList_text_width') })
             .bindMenu(this.MenuBuilder)
 
-          Image($r("app.media.ic_public_spinner"))
+          Image($r('app.media.ic_public_spinner'))
             .objectFit(ImageFit.Contain)
-            .height($r("app.float.id_card_image_small"))
-            .width($r("app.float.id_card_image_xs"))
+            .height($r('app.float.id_card_image_small'))
+            .width($r('app.float.id_card_image_xs'))
         }
-        .height($r("app.float.id_item_height_sm"))
-        .constraintSize({ minWidth: $r("app.float.account_listItem_text_common_width") })
+        .height($r('app.float.id_item_height_sm'))
+        .constraintSize({ minWidth: $r('app.float.account_listItem_text_common_width') })
       }
       .flexShrink(0)
 
@@ -66,17 +66,17 @@ export struct ItemList {
               placeholder: this.placeholder,
               text: this.mTextInputValue
             })
-              .fontSize($r("sys.float.ohos_id_text_size_body1"))
-              .caretColor($r("sys.color.ohos_id_color_connected"))
-              .type((this.typeName === "phone") ? InputType.PhoneNumber : InputType.Normal)
+              .fontSize($r('sys.float.ohos_id_text_size_body1'))
+              .caretColor($r('sys.color.ohos_id_color_connected'))
+              .type((this.typeName === 'phone') ? InputType.PhoneNumber : InputType.Normal)
               .maxLength(256)
-              .height("98%")
-              .backgroundColor($r("sys.color.ohos_id_color_list_card_bg"))
+              .height('98%')
+              .backgroundColor($r('sys.color.ohos_id_color_list_card_bg'))
               .onChange((arg) => {
                 if (this.index > 1 && this.index > this.mPresent.getDataArray(this.typeName).length) {
                   return;
                 }
-                let args = "";
+                let args = '';
                 switch (arg.length) {
                   case 3:
                     args = arg + ' ';
@@ -88,13 +88,13 @@ export struct ItemList {
                     args = arg;
                     break;
                 }
-                if (this.typeName === "phone") {
+                if (this.typeName === 'phone') {
                   this.mTextInputValue = args;
                 } else {
                   this.mTextInputValue = arg;
                 }
                 this.mPresent.listItemChange(this.typeName, this.mPresent.getData(this.typeName, this.index - 1),
-                    this.typeName === "phone" ? args.toString().replace(/\s*/g, "") : arg.toString());
+                  this.typeName === 'phone' ? args.toString().replace(/\s*/g, '') : arg.toString());
                 this.mPresent.textChange(arg);
               })
           }
@@ -102,16 +102,16 @@ export struct ItemList {
           .flexShrink(1)
 
           Column() {
-            Image($r("app.media.ic_public_close_filled"))
+            Image($r('app.media.ic_public_close_filled'))
               .objectFit(ImageFit.Contain)
-              .height($r("app.float.id_card_image_small"))
-              .width($r("app.float.id_card_image_small"))
-              .fillColor($r("sys.color.ohos_id_color_tertiary"))
+              .height($r('app.float.id_card_image_small'))
+              .width($r('app.float.id_card_image_small'))
+              .fillColor($r('sys.color.ohos_id_color_tertiary'))
               .onClick(() => {
                 try {
                   this.mPresent.deleteItem(this.typeName, this.index - 1);
                 } catch (err) {
-                  HiLog.e("deleteItem", ' deleteItem error ' + JSON.stringify(err));
+                  HiLog.e('deleteItem', ' deleteItem error ' + JSON.stringify(err));
                 }
               })
           }
@@ -119,16 +119,16 @@ export struct ItemList {
         }.width('100%')
 
         Divider()
-          .padding({ left: $r("app.float.id_card_margin_xxl") })
-          .height($r("app.float.account_Divider_height"))
-          .width("100%")
-          .color($r("sys.color.ohos_id_color_list_separator"))
+          .padding({ left: $r('app.float.id_card_margin_xxl') })
+          .height($r('app.float.account_Divider_height'))
+          .width('100%')
+          .color($r('sys.color.ohos_id_color_list_separator'))
       }
       .alignItems(HorizontalAlign.Start)
-      .height($r("app.float.id_item_height_large"))
+      .height($r('app.float.id_item_height_large'))
     }
-    .margin({ left: $r("app.float.id_card_margin_xxl"),
-      right: this.curBp === 'lg' ? $r("app.float.id_card_margin_max") : $r("app.float.id_card_margin_xl")
+    .margin({ left: $r('app.float.id_card_margin_xxl'),
+      right: this.curBp === 'lg' ? $r('app.float.id_card_margin_max') : $r('app.float.id_card_margin_xl')
     })
   }
 
@@ -137,25 +137,25 @@ export struct ItemList {
       ForEach(this.mPresent.getMenuList(this.typeName),
         (item) => {
           Text(item.labelRes)
-            .fontSize($r("sys.float.ohos_id_text_size_body1"))
-            .width($r("app.float.account_MenuBuilder_width"))
-            .height($r("app.float.id_item_height_mid"))
-            .fontColor($r("sys.color.ohos_id_color_text_primary"))
+            .fontSize($r('sys.float.ohos_id_text_size_body1'))
+            .width($r('app.float.account_MenuBuilder_width'))
+            .height($r('app.float.id_item_height_mid'))
+            .fontColor($r('sys.color.ohos_id_color_text_primary'))
             .textAlign(TextAlign.Start)
-            .margin({ left: $r("app.float.id_card_margin_xxl") })
+            .margin({ left: $r('app.float.id_card_margin_xxl') })
             .padding({ left: 10 })
             .onClick(() => {
               this.mPresent.menuChange(this.typeName, this.mPresent.getData(this.typeName, this.index - 1), item);
             })
 
           Divider()
-            .height($r("app.float.account_Divider_height"))
-            .width($r("app.float.account_Divider_width"))
-            .color($r("sys.color.ohos_id_color_list_separator"))
+            .height($r('app.float.account_Divider_height'))
+            .width($r('app.float.account_Divider_width'))
+            .color($r('sys.color.ohos_id_color_list_separator'))
         },
         (item) => item.rawValue.toString())
     }
-    .width($r("app.float.account_MenuBuilder_width"))
-    .borderRadius($r("sys.float.ohos_id_corner_radius_default_l"))
+    .width($r('app.float.account_MenuBuilder_width'))
+    .borderRadius($r('sys.float.ohos_id_corner_radius_default_l'))
   }
 }

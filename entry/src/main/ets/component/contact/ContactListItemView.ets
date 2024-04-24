@@ -30,7 +30,7 @@ const TAG = 'ContactListItemView ';
 @Component
 export default struct ContactListItemView {
   private presenter: ContactListPresenter = ContactListPresenter.getInstance();
-  @State item: ContactVo = new ContactVo("", "", "", "", "", "", true, "", "");
+  @State item: ContactVo = new ContactVo('', '', '', '', '', '', true, '', '');
   @State private index: number = 0;
   @State showIndex: boolean = false;
   @State showDivifer: boolean = false;
@@ -41,8 +41,8 @@ export default struct ContactListItemView {
       cancel: () => {
         this.presenter.onShareDialogCancel();
       },
-      title: $r("app.string.dialog_share"),
-      cancelText: $r("app.string.dialog_cancel")
+      title: $r('app.string.dialog_share'),
+      cancelText: $r('app.string.dialog_cancel')
     }),
     autoCancel: false,
     alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
@@ -56,9 +56,9 @@ export default struct ContactListItemView {
       confirm: () => {
         this.presenter.onDeleteDialogConfirm(this.index, this.item);
       },
-      title: $r("app.string.delete_dialog_title"),
-      cancalText: $r("app.string.dialog_cancel"),
-      confrimText: $r("app.string.dialog_delete")
+      title: $r('app.string.delete_dialog_title'),
+      cancalText: $r('app.string.dialog_cancel'),
+      confrimText: $r('app.string.dialog_delete')
     }),
     autoCancel: false,
     alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
@@ -87,20 +87,20 @@ export default struct ContactListItemView {
       if (this.item.title) {
         Text(this.item.title)
           .textAlign(TextAlign.Start)
-          .fontSize($r("sys.float.ohos_id_text_size_headline8"))
-          .fontColor($r("sys.color.ohos_id_color_text_primary"))
+          .fontSize($r('sys.float.ohos_id_text_size_headline8'))
+          .fontColor($r('sys.color.ohos_id_color_text_primary'))
           .fontWeight(FontWeight.Medium)
           .textOverflow({ overflow: TextOverflow.Ellipsis })
           .maxLines(1)
-          .height($r("app.float.id_item_height_max"))
+          .height($r('app.float.id_item_height_max'))
       }
       Button({ type: ButtonType.Normal, stateEffect: true }) {
-        Text($r("app.string.delete"))
+        Text($r('app.string.delete'))
           .width('100%')
-          .height($r("app.float.id_item_height_mid"))
+          .height($r('app.float.id_item_height_mid'))
           .textAlign(TextAlign.Start)
-          .fontSize($r("sys.float.ohos_id_text_size_body1"))
-          .fontColor($r("sys.color.ohos_id_color_text_primary"))
+          .fontSize($r('sys.float.ohos_id_text_size_body1'))
+          .fontColor($r('sys.color.ohos_id_color_text_primary'))
           .fontWeight(FontWeight.Regular)
       }
       .backgroundColor(Color.White)
@@ -111,13 +111,13 @@ export default struct ContactListItemView {
       })
     }
     .alignItems(HorizontalAlign.Start)
-    .borderRadius($r("sys.float.ohos_id_corner_radius_card"))
-    .width($r("app.float.contact_longpress_dialog_width"))
+    .borderRadius($r('sys.float.ohos_id_corner_radius_card'))
+    .width($r('app.float.contact_longpress_dialog_width'))
     .padding({
-      left: $r("app.float.id_card_margin_max"),
-      right: $r("app.float.id_card_margin_max"),
-      top: $r("app.float.id_card_margin_mid"),
-      bottom: $r("app.float.id_card_margin_mid")
+      left: $r('app.float.id_card_margin_max'),
+      right: $r('app.float.id_card_margin_max'),
+      top: $r('app.float.id_card_margin_mid'),
+      bottom: $r('app.float.id_card_margin_mid')
     })
   }
 
@@ -125,11 +125,11 @@ export default struct ContactListItemView {
     Row() {
       Row() {
         if (StringUtil.isEmpty(this.item.nameSuffix)) {
-          Image(StringUtil.isEmpty(this.item.portraitPath) ? $r("app.media.ic_user_portrait") : this.item.portraitPath)
-            .width($r("app.float.id_card_image_mid"))
-            .height($r("app.float.id_card_image_mid"))
+          Image(StringUtil.isEmpty(this.item.portraitPath) ? $r('app.media.ic_user_portrait') : this.item.portraitPath)
+            .width($r('app.float.id_card_image_mid'))
+            .height($r('app.float.id_card_image_mid'))
             .objectFit(ImageFit.Contain)
-            .borderRadius($r("app.float.id_card_image_mid"))
+            .borderRadius($r('app.float.id_card_image_mid'))
             .backgroundColor(this.item.portraitColor)
         } else {
           Text(this.item.nameSuffix.toUpperCase())
@@ -137,44 +137,44 @@ export default struct ContactListItemView {
             .fontWeight(FontWeight.Bold)
             .fontColor(Color.White)
             .backgroundColor(this.item.portraitColor)
-            .height($r("app.float.id_card_image_mid"))
-            .width($r("app.float.id_card_image_mid"))
+            .height($r('app.float.id_card_image_mid'))
+            .width($r('app.float.id_card_image_mid'))
             .textAlign(TextAlign.Center)
-            .borderRadius($r("app.float.id_card_image_mid"))
+            .borderRadius($r('app.float.id_card_image_mid'))
         }
       }
-      .height($r("app.float.id_card_image_mid"))
-      .width($r("app.float.id_card_image_mid"))
+      .height($r('app.float.id_card_image_mid'))
+      .width($r('app.float.id_card_image_mid'))
 
       Column() {
         Text(this.item.title)
-          .fontColor($r("sys.color.ohos_id_color_text_primary"))
-          .fontSize($r("sys.float.ohos_id_text_size_body1"))
+          .fontColor($r('sys.color.ohos_id_color_text_primary'))
+          .fontSize($r('sys.float.ohos_id_text_size_body1'))
           .fontWeight(FontWeight.Medium)
-          .margin({ bottom: $r("app.float.id_card_margin_sm") })
+          .margin({ bottom: $r('app.float.id_card_margin_sm') })
           .textOverflow({ overflow: TextOverflow.Ellipsis })
           .maxLines(2)
 
         if (this.item.subTitle) {
           Text(this.item.subTitle)
             .width('100%')
-            .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
-            .fontSize($r("sys.float.ohos_id_text_size_body2"))
+            .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+            .fontSize($r('sys.float.ohos_id_text_size_body2'))
             .fontWeight(FontWeight.Regular)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
             .maxLines(2)
         }
       }
       .alignItems(HorizontalAlign.Start)
-      .padding({ top: $r("app.float.id_card_margin_mid"), bottom: $r("app.float.id_card_margin_mid"), right: $r("app.float.id_card_margin_xl") })
-      .margin({ left: $r("app.float.id_card_margin_xl"), right: $r("app.float.id_card_margin_xl") })
+      .padding({ top: $r('app.float.id_card_margin_mid'), bottom: $r('app.float.id_card_margin_mid'), right: $r('app.float.id_card_margin_xl') })
+      .margin({ left: $r('app.float.id_card_margin_xl'), right: $r('app.float.id_card_margin_xl') })
     }
-    .constraintSize({ minHeight: $r("app.float.id_item_height_max") })
+    .constraintSize({ minHeight: $r('app.float.id_item_height_max') })
     .width('100%')
     .padding({ top: this.showIndex ? 4 : 0,
                bottom: this.showDivifer ? 4 : 0,
-               left: this.curBp === 'lg' ? $r("app.float.id_card_margin_max") : 0,
-               right: $r("app.float.id_card_margin_max") })
+               left: this.curBp === 'lg' ? $r('app.float.id_card_margin_max') : 0,
+               right: $r('app.float.id_card_margin_max') })
     .backgroundColor(Color.White)
     .borderRadius({
       topLeft: this.showIndex ? 24 : 0,
@@ -185,7 +185,7 @@ export default struct ContactListItemView {
     .onClick(() => {
       router.push(
         {
-          url: "pages/contacts/details/ContactDetail",
+          url: 'pages/contacts/details/ContactDetail',
           params: {
             sourceHasId: true,
             contactId: this.item.contactId

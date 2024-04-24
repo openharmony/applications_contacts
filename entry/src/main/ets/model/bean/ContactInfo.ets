@@ -13,13 +13,13 @@
  * limitations under the License.
  */
 
-import {PhoneNumBean} from "../bean/PhoneNumBean"
-import {EmailBean} from "../bean/EmailBean"
-import {AIMBean} from "../bean/AIMBean"
-import {HouseBean} from "../bean/HouseBean"
-import {GroupBean} from "../bean/GroupBean"
-import {EventBean} from "../bean/EventBean"
-import {AssociatedPersonBean} from "../bean/AssociatedPersonBean"
+import {PhoneNumBean} from '../bean/PhoneNumBean'
+import {EmailBean} from '../bean/EmailBean'
+import {AIMBean} from '../bean/AIMBean'
+import {HouseBean} from '../bean/HouseBean'
+import {GroupBean} from '../bean/GroupBean'
+import {EventBean} from '../bean/EventBean'
+import {AssociatedPersonBean} from '../bean/AssociatedPersonBean'
 
 export class ContactInfo {
   id: string;

@@ -26,13 +26,13 @@ import { Phone } from '../../../../../../../feature/contact/src/main/ets/contrac
 import { Email } from '../../../../../../../feature/contact/src/main/ets/contract/Email';
 import { Birthday } from '../../../../../../../feature/contact/src/main/ets/contract/Birthday';
 import { Aim } from '../../../../../../../feature/contact/src/main/ets/contract/Aim';
-import { EmailBean } from "../../../model/bean/EmailBean";
-import { ContactInfo } from "../../../model/bean/ContactInfo";
-import { PhoneNumBean } from "../../../model/bean/PhoneNumBean";
-import { HouseBean } from "../../../model/bean/HouseBean";
-import { AIMBean } from "../../../model/bean/AIMBean";
-import { EventBean } from "../../../model/bean/EventBean";
-import { AssociatedPersonBean } from "../../../model/bean/AssociatedPersonBean";
+import { EmailBean } from '../../../model/bean/EmailBean';
+import { ContactInfo } from '../../../model/bean/ContactInfo';
+import { PhoneNumBean } from '../../../model/bean/PhoneNumBean';
+import { HouseBean } from '../../../model/bean/HouseBean';
+import { AIMBean } from '../../../model/bean/AIMBean';
+import { EventBean } from '../../../model/bean/EventBean';
+import { AssociatedPersonBean } from '../../../model/bean/AssociatedPersonBean';
 import PreferencesUtil from './../../../util/PreferencesUtil'
 
 const TAG = 'AccountantsPresenter  ';
@@ -47,7 +47,7 @@ export default class AccountantsPresenter {
   getEmails: Array<{ [key: string]: any }> = [];
   clickBefEvent: Date = new Date();
   clickAftEvent: Date = new Date();
-  contactId: string = "";
+  contactId: string = '';
   routerAvtiveFlag: boolean = false;
 
   // update mark
@@ -62,10 +62,10 @@ export default class AccountantsPresenter {
 
   // refresh mark
   changed: boolean = false;
-  originalContactInfo = JSON.stringify(new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0));
+  originalContactInfo = JSON.stringify(new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0));
   // contact detail
-  contactInfoBefore: ContactInfo = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0);
-  contactInfoAfter: ContactInfo = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0);
+  contactInfoBefore: ContactInfo = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
+  contactInfoAfter: ContactInfo = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
   MagList: object = [];
 
   private constructor() {
@@ -82,11 +82,11 @@ export default class AccountantsPresenter {
   clickEnable = true;
 
   init(refreshState?) {
-    this.contactId = "";
+    this.contactId = '';
     this.updateShow = false;
     this.MagList = [1];
-    this.contactInfoBefore = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0);
-    this.contactInfoAfter = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0);
+    this.contactInfoBefore = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
+    this.contactInfoAfter = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
     this.refreshState = refreshState;
     this.routerAvtiveFlag = false;
   }
@@ -105,7 +105,7 @@ export default class AccountantsPresenter {
   refreshAddState() {
     let addState = this.originalContactInfo != this.getExistenceInfoString(this.contactInfoAfter);
     if (this.addState != addState) {
-      HiLog.i(TAG, "refreshAddState addState change:" + addState)
+      HiLog.i(TAG, 'refreshAddState addState change:' + addState)
       this.addState = addState
     }
   }
@@ -120,7 +120,7 @@ export default class AccountantsPresenter {
   }
 
   getExistenceInfoString(afterInfo: ContactInfo) {
-    let temp = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0);
+    let temp = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
     if (!afterInfo) {
       return JSON.stringify(temp);
     } else {
@@ -196,7 +196,7 @@ export default class AccountantsPresenter {
     if (StringUtil.isEmpty(id)) {
       HiLog.e(TAG, 'The parameter ID is empty.');
     }
-    globalThis.DataWorker.sendRequest("getContactById", {
+    globalThis.DataWorker.sendRequest('getContactById', {
       context: globalThis.context,
       contactId: id
     }, result => {
@@ -209,7 +209,7 @@ export default class AccountantsPresenter {
   }
 
   private dealRecordDetailsData(data) {
-    let contactTemp = new ContactInfo("", "", "", [], [], "", "", "", [], [], [], [], [], [], 0);
+    let contactTemp = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
     if (!data.hasOwnProperty('id') || data.id != this.contactId) {
       HiLog.e(TAG, 'Failed to query the database based on the ID.');
       return;
@@ -292,30 +292,30 @@ export default class AccountantsPresenter {
   public getData(type: string, index: number): { [key: string]: any } {
     let data = new Array<{ [key: string]: any }>();
     switch (type) {
-      case "phone":
+      case 'phone':
         if (!this.updateShow) {
           data = this.getArray(this.contactInfoBefore.phones);
         } else {
           data = this.getPhones;
         }
         break;
-      case "email":
+      case 'email':
         if (!this.updateShow) {
           data = this.getArray(this.contactInfoBefore.emails);
         } else {
           data = this.getEmails;
         }
         break;
-      case "AIM":
+      case 'AIM':
         data = this.getArray(this.contactInfoBefore.aims);
         break;
-      case "house":
+      case 'house':
         data = this.getArray(this.contactInfoBefore.houses);
         break;
-      case "relationships":
+      case 'relationships':
         data = this.getArray(this.contactInfoBefore.relationships);
         break;
-      case "events":
+      case 'events':
         data = this.getArray(this.contactInfoBefore.events);
         break;
       default:
@@ -345,58 +345,58 @@ export default class AccountantsPresenter {
   public getDataArray(type: string) {
     let data = new Array<{ [key: string]: any }>();
     switch (type) {
-      case "phone":
+      case 'phone':
         if (!this.updateShow) {
           data = this.getArray(this.contactInfoBefore.phones);
         } else {
           data = this.getPhones;
         }
         break;
-      case "email":
+      case 'email':
         if (!this.updateShow) {
           data = this.getArray(this.contactInfoBefore.emails);
         } else {
           data = this.getEmails;
         }
         break;
-      case "AIM":
+      case 'AIM':
         data = this.getArray(this.contactInfoBefore.aims);
         break;
-      case "house":
+      case 'house':
         data = this.getArray(this.contactInfoBefore.houses);
         break;
-      case "relationships":
+      case 'relationships':
         data = this.getArray(this.contactInfoBefore.relationships);
         break;
-      case "events":
+      case 'events':
         data = this.getArray(this.contactInfoBefore.events);
         break;
       default:
         break;
     }
-    HiLog.i(TAG, "getDataArray type: " + type + ", length: " + data.length);
+    HiLog.i(TAG, 'getDataArray type: ' + type + ', length: ' + data.length);
     return data;
   }
 
   public addMore(type: any) {
     switch (type) {
-      case "phone":
-        this.contactInfoAfter.phones.push(new PhoneNumBean("", "", "1", "", ""));
+      case 'phone':
+        this.contactInfoAfter.phones.push(new PhoneNumBean('', '', '1', '', ''));
         break;
-      case "email":
-        this.contactInfoAfter.emails.push(new EmailBean("", "", "1"));
+      case 'email':
+        this.contactInfoAfter.emails.push(new EmailBean('', '', '1'));
         break;
-      case "AIM":
-        this.contactInfoAfter.aims.push(new AIMBean("", "", "1", ""));
+      case 'AIM':
+        this.contactInfoAfter.aims.push(new AIMBean('', '', '1', ''));
         break;
-      case "house":
-        this.contactInfoAfter.houses.push(new HouseBean("", "", "1", ""));
+      case 'house':
+        this.contactInfoAfter.houses.push(new HouseBean('', '', '1', ''));
         break;
-      case "relationships":
-        this.contactInfoAfter.relationships.push(new AssociatedPersonBean("", "", "", "1"));
+      case 'relationships':
+        this.contactInfoAfter.relationships.push(new AssociatedPersonBean('', '', '', '1'));
         break;
-      case "events":
-        this.contactInfoAfter.events.push(new EventBean("", "", "1", ""));
+      case 'events':
+        this.contactInfoAfter.events.push(new EventBean('', '', '1', ''));
         break;
       default:
         break;
@@ -407,48 +407,48 @@ export default class AccountantsPresenter {
   public deleteItem(typeName: string, startIndex) {
     HiLog.i(TAG, `deleteItem ${typeName} ${startIndex}`);
     switch (typeName) {
-      case "phone":
+      case 'phone':
         if (this.contactInfoAfter.phones.length > 1) {
           this.contactInfoAfter.phones.splice(startIndex, 1);
         } else {
-          this.contactInfoAfter.phones[0].num = "";
+          this.contactInfoAfter.phones[0].num = '';
         }
         this.getPhones = this.getArray(this.contactInfoAfter.phones);
         break;
-      case "email":
+      case 'email':
         if (this.contactInfoAfter.emails.length > 1) {
           this.contactInfoAfter.emails.splice(startIndex, 1);
         } else {
-          this.contactInfoAfter.emails[0].address = "";
+          this.contactInfoAfter.emails[0].address = '';
         }
         this.getEmails = this.getArray(this.contactInfoAfter.emails);
         break;
-      case "AIM":
+      case 'AIM':
         if (this.contactInfoAfter.aims.length > 1) {
           this.contactInfoAfter.aims.splice(startIndex, 1);
         } else {
-          this.contactInfoAfter.aims[0].aimName = "";
+          this.contactInfoAfter.aims[0].aimName = '';
         }
         break;
-      case "house":
+      case 'house':
         if (this.contactInfoAfter.houses.length > 1) {
           this.contactInfoAfter.houses.splice(startIndex, 1);
         } else {
-          this.contactInfoAfter.houses[0].houseName = "";
+          this.contactInfoAfter.houses[0].houseName = '';
         }
         break;
-      case "relationships":
+      case 'relationships':
         if (this.contactInfoAfter.relationships.length > 1) {
           this.contactInfoAfter.relationships.splice(startIndex, 1);
         } else {
-          this.contactInfoAfter.relationships[0].name = "";
+          this.contactInfoAfter.relationships[0].name = '';
         }
         break;
-      case "events":
+      case 'events':
         if (this.contactInfoAfter.events.length > 1) {
           this.contactInfoAfter.events.splice(startIndex, 1);
         } else {
-          this.contactInfoAfter.events[0].data = "";
+          this.contactInfoAfter.events[0].data = '';
         }
         break;
       default:
@@ -458,36 +458,36 @@ export default class AccountantsPresenter {
   }
 
   public getTextDisplay(typeName: string, data: any) {
-    let display: string = "";
+    let display: string = '';
     if (data && data.item) {
       switch (typeName) {
-        case "phone":
-          if (data.item.hasOwnProperty("num")) {
+        case 'phone':
+          if (data.item.hasOwnProperty('num')) {
             display = data.item.num;
           }
           break;
-        case "email":
-          if (data.item.hasOwnProperty("address")) {
+        case 'email':
+          if (data.item.hasOwnProperty('address')) {
             display = data.item.address;
           }
           break;
-        case "AIM":
-          if (data.item.hasOwnProperty("aimName")) {
+        case 'AIM':
+          if (data.item.hasOwnProperty('aimName')) {
             display = data.item.aimName;
           }
           break;
-        case "house":
-          if (data.item.hasOwnProperty("houseName")) {
+        case 'house':
+          if (data.item.hasOwnProperty('houseName')) {
             display = data.item.houseName;
           }
           break;
-        case "relationships":
-          if (data?.item.hasOwnProperty("name")) {
+        case 'relationships':
+          if (data?.item.hasOwnProperty('name')) {
             display = data.item.name;
           }
           break;
-        case "events":
-          if (data.item.hasOwnProperty("data")) {
+        case 'events':
+          if (data.item.hasOwnProperty('data')) {
             display = data.item.data;
           }
           break;
@@ -501,33 +501,33 @@ export default class AccountantsPresenter {
   public listItemChange(typeName: string, data: any, arg: string) {
     try {
       switch (typeName) {
-        case "phone":
+        case 'phone':
           if (StringUtil.isEmpty(this.contactInfoAfter?.phones[data?.i - 1]?.numType)) {
-            this.contactInfoAfter.phones[data.i - 1] = new PhoneNumBean("", "", "1", "", "");
+            this.contactInfoAfter.phones[data.i - 1] = new PhoneNumBean('', '', '1', '', '');
           }
           this.contactInfoAfter.phones[data.i - 1].num = arg.toString();
           break;
-        case "email":
+        case 'email':
           if (StringUtil.isEmpty(this.contactInfoAfter?.emails[data?.i - 1]?.emailType)) {
-            this.contactInfoAfter.emails[data.i - 1] = new EmailBean("", "", "1");
+            this.contactInfoAfter.emails[data.i - 1] = new EmailBean('', '', '1');
           }
           this.contactInfoAfter.emails[data.i - 1].address = arg.toString();
           break;
-        case "AIM":
+        case 'AIM':
           if (StringUtil.isEmpty(this.contactInfoAfter?.aims[data?.i - 1]?.aimType)) {
-            this.contactInfoAfter.aims[data.i - 1] = new AIMBean("", "", "1", "");
+            this.contactInfoAfter.aims[data.i - 1] = new AIMBean('', '', '1', '');
           }
           this.contactInfoAfter.aims[data.i - 1].aimName = arg.toString();
           break;
-        case "house":
+        case 'house':
           if (StringUtil.isEmpty(this.contactInfoAfter?.houses[data?.i - 1]?.houseType)) {
-            this.contactInfoAfter.houses[data.i - 1] = new HouseBean("", "", "1", "");
+            this.contactInfoAfter.houses[data.i - 1] = new HouseBean('', '', '1', '');
           }
           this.contactInfoAfter.houses[data.i - 1].houseName = arg.toString();
           break;
-        case "relationships":
+        case 'relationships':
           if (StringUtil.isEmpty(this.contactInfoAfter?.relationships[data?.i - 1]?.associatedType)) {
-            this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean("", "", "", "1");
+            this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean('', '', '', '1');
           }
           this.contactInfoAfter.relationships[data.i - 1].name = arg.toString();
           break;
@@ -536,51 +536,51 @@ export default class AccountantsPresenter {
       }
       this.refreshAddState()
     } catch (error) {
-      HiLog.e(TAG, "something error happened: " + JSON.stringify(error));
+      HiLog.e(TAG, 'something error happened: ' + JSON.stringify(error));
     }
   }
 
   public menuSelect(typeName: string, data: any) {
     let typeId = 1;
     switch (typeName) {
-      case "phone":
-        if (data.item.hasOwnProperty("numType")) {
+      case 'phone':
+        if (data.item.hasOwnProperty('numType')) {
           typeId = Number(data.item.numType)
         }
         return Phone.getTypeLabelResource(typeId);
         break;
-      case "email":
-        if (data.item.hasOwnProperty("emailType")) {
+      case 'email':
+        if (data.item.hasOwnProperty('emailType')) {
           typeId = Number(data.item.emailType)
         }
         return Email.getTypeLabelResource(typeId);
         break;
-      case "AIM":
-        if (data.item.hasOwnProperty("aimType")) {
+      case 'AIM':
+        if (data.item.hasOwnProperty('aimType')) {
           typeId = Number(data.item.aimType)
         }
         return Aim.getTypeLabelResource(typeId);
         break;
-      case "house":
-        if (data.item.hasOwnProperty("houseType")) {
+      case 'house':
+        if (data.item.hasOwnProperty('houseType')) {
           typeId = Number(data.item.houseType)
         }
         return House.getTypeLabelResource(typeId);
         break;
-      case "relationships":
-        if (data.item.hasOwnProperty("associatedType")) {
+      case 'relationships':
+        if (data.item.hasOwnProperty('associatedType')) {
           typeId = Number(data.item.associatedType)
         }
         return Relation.getTypeLabelResource(typeId);
         break;
-      case "events":
-        if (data.item.hasOwnProperty("eventType")) {
+      case 'events':
+        if (data.item.hasOwnProperty('eventType')) {
           typeId = Number(data.item.eventType)
         }
         return Birthday.getTypeLabelResource(typeId);
         break;
       default:
-        return "";
+        return '';
         break;
     }
   }
@@ -590,22 +590,22 @@ export default class AccountantsPresenter {
     let menuKindTypeList;
     let phoneType = accountTypeService.getAccountType(AccountType.PHONE_ACCOUNT_TYPE);
     switch (typeName) {
-      case "phone":
+      case 'phone':
         menuKindTypeList = phoneType.mineKinds.get(Phone.CONTENT_ITEM_TYPE).typeList;
         break;
-      case "email":
+      case 'email':
         menuKindTypeList = phoneType.mineKinds.get(Email.CONTENT_ITEM_TYPE).typeList;
         break;
-      case "AIM":
+      case 'AIM':
         menuKindTypeList = phoneType.mineKinds.get(Aim.CONTENT_ITEM_TYPE).typeList;
         break;
-      case "house":
+      case 'house':
         menuKindTypeList = phoneType.mineKinds.get(House.CONTENT_ITEM_TYPE).typeList;
         break;
-      case "relationships":
+      case 'relationships':
         menuKindTypeList = phoneType.mineKinds.get(Relation.CONTENT_ITEM_TYPE).typeList;
         break;
-      case "events":
+      case 'events':
         menuKindTypeList = phoneType.mineKinds.get(Birthday.CONTENT_ITEM_TYPE).typeList;
         break;
       default:
@@ -616,41 +616,41 @@ export default class AccountantsPresenter {
 
   public menuChange(typeName: string, data: any, item: any) {
     switch (typeName) {
-      case "phone":
+      case 'phone':
         if (ObjectUtil.isEmpty(this.contactInfoAfter.phones[data.i - 1])) {
-          this.contactInfoAfter.phones[data.i - 1] = new PhoneNumBean("", "", "", "", "");
+          this.contactInfoAfter.phones[data.i - 1] = new PhoneNumBean('', '', '', '', '');
         }
         this.contactInfoAfter.phones[data.i - 1].numType = item.rawValue.toString();
         data.numType = item.rawValue.toString();
         break;
-      case "email":
+      case 'email':
         if (ObjectUtil.isEmpty(this.contactInfoAfter.emails[data.i - 1])) {
-          this.contactInfoAfter.emails[data.i - 1] = new EmailBean("", "", "");
+          this.contactInfoAfter.emails[data.i - 1] = new EmailBean('', '', '');
         }
         this.contactInfoAfter.emails[data.i - 1].emailType = item.rawValue.toString();
         data.emailType = item.rawValue.toString();
         break;
-      case "AIM":
+      case 'AIM':
         if (ObjectUtil.isEmpty(this.contactInfoAfter.aims[data.i - 1])) {
-          this.contactInfoAfter.aims[data.i - 1] = new AIMBean("", "", "", "");
+          this.contactInfoAfter.aims[data.i - 1] = new AIMBean('', '', '', '');
         }
         this.contactInfoAfter.aims[data.i - 1].aimType = item.rawValue.toString();
         break;
-      case "house":
+      case 'house':
         if (ObjectUtil.isEmpty(this.contactInfoAfter.houses[data.i - 1])) {
-          this.contactInfoAfter.houses[data.i - 1] = new HouseBean("", "", "", "");
+          this.contactInfoAfter.houses[data.i - 1] = new HouseBean('', '', '', '');
         }
         this.contactInfoAfter.houses[data.i - 1].houseType = item.rawValue.toString();
         break;
-      case "relationships":
+      case 'relationships':
         if (ObjectUtil.isEmpty(this.contactInfoAfter.relationships[data.i - 1])) {
-          this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean("", "", "", "");
+          this.contactInfoAfter.relationships[data.i - 1] = new AssociatedPersonBean('', '', '', '');
         }
         this.contactInfoAfter.relationships[data.i - 1].associatedType = item.rawValue.toString();
         break;
-      case "events":
+      case 'events':
         if (ObjectUtil.isEmpty(this.contactInfoAfter.events[data.i - 1])) {
-          this.contactInfoAfter.events[data.i - 1] = new EventBean("", "", "", "");
+          this.contactInfoAfter.events[data.i - 1] = new EventBean('', '', '', '');
         }
         this.contactInfoAfter.events[data.i - 1].eventType = item.rawValue.toString();
         break;
@@ -662,7 +662,7 @@ export default class AccountantsPresenter {
   }
 
   saveClickEnable() {
-    HiLog.i(TAG, 'msl, saveClickEnable in addState:' + this.addState + ",clickEnable:" + this.clickEnable)
+    HiLog.i(TAG, 'msl, saveClickEnable in addState:' + this.addState + ',clickEnable:' + this.clickEnable)
     return this.addState && this.clickEnable;
   }
 
@@ -670,7 +670,7 @@ export default class AccountantsPresenter {
     if (this.saveClickEnable()) {
       this.clickEnable = false
       if (this.updateShow === false) {
-        globalThis.DataWorker.sendRequest("addContact",
+        globalThis.DataWorker.sendRequest('addContact',
           {
             context: globalThis.context,
             contactInfoAfter: JSON.stringify(this.contactInfoAfter)
@@ -685,7 +685,7 @@ export default class AccountantsPresenter {
           })
       }
       else {
-        globalThis.DataWorker.sendRequest("updateContact", {
+        globalThis.DataWorker.sendRequest('updateContact', {
           context: globalThis.context,
           contactInfoAfter: JSON.stringify(this.contactInfoAfter)
         }, (arg) => {

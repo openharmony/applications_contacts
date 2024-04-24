@@ -17,14 +17,14 @@ import { HiLog } from '../../../../../../common';
 import radio from '@ohos.telephony.radio';
 import observer from '@ohos.telephony.observer';
 
-const TAG = "SimOpName"
+const TAG = 'SimOpName'
 
 class SimOpName {
   spnList: Array<string | Resource> = [];
 
   constructor() {
     for (let index = 0; index < telephonySim.getMaxSimCount(); index++) {
-      this.spnList[index] = "";
+      this.spnList[index] = '';
     }
   }
 
@@ -40,10 +40,10 @@ class SimOpName {
       for (let index = 0; index < telephonySim.getMaxSimCount(); index++) {
         observer.on('networkStateChange', { slotId: index }, data => {
           if (!data) {
-            HiLog.e(TAG, "there is something wrong with networkState");
+            HiLog.e(TAG, 'there is something wrong with networkState');
             return
           } else {
-            HiLog.i(TAG, "observer ON data : " + JSON.stringify(data));
+            HiLog.i(TAG, 'observer ON data : ' + JSON.stringify(data));
             let spn = data.longOperatorName ? data.longOperatorName : data.plmnNumeric;
             if (spn) {
               HiLog.i(TAG, `networkStateChange notify Sim${index} Name:${spn}`);
@@ -53,14 +53,14 @@ class SimOpName {
         });
       }
     } catch (err) {
-      HiLog.e(TAG, "get error: " + JSON.stringify(err));
+      HiLog.e(TAG, 'get error: ' + JSON.stringify(err));
     }
   }
 
   public initSimName(simId: number) {
     radio.getNetworkState(simId, (error, data) => {
       if (error || !data) {
-        HiLog.e(TAG, "getNetworkState error: " + JSON.stringify(error));
+        HiLog.e(TAG, 'getNetworkState error: ' + JSON.stringify(error));
       } else {
         this.notifySimName(simId, data.longOperatorName);
       }
@@ -70,7 +70,7 @@ class SimOpName {
   public notifySimName(slot: number, spn: string) {
     HiLog.i(TAG, `notify Sim${slot} Name:${spn}`);
     this.spnList[slot] = spn;
-    AppStorage.SetOrCreate<Array<string | Resource>>("spnList", this.spnList);
+    AppStorage.SetOrCreate<Array<string | Resource>>('spnList', this.spnList);
   }
 }
 

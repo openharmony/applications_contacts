@@ -28,11 +28,11 @@ export default struct BatchSelectRecentItemView {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
       Row() {
         if (StringUtil.isEmpty(this.item.suffix)) {
-          Image($r("app.media.ic_user_portrait"))
-            .width($r("app.float.id_card_image_mid"))
-            .height($r("app.float.id_card_image_mid"))
+          Image($r('app.media.ic_user_portrait'))
+            .width($r('app.float.id_card_image_mid'))
+            .height($r('app.float.id_card_image_mid'))
             .backgroundColor(this.item.portraitColor)
-            .borderRadius($r("app.float.id_card_image_mid"))
+            .borderRadius($r('app.float.id_card_image_mid'))
             .objectFit(ImageFit.Contain)
         } else {
           Text(this.item.suffix.toUpperCase())
@@ -40,59 +40,59 @@ export default struct BatchSelectRecentItemView {
             .fontWeight(FontWeight.Bold)
             .fontColor(Color.White)
             .backgroundColor(this.item.portraitColor)
-            .height($r("app.float.id_card_image_mid"))
-            .width($r("app.float.id_card_image_mid"))
+            .height($r('app.float.id_card_image_mid'))
+            .width($r('app.float.id_card_image_mid'))
             .textAlign(TextAlign.Center)
-            .borderRadius($r("app.float.id_card_image_mid"))
+            .borderRadius($r('app.float.id_card_image_mid'))
         }
       }
-      .width($r("app.float.id_card_image_mid"))
-      .height($r("app.float.id_card_image_mid"))
-      .margin({ left: $r("app.float.id_card_margin_max") })
+      .width($r('app.float.id_card_image_mid'))
+      .height($r('app.float.id_card_image_mid'))
+      .margin({ left: $r('app.float.id_card_margin_max') })
 
       Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Center }) {
         Text(StringUtil.isEmpty(this.item.displayName) ? this.item.phoneNumber : this.item.displayName)
-          .fontColor($r("sys.color.ohos_id_color_text_primary"))
-          .fontSize($r("sys.float.ohos_id_text_size_body1"))
+          .fontColor($r('sys.color.ohos_id_color_text_primary'))
+          .fontSize($r('sys.float.ohos_id_text_size_body1'))
           .fontWeight(FontWeight.Medium)
-          .margin({ left: $r("app.float.id_card_margin_xl"), bottom: $r("app.float.id_card_margin_sm") })
+          .margin({ left: $r('app.float.id_card_margin_xl'), bottom: $r('app.float.id_card_margin_sm') })
 
         Row() {
           Text(this.item.formattedNumber)
-            .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
-            .fontSize($r("sys.float.ohos_id_text_size_body2"))
+            .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+            .fontSize($r('sys.float.ohos_id_text_size_body2'))
             .fontWeight(FontWeight.Regular)
             .visibility(StringUtil.isEmpty(this.item.formattedNumber) ? Visibility.None : Visibility.Visible)
-            .margin({ left: $r("app.float.id_card_margin_xl") })
+            .margin({ left: $r('app.float.id_card_margin_xl') })
 
           Text(this.item.numberLocation)
-            .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
-            .fontSize($r("sys.float.ohos_id_text_size_body2"))
+            .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+            .fontSize($r('sys.float.ohos_id_text_size_body2'))
             .fontWeight(FontWeight.Regular)
             .visibility(StringUtil.isEmpty(this.item.numberLocation) ? Visibility.None : Visibility.Visible)
-            .margin({ left: $r("app.float.id_card_margin_xl") })
+            .margin({ left: $r('app.float.id_card_margin_xl') })
 
           if (StringUtil.isEmpty(this.item.displayName) && StringUtil.isEmpty(this.item.numberLocation)) {
-            Text($r("app.string.unknow_location"))
-              .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
-              .fontSize($r("sys.float.ohos_id_text_size_body2"))
+            Text($r('app.string.unknow_location'))
+              .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+              .fontSize($r('sys.float.ohos_id_text_size_body2'))
               .fontWeight(FontWeight.Regular)
-              .margin({ left: $r("app.float.id_card_margin_xl") })
+              .margin({ left: $r('app.float.id_card_margin_xl') })
           }
         }
       }
       .flexGrow(1)
-      .height($r("app.float.id_item_height_max"))
+      .height($r('app.float.id_item_height_max'))
 
       Toggle({ type: ToggleType.Checkbox, isOn: this.item.checked })
-        .width($r("app.float.id_card_image_small"))
-        .height($r("app.float.id_card_image_small"))
+        .width($r('app.float.id_card_image_small'))
+        .height($r('app.float.id_card_image_small'))
         .enabled(false)
-        .margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_max") })
-        .selectedColor($r("sys.color.ohos_id_color_connected"))
+        .margin({ left: $r('app.float.id_card_margin_max'), right: $r('app.float.id_card_margin_max') })
+        .selectedColor($r('sys.color.ohos_id_color_connected'))
 
     }
-    .height($r("app.float.id_item_height_max"))
+    .height($r('app.float.id_item_height_max'))
     .width('100%')
     .onClick(() => {
       this.onRecentItemClicked(this.index);
