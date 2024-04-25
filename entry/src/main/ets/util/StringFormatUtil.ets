@@ -17,21 +17,21 @@ import CalendarUtil from './CalendarUtil'
 
 export default {
   numberFormatDateString(year : number, month : number, day : number) : string {
-    return year + "-" + month + "-" + day;
+    return year + '-' + month + '-' + day;
   },
 
-  stringFormatDateResource(data: string, lunar: boolean): Resource|string{
-    let year: number = parseInt(data.substr(0, data.indexOf("-")));
-    let month: number = parseInt(data.substr(data.indexOf("-") + 1, data.lastIndexOf("-")));
-    let day: number = parseInt(data.substr(data.lastIndexOf("-") + 1, data.length));
+  stringFormatDateResource(data: string, lunar: boolean): Resource | string {
+    let year: number = parseInt(data.substr(0, data.indexOf('-')));
+    let month: number = parseInt(data.substr(data.indexOf('-') + 1, data.lastIndexOf('-')));
+    let day: number = parseInt(data.substr(data.lastIndexOf('-') + 1, data.length));
     if (lunar) {
-      return CalendarUtil.formatLunarDate(CalendarUtil.getLunarDate(new Date(year,month-1,day)))
+      return CalendarUtil.formatLunarDate(CalendarUtil.getLunarDate(new Date(year, month - 1, day)))
     }
-    return $r("app.string.yearMonthDay", year, month, day);
+    return $r('app.string.yearMonthDay', year, month, day);
   },
 
   judgeSysTime(context?: Context) {
-    return settings.getValueSync(context ? context : globalThis.context, settings.date.TIME_FORMAT, "24");
+    return settings.getValueSync(context ? context : globalThis.context, settings.date.TIME_FORMAT, '24');
   },
 
   /**
@@ -42,27 +42,27 @@ export default {
    */
   getDayMessage(hour, minutes) {
     if (hour >= 0 && hour < 5) {
-      return $r("app.string.time_early_morning", hour, minutes);
+      return $r('app.string.time_early_morning', hour, minutes);
     }
     if (hour >= 5 && hour < 11) {
-      return $r("app.string.time_morning", hour, minutes);
+      return $r('app.string.time_morning', hour, minutes);
     }
     if (hour >= 11 && hour < 13) {
-      return $r("app.string.time_noon", hour, minutes);
+      return $r('app.string.time_noon', hour, minutes);
     }
     if (hour >= 13 && hour < 17) {
-      return $r("app.string.time_afternoon", (parseInt(hour) - 12).toString(), minutes);
+      return $r('app.string.time_afternoon', (parseInt(hour) - 12).toString(), minutes);
     }
     if (hour >= 17 && hour < 19) {
 
-      return $r("app.string.time_nightfall", (parseInt(hour) - 12).toString(), minutes);
+      return $r('app.string.time_nightfall', (parseInt(hour) - 12).toString(), minutes);
     }
     if (hour >= 19 && hour < 22) {
 
-      return $r("app.string.time_night", (parseInt(hour) - 12).toString(), minutes);
+      return $r('app.string.time_night', (parseInt(hour) - 12).toString(), minutes);
     }
     if (hour >= 22 && hour < 24) {
-      return $r("app.string.time_middle_night", (parseInt(hour) - 12).toString(), minutes);
+      return $r('app.string.time_middle_night', (parseInt(hour) - 12).toString(), minutes);
     }
   }
 }

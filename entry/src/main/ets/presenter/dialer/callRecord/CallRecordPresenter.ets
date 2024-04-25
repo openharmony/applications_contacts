@@ -83,21 +83,21 @@ export default class CallRecordPresenter {
   startInit() {
     if (!this.initStarted) {
       this.initStarted = true;
-      HiLog.i(TAG, "startInit taskId:" + this.taskId + ",page:" + this.page);
+      HiLog.i(TAG, 'startInit taskId:' + this.taskId + ',page:' + this.page);
       if (this.page == 0 || this.taskId !== -1) {
         this.setDelayTask();
       } else {
         this.refreshContinue();
       }
     } else if (this.taskId !== -1) {
-      HiLog.i(TAG, "startInit page has init taskId:" + this.taskId + ",page:" + this.page);
+      HiLog.i(TAG, 'startInit page has init taskId:' + this.taskId + ',page:' + this.page);
       this.setDelayTask();
     }
   }
 
   cachePageOne() {
     if (!this.initStarted) {
-      HiLog.i(TAG, "cachePageOne")
+      HiLog.i(TAG, 'cachePageOne')
       if (!this.loading) {
         this.page = 0;
         this.callLogIndex = 0;
@@ -105,7 +105,7 @@ export default class CallRecordPresenter {
       }
       this.setDelayTask();
     } else {
-      HiLog.i(TAG, "no need cachePageOne");
+      HiLog.i(TAG, 'no need cachePageOne');
     }
   }
 
@@ -215,7 +215,7 @@ export default class CallRecordPresenter {
     actionData.limit = limit;
     let favoriteForm: any = {};
     favoriteForm.favorite = -1;
-    this.worker?.sendRequest("getAllCalls", {
+    this.worker?.sendRequest('getAllCalls', {
       context: this.context,
       mergeRule: CallLogSetting.getInstance().getMergeRule(),
       actionData: actionData,
@@ -281,7 +281,7 @@ export default class CallRecordPresenter {
   }
 
   deleteCallLog(id, index?) {
-    globalThis.DataWorker.sendRequest("deleteCallLogsById", {
+    globalThis.DataWorker.sendRequest('deleteCallLogsById', {
       context: globalThis.context,
       ids: id
     }, (data) => {
@@ -299,7 +299,7 @@ export default class CallRecordPresenter {
   jumpToContactDetail(phoneNumber) {
     router.push(
       {
-        url: "pages/contacts/details/ContactDetail",
+        url: 'pages/contacts/details/ContactDetail',
         params: {
           sourceHasPhone: true,
           phoneNumberShow: phoneNumber

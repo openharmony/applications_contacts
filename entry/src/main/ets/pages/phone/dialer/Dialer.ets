@@ -16,7 +16,7 @@
 import CallRecord from '../../dialer/callRecord/CallRecord';
 import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
 import DialerPresenter from './../../../presenter/dialer/DialerPresenter';
-import { DialerButtonView } from "../../../component/dialer/DialerButtonView";
+import { DialerButtonView } from '../../../component/dialer/DialerButtonView';
 import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 
 const TAG = 'Dialer';
@@ -33,11 +33,11 @@ struct DialButton {
         Button() {
           Column() {
             if (`${this.button_number}` == '*') {
-              Image($r("app.media.symbol_phone"))
+              Image($r('app.media.symbol_phone'))
                 .width(24)
                 .height(24)
             } else if (`${this.button_number}` == '#') {
-              Image($r("app.media.symbols_phone"))
+              Image($r('app.media.symbols_phone'))
                 .width(24)
                 .height(24)
             } else {
@@ -47,7 +47,7 @@ struct DialButton {
                 .fontWeight(FontWeight.Medium)
             }
             if ((this.button_char == 'ic')) {
-              Image($r("app.media.ic_contacts_voicemail_mini"))
+              Image($r('app.media.ic_contacts_voicemail_mini'))
                 .width(14)
                 .height(14)
             } else if ((this.button_char == '+')) {
@@ -57,7 +57,7 @@ struct DialButton {
             } else {
               Text(`${this.button_char}`)
                 .fontColor($r('sys.color.ohos_id_color_text_secondary'))
-                .fontSize($r("sys.float.ohos_id_text_size_chart1"))
+                .fontSize($r('sys.float.ohos_id_text_size_chart1'))
             }
           }
         }
@@ -72,7 +72,7 @@ struct DialButton {
         switch (event.type) {
           case TouchType.Down:
             this.mPresenter.ifNeedSpace();
-            AppStorage.SetOrCreate("tele_number", AppStorage.Get("tele_number") + this.button_number);
+            AppStorage.SetOrCreate('tele_number', AppStorage.Get('tele_number') + this.button_number);
             this.mPresenter.all_number += this.button_number;
             this.mPresenter.dealSecretCode(this.mPresenter.all_number);
             PhoneNumber.fromString(this.mPresenter.secretCode).dialerSpecialCode();
@@ -83,7 +83,7 @@ struct DialButton {
             break;
         }
       })
-    }.height($r("app.float.dialer_calllog_item_height"))
+    }.height($r('app.float.dialer_calllog_item_height'))
     .width('33.33%')
   }
 }
@@ -126,7 +126,7 @@ struct DialPad {
         DialButton({ button_number: '#', button_char: '(W)', mPresenter: $mPresenter, })
       }.layoutWeight(1)
     }
-    .width("100%")
+    .width('100%')
     .height(240)
     .borderRadius(16)
   }
@@ -135,14 +135,14 @@ struct DialPad {
 @Component
 export default struct Call {
   @State mPresenter: DialerPresenter = DialerPresenter.getInstance()
-  @StorageLink("tele_number") tele_number: string = "";
-  @StorageLink("haveMultiSimCard") @Watch("onSimChanged") haveMultiSimCard: boolean = false;
+  @StorageLink('tele_number') tele_number: string = '';
+  @StorageLink('haveMultiSimCard') @Watch('onSimChanged') haveMultiSimCard: boolean = false;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @State panWidth: number = 0;
-  @StorageLink("showDialBtn") @Watch('onShowDialBtnChange') showDialBtn: boolean = true;
+  @StorageLink('showDialBtn') @Watch('onShowDialBtnChange') showDialBtn: boolean = true;
 
   onSimChanged() {
-    HiLog.i(TAG, "haveMultiSimCard change:" + JSON.stringify(this.haveMultiSimCard));
+    HiLog.i(TAG, 'haveMultiSimCard change:' + JSON.stringify(this.haveMultiSimCard));
     this.mPresenter.dialerButtonWidth = this.haveMultiSimCard ? (this.mPresenter.btnShow ? 48 : 210) :
       (this.mPresenter.btnShow ? 48 : 56);
   }
@@ -203,7 +203,7 @@ export default struct Call {
               .maxLines(1)
           }
           .width('100%')
-          .height($r("app.float.dialer_telephone_number_height"))
+          .height($r('app.float.dialer_telephone_number_height'))
           Flex({
             direction: FlexDirection.Column,
             alignItems: ItemAlign.Center,
@@ -219,27 +219,27 @@ export default struct Call {
                   }) {
                     Column() {
                       Row() {
-                        ForEach(item.displayName.split(this.tele_number.replace(/\s*/g,"")), (displayName, idx: number) => {
+                        ForEach(item.displayName.split(this.tele_number.replace(/\s*/g,'')), (displayName, idx: number) => {
                           Row() {
                             Text(displayName.toString())
-                              .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                              .fontSize($r('sys.float.ohos_id_text_size_body1'))
                               .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
-                            if(idx === 0 && item.displayName.indexOf(this.tele_number.replace(/\s*/g,"")) !== -1){
-                              Text(this.tele_number.toString().replace(/\s*/g,""))
+                            if(idx === 0 && item.displayName.indexOf(this.tele_number.replace(/\s*/g,'')) !== -1){
+                              Text(this.tele_number.toString().replace(/\s*/g,''))
                                 .fontColor(Color.Blue)
-                                .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                                .fontSize($r('sys.float.ohos_id_text_size_body1'))
                                 .fontWeight(FontWeight.Medium)
-                                .constraintSize({ maxWidth: this.curBp == "sm" ? 160 : 260 })
+                                .constraintSize({ maxWidth: this.curBp == 'sm' ? 160 : 260 })
                                 .textOverflow({ overflow: TextOverflow.Ellipsis })
                                 .maxLines(1)
-                            }else if(item.displayName.split(this.tele_number.replace(/\s*/g,"")).length - 1 !== idx) {
-                              Text(this.tele_number.toString().replace(/\s*/g,""))
+                            }else if(item.displayName.split(this.tele_number.replace(/\s*/g,'')).length - 1 !== idx) {
+                              Text(this.tele_number.toString().replace(/\s*/g,''))
 
-                                .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                                .fontSize($r('sys.float.ohos_id_text_size_body1'))
                                 .fontWeight(FontWeight.Medium)
                                 .fontColor((item.callType === 3 || item.callType === 5) ?
                                 $r('sys.color.ohos_id_color_warning') : $r('sys.color.ohos_id_color_text_primary'))
-                                .constraintSize({ maxWidth: this.curBp == "sm" ? 160 : 260 })
+                                .constraintSize({ maxWidth: this.curBp == 'sm' ? 160 : 260 })
                                 .textOverflow({ overflow: TextOverflow.Ellipsis })
                                 .maxLines(1)
                             }
@@ -248,18 +248,18 @@ export default struct Call {
                       }
 
                       Row() {
-                        ForEach(item.phoneNumber.split(this.tele_number.replace(/\s*/g,"")), (phoneNumber, idx: number) => {
+                        ForEach(item.phoneNumber.split(this.tele_number.replace(/\s*/g,'')), (phoneNumber, idx: number) => {
                           Row() {
                             Text(phoneNumber.toString())
-                              .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                              .fontSize($r('sys.float.ohos_id_text_size_body1'))
                               .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
-                            if(idx === 0 && item.phoneNumber.indexOf(this.tele_number.replace(/\s*/g,""))!== -1){
-                              Text(this.tele_number.toString().replace(/\s*/g,""))
-                                .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                            if(idx === 0 && item.phoneNumber.indexOf(this.tele_number.replace(/\s*/g,''))!== -1){
+                              Text(this.tele_number.toString().replace(/\s*/g,''))
+                                .fontSize($r('sys.float.ohos_id_text_size_body1'))
                                 .fontColor(Color.Blue)
-                            }else if(item.phoneNumber.split(this.tele_number.replace(/\s*/g,"")).length - 1 !== idx) {
-                              Text(this.tele_number.toString().replace(/\s*/g,""))
-                                .fontSize($r("sys.float.ohos_id_text_size_body1"))
+                            }else if(item.phoneNumber.split(this.tele_number.replace(/\s*/g,'')).length - 1 !== idx) {
+                              Text(this.tele_number.toString().replace(/\s*/g,''))
+                                .fontSize($r('sys.float.ohos_id_text_size_body1'))
                                 .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
                             }
                           }
@@ -271,7 +271,7 @@ export default struct Call {
                     .alignItems(HorizontalAlign.Start)
                     .layoutWeight(1)
                     .justifyContent(FlexAlign.Center)
-                    .height($r("app.float.id_item_height_max"))
+                    .height($r('app.float.id_item_height_max'))
                     Image($r('app.media.ic_public_detail'))
                       .height($r('app.float.id_card_margin_max'))
                       .width($r('app.float.id_card_margin_max'))
@@ -282,18 +282,18 @@ export default struct Call {
                     })
                   }
                   .margin({
-                    left: $r("app.float.id_card_image_small"),
-                    right: $r("app.float.id_card_image_small")
+                    left: $r('app.float.id_card_image_small'),
+                    right: $r('app.float.id_card_image_small')
                   })
                 }
-                .height($r("app.float.id_item_height_max"))
+                .height($r('app.float.id_item_height_max'))
               }, item => JSON.stringify(item))
             }
             .divider({
               strokeWidth: 0.5,
               color: $r('sys.color.ohos_id_color_list_separator'),
-              startMargin: $r("app.float.id_card_margin_max"),
-              endMargin: $r("app.float.id_card_margin_max")
+              startMargin: $r('app.float.id_card_margin_max'),
+              endMargin: $r('app.float.id_card_margin_max')
             })
           }
           .height('100%')
@@ -302,24 +302,24 @@ export default struct Call {
         if (this.tele_number.length === 0) {
           Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Start }) {
             Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.End }) {
-              Image($r("app.media.ic_public_more"))
-                .width($r("app.float.id_card_image_small"))
-                .height($r("app.float.id_card_image_small"))
-                .margin({ right: $r("app.float.id_card_margin_max") })
+              Image($r('app.media.ic_public_more'))
+                .width($r('app.float.id_card_image_small'))
+                .height($r('app.float.id_card_image_small'))
+                .margin({ right: $r('app.float.id_card_margin_max') })
                 .opacity(0.4)
             }
             .width('100%')
-            .height($r("app.float.id_item_height_large"))
+            .height($r('app.float.id_item_height_large'))
 
             Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
-              Text($r("app.string.dialer"))
+              Text($r('app.string.dialer'))
                 .fontSize(30)
                 .fontWeight(FontWeight.Bold)
-                .fontColor($r("sys.color.ohos_id_color_text_primary"))
-                .margin({ left: $r("app.float.id_card_margin_max") })
+                .fontColor($r('sys.color.ohos_id_color_text_primary'))
+                .margin({ left: $r('app.float.id_card_margin_max') })
             }
             .width('100%')
-            .height($r("app.float.id_item_height_large"))
+            .height($r('app.float.id_item_height_large'))
 
             Flex({
               direction: FlexDirection.Column,
@@ -350,9 +350,9 @@ export default struct Call {
           mPresenter: $mPresenter,
         }).visibility(this.mPresenter.btnShow ? Visibility.None : Visibility.Visible)
         Button() {
-          Image($r("app.media.ic_contacts_dial"))
-            .width($r("app.float.id_card_margin_max"))
-            .height($r("app.float.id_card_margin_max"))
+          Image($r('app.media.ic_contacts_dial'))
+            .width($r('app.float.id_card_margin_max'))
+            .height($r('app.float.id_card_margin_max'))
         }
         .width(this.mPresenter.dialerButtonWidth)
         .height(this.mPresenter.dialerButtonHeight)
@@ -364,8 +364,8 @@ export default struct Call {
 
       }
       .justifyContent(FlexAlign.Center)
-      .width(this.haveMultiSimCard ? "210vp" : $r("app.float.dialer_calllog_item_height"))
-      .height($r("app.float.dialer_calllog_item_height"))
+      .width(this.haveMultiSimCard ? '210vp' : $r('app.float.dialer_calllog_item_height'))
+      .height($r('app.float.dialer_calllog_item_height'))
       .margin({ bottom: 20 })
       .zIndex(3)
       .translate({ x: this.mPresenter.call_p === 0 ? 0 : this.panWidth / 2 - 48, y: this.mPresenter.call_y })
@@ -375,19 +375,19 @@ export default struct Call {
           Row() {
             Button() {
               Column() {
-                Image($r("app.media.ic_public_add"))
-                  .width($r("app.float.id_card_image_small"))
-                  .height($r("app.float.id_card_image_small"))
+                Image($r('app.media.ic_public_add'))
+                  .width($r('app.float.id_card_image_small'))
+                  .height($r('app.float.id_card_image_small'))
                   .margin({ bottom: this.curBp === 'lg' ? 0 : '3vp' })
-                Text($r("app.string.new_contact"))
-                  .fontSize($r("sys.float.ohos_id_text_size_caption1"))
+                Text($r('app.string.new_contact'))
+                  .fontSize($r('sys.float.ohos_id_text_size_caption1'))
                   .fontWeight(FontWeight.Medium)
-                  .fontColor($r("sys.color.ohos_id_color_text_primary"))
+                  .fontColor($r('sys.color.ohos_id_color_text_primary'))
               }
             }
             .layoutWeight(1)
             .type(ButtonType.Normal)
-            .height($r("app.float.id_item_height_large"))
+            .height($r('app.float.id_item_height_large'))
             .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
             .onClick(() => {
               this.mPresenter.jumpToAccountants();
@@ -396,19 +396,19 @@ export default struct Call {
             //This component is temporarily shielded because there is no requirement currently.
             Button() {
               Column() {
-                Image($r("app.media.ic_public_contacts_group"))
-                  .width($r("app.float.id_card_image_small"))
-                  .height($r("app.float.id_card_image_small"))
+                Image($r('app.media.ic_public_contacts_group'))
+                  .width($r('app.float.id_card_image_small'))
+                  .height($r('app.float.id_card_image_small'))
                   .margin({ bottom: this.curBp === 'lg' ? 0 : '3vp' })
-                Text($r("app.string.save_to_existing_contacts"))
-                  .fontSize($r("sys.float.ohos_id_text_size_caption1"))
+                Text($r('app.string.save_to_existing_contacts'))
+                  .fontSize($r('sys.float.ohos_id_text_size_caption1'))
                   .fontWeight(FontWeight.Medium)
-                  .fontColor($r("sys.color.ohos_id_color_text_primary"))
+                  .fontColor($r('sys.color.ohos_id_color_text_primary'))
               }
             }
             .layoutWeight(1)
             .type(ButtonType.Normal)
-            .height($r("app.float.id_item_height_large"))
+            .height($r('app.float.id_item_height_large'))
             .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
             .onClick(() => {
               this.mPresenter.saveCallRecordExistingContact();
@@ -416,26 +416,26 @@ export default struct Call {
 
             Button() {
               Column() {
-                Image($r("app.media.ic_public_message"))
-                  .width($r("app.float.id_card_image_small"))
-                  .height($r("app.float.id_card_image_small"))
+                Image($r('app.media.ic_public_message'))
+                  .width($r('app.float.id_card_image_small'))
+                  .height($r('app.float.id_card_image_small'))
                   .margin({ bottom: this.curBp === 'lg' ? 0 : '3vp' })
-                Text($r("app.string.send_messages"))
-                  .fontSize($r("sys.float.ohos_id_text_size_caption1"))
+                Text($r('app.string.send_messages'))
+                  .fontSize($r('sys.float.ohos_id_text_size_caption1'))
                   .fontWeight(FontWeight.Medium)
-                  .fontColor($r("sys.color.ohos_id_color_text_primary"))
+                  .fontColor($r('sys.color.ohos_id_color_text_primary'))
               }
             }
             .layoutWeight(1)
             .type(ButtonType.Normal)
-            .height($r("app.float.id_item_height_large"))
+            .height($r('app.float.id_item_height_large'))
             .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
             .onClick(() => {
               this.mPresenter.sendMessage();
             })
           }
           .width('100%')
-          .height($r("app.float.id_item_height_large"))
+          .height($r('app.float.id_item_height_large'))
           .offset({ y: -336 })
           .zIndex(3)
           .padding({ top: 4 })
@@ -447,14 +447,14 @@ export default struct Call {
           Row() {
             Column() {
               Button() {
-                Image($r("app.media.ic_contacts_dialer"))
-                  .width($r("app.float.id_card_image_small"))
-                  .height($r("app.float.id_card_image_small"))
+                Image($r('app.media.ic_contacts_dialer'))
+                  .width($r('app.float.id_card_image_small'))
+                  .height($r('app.float.id_card_image_small'))
               }
               .type(ButtonType.Normal)
               .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
-              .width($r("app.float.dialer_calllog_item_height"))
-              .height($r("app.float.dialer_calllog_item_height"))
+              .width($r('app.float.dialer_calllog_item_height'))
+              .height($r('app.float.dialer_calllog_item_height'))
               .onClick(() => {
                 this.showDialBtn = false;
               })
@@ -466,27 +466,27 @@ export default struct Call {
             Blank().layoutWeight(1).visibility(this.haveMultiSimCard ? Visibility.Visible : Visibility.None)
             Column() {
               Button() {
-                Image($r("app.media.ic_contacts_delete"))
-                  .width($r("app.float.id_card_image_small"))
-                  .height($r("app.float.id_card_image_small"))
+                Image($r('app.media.ic_contacts_delete'))
+                  .width($r('app.float.id_card_image_small'))
+                  .height($r('app.float.id_card_image_small'))
               }
               .type(ButtonType.Normal)
               .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
-              .width($r("app.float.dialer_calllog_item_height"))
-              .height($r("app.float.dialer_calllog_item_height"))
+              .width($r('app.float.dialer_calllog_item_height'))
+              .height($r('app.float.dialer_calllog_item_height'))
               .opacity(this.tele_number.length > 0 ? 1 : 0.5)
               .enabled(this.tele_number.length > 0 ? true : false)
               .gesture(
               LongPressGesture({ repeat: false, fingers: 1, duration: 700 })
                 .onAction((event: GestureEvent) => {
-                  AppStorage.SetOrCreate("tele_number", '');
+                  AppStorage.SetOrCreate('tele_number', '');
                   this.mPresenter.all_number = '';
-                  this.mPresenter.editPhoneNumber("");
+                  this.mPresenter.editPhoneNumber('');
                 })
               )
               .onClick(() => {
                 this.mPresenter.pressVibrate();
-                let number: string = AppStorage.Get("tele_number");
+                let number: string = AppStorage.Get('tele_number');
                 this.mPresenter.all_number = number.substr(0, number.length - 1);
                 this.mPresenter.deleteTeleNum();
                 this.mPresenter.deleteAddSpace();
@@ -503,7 +503,7 @@ export default struct Call {
         .width('100%')
         .zIndex(this.showDialBtn ? 2 : -1)
       }
-      .width("100%")
+      .width('100%')
       .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
       .clip(new Rect(this.tele_number.length >= 3 ? {
                                                       width: '100%',

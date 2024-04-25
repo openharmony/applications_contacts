@@ -19,8 +19,8 @@ import ContactsColumns from './ContactsColumns';
  * rawContact data type
  */
 export class Contacts extends ContactsColumns {
-  static readonly CONTENT_URI: string = "datashare:///com.ohos.contactsdataability";
-  static readonly CONTACT_URI: string = Contacts.CONTENT_URI + "/contacts/contact";
+  static readonly CONTENT_URI: string = 'datashare:///com.ohos.contactsdataability';
+  static readonly CONTACT_URI: string = Contacts.CONTENT_URI + '/contacts/contact';
   constructor() {
     super();
   }

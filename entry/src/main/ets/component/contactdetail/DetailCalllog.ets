@@ -18,7 +18,7 @@ import { CallType } from '../../../../../../feature/call/src/main/ets/entity/Cal
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import EnvironmentProp from '../../feature/EnvironmentProp';
 
-const TAG = "ContactDetail-calllog";
+const TAG = 'ContactDetail-calllog';
 
 /**
  * Call log
@@ -28,8 +28,8 @@ export default struct CallLogListItem {
   @State message: { [key: string]: any } = {};
   @State isEmergencyNum: boolean = false;
   private imgRes: Resource;
-  @StorageLink("haveMultiSimCard") haveMultiSimCard: boolean = false;
-  @StorageLink("haveSimCard") haveSimCard: boolean = false;
+  @StorageLink('haveMultiSimCard') haveMultiSimCard: boolean = false;
+  @StorageLink('haveSimCard') haveSimCard: boolean = false;
   @Link private mPresenter: { [key: string]: any };
   private simImgRes: Resource = $r('app.media.stat_sys_sim1');
 
@@ -63,76 +63,76 @@ export default struct CallLogListItem {
         Row() {
           Text(this.message.dateDetail)
             .fontWeight(FontWeight.Medium)
-            .fontSize($r("sys.float.ohos_id_text_size_body1"))
-            .fontColor($r("sys.color.ohos_id_color_text_primary"))
+            .fontSize($r('sys.float.ohos_id_text_size_body1'))
+            .fontColor($r('sys.color.ohos_id_color_text_primary'))
           Text(this.message.timeDetail)
             .fontWeight(FontWeight.Medium)
-            .fontSize($r("sys.float.ohos_id_text_size_body1"))
-            .fontColor($r("sys.color.ohos_id_color_text_primary"))
+            .fontSize($r('sys.float.ohos_id_text_size_body1'))
+            .fontColor($r('sys.color.ohos_id_color_text_primary'))
         }
-        .height("22vp")
+        .height('22vp')
 
         Row() {
           Image(this.imgRes)
             .objectFit(ImageFit.Fill)
-            .width($r("app.float.id_card_image_xs"))
-            .height($r("app.float.id_card_image_xs"))
+            .width($r('app.float.id_card_image_xs'))
+            .height($r('app.float.id_card_image_xs'))
             .opacity(0.4)
           Image(this.simImgRes)
             .objectFit(ImageFit.Fill)
-            .width($r("app.float.id_card_image_xs"))
-            .height($r("app.float.id_card_image_xs"))
+            .width($r('app.float.id_card_image_xs'))
+            .height($r('app.float.id_card_image_xs'))
             .opacity(0.4)
             .visibility(this.haveMultiSimCard ? Visibility.Visible : Visibility.None)
           Text(this.message.formatNumber)
-            .fontSize($r("sys.float.ohos_id_text_size_body2"))
+            .fontSize($r('sys.float.ohos_id_text_size_body2'))
             .fontWeight(FontWeight.Regular)
             .fontColor(this.message.callType == CallType.MISSED || this.message.callType
-            == CallType.REJECTED ? $r("sys.color.ohos_id_color_handup") : $r("sys.color.ohos_id_color_text_tertiary"))
-            .margin({ left: $r("app.float.id_card_margin_mid") })
+            == CallType.REJECTED ? $r('sys.color.ohos_id_color_handup') : $r('sys.color.ohos_id_color_text_tertiary'))
+            .margin({ left: $r('app.float.id_card_margin_mid') })
         }
-        .height("19vp")
-        .margin({ top: $r("app.float.id_card_margin_sm") })
+        .height('19vp')
+        .margin({ top: $r('app.float.id_card_margin_sm') })
       }
-      .margin({ left: $r("app.float.id_card_margin_max") })
+      .margin({ left: $r('app.float.id_card_margin_max') })
 
       Blank();
 
       Row() {
         Text($r('app.string.Ringing'))
           .fontWeight(FontWeight.Regular)
-          .fontSize($r("sys.float.ohos_id_text_size_body2"))
-          .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+          .fontSize($r('sys.float.ohos_id_text_size_body2'))
+          .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
           .visibility(this.message.callType == CallType.MISSED ? Visibility.Visible : Visibility.None)
 
         Text(this.message.talkTime)
           .fontWeight(FontWeight.Regular)
-          .fontSize($r("sys.float.ohos_id_text_size_body2"))
-          .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+          .fontSize($r('sys.float.ohos_id_text_size_body2'))
+          .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
       }
-      .margin({ right: $r("app.float.id_card_margin_max") })
-      .height("19vp")
+      .margin({ right: $r('app.float.id_card_margin_max') })
+      .height('19vp')
     }
     .width('100%')
-    .height($r("app.float.id_item_height_max"))
+    .height($r('app.float.id_item_height_max'))
     .padding({ top: 5, bottom: 5 })
     .onClick(() => {
-      HiLog.i(TAG, "CallLogListItem onClick:" + JSON.stringify(this.message))
+      HiLog.i(TAG, 'CallLogListItem onClick:' + JSON.stringify(this.message))
       if (this.haveMultiSimCard) {
         PhoneNumber.fromString(this.message.formatNumber).dial({
           accountId: this.message.simId,
         });
       } else {
         if (!this.haveSimCard) {
-          HiLog.i(TAG, "No SIM card!");
+          HiLog.i(TAG, 'No SIM card!');
           //TODO Pop-up window for dialing without a SIM card
           PhoneNumber.fromString(this.message.formatNumber).isDialEmergencyNum().then((res) => {
             this.isEmergencyNum = res;
             if (!this.isEmergencyNum) {
-              HiLog.i(TAG, "Is not Emergency Phone Number!");
+              HiLog.i(TAG, 'Is not Emergency Phone Number!');
               return;
             } else {
-              HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
+              HiLog.i(TAG, 'No SIM card, but is Emergency Phone Number');
               PhoneNumber.fromString(this.message.formatNumber).dial();
             }
           })

@@ -27,7 +27,7 @@ export class StringUtil {
   /* Obtains the result string that matches the specified substring in the original character string.
    Only the result of the first successful match is returned.(The matching rule ignores spaces.)
    */
-  static getMatchedString(textValue, regString): string{
+  static getMatchedString(textValue, regString): string {
     if (this.isEmpty(textValue) || this.isEmpty(regString)) {
       return '';
     }

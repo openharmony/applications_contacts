@@ -49,7 +49,7 @@ export default struct DeleteDialogEx {
           justifyContent: FlexAlign.Center,
           alignItems: ItemAlign.Center
         }) {
-          Text(this.cancalText).fontColor($r("sys.color.ohos_id_color_text_primary_activated")).fontSize(20)
+          Text(this.cancalText).fontColor($r('sys.color.ohos_id_color_text_primary_activated')).fontSize(20)
         }
         .layoutWeight(1)
         .height(35)
@@ -58,7 +58,7 @@ export default struct DeleteDialogEx {
           this.cancel();
         })
 
-        Line().width(1).height(25).backgroundColor($r("sys.color.ohos_id_color_list_separator"))
+        Line().width(1).height(25).backgroundColor($r('sys.color.ohos_id_color_list_separator'))
 
         Flex({
           direction: FlexDirection.Column,
@@ -76,13 +76,13 @@ export default struct DeleteDialogEx {
       }
       .height('30vp')
     }
-    .width("90%")
-    .height($r("app.float.DeleteDialogEx_height"))
+    .width('90%')
+    .height($r('app.float.DeleteDialogEx_height'))
     .borderRadius(20)
     .padding({
-      bottom: $r("sys.float.ohos_id_dialog_margin_bottom"),
-      right: $r("sys.float.ohos_id_notification_margin_start"),
-      left: $r("sys.float.ohos_id_notification_margin_end")
+      bottom: $r('sys.float.ohos_id_dialog_margin_bottom'),
+      right: $r('sys.float.ohos_id_notification_margin_start'),
+      left: $r('sys.float.ohos_id_notification_margin_end')
     })
   }
 }

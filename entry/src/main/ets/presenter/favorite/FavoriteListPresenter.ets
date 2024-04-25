@@ -341,7 +341,7 @@ export default class FavoriteListPresenter {
       let favoriteForm: any = {};
       favoriteForm.id = deleteFavoriteIdList[i];
       favoriteForm.favorite = 0;
-      globalThis.DataWorker.sendRequest("updateFavorite", {
+      globalThis.DataWorker.sendRequest('updateFavorite', {
         context: globalThis.context,
         favoriteForm: JSON.stringify(favoriteForm)
       }, (arg) => {

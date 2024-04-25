@@ -14,7 +14,7 @@
  */
 
 import dataShare from '@ohos.data.dataShare';
-import dataSharePredicates from "@ohos.data.dataSharePredicates";
+import dataSharePredicates from '@ohos.data.dataSharePredicates';
 import IContactRepository from './IContactRepository';
 import Contact from '../entity/Contact';
 import RawContact from '../entity/RawContact';
@@ -36,7 +36,7 @@ import { SearchContacts } from '../contract/SearchContacts';
 import SearchContactListItem from './SearchContactListItem';
 import ContactUsuallyListItem from './ContactUsuallyListItem';
 
-const TAG = "ContactRepository";
+const TAG = 'ContactRepository';
 
 /**
  * Contact storage management, shielding dependency on the CP layer
@@ -214,7 +214,7 @@ export class ContactRepository implements IContactRepository {
   }
 
   findByPhoneIsNotNull(favorite: number, editContact: number, callback) {
-    HiLog.i(TAG, 'initContactsList resultList success favoriteForm favorite :' + favorite + "---" + editContact);
+    HiLog.i(TAG, 'initContactsList resultList success favoriteForm favorite :' + favorite + '---' + editContact);
     this.getAllContactNumbers(favorite, editContact, (contactNumberMap) => {
       this.getDataAbilityHelper().then((dataAbilityHelper) => {
         let conditionArgs = new dataSharePredicates.DataSharePredicates();
@@ -285,7 +285,7 @@ export class ContactRepository implements IContactRepository {
           return;
         }
         let oldContact = resultSet.getLong(resultSet.getColumnIndex(RawContacts.CONTACT_ID));
-        let oldPhoneNumber = "";
+        let oldPhoneNumber = '';
         let numberList = [];
         do {
           let newContact = resultSet.getLong(resultSet.getColumnIndex(RawContacts.CONTACT_ID));
@@ -350,7 +350,7 @@ export class ContactRepository implements IContactRepository {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       if (dataAbilityHelper) {
         dataAbilityHelper.notifyChange(Data.CONTENT_URI).then(() => {
-          HiLog.i(TAG, "notifyChange success")
+          HiLog.i(TAG, 'notifyChange success')
         }).catch(error => {
           HiLog.w(TAG, 'notifyChange error:%s' + JSON.stringify(error.message));
         });
@@ -373,8 +373,8 @@ export class ContactRepository implements IContactRepository {
     this.contactsUrl.forEach((url, index, array) => {
       this.getDataAbilityHelper().then((dataAbilityHelper) => {
         if (dataAbilityHelper) {
-          dataAbilityHelper.on("dataChange", url, this.callback);
-          HiLog.i(TAG, "registerContactsDataChange success:" + index)
+          dataAbilityHelper.on('dataChange', url, this.callback);
+          HiLog.i(TAG, 'registerContactsDataChange success:' + index)
         }
       }).catch(error => {
         HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
@@ -386,9 +386,9 @@ export class ContactRepository implements IContactRepository {
     this.contactsUrl.forEach((url, index, array) => {
       this.getDataAbilityHelper().then((dataAbilityHelper) => {
         if (dataAbilityHelper) {
-          HiLog.i(TAG, "start unregisterContactsDataChange:" + index)
-          dataAbilityHelper.off("dataChange", url, this.callback);
-          HiLog.i(TAG, "unregisterContactsDataChange success:" + index)
+          HiLog.i(TAG, 'start unregisterContactsDataChange:' + index)
+          dataAbilityHelper.off('dataChange', url, this.callback);
+          HiLog.i(TAG, 'unregisterContactsDataChange success:' + index)
         }
       }).catch(error => {
         HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
@@ -428,27 +428,27 @@ export class ContactRepository implements IContactRepository {
   queryContactDataByNumber(numberList, callback) {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       if (!dataAbilityHelper) {
-        HiLog.e(TAG, "queryContactDataByNumber, dataAbilityHelper is null");
+        HiLog.e(TAG, 'queryContactDataByNumber, dataAbilityHelper is null');
         callback([]);
         return;
       }
       let resultColumns = [
-        "detail_info",
-        "display_name",
+        'detail_info',
+        'display_name',
       ];
       let condition = new dataSharePredicates.DataSharePredicates();
-      condition.in("detail_info", numberList);
+      condition.in('detail_info', numberList);
       condition.and();
-      condition.equalTo("type_id", "5");
+      condition.equalTo('type_id', '5');
       condition.and();
-      condition.equalTo("is_deleted", "0");
+      condition.equalTo('is_deleted', '0');
       dataAbilityHelper.query(Data.CONTENT_URI, condition, resultColumns).then(resultSet => {
         callback(this.dealContactResultSet(resultSet));
       }).catch(error => {
-        HiLog.e(TAG, "queryContactDataByNumber query, error: " + JSON.stringify(error.message));
+        HiLog.e(TAG, 'queryContactDataByNumber query, error: ' + JSON.stringify(error.message));
       })
     }).catch(error => {
-      HiLog.e(TAG, "queryContactDataByNumber, error: " + JSON.stringify(error.message));
+      HiLog.e(TAG, 'queryContactDataByNumber, error: ' + JSON.stringify(error.message));
       callback([]);
     });
   }
@@ -577,7 +577,7 @@ export class ContactRepository implements IContactRepository {
   }
 
   searchContact(actionData, callback) {
-    HiLog.i(TAG, "searchContact start.");
+    HiLog.i(TAG, 'searchContact start.');
     let conditionArgs = new dataSharePredicates.DataSharePredicates();
     let searchValue: string = actionData.value;
     conditionArgs.beginWrap()
@@ -626,7 +626,7 @@ export class ContactRepository implements IContactRepository {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       dataAbilityHelper.query(SearchContacts.CONTENT_URI, conditionArgs, SearchContactListItem.COLUMNS)
         .then(resultSet => {
-          HiLog.i(TAG, "searchContact resultSet.rowCount : " + JSON.stringify(resultSet.rowCount) );
+          HiLog.i(TAG, 'searchContact resultSet.rowCount : ' + JSON.stringify(resultSet.rowCount) );
           let rst: SearchContactListItem[] = [];
           let goTo: boolean = false;
           if (resultSet.rowCount === 0) {

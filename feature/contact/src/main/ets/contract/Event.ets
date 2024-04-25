@@ -20,7 +20,7 @@ import {DataItemType} from './DataType';
  * Important Holiday Data Types
  */
 export class Event extends DataType {
-  static readonly CONTENT_ITEM_TYPE: string = "contact_event";
+  static readonly CONTENT_ITEM_TYPE: string = 'contact_event';
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.EVENT;
   static readonly START_DATE: string = DataType.DATA;
   static readonly TYPE_ANNIVERSARY: number = 1;
@@ -31,13 +31,13 @@ export class Event extends DataType {
   static getTypeLabelResource(type: number) {
     switch (type) {
       case Event.TYPE_ANNIVERSARY:
-        return $r("app.string.phone_type_home");
+        return $r('app.string.phone_type_home');
       case Event.TYPE_BIRTHDAY:
-        return $r("app.string.phone_type_mobile");
+        return $r('app.string.phone_type_mobile');
       case Event.TYPE_OTHER:
-        return $r("app.string.phone_type_work");
+        return $r('app.string.phone_type_work');
       default:
-        return $r("app.string.phone_type_custom");
+        return $r('app.string.phone_type_custom');
     }
   }
 

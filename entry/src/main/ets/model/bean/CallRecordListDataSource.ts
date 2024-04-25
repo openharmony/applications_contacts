@@ -16,7 +16,7 @@ import BasicDataSource from '../bean/BasicDataSource';
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 
-const TAG = "CallRecordListDataSource";
+const TAG = 'CallRecordListDataSource';
 
 export default class CallRecordListDataSource extends BasicDataSource {
     private callLogData: any[] = [];
@@ -29,7 +29,7 @@ export default class CallRecordListDataSource extends BasicDataSource {
 
     public getData(index: number): any {
         if (ArrayUtil.isEmpty(this.callLogData) || index >= this.callLogData.length) {
-            HiLog.w(TAG, "getData callLogData is empty");
+            HiLog.w(TAG, 'getData callLogData is empty');
             return null;
         } else {
             return this.callLogData[index];

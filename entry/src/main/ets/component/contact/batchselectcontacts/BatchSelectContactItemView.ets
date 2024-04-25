@@ -32,11 +32,11 @@ export default struct BatchSelectContactItemView {
       Row() {
         Row() {
           if (StringUtil.isEmpty(this.item.nameSuffix)) {
-            Image(StringUtil.isEmpty(this.item.portraitPath) ? $r("app.media.ic_user_portrait") : this.item.portraitPath)
-              .width($r("app.float.id_card_image_mid"))
-              .height($r("app.float.id_card_image_mid"))
+            Image(StringUtil.isEmpty(this.item.portraitPath) ? $r('app.media.ic_user_portrait') : this.item.portraitPath)
+              .width($r('app.float.id_card_image_mid'))
+              .height($r('app.float.id_card_image_mid'))
               .objectFit(ImageFit.Contain)
-              .borderRadius($r("app.float.id_card_image_mid"))
+              .borderRadius($r('app.float.id_card_image_mid'))
               .backgroundColor(this.item.portraitColor)
           } else {
             Text(this.item.nameSuffix.toUpperCase())
@@ -44,31 +44,31 @@ export default struct BatchSelectContactItemView {
               .fontWeight(FontWeight.Bold)
               .fontColor(Color.White)
               .backgroundColor(this.item.portraitColor)
-              .height($r("app.float.id_card_image_mid"))
-              .width($r("app.float.id_card_image_mid"))
+              .height($r('app.float.id_card_image_mid'))
+              .width($r('app.float.id_card_image_mid'))
               .textAlign(TextAlign.Center)
-              .borderRadius($r("app.float.id_card_image_mid"))
+              .borderRadius($r('app.float.id_card_image_mid'))
           }
         }
-        .width($r("app.float.id_card_image_mid"))
-        .height($r("app.float.id_card_image_mid"))
-        .margin({ left: $r("app.float.id_card_margin_max") })
+        .width($r('app.float.id_card_image_mid'))
+        .height($r('app.float.id_card_image_mid'))
+        .margin({ left: $r('app.float.id_card_margin_max') })
         .flexShrink(0)
 
         Column() {
           Text(StringUtil.isEmpty(this.item.showName) ? this.item.phoneNum : this.item.showName)
-            .fontColor($r("sys.color.ohos_id_color_text_primary"))
-            .fontSize($r("sys.float.ohos_id_text_size_body1"))
+            .fontColor($r('sys.color.ohos_id_color_text_primary'))
+            .fontSize($r('sys.float.ohos_id_text_size_body1'))
             .fontWeight(FontWeight.Medium)
-            .margin({ left: $r("app.float.id_card_margin_xl"), bottom: $r("app.float.id_card_margin_sm") })
+            .margin({ left: $r('app.float.id_card_margin_xl'), bottom: $r('app.float.id_card_margin_sm') })
             .textOverflow({ overflow: TextOverflow.Ellipsis })
             .maxLines(2)
 
           Text(this.item.phoneNumbers[0].labelName)
-            .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
-            .fontSize($r("sys.float.ohos_id_text_size_body2"))
+            .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+            .fontSize($r('sys.float.ohos_id_text_size_body2'))
             .fontWeight(FontWeight.Regular)
-            .margin({ left: $r("app.float.id_card_margin_xl") })
+            .margin({ left: $r('app.float.id_card_margin_xl') })
             .textOverflow({ overflow: TextOverflow.Ellipsis })
             .maxLines(2)
         }
@@ -76,8 +76,8 @@ export default struct BatchSelectContactItemView {
         .alignItems(HorizontalAlign.Start)
         .flexGrow(1)
         .flexShrink(1)
-        .padding({ top: $r("app.float.id_card_margin_mid"), bottom: $r("app.float.id_card_margin_mid") })
-        .constraintSize({ minHeight: $r("app.float.id_item_height_max") })
+        .padding({ top: $r('app.float.id_card_margin_mid'), bottom: $r('app.float.id_card_margin_mid') })
+        .constraintSize({ minHeight: $r('app.float.id_item_height_max') })
 
         Toggle({
           type: ToggleType.Checkbox,
@@ -87,14 +87,14 @@ export default struct BatchSelectContactItemView {
           .height(20)
           .flexShrink(0)
           .enabled(false)
-          .margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_max") })
-          .selectedColor($r("sys.color.ohos_id_color_connected"))
+          .margin({ left: $r('app.float.id_card_margin_max'), right: $r('app.float.id_card_margin_max') })
+          .selectedColor($r('sys.color.ohos_id_color_connected'))
           .visibility(!this.single ? Visibility.Visible : Visibility.None)
       }
       .justifyContent(FlexAlign.Start)
       .alignItems(VerticalAlign.Center)
       .width('100%')
-      .height($r("app.float.id_item_height_max"))
+      .height($r('app.float.id_item_height_max'))
       .onClick(() => {
         if (!this.single) {
           this.onContactItemClicked(this.index, 0);
@@ -110,9 +110,9 @@ export default struct BatchSelectContactItemView {
               Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
                 Row() {
                 }
-                .width($r("app.float.id_card_image_mid"))
-                .height($r("app.float.id_card_image_mid"))
-                .margin({ left: $r("app.float.id_card_margin_max") })
+                .width($r('app.float.id_card_image_mid'))
+                .height($r('app.float.id_card_image_mid'))
+                .margin({ left: $r('app.float.id_card_margin_max') })
                 .visibility(Visibility.Hidden)
 
                 Flex({
@@ -122,16 +122,16 @@ export default struct BatchSelectContactItemView {
                 }) {
 
                   Text(item.labelName)
-                    .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
-                    .fontSize($r("sys.float.ohos_id_text_size_body2"))
+                    .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+                    .fontSize($r('sys.float.ohos_id_text_size_body2'))
                     .fontWeight(FontWeight.Regular)
-                    .margin({ left: $r("app.float.id_card_margin_xl") })
+                    .margin({ left: $r('app.float.id_card_margin_xl') })
                 }
                 .flexGrow(1)
-                .height($r("app.float.id_item_height_mid"))
+                .height($r('app.float.id_item_height_mid'))
               }
               .width('100%')
-              .height($r("app.float.id_item_height_mid"))
+              .height($r('app.float.id_item_height_mid'))
               .onClick(() => {
                 if (!this.single) {
                   this.onContactItemClicked(this.index, index);
@@ -149,7 +149,7 @@ export default struct BatchSelectContactItemView {
         strokeWidth: 0.5,
         color: $r('sys.color.ohos_id_color_list_separator'),
         startMargin: 76,
-        endMargin: $r("app.float.id_card_margin_max"),
+        endMargin: $r('app.float.id_card_margin_max'),
       })
     }
     .padding({ top: this.showIndex ? 4 : 0,
@@ -157,8 +157,8 @@ export default struct BatchSelectContactItemView {
     })
     .backgroundColor(Color.White)
     .clip(new Rect({
-      width: "100%",
-      height: "100%",
+      width: '100%',
+      height: '100%',
       radius: [[this.showIndex ? 24 : 0, this.showIndex ? 24 : 0],
       [this.showIndex ? 24 : 0, this.showIndex ? 24 : 0],
       [this.showDivifer ? 0 : 24, this.showDivifer ? 0 : 24],

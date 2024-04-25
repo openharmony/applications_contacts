@@ -88,7 +88,7 @@ struct FavoriteContent {
               .fontSize(30)
               .fontWeight(FontWeight.Bold)
               .fontColor($r('sys.color.ohos_id_color_text_primary'))
-              .margin({ bottom: $r("app.float.id_card_margin_sm") })
+              .margin({ bottom: $r('app.float.id_card_margin_sm') })
               .lineHeight(42)
               .margin({ top: 8, bottom: 2 })
           }
@@ -148,7 +148,7 @@ export struct FavoriteListItem {
     alignment: DialogAlignment.Bottom
   })
   @State isEmergencyNum: boolean = false;
-  @StorageLink("haveSimCard") haveSimCard: boolean = false;
+  @StorageLink('haveSimCard') haveSimCard: boolean = false;
   @StorageLink('haveMultiSimCard') haveMultiSimCard: boolean = false;
 
   aboutToDisappear() {
@@ -178,10 +178,10 @@ export struct FavoriteListItem {
               Row() {
                 if (StringUtil.isEmpty(this.item.favorite.nameSuffix)) {
                   Image(StringUtil.isEmpty(this.item.favorite.portraitPath) ? $r('app.media.ic_user_portrait') : this.item.favorite.portraitPath)
-                    .width($r("app.float.id_card_image_mid"))
-                    .height($r("app.float.id_card_image_mid"))
+                    .width($r('app.float.id_card_image_mid'))
+                    .height($r('app.float.id_card_image_mid'))
                     .objectFit(ImageFit.Contain)
-                    .borderRadius($r("app.float.id_card_image_mid"))
+                    .borderRadius($r('app.float.id_card_image_mid'))
                     .backgroundColor(this.item.favorite.portraitColor)
                 } else {
                   Text(this.item.favorite.namePrefix.toUpperCase())
@@ -189,14 +189,14 @@ export struct FavoriteListItem {
                     .fontWeight(FontWeight.Bold)
                     .fontColor(Color.White)
                     .backgroundColor(this.item.favorite.portraitColor)
-                    .height($r("app.float.id_card_image_mid"))
-                    .width($r("app.float.id_card_image_mid"))
+                    .height($r('app.float.id_card_image_mid'))
+                    .width($r('app.float.id_card_image_mid'))
                     .textAlign(TextAlign.Center)
-                    .borderRadius($r("app.float.id_card_image_mid"))
+                    .borderRadius($r('app.float.id_card_image_mid'))
                 }
               }
-              .height($r("app.float.id_card_image_mid"))
-              .width($r("app.float.id_card_image_mid"))
+              .height($r('app.float.id_card_image_mid'))
+              .width($r('app.float.id_card_image_mid'))
               if (0 === this.item.favorite.isCommonUseType) {
                 Text(this.item.favorite.displayName)
                   .maxLines(1)
@@ -274,7 +274,7 @@ export struct FavoriteListItem {
                   hasDefault = true;
                   return;
                 }
-                this.builder.multiNumCardItems.push({ number: element.num, img: $r("app.media.ic_public_phone_dialog"),
+                this.builder.multiNumCardItems.push({ number: element.num, img: $r('app.media.ic_public_phone_dialog'),
                   numType: Phone.getTypeLabelResource(parseInt(element.numType, 10)) })
               });
               this.builder.callback = (item) => {
@@ -311,19 +311,19 @@ export struct FavoriteListItem {
 
   dealCallNumber(phoneNum) {
     if (!this.haveSimCard) {
-      HiLog.i(TAG, "No SIM card!");
+      HiLog.i(TAG, 'No SIM card!');
       PhoneNumber.fromString(phoneNum).isDialEmergencyNum().then((res) => {
         this.isEmergencyNum = res;
       })
       if (!this.isEmergencyNum) {
-        HiLog.i(TAG, "Is not Emergency Phone Number!");
+        HiLog.i(TAG, 'Is not Emergency Phone Number!');
         return;
       } else {
-        HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
+        HiLog.i(TAG, 'No SIM card, but is Emergency Phone Number');
         PhoneNumber.fromString(phoneNum).dial();
       }
     } else if (this.haveMultiSimCard) {
-      this.selectSimBuilder.title = $r("app.string.contacts_call_number", phoneNum);
+      this.selectSimBuilder.title = $r('app.string.contacts_call_number', phoneNum);
       this.selectSimBuilder.callback = (value) => {
         PhoneNumber.fromString(phoneNum).dial({
           accountId: value,
@@ -396,17 +396,17 @@ struct TitleGuide {
 
   @Builder MenuBuilder() {
     Column() {
-      Text($r("app.string.edit"))
-        .fontSize($r("app.float.id_corner_radius_card_mid"))
+      Text($r('app.string.edit'))
+        .fontSize($r('app.float.id_corner_radius_card_mid'))
         .textAlign(TextAlign.Start)
-        .fontColor($r("sys.color.ohos_id_color_text_primary"))
+        .fontColor($r('sys.color.ohos_id_color_text_primary'))
         .lineHeight(19)
-        .width($r("app.float.account_Divider_width"))
+        .width($r('app.float.account_Divider_width'))
         .height(21)
     }
     .width($r('app.float.account_MenuBuilder_width'))
     .justifyContent(FlexAlign.Center)
-    .height($r("app.float.id_item_height_mid"))
+    .height($r('app.float.id_item_height_mid'))
     .onClick(() => {
       this.mPresenter.editFavorite();
     })

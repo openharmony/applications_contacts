@@ -19,11 +19,11 @@
 let NextId = 0;
 
 export class CallLogBean {
-  id: string ;
-  time: string ;
-  action: string ;
-  calledNumber: string ;
-  status: string ;
+  id: string;
+  time: string;
+  action: string;
+  calledNumber: string;
+  status: string;
   constructor(time: string, action: string, calledNumber: string, status: string) {
     this.id = `${NextId++}`;
     this.time = time;

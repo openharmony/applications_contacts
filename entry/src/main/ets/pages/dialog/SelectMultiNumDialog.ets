@@ -15,7 +15,7 @@
 
 import { HiLog, sharedPreferencesUtils } from '../../../../../../common';
 
-const TAG = "SelectMultiNumDialog";
+const TAG = 'SelectMultiNumDialog';
 
 @CustomDialog
 export struct SelectMultiNumDialog {
@@ -31,39 +31,39 @@ export struct SelectMultiNumDialog {
   build() {
     Column() {
       Text(this.builder.title)
-        .fontSize($r("sys.float.ohos_id_text_size_dialog_tittle"))
-        .fontColor($r("sys.color.ohos_id_color_text_primary"))
+        .fontSize($r('sys.float.ohos_id_text_size_dialog_tittle'))
+        .fontColor($r('sys.color.ohos_id_color_text_primary'))
         .fontWeight(FontWeight.Bold)
         .alignSelf(ItemAlign.Center)
-        .width("100%")
-        .height("48vp")
-        .padding({ left: "16vp", })
+        .width('100%')
+        .height('48vp')
+        .padding({ left: '16vp', })
       List() {
         ForEach(this.builder.multiNumCardItems, (item, index) => {
           ListItem() {
             Row() {
               Image(item.img)
-                .height("30vp")
-                .width("30vp")
-                .margin({ right: "8vp" })
+                .height('30vp')
+                .width('30vp')
+                .margin({ right: '8vp' })
                 .onError((event => {
-                  HiLog.e(TAG, "Num:" + index + " Image onError" + JSON.stringify(event))
+                  HiLog.e(TAG, 'Num:' + index + ' Image onError' + JSON.stringify(event))
                 }))
               Column() {
                 Text(item.number)
-                  .fontSize($r("sys.float.ohos_id_text_size_body1"))
-                  .fontColor($r("sys.color.ohos_id_color_text_primary"))
+                  .fontSize($r('sys.float.ohos_id_text_size_body1'))
+                  .fontColor($r('sys.color.ohos_id_color_text_primary'))
                   .fontWeight(FontWeight.Lighter)
                 Text(item.numType)
-                  .fontSize($r("sys.float.ohos_id_text_size_body2"))
+                  .fontSize($r('sys.float.ohos_id_text_size_body2'))
                   .fontColor($r('sys.color.ohos_dialog_text_alert_transparent'))
                   .fontWeight(FontWeight.Lighter)
-                  .margin({ top: "4vp" })
+                  .margin({ top: '4vp' })
               }.alignItems(HorizontalAlign.Start)
             }.width('100%')
-            .height("56vp")
+            .height('56vp')
             .justifyContent(FlexAlign.Start)
-            .padding({ left: "16vp", })
+            .padding({ left: '16vp', })
           }.onClick(() => {
             this.confirm(item, this.builder.contactId);
           })
@@ -71,7 +71,7 @@ export struct SelectMultiNumDialog {
       }.divider({
         strokeWidth: 0.8,
         startMargin: 56,
-        endMargin: $r("app.float.id_card_margin_max"),
+        endMargin: $r('app.float.id_card_margin_max'),
       })
 
       Row() {
@@ -83,24 +83,24 @@ export struct SelectMultiNumDialog {
             console.info(' msz Checkbox2 change is' + value)
           })
         Column() {
-          Text($r("app.string.set_default_values"))
-            .fontSize($r("sys.float.ohos_id_text_size_body1"))
+          Text($r('app.string.set_default_values'))
+            .fontSize($r('sys.float.ohos_id_text_size_body1'))
             .fontColor($r('sys.color.ohos_dialog_text_alert_transparent'))
             .fontWeight(FontWeight.Lighter)
         }.alignItems(HorizontalAlign.Start)
       }.width('100%')
-      .height("56vp")
+      .height('56vp')
       .justifyContent(FlexAlign.Start)
-      .padding({ left: "16vp", })
+      .padding({ left: '16vp', })
 
-      Text($r("app.string.cancel"))
+      Text($r('app.string.cancel'))
         .alignSelf(ItemAlign.Center)
         .textAlign(TextAlign.Center)
         .fontWeight(FontWeight.Medium)
         .fontColor(0x39a2db)
-        .fontSize($r("sys.float.ohos_id_text_size_body1"))
-        .width("100%")
-        .height("48vp")
+        .fontSize($r('sys.float.ohos_id_text_size_body1'))
+        .width('100%')
+        .height('48vp')
         .onClick(() => {
           this.cancel()
         });

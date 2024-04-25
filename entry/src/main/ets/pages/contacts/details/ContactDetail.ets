@@ -22,9 +22,9 @@ import StringFormatUtil from '../../../util/StringFormatUtil';
 import CallLogListItem from '../../../component/contactdetail/DetailCalllog';
 import DetailInfoListView from '../../../component/contactdetail/DetailInfoListView';
 import EnvironmentProp from '../../../feature/EnvironmentProp';
-import { SelectSimIdDialog, SelectDialogBuilder } from "../../../component/mutisim/SelectSimIdDialog";
+import { SelectSimIdDialog, SelectDialogBuilder } from '../../../component/mutisim/SelectSimIdDialog';
 
-const TAG = "ContactDetail";
+const TAG = 'ContactDetail';
 let storage = LocalStorage.GetShared()
 
 /**
@@ -35,25 +35,25 @@ let storage = LocalStorage.GetShared()
 struct ContactDetail {
   @State mPresenter: DetailPresenter = DetailPresenter.getInstance();
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
-  @StorageLink("params") params: { [key: string]: any } = {};
+  @StorageLink('params') params: { [key: string]: any } = {};
   @State private mMoreMenu: Array<{
     value: string,
     action: () => void
   }> = [{
-          value: "",
+          value: '',
           action: () => {
           }
         }];
   @State hasFavorited: boolean = false;
   @State isShow: number = 0;
   @State builder: SelectDialogBuilder = {
-    title: "",
+    title: '',
     multiSimCardItems: [{
-                          name: "",
-                          img: $r("app.media.ic_public_phone1"),
+                          name: '',
+                          img: $r('app.media.ic_public_phone1'),
                         }, {
-                          name: "",
-                          img: $r("app.media.ic_public_phone2"),
+                          name: '',
+                          img: $r('app.media.ic_public_phone2'),
                         }],
   };
   mSelectSlotIdDialog: CustomDialogController = new CustomDialogController({
@@ -65,7 +65,7 @@ struct ContactDetail {
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear:');
-    AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
+    AppStorage.SetOrCreate('sysTime', parseInt(StringFormatUtil.judgeSysTime()));
     setTimeout(() => {
       this.isShow++;
     }, 100);
@@ -101,34 +101,34 @@ struct ContactDetail {
 
   onPageShow() {
     HiLog.i(TAG, 'onPageShow');
-    if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get("sysTime")) {
+    if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get('sysTime')) {
       HiLog.i(TAG, 'DO refresh detailCallLog');
       this.mPresenter.refresh();
-      AppStorage.SetOrCreate("sysTime", parseInt(StringFormatUtil.judgeSysTime()));
+      AppStorage.SetOrCreate('sysTime', parseInt(StringFormatUtil.judgeSysTime()));
     }
   }
 
   @Builder MenuBuilder() {
     Column() {
-      this.MenuView($r("app.string.delete_contact"), MenuType.deleteContact)
+      this.MenuView($r('app.string.delete_contact'), MenuType.deleteContact)
     }
     .width($r('app.float.account_MenuBuilder_width'))
     .alignItems(HorizontalAlign.Start)
-    .height($r("app.float.id_item_height_mid"))
+    .height($r('app.float.id_item_height_mid'))
   }
 
   @Builder MenuView(menuName, itemType) {
     Row() {
       Text(menuName)
-        .fontSize($r("app.float.id_corner_radius_card_mid"))
+        .fontSize($r('app.float.id_corner_radius_card_mid'))
         .fontColor($r('sys.color.ohos_id_color_text_primary'))
-        .margin({ left: $r("app.float.id_card_margin_xxl") })
+        .margin({ left: $r('app.float.id_card_margin_xxl') })
         .lineHeight(19)
         .height(21)
         .textAlign(TextAlign.Start)
     }
-    .width("100%")
-    .height($r("app.float.id_item_height_mid"))
+    .width('100%')
+    .height($r('app.float.id_item_height_mid'))
     .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
     .onClick(() => {
       switch (itemType) {
@@ -158,8 +158,8 @@ struct ContactDetail {
           Column() {
             Image('1' === this.mPresenter.isFavorited ? $r('app.media.ic_public_collected') : $r('app.media.ic_public_collect'))
               .objectFit(ImageFit.Contain)
-              .height($r("app.float.id_card_image_small"))
-              .width($r("app.float.id_card_image_small"))
+              .height($r('app.float.id_card_image_small'))
+              .width($r('app.float.id_card_image_small'))
               .margin({ bottom: 3 })
             Text('1' === this.mPresenter.isFavorited ? $r('app.string.cancel_favorite') : $r('app.string.favorite'))
               .fontSize($r('sys.float.ohos_id_text_size_caption'))
@@ -179,18 +179,18 @@ struct ContactDetail {
 
           Column() {
             Image(this.mPresenter.contactId != undefined
-              ? $r("app.media.ic_public_edit")
-              : $r("app.media.ic_public_add"))
+              ? $r('app.media.ic_public_edit')
+              : $r('app.media.ic_public_add'))
               .objectFit(ImageFit.Contain)
-              .height($r("app.float.id_card_image_small"))
-              .width($r("app.float.id_card_image_small"))
+              .height($r('app.float.id_card_image_small'))
+              .width($r('app.float.id_card_image_small'))
               .margin({ bottom: 3 })
             Text(this.mPresenter.contactId != undefined
               ? $r('app.string.edit')
-              : $r("app.string.new_contact"))
-              .fontSize($r("sys.float.ohos_id_text_size_caption"))
+              : $r('app.string.new_contact'))
+              .fontSize($r('sys.float.ohos_id_text_size_caption'))
               .fontWeight(FontWeight.Medium)
-              .fontColor($r("sys.color.ohos_id_color_toolbar_text"))
+              .fontColor($r('sys.color.ohos_id_color_toolbar_text'))
           }
           .onClick(() => {
             this.mPresenter.updateContact();
@@ -217,20 +217,20 @@ struct ContactDetail {
           Column() {
             Image($r('app.media.ic_public_more'))
               .objectFit(ImageFit.Contain)
-              .height($r("app.float.id_card_image_small"))
-              .width($r("app.float.id_card_image_small"))
+              .height($r('app.float.id_card_image_small'))
+              .width($r('app.float.id_card_image_small'))
               .margin({ bottom: 3 })
               .bindMenu(this.MenuBuilder)
             Text($r('app.string.More'))
-              .fontSize($r("sys.float.ohos_id_text_size_caption"))
+              .fontSize($r('sys.float.ohos_id_text_size_caption'))
               .fontWeight(FontWeight.Medium)
-              .fontColor($r("sys.color.ohos_id_color_toolbar_text"))
+              .fontColor($r('sys.color.ohos_id_color_toolbar_text'))
           }
           .visibility(this.mPresenter.contactId != undefined ? Visibility.Visible : Visibility.None)
           .width('33%')
         }
         .alignItems(VerticalAlign.Center)
-        .height($r("app.float.id_item_height_large"))
+        .height($r('app.float.id_item_height_large'))
         .width('100%')
         .backgroundColor(Color.White)
         .zIndex(3)
@@ -252,12 +252,12 @@ struct Content {
   @Link private mPresenter: { [key: string]: any };
   @Link selectSimBuilder: SelectDialogBuilder;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
-  @State colunmHeight: string = "60%";
+  @State colunmHeight: string = '60%';
   @StorageLink('isRouterBack') @Watch('onBackIndex')  isRouterBack: boolean = false;
 
   onBackIndex() {
     if (this.isRouterBack) {
-      AppStorage.SetOrCreate("mainTabsIndex", 0);
+      AppStorage.SetOrCreate('mainTabsIndex', 0);
       router.back();
     }
     this.isRouterBack = false;
@@ -266,16 +266,16 @@ struct Content {
   @Builder callLogTitle() {
     Row() {
       Text($r('app.string.dialer_calllog'))
-        .fontSize($r("sys.float.ohos_id_text_size_body1"))
-        .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
-        .margin({ left: $r("app.float.id_card_margin_max") })
+        .fontSize($r('sys.float.ohos_id_text_size_body1'))
+        .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
+        .margin({ left: $r('app.float.id_card_margin_max') })
 
       Blank();
 
       Text($r('app.string.clear'))
-        .fontSize($r("sys.float.ohos_id_text_size_body1"))
-        .fontColor($r("sys.color.ohos_id_color_connected"))
-        .margin({ right: $r("app.float.id_card_margin_max") })
+        .fontSize($r('sys.float.ohos_id_text_size_body1'))
+        .fontColor($r('sys.color.ohos_id_color_connected'))
+        .margin({ right: $r('app.float.id_card_margin_max') })
         .onClick(() => {
           AlertDialog.show({
             message: $r('app.string.clear_calllog_sure'),
@@ -288,7 +288,7 @@ struct Content {
             },
             secondaryButton: {
               value: $r('app.string.dialog_delete'),
-              fontColor: $r("sys.color.ohos_id_color_handup"),
+              fontColor: $r('sys.color.ohos_id_color_handup'),
               action: () => {
                 this.mPresenter.clearAllCallLog();
               }
@@ -301,18 +301,18 @@ struct Content {
         })
     }
     .width('100%')
-    .height($r("app.float.id_item_height_sm"))
+    .height($r('app.float.id_item_height_sm'))
   }
 
   toPoint(percent) {
-    var str = percent.replace("%", "");
+    var str = percent.replace('%', '');
     str = str / 100;
     return str;
   }
 
   toPercent(point) {
     var percent = Number(point * 100).toFixed(4);
-    percent += "%";
+    percent += '%';
     return percent;
   }
 
@@ -323,12 +323,12 @@ struct Content {
           Stack({ alignContent: Alignment.Bottom }) {
             Stack()
               .backgroundColor(Color.White)
-              .width("100%")
-              .height("51vp")
+              .width('100%')
+              .height('51vp')
               .borderRadius({ topLeft: 24, topRight: 24 })
 
             if (this.mPresenter.isNewNumber || this.mPresenter.contactForm.photoFirstName == '-1') {
-              Image($r("app.media.ic_user_portrait_morandi"))
+              Image($r('app.media.ic_user_portrait_morandi'))
                 .height('108vp')
                 .width('108vp')
                 .clip(new Circle({ width: '108vp', height: '108vp' }))
@@ -347,8 +347,8 @@ struct Content {
                 .backgroundColor(this.mPresenter.contactForm.portraitColor)
             }
           }
-          .width("100%")
-          .height(this.curBp === 'lg' ? "267vp" : "260.5vp")
+          .width('100%')
+          .height(this.curBp === 'lg' ? '267vp' : '260.5vp')
 
           Column() {
             Text(this.mPresenter.contactForm.display_name)
@@ -361,15 +361,15 @@ struct Content {
             Column() {
               if (!StringUtil.isEmpty(this.mPresenter.contactForm.company)) {
                 Text(this.mPresenter.contactForm.company)
-                  .fontSize($r("sys.float.ohos_id_text_size_body2"))
-                  .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+                  .fontSize($r('sys.float.ohos_id_text_size_body2'))
+                  .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
                   .textOverflow({ overflow: TextOverflow.Ellipsis })
                   .maxLines(StringUtil.isEmpty(this.mPresenter.contactForm.position) ? 2 : 1)
               }
               if (!StringUtil.isEmpty(this.mPresenter.contactForm.position)) {
                 Text(this.mPresenter.contactForm.position)
-                  .fontSize($r("sys.float.ohos_id_text_size_body2"))
-                  .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+                  .fontSize($r('sys.float.ohos_id_text_size_body2'))
+                  .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
                   .textOverflow({ overflow: TextOverflow.Ellipsis })
                   .maxLines(1)
               }
@@ -379,7 +379,7 @@ struct Content {
           }
           .width('100%')
           .backgroundColor(Color.White)
-          .padding({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_max") })
+          .padding({ left: $r('app.float.id_card_margin_max'), right: $r('app.float.id_card_margin_max') })
 
         }
       }
@@ -394,29 +394,29 @@ struct Content {
               if (item.showTitle) {
                 Divider()
                   .strokeWidth(8)
-                  .color($r("sys.color.ohos_id_color_subheading_separator"))
+                  .color($r('sys.color.ohos_id_color_subheading_separator'))
                 this.callLogTitle()
               }
 
               CallLogListItem({ message: item.callLog, mPresenter: $mPresenter });
             }
           }
-          .width("100%")
+          .width('100%')
         }, item => JSON.stringify(item))
       }
       .backgroundColor(Color.White)
       .onAreaChange((oldArea: Area, newArea: Area) => {
-        var itemHeight = AppStorage.Get("windowHeight") == undefined ? 0 : (Number(newArea.height) - Number(oldArea.height)) / Number(AppStorage.Get("windowHeight"))
+        var itemHeight = AppStorage.Get('windowHeight') == undefined ? 0 : (Number(newArea.height) - Number(oldArea.height)) / Number(AppStorage.Get('windowHeight'))
         var itemPoint = this.toPoint(this.colunmHeight) - itemHeight;
-        this.colunmHeight = itemPoint < 0 ? "0%" : this.toPercent(itemPoint)
+        this.colunmHeight = itemPoint < 0 ? '0%' : this.toPercent(itemPoint)
       })
-      .width("100%")
+      .width('100%')
 
       ListItem() {
         Column() {
         }
         .height(this.colunmHeight)
-        .width("100%")
+        .width('100%')
       }
       .backgroundColor(Color.White)
     }.scrollBar(BarState.Off)
@@ -436,12 +436,12 @@ struct TopBar {
 
   @Builder MenuBuilder() {
     Column() {
-      Text($r("app.string.delete_contact"))
-        .fontSize($r("app.float.id_corner_radius_card_mid"))
+      Text($r('app.string.delete_contact'))
+        .fontSize($r('app.float.id_corner_radius_card_mid'))
         .textAlign(TextAlign.Start)
-        .fontColor($r("sys.color.ohos_id_color_text_primary"))
+        .fontColor($r('sys.color.ohos_id_color_text_primary'))
         .lineHeight(19)
-        .width($r("app.float.account_Divider_width"))
+        .width($r('app.float.account_Divider_width'))
         .height(21)
         .onClick(() => {
           this.mPresenter.deleteContact();
@@ -449,18 +449,18 @@ struct TopBar {
     }
     .width($r('app.float.account_MenuBuilder_width'))
     .justifyContent(FlexAlign.Center)
-    .height($r("app.float.id_item_height_mid"))
+    .height($r('app.float.id_item_height_mid'))
   }
 
   build() {
     Row() {
-      Image($r("app.media.ic_public_back"))
+      Image($r('app.media.ic_public_back'))
         .objectFit(ImageFit.Contain)
-        .height($r("app.float.id_card_image_small"))
-        .width($r("app.float.id_card_image_small"))
-        .margin({ left: $r("app.float.id_card_margin_max") })
+        .height($r('app.float.id_card_image_small'))
+        .width($r('app.float.id_card_image_small'))
+        .margin({ left: $r('app.float.id_card_margin_max') })
         .onClick(() => {
-          HiLog.i(TAG, "BackTo-ContactList");
+          HiLog.i(TAG, 'BackTo-ContactList');
           router.back();
         })
 
@@ -468,35 +468,35 @@ struct TopBar {
 
       if (this.curBp === 'lg') {
         Image(this.mPresenter.contactId != undefined
-          ? $r("app.media.ic_public_edit")
-          : $r("app.media.ic_public_add"))
+          ? $r('app.media.ic_public_edit')
+          : $r('app.media.ic_public_add'))
           .objectFit(ImageFit.Contain)
-          .height($r("app.float.id_card_image_small"))
-          .width($r("app.float.id_card_image_small"))
-          .margin({ right: $r("app.float.id_card_margin_max") })
+          .height($r('app.float.id_card_image_small'))
+          .width($r('app.float.id_card_image_small'))
+          .margin({ right: $r('app.float.id_card_margin_max') })
           .onClick(() => {
             this.mPresenter.updateContact();
           })
 
         if (this.mPresenter.contactId != undefined) {
-          Image($r("app.media.ic_public_more"))
+          Image($r('app.media.ic_public_more'))
             .objectFit(ImageFit.Contain)
-            .height($r("app.float.id_card_image_small"))
-            .width($r("app.float.id_card_image_small"))
-            .margin({ right: $r("app.float.id_card_margin_max") })
+            .height($r('app.float.id_card_image_small'))
+            .width($r('app.float.id_card_image_small'))
+            .margin({ right: $r('app.float.id_card_margin_max') })
             .bindMenu(this.MenuBuilder())
         } else {
-          Image($r("app.media.ic_public_more"))
+          Image($r('app.media.ic_public_more'))
             .objectFit(ImageFit.Contain)
-            .height($r("app.float.id_card_image_small"))
-            .width($r("app.float.id_card_image_small"))
-            .margin({ right: $r("app.float.id_card_margin_max") })
+            .height($r('app.float.id_card_image_small'))
+            .width($r('app.float.id_card_image_small'))
+            .margin({ right: $r('app.float.id_card_margin_max') })
             .visibility(Visibility.None)
         }
       }
     }
-    .height($r("app.float.id_item_height_large"))
-    .width("100%")
+    .height($r('app.float.id_item_height_large'))
+    .width('100%')
     .position({ x: 0, y: 0 })
     .zIndex(3)
     .backgroundColor(this.mPresenter.getTopBarBackgroundColor())

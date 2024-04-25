@@ -348,10 +348,10 @@ export struct FavoriteListItem {
               Row() {
                 if (StringUtil.isEmpty(this.item.favorite.nameSuffix)) {
                   Image(StringUtil.isEmpty(this.item.favorite.portraitPath) ? $r('app.media.ic_user_portrait') : this.item.favorite.portraitPath)
-                    .width($r("app.float.id_card_image_mid"))
-                    .height($r("app.float.id_card_image_mid"))
+                    .width($r('app.float.id_card_image_mid'))
+                    .height($r('app.float.id_card_image_mid'))
                     .objectFit(ImageFit.Contain)
-                    .borderRadius($r("app.float.id_card_image_mid"))
+                    .borderRadius($r('app.float.id_card_image_mid'))
                     .backgroundColor(this.item.favorite.portraitColor)
                 } else {
                   Text(this.item.favorite.namePrefix.toUpperCase())
@@ -359,14 +359,14 @@ export struct FavoriteListItem {
                     .fontWeight(FontWeight.Bold)
                     .fontColor(Color.White)
                     .backgroundColor(this.item.favorite.portraitColor)
-                    .height($r("app.float.id_card_image_mid"))
-                    .width($r("app.float.id_card_image_mid"))
+                    .height($r('app.float.id_card_image_mid'))
+                    .width($r('app.float.id_card_image_mid'))
                     .textAlign(TextAlign.Center)
-                    .borderRadius($r("app.float.id_card_image_mid"))
+                    .borderRadius($r('app.float.id_card_image_mid'))
                 }
               }
-              .height($r("app.float.id_card_image_mid"))
-              .width($r("app.float.id_card_image_mid"))
+              .height($r('app.float.id_card_image_mid'))
+              .width($r('app.float.id_card_image_mid'))
               if (0 === this.item.favorite.isCommonUseType) {
                 Text(this.item.favorite.displayName)
                   .maxLines(1)
@@ -406,7 +406,7 @@ export struct FavoriteListItem {
                 .width($r('app.float.id_card_image_mid'))
                 .height($r('app.float.id_card_image_mid'))
                 .selectedColor('#007DFF')
-                .padding($r("app.float.id_card_margin_mid"))
+                .padding($r('app.float.id_card_margin_mid'))
                 .select(this.item.favorite.isEditSelect ? true : false)
                 .onChange((value: boolean) => {
                   this.isSelectAll = false;
@@ -459,7 +459,7 @@ export struct FavoriteEmptyPage {
             .fontSize(30)
             .fontWeight(FontWeight.Bold)
             .fontColor($r('sys.color.ohos_id_color_text_primary'))
-            .height($r("app.float.id_item_height_large"))
+            .height($r('app.float.id_item_height_large'))
             .textAlign(TextAlign.Start)
             .width('100%')
         }
@@ -499,7 +499,7 @@ struct TitleGuide {
   build() {
     Row() {
       Flex({ direction: FlexDirection.Row, justifyContent: FlexAlign.SpaceBetween }) {
-        Image(this.offsetY > 0 ? $r("app.media.ic_public_back") : $r('app.media.ic_public_cancel'))
+        Image(this.offsetY > 0 ? $r('app.media.ic_public_back') : $r('app.media.ic_public_cancel'))
           .width($r('app.float.id_card_image_large'))
           .height($r('app.float.id_item_height_large'))
           .padding({

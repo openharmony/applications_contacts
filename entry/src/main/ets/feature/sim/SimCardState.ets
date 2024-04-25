@@ -47,11 +47,11 @@ class SimCardState {
    */
   public init() {
     try {
-      HiLog.i(TAG, "SimCardState, init.")
+      HiLog.i(TAG, 'SimCardState, init.')
       this.addSimChangeListener();
       this.getSimCardState();
     } catch (error) {
-      HiLog.w(TAG, "SimCardState, get sim state error.")
+      HiLog.w(TAG, 'SimCardState, get sim state error.')
     }
   }
 
@@ -96,8 +96,8 @@ class SimCardState {
     this.mSimStateArray[slotId] = value;
     this.haveSimCard = this.isSimReady(simId_ONE) || this.isSimReady(simId_TWO);
     this.haveMultiSimCard = this.isSimReady(simId_ONE) && this.isSimReady(simId_TWO);
-    AppStorage.SetOrCreate<boolean>("haveMultiSimCard", this.haveMultiSimCard);
-    AppStorage.SetOrCreate<boolean>("haveSimCard", this.haveSimCard);
+    AppStorage.SetOrCreate<boolean>('haveMultiSimCard', this.haveMultiSimCard);
+    AppStorage.SetOrCreate<boolean>('haveSimCard', this.haveSimCard);
     HiLog.i(TAG, `parseSimCardStateForSlot sim ${slotId}} state ${value}}, haveSimCard: ` + this.haveSimCard +
     ', haveMultiSimCard: ' + this.haveMultiSimCard);
     this.setDefaultSlot();

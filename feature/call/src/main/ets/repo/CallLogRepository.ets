@@ -14,7 +14,7 @@
  */
 
 import dataShare from '@ohos.data.dataShare';
-import dataSharePredicates from "@ohos.data.dataSharePredicates";
+import dataSharePredicates from '@ohos.data.dataSharePredicates';
 import ICallLogRepository from './ICallLogRepository';
 import { CallLog } from '../entity/CallLog';
 import CallLogBuilder from '../entity/CallLogBuilder';
@@ -25,7 +25,7 @@ import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUti
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 
-const TAG = "CallLogRepository";
+const TAG = 'CallLogRepository';
 
 /**
  * Account type service, which is used to display account characteristics such as account type holding contact details.
@@ -223,7 +223,7 @@ export class CallLogRepository implements ICallLogRepository {
         condition.and().equalTo(Calls.PHONE_NUMBER, phoneNum);
       }
       dataAbilityHelper.update(Calls.CALL_LOG_URI, condition, {
-        "is_read": 1
+        'is_read': 1
       }).then(value => {
         HiLog.i(TAG, 'markMissedCallLogIsRead update succ :%d', value);
       }).catch(error => {
@@ -273,7 +273,7 @@ export class CallLogRepository implements ICallLogRepository {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       if (dataAbilityHelper) {
         dataAbilityHelper.notifyChange(Calls.CALL_LOG_URI).then((data) => {
-          HiLog.i(TAG, "notifyChange success")
+          HiLog.i(TAG, 'notifyChange success')
         }).catch(error => {
           HiLog.w(TAG, 'notifyChange error:%s' + JSON.stringify(error.message));
         })
@@ -294,8 +294,8 @@ export class CallLogRepository implements ICallLogRepository {
   registerCallLogDataChange() {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       if (dataAbilityHelper) {
-        dataAbilityHelper.on("dataChange", Calls.CALL_LOG_URI, this.callback);
-        HiLog.i(TAG, "registerCallLogDataChange success")
+        dataAbilityHelper.on('dataChange', Calls.CALL_LOG_URI, this.callback);
+        HiLog.i(TAG, 'registerCallLogDataChange success')
       }
     }).catch(error => {
       HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
@@ -305,9 +305,9 @@ export class CallLogRepository implements ICallLogRepository {
   unregisterCallLogDataChange() {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       if (dataAbilityHelper) {
-        HiLog.i(TAG, "start unregisterCallLogDataChange");
-        dataAbilityHelper.off("dataChange", Calls.CALL_LOG_URI, this.callback);
-        HiLog.i(TAG, "unregisterCallLogDataChange success")
+        HiLog.i(TAG, 'start unregisterCallLogDataChange');
+        dataAbilityHelper.off('dataChange', Calls.CALL_LOG_URI, this.callback);
+        HiLog.i(TAG, 'unregisterCallLogDataChange success')
       }
     }).catch(error => {
       HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));

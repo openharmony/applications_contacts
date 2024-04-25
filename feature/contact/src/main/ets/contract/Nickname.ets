@@ -20,7 +20,7 @@ import {DataItemType} from './DataType';
  * Nickname Data Type
  */
 export class Nickname extends DataType {
-  static readonly CONTENT_ITEM_TYPE: string = "nickname";
+  static readonly CONTENT_ITEM_TYPE: string = 'nickname';
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.NICKNAME;
   static readonly NAME: string = DataType.DATA;
   constructor() {

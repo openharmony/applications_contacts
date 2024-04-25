@@ -56,7 +56,7 @@ export class ContactVo {
   }
 
   public setShowName() {
-    this.showName = !StringUtil.isEmpty(this.emptyNameData) ? this.emptyNameData : (!StringUtil.isEmpty(this.company) ? this.company : (!StringUtil.isEmpty(this.position) ? this.position : ""))
+    this.showName = !StringUtil.isEmpty(this.emptyNameData) ? this.emptyNameData : (!StringUtil.isEmpty(this.company) ? this.company : (!StringUtil.isEmpty(this.position) ? this.position : ''))
   }
 
   public setName(emptyNameData: string, namePrefix: string, nameSuffix: string) {

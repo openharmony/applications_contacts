@@ -25,7 +25,7 @@ export default class SimManager {
       if (simCardState.isSimReady(index)) {
         spn.initSimName(index);
       } else {
-        spn.notifySimName(index, "");
+        spn.notifySimName(index, '');
       }
     }
   }

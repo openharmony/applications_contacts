@@ -37,11 +37,11 @@ struct Index {
   private controller: TabsController = new TabsController();
   @State mPermissionManager: PermissionManager = PermissionManager.getInstance();
   mIndexPresenter: IndexPresenter = IndexPresenter.getInstance();
-  @StorageLink("mainTabsIndex") @Watch("onIndexChanged") mainTabsIndex: number = 0;
-  @StorageLink("teleNumber") @Watch("teleNumberChange") teleNumber: string = '';
+  @StorageLink('mainTabsIndex') @Watch('onIndexChanged') mainTabsIndex: number = 0;
+  @StorageLink('teleNumber') @Watch('teleNumberChange') teleNumber: string = '';
   mDialerPresenter: DialerPresenter = DialerPresenter.getInstance();
   @State bottomTabIndex: number = call.hasVoiceCapability() ? 0 : 1;
-  @StorageLink("targetPage") @Watch("targetPageChange") targetPage: {
+  @StorageLink('targetPage') @Watch('targetPageChange') targetPage: {
     url?: string,
     pageIndex?: number,
     params?: any
@@ -53,24 +53,24 @@ struct Index {
   teleNumberChange() {
     if (!StringUtil.isEmpty(this.teleNumber)) {
       this.mDialerPresenter.editPhoneNumber(this.teleNumber);
-      AppStorage.SetOrCreate("showDialBtn", true);
-      this.teleNumber = "";
+      AppStorage.SetOrCreate('showDialBtn', true);
+      this.teleNumber = '';
     }
   }
 
   targetPageChange() {
     if (this.targetPage && this.targetPage.url) {
-      HiLog.i(TAG, "targetPageChange in" + this.targetPage);
+      HiLog.i(TAG, 'targetPageChange in' + this.targetPage);
       this.mIndexPresenter.goToPage(this.targetPage.url, this.targetPage.pageIndex, this.targetPage.params)
       this.targetPage = {}
     }
   }
 
   onIndexChanged(): void {
-    HiLog.i(TAG, "uriTabIndex change:" + this.mainTabsIndex);
+    HiLog.i(TAG, 'uriTabIndex change:' + this.mainTabsIndex);
     if (this.mainTabsIndex != this.bottomTabIndex) {
       if (this.mainTabsIndex == 0 && !call.hasVoiceCapability()) {
-        HiLog.i(TAG, "not hasVoiceCapability");
+        HiLog.i(TAG, 'not hasVoiceCapability');
         return;
       }
       this.bottomTabIndex = this.mainTabsIndex;
@@ -135,7 +135,7 @@ struct Index {
   getInfo() {
     device.getInfo({
       success: function (data) {
-        AppStorage.SetOrCreate("windowHeight", data.windowHeight / data.screenDensity)
+        AppStorage.SetOrCreate('windowHeight', data.windowHeight / data.screenDensity)
       },
       fail: function (data, code) {
         HiLog.i(TAG, 'Failed to obtain device information. Error code:' + code + '; Error information: ' + data);
@@ -187,11 +187,11 @@ struct Index {
 
           if (this.curBp !== 'lg') {
             TabBars({ controller: this.controller, bottomTabIndex: $bottomTabIndex })
-              .backgroundColor($r("sys.color.ohos_id_color_sub_background"))
+              .backgroundColor($r('sys.color.ohos_id_color_sub_background'))
               .visibility(this.isContactSearch ? Visibility.None : Visibility.Visible)
           }
         }
-        .backgroundColor($r("sys.color.ohos_fa_sub_background"))
+        .backgroundColor($r('sys.color.ohos_fa_sub_background'))
         .width('100%')
         .height('100%')
       } else {
@@ -221,21 +221,21 @@ struct TabBars {
           Column() {
             Image(this.mIndexPresenter.getTabSrc(this.bottomTabIndex, item))
               .objectFit(ImageFit.Contain)
-              .width($r("app.float.id_card_image_small"))
-              .height($r("app.float.id_card_image_small"))
+              .width($r('app.float.id_card_image_small'))
+              .height($r('app.float.id_card_image_small'))
               .fillColor(this.mIndexPresenter.getTabTextColor(this.bottomTabIndex, item))
             Text(this.mIndexPresenter.getTabText(this.bottomTabIndex, item))
               .fontWeight(FontWeight.Medium)
               .margin(this.curBp === 'lg' ?
-                { top: $r("app.float.id_card_margin_mid") } : {})
-              .fontSize($r("sys.float.ohos_id_text_size_caption"))
+                { top: $r('app.float.id_card_margin_mid') } : {})
+              .fontSize($r('sys.float.ohos_id_text_size_caption'))
               .fontColor(this.mIndexPresenter.getTabTextColor(this.bottomTabIndex, item))
           }
           .onClick(() => {
             if (this.bottomTabIndex != item) {
               this.controller.changeIndex(item);
               this.bottomTabIndex = item;
-              AppStorage.SetOrCreate("mainTabsIndex", item);
+              AppStorage.SetOrCreate('mainTabsIndex', item);
               if (item == 0) {
                 ContactListPresenter.getInstance().setPageShow(false);
                 CallRecordPresenter.getInstance().setPageShow(true);
@@ -251,19 +251,19 @@ struct TabBars {
               }
             }
           })
-          .height($r("app.float.id_card_image_mid"))
+          .height($r('app.float.id_card_image_mid'))
         }
         .justifyContent(FlexAlign.Center)
         .height(this.curBp === 'lg' ?
-          '130vp' : $r("app.float.id_item_height_large"))
+          '130vp' : $r('app.float.id_item_height_large'))
         .layoutWeight(this.curBp === 'lg' ? 0 : 1)
       }, item => item.toString())
     }
     .width(this.curBp === 'lg' ?
       '96vp' : '100%')
     .height(this.curBp === 'lg' ?
-      '100%' : $r("app.float.id_item_height_large"))
+      '100%' : $r('app.float.id_item_height_large'))
     .padding(this.curBp === 'lg' ?
-      { left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_max") } : {})
+      { left: $r('app.float.id_card_margin_max'), right: $r('app.float.id_card_margin_max') } : {})
   }
 }

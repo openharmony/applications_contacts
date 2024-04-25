@@ -18,7 +18,7 @@ import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
 
-const TAG = "ContactListDataSource";
+const TAG = 'ContactListDataSource';
 
 export default class ContactListDataSource extends BasicDataSource {
     private contactList: ContactVo[] = [];
@@ -31,7 +31,7 @@ export default class ContactListDataSource extends BasicDataSource {
 
     public getData(index: number): any {
         if (ArrayUtil.isEmpty(this.contactList) || index >= this.contactList.length) {
-            HiLog.i(TAG, "getData contactlist is empty");
+            HiLog.i(TAG, 'getData contactlist is empty');
             return null;
         } else {
             let contact: ContactVo = this.contactList[index];
@@ -46,7 +46,7 @@ export default class ContactListDataSource extends BasicDataSource {
             }
             contact.title = (StringUtil.isEmpty(contact.showName) ? contact.phoneNum : contact.showName);
             let subtitleConcat: string = (!StringUtil.isEmpty(contact.company) &&
-            !StringUtil.isEmpty(contact.position)) ? ' | ' : "";
+            !StringUtil.isEmpty(contact.position)) ? ' | ' : '';
             contact.subTitle = (StringUtil.isEmpty(contact.company) ? '' :
             contact.company).concat(subtitleConcat).concat(StringUtil.isEmpty(contact.position) ? '' : contact.position);
             return {

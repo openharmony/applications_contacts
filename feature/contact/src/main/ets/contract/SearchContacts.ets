@@ -19,7 +19,7 @@ import SearchContactColumns from './SearchContactsColumns';
  * searchContact data type
  */
 export class SearchContacts extends SearchContactColumns {
-  static readonly CONTENT_URI: string = "datashare:///com.ohos.contactsdataability/contacts/search_contact";
+  static readonly CONTENT_URI: string = 'datashare:///com.ohos.contactsdataability/contacts/search_contact';
 
   constructor() {
     super()

@@ -16,7 +16,7 @@
 import { ObjectUtil } from '../../../../../common/src/main/ets/util/ObjectUtil';
 import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 
-const TAG = "CallLogSetting";
+const TAG = 'CallLogSetting';
 
 export enum MergeRule {
   TIME = 1,

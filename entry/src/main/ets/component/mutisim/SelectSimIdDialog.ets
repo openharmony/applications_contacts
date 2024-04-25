@@ -15,7 +15,7 @@
 
 import { HiLog } from '../../../../../../common';
 
-const TAG = "SelectSimIdDialog";
+const TAG = 'SelectSimIdDialog';
 
 @CustomDialog
 export struct SelectSimIdDialog {
@@ -29,39 +29,39 @@ export struct SelectSimIdDialog {
   build() {
     Column() {
       Text(this.builder.title)
-        .fontSize($r("sys.float.ohos_id_text_size_dialog_tittle"))
-        .fontColor($r("sys.color.ohos_id_color_text_primary"))
+        .fontSize($r('sys.float.ohos_id_text_size_dialog_tittle'))
+        .fontColor($r('sys.color.ohos_id_color_text_primary'))
         .fontWeight(FontWeight.Bold)
         .alignSelf(ItemAlign.Center)
-        .width("100%")
-        .height($r("app.float.id_item_height_mid"))
-        .padding({ left: $r("app.float.id_card_margin_xxl"), })
+        .width('100%')
+        .height($r('app.float.id_item_height_mid'))
+        .padding({ left: $r('app.float.id_card_margin_xxl'), })
       List() {
         ForEach(this.builder.multiSimCardItems, (item, index) => {
           ListItem() {
             Row() {
               Image(item.img)
-                .height($r("app.float.id_card_image_mid"))
-                .width($r("app.float.id_card_image_mid"))
-                .margin({ right: $r("app.float.id_card_margin_large") })
+                .height($r('app.float.id_card_image_mid'))
+                .width($r('app.float.id_card_image_mid'))
+                .margin({ right: $r('app.float.id_card_margin_large') })
                 .onError((event => {
-                  HiLog.e(TAG, "Sim:" + index + " Image onError" + JSON.stringify(event))
+                  HiLog.e(TAG, 'Sim:' + index + ' Image onError' + JSON.stringify(event))
                 }))
               Column() {
                 Text(item.name)
-                  .fontSize($r("sys.float.ohos_id_text_size_body1"))
-                  .fontColor($r("sys.color.ohos_id_color_text_primary"))
+                  .fontSize($r('sys.float.ohos_id_text_size_body1'))
+                  .fontColor($r('sys.color.ohos_id_color_text_primary'))
                   .fontWeight(FontWeight.Medium)
-                Text($r("app.string.choose_sub_recommend"))
-                  .fontSize($r("sys.float.ohos_id_text_size_body2"))
+                Text($r('app.string.choose_sub_recommend'))
+                  .fontSize($r('sys.float.ohos_id_text_size_body2'))
                   .fontColor($r('sys.color.ohos_dialog_text_alert_transparent'))
                   .fontWeight(FontWeight.Lighter)
                   .visibility(this.builder.lastSimId == index ? Visibility.Visible : Visibility.None);
               }.alignItems(HorizontalAlign.Start)
             }.width('100%')
-            .height($r("app.float.id_item_height_large"))
+            .height($r('app.float.id_item_height_large'))
             .justifyContent(FlexAlign.Start)
-            .padding({ left: $r("app.float.id_card_margin_xxl"), })
+            .padding({ left: $r('app.float.id_card_margin_xxl'), })
           }.onClick(() => {
             this.confirm(index);
           })
@@ -72,14 +72,14 @@ export struct SelectSimIdDialog {
       .scrollBar(BarState.Off)
       .edgeEffect(EdgeEffect.None)
 
-      Text($r("app.string.cancel"))
+      Text($r('app.string.cancel'))
         .alignSelf(ItemAlign.Center)
         .textAlign(TextAlign.Center)
         .fontWeight(FontWeight.Medium)
         .fontColor(Color.Blue)
-        .fontSize($r("sys.float.ohos_id_text_size_body1"))
-        .width("100%")
-        .height($r("app.float.id_item_height_mid"))
+        .fontSize($r('sys.float.ohos_id_text_size_body1'))
+        .width('100%')
+        .height($r('app.float.id_item_height_mid'))
         .onClick(() => {
           this.cancel()
         });

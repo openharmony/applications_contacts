@@ -33,7 +33,9 @@ export default struct DetailInfoList {
           ForEach(JSON.parse(this.List), (item, index) => {
             ListItem() {
               DetailInfoListItem({
-                title: this.dataType == DataItemType.EVENT ? StringFormatUtil.stringFormatDateResource(item.data, item?.type == Birthday.TYPE_LUNARBIRTHDAY) : item.data,
+                title: this.dataType == DataItemType.EVENT ?
+                StringFormatUtil.stringFormatDateResource(item.data,
+                  item?.type == Birthday.TYPE_LUNARBIRTHDAY) : item.data,
                 content: item.labelName,
                 hasArrow: this.hasArrow,
               });

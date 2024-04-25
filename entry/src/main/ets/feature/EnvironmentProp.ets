@@ -35,8 +35,8 @@ export default class EnvironmentProp {
     return this.DEVICE_TYPE;
   }
 
-  static isTablet(): boolean{
+  static isTablet(): boolean {
     let deviceType = EnvironmentProp.getDeviceType();
-    return deviceType === "tablet";
+    return deviceType === 'tablet';
   }
 }

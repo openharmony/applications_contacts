@@ -78,7 +78,7 @@ export default struct SingleSelectContactPage {
     .padding({ left: 12, right: 12 })
     .width('100%')
     .height('100%')
-    .backgroundColor($r("sys.color.ohos_id_color_sub_background"))
+    .backgroundColor($r('sys.color.ohos_id_color_sub_background'))
   }
 }
 
@@ -88,11 +88,11 @@ struct TitleGuide {
 
   build() {
     Row() {
-      Image($r("app.media.ic_public_back"))
-        .height($r("app.float.id_card_image_small"))
-        .width($r("app.float.id_card_image_small"))
+      Image($r('app.media.ic_public_back'))
+        .height($r('app.float.id_card_image_small'))
+        .width($r('app.float.id_card_image_small'))
         .flexShrink(0)
-        .margin({ left: $r("app.float.id_card_margin_max"), right: $r("app.float.id_card_margin_xxl") })
+        .margin({ left: $r('app.float.id_card_margin_max'), right: $r('app.float.id_card_margin_xxl') })
         .onClick(() => {
           this.mPresenter.singleBackCancel();
         })
@@ -101,12 +101,12 @@ struct TitleGuide {
         .textAlign(TextAlign.Start)
         .fontSize(20)
         .fontWeight(FontWeight.Bold)
-        .fontColor($r("sys.color.ohos_id_color_text_primary"))
+        .fontColor($r('sys.color.ohos_id_color_text_primary'))
         .flexGrow(1)
         .flexShrink(1)
     }
     .width('100%')
-    .height($r("app.float.id_item_height_large"))
+    .height($r('app.float.id_item_height_large'))
     .flexShrink(0)
   }
 }
@@ -128,7 +128,7 @@ struct ContactsList {
             TitleGuide()
           }
         }
-        .height("100%")
+        .height('100%')
         .onBreakpointChange((breakpoint: string) => {
           this.curBp = breakpoint
         })
@@ -144,15 +144,15 @@ struct ContactsList {
                       if (item.showIndex) {
                         Column() {
                           Text(item.contact.namePrefix)
-                            .fontColor($r("sys.color.ohos_fa_text_secondary"))
-                            .fontSize($r("sys.float.ohos_id_text_size_sub_title3"))
+                            .fontColor($r('sys.color.ohos_fa_text_secondary'))
+                            .fontSize($r('sys.float.ohos_id_text_size_sub_title3'))
                             .fontWeight(FontWeight.Medium)
                             .textAlign(TextAlign.Start)
                         }
                         .alignItems(HorizontalAlign.Start)
-                        .padding({ left: $r("app.float.id_card_margin_max"), bottom: $r("app.float.id_card_margin_large") })
+                        .padding({ left: $r('app.float.id_card_margin_max'), bottom: $r('app.float.id_card_margin_large') })
                         .width('100%')
-                        .height($r("app.float.id_item_height_mid"))
+                        .height($r('app.float.id_item_height_mid'))
                       }
                     }
 
@@ -194,7 +194,7 @@ struct ContactsList {
       .flexShrink(1)
     }
     .width('100%')
-    .padding({ top: $r("app.float.id_card_margin_mid"), bottom: $r("app.float.id_card_margin_mid") })
+    .padding({ top: $r('app.float.id_card_margin_mid'), bottom: $r('app.float.id_card_margin_mid') })
   }
 }
 
@@ -207,20 +207,20 @@ struct NoContactsEmptyView {
       direction: FlexDirection.Column,
       justifyContent: FlexAlign.Center,
       alignItems: ItemAlign.Center }) {
-      Image($r("app.media.no_contacts_illustration"))
-        .width($r("app.float.id_card_image_large"))
-        .height($r("app.float.id_card_image_large"))
+      Image($r('app.media.no_contacts_illustration'))
+        .width($r('app.float.id_card_image_large'))
+        .height($r('app.float.id_card_image_large'))
         .objectFit(ImageFit.Contain)
-        .margin({ bottom: $r("app.float.id_card_margin_large") })
+        .margin({ bottom: $r('app.float.id_card_margin_large') })
 
       Text(this.presenter.getEmptyText())
-        .fontSize($r("sys.float.ohos_id_text_size_body2"))
+        .fontSize($r('sys.float.ohos_id_text_size_body2'))
         .fontWeight(FontWeight.Regular)
-        .fontColor($r("sys.color.ohos_id_color_text_tertiary"))
+        .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
         .textAlign(TextAlign.Center)
     }
     .width('100%')
     .height('100%')
-    .padding({ bottom: $r("app.float.id_card_margin_large") })
+    .padding({ bottom: $r('app.float.id_card_margin_large') })
   }
 }

@@ -14,18 +14,18 @@
  */
 
 import DialerPresenter from '../../presenter/dialer/DialerPresenter';
-import { HiLog } from "../../../../../../common"
+import { HiLog } from '../../../../../../common'
 
-const TAG = "MutiDialerButtonView";
+const TAG = 'MutiDialerButtonView';
 
 @Component
 export struct MutiDialerButtonView {
   @Link mPresenter: DialerPresenter;
-  @StorageLink("tele_number") tele_number: string = "";
-  @StorageLink("spnList") simNames: Array<string | Resource> = ["", ""];
-  @StorageLink("voLteRegStates") voLteRegStates: boolean[] = [false, false];
-  private dailImg = [$r("app.media.ic_public_phone1_filled"), $r("app.media.ic_public_phone2_filled")]
-  private dailHDImg = [$r("app.media.ic_contact_call_1_hd_dial"), $r("app.media.ic_contact_call_2_hd_dial")]
+  @StorageLink('tele_number') tele_number: string = '';
+  @StorageLink('spnList') simNames: Array<string | Resource> = ['', ''];
+  @StorageLink('voLteRegStates') voLteRegStates: boolean[] = [false, false];
+  private dailImg = [$r('app.media.ic_public_phone1_filled'), $r('app.media.ic_public_phone2_filled')]
+  private dailHDImg = [$r('app.media.ic_contact_call_1_hd_dial'), $r('app.media.ic_contact_call_2_hd_dial')]
 
   dialClick(slot: number) {
     this.mPresenter.callBtnClick = true;
@@ -33,7 +33,7 @@ export struct MutiDialerButtonView {
       this.mPresenter.dialing(this.mPresenter.all_number, {
         accountId: slot,
       });
-      AppStorage.SetOrCreate("tele_number", '');
+      AppStorage.SetOrCreate('tele_number', '');
       this.mPresenter.all_number = '';
     }
     this.mPresenter.callBtnClick = false;
@@ -45,22 +45,22 @@ export struct MutiDialerButtonView {
         //DailButton for voLte
         Row() {
           Image(this.voLteRegStates[index] ? this.dailHDImg[index] : this.dailImg[index])
-            .width("18vp")
-            .height("18vp")
+            .width('18vp')
+            .height('18vp')
             .onError((event => {
-              HiLog.e(TAG, "Sim:" + index + " Image onError" + JSON.stringify(event))
+              HiLog.e(TAG, 'Sim:' + index + ' Image onError' + JSON.stringify(event))
             }))
 
           Text(this.simNames[index])
-            .fontColor($r("sys.color.ohos_id_color_primary_contrary"))
-            .fontSize("16fp")
+            .fontColor($r('sys.color.ohos_id_color_primary_contrary'))
+            .fontSize('16fp')
             .maxLines(1)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
         }
         .justifyContent(FlexAlign.Center)
         .alignItems(VerticalAlign.Center)
         .width('100vp')
-        .height("48vp")
+        .height('48vp')
         .backgroundColor($r('sys.color.ohos_id_color_connected'))
         .onClick(() => {
           this.dialClick(index);

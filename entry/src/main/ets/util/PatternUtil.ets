@@ -16,7 +16,7 @@
 export default {
   Shadow: {
     xs: {
-      radius: 10, color: "#D8D8D8", offsetX: 2, offsetY: 2
+      radius: 10, color: '#D8D8D8', offsetX: 2, offsetY: 2
     }
   }
 }

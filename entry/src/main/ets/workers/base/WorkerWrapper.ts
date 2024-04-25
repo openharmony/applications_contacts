@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 
-import WorkFactory, { WorkerType } from "../WorkFactory"
+import WorkFactory, { WorkerType } from '../WorkFactory'
 import worker from '@ohos.worker';
-import { HiLog } from "../../../../../../common"
-import buffer from "@ohos.buffer"
+import { HiLog } from '../../../../../../common'
+import buffer from '@ohos.buffer'
 
-const TAG = "WorkerWrapper"
+const TAG = 'WorkerWrapper'
 
 export class WorkerMessage {
   request: string;
@@ -49,19 +49,19 @@ export default class WorkerWrapper {
 
   async initWorker() {
     HiLog.i(TAG, `WorkerWrapper initWorker ${WorkerType[this.getWorkerType()]}`)
-    let initWorker = await new worker.ThreadWorker("entry/ets/workers/base/Worker.ts", {
+    let initWorker = await new worker.ThreadWorker('entry/ets/workers/base/Worker.ts', {
       name: WorkerType[this.getWorkerType()]
     });
     let that = this;
     initWorker.onexit = function (message) {
-      HiLog.w(TAG, "onexit")
+      HiLog.w(TAG, 'onexit')
       that.mWorker = undefined;
     }
     initWorker.onerror = function (e) {
-      HiLog.w(TAG, "onerror:" + JSON.stringify(e))
+      HiLog.w(TAG, 'onerror:' + JSON.stringify(e))
     }
     initWorker.onmessageerror = function (e) {
-      HiLog.w(TAG, "onmessageerror:" + JSON.stringify(e))
+      HiLog.w(TAG, 'onmessageerror:' + JSON.stringify(e))
     }
     initWorker.onmessage = function (message) {
       const buff = <ArrayBuffer> message.data;
@@ -94,7 +94,7 @@ export default class WorkerWrapper {
    * @param {Object} callBack Call back from worker
    */
   public async sendRequest(request: string, requestData?: any, callBack?: (result?: any) => void) {
-    HiLog.i(TAG, "sendRequest in " + request)
+    HiLog.i(TAG, 'sendRequest in ' + request)
     if (!this.useWorker) {
       WorkFactory.getTask(this.getWorkerType()).runInWorker(request, callBack, requestData);
     } else if (this.mWorker) {

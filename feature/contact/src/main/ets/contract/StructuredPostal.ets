@@ -21,7 +21,7 @@ import {DataItemType} from './DataType';
  * Address Data Type
  */
 export class StructuredPostal extends DataType {
-  static readonly CONTENT_ITEM_TYPE: string = "postal_address";
+  static readonly CONTENT_ITEM_TYPE: string = 'postal_address';
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.STRUCTURED_POSTAL;
   static readonly FORMATTED_ADDRESS: string = DataType.DATA;
   static readonly STREET: string = DataColumns.STREET;
@@ -38,13 +38,13 @@ export class StructuredPostal extends DataType {
   static getTypeLabelResource(type: number) {
     switch (type) {
       case StructuredPostal.TYPE_HOME:
-        return $r("app.string.email_type_home");
+        return $r('app.string.email_type_home');
       case StructuredPostal.TYPE_WORK:
-        return $r("app.string.email_type_work");
+        return $r('app.string.email_type_work');
       case StructuredPostal.TYPE_OTHER:
-        return $r("app.string.email_type_other");
+        return $r('app.string.email_type_other');
       default:
-        return $r("app.string.email_type_custom");
+        return $r('app.string.email_type_custom');
     }
   }
 

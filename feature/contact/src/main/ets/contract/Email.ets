@@ -21,7 +21,7 @@ import {DataItemType} from './DataType';
  * Mailbox Data Type
  */
 export class Email extends DataType {
-  static readonly CONTENT_ITEM_TYPE: string = "email";
+  static readonly CONTENT_ITEM_TYPE: string = 'email';
   static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.EMAIL;
   static readonly ADDRESS: string = DataType.DATA;
   static readonly DISPLAY_NAME: string = DataColumns.ALIAS_DETAIL_INTO;
@@ -32,13 +32,13 @@ export class Email extends DataType {
   static getTypeLabelResource(type: number) {
     switch (type) {
       case Email.TYPE_HOME:
-        return $r("app.string.email_type_home");
+        return $r('app.string.email_type_home');
       case Email.TYPE_WORK:
-        return $r("app.string.email_type_work");
+        return $r('app.string.email_type_work');
       case Email.TYPE_OTHER:
-        return $r("app.string.email_type_other");
+        return $r('app.string.email_type_other');
       default:
-        return $r("app.string.email_type_custom");
+        return $r('app.string.email_type_custom');
     }
   }
 

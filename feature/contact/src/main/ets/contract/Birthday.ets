@@ -17,7 +17,7 @@
  * Phone Data Type - Birthday
  */
 export class Birthday {
-  static readonly CONTENT_ITEM_TYPE: string = "vnd.cursor.item/birthday_v2";
+  static readonly CONTENT_ITEM_TYPE: string = 'vnd.cursor.item/birthday_v2';
   static readonly TYPE_GREBIRTHDAY: number = 1;
   static readonly TYPE_LUNARBIRTHDAY: number = 2;
   static readonly TYPE_ANNIVERSARIES: number = 3;
@@ -27,15 +27,15 @@ export class Birthday {
   static getTypeLabelResource(type: number) {
     switch (type) {
       case Birthday.TYPE_GREBIRTHDAY:
-        return $r("app.string.birthday_type_grebirthday");
+        return $r('app.string.birthday_type_grebirthday');
       case Birthday.TYPE_LUNARBIRTHDAY:
-        return $r("app.string.birthday_type_lunarbirthday");
+        return $r('app.string.birthday_type_lunarbirthday');
       case Birthday.TYPE_ANNIVERSARIES:
-        return $r("app.string.birthday_type_anniversaries");
+        return $r('app.string.birthday_type_anniversaries');
       case Birthday.TYPE_OTHER:
-        return $r("app.string.birthday_type_other");
+        return $r('app.string.birthday_type_other');
       default:
-        return $r("app.string.birthday_type_other");
+        return $r('app.string.birthday_type_other');
     }
   }
 

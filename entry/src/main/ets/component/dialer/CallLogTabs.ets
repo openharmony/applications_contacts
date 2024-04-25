@@ -27,7 +27,8 @@ export struct CallLogTabs {
         Text($r("app.string.all_call_logs"))
           .fontSize($r("app.float.contact_text_size_body1"))
           .lineHeight('22vp')
-          .fontColor(this.bottomTabIndex == 0 ? $r('sys.color.ohos_id_color_connected') : $r('sys.color.ohos_id_color_text_secondary'))
+          .fontColor(this.bottomTabIndex == 0 ?
+          $r('sys.color.ohos_id_color_connected') : $r('sys.color.ohos_id_color_text_secondary'))
           .fontWeight(this.bottomTabIndex == 0 ? FontWeight.Medium : FontWeight.Regular)
           .margin({ top: 17, bottom: 6 })
 
@@ -51,7 +52,8 @@ export struct CallLogTabs {
         Text($r("app.string.missed_call"))
           .fontSize($r("app.float.contact_text_size_body1"))
           .lineHeight('22vp')
-          .fontColor(this.bottomTabIndex == 1 ? $r('sys.color.ohos_id_color_connected') : $r('sys.color.ohos_id_color_text_secondary'))
+          .fontColor(this.bottomTabIndex == 1 ?
+          $r('sys.color.ohos_id_color_connected') : $r('sys.color.ohos_id_color_text_secondary'))
           .fontWeight(this.bottomTabIndex == 1 ? FontWeight.Medium : FontWeight.Regular)
           .margin({ top: 17, bottom: 6 })
 
