@@ -17,6 +17,7 @@ import { PhoneNumber } from '../../../../../../feature/phonenumber';
 import { CallType } from '../../../../../../feature/call/src/main/ets/entity/CallLog';
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 import EnvironmentProp from '../../feature/EnvironmentProp';
+import promptAction from '@ohos.promptAction'
 
 const TAG = "ContactDetail-calllog";
 
@@ -130,6 +131,11 @@ export default struct CallLogListItem {
             this.isEmergencyNum = res;
             if (!this.isEmergencyNum) {
               HiLog.i(TAG, "Is not Emergency Phone Number!");
+              promptAction.showToast({
+                message: $r('app.string.no_simCardDailog'),
+                duration: 2000,
+                bottom:'60%'
+              });
               return;
             } else {
               HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
