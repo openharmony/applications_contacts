@@ -5,6 +5,10 @@
       "value": "Contacts"
     },
     {
+      "name": "no_simCardDailog",
+      "value": "Dialing failed, please insert SIM card！"
+    },
+    {
       "name": "phone_type_mobile",
       "value": "phone"
     },

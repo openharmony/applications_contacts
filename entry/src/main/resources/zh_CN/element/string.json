@@ -5,6 +5,10 @@
       "value": "联系人"
     },
     {
+      "name": "no_simCardDailog",
+      "value": "拨号失败，请插入SIM卡！"
+    },
+    {
       "name": "phone_type_mobile",
       "value": "手机"
     },
