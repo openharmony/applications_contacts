@@ -23,6 +23,7 @@ import EnvironmentProp from '../../feature/EnvironmentProp';
 import { DataItemType } from '../../../../../../feature/contact/src/main/ets/contract/DataType';
 import IndexPresenter from '../../presenter/IndexPresenter';
 import { SelectDialogBuilder } from '../mutisim/SelectSimIdDialog';
+import promptAction from '@ohos.promptAction'
 
 const TAG = "ContactDetail-detailInfoList";
 
@@ -288,6 +289,11 @@ struct TelListItem {
           this.isEmergencyNum = res;
           if (!this.isEmergencyNum) {
             HiLog.i(TAG, "Is not Emergency Phone Number!");
+            promptAction.showToast({
+              message: $r('app.string.no_simCardDailog'),
+              duration: 2000,
+              bottom:'60%'
+            });
             return;
           } else {
             HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");

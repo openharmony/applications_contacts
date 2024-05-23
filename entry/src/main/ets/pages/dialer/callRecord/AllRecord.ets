@@ -25,6 +25,7 @@ import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/e
 import IndexPresenter from '../../../presenter/IndexPresenter';
 import { HiLog } from "../../../../../../../common"
 import emitter from '@ohos.events.emitter'
+import promptAction from '@ohos.promptAction'
 
 const TAG = "AllRecord ";
 const EMITTER_SAVE_ID = 103;
@@ -277,6 +278,11 @@ struct ContactItem {
           this.isEmergencyNum = res;
           if (!this.isEmergencyNum) {
             HiLog.i(TAG, "Is not Emergency Phone Number!");
+            promptAction.showToast({
+              message: $r('app.string.no_simCardDailog'),
+              duration: 2000,
+              bottom:'60%'
+            });
             return;
           } else {
             HiLog.i(TAG, "No SIM card, but is Emergency Phone Number");
