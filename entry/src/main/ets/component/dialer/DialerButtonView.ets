@@ -18,6 +18,7 @@ import DialerPresenter from '../../presenter/dialer/DialerPresenter';
 import { MutiDialerButtonView } from '../mutisim/MutiDialerButtonView'
 import { PhoneNumber } from '../../../../../../feature/phonenumber';
 import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import promptAction from '@ohos.promptAction'
 
 const TAG = 'DialerButtonView';
 @Component
@@ -39,6 +40,11 @@ export struct DialerButtonView {
         this.mPresenter.isEmergencyNum = res;
         if (!this.mPresenter.isEmergencyNum) {
           HiLog.i(TAG, 'Is not Emergency Phone Number!');
+          promptAction.showToast({
+            message: $r('app.string.no_simCardDailog'),
+            duration: 2000,
+            bottom:'60%'
+          });
           return;
         } else {
           this.mPresenter.dialing(this.emergencyNum);
