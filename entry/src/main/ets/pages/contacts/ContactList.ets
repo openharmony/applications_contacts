@@ -262,9 +262,15 @@ struct ContactContent {
             .edgeEffect(EdgeEffect.None)
             .onScrollIndex((firstIndex: number, lastIndex: number) => {
               if (!this.isAlphabetClicked) {
-              this.alphabetSelected = this.alphabetIndexPresenter.getAlphabetSelected(firstIndex);
-            }})
-            .onScrollStart(() => {this.dragList = true;}).onScrollStop(() => {this.isAlphabetClicked = false;})
+                this.alphabetSelected = this.alphabetIndexPresenter.getAlphabetSelected(firstIndex);
+              }
+            })
+            .onScrollStart(() => {
+              this.dragList = true;
+            })
+            .onScrollStop(() => {
+              this.isAlphabetClicked = false;
+            })
           }
         }
         .height('100%')
