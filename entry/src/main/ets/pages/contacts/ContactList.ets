@@ -260,9 +260,11 @@ struct ContactContent {
             .height('100%')
             .listDirection(Axis.Vertical)
             .edgeEffect(EdgeEffect.None)
-            .scrollBar(BarState.Off).onScrollIndex((firstIndex: number, lastIndex: number) => {if (!this.isAlphabetClicked) {
+            .onScrollIndex((firstIndex: number, lastIndex: number) => {
+              if (!this.isAlphabetClicked) {
               this.alphabetSelected = this.alphabetIndexPresenter.getAlphabetSelected(firstIndex);
-            }}).onScrollStart(() => {this.dragList = true;}).onScrollStop(() => {this.isAlphabetClicked = false;})
+            }})
+            .onScrollStart(() => {this.dragList = true;}).onScrollStop(() => {this.isAlphabetClicked = false;})
           }
         }
         .height('100%')
