@@ -112,6 +112,7 @@
                 <filteritem type="filepath" name="entry/src/main/ets/default/assets/picture/.*.png" desc="self developed image"/>
                 <filteritem type="filepath" name="entry/src/main/ets/default/assets/picture/.*.svg" desc="self developed image"/>
                 <filteritem type="filepath" name="figures/.*.png" desc="self developed image"/>
+                <filteritem type="filepath" name="AppScope/resources/base/media/app_icon.png" desc="self developed image"/>
             </filefilter>
             <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
                 <filteritem type="filepath" name="hvigorw" desc="Build Files"/>
