@@ -83,6 +83,12 @@
                 <filteritem type="filepath" name="entry/.*.json5" desc="build config file"/>
                 <filteritem type="filepath" name="entry/src/main/ets/MainAbility/workers/.*.js" desc="worker file"/>
                 <filteritem type="filepath" name="entry/src/main/.*.json5" desc="build config file"/>
+                <filteritem type="filename" name="*.json" desc=""/>
+                <filteritem type="filename" name="hvigorfile.js" desc="hvigorfile.js no need to add policy"/>
+                <filteritem type="filepath" name="gradle/wrapper/.*.jar" desc="out put files"/>
+                <filteritem type="filepath" name="dir name underproject/.*.uvwxyz" desc="Describe the reason for filtering scan results"/>
+                <filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/>
+                <filteritem type="filepath" name="hvigor/.*.js" desc="Compile automatically generated files"/>
             </filefilter>
             <filefilter
                 desc="Filters for binary file policies"
@@ -103,6 +109,9 @@
                     desc="self developed audio"
                     name="entry/src/main/resources/rawfile/.*.ogg"
                     type="filepath"/>
+                <filteritem type="filepath" name="entry/src/main/ets/default/assets/picture/.*.png" desc="self developed image"/>
+                <filteritem type="filepath" name="entry/src/main/ets/default/assets/picture/.*.svg" desc="self developed image"/>
+                <filteritem type="filepath" name="figures/.*.png" desc="self developed image"/>
             </filefilter>
             <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
                 <filteritem type="filepath" name="hvigorw" desc="Build Files"/>
@@ -111,6 +120,7 @@
             <filefilter name="copyrightPolicyFilter" desc="Filters for copyright header policies">
                 <filteritem type="filepath" name="hvigorw" desc="Build Files"/>
                 <filteritem type="filepath" name="hvigorw.bat" desc="Build Files"/>
+                <filteritem type="filepath" name="hvigor/.*.js" desc="Compile automatically generated files"/>
             </filefilter>
 
         </filefilterlist>
