@@ -269,8 +269,8 @@ export default class DialerPresenter {
     let that = this;
     let tonePlayer = null;
     let audioRendererInfo = {
-      content: 5,
-      usage: 6,
+      content: audio.ContentType.CONTENT_TYPE_UNKNOWN,
+      usage: audio.StreamUsage.STREAM_USAGE_DTMF,
       rendererFlags: 0
     };
 
