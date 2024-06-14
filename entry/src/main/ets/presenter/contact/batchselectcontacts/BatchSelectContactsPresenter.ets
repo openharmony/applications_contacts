@@ -87,6 +87,7 @@ export default class BatchSelectContactsPresenter {
   }
 
   aboutToDisappear() {
+    this.selectCount = 0;
   }
 
   onPageShow() {
