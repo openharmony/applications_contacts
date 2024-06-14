@@ -84,10 +84,13 @@ export default class BatchSelectContactsPresenter {
   aboutToAppear() {
     this.initCallLog();
     this.initContactsList();
+    this.selectCount = 0;
+    this.selectedNumberMap = new Map();
   }
 
   aboutToDisappear() {
     this.selectCount = 0;
+    this.selectedNumberMap = new Map();
   }
 
   onPageShow() {
