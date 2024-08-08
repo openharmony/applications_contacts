@@ -22,6 +22,10 @@ import Constants from '../../../../../../common/src/main/ets/Constants';
 import { ContactSearch } from './search/ContactSearch';
 import { AlphabetIndexerPage } from './alphabetindex/AlphabetIndexerPage';
 import AlphabetIndexerPresenter from '../../presenter/contact/alphabetindex/AlphabetIndexerPresenter';
+import ImportContactsPresenter from '../../presenter/contact/importcontacts/ImportContactsPresenter';
+import Want from '@ohos.app.ability.Want';
+import { BusinessError } from '@ohos.base';
+import common from '@ohos.app.ability.common';
 
 const TAG = 'ContactList  ';
 const EMITTER_SEARCH_ID: number = 105;
@@ -87,6 +91,55 @@ export default struct ContactListPage {
 @Component
 struct TitleGuide {
   presenter: ContactListPresenter = ContactListPresenter.getInstance();
+  @State importContactsPresenter: ImportContactsPresenter = ImportContactsPresenter.getInstance();
+
+  dialogController: CustomDialogController | null = new CustomDialogController({
+    builder: CustomDialogExample({
+      cancel: ()=> { this.onCancel() },
+      confirm: ()=> { this.onAccept() },
+    }),
+    cancel: this.exitApp,
+    autoCancel: true,
+    alignment: DialogAlignment.Bottom,
+    offset: { dx: 0, dy: -20 },
+    gridCount: 4,
+    customStyle: false,
+    backgroundColor: 0xd9ffffff,
+    cornerRadius: 10,
+  })
+
+  aboutToDisappear() {
+    this.dialogController = null
+  }
+
+  onCancel() {
+    console.info('Callback when the first button is clicked')
+  }
+
+  onAccept() {
+    console.info('Callback when the second button is clicked')
+  }
+
+  exitApp() {
+    console.info('Click the callback in the blank area')
+  }
+
+  aboutToAppear() {
+    this.importContactsPresenter.aboutToAppear();
+  }
+
+  @Builder
+  MoreMenu() {
+    Menu() {
+      MenuItem({ content: '从内部存储导入联系人文件' })
+        .onChange((selected) => {
+          if (selected) {
+            this.importContactsPresenter.dialogController = this.dialogController;
+            this.importContactsPresenter.importFile();
+          }
+        })
+    }
+  }
 
   build() {
     Row() {
@@ -104,11 +157,67 @@ struct TitleGuide {
         .height($r("app.float.id_card_image_small"))
         .objectFit(ImageFit.Contain)
         .opacity(0.4)
+        .bindMenu(this.MoreMenu)
     }
     .justifyContent(FlexAlign.End)
     .alignItems(VerticalAlign.Center)
     .height($r("app.float.id_item_height_large"))
     .width('100%')
+  }
+}
+
+@CustomDialog
+struct CustomDialogExample {
+  importContactsPresenter: ImportContactsPresenter = ImportContactsPresenter.getInstance();
+  controller?: CustomDialogController
+  cancel: () => void = () => {
+  }
+  confirm: () => void = () => {
+  }
+
+  JumpFileUpload() {
+    let context = getContext(this) as common.UIAbilityContext;
+    let want: Want = {
+      deviceId: '',
+      bundleName: 'com.pengju.minihttpserver',
+      abilityName: 'EntryAbility',
+    };
+    context.startAbility(want, (err: BusinessError) => {
+      if (err.code) {
+        console.error(`Failed to startAbility. Code: ${err.code}, message: ${err.message}`);
+      }
+    });
+  }
+
+  build() {
+    Column() {
+      Column() {
+        Text('没有找到.vcf文件!').fontSize(20).margin({ top: 10, bottom: 10 })
+        Text('可通过以下两种方式之一上传.vcf文件到指定目录：').fontSize(18).margin({ bottom: 10 })
+        Text('1、使用文件传输助手:\n(1)打开文件传输助手\n(2)点击打开服务按钮\n(3)手机连接wifi后会显示http地址\n(4)另一台手机连上相同wifi并通过浏览器访问文件传输助手上的http地址\n(5)在进入的网页中选择需要上传到的开发者手机目录/app/el2/0/base/com.ohos.contacts/haps/entry/files/\n(6)点击选择文件，选取手机中存储的.vcf文件(一次选取一个.vcf文件上传)后点击Upload file').fontSize(16).margin({ bottom: 10 })
+        Text('2、使用hdc file send推送.vcf文件到/data/app/el2/0/base/com.ohos.contacts/haps/entry/files/目录，例如：hdc file send D:/\demo.vcf  /data/app/el2/0/base/com.ohos.contacts/haps/entry/files/').fontSize(16).margin({ bottom: 10 })
+      }
+      .alignItems(HorizontalAlign.Start)
+      .padding(20)
+
+      Flex({ justifyContent: FlexAlign.SpaceAround }) {
+        Button('知道了')
+          .onClick(() => {
+            if (this.controller != undefined) {
+              this.controller.close()
+              this.cancel()
+            }
+          }).backgroundColor(0xffffff).fontColor(Color.Gray)
+        Button('跳转到文件传输助手')
+          .onClick(() => {
+            if (this.controller != undefined) {
+              this.JumpFileUpload()
+              this.controller.close()
+              this.confirm()
+            }
+          }).backgroundColor(0xffffff).fontColor(Color.Blue)
+      }.margin({ bottom: 10 })
+    }.borderRadius(10)
   }
 }
 

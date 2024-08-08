@@ -26,6 +26,9 @@ import CallRecordPresenter from '../presenter/dialer/callRecord/CallRecordPresen
 import FavoriteListPresenter from '../presenter/favorite/FavoriteListPresenter';
 import device from '@system.device';
 import emitter from '@ohos.events.emitter';
+import common from '@ohos.app.ability.common';
+import fs from '@ohos.file.fs';
+import { BusinessError } from '@ohos.base';
 
 const TAG = 'Index ';
 
@@ -118,6 +121,7 @@ struct Index {
     emitter.on(innerEvent, (data) => {
       this.isContactSearch = data.data['isSearchPage'];
     })
+    this.createVcf();
   }
 
   aboutToDisappear() {
@@ -130,6 +134,19 @@ struct Index {
       ContactListPresenter.getInstance().sendEmitter(false);
       return true;
     }
+  }
+
+  createVcf() {
+    let filesDir = (getContext(this) as common.UIAbilityContext).filesDir;
+    let uri = filesDir + '/' + 'contactsCacheFile.vcf';
+    HiLog.i(TAG, `indexuri: ${uri}`);
+    fs.open(uri, fs.OpenMode.READ_WRITE | fs.OpenMode.CREATE,  (err: BusinessError, file: fs.File) => {
+      if (err) {
+        HiLog.e(TAG, `open failed with error message: ${JSON.stringify(err)}`);
+      } else {
+        fs.closeSync(file);
+      }
+    });
   }
 
   getInfo() {
