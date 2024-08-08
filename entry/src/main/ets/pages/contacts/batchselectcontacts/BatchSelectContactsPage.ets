@@ -307,6 +307,7 @@ struct ContactsList {
           .margin({ top: '10%', bottom: '10%' })
       }
     }
+    .height('100%')
     .width('100%')
     .padding({ top: $r('app.float.id_card_margin_mid'), bottom: $r('app.float.id_card_margin_mid') })
   }
