@@ -97,6 +97,10 @@
                     name="entry/src/main/resources/base/media/.*.png"
                     type="filepath"/>
                 <filteritem
+                    desc="self developed library"
+                    name="entry/lib/.*.har"
+                    type="filepath"/>
+                <filteritem
                     desc="self developed image"
                     name="entry/src/main/resources/base/media/.*.svg"
                     type="filepath"/>
