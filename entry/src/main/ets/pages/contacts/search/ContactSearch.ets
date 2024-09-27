@@ -79,6 +79,12 @@ export struct ContactSearch {
                     this.presenter.inputKeyword = value
                     this.presenter.getSearchContact(this.presenter.inputKeyword);
                   })
+                  .onFocus(() => {
+                    focusControl.requestFocus('searchContact');
+                  })
+                  .id('searchContact')
+                  .enableKeyboardOnFocus(true)
+                  .defaultFocus(true)
 
                 Flex({ justifyContent: FlexAlign.SpaceBetween, alignItems: ItemAlign.Center }) {
                   Image($r('app.media.ic_public_search'))
