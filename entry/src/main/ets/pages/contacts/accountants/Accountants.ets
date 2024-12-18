@@ -135,7 +135,9 @@ struct Accountants {
   }
 
   aboutToDisappear() {
+    HiLog.i(TAG, 'the Page aboutToDisappear Begin !!!');
     this.dialogController = null;
+    this.mPresenter.showMore = false;
   }
 
   onPageShow() {
@@ -309,6 +311,8 @@ struct Accountants {
                       this.mPresenter.contactInfoAfter.display_name = value;
                       this.mPresenter.textChange(value);
                     })
+                    .enableKeyboardOnFocus(true)
+                    .defaultFocus(true)
                 }
                 .margin(this.curBp === 'lg' ? {} : { left: $r('app.float.id_card_margin_mid') })
               }

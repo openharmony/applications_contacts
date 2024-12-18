@@ -34,6 +34,8 @@ import { AIMBean } from '../../../model/bean/AIMBean';
 import { EventBean } from '../../../model/bean/EventBean';
 import { AssociatedPersonBean } from '../../../model/bean/AssociatedPersonBean';
 import PreferencesUtil from './../../../util/PreferencesUtil'
+import Prompt from '@system.prompt';
+import router from '@ohos.router';
 
 const TAG = 'AccountantsPresenter  ';
 
@@ -66,6 +68,7 @@ export default class AccountantsPresenter {
   // contact detail
   contactInfoBefore: ContactInfo = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
   contactInfoAfter: ContactInfo = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
+  nullContactInfo: string = JSON.stringify(new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0));
   MagList: object = [];
 
   private constructor() {
@@ -683,19 +686,39 @@ export default class AccountantsPresenter {
               PreferencesUtil.setIsUsed(true);
             }
           })
-      }
-      else {
-        globalThis.DataWorker.sendRequest('updateContact', {
-          context: globalThis.context,
-          contactInfoAfter: JSON.stringify(this.contactInfoAfter)
-        }, (arg) => {
-          this.clickEnable = true
-          this.contactId = arg.toString();
-          this.routerAvtiveFlag = true;
-          if (!PreferencesUtil.isUsed()) {
-            PreferencesUtil.setIsUsed(true);
-          }
-        })
+      } else {
+        if (this.nullContactInfo == this.getExistenceInfoString(this.contactInfoAfter)) {
+          globalThis.DataWorker.sendRequest('deleteContactById', {
+            context: globalThis.context,
+            contactId: this.contactId
+          }, (result: number | undefined) => {
+            if (result == 0 || result == undefined) {
+              HiLog.w(TAG, 'doDeleteContact succ');
+            } else {
+              HiLog.w(TAG, `doDeleteContact Failed ${JSON.stringify(result)}`);
+              Prompt.showToast({
+                message: 'contactDetail Failed to delete data.'
+              });
+            }
+            this.clickEnable = true
+            if (!PreferencesUtil.isUsed()) {
+              PreferencesUtil.setIsUsed(true);
+            }
+          });
+          router.back();
+        } else {
+          globalThis.DataWorker.sendRequest('updateContact', {
+            context: globalThis.context,
+            contactInfoAfter: JSON.stringify(this.contactInfoAfter)
+          }, (arg) => {
+            this.clickEnable = true
+            this.contactId = arg.toString();
+            this.routerAvtiveFlag = true;
+            if (!PreferencesUtil.isUsed()) {
+              PreferencesUtil.setIsUsed(true);
+            }
+          })
+        }
       }
     }
   }
