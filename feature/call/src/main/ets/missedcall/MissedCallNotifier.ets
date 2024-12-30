@@ -306,3 +306,125 @@ export class MissedCallNotifier {
     });
   }
 }
+
+// feature/call/src/main/ets/missedcall/MissedCallNotifier.ets
+// private async sendNotification(missedCallData: MissedCallNotifyData) {
+//   const {id, displayName, count, createTime, ringDuration} = missedCallData;
+//   sharedPreferencesUtils.saveToPreferences(KEY_ID, id);
+//   sharedPreferencesUtils.saveToPreferences(KEY_DISPLAY_NAME, displayName);
+//   sharedPreferencesUtils.saveToPreferences(KEY_COUNT, count);
+//   sharedPreferencesUtils.saveToPreferences(KEY_CREATE_TIME, createTime);
+//   sharedPreferencesUtils.saveToPreferences(KEY_RING_DURATION, ringDuration)
+//   HiLog.i(TAG, `sendNotification in id:${id}, count:${count}, createTime:${createTime}`)
+//   let str_text = this.getContext()?.resourceManager.getStringSync($r('app.string.contacts_ring_times')) +
+//     ringDuration + this.getContext()?.resourceManager.getStringSync($r('app.string.contacts_time_sec'));
+//   if (ringDuration === 0) {
+//     str_text = $r('app.string.missed_call')
+//   }
+//   const notificationRequest: Notification.NotificationRequest = {
+//     content: {
+//       contentType: Notification.ContentType.NOTIFICATION_CONTENT_BASIC_TEXT,
+//       normal: {
+//         title: count > 1 ? `${displayName} (${count})` : displayName,
+//         text: str_text,
+//         additionalText: missedCallData.phoneNumber
+//       },
+//     },
+//     id: id,
+//     label: this.label,
+//     groupName: GROUP_NAME,
+//     slotType: Notification.SlotType.SOCIAL_COMMUNICATION,
+//     deliveryTime: new Date().getTime(),
+//     extraInfo: missedCallData
+//   }
+//
+//   let wantAgentObj = await this.getWantAgent(missedCallData, 'notification.event.click');
+//   notificationRequest.wantAgent = wantAgentObj;
+//   notificationRequest.actionButtons = [];
+//   for (const key of Object.keys(actionBtnMaps)) {
+//     const wantAgent = await this.getWantAgent(missedCallData, key);
+//     const title = this.getContext()?.resourceManager.getStringSync(actionBtnMaps[key]);
+//     notificationRequest.actionButtons.push({
+//       title: title,
+//       wantAgent: wantAgent
+//     });
+//   }
+//   notificationRequest.removalWantAgent = await this.createWantAgentForCommonEvent(missedCallData, 'notification.event.cancel');
+//   Notification.publish(notificationRequest).then(() => {
+//     HiLog.i(TAG, '===>publish promise success req.id : ' + notificationRequest.id);
+//   }).catch((err) => {
+//     HiLog.e(TAG, '===>publish promise failed because ' + JSON.stringify(err));
+//   });
+//   HiLog.i(TAG, 'sendNotification end')
+// }
+
+// ERROR: ArkTS:ERROR File: C:/Users/Admin/Desktop/contacts/master12/applications_contacts_7/feature/call/src/main/ets/missedcall/MissedCallNotifier.ets:189:9
+// Type 'import("C:\\Users\\Admin\\AppData\\Local\\OpenHarmony\\Sdk\\12\\ets\\api\\@ohos.notificationManager").default.ContentType' is not assignable to type 'import("C:/Users/Admin/AppData/Local/OpenHarmony/Sdk/12/ets/api/@ohos.notification").default.ContentType'.
+// Property 'NOTIFICATION_CONTENT_SYSTEM_LIVE_VIEW' is missing in type 'import("C:/Users/Admin/AppData/Local/OpenHarmony/Sdk/12/ets/api/@ohos.notification").default.ContentType'.
+
+
+// entry/src/main/ets/Application/MyAbilityStage.ts
+// export default class MyAbilityStage extends AbilityStage {
+//   onCreate() {
+//     HiLog.i(TAG, 'AbilityStage onCreate');
+//     notification.setNotificationEnable({
+//       bundle: 'com.ohos.contacts'
+//     }, true, (err, data) => {
+//       if (err) {
+//         HiLog.e(TAG, 'enableNotification err: ' + JSON.stringify(err));
+//       }
+//     })
+//     notification.addSlot({
+//       type: notification.SlotType.SOCIAL_COMMUNICATION,
+//       level: notification.SlotLevel.LEVEL_HIGH,
+//       desc: 'missedCall',
+//       lockscreenVisibility: 2
+//     })
+//     globalThis.config = Constants.initConfig(this.context);
+//   }
+// }
+
+// ERROR: ArkTS:ERROR File: C:/Users/Admin/Desktop/contacts/master12/applications_contacts_7/entry/src/main/ets/Application/MyAbilityStage.ts:33:9
+// No overload matches this call.
+// Overload 1 of 4, '(slot: NotificationSlot): Promise<void>', gave the following error.
+// Type 'SlotType.SOCIAL_COMMUNICATION' is not assignable to type 'SlotType'.
+// Overload 2 of 4, '(type: SlotType): Promise<void>', gave the following error.
+// Argument of type '{ type: notification.SlotType; level: notification.SlotLevel; desc: string; lockscreenVisibility: number; }' is not assignable to parameter of type 'SlotType'.
+
+
+
+// feature/contact/src/main/ets/repo/DAOperation.ets
+// static newInsert(uri: string) {
+//   return new DAOperation(uri, FeatureAbility.DataAbilityOperationType.TYPE_INSERT)
+// }
+// static newDelete(uri: string) {
+//   return new DAOperation(uri, FeatureAbility.DataAbilityOperationType.TYPE_DELETE)
+// }
+// static newUpdate(uri: string) {
+//   return new DAOperation(uri, FeatureAbility.DataAbilityOperationType.TYPE_UPDATE)
+// }
+// withValueBackReferences(key: string, previousResult: number) {
+//   if (this.type != FeatureAbility.DataAbilityOperationType.TYPE_INSERT
+//     && this.type != FeatureAbility.DataAbilityOperationType.TYPE_UPDATE
+//     && this.type != FeatureAbility.DataAbilityOperationType.TYPE_ASSERT) {
+//     return;
+//   }
+//   if (this.valueBackReferences == undefined) {
+//     this.valueBackReferences = {};
+//   }
+//   this.valueBackReferences[key] = previousResult;
+// }
+// withValue(key: string, obj: object) {
+//   if (this.type != FeatureAbility.DataAbilityOperationType.TYPE_INSERT
+//     && this.type != FeatureAbility.DataAbilityOperationType.TYPE_UPDATE
+//     && this.type != FeatureAbility.DataAbilityOperationType.TYPE_ASSERT) {
+//     return;
+//   }
+//   if (this.valuesBucket == undefined) {
+//     this.valuesBucket = {};
+//   }
+//   this.valuesBucket[key] = obj;
+// }
+
+// ERROR: ArkTS:ERROR File: C:/Users/Admin/Desktop/contacts/master12/applications_contacts_7/feature/contact/src/main/ets/repo/DAOperation.ets:33:33
+// This API is used only in FA Mode, but the current Mode is Stage.
