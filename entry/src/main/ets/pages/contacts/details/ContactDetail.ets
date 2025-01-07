@@ -75,7 +75,7 @@ struct ContactDetail {
       this.mPresenter.contactId = obj.contactId;
       this.mPresenter.sourceHasPhone = obj.sourceHasPhone;
       this.mPresenter.phoneNumberShow = obj.phoneNumberShow;
-    } else if (this.params != {}) {
+    } else if (this.params && (this.params.sourceHasId || this.params.sourceHasPhone)) {
       this.mPresenter.sourceHasId = this.params.sourceHasId;
       this.mPresenter.contactId = this.params.contactId;
       this.mPresenter.sourceHasPhone = this.params.sourceHasPhone;

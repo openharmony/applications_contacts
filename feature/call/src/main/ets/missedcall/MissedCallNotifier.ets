@@ -12,12 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Notification from '@ohos.notificationManager'
+import NotificationManager from '@ohos.notificationManager'
 import WantAgent from '@ohos.app.ability.wantAgent';
 import { HiLog, sharedPreferencesUtils } from '../../../../../../common';
 import notificationSubscribe from '@ohos.notificationSubscribe';
 import call from '@ohos.telephony.call';
 import { NotificationSubscriber } from 'notification/notificationSubscriber';
+import Notification from '@ohos.notification'
 
 const TAG = 'MissedCallNotifier';
 
@@ -115,7 +116,7 @@ export class MissedCallNotifier {
   public cancelAllNotification() {
     HiLog.i(TAG, 'cancelNotification,cancel all')
     this.setMissedBadgeNumber(0);
-    Notification.cancelGroup(GROUP_NAME).catch(error => {
+    NotificationManager.cancelGroup(GROUP_NAME).catch(error => {
       HiLog.e(TAG, `cancelNotification,err ${JSON.stringify(error)}}`)
     });
   }
@@ -137,7 +138,7 @@ export class MissedCallNotifier {
    */
   public async cancelNotificationById(id: number, count: number) {
     HiLog.i(TAG, 'cancelNotificationById:' + id)
-    Notification.cancel(id, this.label).catch(error => {
+    NotificationManager.cancel(id, this.label).catch(error => {
       HiLog.e(TAG, `cancelNotificationById,err ${JSON.stringify(error)}}`)
     });
     let badgeNumber = await this.getMissedBadgeNumber();
@@ -160,8 +161,8 @@ export class MissedCallNotifier {
   private async getMissedCallNotifyDatas() {
     HiLog.i(TAG, `getMissedCallNotifyDatas in`)
     let result: Array<MissedCallNotifyData> = [];
-    const notifications: Array<Notification.NotificationRequest> =
-      await Notification.getAllActiveNotifications()
+    const notifications: Array<NotificationManager.NotificationRequest> =
+      await NotificationManager.getAllActiveNotifications()
     for (let notify of notifications) {
       if (notify.groupName == GROUP_NAME && notify.extraInfo) {
         result.push(<MissedCallNotifyData> notify.extraInfo);
@@ -184,7 +185,7 @@ export class MissedCallNotifier {
     if (ringDuration === 0) {
       str_text = $r('app.string.missed_call')
     }
-    const notificationRequest: Notification.NotificationRequest = {
+    const notificationRequest: NotificationManager.NotificationRequest = {
       content: {
         contentType: Notification.ContentType.NOTIFICATION_CONTENT_BASIC_TEXT,
         normal: {
@@ -213,7 +214,7 @@ export class MissedCallNotifier {
       });
     }
     notificationRequest.removalWantAgent = await this.createWantAgentForCommonEvent(missedCallData, 'notification.event.cancel');
-    Notification.publish(notificationRequest).then(() => {
+    NotificationManager.publish(notificationRequest).then(() => {
       HiLog.i(TAG, '===>publish promise success req.id : ' + notificationRequest.id);
     }).catch((err) => {
       HiLog.e(TAG, '===>publish promise failed because ' + JSON.stringify(err));
@@ -261,7 +262,7 @@ export class MissedCallNotifier {
   private setMissedBadgeNumber(newBadgeNum: number) {
     HiLog.i(TAG, 'setMissedBadgeNumber :' + newBadgeNum);
     this.missedBadgeNumber = newBadgeNum;
-    Notification.setBadgeNumber(newBadgeNum);
+    NotificationManager.setBadgeNumber(newBadgeNum);
     sharedPreferencesUtils.saveToPreferences(KEY_MISSED_BADGE_NUM, newBadgeNum);
   }
 
