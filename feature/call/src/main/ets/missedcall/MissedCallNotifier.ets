@@ -278,7 +278,7 @@ export class MissedCallNotifier {
         action: action,
         missedCallData: missedCallData
       }, }],
-      operationType: WantAgent.OperationType.SEND_COMMON_EVENT,
+      actionType: WantAgent.OperationType.SEND_COMMON_EVENT,
       requestCode: 0
     })
   }
@@ -302,7 +302,7 @@ export class MissedCallNotifier {
                 entities: []
               }],
       requestCode: 0,
-      operationType: WantAgent.OperationType.START_ABILITY,
+      actionType: WantAgent.OperationType.START_ABILITY,
       wantAgentFlags: [WantAgent.WantAgentFlags.ONE_TIME_FLAG]
     });
   }
