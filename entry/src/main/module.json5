@@ -2,12 +2,11 @@
   "module": {
     "name": "entry",
     "type": "entry",
-    "srcEntrance": "./ets/Application/MyAbilityStage.ts",
+    "srcEntry": "./ets/Application/MyAbilityStage.ts",
     "description": "$string:mainability_description",
     "mainElement": "com.ohos.contacts.MainAbility",
     "deviceTypes": [
-      "default",
-      "tablet"
+      "default"
     ],
     "deliveryWithInstall": true,
     "installationFree": false,
@@ -21,7 +20,7 @@
     "abilities": [
       {
         "name": "com.ohos.contacts.MainAbility",
-        "srcEntrance": "./ets/MainAbility/MainAbility.ts",
+        "srcEntry": "./ets/MainAbility/MainAbility.ts",
         "description": "$string:mainability_description",
         "icon": "$media:ic_contact_icon",
         "label": "$string:app_name",
@@ -66,22 +65,32 @@
       {
         "name": "ohos.permission.READ_CONTACTS",
         "reason": "$string:permission_read_write_contacts"
+        "reason": "$string:permission_read_write_contacts",
+        "usedScene": {}
       },
       {
         "name": "ohos.permission.WRITE_CONTACTS",
         "reason": "$string:permission_read_write_contacts"
+        "reason": "$string:permission_read_write_contacts",
+        "usedScene": {}
       },
       {
         "name": "ohos.permission.MANAGE_VOICEMAIL",
         "reason": "$string:permission_manage_voicemail"
+        "reason": "$string:permission_manage_voicemail",
+        "usedScene": {}
       },
       {
         "name": "ohos.permission.READ_CALL_LOG",
         "reason": "$string:permission_read_write_calllog"
+        "reason": "$string:permission_read_write_calllog",
+        "usedScene": {}
       },
       {
         "name": "ohos.permission.WRITE_CALL_LOG",
         "reason": "$string:permission_read_write_calllog"
+        "reason": "$string:permission_read_write_calllog",
+        "usedScene": {}
       },
       {
         "name": "ohos.permission.PLACE_CALL"
