@@ -64,31 +64,26 @@
       },
       {
         "name": "ohos.permission.READ_CONTACTS",
-        "reason": "$string:permission_read_write_contacts"
         "reason": "$string:permission_read_write_contacts",
         "usedScene": {}
       },
       {
         "name": "ohos.permission.WRITE_CONTACTS",
-        "reason": "$string:permission_read_write_contacts"
         "reason": "$string:permission_read_write_contacts",
         "usedScene": {}
       },
       {
         "name": "ohos.permission.MANAGE_VOICEMAIL",
-        "reason": "$string:permission_manage_voicemail"
         "reason": "$string:permission_manage_voicemail",
         "usedScene": {}
       },
       {
         "name": "ohos.permission.READ_CALL_LOG",
-        "reason": "$string:permission_read_write_calllog"
         "reason": "$string:permission_read_write_calllog",
         "usedScene": {}
       },
       {
         "name": "ohos.permission.WRITE_CALL_LOG",
-        "reason": "$string:permission_read_write_calllog"
         "reason": "$string:permission_read_write_calllog",
         "usedScene": {}
       },
