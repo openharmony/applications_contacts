@@ -13,7 +13,10 @@
  * limitations under the License.
  */
 
-import FeatureAbility from '@ohos.ability.featureAbility';
+const TYPE_INSERT = 1;
+const TYPE_UPDATE = 2;
+const TYPE_DELETE = 3;
+const TYPE_ASSERT = 4;
 
 export default class DAOperation {
   readonly uri: string;
@@ -30,21 +33,21 @@ export default class DAOperation {
   }
 
   static newInsert(uri: string) {
-    return new DAOperation(uri, FeatureAbility.DataAbilityOperationType.TYPE_INSERT)
+    return new DAOperation(uri, TYPE_INSERT)
   }
 
   static newDelete(uri: string) {
-    return new DAOperation(uri, FeatureAbility.DataAbilityOperationType.TYPE_DELETE)
+    return new DAOperation(uri, TYPE_DELETE)
   }
 
   static newUpdate(uri: string) {
-    return new DAOperation(uri, FeatureAbility.DataAbilityOperationType.TYPE_UPDATE)
+    return new DAOperation(uri, TYPE_UPDATE)
   }
 
   withValueBackReferences(key: string, previousResult: number) {
-    if (this.type != FeatureAbility.DataAbilityOperationType.TYPE_INSERT
-    && this.type != FeatureAbility.DataAbilityOperationType.TYPE_UPDATE
-    && this.type != FeatureAbility.DataAbilityOperationType.TYPE_ASSERT) {
+    if (this.type != TYPE_INSERT
+    && this.type != TYPE_UPDATE
+    && this.type != TYPE_ASSERT) {
       return;
     }
     if (this.valueBackReferences == undefined) {
@@ -54,9 +57,9 @@ export default class DAOperation {
   }
 
   withValue(key: string, obj: object) {
-    if (this.type != FeatureAbility.DataAbilityOperationType.TYPE_INSERT
-    && this.type != FeatureAbility.DataAbilityOperationType.TYPE_UPDATE
-    && this.type != FeatureAbility.DataAbilityOperationType.TYPE_ASSERT) {
+    if (this.type != TYPE_INSERT
+    && this.type != TYPE_UPDATE
+    && this.type != TYPE_ASSERT) {
       return;
     }
     if (this.valuesBucket == undefined) {

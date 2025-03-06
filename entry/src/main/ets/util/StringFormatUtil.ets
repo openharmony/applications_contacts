@@ -31,7 +31,7 @@ export default {
   },
 
   judgeSysTime(context?: Context) {
-    return settings.getValueSync(context ? context : globalThis.context, settings.date.TIME_FORMAT, '24');
+    return settings.getValueSync((context ? context : globalThis.context) as Context, settings.date.TIME_FORMAT, '24');
   },
 
   /**
