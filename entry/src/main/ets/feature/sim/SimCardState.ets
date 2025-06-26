@@ -57,7 +57,11 @@ class SimCardState {
 
   public removeSimChangeListener() {
     HiLog.i(TAG, 'removeSimChangeListener ! ');
-    observer.off('simStateChange');
+    try {
+      observer.off('simStateChange');
+    } catch (error) {
+      HiLog.w(TAG, 'removeSimChangeListener error.' + JSON.stringify(error))
+    }
   }
 
   public setListener(listener: () => void) {
