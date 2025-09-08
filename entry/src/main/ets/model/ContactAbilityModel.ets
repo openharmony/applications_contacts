@@ -780,20 +780,20 @@ class ContactAbilityModel {
    * @param {Object} addParams  Contact Information
    * @param {Object} callBack Contact ID
    */
-  async updateContact(DAHelper: dataShare.DataShareHelper | null, addParams: ContactInfo, callBack: Function,
+  async updateContact(daHelper: dataShare.DataShareHelper | null, addParams: ContactInfo, callBack: Function,
     context?: common.UIAbilityContext | Context) {
     HiLog.i(TAG, 'Start to update contacts.');
     try {
-      if (DAHelper == undefined || DAHelper == null) {
-        DAHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
+      if (daHelper == undefined || daHelper == null) {
+        daHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
       }
       let condition = new dataSharePredicates.DataSharePredicates();
       condition.equalTo('raw_contact_id', addParams.id);
-      DAHelper.delete(
+      daHelper.delete(
         Data.CONTENT_URI,
         condition,
       ).then(data => {
-        this.dealParam(DAHelper, addParams, false, callBack);
+        this.dealParam(daHelper, addParams, false, callBack);
       }).catch((error: Error) => {
         HiLog.e(TAG, 'updateContact-update contact error: %s', JSON.stringify(error.message));
       });

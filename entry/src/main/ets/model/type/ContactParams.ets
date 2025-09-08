@@ -217,13 +217,13 @@ export class ContactFormModel {
 }
 
 export class BaseContackSubInfoModel {
-  id?: string = '';
-  data: string = '';
-  type?: string = '';
-  labelName?: Resource | string = '';
-  dataType?: number = -1;
-  calendarEventId?: string = '';
-  contactDataId?: number = -1;
+  public id?: string = '';
+  public data: string = '';
+  public type?: string = '';
+  public labelName?: Resource | string = '';
+  public dataType?: number = -1;
+  public calendarEventId?: string = '';
+  public contactDataId?: number = -1;
 }
 
 export class ContackPhoneSubInfoModel extends BaseContackSubInfoModel {

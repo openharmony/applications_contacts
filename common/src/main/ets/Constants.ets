@@ -33,8 +33,8 @@ class StorageClass {
 }
 
 class ConfigClass {
-  useDataWorker: boolean = false;
-  needCache: boolean = false;
+  public useDataWorker: boolean = false;
+  public needCache: boolean = false;
 }
 
 class ExportClass {

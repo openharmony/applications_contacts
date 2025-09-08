@@ -308,9 +308,9 @@ export interface dialogDataStruct {
 }
 
 export class RepeatContact {
-  contactId: string = ''
-  name: string = ''
-  phoneTags: string[] = []
+  public contactId: string = ''
+  public name: string = ''
+  public phoneTags: string[] = []
 
   constructor() {
     this.resetRepeatContact();

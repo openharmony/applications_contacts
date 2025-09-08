@@ -735,7 +735,7 @@ export default class BatchSelectContactsPresenter {
       mergeRule: CallLogSetting.getInstance().getMergeRule(),
       actionData: this.actionData,
       favoriteForm: JSON.stringify(favoriteForm)
-    }, (data: dataObj) => {
+    }, (data: DataObj) => {
       if (!ArrayUtil.isEmpty(data.callLogList)) {
         HiLog.i(TAG, 'data has callLogList key');
         for (let i = 0; i < data.callLogList.length; i++) {
@@ -904,16 +904,16 @@ export default class BatchSelectContactsPresenter {
   }
 }
 
-class selectedNumberObj{
+class SelectedNumberObj{
   name:string = '';
 }
 
-class dataObj{
+class DataObj{
   callLogList:ContactVo[] = [];
 
 }
 
-class callLog{
+class CallLog{
   id:string = '';
   portraitColor:MorandiColor = MorandiColor.Color;
   suffix:string = '';
