@@ -989,8 +989,8 @@ class ContactAbilityModel {
    * @param {Object} addParams Contact Information
    * @param {Object} callBack favoriteOrder
    */
-  async moveSortFavorite(DAHelper: dataShare.DataShareHelper | null, addParams: LooseObject, callBack: Function,
-    context?: common.UIAbilityContext | Context) {
+  async moveSortFavorite(DAHelper: dataShare.DataShareHelper | null, addParams: LooseObject,
+    callBack: Function, context?: common.UIAbilityContext | Context) {
     HiLog.i(TAG, 'moveSortFavorite start.');
     if (DAHelper == undefined || DAHelper == null) {
       DAHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);

@@ -25,13 +25,13 @@ import EnvironmentProp from '../../../feature/EnvironmentProp';
 import { SelectSimIdDialog, SelectDialogBuilder } from '../../../component/mutisim/SelectSimIdDialog';
 import { CallLogBean } from '../../../model/bean/CallLogBean';
 
-class paramsObj {
+class ParamsObj {
   sourceHasId: boolean = false;
   sourceHasPhone: number = -1;
 }
 
 class LooseObject {
-  showTitle: string = '';
+  public showTitle: string = '';
   public callLog: CallLogBean = new CallLogBean('', '', '', '');
 }
 

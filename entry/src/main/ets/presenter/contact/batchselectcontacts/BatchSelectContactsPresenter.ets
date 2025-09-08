@@ -927,7 +927,7 @@ class favorite{
   editContact:number = -1;
 }
 
-class childEle{
+class ChildEle{
   public checked:boolean = false;
   public labelName:Resource |undefined = undefined;
   public numType:string = '';

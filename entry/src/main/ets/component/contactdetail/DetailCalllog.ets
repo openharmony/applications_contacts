@@ -26,7 +26,7 @@ class CallLogObj{
   dateDetail:string = '';
   callType:CallType = CallType.MISSED;
   timeDetail:string = '';
-  formatNumber:string = '';
+  public formatNumber:string = '';
   public simId:number = -1;
   public talkTime:string = '';
   constructor(dateDetail: string) {

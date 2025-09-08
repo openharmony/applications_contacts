@@ -230,7 +230,7 @@ export class ContackPhoneSubInfoModel extends BaseContackSubInfoModel {
   num?: string;
   phoneAddress?: string | Resource;
   primary?: boolean;
-  dataId?: number;
+  public dataId?: number;
   public formatNum?: string;
 }
 
