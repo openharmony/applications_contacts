@@ -15,10 +15,11 @@
 
 import { CallLog } from '../entity/CallLog';
 
+@Observed
 export default class MergedCallLog {
   id: number;
-  createTime: string;
-  count: number;
+  createTime: string | Resource = '';
+  count: number = 0;
   ids: number[];
   isHD: boolean;
   callType: number;
@@ -29,6 +30,8 @@ export default class MergedCallLog {
   formattedNumber: string;
   simType: number;
   simId: number;
+  checked: boolean = false;
+
   constructor(callLog: CallLog) {
     this.id = callLog.id;
     this.callType = callLog.callType;

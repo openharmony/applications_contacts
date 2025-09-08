@@ -12,24 +12,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+class EventClass {
+  public NEW_WANT: number;
 
-export default {
-  Event: {
-    NEW_WANT: 1,
-  },
-  Storage: {
-    mainTabsIndex: "mainTabsIndex",
-    teleNumber: 'teleNumber',
-    targetPage: "targetPage"
-  },
-  CONFIG: {
-    useDataWorker: false,
-    needCache: false
-  },
-
-  initConfig(context: Context) {
-    this.CONFIG.useDataWorker = context.resourceManager.getBoolean($r('app.boolean.use_data_worker'));
-    this.CONFIG.needCache = context.resourceManager.getBoolean($r('app.boolean.cache_page_one'));
-    return this.CONFIG
+  constructor() {
+    this.NEW_WANT = 1;
   }
 }
+
+class StorageClass {
+  public mainTabsIndex: string;
+  public teleNumber: string;
+  public targetPage: string;
+
+  constructor() {
+    this.mainTabsIndex = 'mainTabsIndex';
+    this.teleNumber = 'teleNumber';
+    this.targetPage = 'targetPage';
+  }
+}
+
+class ConfigClass {
+  public useDataWorker: boolean = false;
+  public needCache: boolean = false;
+}
+
+class ExportClass {
+  public appUseDataWorker: string = 'appUseDataWorker';
+  public event: EventClass = new EventClass();
+  public storage: StorageClass = new StorageClass();
+  public config: ConfigClass = {
+    useDataWorker: false,
+    needCache: false
+  };
+
+  initConfig(context: Context): ConfigClass {
+    this.config.useDataWorker = context.resourceManager.getBoolean($r('app.boolean.use_data_worker'));
+    this.config.needCache=context.resourceManager.getBoolean($r('app.boolean.cache_page_one'));
+    return this.config;
+  }
+}
+
+export default new ExportClass();

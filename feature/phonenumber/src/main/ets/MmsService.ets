@@ -12,8 +12,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
-
+import { HiLog } from 'common/src/main/ets/util/HiLog';
+import { BusinessError } from '@ohos.base';
+import { SendMessageParams } from '../../../../../entry/src/main/ets/model/type/ContactParams';
+import LooseObject from '../../../../../entry/src/main/ets/model/type/LooseObject';
 const TAG = 'MmsService ';
 // mms
 const MMS_BUNDLE_NAME = 'com.ohos.mms';
@@ -22,31 +24,27 @@ const MMS_ENTITIES = 'entity.system.home';
 
 export default class MmsService {
   static sendMessage(number: string, formatnum:string, name?: string) {
-    let params = [];
-    params.push({
-      contactsName: name,
-      telephone: number,
-      telephoneFormat: formatnum
-    });
-    this.jumpToMms(params);
+    let params:SendMessageParams[] = [];
+    params.push(new SendMessageParams(number, formatnum, name, -1));
+    MmsService.jumpToMms(params);
   }
 
   // Switching to the SMS app
-  private static jumpToMms(params) {
-    let actionData: any = {};
+  private static jumpToMms(params:SendMessageParams[]) {
+    let actionData: Record<string, string> = {};
     actionData.contactObjects = JSON.stringify(params);
     actionData.pageFlag = 'conversation';
-    let str = {
-        'bundleName': MMS_BUNDLE_NAME,
-        'abilityName': MMS_ABILITY_NAME,
-        'parameters': actionData,
-        'entities': [
-          MMS_ENTITIES,
-        ]
+    let str : LooseObject = {
+      bundleName: MMS_BUNDLE_NAME,
+      abilityName: MMS_ABILITY_NAME,
+      parameters: actionData,
+      entities: [
+        MMS_ENTITIES,
+      ]
     };
-    globalThis.context.startAbility(str).then((data) => {
+    globalThis.context.startAbility(str).then(() => {
       HiLog.i(TAG, 'jumpToMms success.');
-    }).catch((error) => {
+    }).catch((error:BusinessError) => {
       HiLog.e(TAG, 'jumpToMms failed: %s', JSON.stringify(error.message));
     })
   }

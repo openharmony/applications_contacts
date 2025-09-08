@@ -13,19 +13,26 @@
  * limitations under the License.
  */
 import BasicDataSource from './BasicDataSource';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
+import MergedCallLog from '../../../../../../feature/call/src/main/ets/entity/MergedCallLog';
+import { ContactVo } from './ContactVo';
+class LooseObject{
+    public showDivifer:boolean = false;
+    public index:number = 0;
+    public calllog: ContactVo|undefined = undefined;
+}
 
 const TAG = 'BatchSelectRecentSource';
 
 export default class BatchSelectRecentSource extends BasicDataSource {
-    private callLogs: { [key: string]: any }[] = [];
+    private callLogs: ContactVo[] = [];
 
     public totalCount(): number {
         return this.callLogs.length;
     }
 
-    public getData(index: number): any {
+    public getData(index: number): LooseObject | undefined | null {
         HiLog.i(TAG, 'getData index is ' + JSON.stringify(index));
         if (ArrayUtil.isEmpty(this.callLogs) || index >= this.callLogs.length) {
             HiLog.i(TAG, 'getData calllog is empty');
@@ -41,7 +48,7 @@ export default class BatchSelectRecentSource extends BasicDataSource {
         }
     }
 
-    public refresh(callLogTemp: any[]) {
+    public refresh(callLogTemp: ContactVo[]) {
         HiLog.i(TAG, ' refresh!');
         this.callLogs = callLogTemp;
         this.notifyDataReload();

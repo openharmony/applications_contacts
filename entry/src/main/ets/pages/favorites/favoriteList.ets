@@ -24,7 +24,8 @@ import emitter from '@ohos.events.emitter';
 import { Phone } from '../../../../../../feature/contact/src/main/ets/contract/Phone';
 import prompt from '@ohos.prompt';
 import promptAction from '@ohos.promptAction'
-
+import { FavoriteListBean } from '../../model/bean/FavoriteListBean';
+import LooseObject from '../../model/LooseObject ';
 const TAG = 'FavoriteList';
 
 @Entry
@@ -38,12 +39,14 @@ export default struct FavoriteList {
   aboutToAppear() {
     HiLog.i(TAG, 'Favorite aboutToAppear!');
     this.mFavoriteListPresenter.aboutToAppear();
-    let innerEvent = {
+    let innerEvent: emitter.InnerEvent = {
       eventId: this.emitterId,
       priority: emitter.EventPriority.HIGH
     };
     emitter.on(innerEvent, (data) => {
-      this.favoriteListListLen = data.data['favoriteListListLen'];
+      if (data.data !== undefined) {
+        this.favoriteListListLen = data.data['favoriteListListLen'];
+      }
     })
   }
 
@@ -101,11 +104,11 @@ struct FavoriteContent {
       GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: 12, y: 0 } }) {
         GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
           List({ space: 0, initialIndex: 0 }) {
-            LazyForEach(this.presenter.favoriteDataSource, (item, index: number) => {
+            LazyForEach(this.presenter.favoriteDataSource, (item: FavoriteListBean, index: number) => {
               ListItem() {
                 FavoriteListItem({ presenter: $mPresenter, item: item, mPresenter: $presenter });
               }
-            }, (item) => JSON.stringify(item))
+            }, (item: FavoriteListBean) => JSON.stringify(item))
           }
           .scrollBar(BarState.Off)
           .editMode(true)
@@ -122,19 +125,18 @@ struct FavoriteContent {
     .height('100%')
     .width('100%')
     .backgroundColor(Color.White)
-
   }
 }
 
 @Component
 export struct FavoriteListItem {
   @Link presenter: FavoriteListPresenter;
-  @Link private mPresenter: { [key: string]: any };
+  @Link private mPresenter: FavoriteListPresenter;
   @State selectSimBuilder: SelectDialogBuilder = {
     title: 'test title',
     multiSimCardItems: [],
   };
-  @State item: { [key: string]: any } = {};;
+  @Prop item: FavoriteListBean;
   @State builder: SelectNumDialogBuilder = {
     title: $r('app.string.contacts_call'),
     multiNumCardItems: [],
@@ -142,7 +144,7 @@ export struct FavoriteListItem {
   };
   mSelectSlotIdDialog: CustomDialogController = new CustomDialogController({
     builder: SelectMultiNumDialog({
-      builder: $builder
+      builder: this.builder
     }),
     customStyle: false,
     autoCancel: true,
@@ -153,7 +155,6 @@ export struct FavoriteListItem {
   @StorageLink('haveMultiSimCard') haveMultiSimCard: boolean = false;
 
   aboutToDisappear() {
-    this.mSelectSlotIdDialog = null;
   }
 
   build() {
@@ -259,58 +260,61 @@ export struct FavoriteListItem {
       }
     }
     .onClick(() => {
-      ContactAbilityModel.getContactById(this.item.favorite.contactId, result => {
+      ContactAbilityModel.getContactById(Number.parseInt(this.item.favorite.contactId), (result: LooseObject) => {
         if (result.data.hasOwnProperty('phones')) {
           if (result.data.phones.length > 1) {
             new Promise<number>(async () => {
-              let defaultNumber: String = <String> await sharedPreferencesUtils.getFromPreferences(
-                this.item.favorite.contactId + '', '-1');
+              let defaultNumber: String =
+                await sharedPreferencesUtils.getFromPreferences(this.item.favorite.contactId + '', '-1') as String;
               this.builder.multiNumCardItems = []
               this.builder.contactId = result.data.id
-              var hasDefault = false
-              result.data.phones.forEach((element) => {
+              let hasDefault = false
+              result.data.phones.forEach((element: LooseObject) => {
                 let formatNum = PhoneNumber.fromString(element.num).getNumber().replace(/\s+/g, '')
                 if (defaultNumber != '-1' && defaultNumber == formatNum) {
                   this.dealCallNumber(formatNum)
                   hasDefault = true;
                   return;
                 }
-                this.builder.multiNumCardItems.push({ number: element.num, img: $r('app.media.ic_public_phone_dialog'),
-                  numType: Phone.getTypeLabelResource(parseInt(element.numType, 10)) })
+                this.builder.multiNumCardItems.push({
+                  number: element.num, img: $r('app.media.ic_public_phone_dialog'),
+                  numType: Phone.getTypeLabelResource(parseInt(element.numType, 10))
+                })
               });
-              this.builder.callback = (item) => {
+              this.builder.callback = (item: LooseObject) => {
                 this.dealCallNumber(item.number)
               }
-              if (!hasDefault)
+              if (!hasDefault) {
                 this.mSelectSlotIdDialog.open()
+              }
             });
           } else if (result.data.phones.length > 0) {
             this.dealCallNumber(result.data.phones[0].num)
           }
         } else {
-          prompt.showToast({ message: '联系人无可用号码!'})
+          prompt.showToast({ message: '联系人无可用号码!' })
           HiLog.e(TAG, ' popupSelectNumber phones null');
         }
       }, globalThis.getContext())
     })
     .gesture(
-    LongPressGesture({ repeat: false })
-      .onAction((event: GestureEvent) => {
-        for (let i = 0; i < this.presenter.favoriteList.length; i++) {
-          if (this.item.favorite.contactId === this.presenter.favoriteList[i].contactId) {
-            this.presenter.favoriteList[i].isEditSelect = true;
-          } else {
-            this.presenter.favoriteList[i].isEditSelect = false;
+      LongPressGesture({ repeat: false })
+        .onAction((event: GestureEvent) => {
+          for (let i = 0; i < this.presenter.favoriteList.length; i++) {
+            if (this.item.favorite.contactId === this.presenter.favoriteList[i].contactId) {
+              this.presenter.favoriteList[i].isEditSelect = true;
+            } else {
+              this.presenter.favoriteList[i].isEditSelect = false;
+            }
           }
-        }
-        this.presenter.isEditSelectList.pop();
-        this.presenter.isEditSelectList.push(this.item.favorite.contactId + '');
-        this.presenter.longItemEditFavorite(this.presenter.favoriteList, this.presenter.isEditSelectList, this.item.favorite);
-      })
+          this.presenter.isEditSelectList.pop();
+          this.presenter.isEditSelectList.push(this.item.favorite.contactId + '');
+          this.presenter.longItemEditFavorite(this.presenter.favoriteList, this.presenter.isEditSelectList, this.item.favorite);
+        })
     )
   }
 
-  dealCallNumber(phoneNum) {
+  dealCallNumber(phoneNum: string) {
     if (!this.haveSimCard) {
       HiLog.i(TAG, 'No SIM card!');
       PhoneNumber.fromString(phoneNum).isDialEmergencyNum().then((res) => {
@@ -321,7 +325,7 @@ export struct FavoriteListItem {
         promptAction.showToast({
           message: $r('app.string.no_simCardDailog'),
           duration: 2000,
-          bottom:'60%'
+          bottom: '60%'
         });
         return;
       } else {
@@ -337,8 +341,10 @@ export struct FavoriteListItem {
       }
       this.selectSimBuilder.lastSimId = this.mPresenter.lastUsedSlotId;
       let spnList = AppStorage.Get<Array<string | Resource>>('spnList');
-      for (var index = 0; index < spnList.length; index++) {
-        this.selectSimBuilder.multiSimCardItems[index].name = spnList[index];
+      if (spnList !== undefined && spnList.length !== undefined) {
+        for (let index = 0; index < spnList.length; index++) {
+          this.selectSimBuilder.multiSimCardItems[index].name = spnList[index];
+        }
       }
       this.selectSimBuilder.controller?.open();
     } else {
@@ -350,7 +356,7 @@ export struct FavoriteListItem {
 @Component
 export struct FavoriteEmptyPage {
   @Link presenter: FavoriteListPresenter;
-  @Link isEdit: boolean ;
+  @Link isEdit: boolean;
 
   build() {
     Column() {
@@ -400,7 +406,8 @@ export struct FavoriteEmptyPage {
 struct TitleGuide {
   @Link mPresenter: FavoriteListPresenter;
 
-  @Builder MenuBuilder() {
+  @Builder
+  MenuBuilder() {
     Column() {
       Text($r('app.string.edit'))
         .fontSize($r('app.float.id_corner_radius_card_mid'))

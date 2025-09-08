@@ -14,16 +14,29 @@
  */
 
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
+import { CallLogDetailInterface } from '../../../model';
 
 /**
  * Select the contact item component, which is responsible for displaying a single contact.
  */
 @Component
 export default struct BatchSelectRecentItemView {
-  private onRecentItemClicked: Function;
-  @State private item: { [key: string]: any } = {};
-  private index: number;
-
+  private onRecentItemClicked: Function = ()=>{};
+  @State private item: CallLogDetailInterface = {
+    id: '',
+    phoneNumber: '',
+    displayName: '',
+    callDirection: '',
+    isRead: '',
+    ringDuration: '',
+    endTime: '',
+    suffix: '',
+    portraitColor: '',
+    formattedNumber: '',
+    numberLocation: '',
+    checked: false
+  };
+  private index: number = -1;
   build() {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
       Row() {

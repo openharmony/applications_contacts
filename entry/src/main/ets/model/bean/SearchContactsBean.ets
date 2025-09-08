@@ -32,10 +32,9 @@ export class SearchContactsBean {
   photoFirstName: string;
   sortFirstLetter: string;
   portraitColor: string;
-  portraitPath: string;
+  portraitPath: string = '';
   detailInfo: string;
-  hasPhoneNumber: string;
-
+  hasPhoneNumber: string = '';
   constructor(
     id: string,
     accountId: string,

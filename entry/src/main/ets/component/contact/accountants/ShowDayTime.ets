@@ -28,8 +28,8 @@ export struct ShowDayTime {
   @State showTime: Resource = $r('app.string.yearMonthDay', this.date.getFullYear(),
     (this.date.getMonth() + 1), this.date.getDate());
   controller: CustomDialogController
-  cancel: () => void
-  confirm: () => void
+  @Prop cancel: () => void
+  @Prop confirm: () => void
 
   build() {
     Column() {
@@ -49,8 +49,10 @@ export struct ShowDayTime {
         .margin({ bottom: 8 })
         .lunar(this.itemType == Birthday.TYPE_LUNARBIRTHDAY)
         .onChange((value: DatePickerResult) => {
-          this.date = new Date(value.year, value.month, value.day);
-          this.showTime = $r('app.string.yearMonthDay', value.year, (value.month + 1), value.day);
+          if(value !== undefined && value.year !== undefined && value.month !== undefined){
+            this.date = new Date(value.year, value.month, value.day);
+            this.showTime = $r('app.string.yearMonthDay', value.year, (value.month + 1), value.day);
+          }
         })
 
       Row() {
@@ -96,8 +98,8 @@ export struct ShowDayTime {
             this.mPresent.contactInfoAfter.events[this.itemIndex] = new EventBean('', '', '1', '');
           }
           this.mPresent.contactInfoAfter.events[this.itemIndex].data =
-          StringFormatUtil.numberFormatDateString(this.date.getFullYear(),
-            this.date.getMonth() + 1, this.date.getDate());
+            StringFormatUtil.numberFormatDateString(this.date.getFullYear(),
+              this.date.getMonth() + 1, this.date.getDate());
           this.mPresent.refresh();
           this.controller.close();
           this.confirm();

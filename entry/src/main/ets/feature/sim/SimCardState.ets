@@ -25,7 +25,8 @@ export const simId_TWO: number = 1;
 const TAG = 'SimCardState';
 
 class SimCardState {
-  mListener: () => void;
+  public mListener: () => void = () => {
+  };
   mSimStateArray: Array<telephonySim.SimState> =
     [telephonySim.SimState.SIM_STATE_UNKNOWN, telephonySim.SimState.SIM_STATE_UNKNOWN];
   haveSimCard: boolean = false;
@@ -92,7 +93,7 @@ class SimCardState {
     }
   }
 
-  private parseSimCardStateForSlot(slotId: number, value) {
+  private parseSimCardStateForSlot(slotId: number, value: telephonySim.SimState) {
     let changed: boolean = (value != this.mSimStateArray[slotId]);
     if (!changed) {
       return;
@@ -100,8 +101,8 @@ class SimCardState {
     this.mSimStateArray[slotId] = value;
     this.haveSimCard = this.isSimReady(simId_ONE) || this.isSimReady(simId_TWO);
     this.haveMultiSimCard = this.isSimReady(simId_ONE) && this.isSimReady(simId_TWO);
-    AppStorage.SetOrCreate<boolean>('haveMultiSimCard', this.haveMultiSimCard);
-    AppStorage.SetOrCreate<boolean>('haveSimCard', this.haveSimCard);
+    AppStorage.SetOrCreate('haveMultiSimCard', this.haveMultiSimCard);
+    AppStorage.SetOrCreate('haveSimCard', this.haveSimCard);
     HiLog.i(TAG, `parseSimCardStateForSlot sim ${slotId}} state ${value}}, haveSimCard: ` + this.haveSimCard +
     ', haveMultiSimCard: ' + this.haveMultiSimCard);
     this.setDefaultSlot();
@@ -110,29 +111,29 @@ class SimCardState {
     }
   }
 
-  private setDefaultSlot() {
-    if (this.haveSimCard) {
-      if (!this.haveMultiSimCard) {
-        if (this.isSimReady(simId_ONE)) {
-          AppStorage.SetOrCreate<number>('defaultSlot', simId_ONE);
-        } else {
-          AppStorage.SetOrCreate<number>('defaultSlot', simId_TWO);
-        }
+private setDefaultSlot() {
+  if (this.haveSimCard) {
+    if (!this.haveMultiSimCard) {
+      if (this.isSimReady(simId_ONE)) {
+        AppStorage.SetOrCreate('defaultSlot', simId_ONE);
       } else {
-        telephonySim.getDefaultVoiceSlotId((err, slot: number) => {
-          if (err) {
-            HiLog.e(TAG, `getDefaultVoiceSlotId, ${slot} error: ${JSON.stringify(err)}`);
-          } else {
-            AppStorage.SetOrCreate<number>('defaultSlot', slot);
-          }
-        })
+        AppStorage.SetOrCreate('defaultSlot', simId_TWO);
       }
     } else {
-      if (AppStorage.Has('defaultSlot')) {
-        AppStorage.Delete('defaultSlot')
-      }
+      telephonySim.getDefaultVoiceSlotId((err, slot: number) => {
+        if (err) {
+          HiLog.e(TAG, `getDefaultVoiceSlotId, ${slot} error: ${JSON.stringify(err)}`);
+        } else {
+          AppStorage.SetOrCreate('defaultSlot', slot);
+        }
+      })
+    }
+  } else {
+    if (AppStorage.Has('defaultSlot')) {
+      AppStorage.Delete('defaultSlot')
     }
   }
+}
 }
 
 export default new SimCardState();

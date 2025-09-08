@@ -29,7 +29,7 @@ export class CallLog {
   readonly phoneNumber: string;
   readonly displayName: string;
   readonly callDirection: number;
-  readonly voicemailUri: string;
+  readonly voicemailUri: string = '';
   readonly simId: number;
   readonly simType: number;
   readonly isHD: boolean;
@@ -48,7 +48,7 @@ export class CallLog {
   readonly photoId: number;
   readonly photoUri: string;
   readonly countryIsoCode: number;
-  readonly callType: number;
+  readonly callType: CallType;
   constructor(builder: CallLogBuilder) {
     this.id = builder.id;
     this.phoneNumber = builder.phoneNumber;
@@ -75,7 +75,7 @@ export class CallLog {
     this.callType = this.getCallLogType();
   }
 
-  private getCallLogType() {
+  private getCallLogType() : CallType {
     if (this.callDirection == Direction.IN) {
       if (this.answerState == AnswerState.RECEIVED) {
         return CallType.IN;
@@ -86,6 +86,7 @@ export class CallLog {
       if (this.answerState == AnswerState.REJECT) {
         return CallType.REJECTED;
       }
+      return CallType.IN;
     } else {
       return CallType.OUT;
     }

@@ -12,9 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
-import Constants from '../../../../../common/src/main/ets/Constants';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
+import Constants from 'common/src/main/ets/Constants';
 import AbilityStage from '@ohos.app.ability.AbilityStage'
 import notification from '@ohos.notificationManager';
 import notificationManager from '@ohos.notificationManager';
@@ -22,7 +21,7 @@ import notificationManager from '@ohos.notificationManager';
 const TAG = 'MyAbilityStage ';
 
 export default class MyAbilityStage extends AbilityStage {
-    onCreate() {
+    onCreate(): void {
         HiLog.i(TAG, 'AbilityStage onCreate');
         notificationManager.setNotificationEnable({
             bundle: 'com.ohos.contacts'

@@ -17,10 +17,12 @@ import Contact from '../entity/Contact';
 import { Contacts } from '../contract/Contacts';
 import { RawContacts } from '../contract/RawContacts';
 import ContactBuilder from '../entity/ContactBuilder';
+import { PhoneNumberInterface } from '../../../../../../entry/src/main/ets/model/type';
+import DataShareResultSet from '@ohos.data.DataShareResultSet';
 
 export default class ContactListItem {
   static readonly COLUMNS: string[] = [Contacts.ID, Contacts.QUICK_SEARCH_KEY, RawContacts.DISPLAY_NAME,
-  RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME, Contacts.COMPANY, Contacts.POSITION, RawContacts.FAVORITE_ORDER];
+    RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME, Contacts.COMPANY, Contacts.POSITION, RawContacts.FAVORITE_ORDER];
   readonly id: number;
   readonly displayName: string;
   readonly sortFirstLetter: string;
@@ -29,9 +31,9 @@ export default class ContactListItem {
   readonly company: string;
   readonly position: string;
   readonly favoriteOrder: string;
-  phoneNumbers: [] = [];
+  public phoneNumbers: PhoneNumberInterface[] | undefined = [];
 
-  constructor(resultSet: any) {
+  constructor(resultSet: DataShareResultSet) {
     this.id = resultSet.getLong(resultSet.getColumnIndex(Contacts.ID));
     this.displayName = resultSet.getString(resultSet.getColumnIndex(RawContacts.DISPLAY_NAME));
     this.sortFirstLetter = resultSet.getString(resultSet.getColumnIndex(RawContacts.SORT_FIRST_LETTER));

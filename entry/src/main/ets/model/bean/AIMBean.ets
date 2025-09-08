@@ -22,6 +22,7 @@ export class AIMBean {
   aimType: string;
   //AIM Content
   aimName: string;
+  public labelName?: Resource | string;
   constructor(id: string, aimId: string, aimType: string, aimName: string) {
     this.id = id;
     this.aimId = aimId;

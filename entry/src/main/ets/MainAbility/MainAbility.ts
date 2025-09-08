@@ -16,17 +16,19 @@
 import Ability from '@ohos.app.ability.UIAbility'
 import Window from '@ohos.window'
 import WorkFactory, { WorkerType } from '../workers/WorkFactory';
-import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import Want from '@ohos.app.ability.Want';
 import SimManager from '../feature/sim/SimManager';
 import { missedCallManager } from '../feature/missedCall/MissedCallManager';
 import PresenterManager from '../presenter/PresenterManager';
+import { AbilityConstant } from '@kit.AbilityKit';
+import { MissedCallNotifyData } from '../../../../../feature/call/src/main/ets/missedcall/MissedCallNotifier';
 
 const TAG = 'MainAbility ';
 
 export default class MainAbility extends Ability {
-    storage: LocalStorage;
-    simManager: SimManager;
+    storage: LocalStorage | null = null;
+    simManager: SimManager | null = null;
     mDataWorker = WorkFactory.getWorker(WorkerType.DataWorker);
 
     updateBreakpoint(windowWidth: number) {
@@ -39,22 +41,24 @@ export default class MainAbility extends Ability {
         } else {
             breakpoint = 'lg';
         }
-        this.storage.setOrCreate('breakpoint', breakpoint);
+        if (this.storage != null) {
+            this.storage.setOrCreate('breakpoint', breakpoint);
+        }
     }
 
     onRequest(want: Want, isOnCreate: boolean) {
         if (!want || !want.parameters) {
             return;
         }
-        const data: any = want.parameters['missedCallData'];
+        const data: MissedCallNotifyData = want.parameters['missedCallData'] as MissedCallNotifyData;
         const action = want.parameters['action'];
         HiLog.i(TAG, `onRequest action: ${action}`);
         if (action != undefined && data != undefined) {
-            missedCallManager.requestMissedCallAction(action, data);
+            missedCallManager.requestMissedCallAction(action as string, data);
         }
     }
 
-    onCreate(want, launchParam) {
+    onCreate(want: Want, launchParam: AbilityConstant.LaunchParam) {
         HiLog.i(TAG, 'Application onCreate start');
         globalThis.isFromOnCreate = true;
         globalThis.context = this.context;
@@ -67,7 +71,7 @@ export default class MainAbility extends Ability {
         globalThis.presenterManager.onCreate(want);
     }
 
-    onNewWant(want, launchParam) {
+    onNewWant(want: Want, launchParam: AbilityConstant.LaunchParam) {
         HiLog.i(TAG, 'Application onNewWant');
         globalThis.isFromOnCreate = false;
         globalThis.abilityWant = want;
@@ -78,7 +82,9 @@ export default class MainAbility extends Ability {
     onDestroy() {
         HiLog.i(TAG, 'Ability onDestroy');
         globalThis.presenterManager.onDestroy();
-        this.mDataWorker.close();
+        if (this.mDataWorker) {
+            this.mDataWorker.close();
+        }
     }
 
     onWindowStageCreate(windowStage: Window.WindowStage) {
@@ -111,12 +117,16 @@ export default class MainAbility extends Ability {
     onForeground() {
         // Ability has brought to foreground
         HiLog.i(TAG, 'Ability onForeground');
-        this.simManager.init();
+        if (this.simManager) {
+            this.simManager.init();
+        }
     }
 
     onBackground() {
         // Ability has back to background
         HiLog.i(TAG, 'Ability onBackground');
-        this.simManager.recycle();
+        if (this.simManager) {
+            this.simManager.recycle();
+        }
     }
 }

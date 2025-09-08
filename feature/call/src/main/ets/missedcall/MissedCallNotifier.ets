@@ -15,11 +15,8 @@
 import NotificationManager from '@ohos.notificationManager'
 import WantAgent from '@ohos.app.ability.wantAgent';
 import { HiLog, sharedPreferencesUtils } from '../../../../../../common';
-import notificationSubscribe from '@ohos.notificationSubscribe';
-import call from '@ohos.telephony.call';
-import { NotificationSubscriber } from 'notification/notificationSubscriber';
 import Notification from '@ohos.notification'
-
+import LooseObject from '../../../../../../entry/src/main/ets/model/type/LooseObject';
 const TAG = 'MissedCallNotifier';
 
 const BUNDLE_NAME: string = 'com.ohos.contacts';
@@ -31,7 +28,7 @@ const KEY_DISPLAY_NAME = 'unread_call_notification_displayName'
 const KEY_COUNT = 'unread_call_notification_count'
 const KEY_CREATE_TIME = 'unread_call_notification_create_time'
 const KEY_RING_DURATION = 'unread_call_notification_ring_duration'
-const actionBtnMaps =
+const actionBtnMaps: Record<string, Resource> =
   {
     'notification.event.dialBack': $r('app.string.dial_back'),
     'notification.event.message': $r('app.string.message'),
@@ -40,21 +37,32 @@ const actionBtnMaps =
 export class MissedCallNotifyData {
   id?: number;
   displayName?: string;
-  readonly phoneNumber: string;
+  readonly phoneNumber: string = '';
   count?: number;
   createTime?: number;
   ringDuration?: number;
+
+  constructor(id: number, displayName: string, phoneNumber: string, count: number,
+    createTime: number, ringDuration: number) {
+    this.id = id;
+    this.displayName = displayName;
+    this.phoneNumber = phoneNumber;
+    this.count = count;
+    this.createTime = createTime;
+    this.ringDuration = ringDuration;
+  }
 }
 
 export class MissedCallNotifier {
-  private label: string;
-  private context: Context;
-  private static sInstance: MissedCallNotifier = undefined;
+  private label?: string;
+  private context?: Context;
+  private static sInstance: MissedCallNotifier | undefined = undefined;
   private missedBadgeNumber: number = -1;
-  private UnReadMissedCallData: MissedCallNotifyData;
+  private UnReadMissedCallData?: MissedCallNotifyData;
 
   /**
-   * getInstance for MissedCallNotifier
+
+   getInstance for MissedCallNotifier
    */
   public static getInstance() {
     if (!MissedCallNotifier.sInstance || MissedCallNotifier.sInstance == undefined) {
@@ -62,11 +70,10 @@ export class MissedCallNotifier {
     }
     return MissedCallNotifier.sInstance;
   }
-
   /**
-   * init
-   *
-   * @param ctx context needed init
+
+   init
+   @param ctx context needed init
    */
   public init(ctx: Context) {
     this.context = ctx;
@@ -87,23 +94,25 @@ export class MissedCallNotifier {
     let badgeNumber: number = 0;
     if (notifyData.length > 0) {
       for (let notify of notifyData) {
-        let key: string = notify.displayName;
-        if (missedData.has(key)) {
+        let key: string | undefined = notify.displayName;
+        if (key !== undefined && missedData.has(key)) {
           let missed = missedData.get(key)
           missedData.delete(key)
-          if (missed.id != notify.id) {
+          if (missed !== undefined && missed.id != notify.id) {
             notify.createTime = missed.createTime;
             notify.ringDuration = missed.ringDuration;
-            notify.count += missed.count;
+            if (notify.count) {
+              notify.count += missed.count ? missed.count : 0;
+            }
             this.sendNotification(notify);
           }
         }
-        badgeNumber += notify.count;
+        badgeNumber += notify.count ? notify.count : 0;
       }
     }
     for (let notify of missedData.values()) {
       await this.sendNotification(notify);
-      badgeNumber += notify.count;
+      badgeNumber += notify.count ? notify.count : 0;
     }
     if (badgeNumber > 0) {
       this.setMissedBadgeNumber(badgeNumber);
@@ -116,194 +125,183 @@ export class MissedCallNotifier {
   public cancelAllNotification() {
     HiLog.i(TAG, 'cancelNotification,cancel all')
     this.setMissedBadgeNumber(0);
-    NotificationManager.cancelGroup(GROUP_NAME).catch(error => {
+    NotificationManager.cancelGroup(GROUP_NAME).catch((error: Error) => {
       HiLog.e(TAG, `cancelNotification,err ${JSON.stringify(error)}}`)
-    });
-  }
+  });
+}
+/**
 
-  /**
-   * get Missed Call BadgeNumber
-   */
-  public async getMissedBadgeNumber() {
-    if (this.missedBadgeNumber == -1) {
-      this.missedBadgeNumber = <number> await sharedPreferencesUtils.getFromPreferences(KEY_MISSED_BADGE_NUM, -1);
-    }
-    return this.missedBadgeNumber;
+ get Missed Call BadgeNumber
+ */
+public async getMissedBadgeNumber() {
+  if (this.missedBadgeNumber == -1) {
+    this.missedBadgeNumber = await sharedPreferencesUtils.getFromPreferences(KEY_MISSED_BADGE_NUM, -1) as number;
   }
+  return this.missedBadgeNumber;
+}
+/**
 
-  /**
-   * cancel Missed Call Notification By NotificationId
-   *
-   * @param id Notification Id
-   */
-  public async cancelNotificationById(id: number, count: number) {
+ cancel Missed Call Notification By NotificationId
+ @param id Notification Id
+ */
+public async cancelNotificationById(id: number, count: number) {
     HiLog.i(TAG, 'cancelNotificationById:' + id)
-    NotificationManager.cancel(id, this.label).catch(error => {
+    NotificationManager.cancel(id, this.label).catch((error: Error) => {
       HiLog.e(TAG, `cancelNotificationById,err ${JSON.stringify(error)}}`)
-    });
-    let badgeNumber = await this.getMissedBadgeNumber();
-    badgeNumber -= count;
-    if (badgeNumber >= 0) {
-      this.setMissedBadgeNumber(badgeNumber);
+  });
+  let badgeNumber = await this.getMissedBadgeNumber();
+  badgeNumber -= count;
+  if (badgeNumber >= 0) {
+    this.setMissedBadgeNumber(badgeNumber);
+  }
+}
+private constructor() {
+}
+
+private getContext(): Context {
+  if (this.context && this.context != undefined) {
+    return this.context;
+  }
+  return globalThis.context;
+}
+
+private async getMissedCallNotifyDatas() {
+  HiLog.i(TAG, `getMissedCallNotifyDatas in`)
+  let result: Array<MissedCallNotifyData> = [];
+  const notifications: Array<NotificationManager.NotificationRequest> =
+    await NotificationManager.getActiveNotifications()
+  for (let notify of notifications) {
+    if (notify.groupName == GROUP_NAME && notify.extraInfo) {
+      result.push(notify.extraInfo as MissedCallNotifyData);
     }
   }
+  HiLog.i(TAG, `getMissedCallNotifyDatas result: ${result.length}`)
+  return result;
+}
 
-  private constructor() {
-  }
-
-  private getContext() {
-    if (this.context && this.context != undefined) {
-      return this.context;
-    }
-    return globalThis.context;
-  }
-
-  private async getMissedCallNotifyDatas() {
-    HiLog.i(TAG, `getMissedCallNotifyDatas in`)
-    let result: Array<MissedCallNotifyData> = [];
-    const notifications: Array<NotificationManager.NotificationRequest> =
-      await NotificationManager.getAllActiveNotifications()
-    for (let notify of notifications) {
-      if (notify.groupName == GROUP_NAME && notify.extraInfo) {
-        result.push(<MissedCallNotifyData> notify.extraInfo);
-      }
-    }
-    HiLog.i(TAG, `getMissedCallNotifyDatas result: ${result.length}`)
-    return result;
-  }
-
-  private async sendNotification(missedCallData: MissedCallNotifyData) {
-    const {id, displayName, count, createTime, ringDuration} = missedCallData;
-    sharedPreferencesUtils.saveToPreferences(KEY_ID, id);
-    sharedPreferencesUtils.saveToPreferences(KEY_DISPLAY_NAME, displayName);
-    sharedPreferencesUtils.saveToPreferences(KEY_COUNT, count);
-    sharedPreferencesUtils.saveToPreferences(KEY_CREATE_TIME, createTime);
-    sharedPreferencesUtils.saveToPreferences(KEY_RING_DURATION, ringDuration)
-    HiLog.i(TAG, `sendNotification in id:${id}, count:${count}, createTime:${createTime}`)
-    let str_text = this.getContext()?.resourceManager.getStringSync($r('app.string.contacts_ring_times')) +
+private async sendNotification(missedCallData: MissedCallNotifyData) {
+  let id = missedCallData.id;
+  const displayName = missedCallData.displayName;
+  const count = missedCallData.count as number;
+  const createTime = missedCallData.createTime;
+  const ringDuration = missedCallData.ringDuration;
+  sharedPreferencesUtils.saveToPreferences(KEY_ID, id);
+  sharedPreferencesUtils.saveToPreferences(KEY_DISPLAY_NAME, displayName);
+  sharedPreferencesUtils.saveToPreferences(KEY_COUNT, count);
+  sharedPreferencesUtils.saveToPreferences(KEY_CREATE_TIME, createTime);
+  sharedPreferencesUtils.saveToPreferences(KEY_RING_DURATION, ringDuration)
+  HiLog.i(TAG, `sendNotification in id:${id}, count:${count}, createTime:${createTime}`)
+  let str_text = this.getContext()?.resourceManager.getStringSync($r('app.string.contacts_ring_times')) +
     ringDuration + this.getContext()?.resourceManager.getStringSync($r('app.string.contacts_time_sec'));
     if (ringDuration === 0) {
-      str_text = $r('app.string.missed_call')
-    }
-    const notificationRequest: NotificationManager.NotificationRequest = {
-      content: {
-        contentType: Notification.ContentType.NOTIFICATION_CONTENT_BASIC_TEXT,
-        normal: {
-          title: count > 1 ? `${displayName} (${count})` : displayName,
-          text: str_text,
-          additionalText: missedCallData.phoneNumber
-        },
-      },
-      id: id,
-      label: this.label,
-      groupName: GROUP_NAME,
-      slotType: Notification.SlotType.SOCIAL_COMMUNICATION,
-      deliveryTime: new Date().getTime(),
-      extraInfo: missedCallData
-    }
+      str_text = this.getContext()?.resourceManager.getStringSync(
+r('app.string.missed_call'))
+}
+const notificationRequest: NotificationManager.NotificationRequest = {
+content: {
+contentType: Notification.ContentType.NOTIFICATION_CONTENT_BASIC_TEXT,
+normal: {
+title: count > 1 ? `displayName({count})` : displayName as string,
+text: str_text,
+additionalText: missedCallData.phoneNumber
+},
+},
+id: id,
+label: this.label,
+groupName: GROUP_NAME,
+slotType: Notification.SlotType.SOCIAL_COMMUNICATION,
+deliveryTime: new Date().getTime(),
+extraInfo: missedCallData
+}
 
-    let wantAgentObj = await this.getWantAgent(missedCallData, 'notification.event.click');
-    notificationRequest.wantAgent = wantAgentObj;
-    notificationRequest.actionButtons = [];
-    for (const key of Object.keys(actionBtnMaps)) {
-      const wantAgent = await this.getWantAgent(missedCallData, key);
-      const title = this.getContext()?.resourceManager.getStringSync(actionBtnMaps[key]);
-      notificationRequest.actionButtons.push({
-        title: title,
-        wantAgent: wantAgent
-      });
-    }
-    notificationRequest.removalWantAgent = await this.createWantAgentForCommonEvent(missedCallData, 'notification.event.cancel');
-    NotificationManager.publish(notificationRequest).then(() => {
-      HiLog.i(TAG, '===>publish promise success req.id : ' + notificationRequest.id);
-    }).catch((err) => {
-      HiLog.e(TAG, '===>publish promise failed because ' + JSON.stringify(err));
-    });
-    HiLog.i(TAG, 'sendNotification end')
-  }
+let wantAgentObj = await this.getWantAgent(missedCallData, 'notification.event.click');
+notificationRequest.wantAgent = wantAgentObj;
+notificationRequest.actionButtons = [];
+for (const key of Object.keys(actionBtnMaps)) {
+  const wantAgent = await this.getWantAgent(missedCallData, key);
+  const title = this.getContext()?.resourceManager.getStringSync(actionBtnMaps[key]);
+  notificationRequest.actionButtons.push({
+    title: title,
+    wantAgent: wantAgent
+  });
+}
+notificationRequest.removalWantAgent = await this.createWantAgentForCommonEvent(missedCallData, 'notification.event.cancel');
+NotificationManager.publish(notificationRequest).then(() => {
+  HiLog.i(TAG, '===>publish promise success req.id : ' + notificationRequest.id);
+}).catch((err: Error) => {
+  HiLog.e(TAG, '===>publish promise failed because ' + JSON.stringify(err));
+});
+HiLog.i(TAG, 'sendNotification end')
+}
 
-  /**
-   * send Unread Call  Notification
-   */
-  public async sendUnreadCallNotification(map: Map<string, string>) {
-    let id: number = <number> await sharedPreferencesUtils.getFromPreferences(KEY_ID, -1);
-    let displayName: string = <string> await  sharedPreferencesUtils.getFromPreferences(KEY_DISPLAY_NAME, '');
-    let count: number = <number> await  sharedPreferencesUtils.getFromPreferences(KEY_COUNT, -1);
-    let createTime: number = <number> await  sharedPreferencesUtils.getFromPreferences(KEY_CREATE_TIME, -1);
-    let ringDuration: number = <number> await  sharedPreferencesUtils.getFromPreferences(KEY_RING_DURATION, -1);
-    let missCallData = map.get('missedPhoneJson')
-    const parameters = JSON.parse(JSON.stringify(missCallData));
-    for (let i = 0; i < parameters.phoneNumberList.length; i++) {
-      const missedPhoneNumber = parameters.phoneNumberList[i]
-      const missedNum = parameters.countList[i]
-      if (i === (parameters.phoneNumberList.length -1)) {
-        this.UnReadMissedCallData = {
-          phoneNumber: missedPhoneNumber,
-          displayName: missedPhoneNumber,
-          id: i,
-          createTime: createTime,
-          count: count,
-          ringDuration: ringDuration
-        }
-      } else {
-        this.UnReadMissedCallData = {
-          phoneNumber: missedPhoneNumber,
-          displayName: missedPhoneNumber,
-          id: i,
-          createTime: createTime,
-          count: count,
-          ringDuration: 0
-        }
-      }
-      this.sendNotification(this.UnReadMissedCallData);
-    }
-  }
+/**
 
-  private setMissedBadgeNumber(newBadgeNum: number) {
-    HiLog.i(TAG, 'setMissedBadgeNumber :' + newBadgeNum);
-    this.missedBadgeNumber = newBadgeNum;
-    NotificationManager.setBadgeNumber(newBadgeNum);
-    sharedPreferencesUtils.saveToPreferences(KEY_MISSED_BADGE_NUM, newBadgeNum);
-  }
+send Unread Call Notification
+*/
+public async sendUnreadCallNotification(map: Map<string, string>) {
+let id: number = await sharedPreferencesUtils.getFromPreferences(KEY_ID, -1) as number;
+let displayName: string = await sharedPreferencesUtils.getFromPreferences(KEY_DISPLAY_NAME, '') as string;
+let count: number = await sharedPreferencesUtils.getFromPreferences(KEY_COUNT, -1) as number;
+let createTime: number = await sharedPreferencesUtils.getFromPreferences(KEY_CREATE_TIME, -1) as number;
+let ringDuration: number = await sharedPreferencesUtils.getFromPreferences(KEY_RING_DURATION, -1) as number;
+let missCallData = map.get('missedPhoneJson')
+const parameters: LooseObject = JSON.parse(JSON.stringify(missCallData));
+for (let i = 0; i < parameters.phoneNumberList.length; i++) {
+const missedPhoneNumber = parameters.phoneNumberList[i] as string
+if (i === (parameters.phoneNumberList.length - 1)) {
+this.UnReadMissedCallData = new MissedCallNotifyData(i, missedPhoneNumber, missedPhoneNumber, count,
+  createTime, ringDuration);
+} else {
+this.UnReadMissedCallData = new MissedCallNotifyData(i, missedPhoneNumber, missedPhoneNumber, count, createTime, 0);
+}
+this.sendNotification(this.UnReadMissedCallData);
+}
+}
 
-  /**
-   * create wantAgent for common event
-   *
-   * @param mAction
-   * @return return the created WantAgent object.
-   */
-  private async createWantAgentForCommonEvent(missedCallData, action?: string) {
-    return await WantAgent.getWantAgent({
-      wants: [{ action: 'contact.event.CANCEL_MISSED', parameters: {
-        action: action,
-        missedCallData: missedCallData
-      }, }],
-      actionType: WantAgent.OperationType.SEND_COMMON_EVENT,
-      requestCode: 0
-    })
-  }
+private setMissedBadgeNumber(newBadgeNum: number) {
+  HiLog.i(TAG, 'setMissedBadgeNumber :' + newBadgeNum);
+  this.missedBadgeNumber = newBadgeNum;
+  NotificationManager.setBadgeNumber(newBadgeNum);
+  sharedPreferencesUtils.saveToPreferences(KEY_MISSED_BADGE_NUM, newBadgeNum);
+}
 
-  private getWantAgent(missedCallData: MissedCallNotifyData, action: string) {
-    let data: any = {}
-    data.action = action,
-    data.missedCallData = missedCallData
-    if (action == 'notification.event.dialBack') {
-      HiLog.i(TAG, 'getWantAgent add page_flag_edit_before_calling')
-      return this.createWantAgentForCommonEvent(missedCallData, action);
-    }
-    return WantAgent.getWantAgent({
-      wants: [{
-                deviceId: '',
-                bundleName: BUNDLE_NAME,
-                abilityName: ABILITY_NAME,
-                uri: '',
-                type: 'phone',
-                parameters: data,
-                entities: []
-              }],
-      requestCode: 0,
-      actionType: WantAgent.OperationType.START_ABILITY,
-      wantAgentFlags: [WantAgent.WantAgentFlags.ONE_TIME_FLAG]
-    });
+/**
+ * create wantAgent for common event
+ *
+ * @param mAction
+ * @return return the created WantAgent object.
+ */
+private async createWantAgentForCommonEvent(missedCallData: MissedCallNotifyData, action?: string) {
+  return await WantAgent.getWantAgent({
+    wants: [{ action: 'contact.event.CANCEL_MISSED', parameters: {
+      action: action,
+      missedCallData: missedCallData
+    }, }],
+    actionType: WantAgent.OperationType.SEND_COMMON_EVENT,
+    requestCode: 0
+  })
+}
+private getWantAgent(missedCallData: MissedCallNotifyData, action: string): Object {
+let data: Record<string, object | string> = {}
+  data.action = action,
+  data.missedCallData = missedCallData
+  if (action == 'notification.event.dialBack') {
+    HiLog.i(TAG, 'getWantAgent add page_flag_edit_before_calling')
+    return this.createWantAgentForCommonEvent(missedCallData, action);
   }
+  return WantAgent.getWantAgent({
+    wants: [{
+      deviceId: '',
+      bundleName: BUNDLE_NAME,
+      abilityName: ABILITY_NAME,
+      uri: '',
+      type: 'phone',
+      parameters: data,
+      entities: []
+    }],
+    requestCode: 0,
+    actionType: WantAgent.OperationType.START_ABILITY,
+    wantAgentFlags: [WantAgent.WantAgentFlags.ONE_TIME_FLAG]
+  });
+}
 }

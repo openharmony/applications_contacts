@@ -14,10 +14,10 @@
  */
 
 import inputMethod from '@ohos.inputMethod';
-import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
-import { ObjectUtil } from '../../../../../../../common/src/main/ets/util/ObjectUtil';
+import { ObjectUtil } from 'common/src/main/ets/util/ObjectUtil';
 import { AccountTypeService } from '../../../../../../../feature/account/src/main/ets/AccountTypeService';
 import { AccountType } from '../../../../../../../feature/account/src/main/ets/type/AccountType';
 import { House } from '../../../../../../../feature/contact/src/main/ets/contract/House';
@@ -34,8 +34,12 @@ import { AIMBean } from '../../../model/bean/AIMBean';
 import { EventBean } from '../../../model/bean/EventBean';
 import { AssociatedPersonBean } from '../../../model/bean/AssociatedPersonBean';
 import PreferencesUtil from './../../../util/PreferencesUtil'
+import EditType from '../../../../../../../feature/account/src/main/ets/type/EditType';
+import LooseObject from '../../../model/LooseObject ';
+import { ContackPhoneSubInfoModel, ContactReturnObj } from '../../../model';
+import { RichContactInfo } from '../../../model/bean/RichContactInfo';
 
-const TAG = 'AccountantsPresenter  ';
+const TAG = 'AccountantsPresenter ';
 
 /**
  * Add Contact Presenter
@@ -43,29 +47,28 @@ const TAG = 'AccountantsPresenter  ';
 export default class AccountantsPresenter {
   private static instance: AccountantsPresenter;
   static readonly timeSub: number = 1000;
-  getPhones: Array<{ [key: string]: any }> = [];
-  getEmails: Array<{ [key: string]: any }> = [];
+  getPhones: Array = [];
+  getEmails: Array = [];
   clickBefEvent: Date = new Date();
   clickAftEvent: Date = new Date();
   contactId: string = '';
   routerAvtiveFlag: boolean = false;
-
   // update mark
   updateShow: boolean = false;
   isShowPosition: boolean = false;
   showMore: boolean = false;
   addState: boolean = false;
-  phones: string = '';
+  phones: ContackPhoneSubInfoModel[] = [];
   editContact: number = -1;
   phoneNumberShow: string = '';
   callId: string = '';
 
   // refresh mark
   changed: boolean = false;
-  originalContactInfo = JSON.stringify(new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0));
+  originalContactInfo = JSON.stringify(new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0, '', '', ''));
   // contact detail
-  contactInfoBefore: ContactInfo = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
-  contactInfoAfter: ContactInfo = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
+  contactInfoBefore: ContactInfo = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0, '', '', '');
+  contactInfoAfter: ContactInfo = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0, '', '', '');
   MagList: object = [];
 
   private constructor() {
@@ -78,15 +81,15 @@ export default class AccountantsPresenter {
     return AccountantsPresenter.instance
   }
 
-  refreshState: (presenter: AccountantsPresenter) => void;
+  public refreshState?: (presenter: AccountantsPresenter) => void;
   clickEnable = true;
 
-  init(refreshState?) {
+  init(refreshState?: (presenter: AccountantsPresenter) => void) {
     this.contactId = '';
     this.updateShow = false;
     this.MagList = [1];
-    this.contactInfoBefore = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
-    this.contactInfoAfter = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
+    this.contactInfoBefore = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0, '', '', '');
+    this.contactInfoAfter = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0, '', '', '');
     this.refreshState = refreshState;
     this.routerAvtiveFlag = false;
   }
@@ -120,7 +123,7 @@ export default class AccountantsPresenter {
   }
 
   getExistenceInfoString(afterInfo: ContactInfo) {
-    let temp = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
+    let temp = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0, '', '', '');
     if (!afterInfo) {
       return JSON.stringify(temp);
     } else {
@@ -199,8 +202,8 @@ export default class AccountantsPresenter {
     globalThis.DataWorker.sendRequest('getContactById', {
       context: globalThis.context,
       contactId: id
-    }, result => {
-      if (StringUtil.isEmpty(result)) {
+    }, (result: ContactReturnObj) => {
+      if (result.data == undefined) {
         HiLog.e(TAG, 'The result in the database is empty.');
         return;
       }
@@ -208,64 +211,37 @@ export default class AccountantsPresenter {
     });
   }
 
-  private dealRecordDetailsData(data) {
-    let contactTemp = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0);
-    if (!data.hasOwnProperty('id') || data.id != this.contactId) {
+  private dealRecordDetailsData(data: RichContactInfo) {
+    let contactTemp = new ContactInfo('', '', '', [], [], '', '', '', [], [], [], [], [], [], 0, '', '', '');
+    if (!data.id || data.id != this.contactId) {
       HiLog.e(TAG, 'Failed to query the database based on the ID.');
       return;
     }
     contactTemp.setID(data.id);
-    let nameUpdate = 0;
-    if (data.hasOwnProperty('nameUpdate')) {
-      nameUpdate = data.nameUpdate;
-    }
-    if (data.hasOwnProperty('display_name') && nameUpdate == 0) {
+    let nameUpdate = data.nameUpdate;
+    if (nameUpdate == 0) {
       contactTemp.setDisplayName(data.display_name);
     }
-    if (data.hasOwnProperty('nickname')) {
-      contactTemp.setNickName(data.nickname);
-    }
-    if (data.hasOwnProperty('phones')) {
-      contactTemp.setPhones(data.phones);
-    }
-    if (data.hasOwnProperty('emails')) {
-      contactTemp.setEmails(data.emails);
-    }
-    if (data.hasOwnProperty('remarks')) {
-      contactTemp.setRemarks(data.remarks);
-    }
-    if (data.hasOwnProperty('position')) {
-      contactTemp.setPosition(data.position);
-      this.isShowPosition = true;
-    }
-    if (data.hasOwnProperty('company')) {
-      contactTemp.setCompany(data.company);
-    }
-    if (data.hasOwnProperty('aims')) {
-      contactTemp.setAims(data.aims);
-    }
-    if (data.hasOwnProperty('houses')) {
-      contactTemp.setHouses(data.houses);
-    }
-    if (data.hasOwnProperty('websites')) {
-      contactTemp.setWebsites(data.websites);
-    }
-    if (data.hasOwnProperty('relationships')) {
-      contactTemp.setRelationships(data.relationships);
-    }
-    if (data.hasOwnProperty('events')) {
-      contactTemp.setEvents(data.events);
-    }
-    if (data.hasOwnProperty('groups')) {
-      contactTemp.setGroups(data.groups);
-    }
+    contactTemp.setNickName(data.nickname);
+    contactTemp.setPhones(data.phones);
+    contactTemp.setEmails(data.emails);
+    contactTemp.setRemarks(data.remarks);
+    contactTemp.setPosition(data.position);
+    this.isShowPosition = true;
+    contactTemp.setCompany(data.company);
+    contactTemp.setAims(data.aims);
+    contactTemp.setHouses(data.houses);
+    contactTemp.setWebsites(data.websites);
+    contactTemp.setRelationships(data.relationships);
+    contactTemp.setEvents(data.events);
+    contactTemp.setGroups(data.groups);
     this.contactInfoBefore = contactTemp;
     this.originalContactInfo = this.getExistenceInfoString(contactTemp)
     if (0 === this.editContact) {
-      if ('' !== this.phones) {
-        let saveTemp: Array<{ [key: string]: any }>  = this.getArray(this.phones);
-        for(let i = 0; i < saveTemp?.length ; i ++){
-          let phoneNumBean: PhoneNumBean = new PhoneNumBean('','','','','');
+      if (!ArrayUtil.isEmpty(this.phones)) {
+        let saveTemp: LooseObject[] = this.getArray(this.phones);
+        for (let i = 0; i < saveTemp?.length; i++) {
+          let phoneNumBean: PhoneNumBean = new PhoneNumBean('', '', '', '', '');
           phoneNumBean.id = saveTemp[i]?.item?.id;
           phoneNumBean.num = saveTemp[i]?.item?.num;
           phoneNumBean.numType = saveTemp[i]?.item?.type;
@@ -275,7 +251,7 @@ export default class AccountantsPresenter {
         }
       }
     } else if (1 === this.editContact || 2 === this.editContact) {
-      let phoneNumBean: PhoneNumBean = new PhoneNumBean('','','','','');
+      let phoneNumBean: PhoneNumBean = new PhoneNumBean('', '', '', '', '');
       phoneNumBean.id = this.callId;
       phoneNumBean.num = this.phoneNumberShow;
       phoneNumBean.numType = '';
@@ -289,8 +265,8 @@ export default class AccountantsPresenter {
     this.refreshAddState()
   }
 
-  public getData(type: string, index: number): { [key: string]: any } {
-    let data = new Array<{ [key: string]: any }>();
+  public getData(type: string, index: number): LooseObject {
+    let data: LooseObject[] = [];
     switch (type) {
       case 'phone':
         if (!this.updateShow) {
@@ -329,21 +305,23 @@ export default class AccountantsPresenter {
     };
   }
 
-  public getArray(array): Array<{ [key: string]: any }> {
-    if (ArrayUtil.isEmpty(array)) {
-      array = [{}];
+  public getArray(array: Array<LooseObject>): Array<LooseObject> {
+    let itemList: LooseObject[] = array;
+    if (ArrayUtil.isEmpty(itemList)) {
+      itemList = [];
     }
-    let itemList = ArrayUtil.isEmpty(array) ? this.MagList : array;
-    itemList = itemList.map((item, index) => {
-      return {
-        i: index + 1, item: item
-      };
+    itemList = itemList.map((item, index: number) => {
+      let result: LooseObject = {
+        i: index + 1,
+        item: item
+      }
+      return result;
     })
     return itemList;
   }
 
   public getDataArray(type: string) {
-    let data = new Array<{ [key: string]: any }>();
+    let data = new Array();
     switch (type) {
       case 'phone':
         if (!this.updateShow) {
@@ -378,7 +356,7 @@ export default class AccountantsPresenter {
     return data;
   }
 
-  public addMore(type: any) {
+  public addMore(type: string) {
     switch (type) {
       case 'phone':
         this.contactInfoAfter.phones.push(new PhoneNumBean('', '', '1', '', ''));
@@ -404,7 +382,7 @@ export default class AccountantsPresenter {
     this.refresh();
   }
 
-  public deleteItem(typeName: string, startIndex) {
+  public deleteItem(typeName: string, startIndex: number) {
     HiLog.i(TAG, `deleteItem ${typeName} ${startIndex}`);
     switch (typeName) {
       case 'phone':
@@ -457,7 +435,7 @@ export default class AccountantsPresenter {
     this.refresh();
   }
 
-  public getTextDisplay(typeName: string, data: any) {
+  public getTextDisplay(typeName: string, data: LooseObject) {
     let display: string = '';
     if (data && data.item) {
       switch (typeName) {
@@ -498,7 +476,7 @@ export default class AccountantsPresenter {
     return display;
   }
 
-  public listItemChange(typeName: string, data: any, arg: string) {
+  public listItemChange(typeName: string, data: LooseObject, arg: string) {
     try {
       switch (typeName) {
         case 'phone':
@@ -540,7 +518,7 @@ export default class AccountantsPresenter {
     }
   }
 
-  public menuSelect(typeName: string, data: any) {
+  public menuSelect(typeName: string, data: LooseObject): Resource | string {
     let typeId = 1;
     switch (typeName) {
       case 'phone':
@@ -587,26 +565,26 @@ export default class AccountantsPresenter {
 
   getMenuList(typeName: string) {
     let accountTypeService = new AccountTypeService();
-    let menuKindTypeList;
+    let menuKindTypeList: EditType[] = [];
     let phoneType = accountTypeService.getAccountType(AccountType.PHONE_ACCOUNT_TYPE);
     switch (typeName) {
       case 'phone':
-        menuKindTypeList = phoneType.mineKinds.get(Phone.CONTENT_ITEM_TYPE).typeList;
+        menuKindTypeList = phoneType.mineKinds?.get(Phone.CONTENT_ITEM_TYPE)?.typeList as EditType[];
         break;
       case 'email':
-        menuKindTypeList = phoneType.mineKinds.get(Email.CONTENT_ITEM_TYPE).typeList;
+        menuKindTypeList = phoneType.mineKinds?.get(Email.CONTENT_ITEM_TYPE)?.typeList as EditType[];
         break;
       case 'AIM':
-        menuKindTypeList = phoneType.mineKinds.get(Aim.CONTENT_ITEM_TYPE).typeList;
+        menuKindTypeList = phoneType.mineKinds?.get(Aim.CONTENT_ITEM_TYPE)?.typeList as EditType[];
         break;
       case 'house':
-        menuKindTypeList = phoneType.mineKinds.get(House.CONTENT_ITEM_TYPE).typeList;
+        menuKindTypeList = phoneType.mineKinds?.get(House.CONTENT_ITEM_TYPE)?.typeList as EditType[];
         break;
       case 'relationships':
-        menuKindTypeList = phoneType.mineKinds.get(Relation.CONTENT_ITEM_TYPE).typeList;
+        menuKindTypeList = phoneType.mineKinds?.get(Relation.CONTENT_ITEM_TYPE)?.typeList as EditType[];
         break;
       case 'events':
-        menuKindTypeList = phoneType.mineKinds.get(Birthday.CONTENT_ITEM_TYPE).typeList;
+        menuKindTypeList = phoneType.mineKinds?.get(Birthday.CONTENT_ITEM_TYPE)?.typeList as EditType[];
         break;
       default:
         break;
@@ -614,7 +592,7 @@ export default class AccountantsPresenter {
     return menuKindTypeList;
   }
 
-  public menuChange(typeName: string, data: any, item: any) {
+  public menuChange(typeName: string, data: LooseObject, item: EditType) {
     switch (typeName) {
       case 'phone':
         if (ObjectUtil.isEmpty(this.contactInfoAfter.phones[data.i - 1])) {
@@ -675,7 +653,7 @@ export default class AccountantsPresenter {
             context: globalThis.context,
             contactInfoAfter: JSON.stringify(this.contactInfoAfter)
           }
-          , (arg) => {
+          , (arg: object) => {
             this.clickEnable = true
             this.contactId = arg.toString();
             this.routerAvtiveFlag = true;
@@ -683,12 +661,11 @@ export default class AccountantsPresenter {
               PreferencesUtil.setIsUsed(true);
             }
           })
-      }
-      else {
+      } else {
         globalThis.DataWorker.sendRequest('updateContact', {
           context: globalThis.context,
           contactInfoAfter: JSON.stringify(this.contactInfoAfter)
-        }, (arg) => {
+        }, (arg: string) => {
           this.clickEnable = true
           this.contactId = arg.toString();
           this.routerAvtiveFlag = true;

@@ -14,7 +14,7 @@
  */
 
 import BatchSelectContactsPresenter from '../../../presenter/contact/batchselectcontacts/BatchSelectContactsPresenter';
-import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
 import BatchSelectRecentItemView from '../../../component/contact/batchselectcontacts/BatchSelectRecentItemView';
 import BatchSelectContactItemView from '../../../component/contact/batchselectcontacts/BatchSelectContactItemView';
@@ -22,6 +22,9 @@ import BatchTabGuide from '../../../component/contact/batchselectcontacts/BatchT
 import router from '@ohos.router';
 import AlphabetIndexerPresenter from '../../../presenter/contact/alphabetindex/AlphabetIndexerPresenter';
 import { AlphabetIndexerPage } from '../alphabetindex/AlphabetIndexerPage';
+import { ContactVo } from '../../../model/bean/ContactVo';
+import { BatchSelectContact } from '../../../model';
+import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
 
 const TAG = 'BatchSelectContactsPage ';
 
@@ -38,7 +41,7 @@ export default struct BatchSelectContactsPage {
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear')
-    let obj: any = router.getParams();
+    let obj: DetailPresenter = router.getParams() as DetailPresenter;
     this.mPresenter.addFavorite = obj?.addFavorite;
     this.mPresenter.aboutToAppear()
   }
@@ -205,13 +208,13 @@ struct RecentList {
   build() {
     Column() {
       List({ space: 0, initialIndex: 0 }) {
-        LazyForEach(this.presenter.recentSource, (item, index: number) => {
+        LazyForEach(this.presenter.recentSource, (item :BatchSelectContact, index: number) => {
           ListItem() {
             Stack({ alignContent: Alignment.BottomEnd }) {
               BatchSelectRecentItemView({
                 item: item.calllog,
                 index: item.index,
-                onRecentItemClicked: (index) => this.presenter.onRecentItemClicked(index)
+                onRecentItemClicked: (index: number): void => this.presenter.onRecentItemClicked(index)
               })
 
               if (item.showDivifer) {
@@ -221,7 +224,7 @@ struct RecentList {
               }
             }
           }
-        }, (item) => JSON.stringify(item))
+        }, (item:BatchSelectContact) => JSON.stringify(item))
       }
       .width('100%')
       .listDirection(Axis.Vertical)
@@ -248,7 +251,7 @@ struct ContactsList {
     Column() {
       Stack({ alignContent: Alignment.TopEnd }) {
         List({ initialIndex: this.presenter.initialIndex, scroller: this.scroller }) {
-          LazyForEach(this.presenter.contactsSource, (item, index) => {
+          LazyForEach(this.presenter.contactsSource, (item:BatchSelectContact) => {
 
             ListItem() {
               Stack({ alignContent: Alignment.BottomEnd }) {
@@ -271,7 +274,8 @@ struct ContactsList {
                   BatchSelectContactItemView({
                     item: item.contact,
                     index: item.index,
-                    onContactItemClicked: (index, indexChild) => this.presenter.onContactItemClicked(index, indexChild),
+                    onContactItemClicked: (index:number, indexChild:number): void => this.presenter.onContactItemClicked(index,
+                      indexChild),
                     showIndex: item.showIndex,
                     showDivifer: item.showDivifer
                   })
@@ -284,7 +288,7 @@ struct ContactsList {
                 }
               }
             }
-          }, (item) => JSON.stringify(item))
+          }, (item:BatchSelectContact) => JSON.stringify(item))
         }
         .width('100%')
         .listDirection(Axis.Vertical)

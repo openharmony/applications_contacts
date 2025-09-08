@@ -17,6 +17,7 @@ import { WorkerMessage } from './WorkerWrapper'
 import { ThreadWorkerGlobalScope, MessageEvents } from '@ohos.worker';
 import { HiLog } from '../../../../../../common'
 import buffer from '@ohos.buffer'
+import LooseObject from '../../model/type/LooseObject';
 
 const TAG = 'WorkerTask'
 /*
@@ -25,7 +26,7 @@ const TAG = 'WorkerTask'
  * Work sub thread task
  */
 export abstract class WorkerTask {
-    workerPort: ThreadWorkerGlobalScope
+    workerPort?: ThreadWorkerGlobalScope
 
     constructor(workerPort?: ThreadWorkerGlobalScope) {
         HiLog.i(TAG, `WorkerTask constructor`)
@@ -40,9 +41,9 @@ export abstract class WorkerTask {
      */
     public onmessage(message: MessageEvents) {
         try {
-            let data = <WorkerMessage> message.data
+            let data = message.data as WorkerMessage
             HiLog.i(TAG, `onmessage ${data.request}`)
-            this.runInWorker(data.request, (v) => {
+            this.runInWorker(data.request, (v?: LooseObject) => {
                 HiLog.i(TAG, 'runInWorker callback in')
                 data.param = v;
                 const str = JSON.stringify(data)
@@ -53,8 +54,7 @@ export abstract class WorkerTask {
             HiLog.e(TAG, 'runInWorker err = ' + JSON.stringify(err));
         }
     }
-
-    public abstract runInWorker(request: string, callBack: (v?: any) => void, param?: any);
+    public abstract runInWorker(request: string, callBack: Function, param?: LooseObject);
 }
 
 export default WorkerTask;

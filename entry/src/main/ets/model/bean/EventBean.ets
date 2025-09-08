@@ -18,6 +18,7 @@ export class EventBean {
   data: string;
   eventType: string;
   eventName: string;
+  public labelName?: Resource | string;
   constructor(id: string, data: string, eventType: string, eventName: string) {
     this.id = id;
     this.data = data;

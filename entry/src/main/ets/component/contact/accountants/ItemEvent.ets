@@ -17,6 +17,7 @@ import { StringUtil, HiLog } from '../../../../../../../common';
 import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
 import StringFormatUtil from '../../../util/StringFormatUtil';
 import { Birthday } from '../../../../../../../feature/contact/src/main/ets/contract/Birthday';
+import EditType from '../../../../../../../feature/account/src/main/ets/type/EditType';
 
 const TAG = 'ItemEvent'
 
@@ -25,9 +26,9 @@ export struct ItemEvent {
   @Link mPresent: AccountantsPresenter;
   @Link itemIndex: number;
   @Link eventType: number;
-  private controller: { [key: string]: any };
-  private index: number;
-  private typeName: string;
+  private controller: CustomDialogController| null = null;
+  private index: number = -1;
+  private typeName: string = '';
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
 
   build() {
@@ -86,7 +87,7 @@ export struct ItemEvent {
               this.eventType = Number(data.item.eventType)
             }
             this.itemIndex = this.index - 1;
-            this.controller.open()
+            this.controller?.open()
           })
 
           Column() {
@@ -123,7 +124,7 @@ export struct ItemEvent {
   @Builder MenuBuilder() {
     Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
       ForEach(this.mPresent.getMenuList(this.typeName),
-        (item) => {
+        (item:EditType) => {
           Text(item.labelRes)
             .fontSize($r('sys.float.ohos_id_text_size_body1'))
             .width('156vp')
@@ -140,7 +141,7 @@ export struct ItemEvent {
             .width($r('app.float.account_Divider_width'))
             .color($r('sys.color.ohos_id_color_list_separator'))
         },
-        (item) => item.rawValue.toString())
+        (item:EditType) => item.rawValue.toString())
     }
     .width($r('app.float.account_MenuBuilder_width'))
     .borderRadius($r('sys.float.ohos_id_corner_radius_default_l'))

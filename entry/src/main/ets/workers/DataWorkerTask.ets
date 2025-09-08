@@ -21,10 +21,17 @@ import { ThreadWorkerGlobalScope } from '@ohos.worker';
 import CallLog from '../model/calllog/CalllogModel';
 import { CallLogRepository } from '../../../../../feature/call';
 import { ContactRepository } from '../../../../../feature/contact';
+import { CallLog as CallLogClass } from '../../../../../feature/call/src/main/ets/entity/CallLog';
 import ContactAbilityModel from '../model/ContactAbilityModel';
+import LooseObject from '../model/type/LooseObject';
+import { ContactInfo } from '../model/bean/ContactInfo';
+import { CallInfoGetParamsInCallback, ContactInfoGetParamsInCallback } from '../model/type/ContactParams';
+import { ContactVo } from '../model/bean/ContactVo';
+import { ContactReturnObj } from '../model/type';
+import { FavoriteBean } from '../model/bean/FavoriteBean';
+import { SearchContactsBean } from '../model/bean/SearchContactsBean';
 
 const TAG = 'DataWorkerTask'
-
 
 export enum DataWorkerConstant {
   'deleteCallLogsById',
@@ -48,13 +55,13 @@ export enum DataWorkerConstant {
 }
 
 export class DataWorkerTask extends WorkerTask {
-  private static sInstance: DataWorkerTask = undefined;
+  private static sInstance?: DataWorkerTask = undefined;
 
-  private constructor(workerPort: ThreadWorkerGlobalScope) {
+  private constructor(workerPort?: ThreadWorkerGlobalScope) {
     super(workerPort)
   }
 
-  static getInstance(workerPort: ThreadWorkerGlobalScope) {
+  static getInstance(workerPort?: ThreadWorkerGlobalScope) {
     HiLog.i(TAG, 'getInstance in.')
     if (DataWorkerTask.sInstance == undefined || DataWorkerTask.sInstance.workerPort == undefined) {
       DataWorkerTask.sInstance = new DataWorkerTask(workerPort);
@@ -62,104 +69,106 @@ export class DataWorkerTask extends WorkerTask {
     return DataWorkerTask.sInstance;
   }
 
-  runInWorker(request: string, callBack: (v?: any) => void, param?: any) {
+  runInWorker(request: string, callBack: Function, param?: LooseObject) {
     HiLog.i(TAG, `runInWorker ${request}`)
     switch (request) {
       case DataWorkerConstant[DataWorkerConstant.getAllCalls]:
-        CallLog.getAllCalls(JSON.parse(param.favoriteForm), param.actionData, param.mergeRule, (data) => {
+        CallLog.getAllCalls(JSON.parse(param?.favoriteForm), param?.actionData, param?.mergeRule,
+          (data: CallInfoGetParamsInCallback) => {
           HiLog.i(TAG, `getAllCalls result: ${JSON.stringify(data).length}`)
           callBack(data);
-        }, param.context);
+        }, param?.context);
         break;
       case DataWorkerConstant[DataWorkerConstant.findByNumberIn]:
-        CallLogRepository.getInstance().init(param.context);
-        CallLogRepository.getInstance().findByNumberIn(param.numbers, (resultList) => {
+        CallLogRepository.getInstance().init(param?.context);
+        CallLogRepository.getInstance().findByNumberIn(param?.actionData, (resultList) => {
           callBack(resultList);
         });
         break
       case DataWorkerConstant[DataWorkerConstant.deleteContactById]:
-        ContactRepository.getInstance().init(param.context);
-        ContactRepository.getInstance().deleteById(param.contactId, (result) => {
+        ContactRepository.getInstance().init(param?.context);
+        ContactRepository.getInstance().deleteById(param?.contactId, (result: number | undefined) => {
           HiLog.i(TAG, `deleteContactById result ${result}`)
           callBack(result);
         });
         break;
       case DataWorkerConstant[DataWorkerConstant.deleteCallLogsById]:
-        CallLogRepository.getInstance().init(param.context);
-        CallLogRepository.getInstance().deleteByIdIn(param.ids, (result) => {
+        CallLogRepository.getInstance().init(param?.context);
+        CallLogRepository.getInstance().deleteByIdIn(param?.ids, (result) => {
           callBack(result);
         })
         break;
       case DataWorkerConstant[DataWorkerConstant.addContact]:
-        const contactInfoAfter = JSON.parse(param.contactInfoAfter)
-        ContactAbilityModel.addContact(contactInfoAfter, (arg) => {
+        const contactInfoAfter: ContactInfo = JSON.parse(param?.contactInfoAfter)
+        ContactAbilityModel.addContact(contactInfoAfter, (arg: string[]) => {
           callBack(arg);
-        }, param.context)
+        }, param?.context)
         break
       case DataWorkerConstant[DataWorkerConstant.getAllContact]:
-        ContactAbilityModel.getAllContact(param.actionData, (result) => {
+        ContactAbilityModel.getAllContact(param?.actionData, (result: ContactVo[]) => {
           callBack(result);
-        }, param.context)
+        }, param?.context)
         break
       case DataWorkerConstant[DataWorkerConstant.getAllContactWithPhoneNumbers]:
-        ContactAbilityModel.getAllContactWithPhoneNumbers((resultList) => {
+        ContactAbilityModel.getAllContactWithPhoneNumbers((resultList: ContactInfoGetParamsInCallback) => {
           callBack(resultList);
-        }, JSON.parse(param.favoriteForm), param.context)
+        }, JSON.parse(param?.favoriteForm), param?.context)
         break
       case DataWorkerConstant[DataWorkerConstant.getContactById]:
-        ContactAbilityModel.getContactById(param.contactId, result => {
+        ContactAbilityModel.getContactById(param?.contactId, (result: ContactReturnObj) => {
           callBack(result);
-        }, param.context)
+        }, param?.context)
         break
       case DataWorkerConstant[DataWorkerConstant.getIdByTelephone]:
-        ContactAbilityModel.getIdByTelephone(param.phoneNumber, (contactId) => {
+        ContactAbilityModel.getIdByTelephone(param?.phoneNumber, (contactId: string) => {
           callBack(contactId);
-        }, param.context)
+        }, param?.context)
         break
       case DataWorkerConstant[DataWorkerConstant.updateContact]:
-        ContactAbilityModel.updateContact(null, JSON.parse(param.contactInfoAfter), (arg) => {
+        ContactAbilityModel.updateContact(null, JSON.parse(param?.contactInfoAfter), (arg: string) => {
           callBack(arg);
-        }, param.context)
+        }, param?.context)
         break
       case DataWorkerConstant[DataWorkerConstant.updateFavorite]:
-        ContactAbilityModel.updateFavorite(null, JSON.parse(param.favoriteForm), (arg) => {
+        ContactAbilityModel.updateFavorite(null, JSON.parse(param?.favoriteForm), (arg: number) => {
           callBack(arg);
-        }, param.context)
+        }, param?.context)
         break
       case DataWorkerConstant[DataWorkerConstant.getAllFavorite]:
-        ContactAbilityModel.getAllFavorite(param.actionData, (result) => {
+        ContactAbilityModel.getAllFavorite((result: FavoriteBean[]) => {
           callBack(result);
-        }, param.context)
+        }, param?.context)
         break
       case DataWorkerConstant[DataWorkerConstant.getAllUsually]:
-        ContactAbilityModel.getAllUsually(param.actionData, (result) => {
+        ContactAbilityModel.getAllUsually((result: CallLogClass[]) => {
           callBack(result);
-        }, param.context)
+        }, param?.context)
         break
       case DataWorkerConstant[DataWorkerConstant.getDisplayNamesFindUsually]:
-        ContactAbilityModel.getDisplayNamesFindUsually(param.displayName, param.usuallyPhone, (result) => {
+        ContactAbilityModel.getDisplayNamesFindUsually(param?.displayName, param?.usuallyPhone,
+          (result: FavoriteBean[]) => {
           callBack(result);
-        }, param.context)
+        }, param?.context)
         break
       case DataWorkerConstant[DataWorkerConstant.moveSortFavorite]:
-        ContactAbilityModel.moveSortFavorite(null, JSON.parse(param.favoriteForm), (result) => {
+        ContactAbilityModel.moveSortFavorite(null, JSON.parse(param?.favoriteForm), (result: string) => {
           callBack(result);
-        }, param.context)
+        }, param?.context)
         break
       case DataWorkerConstant[DataWorkerConstant.getSearchContact]:
-        ContactAbilityModel.getSearchContact(param.actionData, (result) => {
+        ContactAbilityModel.getSearchContact(param?.actionData, (result: SearchContactsBean[]) => {
           callBack(result);
-        }, param.context)
+        }, param?.context)
         break
       case DataWorkerConstant[DataWorkerConstant.getCallHistorySearch]:
-        CallLog.getCallHistorySearch(param.actionData, param.mergeRule, (data) => {
+        CallLog.getCallHistorySearch(param?.actionData, param?.mergeRule, (data: CallInfoGetParamsInCallback) => {
           callBack(data);
-        }, param.context);
+        }, param?.context);
         break
       case DataWorkerConstant[DataWorkerConstant.getQueryT9PhoneNumbers]:
-        ContactAbilityModel.getQueryT9PhoneNumbers((resultList) => {
+        ContactAbilityModel.getQueryT9PhoneNumbers((resultList: ContactVo[]) => {
           callBack(resultList);
-        }, JSON.parse(param.favoriteForm), param.context)
+        }, JSON.parse(param?.favoriteForm), param?.context)
         break
       default:
         HiLog.w(TAG, `${request} not allow!!!`)

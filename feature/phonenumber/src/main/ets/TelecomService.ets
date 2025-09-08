@@ -13,9 +13,8 @@
  * limitations under the License.
  */
 import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
-import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import call from '@ohos.telephony.call';
-
 const TAG = 'TelecomService';
 
 export default class TelecomService {
@@ -37,7 +36,7 @@ export default class TelecomService {
    * @param options DialOptions Look @ohos.telephony.call.d.ts
    * @param callback dail callback data:is emergency   err：failure  value：result
    */
-  async dial(phoneNum: string, options: call.DialOptions, callback) {
+  async dial(phoneNum: string, options: call.DialOptions, callback:CallableFunction) {
     HiLog.i(TAG, 'dial start ');
     if (StringUtil.isEmpty(phoneNum)) {
       HiLog.i(TAG, 'dial phoneNum is empty ');

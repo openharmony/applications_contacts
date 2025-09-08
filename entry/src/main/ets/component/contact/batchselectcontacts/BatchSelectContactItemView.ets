@@ -13,17 +13,17 @@
  * limitations under the License.
  */
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
-
+import { ContactVo, PhoneNumberObj } from '../../../model/bean/ContactVo';
 /**
  * Select the contact item component, which is responsible for displaying a single contact.
  */
 @Component
 export default struct BatchSelectContactItemView {
   @State private single: boolean = false;
-  @State private item: { [key: string]: any } = {};
-  private onContactItemClicked: Function;
-  private onSingleContactItemClick: Function;
-  private index: number;
+  @State private item: ContactVo = new ContactVo('','','','','','',false,'','');
+  private onContactItemClicked: Function = () =>{};
+  private onSingleContactItemClick: Function = () =>{};
+  private index: number = 0;
   @State private showIndex: boolean = false;
   @State private showDivifer: boolean = false;
 
@@ -104,7 +104,7 @@ export default struct BatchSelectContactItemView {
       })
 
       List({ space: 0, initialIndex: 0 }) {
-        ForEach(this.item.phoneNumbers, (item, index) => {
+        ForEach(this.item.phoneNumbers, (item :phoneNumberObj, index) => {
           ListItem() {
             if (index != 0) {
               Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
@@ -136,12 +136,12 @@ export default struct BatchSelectContactItemView {
                 if (!this.single) {
                   this.onContactItemClicked(this.index, index);
                 } else {
-                  this.onSingleContactItemClick(this.item.phoneNumbers[index].phoneNumber, this.item.showName);
+                  this.onSingleContactItemClick(this.item.phoneNumbers[0].phoneNumber, this.item.showName);
                 }
               })
             }
           }
-        }, (item, index) => JSON.stringify(item))
+        }, (item:phoneNumberObj, index) => JSON.stringify(item))
       }
       .listDirection(Axis.Vertical)
       .edgeEffect(EdgeEffect.Spring)

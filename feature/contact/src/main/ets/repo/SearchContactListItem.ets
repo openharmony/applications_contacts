@@ -16,13 +16,15 @@
 import Contact from '../entity/Contact';
 import ContactBuilder from '../entity/ContactBuilder';
 import { SearchContacts } from '../contract/SearchContacts';
+import DataShareResultSet from '@ohos.data.DataShareResultSet';
 
 export default class SearchContactListItem {
   static readonly COLUMNS: string[] = [SearchContacts.ID, SearchContacts.ACCOUNT_ID, SearchContacts.CONTACT_ID,
-  SearchContacts.ROW_CONTACT_ID, SearchContacts.SEARCH_NAME, SearchContacts.DISPLAY_NAME, SearchContacts.PHONETIC_NAME,
-  SearchContacts.PHOTO_ID, SearchContacts.PHOTO_FILE_ID, SearchContacts.IS_DELETED, SearchContacts.POSITION,
-  SearchContacts.PHOTO_FIRST_NAME, SearchContacts.SORT_FIRST_LETTER, SearchContacts.CUSTOM_DATA,
-  SearchContacts.DETAIL_INFO, SearchContacts.CONTENT_TYPE, SearchContacts.HAS_PHONE_NUMBER];
+    SearchContacts.ROW_CONTACT_ID, SearchContacts.SEARCH_NAME, SearchContacts.DISPLAY_NAME,
+    SearchContacts.PHONETIC_NAME,SearchContacts.PHOTO_ID, SearchContacts.PHOTO_FILE_ID,
+    SearchContacts.IS_DELETED, SearchContacts.POSITION,
+    SearchContacts.PHOTO_FIRST_NAME, SearchContacts.SORT_FIRST_LETTER, SearchContacts.CUSTOM_DATA,
+    SearchContacts.DETAIL_INFO, SearchContacts.CONTENT_TYPE, SearchContacts.HAS_PHONE_NUMBER];
   readonly id: number;
   readonly accountId: string;
   readonly contactId: string;
@@ -32,7 +34,7 @@ export default class SearchContactListItem {
   readonly phoneticName: string;
   readonly photoId: string;
   readonly photoFileId: string;
-  readonly isDeleted: number;
+  readonly isDeleted: string;
   readonly position: string;
   readonly photoFirstName: string;
   readonly sortFirstLetter: string;
@@ -41,7 +43,7 @@ export default class SearchContactListItem {
   readonly contentType: string;
   readonly hasPhoneNumber: string;
 
-  constructor(resultSet: any) {
+  constructor(resultSet: DataShareResultSet) {
     this.id = resultSet.getLong(resultSet.getColumnIndex(SearchContacts.ID));
     this.accountId = resultSet.getString(resultSet.getColumnIndex(SearchContacts.ACCOUNT_ID));
     this.contactId = resultSet.getString(resultSet.getColumnIndex(SearchContacts.CONTACT_ID));

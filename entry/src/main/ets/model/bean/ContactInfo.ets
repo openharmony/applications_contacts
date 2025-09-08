@@ -12,14 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {PhoneNumBean} from '../bean/PhoneNumBean'
-import {EmailBean} from '../bean/EmailBean'
-import {AIMBean} from '../bean/AIMBean'
-import {HouseBean} from '../bean/HouseBean'
-import {GroupBean} from '../bean/GroupBean'
-import {EventBean} from '../bean/EventBean'
-import {AssociatedPersonBean} from '../bean/AssociatedPersonBean'
+import { PhoneNumBean } from '../bean/PhoneNumBean'
+import { EmailBean } from '../bean/EmailBean'
+import { AIMBean } from '../bean/AIMBean'
+import { HouseBean } from '../bean/HouseBean'
+import { GroupBean } from '../bean/GroupBean'
+import { EventBean } from '../bean/EventBean'
+import { AssociatedPersonBean } from '../bean/AssociatedPersonBean'
 
 export class ContactInfo {
   id: string;
@@ -37,12 +36,15 @@ export class ContactInfo {
   relationships: AssociatedPersonBean[];
   events: EventBean[];
   groups: GroupBean[];
-  favorite: number;
-  constructor(id: string, display_name: string,
-              nickname: string, phones: PhoneNumBean[],
-              emails: EmailBean[], position: string, company: string, remarks: string,
-              aims: AIMBean[], houses: HouseBean[], websites: string[],
-              relationships: AssociatedPersonBean[], events: EventBean[], groups: GroupBean[], favorite: number) {
+  favorite: string | undefined;
+  phoneticName: string = '';
+  otherLanLastName: string = '';
+  otherLanFirstName: string = '';
+
+  constructor(id: string, display_name: string, nickname: string, phones: PhoneNumBean[], emails: EmailBean[],
+    position: string, company: string, remarks: string, aims: AIMBean[], houses: HouseBean[], websites: string[],
+    relationships: AssociatedPersonBean[], events: EventBean[], groups: GroupBean[],
+    favorite: number, phoneticName: string, otherLanLastName: string, otherLanFirstName: string) {
     this.id = id;
     this.display_name = display_name;
     this.nickname = nickname;
@@ -57,7 +59,10 @@ export class ContactInfo {
     this.relationships = relationships;
     this.events = events;
     this.groups = groups;
-    this.favorite = favorite;
+    this.favorite = favorite.toString();
+    this.phoneticName = phoneticName;
+    this.otherLanLastName = otherLanLastName;
+    this.otherLanFirstName = otherLanFirstName;
   }
 
   setID(id: string) {

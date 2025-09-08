@@ -15,9 +15,24 @@
 
 import { PhoneNumber } from '../../../../../../feature/phonenumber';
 import { CallType } from '../../../../../../feature/call/src/main/ets/entity/CallLog';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import EnvironmentProp from '../../feature/EnvironmentProp';
 import promptAction from '@ohos.promptAction'
+import { CallBean } from '../../model/bean/CallBean';
+import DetailPresenter from '../../presenter/contact/detail/DetailPresenter';
+import { CallLogBean } from '../../model/bean/CallLogBean';
+
+class CallLogObj{
+  public dateDetail:string = '';
+  public callType:CallType = CallType.MISSED;
+  public timeDetail:string = '';
+  public formatNumber:string = '';
+  public simId:number = -1;
+  public talkTime:string = '';
+  constructor(dateDetail: string) {
+    this.dateDetail = dateDetail;
+  }
+}
 
 const TAG = 'ContactDetail-calllog';
 
@@ -26,12 +41,12 @@ const TAG = 'ContactDetail-calllog';
  */
 @Component
 export default struct CallLogListItem {
-  @State message: { [key: string]: any } = {};
+  @State message: CallLogBean = new CallLogBean('','','','');
   @State isEmergencyNum: boolean = false;
-  private imgRes: Resource;
+  private imgRes: Resource|undefined = undefined;
   @StorageLink('haveMultiSimCard') haveMultiSimCard: boolean = false;
   @StorageLink('haveSimCard') haveSimCard: boolean = false;
-  @Link private mPresenter: { [key: string]: any };
+  @Link private mPresenter: DetailPresenter;
   private simImgRes: Resource = $r('app.media.stat_sys_sim1');
 
   aboutToAppear() {

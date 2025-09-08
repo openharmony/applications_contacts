@@ -14,11 +14,18 @@
  */
 
 import CallRecord from './callRecord/CallRecord'
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
-import { DialerInitialPage } from '../../component/dialer/DialerInitialPage';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import DialerPresenter from '../../presenter/dialer/DialerPresenter';
 import EnvironmentProp from '../../feature/EnvironmentProp';
-import PreferencesUtil from '../../util/PreferencesUtil';
+
+class CallmenuFn {
+  public value: string = '';
+  public action: () => void = ()=>{}
+  constructor(value:string,action:() => void) {
+    this.value = value;
+    this.action = action;
+  }
+}
 
 const TAG = 'DialerTablet'
 
@@ -90,7 +97,7 @@ struct DialButton {
 
 @Component
 struct DialPad {
-  @Link mPresenter: DialerPresenter;
+@Link mPresenter: DialerPresenter;
 
   build() {
     Column() {
@@ -204,64 +211,62 @@ export default struct CallTablet {
     this.mPresenter.onDestroy();
   }
 
-  getMenu() {
-    let tmpPhoneMenu = [];
-    this.menuRes.forEach(element => {
-      tmpPhoneMenu.push({});
-    });
-    this.callmenu = tmpPhoneMenu;
-    this.menuRes.forEach((element, i) => {
-      globalThis.context.resourceManager.getString(element.id, (err, typeName) => {
-        HiLog.i(TAG, typeName);
-        this.callmenu[i] = {
-          value: typeName,
-          action: () => {
-          }
-        };
-      });
-    });
-  }
+getMenu() {
+let tmpPhoneMenu: CallmenuFn[] = [];
+this.menuRes.forEach(element => {
+tmpPhoneMenu.push(new CallmenuFn(element.bundleName,() => {
+}));
+});
+this.callmenu = tmpPhoneMenu;
+this.menuRes.forEach((element, i) => {
+globalThis.context.resourceManager.getString(element.id, (err: Error, typeName: string) => {
+HiLog.i(TAG, typeName);
+this.callmenu[i] = new CallmenuFn(typeName,() => {
+});
+});
+});
+}
 
   build() {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
 
-      Column() {
-        if (this.tele_number.length > 0) {
-          Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
-            Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Center }) {
-              Text(`${this.tele_number}`)
-                .fontSize(this.mPresenter.tele_num_size)
-                .fontColor($r('sys.color.ohos_id_color_text_primary'))
-                .maxLines(1)
-            }
-            .width('100%')
-            .height('112vp')
+  Column() {
+    if (this.tele_number.length > 0) {
+      Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Start }) {
+        Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, justifyContent: FlexAlign.Center }) {
+          Text(`${this.tele_number}`)
+            .fontSize(this.mPresenter.tele_num_size)
+            .fontColor($r('sys.color.ohos_id_color_text_primary'))
+            .maxLines(1)
+        }
+        .width('100%')
+        .height('112vp')
 
-            if (this.tele_number.length >= 3) {
-              Row() {
-                Image($r('app.media.ic_public_add'))
-                  .width($r('app.float.id_card_margin_max'))
-                  .height($r('app.float.id_card_margin_max'))
-                  .margin({
-                    left: $r('app.float.id_card_margin_max'),
-                    right: $r('app.float.id_card_margin_xxl')
-                  })
-
-                Text($r('app.string.new_contact'))
-                  .fontSize($r('sys.float.ohos_id_text_size_body1'))
-                  .fontColor($r('sys.color.ohos_id_color_text_primary'))
-              }
-              .width('100%')
-              .height($r('app.float.id_item_height_large'))
-              .onClick(() => {
-                this.mPresenter.jumpToAccountants()
+        if (this.tele_number.length >= 3) {
+          Row() {
+            Image($r('app.media.ic_public_add'))
+              .width($r('app.float.id_card_margin_max'))
+              .height($r('app.float.id_card_margin_max'))
+              .margin({
+                left: $r('app.float.id_card_margin_max'),
+                right: $r('app.float.id_card_margin_xxl')
               })
 
-              Divider()
-                .color($r('sys.color.ohos_id_color_list_separator'))
-                .lineCap(LineCapStyle.Square)
-                .width('100%')
-                .padding({ left: $r('app.float.id_item_height_max') })
+            Text($r('app.string.new_contact'))
+              .fontSize($r('sys.float.ohos_id_text_size_body1'))
+              .fontColor($r('sys.color.ohos_id_color_text_primary'))
+          }
+          .width('100%')
+          .height($r('app.float.id_item_height_large'))
+          .onClick(() => {
+            this.mPresenter.jumpToAccountants()
+          })
+
+          Divider()
+            .color($r('sys.color.ohos_id_color_list_separator'))
+            .lineCap(LineCapStyle.Square)
+            .width('100%')
+            .padding({ left: $r('app.float.id_item_height_max') })
 
               //This component is temporarily shielded because there is no requirement currently.
 //              Row() {

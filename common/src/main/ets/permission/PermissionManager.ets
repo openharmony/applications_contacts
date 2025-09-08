@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 import { HiLog } from '../util/HiLog';
-import abilityAccessCtrl from '@ohos.abilityAccessCtrl';
-
+import abilityAccessCtrl, { Permissions } from '@ohos.abilityAccessCtrl';
+import { BusinessError } from '@ohos.base';
 const TAG = 'PermissionManager';
 
 export class PermissionManager {
@@ -35,7 +35,7 @@ export class PermissionManager {
   }
 
   async initPermissions() {
-    let requestPermissions: Array<any> = [
+    let requestPermissions: Permissions[] = [
       "ohos.permission.READ_CONTACTS",
       "ohos.permission.WRITE_CONTACTS",
       "ohos.permission.MANAGE_VOICEMAIL",
@@ -55,7 +55,7 @@ export class PermissionManager {
         HiLog.i(TAG, "authFlag: " + JSON.stringify(authFlag));
         this._isAllPermissionsGranted = authFlag;
       })
-      .catch(err => {
+      .catch((err: BusinessError) => {
         HiLog.e(TAG, "requestPermissionsFromUser err:" + JSON.stringify(err));
       });
     HiLog.i(TAG, 'Application requestPermissionsFromUser end');

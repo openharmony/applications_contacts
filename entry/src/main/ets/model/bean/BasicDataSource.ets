@@ -12,8 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
+import LooseObject from '../LooseObject ';
 
 const TAG = 'BasicDataSource';
 
@@ -24,7 +24,7 @@ export class BasicDataSource implements IDataSource {
     return 0
   }
 
-  public getData(index: number): any {
+  public getData(index: number): LooseObject | undefined | null {
     return undefined
   }
 

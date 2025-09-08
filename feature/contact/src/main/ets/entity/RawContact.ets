@@ -12,27 +12,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { RawContacts } from '../contract/RawContacts';
 import { Data } from '../contract/Data';
 import { DataItem } from '../entity/DataItem';
+import DataShareResultSet from '@ohos.data.DataShareResultSet';
 
 export default class RawContact {
   readonly id: number;
-  readonly values: Map<string, any>;
+  readonly values: Map<string, number | string>;
   readonly dataItems: DataItem[];
-  constructor(id: number, values: Map<string, any>) {
+
+  constructor(id: number, values: Map<string, number | string>) {
     this.id = id;
     this.values = values;
     this.dataItems = [];
   }
 
-  static fromResultSet(resultSet: any): RawContact{
-    let contentValues: Map<string, any> = new Map();
+  static fromResultSet(resultSet: DataShareResultSet): RawContact {
+    let contentValues: Map<string, number | string> = new Map();
     contentValues.set(RawContacts.CONTACT_ID, resultSet.getLong(resultSet.getColumnIndex(RawContacts.CONTACT_ID)));
     contentValues.set(RawContacts.PHOTO_ID, resultSet.getLong(resultSet.getColumnIndex(RawContacts.PHOTO_ID)));
     contentValues.set(RawContacts.PHOTO_FILE_ID, resultSet.getLong(resultSet.getColumnIndex(RawContacts.PHOTO_FILE_ID)));
-    contentValues.set(RawContacts.IS_TRANSFER_VOICEMAIL, resultSet.getLong(resultSet.getColumnIndex(RawContacts.IS_TRANSFER_VOICEMAIL)) > 0 ? true : false);
+    contentValues.set(RawContacts.IS_TRANSFER_VOICEMAIL, resultSet.getLong(resultSet.getColumnIndex(RawContacts.IS_TRANSFER_VOICEMAIL)));
     contentValues.set(RawContacts.PERSONAL_RINGTONE, resultSet.getString(resultSet.getColumnIndex(RawContacts.PERSONAL_RINGTONE)));
     contentValues.set(RawContacts.PERSONAL_NOTIFICATION_RINGTONE, resultSet.getString(resultSet.getColumnIndex(RawContacts.PERSONAL_NOTIFICATION_RINGTONE)));
     contentValues.set(RawContacts.PHOTO_FIRST_NAME, resultSet.getString(resultSet.getColumnIndex(RawContacts.PHOTO_FIRST_NAME)));

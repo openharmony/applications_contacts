@@ -18,33 +18,33 @@ import Contact from './Contact';
 import { Contacts } from '../contract/Contacts';
 import { Data } from '../contract/Data';
 import { RawContacts } from '../contract/RawContacts';
+import DataShareResultSet from '@ohos.data.DataShareResultSet';
 
 /**
  * Call log constructor
  */
 export default class ContactBuilder {
   readonly id: number;
-  nameRawContactId: number;
-  quickSearchKey: string;
-  photoId: number;
-  photoFileId: number;
-  personalRingtone: string;
-  personalNotificationRingtone: string;
-  isTransferVoiceMail: boolean;
-  company: string;
-  position: string;
-  hasDisplayName: boolean;
-  hasPhoneNumber: boolean;
-  readOnly: boolean;
-  hasGroup: boolean;
-  hasEmail: boolean;
-  rowContacts: RawContact[];
-
+  nameRawContactId: number = -1;
+  quickSearchKey: string = '';
+  photoId: number = -1;
+  photoFileId: number = -1;
+  personalRingtone?: string;
+  personalNotificationRingtone: string = '';
+  isTransferVoiceMail: boolean = false;
+  company: string = '';
+  position: string = '';
+  hasDisplayName: boolean = false;
+  hasPhoneNumber: boolean = false;
+  readOnly: boolean = false;
+  hasGroup: boolean = false;
+  hasEmail: boolean = false;
+  rowContacts: RawContact[] = [];
   constructor(id: number) {
     this.id = id;
   }
 
-  static fromResultSet(resultSet: any): ContactBuilder{
+  static fromResultSet(resultSet: DataShareResultSet): ContactBuilder {
     let contactBuilder = new ContactBuilder(resultSet.getLong(resultSet.getColumnIndex(RawContacts.CONTACT_ID)));
     contactBuilder.setNameRawContactId(resultSet.getLong(resultSet.getColumnIndex(Data.RAW_CONTACT_ID)));
     contactBuilder.setQuickSearchKey(resultSet.getString(resultSet.getColumnIndex(Contacts.QUICK_SEARCH_KEY)));

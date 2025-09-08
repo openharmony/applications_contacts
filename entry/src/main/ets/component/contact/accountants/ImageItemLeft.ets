@@ -17,7 +17,7 @@ import EnvironmentProp from '../../../feature/EnvironmentProp';
 
 @Component
 export struct ImageItemLeft {
-  private mImage: Resource;
+  private mImage: Resource|undefined = undefined;
   private moreFlag?: Boolean = false;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
 

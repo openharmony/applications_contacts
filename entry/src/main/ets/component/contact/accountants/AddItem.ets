@@ -18,8 +18,8 @@ import AccountantsPresenter from '../../../presenter/contact/accountants/Account
 @Component
 export struct AddItem {
   @Link mPresent: AccountantsPresenter;
-  private labelName: Resource;
-  private typeName: string;
+  private labelName: Resource|undefined = undefined;
+  private typeName: string = '';
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
 
   build() {

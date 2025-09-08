@@ -14,8 +14,8 @@
  */
 
 export default class AddressBookIndex {
-  readonly titles: string[];
-  readonly counts: number[];
-  constructor(bundle: any) {
+  readonly titles?: string[];
+  readonly counts?: number[];
+  constructor(bundle: number[]) {
   }
 }

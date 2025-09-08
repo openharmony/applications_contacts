@@ -12,14 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-export default {
+class PreferencesUtil {
   isUsed() {
-      return AppStorage.Get('IsUsed') == 1;
-  },
+    return AppStorage.Get('IsUsed') == 1;
+  }
 
-  setIsUsed(isUsed) {
+  setIsUsed(isUsed: boolean) {
     AppStorage.SetOrCreate('IsUsed', isUsed);
-  },
+  }
 }
+
+export default new PreferencesUtil()

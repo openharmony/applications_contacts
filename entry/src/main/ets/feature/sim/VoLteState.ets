@@ -21,7 +21,8 @@ const TAG = 'VoLteState';
 class VoLteState {
   haveVoLteReg: boolean = false;
   voLteRegStates: boolean[] = [false, false]
-  mListener: () => void;
+  public mListener: () => void = () => {
+  };
 
   public init() {
     try {
@@ -68,7 +69,7 @@ class VoLteState {
     radio.off('imsRegStateChange', slot, radio.ImsServiceType.TYPE_VOICE);
   }
 
-  private parseVoLteState(slotId: number, data) {
+  private parseVoLteState(slotId: number, data: radio.ImsRegState) {
     const voLte = (data == radio.ImsRegState.IMS_REGISTERED);
     const changed = (voLte != this.voLteRegStates[slotId]);
     if (!changed) {
@@ -77,7 +78,7 @@ class VoLteState {
     }
     this.voLteRegStates[slotId] = voLte;
     this.haveVoLteReg = this.voLteRegStates[0] || this.voLteRegStates[1];
-    AppStorage.SetOrCreate<boolean>('haveVoLteReg', this.haveVoLteReg);
+    AppStorage.SetOrCreate('haveVoLteReg', this.haveVoLteReg);
     AppStorage.SetOrCreate<boolean[]>('voLteRegStates', this.voLteRegStates);
     HiLog.i(TAG, `parseVoLteState: state changed slotId${slotId}  volte->${voLte}, haveVoLteReg:${this.haveVoLteReg}`);
     if (this.mListener) {

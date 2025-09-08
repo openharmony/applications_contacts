@@ -12,41 +12,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import DataShareResultSet from '@ohos.data.DataShareResultSet';
 import Calls from '../contract/Calls';
 
 export default class CallLogBuilder {
   readonly id: number = -1;
   readonly phoneNumber: string;
-  displayName: string;
-  callDirection: number;
-  voicemailUri: string;
-  simId: number;
-  simType: number;
-  isHD: boolean;
-  isRead: boolean;
-  ringDuration: number;
-  talkDuration: number;
-  formattedNumber: string;
-  quickSearchKey: string;
-  numberType: number;
-  numberTypeName: string;
-  beginTime: number;
-  endTime: number;
-  answerState: number;
-  createTime: number;
-  numberLocation: string;
-  photoId: number;
-  photoUri: string;
-  countryIsoCode: number;
+  displayName: string = '';
+  callDirection: number = 0;
+  voicemailUri: string = '';
+  simId: number = 0;
+  simType: number = 0;
+  isHD: boolean = false;
+  isRead: boolean = false;
+  ringDuration: number = 0;
+  talkDuration: number = 0;
+  formattedNumber: string = '';
+  quickSearchKey: string = '';
+  numberType: number = 0;
+  numberTypeName: string = '';
+  beginTime: number = 0;
+  endTime: number = 0;
+  answerState: number = 0;
+  createTime: number = 0;
+  numberLocation: string = '';
+  photoId: number = 0;
+  photoUri: string = '';
+  countryIsoCode: number = 0;
   constructor(id: number, phoneNumber: string) {
     this.id = id;
     this.phoneNumber = phoneNumber;
   }
 
-  static fromResultSet(resultSet: any): CallLogBuilder{
+  static fromResultSet(resultSet: DataShareResultSet): CallLogBuilder{
     let callLogBuilder = new CallLogBuilder(resultSet.getLong(resultSet.getColumnIndex(Calls.ID)),
-    resultSet.getString(resultSet.getColumnIndex(Calls.PHONE_NUMBER)));
+      resultSet.getString(resultSet.getColumnIndex(Calls.PHONE_NUMBER)));
     callLogBuilder.setDisplayName(resultSet.getString(resultSet.getColumnIndex(Calls.DISPLAY_NAME)));
     callLogBuilder.setCallDirection(resultSet.getLong(resultSet.getColumnIndex(Calls.CALL_DIRECTION)));
     callLogBuilder.setDisplayName(resultSet.getString(resultSet.getColumnIndex(Calls.DISPLAY_NAME)));

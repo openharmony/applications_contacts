@@ -15,21 +15,22 @@
 import { SearchContactsBean } from '../bean/SearchContactsBean';
 import { FavoriteListBean } from '../bean/FavoriteListBean';
 import BasicDataSource from './BasicDataSource';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
-
+import { SearchContactResult } from '../bean/SearchContactResult';
+import { FavoriteBean } from './FavoriteBean';
 const TAG = 'SearchContactsSource ';
 
 export default class SearchContactsSource extends BasicDataSource {
   private contactList: SearchContactsBean[] = [];
-  public contactObj: { [key: string]: SearchContactsBean[] } = {};
-  public contactIndexObj: { [key: string]: number } = {};
+  public contactObj: Record<string, SearchContactResult[]> = {};
+  public contactIndexObj: Record<string, number> = {};
 
   public totalCount(): number {
     return this.contactList.length;
   }
 
-  public getData(index: number): FavoriteListBean {
+  public getData(index: number): FavoriteListBean|null {
     if (ArrayUtil.isEmpty(this.contactList) || index >= this.contactList.length) {
       HiLog.i(TAG, 'getData contactlist is empty');
       return null;
@@ -44,7 +45,7 @@ export default class SearchContactsSource extends BasicDataSource {
       } else {
         showDivider = false;
       }
-      return new FavoriteListBean(index, showIndex, showDivider, null, contact);
+      return new FavoriteListBean(index, showIndex, showDivider, new FavoriteBean('', -1, '', '', '', '', '', true, '', false, 0, ''), contact);
     }
   }
 

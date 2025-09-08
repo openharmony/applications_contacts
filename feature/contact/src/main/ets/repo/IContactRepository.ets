@@ -15,7 +15,10 @@
 
 import Contact from '../entity/Contact';
 import ContactList from './ContactList';
-import ContactDelta from './ContactDelta';
+import {
+  AllContactGetParam
+} from '../../../../../../entry/src/main/ets/model/type/ContactParams';
+import DataShareResultSet from '@ohos.data.DataShareResultSet';
 import ContactListItem from './ContactListItem';
 
 /**
@@ -23,17 +26,13 @@ import ContactListItem from './ContactListItem';
  * Contacts Only
  */
 export default interface IContactRepository {
-  save: (contact: ContactDelta, callback) => void;
-  findById: (id: number, callback) => void;
-  findByQuickSearchKey: (searchKey: string, callback) => void;
-  findAll: (favorite: number, actionData: any, callback) => void;
-  findAllWithBookIndex: () => ContactList;
-  search: (queryStr: string) => ContactList;
-  findByPhoneIsNotNull: (favorite: number, editContact: number, callback) => void;
-  findByMailIsNotNull: () => ContactList;
+  findById: (id: number, callback: Function) => void;
+  findByQuickSearchKey: (searchKey: string, callback: Function) => void;
+  findAll: (actionData: AllContactGetParam, callback: (rst?: ContactListItem[]) => void) => void;
+  findByPhoneIsNotNull: (favorite: number, editContact: number, callback: Function) => void;
   deleteByIdIn: (ids: number[]) => boolean;
-  deleteById: (id: number, callback) => void;
+  deleteById: (id: number, callback: Function) => void;
   notifyChange: () => void;
-  registerDataChangeObserver: (callback) => void;
-  unRegisterDataChangeObserver: (callback) => void;
+  registerDataChangeObserver: (callback: () => void) => void;
+  unRegisterDataChangeObserver: (callback: () => void) => void;
 }
