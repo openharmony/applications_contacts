@@ -44,7 +44,7 @@ class ContactObj{
 
 }
 
-class phoneNumber{
+class PhoneNumber{
   public checked:boolean = false;
 }
 
@@ -216,7 +216,7 @@ export default class BatchSelectContactsPresenter {
     let checkedList:string[] = [];
     this.contactsList.forEach((value:ContactVo) => {
       if (value.phoneNumbers.length > 0) {
-        value.phoneNumbers.forEach((values:phoneNumber) => {
+        value.phoneNumbers.forEach((values:PhoneNumber) => {
           if (values.checked === true) {
             checkedList.push(value.contactId);
           }
