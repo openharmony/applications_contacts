@@ -17,7 +17,7 @@ import AlphabetIndexerPresenter from '../../../presenter/contact/alphabetindex/A
 
 @Component
 export struct AlphabetIndexerPage {
-  scroller: Scroller;
+  scroller: Scroller = new Scroller();
   @Link presenter: AlphabetIndexerPresenter;
   private selectedAlphabetIndex: number = 0;
   private popDataSource: string[] = [];

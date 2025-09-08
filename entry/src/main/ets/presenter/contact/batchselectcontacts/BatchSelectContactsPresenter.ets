@@ -12,35 +12,94 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import callLogService from '../../../model/calllog/CalllogModel';
 import MorandiColor from '../../../model/bean/MorandiColor';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
-import { ObjectUtil } from '../../../../../../../common/src/main/ets/util/ObjectUtil';
+import { ObjectUtil } from 'common/src/main/ets/util/ObjectUtil';
 import ContactAbilityModel from '../../../model/ContactAbilityModel';
 import router from '@ohos.router';
 import BatchSelectRecentSource from '../../../model/bean/BatchSelectRecentSource';
 import BatchSelectContactSource from '../../../model/bean/BatchSelectContactSource';
 import CallLogSetting from '../../../../../../../feature/call/src/main/ets/CallLogSetting'
-import { ContactVo } from '../../../model/bean/ContactVo';
+import { ContactVo, NameVo } from '../../../model/bean/ContactVo';
 import AlphabetIndexerPresenter from '../alphabetindex/AlphabetIndexerPresenter';
+import { FavoriteBean } from '../../../model/bean/FavoriteBean';
+import MergedCallLog from '../../../../../../../feature/call/src/main/ets/entity/MergedCallLog';
+
+class callLogTempObj{
+  public checked:boolean = false;
+  public phoneNumber:number = 0;
+  public displayName:string = '';
+  public quickSearchKey:string = '';
+}
+
+class Contact{
+  public contactId:string = '';
+  public phoneNumbers:[] = [];
+}
+
+class ContactObj{
+
+}
+
+class phoneNumber{
+  public checked:boolean = false;
+}
+
+class checkedVo{
+  public name:string = '';
+  public number:number = 0;
+  constructor(name:string,number:number) {
+    this.name = name;
+    this.number = number
+  }
+}
+
+class favoriteForm{
+
+}
 
 const TAG = 'BatchSelectContactsPresenter ';
 
 /**
  * Selecting a contact list by SMS
  */
+interface GeneratedObjectLiteralInterface_2 {
+  contactObjects: string;
+}
+interface GeneratedObjectLiteralInterface_3 {
+  parameters: GeneratedObjectLiteralInterface_2;
+}
+
+interface GeneratedObjectLiteralInterface_4 {
+  resultCode: number;
+  want: GeneratedObjectLiteralInterface_3;
+}
+
+interface GeneratedObjectLiteralInterface_1 {
+  contactObjects: string;
+}
+
+interface GeneratedObjectLiteralInterface_5 {
+  parameters: GeneratedObjectLiteralInterface_1;
+}
+
+interface GeneratedObjectLiteralInterface_6 {
+  resultCode: number;
+  want: GeneratedObjectLiteralInterface_5;
+}
+
 export default class BatchSelectContactsPresenter {
   private static sInstance: BatchSelectContactsPresenter;
   sizeType: SizeType = SizeType.LG;
   selectCount: number = 0;
   // Recent Call Records
-  callLogTemp: Array<any> = [];
-  contactsList: Array<any> = [];
-  searchContactList: Array<any> = [];
-  groupList: Array<any> = [];
+  callLogTemp: Array<ContactVo> = [];
+  contactsList: Array<ContactVo> = [];
+  searchContactList: Array<ContactVo> = [];
+  groupList: Array<ContactVo> = [];
   emptyViewText: Resource = $r('app.string.no_recent_contacts');
   controller: TabsController = new TabsController();
   currentIndex: number = 0;
@@ -52,7 +111,7 @@ export default class BatchSelectContactsPresenter {
   // Search Keyword
   searchText: string = '';
   // Selected data for the current population，key:phone number，value:name and number
-  selectedNumberMap: Map<number, any> = new Map();
+  selectedNumberMap: Map<string,checkedVo>=new Map();
   // Whether to display the search list
   searchLayoutShow: boolean = false;
   selectDisabled: boolean = true;
@@ -63,10 +122,10 @@ export default class BatchSelectContactsPresenter {
   initialIndex: number = 0;
   recentSource: BatchSelectRecentSource = new BatchSelectRecentSource();
   contactsSource: BatchSelectContactSource = new BatchSelectContactSource();
-  actionData: { [key: string]: any } = {};
+  actionData: object|null = null;
   alphabetIndexPresenter: AlphabetIndexerPresenter = AlphabetIndexerPresenter.getInstance();
   editContact: number = -1;
-  contactId: number;
+  contactId: number = -1;
   /** Contact Temporary */
   callId: string = '';
   phones: string = '';
@@ -122,27 +181,25 @@ export default class BatchSelectContactsPresenter {
   }
 
   cancel() {
-    let parameters = {
+    let parameters: GeneratedObjectLiteralInterface_1 = {
       contactObjects: ''
     };
-    let result = {
+    let result: GeneratedObjectLiteralInterface_6 = {
       resultCode: 0,
-      want: {
-        parameters: parameters
-      }
+      want: ({ parameters: parameters } as GeneratedObjectLiteralInterface_5)
     };
     // Selecting a contact for creating an SMS message
     globalThis.context?.terminateSelfWithResult(result)
-      .then((data) => {
+      .then(() => {
         HiLog.i(TAG, 'terminateSelfWithResult Operation succeeded: ');
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         HiLog.e(TAG, 'Operation failed. Cause: %s', JSON.stringify(error.message));
       });
   }
 
   resetInitialIndex(firstIndex: number) {
-    HiLog.i(TAG, 'resetInitialIndex firstIndex is %s', firstIndex);
+    HiLog.i(TAG, 'resetInitialIndex firstIndex is %s', firstIndex.toString());
     this.initialIndex = firstIndex;
   }
 
@@ -156,10 +213,10 @@ export default class BatchSelectContactsPresenter {
 
   addFavoriteContacts() {
     HiLog.i(TAG, 'addFavoriteContacts start.');
-    let checkedList = [];
-    this.contactsList.forEach((value) => {
+    let checkedList:string[] = [];
+    this.contactsList.forEach((value:ContactVo) => {
       if (value.phoneNumbers.length > 0) {
-        value.phoneNumbers.forEach((values) => {
+        value.phoneNumbers.forEach((values:phoneNumber) => {
           if (values.checked === true) {
             checkedList.push(value.contactId);
           }
@@ -172,26 +229,24 @@ export default class BatchSelectContactsPresenter {
   }
 
   comfirm() {
-    let checkedList = [];
-    this.selectedNumberMap.forEach((value) => {
+    let checkedList:checkedVo[] = [];
+    this.selectedNumberMap.forEach((value:checkedVo) => {
       checkedList.push(value);
     });
     let contacts = this.dealContactName(checkedList);
-    let parameters = {
+    let parameters: GeneratedObjectLiteralInterface_2 = {
       contactObjects: JSON.stringify(contacts)
     };
-    let result = {
+    let result: GeneratedObjectLiteralInterface_4 = {
       resultCode: 0,
-      want: {
-        parameters: parameters
-      }
+      want: ({ parameters: parameters } as GeneratedObjectLiteralInterface_3)
     };
     // Selecting a contact for creating an SMS message
     globalThis.context?.terminateSelfWithResult(result)
-      .then((data) => {
+      .then(() => {
         HiLog.i(TAG, 'terminateSelfWithResult Operation succeeded ');
       })
-      .catch((error) => {
+      .catch((error:Error) => {
         HiLog.e(TAG, 'Operation failed. Cause: %s', JSON.stringify(error.message));
       });
   }
@@ -216,29 +271,21 @@ export default class BatchSelectContactsPresenter {
       },
     });
   }
-
-  dealContactSelectId(checkedList) {
-    let contacts = [];
+  dealContactSelectId(checkedList:ContactVo[]) {
+    let contacts:ContactVo[] = [];
     for (let item of checkedList) {
       if (item.phoneNumbers) {
 
       }
-      let contact = {
-        contactId: item.contactId,
-      };
-      contacts.push(contact);
+      contacts.push(new ContactVo(item.contactId,'','','','','',false,'',''));
     }
     return contacts;
   }
 
-  dealContactName(checkedList) {
-    let contacts = [];
+  dealContactName(checkedList: checkedVo[]) {
+    let contacts:checkedVo[] = [];
     for (let item of checkedList) {
-      let contact = {
-        contactName: item.name,
-        telephone: item.number
-      };
-      contacts.push(contact);
+      contacts.push(new checkedVo(item.name,item.number));
     }
     return contacts;
   }
@@ -381,7 +428,7 @@ export default class BatchSelectContactsPresenter {
   }
 
   onTabChange(tabIndex: number) {
-    HiLog.i(TAG, 'onTabChange tabIndex is %s', tabIndex);
+    HiLog.i(TAG, 'onTabChange tabIndex is %s', tabIndex.toString());
     this.tabInfo.tabIndex = tabIndex;
     this.refreshPageMessage();
   }
@@ -405,18 +452,16 @@ export default class BatchSelectContactsPresenter {
   }
 
   onRecentItemClicked(index: number) {
-    HiLog.i(TAG, 'onRecentItemClicked index is %s', index);
-    this.checkStateChange(index, {
-      checked: !(this.callLogTemp[index].checked)
-    });
+    HiLog.i(TAG, 'onRecentItemClicked index is %s', index.toString());
+    this.checkStateChange(index,
+      new eventObj(0,0,!(this.callLogTemp[index].checked))
+    );
   }
 
   onSingleContactItemClick(num: number, name: string, item: ContactVo) {
     HiLog.i(TAG, 'onSingleContactItemClick in ');
-    this.selectedNumberMap.set(num, {
-      name: name,
-      number: num
-    });
+    this.selectedNumberMap.set(num.toString(),
+      new checkedVo(name,num));
     if (0 === this.editContact || 1 === this.editContact || 2 === this.editContact) {
       this.updateContact(item.contactId);
     } else {
@@ -427,17 +472,13 @@ export default class BatchSelectContactsPresenter {
   onContactItemClicked(index: number, indexChild: number) {
     HiLog.i(TAG, 'onContactItemClicked index is ' + index);
     HiLog.i(TAG, 'onContactItemClicked indexChild is ' + indexChild);
-    let event = {
-      contactIndex: index,
-      numberIndex: indexChild,
-      checked: this.searchLayoutShow ? !(this.searchContactList[index].phoneNumbers[indexChild].checked)
-                                     : !(this.contactsList[index].phoneNumbers[indexChild].checked)
-    }
+    let event = new eventObj(index,indexChild,this.searchLayoutShow ? !(this.searchContactList[index].phoneNumbers[indexChild].checked)
+      : !(this.contactsList[index].phoneNumbers[indexChild].checked));
     this.checkStateChange(index, event);
   }
 
-  checkStateChange(index, event) {
-    HiLog.i(TAG, 'checkStateChange event:  ' + JSON.stringify(event));
+  checkStateChange(index:number, event:eventObj) {
+    HiLog.i(TAG, 'checkStateChange event: ' + JSON.stringify(event));
     switch (this.tabInfo.tabIndex) {
       case 0:
         this.changeCallLogItemState(index, event);
@@ -451,12 +492,12 @@ export default class BatchSelectContactsPresenter {
     this.refreshPageMessage();
   }
 
-  changeContactState(event) {
+  changeContactState(event:eventObj) {
     this.checkStateChange(event.contactIndex, event);
   }
 
-  changeCallLogItemState(index, event) {
-    HiLog.i(TAG, 'changeCallLogItemState event :  ' + JSON.stringify(event));
+  changeCallLogItemState(index:number, event:eventObj) {
+    HiLog.i(TAG, 'changeCallLogItemState event : ' + JSON.stringify(event));
     if (this.callLogTemp[index]) {
       this.callLogTemp[index].checked = event.checked;
       this.recentSource.refreshSpecificOne(index, event.checked)
@@ -471,7 +512,7 @@ export default class BatchSelectContactsPresenter {
     }
   }
 
-  changeContactsItemState(index, event) {
+  changeContactsItemState(index:number, event:eventObj) {
     HiLog.i(TAG, 'SHOW changeContactsItemState searchLayoutShow');
     let contactId = '';
     if (!this.contactsInfo.searchLayoutShow) {
@@ -482,7 +523,7 @@ export default class BatchSelectContactsPresenter {
     this.checkContactsCount(event, contactId);
   }
 
-  checkContactsCount(event, contactId) {
+  checkContactsCount(event:eventObj, contactId:string) {
     HiLog.i(TAG, 'SHOW checkContactsCount searchLayoutShow');
     if (this.contactsInfo.searchLayoutShow) {
       this.contactsInfo.searchContactList.forEach(element => {
@@ -494,7 +535,7 @@ export default class BatchSelectContactsPresenter {
             element.phoneNumbers[event.numberIndex].checked = true;
             this.contactsInfo.contactsNumberCount++;
             this.addOrUpdateSelectedNumberMap(element.phoneNumbers[event.numberIndex].phoneNumber,
-            element.name.fullName, false, element.contactId);
+              element.name.fullName, false, element.contactId);
           } else {
             element.phoneNumbers[event.numberIndex].checked = false;
             this.contactsInfo.contactsNumberCount--;
@@ -515,7 +556,7 @@ export default class BatchSelectContactsPresenter {
             element.phoneNumbers[event.numberIndex].checked = true;
             this.contactsInfo.contactsNumberCount++;
             this.addOrUpdateSelectedNumberMap(element.phoneNumbers[event.numberIndex].phoneNumber,
-            element.name.fullName, false, element.contactId);
+              element.name.fullName, false, element.contactId);
           } else {
             element.phoneNumbers[event.numberIndex].checked = false;
             this.contactsInfo.contactsNumberCount--;
@@ -536,7 +577,7 @@ export default class BatchSelectContactsPresenter {
    * @param {Object} contact
    * @return {boolean} true，false
    */
-  checkIfNeedCount(contact) {
+  checkIfNeedCount(contact:ContactVo):boolean{
     if (contact.phoneNumbers.length > 0) {
       for (let index = 0; index < contact.phoneNumbers.length; index++) {
         const element = contact.phoneNumbers[index];
@@ -547,6 +588,7 @@ export default class BatchSelectContactsPresenter {
     } else {
       return false;
     }
+    return false;
   }
 
   // Header Count Refresh Function
@@ -606,19 +648,18 @@ export default class BatchSelectContactsPresenter {
     this.allSelectTextStyle = $r('sys.color.ohos_id_color_primary');
   }
 
-  addOrUpdateSelectedNumberMap(number, name, isCalllogs, keyOrId) {
+  addOrUpdateSelectedNumberMap(number:string, name:string, isCalllogs:boolean, keyOrId:string) {
     HiLog.i(TAG, 'addOrUpdateSelectedNumberMap isCalllogs is ' + isCalllogs + ' , keyOrId is ' + keyOrId);
     if (StringUtil.isEmpty(number)) {
       return;
     }
-    this.selectedNumberMap.set((keyOrId + number.replace(/\s+/g, '')), {
-      name: name,
-      number: number.replace(/\s+/g, '')
-    });
+    this.selectedNumberMap.set((keyOrId + number.replace(/\s+/g, '')),
+      new checkedVo(name,Number.parseInt(number.replace(/\s+/g, '')))
+    );
     this.updataConnectedContact(number, name, isCalllogs, keyOrId, true);
   }
 
-  deleteSelectedNumber(number, name, isCalllogs, keyOrId) {
+  deleteSelectedNumber(number:string, name:string, isCalllogs:boolean, keyOrId:string) {
     HiLog.i(TAG, 'deleteSelectedNumber isCalllogs is ' + isCalllogs + ' , keyOrId is ' + keyOrId);
     if (StringUtil.isEmpty(number)) {
       return;
@@ -627,7 +668,7 @@ export default class BatchSelectContactsPresenter {
     this.updataConnectedContact(number, name, isCalllogs, keyOrId, false);
   }
 
-  updataConnectedContact(number, name, isCalllogs, keyOrId, isAdd) {
+  updataConnectedContact(number:string, name:string, isCalllogs:boolean, keyOrId:string, isAdd:boolean) {
     HiLog.i(TAG, 'updataConnectedContact isCalllogs is ' + isCalllogs + ' , keyOrId is ' + keyOrId);
     if (isCalllogs) {
       this.contactsList.forEach(element => {
@@ -677,9 +718,12 @@ export default class BatchSelectContactsPresenter {
    * */
   initCallLog() {
     HiLog.i(TAG, 'initCallLog start !');
-    let tempMap = new Map();
-    let tempList: any[] = [];
-    let favoriteForm: any = {}
+    let tempMap = new Map<string,string>();
+    let tempList: ContactVo[] = [];
+    let favoriteForm: favorite = {
+      favorite: 0,
+      editContact: 0
+    }
     if (0 === this.addFavorite) {
       favoriteForm.favorite = 0;
     } else {
@@ -690,9 +734,9 @@ export default class BatchSelectContactsPresenter {
       mergeRule: CallLogSetting.getInstance().getMergeRule(),
       actionData: this.actionData,
       favoriteForm: JSON.stringify(favoriteForm)
-    }, (data) => {
-      if (data.hasOwnProperty('callLogList') && !ArrayUtil.isEmpty(data.callLogList)) {
-        HiLog.i(TAG, 'data  has callLogList key');
+    }, (data: dataObj) => {
+      if (!ArrayUtil.isEmpty(data.callLogList)) {
+        HiLog.i(TAG, 'data has callLogList key');
         for (let i = 0; i < data.callLogList.length; i++) {
           let element = data.callLogList[i];
           let bgColorIndex = parseInt(element.id, 10) % (MorandiColor.Color.length);
@@ -702,7 +746,7 @@ export default class BatchSelectContactsPresenter {
           // 重复的号码无需显示
           if (!tempMap.has(StringUtil.removeSpace(element.phoneNumber))) {
             tempList.push(element);
-            tempMap.set(element.phoneNumber, null);
+            tempMap.set(element.phoneNumber, '');
           }
           //Displays the 50 numbers that have generated the latest call records.
           if (tempList.length > 50) {
@@ -742,7 +786,10 @@ export default class BatchSelectContactsPresenter {
    */
   initContactsList() {
     HiLog.i(TAG, 'initContactsList start!');
-    let favoriteForm: any = {}
+    let favoriteForm: favorite = {
+      favorite: 0,
+      editContact: 0
+    }
     if (0 === this.addFavorite) {
       favoriteForm.favorite = 0;
     } else {
@@ -752,12 +799,12 @@ export default class BatchSelectContactsPresenter {
     globalThis.DataWorker.sendRequest('getAllContactWithPhoneNumbers', {
       context: globalThis.context,
       favoriteForm: JSON.stringify(favoriteForm)
-    }, (resultList) => {
+    }, (resultList:ContactVo[]) => {
       HiLog.i(TAG, 'initContactsList resultList success ' + resultList.length);
-      let listTemp: any[] = [];
+      let listTemp: ContactVo[] = [];
       if (!ArrayUtil.isEmpty(resultList)) {
         for (let element of resultList) {
-          element.name = {};
+          element.name = new NameVo('','','');
           element.name.fullName = element.emptyNameData;
           element.name.namePrefix = element.namePrefix;
           element.name.nameSuffix = element.nameSuffix;
@@ -789,7 +836,7 @@ export default class BatchSelectContactsPresenter {
    *
    * @param {Object} item contacts data
    */
-  initVariableSpan(item) {
+  initVariableSpan(item:ContactVo) {
     // Initialize Variable Names
     let matchString = StringUtil.getMatchedString(item.emptyNameData, this.searchText);
     if (StringUtil.isEmpty(matchString) || StringUtil.isEmpty(this.searchText.trim())) {
@@ -819,9 +866,8 @@ export default class BatchSelectContactsPresenter {
       }
     }
   }
-
-  getPhoneLabelNameById(phoneLabelId: string, phoneNumber) {
-    let labelName: Resource;
+  getPhoneLabelNameById(phoneLabelId: string, phoneNumber:string):Resource |undefined {
+    let labelName: Resource|undefined = undefined;
     switch (parseInt(phoneLabelId, 10)) {
       case 1:
         labelName = $r('app.string.phone_type_mobile_expansion', phoneNumber);
@@ -857,6 +903,87 @@ export default class BatchSelectContactsPresenter {
   }
 }
 
+class selectedNumberObj{
+  name:string = '';
+}
+
+class dataObj{
+  callLogList:ContactVo[] = [];
+
+}
+
+class callLog{
+  id:string = '';
+  portraitColor:MorandiColor = MorandiColor.Color;
+  suffix:string = '';
+  displayName:string = '';
+  checked:boolean = false;
+  phoneNumber:string = '';
+}
+
+class favorite{
+  favorite:number = 0;
+  editContact:number = -1;
+}
+
+class childEle{
+  public checked:boolean = false;
+  public labelName:Resource |undefined = undefined;
+  public numType:string = '';
+  public phoneNumber:string = '';
+}
+
+class eventObj{
+  public fullName:string = '';
+  public namePrefix:string = '';
+  public nameSuffix:string = '';
+  checked:boolean = false;
+  contactIndex:number = 0;
+  numberIndex:number = 0;
+  constructor(contactIndex:number,numberIndex:number,checked:boolean) {
+    this.contactIndex = contactIndex;
+    this.numberIndex = numberIndex;
+    this.checked = checked;
+  }
+}
+
+class itemVo{
+  public emptyNameData:string = '';
+  public name:nameVo = {
+    searchTextStart: '',
+    searchTextMiddle: '',
+    searchTextEnd: '',
+    fullName: '',
+    namePrefix: '',
+    nameSuffix: ''
+  };
+  public phoneNumbers:phoneNumberObj[] = []
+
+  public namePrefix:string = '';
+  public nameSuffix:string = '';
+
+}
+
+class phoneNumberObj{
+  public phoneNumber:string = '';
+  public startPhone:string = '';
+  public middlePhone:string = '';
+  public endPhone:string = '';
+  public checked:boolean = false;
+  public labelName:Resource|undefined = undefined;
+  public numType:string = '';
+
+}
+
+class nameVo{
+  public searchTextStart:string = '';
+  public searchTextMiddle:string = '';
+  public searchTextEnd:string = '';
+  public fullName:string = '';
+  public namePrefix:string = '';
+  public nameSuffix:string = '';
+}
+
 export class TabInfo {
   tabIndex: number = 0;
   recentTotal: number = 0;
@@ -881,9 +1008,9 @@ export class TabInfo {
  * Data related to the contact list
  */
 export class ContactsInfo {
-  searchContactList = [];
+  searchContactList :ContactVo[] = [];
   // List of selected contacts, which will be used for big data.
-  selectedContactMap = new Map();
+  selectedContactMap = new Map<number,number>();
   // Whether to display the search page
   searchLayoutShow: boolean = false;
   // Number of Matched Search Records

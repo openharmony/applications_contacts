@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "phonenumber",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet"
+    ]
+  }
+}

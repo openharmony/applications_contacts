@@ -24,12 +24,29 @@ import call from '@ohos.telephony.call';
 import ContactListPresenter from '../presenter/contact/ContactListPresenter';
 import CallRecordPresenter from '../presenter/dialer/callRecord/CallRecordPresenter';
 import FavoriteListPresenter from '../presenter/favorite/FavoriteListPresenter';
-import device from '@system.device';
 import emitter from '@ohos.events.emitter';
-
+import { TargetPageInter } from '../model';
+import device from '@system.device';
+import { DeviceResponse } from '@kit.BasicServicesKit';
 const TAG = 'Index ';
 
+class deviceObj{
+  windowHeight:number = -1;
+  screenDensity:number = -1;
+  data:string[] = [];
+
+}
+
 let storage = LocalStorage.GetShared()
+
+interface GeneratedObjectLiteralInterface_1 {
+  eventId: number;
+  priority: EventPriority;
+}
+
+interface EventPriority{
+
+}
 
 @Entry(storage)
 @Component
@@ -41,11 +58,7 @@ struct Index {
   @StorageLink('teleNumber') @Watch('teleNumberChange') teleNumber: string = '';
   mDialerPresenter: DialerPresenter = DialerPresenter.getInstance();
   @State bottomTabIndex: number = call.hasVoiceCapability() ? 0 : 1;
-  @StorageLink('targetPage') @Watch('targetPageChange') targetPage: {
-    url?: string,
-    pageIndex?: number,
-    params?: any
-  } = {};
+  @StorageLink('targetPage') @Watch('targetPageChange') targetPage: TargetPageInter = {};
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @State isContactSearch: boolean = false;
   emitterId: number = 105;
@@ -111,12 +124,14 @@ struct Index {
     this.getInfo();
     this.onIndexChanged();
     this.teleNumberChange()
-    let innerEvent = {
+    let innerEvent: emitter.InnerEvent = {
       eventId: this.emitterId,
       priority: emitter.EventPriority.HIGH
     };
-    emitter.on(innerEvent, (data) => {
-      this.isContactSearch = data.data['isSearchPage'];
+    emitter.on(innerEvent, (data:emitter.EventData) => {
+      if(data.data !== undefined){
+        this.isContactSearch = data.data['isSearchPage'];
+      }
     })
   }
 
@@ -125,19 +140,20 @@ struct Index {
     emitter.off(this.emitterId);
   }
 
-  onBackPress() {
+  onBackPress() :boolean{
     if (this.isContactSearch) {
       ContactListPresenter.getInstance().sendEmitter(false);
       return true;
     }
+    return false;
   }
 
   getInfo() {
     device.getInfo({
-      success: function (data) {
-        AppStorage.SetOrCreate('windowHeight', data.windowHeight / data.screenDensity)
+      success: (data:DeviceResponse) => {
+        AppStorage.SetOrCreate('windowHeight', data.windowHeight / data.screenDensity);
       },
-      fail: function (data, code) {
+      fail: (data:deviceObj, code:number) => {
         HiLog.i(TAG, 'Failed to obtain device information. Error code:' + code + '; Error information: ' + data);
       },
     });
@@ -145,59 +161,59 @@ struct Index {
 
   build() {
     if (this.mPermissionManager.isAllPermissionsGranted()) {
-        Flex({
-          direction: this.curBp === 'lg' ? FlexDirection.Row : FlexDirection.Column,
-          alignItems: ItemAlign.Start,
-          justifyContent: FlexAlign.Start
+      Flex({
+        direction: this.curBp === 'lg' ? FlexDirection.Row : FlexDirection.Column,
+        alignItems: ItemAlign.Start,
+        justifyContent: FlexAlign.Start
+      }) {
+        if (this.curBp === 'lg') {
+          TabBars({ controller: this.controller, bottomTabIndex: $bottomTabIndex })
+            .visibility(this.isContactSearch ? Visibility.None : Visibility.Visible)
+        }
+        Tabs({
+          barPosition: BarPosition.End,
+          index: this.bottomTabIndex,
+          controller: this.controller
         }) {
-          if (this.curBp === 'lg') {
-            TabBars({ controller: this.controller, bottomTabIndex: $bottomTabIndex })
-              .visibility(this.isContactSearch ? Visibility.None : Visibility.Visible)
-          }
-          Tabs({
-            barPosition: BarPosition.End,
-            index: this.bottomTabIndex,
-            controller: this.controller
-          }) {
-            if (this.curBp !== 'lg') {
-              TabContent() {
-                callPage()
-              }
-            } else {
-              TabContent() {
-                callTabletPage()
-              }
-            }
-            TabContent() {
-              contactPage()
-            }
-            TabContent() {
-              favoritePage()
-            }
-          }
-          .width(this.curBp === 'lg' ? null : '100%')
-          .height(this.curBp === 'lg' ? '100%' : null)
-          .vertical(false)
-          .barMode(BarMode.Fixed)
-          .barWidth(0)
-          .barHeight(0)
-          .scrollable(false)
-          .animationDuration(0)
-          .layoutWeight(1)
-
           if (this.curBp !== 'lg') {
-            TabBars({ controller: this.controller, bottomTabIndex: $bottomTabIndex })
-              .backgroundColor($r('sys.color.ohos_id_color_sub_background'))
-              .visibility(this.isContactSearch ? Visibility.None : Visibility.Visible)
+            TabContent() {
+              callPage()
+            }
+          } else {
+            TabContent() {
+              callTabletPage()
+            }
+          }
+          TabContent() {
+            contactPage()
+          }
+          TabContent() {
+            favoritePage()
           }
         }
-        .backgroundColor($r('sys.color.ohos_fa_sub_background'))
+        .width(this.curBp === 'lg' ? null : '100%')
+        .height(this.curBp === 'lg' ? '100%' : null)
+        .vertical(false)
+        .barMode(BarMode.Fixed)
+        .barWidth(0)
+        .barHeight(0)
+        .scrollable(false)
+        .animationDuration(0)
+        .layoutWeight(1)
+
+        if (this.curBp !== 'lg') {
+          TabBars({ controller: this.controller, bottomTabIndex: $bottomTabIndex })
+            .backgroundColor($r('sys.color.ohos_id_color_sub_background'))
+            .visibility(this.isContactSearch ? Visibility.None : Visibility.Visible)
+        }
+      }
+      .backgroundColor($r('sys.color.ohos_fa_sub_background'))
+      .width('100%')
+      .height('100%')
+    } else {
+      Column()
         .width('100%')
         .height('100%')
-      } else {
-        Column()
-          .width('100%')
-          .height('100%')
     }
   }
 }
@@ -205,7 +221,7 @@ struct Index {
 @Component
 struct TabBars {
   private tabSrc: number[] = call.hasVoiceCapability() ? [0, 1, 2] : [1];
-  private controller: TabsController;
+  private controller: TabsController| undefined = undefined;
   @Link bottomTabIndex: number;
   @State mIndexPresenter: IndexPresenter = IndexPresenter.getInstance()
   @LocalStorageProp('breakpoint') curBp: string = 'sm'
@@ -216,7 +232,7 @@ struct TabBars {
       alignItems: ItemAlign.Center,
       justifyContent: FlexAlign.Center
     }) {
-      ForEach(this.tabSrc, item => {
+      ForEach(this.tabSrc, (item:number) => {
         Column() {
           Column() {
             Image(this.mIndexPresenter.getTabSrc(this.bottomTabIndex, item))
@@ -233,7 +249,7 @@ struct TabBars {
           }
           .onClick(() => {
             if (this.bottomTabIndex != item) {
-              this.controller.changeIndex(item);
+              this.controller?.changeIndex(item);
               this.bottomTabIndex = item;
               AppStorage.SetOrCreate('mainTabsIndex', item);
               if (item == 0) {
@@ -257,7 +273,7 @@ struct TabBars {
         .height(this.curBp === 'lg' ?
           '130vp' : $r('app.float.id_item_height_large'))
         .layoutWeight(this.curBp === 'lg' ? 0 : 1)
-      }, item => item.toString())
+      }, (item:number) => item.toString())
     }
     .width(this.curBp === 'lg' ?
       '96vp' : '100%')

@@ -21,14 +21,14 @@ const TAG = 'BatchTabGuide ';
 export default struct BatchTabGuide {
   @State presenter: BatchSelectContactsPresenter = BatchSelectContactsPresenter.getInstance();
   @Link currentIndex: number;
-  private controller: TabsController;
+  private controller: TabsController|null = null;
 
   build() {
     Flex({ direction: FlexDirection.Row,
       justifyContent: FlexAlign.Center,
       alignItems: ItemAlign.Center }) {
 
-      ForEach(this.presenter.tabTextSrc, (item, index) => {
+      ForEach(this.presenter.tabTextSrc, (item:string, index) => {
         Flex({ direction: FlexDirection.Column,
           justifyContent: FlexAlign.End,
           alignItems: ItemAlign.Center }) {
@@ -52,11 +52,11 @@ export default struct BatchTabGuide {
         .margin({ left: $r('app.float.id_card_margin_xl'), right: $r('app.float.id_card_margin_xl') })
         .onClick(() => {
           if (this.currentIndex != index) {
-            this.controller.changeIndex(index);
+            this.controller?.changeIndex(index);
           }
         })
 
-      }, (item, index) => JSON.stringify(item))
+      }, (item:string, index) => JSON.stringify(item))
 
     }
     .width('100%')

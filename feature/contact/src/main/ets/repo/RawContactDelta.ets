@@ -18,6 +18,7 @@ import DAOperation from './DAOperation';
 import { RawContacts } from '../contract/RawContacts';
 import { Data } from '../contract/Data';
 import RawContact from '../entity/RawContact';
+import { ValueType } from '@ohos.data.ValuesBucket';
 
 const TAG = 'RawContactDelta';
 
@@ -26,8 +27,8 @@ const TAG = 'RawContactDelta';
  */
 export default class RawContactDelta {
   // Stores fields in the rawContact table.
-  values: ValuesDelta;
-  readonly dataValues: Map<number, ValuesDelta[]> = new Map();
+  values: ValuesDelta<ValueType>;
+  public readonly dataValues: Map<number, ValuesDelta<string | number>[]> = new Map();
   constructor() {
     this.values = new ValuesDelta();
   }
@@ -44,18 +45,18 @@ export default class RawContactDelta {
     return rawContactDelta;
   }
 
-  addDataValue(dataValue: ValuesDelta) {
+  addDataValue(dataValue: ValuesDelta<string | number>) {
     if (dataValue == undefined) {
       return;
     }
-    let mimeTypeId = dataValue.getValue(Data.TYPE_ID);
-    if (mimeTypeId == undefined ) {
+    let mimeTypeId: string | number | undefined = dataValue.getValue(Data.TYPE_ID);
+    if (mimeTypeId == undefined) {
       return;
     }
-    let valuesDeltas = this.getMimeEntries(mimeTypeId);
+    let valuesDeltas: ValuesDelta<string | number>[] | undefined = this.getMimeEntries(Number(mimeTypeId));
     if (valuesDeltas == undefined) {
       valuesDeltas = [dataValue];
-      this.dataValues.set(mimeTypeId, valuesDeltas);
+      this.dataValues.set(Number(mimeTypeId), valuesDeltas);
     } else {
       valuesDeltas.push(dataValue);
     }
@@ -66,36 +67,11 @@ export default class RawContactDelta {
     return mimeEntries;
   }
 
-  isContactInsert () {
+  isContactInsert(): boolean {
     return this.values.isInsert();
   }
 
-  isContactDelete () {
+  isContactDelete(): boolean {
     return this.values.isDelete();
-  }
-
-  buildDiff(diff: DAOperation[]) {
-    let isContactInsert = this.isContactInsert();
-    let isContactDelete = this.isContactDelete();
-    let beforeId = this.values.getValue(RawContacts.ID);
-    let firstIndex = diff.length;
-    let opt = this.values.buildDiff(RawContacts.CONTENT_URI);
-    diff.push(opt);
-    if (isContactDelete) {
-      return;
-    }
-    for (let mimeEntries of this.dataValues.values()) {
-      for (let data of mimeEntries) {
-        opt = data.buildDiff(Data.CONTENT_URI);
-        if (data.isInsert()) {
-          if (isContactInsert) {
-            opt.withValueBackReferences(Data.RAW_CONTACT_ID, firstIndex);
-          } else {
-            opt.withValue(Data.RAW_CONTACT_ID, beforeId);
-          }
-        }
-        diff.push(opt);
-      }
-    }
   }
 }

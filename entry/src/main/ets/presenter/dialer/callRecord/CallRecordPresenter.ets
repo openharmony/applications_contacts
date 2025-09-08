@@ -18,10 +18,13 @@ import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/e
 import router from '@ohos.router';
 import { CallLogRepository } from '../../../../../../../feature/call';
 import { ContactRepository } from '../../../../../../../feature/contact/src/main/ets/repo/ContactRepository';
-import CallRecordListDataSource from './../../../model/bean/CallRecordListDataSource';
+import CallRecordListDataSource from '../../../model/bean/CallRecordListDataSource';
 import CallLogSetting from '../../../../../../../feature/call/src/main/ets/CallLogSetting'
 import DialerPresenter from '../../../presenter/dialer/DialerPresenter';
 import WorkerWrapper from '../../../workers/base/WorkerWrapper';
+import { call } from '@kit.TelephonyKit';
+import { CallInfoGetParamsInCallback } from '../../../model/type/ContactParams';
+import LooseObject from '../../../model/type/LooseObject';
 
 const TAG = 'CallRecordPresenter'
 const DELAY_TIME: number = 1000;
@@ -34,12 +37,13 @@ export default class CallRecordPresenter {
   isShow: boolean = false;
   page: number = 0;
   limit: number = 0;
-  context: Context;
-  worker: WorkerWrapper;
-  refreshState: () => void
+  context: Context | undefined = undefined;
+  worker: WorkerWrapper | undefined;
+  refreshState: (business: string) => void = () => {
+  };
   loading: boolean = false;
-  callLogListPages: Array<number> = [];
-  missedListPages: Array<number> = [];
+  callLogListPages: Array = [];
+  missedListPages: Array = [];
   callLogIndex: number = 0;
   missedIndex: number = 0;
   tabIndex: number = 0;
@@ -54,7 +58,7 @@ export default class CallRecordPresenter {
     this.setDelayTask();
   }
 
-  static getInstance() {
+  static getInstance(): CallRecordPresenter {
     if (globalThis.presenterManager?.callRecordPresenter) {
       return globalThis.presenterManager.callRecordPresenter;
     }
@@ -64,11 +68,11 @@ export default class CallRecordPresenter {
     return CallRecordPresenter.mPresenter;
   }
 
-  bindUI(refreshState?: () => void) {
+  bindUI(refreshState: (businessStr: string) => void) {
     this.refreshState = refreshState;
   }
 
-  onCreate(context: Context, worker: WorkerWrapper) {
+  onCreate(context: Context, worker: WorkerWrapper | undefined) {
     this.context = context;
     this.worker = worker;
     CallLogRepository.getInstance().registerDataChangeObserver(this.onCallsChange);
@@ -145,7 +149,7 @@ export default class CallRecordPresenter {
     }
   }
 
-  setTabIndex(index) {
+  setTabIndex(index: number) {
     if (this.tabIndex != index) {
       this.tabIndex = index;
       this.setTabShow();
@@ -210,31 +214,31 @@ export default class CallRecordPresenter {
 
   refreshPage(page: number, limit: number, callback?: () => void) {
     this.loading = true;
-    let actionData: any = {};
+    let actionData: LooseObject = {};
     actionData.page = page;
     actionData.limit = limit;
-    let favoriteForm: any = {};
+    let favoriteForm: LooseObject = {};
     favoriteForm.favorite = -1;
     this.worker?.sendRequest('getAllCalls', {
       context: this.context,
       mergeRule: CallLogSetting.getInstance().getMergeRule(),
       actionData: actionData,
       favoriteForm: JSON.stringify(favoriteForm)
-    }, (data) => {
-      let dateLength = data.callLogList.length;
-      HiLog.i(TAG, `refreshPage ${page} and getAllCalls, length is ` + dateLength);
-      if (Array.prototype.isPrototypeOf(data.callLogList)) {
+    }, (data: CallInfoGetParamsInCallback) => {
+      let dateLength: number = data.callLogList.length;
+      HiLog.i(TAG, `refreshPage ${page} and getAllCalls, length is + dateLength`);
+      if (Array.isArray(data.callLogList)) {
         this.mAllCallRecordListDataSource.refresh(this.callLogIndex, this.callLogListPages[page-1], data.callLogList);
         this.mDialerPresent.refresh();
       }
-      if (Array.prototype.isPrototypeOf(data.missedList)) {
+      if (Array.isArray(data.missedList)) {
         this.mMissCallRecordListDataSource.refresh(this.missedIndex, this.missedListPages[page - 1], data.missedList);
       }
       this.callLogListPages[page-1] = dateLength;
       this.callLogIndex += this.callLogListPages[page-1];
       this.missedListPages[page - 1] = data.missedList.length;
       this.missedIndex += this.missedListPages[page - 1];
-      if (data.callLogTotal < limit) {
+      if (data.callLogList.length < limit) {
         HiLog.i(TAG, 'CallLogs load completed: ' + this.mAllCallRecordListDataSource.totalCount());
         if (this.callLogListPages.length > page) {
           this.callLogListPages.splice(page, this.callLogListPages.length - page);
@@ -249,7 +253,7 @@ export default class CallRecordPresenter {
           this.mMissCallRecordListDataSource.remove(this.missedIndex, this.mMissCallRecordListDataSource.totalCount() - this.missedIndex);
         }
         if (this.refreshState) {
-          this.refreshState();
+          this.refreshState('limitDataRefresh requestItem ');
         }
         this.page = 0;
         this.callLogIndex = 0;
@@ -257,7 +261,7 @@ export default class CallRecordPresenter {
         this.loading = false;
       } else {
         if (this.refreshState) {
-          this.refreshState();
+          this.refreshState('limitInterceptionCallsDataRefresh requestItem ');
         }
         if (this.taskId === -1) {
           this.page = page + 1;
@@ -276,15 +280,15 @@ export default class CallRecordPresenter {
     })
   }
 
-  dialing(phoneNumber, options?: any) {
+  dialing(phoneNumber: string, options?: call.DialOptions) {
     PhoneNumber.fromString(phoneNumber).dial(options);
   }
 
-  deleteCallLog(id, index?) {
+  deleteCallLog(id: number[], index?: number) {
     globalThis.DataWorker.sendRequest('deleteCallLogsById', {
       context: globalThis.context,
       ids: id
-    }, (data) => {
+    }, () => {
       HiLog.i(TAG, 'deleteCallLog Success');
     });
     if (index != undefined) {
@@ -296,7 +300,7 @@ export default class CallRecordPresenter {
     }
   }
 
-  jumpToContactDetail(phoneNumber) {
+  jumpToContactDetail(phoneNumber: string) {
     router.push(
       {
         url: 'pages/contacts/details/ContactDetail',
@@ -308,7 +312,7 @@ export default class CallRecordPresenter {
     )
   }
 
-  saveCallRecordExistingContact(phoneNumber, callId){
+  saveCallRecordExistingContact(phoneNumber: string, callId: string) {
     HiLog.i(TAG, 'saveCallRecordExistingContact start.');
     router.pushUrl({
       url: 'pages/contacts/batchselectcontacts/SingleSelectContactPage',

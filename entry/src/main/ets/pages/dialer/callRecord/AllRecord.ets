@@ -26,7 +26,7 @@ import IndexPresenter from '../../../presenter/IndexPresenter';
 import { HiLog } from '../../../../../../../common'
 import emitter from '@ohos.events.emitter'
 import promptAction from '@ohos.promptAction'
-
+import MergedCallLog from '../../../../../../../feature/call/src/main/ets/entity/MergedCallLog';
 const TAG = 'AllRecord ';
 const EMITTER_SAVE_ID = 103;
 
@@ -52,20 +52,22 @@ export default struct AllRecord {
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear,recordType:' + this.recordType)
     this.onChanged();
-    let innerEventContact = {
+    let innerEventContact:emitter.InnerEvent = {
       eventId: EMITTER_SAVE_ID,
       priority: emitter.EventPriority.HIGH
     };
     emitter.on(innerEventContact, (data) => {
-      let phoneNumber: string = data.data['phoneNumber'];
-      let callId: string = data.data['callId'];
-      this.mPresenter.saveCallRecordExistingContact(phoneNumber, callId);
+      if(data.data !== undefined){
+        let phoneNumber: string = data.data['phoneNumber'];
+        let callId: string = data.data['callId'];
+        this.mPresenter.saveCallRecordExistingContact(phoneNumber, callId);
+      }
     })
   }
 
   aboutToDisappear() {
     HiLog.i(TAG, 'aboutToDisappear,recordType:' + this.recordType)
-     emitter.off(EMITTER_SAVE_ID);
+    emitter.off(EMITTER_SAVE_ID);
   }
 
   build() {
@@ -81,19 +83,19 @@ export default struct AllRecord {
 
 @Component
 struct RecordView {
-  @Link private mPresenter: { [key: string]: any }
+  @Link private mPresenter: CallRecordPresenter;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   recordType: number = 0;
 
   build() {
     List({ space: 0, initialIndex: 0 }) {
       LazyForEach(this.recordType === 0 ? this.mPresenter.mAllCallRecordListDataSource :
-      this.mPresenter.mMissCallRecordListDataSource, (item, index: number) => {
+      this.mPresenter.mMissCallRecordListDataSource, (item:MergedCallLog, index: number) => {
         ListItem() {
-          ContactItem({ mPresenter: $mPresenter, item: item, index: index });
+          ContactItem({ mPresenter: mPresenter, item: item, index: index });
         }
         .height($r('app.float.id_item_height_max'))
-      }, item => JSON.stringify(item))
+      }, (item:MergedCallLog) => JSON.stringify(item))
     }
     .divider({
       strokeWidth: 0.5,
@@ -145,8 +147,8 @@ enum MenuType {
 struct ContactItem {
   @State mIndexPresenter: IndexPresenter = IndexPresenter.getInstance();
   @Link mPresenter: CallRecordPresenter
-  @State item: { [key: string]: any } = {};
-  index: number;
+  @Prop item: MergedCallLog;
+  index: number = -1;
   @State isEmergencyNum: boolean = false;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
   @StorageLink('haveMultiSimCard') haveMultiSimCard: boolean = false;
@@ -171,7 +173,6 @@ struct ContactItem {
   });
 
   aboutToDisappear() {
-    this.deleteDialogController = null;
   }
 
   build() {
@@ -336,7 +337,7 @@ struct ContactItem {
     .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
   }
 
-  @Builder MenuView(menuName, itemType, displayName) {
+  @Builder MenuView(menuName:Resource, itemType:MenuType, displayName:string) {
     Row() {
       Text(menuName)
         .fontSize($r('sys.float.ohos_id_text_size_body1'))
@@ -348,7 +349,7 @@ struct ContactItem {
     .height($r('app.float.id_item_height_mid'))
     .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
     .visibility(itemType !== MenuType.SaveExistingContacts || itemType === MenuType.SaveExistingContacts &&
-    '' === displayName ? Visibility.Visible : Visibility.None)
+      '' === displayName ? Visibility.Visible : Visibility.None)
     .onClick(() => {
       switch (itemType) {
         case MenuType.DeleteCallLogs:
@@ -356,7 +357,7 @@ struct ContactItem {
           break;
         case MenuType.EditBeforeCall:
           DialerPresenter.getInstance().editPhoneNumber(this.item.phoneNumber);
-          AppStorage.SetOrCreate<boolean>('showDialBtn', true);
+          AppStorage.SetOrCreate('showDialBtn', true);
           break;
         case MenuType.sendMessage:
           let formatnum = PhoneNumber.fromString(this.item.phoneNumber).format();
@@ -368,13 +369,13 @@ struct ContactItem {
           this.mIndexPresenter.getCopy(this.item.phoneNumber);
           break;
         case MenuType.SaveExistingContacts:
-         let innerEvent = {
+          let innerEvent:emitter.InnerEvent = {
             eventId: EMITTER_SAVE_ID,
             priority: emitter.EventPriority.HIGH
           };
           emitter.emit(innerEvent, {
             data: {
-              'callId':  this.item.id,
+              'callId': this.item.id,
               'phoneNumber': this.item.phoneNumber
             }
           });
@@ -383,7 +384,7 @@ struct ContactItem {
     })
   }
 
-  @Builder MenuDivider(itemType, displayName) {
+  @Builder MenuDivider(itemType:MenuType, displayName:string) {
     Divider()
       .color($r('sys.color.ohos_id_color_list_separator'))
       .lineCap(LineCapStyle.Square)

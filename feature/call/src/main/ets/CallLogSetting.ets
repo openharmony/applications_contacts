@@ -12,9 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import { ObjectUtil } from '../../../../../common/src/main/ets/util/ObjectUtil';
-import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
+import { ObjectUtil } from 'common/src/main/ets/util/ObjectUtil';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 
 const TAG = 'CallLogSetting';
 
@@ -47,7 +46,7 @@ export default class CallLogSetting {
     if (!AppStorage.Has(CallLogSetting.KEY_MERGE_RULE)) {
       return MergeRule.TIME;
     }
-    let rst = AppStorage.Get(CallLogSetting.KEY_MERGE_RULE);
+    let rst: number | undefined = AppStorage.Get(CallLogSetting.KEY_MERGE_RULE);
     if (rst == MergeRule.CONTACT) {
       return MergeRule.CONTACT;
     }

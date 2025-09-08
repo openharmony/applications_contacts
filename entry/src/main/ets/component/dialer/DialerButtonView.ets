@@ -17,13 +17,13 @@ import EnvironmentProp from '../../feature/EnvironmentProp';
 import DialerPresenter from '../../presenter/dialer/DialerPresenter';
 import { MutiDialerButtonView } from '../mutisim/MutiDialerButtonView'
 import { PhoneNumber } from '../../../../../../feature/phonenumber';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import promptAction from '@ohos.promptAction'
 
 const TAG = 'DialerButtonView';
 @Component
 export struct DialerButtonView {
-  emergencyNum: string;
+  emergencyNum: string = '';
   @Link mPresenter: DialerPresenter;
   @StorageLink('tele_number') tele_number: string = '';
   @StorageLink('haveSimCard') haveSimCard: boolean = false;

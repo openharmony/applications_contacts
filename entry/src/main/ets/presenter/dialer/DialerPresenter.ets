@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
 import audio from '@ohos.multimedia.audio';
 import router from '@ohos.router';
@@ -21,20 +21,26 @@ import PreferencesUtil from '../../util/PreferencesUtil';
 import { PhoneNumber } from '../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
 import IndexPresenter from '../IndexPresenter';
 import CallRecordListDataSource from '../../model/bean/CallRecordListDataSource';
+import { call } from '@kit.TelephonyKit';
+import { FavoriteBean } from '../../model/bean/FavoriteBean';
 const TAG = 'DialerPresenter';
-const SECRET_CODE_START: string = '*#*#';
-const SECRET_CODE_END: string = '#*#*';
+const SECRET_CODE_START: string = '##';
+const SECRET_CODE_END: string = '##';
 
 /**
  * dialer presenter
  */
+interface GeneratedTypeLiteralInterface_1 {
+  state;
+  number;
+}
 export default class DialerPresenter {
   private static mPresenter: DialerPresenter;
   private _isCallStateChangeObserved = false;
   readonly NUM_TEXT_MAX_LENGTH = 20;
   readonly NUM_TEXT_MAXSIZE_LENGTH = 14;
   readonly NUM_TEXT_FONT_SIZE_MAX = 38;
-  private timer: any = null;
+  private timer: number | null = null;
   btnShow: boolean = true;
   isEmergencyNum: boolean = false;
   tele_number: string = '';
@@ -46,25 +52,22 @@ export default class DialerPresenter {
   dialerButtonWidth = 48;
   dialerButtonHeight = 48;
   dialerRadius = 24;
-  refreshView: boolean;
-  callBtnClick: boolean;
+  refreshView: boolean = false;
+  callBtnClick: boolean = false;
   secretCode: string = '';
   isPalyAudioing: boolean = false;
   mAllCallRecordListDataSource: CallRecordListDataSource = new CallRecordListDataSource();
-  callLogSearchList: any[] = [];
+  callLogSearchList: string[] = [];
   static getInstance() {
-    if (this.mPresenter == null) {
-      this.mPresenter = new DialerPresenter();
+    if (DialerPresenter.mPresenter == null) {
+      DialerPresenter.mPresenter = new DialerPresenter();
     }
-    return this.mPresenter;
+    return DialerPresenter.mPresenter;
   }
 
   aboutToAppear() {
     if (!PreferencesUtil.isUsed() && !this._isCallStateChangeObserved) {
-      observer.on('callStateChange', (callback: {
-        state,
-        number,
-      }) => {
+      observer.on('callStateChange', (callback: GeneratedTypeLiteralInterface_1) => {
         HiLog.i(TAG, 'callStateChange state' + callback.state);
         if (callback.state === 0) {
           HiLog.i(TAG, 'callback.state:' + callback.state);
@@ -82,7 +85,7 @@ export default class DialerPresenter {
     }
   }
 
-  editPhoneNumber(phoneNum): void {
+  editPhoneNumber(phoneNum:string): void {
     if (StringUtil.isEmpty(phoneNum)) {
       return;
     }
@@ -91,7 +94,7 @@ export default class DialerPresenter {
     this.all_number = phoneNum;
     this.viewNumberTextProc();
     this.deleteAddSpace();
-//    this.callHistorySearch()
+    // this.callHistorySearch()
   }
 
   onDestroy() {
@@ -101,14 +104,17 @@ export default class DialerPresenter {
    * Change the font size when deleting a number.
    */
   deleteTeleNum() {
-//    this.callHistorySearch()
-    let number: string = AppStorage.Get('tele_number');
+    // this.callHistorySearch()
+    let number: string|undefined = AppStorage.Get('tele_number');
+    if(number === undefined){
+      return;
+    }
     if (this.all_number.length < this.NUM_TEXT_MAX_LENGTH) {
       AppStorage.SetOrCreate('tele_number', this.all_number);
     } else {
       AppStorage.SetOrCreate('tele_number', this.all_number.substr(this.all_number.length - this.NUM_TEXT_MAX_LENGTH));
     }
-    if (number.length > this.NUM_TEXT_MAXSIZE_LENGTH) {
+    if (number?.length > this.NUM_TEXT_MAXSIZE_LENGTH) {
       this.tele_num_size = this.NUM_TEXT_FONT_SIZE_MAX * this.NUM_TEXT_MAXSIZE_LENGTH / number.length;
     } else if (number.length <= this.NUM_TEXT_MAXSIZE_LENGTH) {
       this.tele_num_size = this.NUM_TEXT_FONT_SIZE_MAX;
@@ -119,7 +125,10 @@ export default class DialerPresenter {
    * Add formatting spaces when deleting a number.
    */
   deleteAddSpace() {
-    let number: string = AppStorage.Get('tele_number');
+    let number: string|undefined = AppStorage.Get('tele_number');
+    if(number === undefined){
+      return;
+    }
     let teleNumberNoSpace = StringUtil.removeSpace(number);
     this.all_number = StringUtil.removeSpace(this.all_number);
     if (teleNumberNoSpace.length > this.NUM_TEXT_MAXSIZE_LENGTH - 2) {
@@ -153,25 +162,24 @@ export default class DialerPresenter {
   /*
    * Check whether formatting spaces are required when entering a number.
    */
-  checkNeedNumberSpace(numText) {
-    let isSpace = /[\+;,#\*]/g;
-    let isRule = /^\+.*/;
-    if (isSpace.test(numText)) {
-      // If the number string contains special characters, no space is added.
-      if (isRule.test(numText)) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    return true;
+  checkNeedNumberSpace(numText:string) {
+  let isSpace = /[+;,#*]/g;
+  let isRule = /^+./;
+  if (isSpace.test(numText)) {
+  // If the number string contains special characters, no space is added.
+  if (isRule.test(numText)) {
+  return true;
+  } else {
+  return false;
   }
-
-  dialing(phoneNumber, options?: any) {
-    this.editPhoneNumber('');
-    PhoneNumber.fromString(phoneNumber).dial(options).then((rst) => {
-      this.refresh();
-    });
+  }
+  return true;
+  }
+  dialing(phoneNumber:string, options?: call.DialOptions) {
+  this.editPhoneNumber('');
+  PhoneNumber.fromString(phoneNumber).dial(options).then((rst) => {
+  this.refresh();
+  });
   }
 
   /*
@@ -184,8 +192,8 @@ export default class DialerPresenter {
    * Add a space when entering a number.
    */
   ifNeedSpace() {
-    let needNumber: string = AppStorage.Get('tele_number');
-    switch (needNumber.length) {
+    let needNumber: string | undefined = AppStorage.Get('tele_number');
+    switch (needNumber?.length) {
       case 3:
         if (this.checkNeedNumberSpace(needNumber)) {
           AppStorage.SetOrCreate('tele_number', needNumber + ' ');
@@ -204,10 +212,13 @@ export default class DialerPresenter {
    */
   viewNumberTextProc() {
     let numStringNoSpace_all = StringUtil.removeSpace(this.all_number);
-    let number: string = AppStorage.Get('tele_number');
+    let number: string | undefined = AppStorage.Get('tele_number');
     AppStorage.SetOrCreate('tele_number', numStringNoSpace_all.length > this.NUM_TEXT_MAX_LENGTH ?
     numStringNoSpace_all.substr(numStringNoSpace_all.length - this.NUM_TEXT_MAX_LENGTH) : number
     );
+    if(number === undefined){
+      return;
+    }
     if (number.length > this.NUM_TEXT_MAXSIZE_LENGTH) {
       AppStorage.SetOrCreate('tele_number', StringUtil.removeSpace(number));
     }
@@ -221,7 +232,7 @@ export default class DialerPresenter {
   /*
    * Play different audio resources based on key digits.
    */
-  playAudio(number) {
+  playAudio(number: string) {
     switch (number.toString()) {
       case '1':
         this.tonePlayer(audio.ToneType.TONE_TYPE_DIAL_1);
@@ -263,8 +274,7 @@ export default class DialerPresenter {
         HiLog.e(TAG, 'keytone src is error');
     }
   }
-
-  async tonePlayer(type) {
+  async tonePlayer(type:audio.ToneType) {
     HiLog.i(TAG, 'TonePlayer type: ' + type);
     let that = this;
     let tonePlayer = null;
@@ -274,17 +284,17 @@ export default class DialerPresenter {
       rendererFlags: 0
     };
 
-    if (!this.isPalyAudioing) {
-      this.isPalyAudioing = true;
-      tonePlayer = await audio.createTonePlayer(audioRendererInfo);
-      await tonePlayer.load(type);
-      await tonePlayer.start();
-      setTimeout(async () => {
-        that.isPalyAudioing = false;
-        await tonePlayer.stop();
-        await tonePlayer.release();
-      }, 15)
-    }
+  if (!this.isPalyAudioing) {
+    this.isPalyAudioing = true;
+    tonePlayer = await audio.createTonePlayer(audioRendererInfo);
+    await tonePlayer.load(type);
+    await tonePlayer.start();
+    setTimeout(async () => {
+      that.isPalyAudioing = false;
+      await tonePlayer.stop();
+      await tonePlayer.release();
+    }, 15)
+  }
   };
 
   /*
@@ -296,8 +306,8 @@ export default class DialerPresenter {
       params: {
         updataShow: false,
         phoneNumbers: [{
-                         phoneNumber: AppStorage.Get('tele_number')
-                       }]
+          phoneNumber: AppStorage.Get('tele_number')
+        }]
       },
     })
   }
@@ -328,37 +338,7 @@ export default class DialerPresenter {
     }
   }
 
-  callHistorySearch() {
-    let teleNumber: string = AppStorage.Get('tele_number');
-    globalThis.DataWorker.sendRequest('getQueryT9PhoneNumbers', {
-      favoriteForm: JSON.stringify({favorite:{teleNumber:teleNumber.replace(/\s*/g,'')}}),
-      context: globalThis.context
-    }, (result) => {
-      let nameArray = [];
-      for (let i = 0; i < result.length; i++) {
-        nameArray.push(result[i].showName);
-        result[i].displayName = result[i]?.showName || result[i]?.phoneNumbers[0]?.phoneNumber || '';
-        result[i].phoneNumber = result[i]?.phoneNumbers[0]?.phoneNumber || '';
-      }
-      const queryCall = {context: globalThis.context,mergeRule: '', actionData: {teleNumber:teleNumber.replace(/\s*/g,''), nameArray}};
-      globalThis.DataWorker?.sendRequest('getCallHistorySearch', queryCall, (data) => {
-        this.callLogSearchList = [];
-        if(data.callLogList.length > 0 || result.length > 0){
-          this.callLogSearchList = [...this.callLogSearchList,...result]
-          for (let i = 0; i < data.callLogList.length; i++) {
-            const displayName = data?.callLogList[i]?.displayName || data?.callLogList[i]?.phoneNumber;
-            if(!nameArray.includes(displayName)){
-              nameArray.push(displayName)
-              this.callLogSearchList.push({...data.callLogList[i], displayName});
-            }
-          }
-        }
-        this.mAllCallRecordListDataSource.refreshAll(this.callLogSearchList.sort((a: any, b: any)=> (a.count || 0) - (b.count || 0)));
-      })
-    })
-  }
-
-  jumpToContactDetail(phoneNumber) {
+  jumpToContactDetail(phoneNumber:string) {
     router.pushUrl(
       {
         url: 'pages/contacts/details/ContactDetail',

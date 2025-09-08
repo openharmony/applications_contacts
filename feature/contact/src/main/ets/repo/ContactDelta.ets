@@ -28,27 +28,10 @@ export default class ContactDelta {
     let contactDelta = new ContactDelta();
     for (let rawContact of contact.rowContacts) {
       let rawContactDelta = RawContactDelta.fromRawContact(rawContact);
-      contactDelta.rawContactDeltas.push(rawContactDelta);
-    }
-    return contactDelta;
-  }
-
-  buildDiff() {
-    let diff = [];
-    for (let i = 0; i < this.rawContactDeltas.length; i++) {
-      let rawContactDelta = this.rawContactDeltas[i];
-      rawContactDelta.buildDiff(diff);
-    }
-    return diff;
-  }
-
-  private findRawContactId() {
-    for (let i = 0; i < this.rawContactDeltas.length; i++) {
-      let rawContactId = this.rawContactDeltas[i].values.getValue(RawContacts.ID);
-      if (rawContactId != undefined && rawContactId >= 0) {
-        return rawContactId;
+      if (rawContactDelta) {
+        contactDelta.rawContactDeltas.push(rawContactDelta);
       }
     }
-    return -1;
+    return contactDelta;
   }
 }

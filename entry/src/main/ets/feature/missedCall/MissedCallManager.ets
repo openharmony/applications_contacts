@@ -16,11 +16,12 @@
 import { HiLog } from '../../../../../../common';
 import commonEvent from '@ohos.commonEventManager';
 import { PhoneNumber } from '../../../../../../feature/phonenumber';
+import { MissedCallNotifyData } from '../../../../../../feature/call/src/main/ets/missedcall/MissedCallNotifier';
 
 const TAG = 'MissedCallManager'
 
 class MissedCallManager {
-  requestMissedCallAction(action, data: any) {
+  requestMissedCallAction(action: string, data: MissedCallNotifyData) {
     if ('notification.event.message' == action) {
       if (data && data.phoneNumber) {
         PhoneNumber.fromString(data.phoneNumber).sendMessage();
@@ -30,8 +31,7 @@ class MissedCallManager {
     this.cancelNotification(data);
   }
 
-
-  cancelNotification(data?: any) {
+  cancelNotification(data?: Object) {
     commonEvent.publish('contact.event.CANCEL_MISSED', {
       bundleName: 'com.ohos.contacts',
       parameters: {

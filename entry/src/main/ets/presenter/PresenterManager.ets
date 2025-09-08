@@ -12,24 +12,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
-import Constants from '../../../../../common/src/main/ets/Constants';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
+import Constants from 'common/src/main/ets/Constants';
 import ContactListPresenter from './contact/ContactListPresenter';
 import CallRecordPresenter from './dialer/callRecord/CallRecordPresenter';
 import WorkerWrapper from '../workers/base/WorkerWrapper';
 import Want from '@ohos.app.ability.Want';
+import { paramsInterface } from '../model/type';
 
 const TAG = 'PageManager'
 
 export default class PresenterManager {
   mainUrl: string = 'pages/index';
   context: Context;
-  worker: WorkerWrapper;
+  worker: WorkerWrapper | undefined;
   callRecordPresenter: CallRecordPresenter = CallRecordPresenter.getInstance();
   contactListPresenter: ContactListPresenter = ContactListPresenter.getInstance();
 
-  constructor(context: Context, worker: WorkerWrapper) {
+  constructor(context: Context, worker: WorkerWrapper | undefined) {
     this.context = context;
     this.worker = worker;
   }
@@ -61,35 +61,29 @@ export default class PresenterManager {
   }
 
   // Go to a specified page.
-  onRequest(parameters: { [key: string]: Object }, isOnCreate: boolean) {
+  onRequest(parameters: Record<string, Object> | undefined, isOnCreate: boolean) {
     HiLog.i(TAG, 'show pageRouteHandler routeMessage ');
     let url = 'pages/index';
-    let params = {};
+    let params: paramsInterface = {};
     let pageIndex = 1;
     if (parameters?.pageFlag) {
       HiLog.i(TAG, 'pageRouteHandler case is ' + parameters.pageFlag);
       switch (parameters.pageFlag.toString()) {
-      // jump to index
+        // jump to index
         case 'page_flag_dialer':
-          AppStorage.SetOrCreate(Constants.Storage.mainTabsIndex, 0);
-          params = {
-            mainTabsIndex: 0
-          }
+          AppStorage.SetOrCreate(Constants.storage.mainTabsIndex, 0);
+          params.mainTabsIndex = 0;
           break;
         case 'page_flag_choose_contacts':
-          AppStorage.SetOrCreate(Constants.Storage.mainTabsIndex, 1);
-          params = {
-            mainTabsIndex: 1
-          }
+          AppStorage.SetOrCreate(Constants.storage.mainTabsIndex, 1);
+          params.mainTabsIndex = 1;
           break;
         case 'page_flag_contact_details':
           url = 'pages/contacts/details/ContactDetail';
           pageIndex = 2;
           if (parameters.contactId) {
-            params = {
-              'sourceHasId': true,
-              'contactId': parameters.contactId
-            }
+            params.sourceHasId = true;
+            params.contactId = parameters.contactId;
           } else {
             HiLog.i(TAG, 'SHOW pageRouteHandler and routeMessage.phoneNumber ');
             params = {
@@ -99,8 +93,8 @@ export default class PresenterManager {
           }
           break;
         case 'page_flag_edit_before_calling':
-          AppStorage.SetOrCreate(Constants.Storage.mainTabsIndex, 0);
-          AppStorage.SetOrCreate(Constants.Storage.teleNumber, parameters.phoneNumber);
+          AppStorage.SetOrCreate(Constants.storage.mainTabsIndex, 0);
+          AppStorage.SetOrCreate(Constants.storage.teleNumber, parameters.phoneNumber);
           params = {
             mainTabsIndex: 0, teleNumber: parameters.phoneNumber
           }
@@ -156,7 +150,7 @@ export default class PresenterManager {
       this.mainUrl = url;
       AppStorage.SetOrCreate('params', params);
     } else {
-      AppStorage.SetOrCreate(Constants.Storage.targetPage, {
+      AppStorage.SetOrCreate(Constants.storage.targetPage, {
         url: url,
         pageIndex: pageIndex,
         params: params

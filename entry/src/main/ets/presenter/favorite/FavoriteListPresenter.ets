@@ -36,11 +36,12 @@ export default class FavoriteListPresenter {
   favoriteDataSource: FavoriteDataSource = new FavoriteDataSource();
   isShow: boolean = false;
   isEditSelectList: string[] = [];
-  usuallySelectArray = new ArrayList();
+  usuallySelectArray = new ArrayList()
   displayNameList: string[] = [];
   usuallyDisplayNameParameterList: string[] = [];
   usuallyPhoneParameterList: string[] = [];
   usuallyTotalCount: number = 0;
+  lastUsedSlotId?: number = -1;
   onContactChange = () => {
     HiLog.i(TAG, 'onFavoriteChange refresh');
     this.requestItem();
@@ -59,12 +60,12 @@ export default class FavoriteListPresenter {
 
   refreshFavorite() {
     HiLog.i(TAG, 'refreshFavorite start.');
-    let actionData: any = {};
+    let actionData: Record<string, number> = {};
     actionData.favorite = 1
     globalThis.DataWorker.sendRequest('getAllFavorite', {
       actionData: actionData,
       context: globalThis.context
-    }, (result) => {
+    }, (result:FavoriteBean[]) => {
       HiLog.i(TAG, 'refreshFavorite sc.');
       this.favoriteList = [];
       this.favoriteList = result;
@@ -79,12 +80,12 @@ export default class FavoriteListPresenter {
 
   refreshUsually() {
     HiLog.i(TAG, 'refreshUsually start.');
-    let actionData: any = {};
+    let actionData: Record<string, number> = {};
     actionData.favorite = 0;
     globalThis.DataWorker.sendRequest('getAllUsually', {
       actionData: actionData,
       context: globalThis.context
-    }, (result) => {
+    }, (result:FavoriteBean[]) => {
       HiLog.i(TAG, 'refreshUsually sc.');
       let resultCount = result.length;
       if (resultCount > 0) {
@@ -154,13 +155,13 @@ export default class FavoriteListPresenter {
       displayName: displayNameList,
       usuallyPhone: usuallyPhoneList,
       context: globalThis.context
-    }, (result) => {
+    }, (result:FavoriteBean[]) => {
       let totalCount = result.length;
       HiLog.i(TAG, 'getDisplayNamesFindUsually sc');
       if (null != result && totalCount > 0) {
         this.favoriteList = this.favoriteList.concat(result);
         this.refreshFavoriteList(this.favoriteList);
-      }  else {
+      } else {
         this.refreshFavoriteList(this.favoriteList);
       }
     })
@@ -176,7 +177,7 @@ export default class FavoriteListPresenter {
       this.favoriteList[this.favoriteCount].isUsuallyShow = true;
     }
     this.favoriteDataSource.refresh(favoriteList);
-    let innerEvent = {
+    let innerEvent:emitter.InnerEvent = {
       eventId: 100,
       priority: emitter.EventPriority.HIGH
     };
@@ -186,7 +187,6 @@ export default class FavoriteListPresenter {
       }
     });
   }
-
   goContactDetail(contactId: string) {
     HiLog.i(TAG, 'goContactDetail start.');
     router.pushUrl(
@@ -215,13 +215,14 @@ export default class FavoriteListPresenter {
   async onPageShow() {
     HiLog.i(TAG, 'onPageShow!');
     this.isShow = true;
-    let editFavoriteDrag: number = AppStorage.Get<number>('editFavoriteDrag');
-    let addFavoriteContactData: string[] = AppStorage.Get<Array<string>>('addFavoriteContactData');
-    let deleteFavoriteContactData: string[] = AppStorage.Get<Array<string>>('deleteFavoriteContactData');
-    let cancelEditFavorite: number = AppStorage.Get<number>('cancelEditFavorite');
+    let editFavoriteDrag: number|undefined = AppStorage.Get('editFavoriteDrag');
+    let addFavoriteContactData: string[]|undefined = AppStorage.Get<Array<string>>('addFavoriteContactData');
+    let deleteFavoriteContactData: string[]|undefined = AppStorage.Get<Array<string>>('deleteFavoriteContactData');
+    let cancelEditFavorite: number|undefined = AppStorage.Get('cancelEditFavorite');
     let that = this;
     let usuallySelectData: Promise<string> = new Promise(async (resolve) => {
-      let usuallySelectDisplayNameList: string = <string> await sharedPreferencesUtils.getFromPreferences('usuallySelectDisplayNameList', '');
+      let usuallySelectDisplayNameList: string =
+        await sharedPreferencesUtils.getFromPreferences('usuallySelectDisplayNameList', '') as string;
       if ('' !== usuallySelectDisplayNameList) {
         let usuallySelectDisplayList: string[] = JSON.parse(usuallySelectDisplayNameList);
         let count = usuallySelectDisplayList.length;
@@ -238,14 +239,14 @@ export default class FavoriteListPresenter {
     if (editFavoriteDrag !== undefined && editFavoriteDrag === 1) {
       HiLog.i(TAG, 'onPageShow editFavoriteDrag!');
       this.requestItem();
-      AppStorage.SetOrCreate<number>('editFavoriteDrag', 0);
+      AppStorage.SetOrCreate('editFavoriteDrag', 0);
     } else if (addFavoriteContactData !== undefined && addFavoriteContactData.length > 0) {
       HiLog.i(TAG, 'onPageShow addFavoriteContactData!');
       this.addFavoriteInfo(addFavoriteContactData);
       AppStorage.SetOrCreate<Array<string>>('addFavoriteContactData', []);
     } else if (cancelEditFavorite !== undefined && 2 === cancelEditFavorite) {
       HiLog.i(TAG, 'onPageShow cancelEditFavorite!');
-      AppStorage.SetOrCreate<number>('cancelEditFavorite', 0);
+      AppStorage.SetOrCreate('cancelEditFavorite', 0);
     } else if (deleteFavoriteContactData !== undefined && deleteFavoriteContactData.length > 0) {
       HiLog.i(TAG, 'onPageShow deleteFavoriteContactData!');
       this.deleteFavorite(deleteFavoriteContactData);
@@ -273,9 +274,10 @@ export default class FavoriteListPresenter {
 
   async usuallySelectData(): Promise<string> {
     let that = this;
-    //let usuallySelectData: Promise<string>
+    //let usuallySelectData: Promise
     return await new Promise(async (resolve) => {
-      let usuallySelectDisplayNameList: string = <string> await sharedPreferencesUtils.getFromPreferences('usuallySelectDisplayNameList', '');
+      let usuallySelectDisplayNameList: string =
+        await sharedPreferencesUtils.getFromPreferences('usuallySelectDisplayNameList', '') as string;
       if ('' !== usuallySelectDisplayNameList) {
         let usuallySelectDisplayList: string[] = JSON.parse(usuallySelectDisplayNameList);
         let count = usuallySelectDisplayList.length;
@@ -317,13 +319,13 @@ export default class FavoriteListPresenter {
     HiLog.i(TAG, 'addFavoriteInfo start.');
     let selectLength: number = selectFavoriteIdList.length;
     for (let i = 0; i < selectLength; i++) {
-      let favoriteForm: any = {}
+      let favoriteForm: Record<string, string> = {};
       favoriteForm.id = selectFavoriteIdList[i];
-      favoriteForm.favorite = 1;
+      favoriteForm.favorite = '1';
       globalThis.DataWorker.sendRequest('updateFavorite', {
         context: globalThis.context,
         favoriteForm: JSON.stringify(favoriteForm)
-      }, (arg) => {
+      }, () => {
         if (i === (selectLength - 1)) {
           AppStorage.SetOrCreate<Array<string>>('addFavoriteContactData', [])
           HiLog.i(TAG, 'addFavoriteInfo success refresh.');
@@ -338,13 +340,13 @@ export default class FavoriteListPresenter {
     HiLog.i(TAG, 'deleteFavorite start.');
     let favoriteLength: number = deleteFavoriteIdList.length;
     for (let i = 0; i < favoriteLength; i++) {
-      let favoriteForm: any = {};
+      let favoriteForm: Record<string, string> = {};
       favoriteForm.id = deleteFavoriteIdList[i];
-      favoriteForm.favorite = 0;
+      favoriteForm.favorite = '0';
       globalThis.DataWorker.sendRequest('updateFavorite', {
         context: globalThis.context,
         favoriteForm: JSON.stringify(favoriteForm)
-      }, (arg) => {
+      }, (arg:string) => {
         if(i === (favoriteLength - 1)){
           HiLog.i(TAG, 'deleteFavoriteInfo success.');
           AppStorage.SetOrCreate<Array<string>>('deleteFavoriteContactData', [])

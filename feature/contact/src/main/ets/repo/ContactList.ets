@@ -18,8 +18,8 @@ import ContactListItem from './ContactListItem';
 
 export default class ContactList {
   static readonly CONTACT_PROJECTION_PRIMARY = [];
-  readonly bookIndex: AddressBookIndex;
-  readonly contacts: ContactListItem[];
-  constructor(resultSet: any) {
+  readonly bookIndex: AddressBookIndex = new AddressBookIndex([]);
+  readonly contacts: ContactListItem[] = [];
+  constructor(resultSet: ContactListItem[]) {
   }
 }

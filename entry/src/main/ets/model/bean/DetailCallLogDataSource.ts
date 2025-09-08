@@ -14,8 +14,9 @@
  */
 
 import BasicDataSource from './BasicDataSource';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
+import LooseObject from '../type/LooseObject';
 
 const TAG = "DetailCallLogDataSource";
 
@@ -26,7 +27,7 @@ export default class DetailCallLogDataSource extends BasicDataSource {
         return this.detailCallLogList.length;
     }
 
-    public getData(index: number): any {
+    public getData(index: number): null | LooseObject {
         HiLog.i(TAG, "getData index is %s" + index);
         if (ArrayUtil.isEmpty(this.detailCallLogList) || index >= this.detailCallLogList.length) {
             HiLog.i(TAG, "getData detailCallLogList is empty");
@@ -37,7 +38,7 @@ export default class DetailCallLogDataSource extends BasicDataSource {
             if (index == 0) {
                 showTitle = true;
             }
-            let item = {
+            let item: LooseObject = {
                 callLog: callLog,
                 showTitle: showTitle
             }
@@ -45,7 +46,7 @@ export default class DetailCallLogDataSource extends BasicDataSource {
         }
     }
 
-    public refresh(callLog) {
+    public refresh(callLog: object[]) {
         HiLog.i(TAG, ' refresh!');
         this.detailCallLogList = callLog;
         this.notifyDataReload();

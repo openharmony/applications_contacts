@@ -17,7 +17,7 @@ import EnvironmentProp from '../../feature/EnvironmentProp';
 
 @Component
 export struct CallLogTabs {
-  private controller: TabsController
+  private controller: TabsController|null = null;
   @Link bottomTabIndex: number
   @LocalStorageProp('breakpoint') curBp: string = 'sm'
 
@@ -44,7 +44,7 @@ export struct CallLogTabs {
       .margin(this.curBp === 'lg' ? { right: 50 } : { right: 31 })
       .onClick(() => {
         if (this.bottomTabIndex != 0) {
-          this.controller.changeIndex(0)
+          this.controller?.changeIndex(0)
         }
       })
 
@@ -68,7 +68,7 @@ export struct CallLogTabs {
       .height($r("app.float.id_item_height_large"))
       .onClick(() => {
         if (this.bottomTabIndex != 1) {
-          this.controller.changeIndex(1)
+          this.controller?.changeIndex(1)
         }
       })
     }

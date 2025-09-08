@@ -15,14 +15,14 @@
 
 import router from '@ohos.router';
 import pasteboard from '@ohos.pasteboard';
-import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
 import StringFormatUtil from '../util/StringFormatUtil';
 import { missedCallManager } from '../feature/missedCall/MissedCallManager';
 import CallRecordPresenter from './dialer/callRecord/CallRecordPresenter';
 import FavoriteListPresenter from './favorite/FavoriteListPresenter';
 
-const TAG = 'IndexPresenter  ';
+const TAG = 'IndexPresenter ';
 
 export default class IndexPresenter {
   private static instance: IndexPresenter;
@@ -50,7 +50,7 @@ export default class IndexPresenter {
     return url;
   }
 
-  goToPage(url: string, pageIndex?: number, params?) {
+  goToPage(url: string, pageIndex?: number, params?:Record<string, string>) {
     HiLog.i(TAG, 'goToPage: ' + url);
     if (pageIndex != undefined && router.getState().index >= pageIndex) {
       if (url == globalThis.presenterManager?.mainUrl || this.getCurrentUrl() == url) {
@@ -86,7 +86,7 @@ export default class IndexPresenter {
     HiLog.i(TAG, 'aboutToDisappear !!!');
   }
 
-  getCopy(phoneNumber) {
+  getCopy(phoneNumber:string) {
     HiLog.i(TAG, 'Succeeded PasteData is ' + JSON.stringify(phoneNumber));
     let pasteData = pasteboard.createPlainTextData(phoneNumber);
     let systemPasteboard = pasteboard.getSystemPasteboard();

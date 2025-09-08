@@ -20,6 +20,7 @@ export class EmailBean {
   id: string
   address: string
   emailType: string
+  public labelName?: Resource | string;
   constructor(id: string, address: string, emailType: string) {
     this.id = id;
     this.address = address;

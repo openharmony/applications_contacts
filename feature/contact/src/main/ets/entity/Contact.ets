@@ -40,7 +40,7 @@ export default class Contact {
     this.quickSearchKey = contactBuilder.quickSearchKey;
     this.photoId = contactBuilder.photoId;
     this.photoFileId = contactBuilder.photoFileId;
-    this.personalRingtone = contactBuilder.personalRingtone;
+    this.personalRingtone = contactBuilder.personalRingtone ?? '';
     this.personalNotificationRingtone = contactBuilder.personalNotificationRingtone;
     this.isTransferVoiceMail = contactBuilder.isTransferVoiceMail;
     this.company = contactBuilder.company;
@@ -99,10 +99,6 @@ export default class Contact {
 
   clearPhotos() {
     return false;
-  }
-
-  getPhoto() {
-    return {};
   }
 
   isReadOnly() {

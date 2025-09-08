@@ -12,25 +12,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import { AllCallsGetActionData, FindByNumberActionData } from '../../../../../../entry/src/main/ets/model/';
 import { CallLog } from '../entity/CallLog';
 
 /**
  * Call record warehouse operation interface, which provides database operation methods and shields the persistence layer logic.
  */
 export default interface ICallLogRepository {
-  saveOne: (callLog: CallLog, callback) => void;
-  clear: (callback) => void;
+  saveOne: (callLog: CallLog, callback: (Contact?: number) => void) => void;
+  clear: (callback: (Contact?: number) => void) => void;
   deleteById: (id: number) => boolean;
-  deleteByIdIn: (ids: number[], callback) => void;
+  deleteByIdIn: (ids: number[], callback: (Contact?: number) => void) => void;
   deleteByNumber: (number: string) => boolean;
   deleteByLookupUri: (lookupUri: string) => boolean;
   readByNumber: (number: string) => boolean;
   readById: (id: number) => boolean;
-  findAll: (favorite: number, actionData: any, callback) => void;
+  findAll: (actionData: AllCallsGetActionData, callback: (Contact: CallLog[]) => void) => void;
   findByFeature: (feature: number) => CallLog[];
-  findByNumberIn: (numbers: number[], callback) => void;
+  findByNumberIn: (actionData: FindByNumberActionData, callback: (Contact: CallLog[]) => void) => void;
   notifyChange: () => void;
-  registerDataChangeObserver: (callback) => void;
-  unRegisterDataChangeObserver: (callback) => void;
+  registerDataChangeObserver: (callback: () => void) => void;
+  unRegisterDataChangeObserver: (callback: () => void) => void;
 }

@@ -1,0 +1,220 @@
+{
+  "string": [
+    {
+      "name": "phone_type_mobile",
+      "value": "手机"
+    },
+    {
+      "name": "phone_type_home",
+      "value": "住宅"
+    },
+    {
+      "name": "phone_type_work",
+      "value": "单位"
+    },
+    {
+      "name": "phone_type_main",
+      "value": "总机"
+    },
+    {
+      "name": "phone_type_fax_work",
+      "value": "单位传真"
+    },
+    {
+      "name": "phone_type_fax_home",
+      "value": "住宅传真"
+    },
+    {
+      "name": "phone_type_pager",
+      "value": "寻呼机"
+    },
+    {
+      "name": "phone_type_other",
+      "value": "其他"
+    },
+    {
+      "name": "phone_type_custom",
+      "value": "自定义"
+    },
+    {
+      "name": "phone_type_home_expansion",
+      "value": "住宅  %s"
+    },
+    {
+      "name": "phone_type_mobile_expansion",
+      "value": "手机  %s"
+    },
+    {
+      "name": "phone_type_work_expansion",
+      "value": "单位  %s"
+    },
+    {
+      "name": "phone_type_fax_work_expansion",
+      "value": "单位传真  %s"
+    },
+    {
+      "name": "phone_type_fax_home_expansion",
+      "value": "住宅传真  %s"
+    },
+    {
+      "name": "phone_type_pager_expansion",
+      "value": "寻呼机  %s"
+    },
+    {
+      "name": "phone_type_other_expansion",
+      "value": "其他  %s"
+    },
+    {
+      "name": "phone_type_main_expansion",
+      "value": "总机  %s"
+    },
+    {
+      "name": "phone_type_custom_expansion",
+      "value": "自定义  %s"
+    },
+    {
+      "name": "email_type_home",
+      "value": "私人"
+    },
+    {
+      "name": "email_type_work",
+      "value": "单位"
+    },
+    {
+      "name": "email_type_other",
+      "value": "其他"
+    },
+    {
+      "name": "email_type_custom",
+      "value": "自定义"
+    },
+    {
+      "name": "instant_type_aim",
+      "value": "AIM"
+    },
+    {
+      "name": "instant_type_windowslive",
+      "value": "WindowsLive"
+    },
+    {
+      "name": "instant_type_yahoo",
+      "value": "雅虎"
+    },
+    {
+      "name": "instant_type_skype",
+      "value": "Skype"
+    },
+    {
+      "name": "instant_type_qq",
+      "value": "QQ"
+    },
+    {
+      "name": "instant_type_hangouts",
+      "value": "环聊"
+    },
+    {
+      "name": "instant_type_icq",
+      "value": "ICQ"
+    },
+    {
+      "name": "instant_type_jabber",
+      "value": "Jabber"
+    },
+    {
+      "name": "instant_type_custom",
+      "value": "自定义"
+    },
+    {
+      "name": "birthday_type_grebirthday",
+      "value": "生日"
+    },
+    {
+      "name": "birthday_type_lunarbirthday",
+      "value": "农历生日"
+    },
+    {
+      "name": "birthday_type_anniversaries",
+      "value": "周年纪念"
+    },
+    {
+      "name": "birthday_type_other",
+      "value": "其他重要日期"
+    },
+    {
+      "name": "relationship_type_assistant",
+      "value": "助理"
+    },
+    {
+      "name": "relationship_type_brother",
+      "value": "兄弟"
+    },
+    {
+      "name": "relationship_type_children",
+      "value": "子女"
+    },
+    {
+      "name": "relationship_type_mates",
+      "value": "伴侣"
+    },
+    {
+      "name": "relationship_type_father",
+      "value": "父亲"
+    },
+    {
+      "name": "relationship_type_friend",
+      "value": "朋友"
+    },
+    {
+      "name": "relationship_type_bosses",
+      "value": "上司"
+    },
+    {
+      "name": "relationship_type_mother",
+      "value": "母亲"
+    },
+    {
+      "name": "relationship_type_parents",
+      "value": "父母"
+    },
+    {
+      "name": "relationship_type_partner",
+      "value": "合作伙伴"
+    },
+    {
+      "name": "relationship_type_introducer",
+      "value": "介绍人"
+    },
+    {
+      "name": "relationship_type_kinship",
+      "value": "亲属"
+    },
+    {
+      "name": "relationship_type_sisters",
+      "value": "姐妹"
+    },
+    {
+      "name": "relationship_type_spouses",
+      "value": "配偶"
+    },
+    {
+      "name": "relationship_type_custom",
+      "value": "自定义"
+    },
+    {
+      "name": "house_type_dwelling",
+      "value": "住宅"
+    },
+    {
+      "name": "house_type_position",
+      "value": "单位"
+    },
+    {
+      "name": "house_type_other",
+      "value": "其他"
+    },
+    {
+      "name": "house_type_custom",
+      "value": "自定义"
+    }
+  ]
+}

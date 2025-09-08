@@ -37,23 +37,23 @@ export class HiLog {
   }
 
   private static prefix(tag: string) {
-    return tag + this.COLON;
+    return tag + HiLog.COLON;
   }
 
-  static d(tag: string, msg: string, ...args: any[]) {
-    Log.debug(DOMAIN, TAG, this.prefix(tag) + msg, args);
+  static d(tag: string, msg: string, ...args: string[]) {
+    Log.debug(DOMAIN, TAG, HiLog.prefix(tag) + msg, args);
   }
 
-  static i(tag: string, msg: string, ...args: any[]) {
-    Log.info(DOMAIN, TAG, this.prefix(tag) + msg, args);
+  static i(tag: string, msg: string, ...args: string[]) {
+    Log.info(DOMAIN, TAG, HiLog.prefix(tag) + msg, args);
   }
 
-  static w(tag: string, msg: string, ...args: any[]) {
-    Log.warn(DOMAIN, TAG, this.prefix(tag) + msg, args);
+  static w(tag: string, msg: string, ...args: string[]) {
+    Log.warn(DOMAIN, TAG, HiLog.prefix(tag) + msg, args);
   }
 
-  static e(tag: string, msg: string, ...args: any[]) {
-    Log.error(DOMAIN, TAG, this.prefix(tag) + msg, args);
+  static e(tag: string, msg: string, ...args: string[]) {
+    Log.error(DOMAIN, TAG, HiLog.prefix(tag) + msg, args);
   }
 }
 

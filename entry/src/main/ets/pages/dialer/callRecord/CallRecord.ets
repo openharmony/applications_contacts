@@ -17,7 +17,7 @@
  * call log
  */
 import AllRecord from './AllRecord';
-import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import CallRecordPresenter from './../../../presenter/dialer/callRecord/CallRecordPresenter'
 import {CallLogTabs} from '../../../component/dialer/CallLogTabs';
 
@@ -42,37 +42,36 @@ export default struct CallRecord {
     this.mPresenter.aboutToDisappear();
   }
 
-
   build() {
-      Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
-        CallLogTabs({ controller: this.controller, bottomTabIndex: $bottomTabIndex})
+    Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Start, justifyContent: FlexAlign.Start }) {
+      CallLogTabs({ controller: this.controller, bottomTabIndex: $bottomTabIndex})
 
-        Tabs({ barPosition: BarPosition.Start, index: this.bottomTabIndex, controller: this.controller }) {
-          TabContent() {
-            AllRecord({ mPresenter: $mPresenter, recordType: 0 })
-          }.align(Alignment.TopStart)
+      Tabs({ barPosition: BarPosition.Start, index: this.bottomTabIndex, controller: this.controller }) {
+        TabContent() {
+          AllRecord({ mPresenter: $mPresenter, recordType: 0 })
+        }.align(Alignment.TopStart)
 
-          TabContent() {
-            AllRecord({ mPresenter: $mPresenter, recordType: 1 })
-          }.align(Alignment.TopStart)
+        TabContent() {
+          AllRecord({ mPresenter: $mPresenter, recordType: 1 })
+        }.align(Alignment.TopStart)
 
-        }
-        .onChange((index: number) => {
-          this.bottomTabIndex = index
-          this.mPresenter.setTabIndex(index);
-        })
-        .vertical(false)
-        .barHeight(0)
-        .barWidth(0)
-        .barMode(BarMode.Fixed)
-        .scrollable(false)
-        .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
-        .animationDuration(0)
-        .zIndex(1)
       }
-      .width('100%')
-      .height('100%')
-      .layoutWeight(1)
+      .onChange((index: number) => {
+        this.bottomTabIndex = index
+        this.mPresenter.setTabIndex(index);
+      })
+      .vertical(false)
+      .barHeight(0)
+      .barWidth(0)
+      .barMode(BarMode.Fixed)
+      .scrollable(false)
       .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
+      .animationDuration(0)
+      .zIndex(1)
+    }
+    .width('100%')
+    .height('100%')
+    .layoutWeight(1)
+    .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
   }
 }

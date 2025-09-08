@@ -13,15 +13,15 @@
  * limitations under the License.
  */
 import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
-import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
-
+import { HiLog } from 'common/src/main/ets/util/HiLog';
+import EditType from '../../../../../../../feature/account/src/main/ets/type/EditType';
 @Component
 export struct ItemList {
   @Link @Watch('refresh') mPresent: AccountantsPresenter;
   @State mTextInputValue: string = '';
   private index: number = 0;
-  private typeName: string;
-  private placeholder: Resource;
+  private typeName: string = '';
+  private placeholder: Resource| undefined = undefined;
   @LocalStorageProp('breakpoint') curBp: string = 'sm';
 
   refresh() {
@@ -135,7 +135,7 @@ export struct ItemList {
   @Builder MenuBuilder() {
     Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
       ForEach(this.mPresent.getMenuList(this.typeName),
-        (item) => {
+        (item:EditType) => {
           Text(item.labelRes)
             .fontSize($r('sys.float.ohos_id_text_size_body1'))
             .width($r('app.float.account_MenuBuilder_width'))
@@ -153,7 +153,7 @@ export struct ItemList {
             .width($r('app.float.account_Divider_width'))
             .color($r('sys.color.ohos_id_color_list_separator'))
         },
-        (item) => item.rawValue.toString())
+        (item:EditType) => item.rawValue.toString())
     }
     .width($r('app.float.account_MenuBuilder_width'))
     .borderRadius($r('sys.float.ohos_id_corner_radius_default_l'))

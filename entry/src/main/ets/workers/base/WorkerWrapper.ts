@@ -1,44 +1,42 @@
 /**
- * Copyright (c) 2022 Huawei Device Co., Ltd.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
+ Copyright (c) 2022 Huawei Device Co., Ltd.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 import WorkFactory, { WorkerType } from '../WorkFactory'
 import worker from '@ohos.worker';
-import { HiLog } from '../../../../../../common'
-import buffer from '@ohos.buffer'
+import { HiLog } from '../../../../../../common';
+import buffer from '@ohos.buffer';
+import LooseObject from '../../model/type/LooseObject';
 
 const TAG = 'WorkerWrapper'
 
 export class WorkerMessage {
-  request: string;
-  callBackId: number;
-  type?: WorkerType;
-  param?: any;
+  public request: string = '';
+  public callBackId: number = -1;
+  public type?: WorkerType;
+  public param?: LooseObject;
 }
 
 /*
- * WorkerWrapper
- *
- * Processes sending tasks to workers and receiving work processing results.
- */
+
+WorkerWrapper
+Processes sending tasks to workers and receiving work processing results.
+*/
 export default class WorkerWrapper {
-  protected mWorker: worker.ThreadWorker = undefined;
-  private callBacks: Map<string, (result?: any) => void> = new Map();
+  protected mWorker?: worker.ThreadWorker = undefined;
+  private callBacks: Map<string, Function> = new Map();
   private requestIndex: number = 0;
   private workType: WorkerType;
   private useWorker: boolean;
-
   constructor(workType: WorkerType, useWorker: boolean) {
     this.workType = workType;
     this.useWorker = useWorker;
@@ -53,24 +51,24 @@ export default class WorkerWrapper {
       name: WorkerType[this.getWorkerType()]
     });
     let that = this;
-    initWorker.onexit = function (message) {
-      HiLog.w(TAG, 'onexit')
+    initWorker.onexit = (message) => {
+      HiLog.w(TAG, 'onexit');
       that.mWorker = undefined;
     }
-    initWorker.onerror = function (e) {
-      HiLog.w(TAG, 'onerror:' + JSON.stringify(e))
+    initWorker.onerror = (e) => {
+      HiLog.w(TAG, 'onerror:' + JSON.stringify(e));
     }
-    initWorker.onmessageerror = function (e) {
-      HiLog.w(TAG, 'onmessageerror:' + JSON.stringify(e))
+    initWorker.onmessageerror = (e) => {
+      HiLog.w(TAG, 'onmessageerror:' + JSON.stringify(e));
     }
-    initWorker.onmessage = function (message) {
-      const buff = <ArrayBuffer> message.data;
+    initWorker.onmessage = (message) => {
+      const buff = message.data as ArrayBuffer;
       const str = buffer.from(buff).toString();
-      let data = <WorkerMessage> JSON.parse(str)
-      HiLog.i(TAG, `onmessage ${data.request}`)
+      let data = JSON.parse(str) as WorkerMessage;
+      HiLog.i(TAG, `onmessage ${data.request}`);
       const key = that.getCallBackKey(data);
       if (that.callBacks.has(key)) {
-        HiLog.i(TAG, `onmessage notify result.`)
+        HiLog.i(TAG, `onmessage notify result.`);
         const callback = that.callBacks.get(key);
         if (callback) {
           callback(data.param);
@@ -87,23 +85,22 @@ export default class WorkerWrapper {
   }
 
   /**
-   * SendRequest to worker thread.
-   *
-   * @param {string} request the request worker to do
-   * @param {Object} requestData  request param Data
-   * @param {Object} callBack Call back from worker
+
+   SendRequest to worker thread.
+   @param {string} request the request worker to do
+   @param {Object} requestData request param Data
+   @param {Object} callBack Call back from worker
    */
-  public async sendRequest(request: string, requestData?: any, callBack?: (result?: any) => void) {
+  public async sendRequest(request: string, requestData?: LooseObject, callBack?: Function) {
     HiLog.i(TAG, 'sendRequest in ' + request)
     if (!this.useWorker) {
-      WorkFactory.getTask(this.getWorkerType()).runInWorker(request, callBack, requestData);
+      WorkFactory.getTask(this.getWorkerType())?.runInWorker(request, callBack as Function, requestData);
     } else if (this.mWorker) {
-      const message = {
-        request: request,
-        callBackId: this.requestIndex,
-        type: this.getWorkerType(),
-        param: requestData
-      }
+      const message: WorkerMessage = new WorkerMessage();
+      message.request = request;
+      message.callBackId = this.requestIndex;
+      message.type = this.getWorkerType();
+      message.param = requestData;
       if (callBack) {
         this.callBacks.set(this.getCallBackKey(message), callBack);
       }
@@ -114,9 +111,9 @@ export default class WorkerWrapper {
       HiLog.w(TAG, `${this.getWorkerType()} ${request} send fail, worker has been closed!`);
     }
   }
-
   /**
-   * Close  close worker thread.
+
+   Close close worker thread.
    */
   public close() {
     HiLog.i(TAG, `${this.getWorkerType()} worker close!`);
@@ -124,7 +121,6 @@ export default class WorkerWrapper {
     this.mWorker = undefined;
     this.callBacks.clear();
   }
-
   private getCallBackKey(message: WorkerMessage): string {
     return message.request + message.callBackId;
   }

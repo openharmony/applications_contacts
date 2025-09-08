@@ -14,11 +14,11 @@
  */
 
 import CallRecord from '../../dialer/callRecord/CallRecord';
-import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import DialerPresenter from './../../../presenter/dialer/DialerPresenter';
 import { DialerButtonView } from '../../../component/dialer/DialerButtonView';
 import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
-
+import MergedCallLog from '../../../../../../../feature/call/src/main/ets/entity/MergedCallLog';
 const TAG = 'Dialer';
 
 @Component
@@ -210,7 +210,7 @@ export default struct Call {
             justifyContent: FlexAlign.Start
           }) {
             List({ space: 0, initialIndex: 0 }) {
-              LazyForEach(this.mPresenter.mAllCallRecordListDataSource, (item, index: number) => {
+              LazyForEach(this.mPresenter.mAllCallRecordListDataSource, (item:MergedCallLog, index: number) => {
                 ListItem() {
                   Flex({
                     direction: FlexDirection.Row,
@@ -219,7 +219,7 @@ export default struct Call {
                   }) {
                     Column() {
                       Row() {
-                        ForEach(item.displayName.split(this.tele_number.replace(/\s*/g,'')), (displayName, idx: number) => {
+                        ForEach(item.displayName.split(this.tele_number.replace(/\s*/g,'')), (displayName:string, idx: number) => {
                           Row() {
                             Text(displayName.toString())
                               .fontSize($r('sys.float.ohos_id_text_size_body1'))
@@ -248,7 +248,7 @@ export default struct Call {
                       }
 
                       Row() {
-                        ForEach(item.phoneNumber.split(this.tele_number.replace(/\s*/g,'')), (phoneNumber, idx: number) => {
+                        ForEach(item.phoneNumber.split(this.tele_number.replace(/\s*/g,'')), (phoneNumber:string, idx: number) => {
                           Row() {
                             Text(phoneNumber.toString())
                               .fontSize($r('sys.float.ohos_id_text_size_body1'))
@@ -279,7 +279,7 @@ export default struct Call {
                       .borderRadius($r('app.float.id_card_margin_xl'))
                       .onClick(() => {
                         this.mPresenter.jumpToContactDetail(item.phoneNumber);
-                    })
+                      })
                   }
                   .margin({
                     left: $r('app.float.id_card_image_small'),
@@ -287,7 +287,7 @@ export default struct Call {
                   })
                 }
                 .height($r('app.float.id_item_height_max'))
-              }, item => JSON.stringify(item))
+              }, (item:string) => JSON.stringify(item))
             }
             .divider({
               strokeWidth: 0.5,
@@ -477,16 +477,16 @@ export default struct Call {
               .opacity(this.tele_number.length > 0 ? 1 : 0.5)
               .enabled(this.tele_number.length > 0 ? true : false)
               .gesture(
-              LongPressGesture({ repeat: false, fingers: 1, duration: 700 })
-                .onAction((event: GestureEvent) => {
-                  AppStorage.SetOrCreate('tele_number', '');
-                  this.mPresenter.all_number = '';
-                  this.mPresenter.editPhoneNumber('');
-                })
+                LongPressGesture({ repeat: false, fingers: 1, duration: 700 })
+                  .onAction((event: GestureEvent) => {
+                    AppStorage.SetOrCreate('tele_number', '');
+                    this.mPresenter.all_number = '';
+                    this.mPresenter.editPhoneNumber('');
+                  })
               )
               .onClick(() => {
                 this.mPresenter.pressVibrate();
-                let number: string = AppStorage.Get('tele_number');
+                let number: string = AppStorage.Get('tele_number') as string;
                 this.mPresenter.all_number = number.substr(0, number.length - 1);
                 this.mPresenter.deleteTeleNum();
                 this.mPresenter.deleteAddSpace();
@@ -506,23 +506,23 @@ export default struct Call {
       .width('100%')
       .backgroundColor($r('sys.color.ohos_id_color_panel_bg'))
       .clip(new Rect(this.tele_number.length >= 3 ? {
-                                                      width: '100%',
-                                                      height: '392',
-                                                      radius: [[24, 24], [24, 24], [0, 0], [0, 0]]
-                                                    } : {
-                                                          width: '100%',
-                                                          height: '336',
-                                                          radius: [[24, 24], [24, 24], [0, 0], [0, 0]]
-                                                        }))
+        width: '100%',
+        height: '392',
+        radius: [[24, 24], [24, 24], [0, 0], [0, 0]]
+      } : {
+        width: '100%',
+        height: '336',
+        radius: [[24, 24], [24, 24], [0, 0], [0, 0]]
+      }))
       .zIndex(2)
       .offset({ y: this.mPresenter.moveY })
       .height(this.tele_number.length >= 3 ? 392 : 336)
       .padding(this.curBp === 'lg' ? {} : { right: 24, left: 24 })
       .gesture(
-      PanGesture({ fingers: 1, direction: PanDirection.Down, distance: 5 })
-        .onActionStart(() => {
-          this.mPresenter.moveY = 0
-        })
+        PanGesture({ fingers: 1, direction: PanDirection.Down, distance: 5 })
+          .onActionStart(() => {
+            this.mPresenter.moveY = 0
+          })
       )
     }
     .width('100%')

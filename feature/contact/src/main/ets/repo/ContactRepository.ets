@@ -16,17 +16,14 @@
 import dataShare from '@ohos.data.dataShare';
 import dataSharePredicates from '@ohos.data.dataSharePredicates';
 import IContactRepository from './IContactRepository';
-import Contact from '../entity/Contact';
 import RawContact from '../entity/RawContact';
 import ContactBuilder from '../entity/ContactBuilder';
 import { DataItem } from '../entity/DataItem';
 import ContactList from './ContactList';
-import DAOperation from './DAOperation';
-import ContactDelta from './ContactDelta';
 import { RawContacts } from '../contract/RawContacts';
 import { Contacts } from '../contract/Contacts';
 import { Data } from '../contract/Data';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import ContactListItem from './ContactListItem';
 import { DataItemType } from '../contract/DataType';
 import Calls from '../../../../../call/src/main/ets/contract/Calls';
@@ -35,6 +32,12 @@ import CallLogBuilder from '../../../../../call/src/main/ets/entity/CallLogBuild
 import { SearchContacts } from '../contract/SearchContacts';
 import SearchContactListItem from './SearchContactListItem';
 import ContactUsuallyListItem from './ContactUsuallyListItem';
+import DataShareResultSet from '@ohos.data.DataShareResultSet';
+import {
+  AllContactGetParam, IContactSearchParams, IT9PhoneNumbersFavoriteType
+} from '../../../../../../entry/src/main/ets/model/type/ContactParams';
+import { PhoneNumberInterface } from '../../../../../../entry/src/main/ets/model/type';
+import { ValueType } from '@kit.ArkData';
 
 const TAG = 'ContactRepository';
 
@@ -44,10 +47,9 @@ const TAG = 'ContactRepository';
  */
 export class ContactRepository implements IContactRepository {
   static readonly RAW_CONTACT_URL: string = RawContacts.CONTENT_URI;
-  private dataShareHelper;
+  private dataShareHelper?: Promise<dataShare.DataShareHelper> | dataShare.DataShareHelper;
   private static instance: ContactRepository;
-  private context: Context
-
+  private context: Context | undefined = undefined;
   private constructor() {
   }
 
@@ -55,10 +57,9 @@ export class ContactRepository implements IContactRepository {
    * init if Call From serviceAbility globalThis.context is Null
    *@param ctx Context used for dataShare
    */
-  init(ctx: Context) {
+  init(ctx: Context | undefined) {
     this.context = ctx;
   }
-
   public static getInstance(): ContactRepository {
     if (!ContactRepository.instance) {
       ContactRepository.instance = new ContactRepository();
@@ -73,29 +74,12 @@ export class ContactRepository implements IContactRepository {
   private async getDataAbilityHelper() {
     if (this.dataShareHelper == undefined) {
       this.dataShareHelper = await dataShare.createDataShareHelper(this.context ? this.context : globalThis.context,
-      Contacts.CONTENT_URI);
+        Contacts.CONTENT_URI);
     }
     return this.dataShareHelper;
   }
 
-  save(contact: ContactDelta, callback) {
-    this.getDataAbilityHelper().then((dataAbilityHelper) => {
-      let opts = contact.buildDiff();
-      return dataAbilityHelper.executeBatch(ContactRepository.RAW_CONTACT_URL, opts)
-        .then(resultSet => {
-          callback(resultSet);
-        })
-        .catch(error => {
-          HiLog.w(TAG, 'save error:%s' + JSON.stringify(error.message));
-          callback();
-        });
-    }).catch(error => {
-      HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
-      callback();
-    });
-  }
-
-  findById(id: number, callback) {
+  findById(id: number, callback: Function): void {
     if (id < 0) {
       HiLog.w(TAG, 'findById: id is invalid.');
       callback();
@@ -112,7 +96,7 @@ export class ContactRepository implements IContactRepository {
         }
         let contactBuilder = ContactBuilder.fromResultSet(resultSet);
         let currentRawContactId = -1;
-        let rawContact: RawContact = null;
+        let rawContact: RawContact | null = null;
         do {
           let rawContactId = resultSet.getLong(resultSet.getColumnIndex(Data.RAW_CONTACT_ID));
           if (rawContactId != currentRawContactId) {
@@ -126,22 +110,22 @@ export class ContactRepository implements IContactRepository {
         } while (resultSet.goToNextRow());
         resultSet.close();
         callback(contactBuilder.buildContact());
-      }).catch(error => {
+      }).catch((error: Error) => {
         HiLog.e(TAG, 'findById error:%s' + JSON.stringify(error.message));
         callback();
       });
-    }).catch(error => {
+    }).catch((error: Error) => {
       HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
       callback();
     });
   }
 
-  findAll(actionData, callback) {
+  findAll(actionData: AllContactGetParam, callback: (rst?: ContactListItem[]) => void) {
     let conditionArgs = new dataSharePredicates.DataSharePredicates();
     let offset = actionData.page < 3 ? (actionData.page - 1) * 50 : (actionData.page - 2) * 500 + 50;
     conditionArgs.limit(actionData.limit, offset)
-    //      conditionArgs.limitAs(actionData.limit);
-    //      conditionArgs.offsetAs(offset);
+    // conditionArgs.limitAs(actionData.limit);
+    // conditionArgs.offsetAs(offset);
     conditionArgs.equalTo(RawContacts.IS_DELETED, '0').orderByAsc(RawContacts.SORT_FIRST_LETTER);
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       dataAbilityHelper.query(Contacts.CONTACT_URI, conditionArgs, ContactListItem.COLUMNS)
@@ -159,17 +143,17 @@ export class ContactRepository implements IContactRepository {
             callback(rst);
           }
         })
-        .catch(error => {
+        .catch((error: Error) => {
           HiLog.w(TAG, 'findAll error:%s' + JSON.stringify(error.message));
-          callback([]);
+          callback(undefined);
         });
-    }).catch(error => {
+    }).catch((error: Error) => {
       HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
-      callback([]);
+      callback(undefined);
     });
   }
 
-  findByQuickSearchKey(searchKey: string, callback) {
+  findByQuickSearchKey(searchKey: string, callback: Function) {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       let conditionArgs = new dataSharePredicates.DataSharePredicates();
       conditionArgs.equalTo(Contacts.QUICK_SEARCH_KEY, searchKey).orderByAsc(Data.RAW_CONTACT_ID);
@@ -181,7 +165,7 @@ export class ContactRepository implements IContactRepository {
         }
         let contactBuilder = ContactBuilder.fromResultSet(resultSet);
         let currentRawContactId = -1;
-        let rawContact: RawContact = null;
+        let rawContact: RawContact | null = null;
         do {
           let rawContactId = resultSet.getLong(resultSet.getColumnIndex(Data.RAW_CONTACT_ID));
           if (rawContactId != currentRawContactId) {
@@ -195,25 +179,17 @@ export class ContactRepository implements IContactRepository {
         } while (resultSet.goToNextRow());
         resultSet.close();
         callback(contactBuilder.buildContact());
-      }).catch(error => {
+      }).catch((error: Error) => {
         HiLog.e(TAG, 'findByQuickSearchKey error:%s' + JSON.stringify(error.message));
         callback();
       });
-    }).catch(error => {
+    }).catch((error: Error) => {
       HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
       callback();
     });
   }
 
-  findAllWithBookIndex() {
-    return new ContactList({});
-  }
-
-  search(queryStr: string) {
-    return new ContactList({});
-  }
-
-  findByPhoneIsNotNull(favorite: number, editContact: number, callback) {
+  findByPhoneIsNotNull(favorite: number, editContact: number, callback: Function) {
     HiLog.i(TAG, 'initContactsList resultList success favoriteForm favorite :' + favorite + '---' + editContact);
     this.getAllContactNumbers(favorite, editContact, (contactNumberMap) => {
       this.getDataAbilityHelper().then((dataAbilityHelper) => {
@@ -246,28 +222,31 @@ export class ContactRepository implements IContactRepository {
                   continue;
                 }
                 let contactListItem = new ContactListItem(resultSet);
-                contactListItem.phoneNumbers = contactNumberMap.get(id);
+                let phoneNumbersObj: PhoneNumberInterface[] | undefined = contactNumberMap.get(id)
+                if (phoneNumbersObj !== undefined) {
+                  contactListItem.phoneNumbers = phoneNumbersObj;
+                }
                 rst.push(contactListItem);
               } while (resultSet.goToNextRow());
               resultSet.close();
               callback(rst);
             }
           })
-          .catch(error => {
+          .catch((error: Error) => {
             HiLog.w(TAG, 'findAll error:%s' + JSON.stringify(error.message));
             callback();
-          });
-      }).catch(error => {
+          })
+      }).catch((error: Error) => {
         HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
         callback();
-      });
-    });
+      })
+    })
   }
 
   /**
    * 查询所有联系人手机号
    */
-  private getAllContactNumbers(favorite: number, editContact: number, callback) {
+  private getAllContactNumbers(favorite: number, editContact: number, callback: (v: Map<number, PhoneNumberInterface[]>) => void) {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       let resultColumns = [RawContacts.CONTACT_ID, Data.DETAIL_INFO, Data.EXTEND7, Data.CUSTOM_DATA];
       let conditionArgs = new dataSharePredicates.DataSharePredicates();
@@ -278,7 +257,7 @@ export class ContactRepository implements IContactRepository {
       }
       dataAbilityHelper.query(Data.CONTENT_URI, conditionArgs, resultColumns).then(resultSet => {
         // 用于存储联系人及其电话号码的对应关系
-        let contactNumberMap = new Map();
+        let contactNumberMap = new Map<number, PhoneNumberInterface[]>();
         if (resultSet == undefined || !resultSet.goToFirstRow()) {
           HiLog.w(TAG, 'getAllContactNumbers not found.');
           callback(contactNumberMap);
@@ -286,13 +265,19 @@ export class ContactRepository implements IContactRepository {
         }
         let oldContact = resultSet.getLong(resultSet.getColumnIndex(RawContacts.CONTACT_ID));
         let oldPhoneNumber = '';
-        let numberList = [];
+        let numberList: PhoneNumberInterface[] = [];
         do {
           let newContact = resultSet.getLong(resultSet.getColumnIndex(RawContacts.CONTACT_ID));
-          let phoneNumberObj = {
-            'phoneNumber': resultSet.getString(resultSet.getColumnIndex(Data.DETAIL_INFO)),
-            'labelId': resultSet.getString(resultSet.getColumnIndex(Data.EXTEND7)),
-            'numType': resultSet.getString(resultSet.getColumnIndex(Data.CUSTOM_DATA))
+          let phoneNumberObj: PhoneNumberInterface = {
+            dataId: resultSet.getLong(resultSet.getColumnIndex(Data.ID)),
+            phoneNumber: resultSet.getString(resultSet.getColumnIndex(Data.DETAIL_INFO)),
+            labelId: resultSet.getString(resultSet.getColumnIndex(Data.EXTEND7)),
+            numType: resultSet.getString(resultSet.getColumnIndex(Data.CUSTOM_DATA)),
+            labelName: '',
+            checked: false,
+            startPhone: '',
+            middlePhone: '',
+            endPhone: ''
           };
           // 如果是同一联系人则把手机号放到同一个list中
           if (oldContact === newContact) {
@@ -312,17 +297,12 @@ export class ContactRepository implements IContactRepository {
         resultSet.close();
         callback(contactNumberMap);
       });
-    }).catch(error => {
+    }).catch((error: Error) => {
       HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
       callback(new Map());
     });
   }
-
-  findByMailIsNotNull() {
-    return new ContactList({});
-  }
-
-  deleteById(id: number, callback) {
+  deleteById(id: number, callback: Function) {
     if (id < 0) {
       callback();
       return;
@@ -332,11 +312,11 @@ export class ContactRepository implements IContactRepository {
       condition.equalTo(Contacts.ID, id);
       dataAbilityHelper.delete(Contacts.CONTACT_URI, condition).then(data => {
         callback(data);
-      }).catch(error => {
+      }).catch((error: Error) => {
         HiLog.w(TAG, 'deleteById error:%s' + JSON.stringify(error.message));
         callback();
       });
-    }).catch(error => {
+    }).catch((error: Error) => {
       HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
       callback();
     });
@@ -351,11 +331,11 @@ export class ContactRepository implements IContactRepository {
       if (dataAbilityHelper) {
         dataAbilityHelper.notifyChange(Data.CONTENT_URI).then(() => {
           HiLog.i(TAG, 'notifyChange success')
-        }).catch(error => {
+        }).catch((error: Error) => {
           HiLog.w(TAG, 'notifyChange error:%s' + JSON.stringify(error.message));
         });
       }
-    }).catch(error => {
+    }).catch((error: Error) => {
       HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
     });
   }
@@ -376,7 +356,7 @@ export class ContactRepository implements IContactRepository {
           dataAbilityHelper.on('dataChange', url, this.callback);
           HiLog.i(TAG, 'registerContactsDataChange success:' + index)
         }
-      }).catch(error => {
+      }).catch((error: Error) => {
         HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
       });
     })
@@ -390,15 +370,15 @@ export class ContactRepository implements IContactRepository {
           dataAbilityHelper.off('dataChange', url, this.callback);
           HiLog.i(TAG, 'unregisterContactsDataChange success:' + index)
         }
-      }).catch(error => {
+      }).catch((error: Error) => {
         HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
       });
     })
   }
 
-  registerDataChangeObserver(observer: () => void) {
+  registerDataChangeObserver(observer: (changeInfo?: dataShare.ChangeInfo) => void): void {
     if (!observer) {
-      HiLog.i(TAG, `registerDataChangeObserver: observer is null.`);
+      HiLog.i(TAG, 'registerDataChangeObserver: observer is null.');
       return;
     }
     if (this.observers.length == 0) {
@@ -425,7 +405,7 @@ export class ContactRepository implements IContactRepository {
     }
   }
 
-  queryContactDataByNumber(numberList, callback) {
+  queryContactDataByNumber(numberList: string[], callback: Function) {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       if (!dataAbilityHelper) {
         HiLog.e(TAG, 'queryContactDataByNumber, dataAbilityHelper is null');
@@ -444,19 +424,19 @@ export class ContactRepository implements IContactRepository {
       condition.equalTo('is_deleted', '0');
       dataAbilityHelper.query(Data.CONTENT_URI, condition, resultColumns).then(resultSet => {
         callback(this.dealContactResultSet(resultSet));
-      }).catch(error => {
+      }).catch((error: Error) => {
         HiLog.e(TAG, 'queryContactDataByNumber query, error: ' + JSON.stringify(error.message));
       })
-    }).catch(error => {
+    }).catch((error: Error) => {
       HiLog.e(TAG, 'queryContactDataByNumber, error: ' + JSON.stringify(error.message));
       callback([]);
     });
   }
 
-  dealContactResultSet(resultSet) {
-    let contacts = [];
+  dealContactResultSet(resultSet: DataShareResultSet) {
+    let contacts: Record<string, string>[] = [];
     while (resultSet?.goToNextRow()) {
-      let contact: { [key: string]: any } = {};
+      let contact: Record<string, string> = {};
       contact.detailInfo = resultSet.getString(0);
       contact.displayName = resultSet.getString(1);
       contacts.push(contact);
@@ -464,7 +444,7 @@ export class ContactRepository implements IContactRepository {
     return contacts;
   }
 
-  findAllFavorite(actionData, callback) {
+  findAllFavorite(callback: (v: ContactListItem[]) => void) {
     HiLog.i(TAG, 'refreshUsually findAllFavorite start.');
     let conditionArgs = new dataSharePredicates.DataSharePredicates();
     conditionArgs.equalTo(RawContacts.IS_DELETED, '0');
@@ -472,7 +452,7 @@ export class ContactRepository implements IContactRepository {
     conditionArgs.equalTo(RawContacts.FAVORITE, 1);
     conditionArgs.and();
     conditionArgs.orderByAsc(RawContacts.FAVORITE_ORDER);
-    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+    this.getDataAbilityHelper().then((dataAbilityHelper: dataShare.DataShareHelper) => {
       dataAbilityHelper.query(Contacts.CONTACT_URI, conditionArgs, ContactListItem.COLUMNS)
         .then(resultSet => {
           let rst: ContactListItem[] = [];
@@ -489,17 +469,17 @@ export class ContactRepository implements IContactRepository {
             callback(rst);
           }
         })
-        .catch(error => {
+        .catch((error: Error) => {
           HiLog.e(TAG, 'findAllFavorite error:%s' + JSON.stringify(error.message));
           callback([]);
-        });
-    }).catch(error => {
+        })
+    }).catch((error: Error) => {
       HiLog.e(TAG, 'findAllFavorite error:%s' + JSON.stringify(error.message));
       callback([]);
-    });
+    })
   }
 
-  findAllUsually(actionData, callback) {
+  findAllUsually(callback: Function) {
     HiLog.i(TAG, 'refreshUsually findAllUsually start.');
     let conditionArgs = new dataSharePredicates.DataSharePredicates();
     conditionArgs.groupBy([Calls.DISPLAY_NAME, Calls.PHONE_NUMBER]).distinct();
@@ -507,7 +487,7 @@ export class ContactRepository implements IContactRepository {
     conditionArgs.orderByDesc(Calls.TALK_DURATION);
     conditionArgs.and();
     conditionArgs.orderByDesc(Calls.CREATE_TIME);
-    this.getDataAbilityHelper().then((dataAbilityHelper) => {
+    this.getDataAbilityHelper().then((dataAbilityHelper: dataShare.DataShareHelper) => {
       dataAbilityHelper.query(Calls.CALL_LOG_URI, conditionArgs, null)
         .then(resultSet => {
           let rst: CallLog[] = [];
@@ -527,17 +507,17 @@ export class ContactRepository implements IContactRepository {
             callback(rst);
           }
         })
-        .catch(error => {
+        .catch((error: Error) => {
           HiLog.e(TAG, 'findAllUsually error:%s' + JSON.stringify(error.message));
           callback([]);
         });
-    }).catch(error => {
+    }).catch((error: Error) => {
       HiLog.e(TAG, 'findAllUsually error:%s' + JSON.stringify(error.message));
       callback([]);
     });
   }
 
-  getDisplayNameByFavorite(displayName, usuallyPhone, callback) {
+  getDisplayNameByFavorite(displayName: ValueType[], usuallyPhone: ValueType[], callback: Function) {
     HiLog.i(TAG, 'getDisplayNameByFavorite start.');
     let conditionArgs = new dataSharePredicates.DataSharePredicates();
     conditionArgs.equalTo(RawContacts.IS_DELETED, '0');
@@ -566,17 +546,17 @@ export class ContactRepository implements IContactRepository {
             callback(rst);
           }
         })
-        .catch(error => {
+        .catch((error: Error) => {
           HiLog.e(TAG, 'getDisplayNameByFavorite error:%s' + JSON.stringify(error.message));
           callback([]);
         });
-    }).catch(error => {
+    }).catch((error: Error) => {
       HiLog.e(TAG, 'getDisplayNameByFavorite error:%s' + JSON.stringify(error.message));
       callback([]);
     });
   }
 
-  searchContact(actionData, callback) {
+  searchContact(actionData: IContactSearchParams, callback: Function) {
     HiLog.i(TAG, 'searchContact start.');
     let conditionArgs = new dataSharePredicates.DataSharePredicates();
     let searchValue: string = actionData.value;
@@ -626,7 +606,7 @@ export class ContactRepository implements IContactRepository {
     this.getDataAbilityHelper().then((dataAbilityHelper) => {
       dataAbilityHelper.query(SearchContacts.CONTENT_URI, conditionArgs, SearchContactListItem.COLUMNS)
         .then(resultSet => {
-          HiLog.i(TAG, 'searchContact resultSet.rowCount : ' + JSON.stringify(resultSet.rowCount) );
+          HiLog.i(TAG, 'searchContact resultSet.rowCount : ' + JSON.stringify(resultSet.rowCount));
           let rst: SearchContactListItem[] = [];
           let goTo: boolean = false;
           if (resultSet.rowCount === 0) {
@@ -643,27 +623,27 @@ export class ContactRepository implements IContactRepository {
             callback(rst);
           }
         })
-        .catch(error => {
+        .catch((error: Error) => {
           HiLog.i(TAG, 'searchContact error:%s' + JSON.stringify(error.message));
           callback([]);
         });
-    }).catch(error => {
+    }).catch((error: Error) => {
       HiLog.i(TAG, 'searchContact:%s' + JSON.stringify(error.message));
       callback([]);
     });
   }
 
-  queryT9PhoneIsNotNull(favorite: any, callback) {
+  queryT9PhoneIsNotNull(favorite: IT9PhoneNumbersFavoriteType, callback: Function) {
     this.getAllContactNumbers(0, 0, (contactNumberMap) => {
       this.getDataAbilityHelper().then((dataAbilityHelper) => {
         let conditionArgs = new dataSharePredicates.DataSharePredicates();
-        conditionArgs.like(SearchContacts.DETAIL_INFO, `%${favorite.teleNumber}%`);
+        conditionArgs.like(SearchContacts.DETAIL_INFO, %${favorite.teleNumber}%);
         conditionArgs.equalTo(SearchContacts.CONTENT_TYPE, 'phone');
         conditionArgs.orderByAsc(SearchContacts.DISPLAY_NAME)
         dataAbilityHelper.query(
-        SearchContacts.CONTENT_URI,
+          SearchContacts.CONTENT_URI,
           conditionArgs,
-        SearchContactListItem.COLUMNS
+          SearchContactListItem.COLUMNS
         ).then(resultSet => {
           let rst: ContactListItem[] = [];
           if (resultSet.rowCount === 0) {
@@ -677,7 +657,7 @@ export class ContactRepository implements IContactRepository {
                 HiLog.w(TAG, 'findAll: contact id is invalid or contact has no phone number.');
                 continue;
               }
-              let contactListItem = new ContactListItem(resultSet);
+              let contactListItem: ContactListItem = new ContactListItem(resultSet);
               contactListItem.phoneNumbers = contactNumberMap.get(id);
               rst.push(contactListItem);
             } while (resultSet.goToNextRow());
@@ -685,11 +665,11 @@ export class ContactRepository implements IContactRepository {
             callback(rst);
           }
         })
-          .catch(error => {
+          .catch((error: Error) => {
             HiLog.w(TAG, 'findAll error:%s' + JSON.stringify(error.message));
             callback();
           });
-      }).catch(error => {
+      }).catch((error: Error) => {
         HiLog.w(TAG, 'error:%s' + JSON.stringify(error.message));
         callback();
       });
