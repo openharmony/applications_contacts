@@ -38,8 +38,8 @@ class ConfigClass {
 }
 
 class ExportClass {
-  appUseDataWorker: string = 'appUseDataWorker';
-  event: EventClass = new EventClass();
+  public appUseDataWorker: string = 'appUseDataWorker';
+  public event: EventClass = new EventClass();
   public storage: StorageClass = new StorageClass();
   public config: ConfigClass = {
     useDataWorker: false,

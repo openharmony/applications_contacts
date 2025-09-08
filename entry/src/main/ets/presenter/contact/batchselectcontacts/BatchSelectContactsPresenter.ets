@@ -721,7 +721,7 @@ export default class BatchSelectContactsPresenter {
     HiLog.i(TAG, 'initCallLog start !');
     let tempMap = new Map<string,string>();
     let tempList: ContactVo[] = [];
-    let favoriteForm: favorite = {
+    let favoriteForm: Favorite = {
       favorite: 0,
       editContact: 0
     }
@@ -787,7 +787,7 @@ export default class BatchSelectContactsPresenter {
    */
   initContactsList() {
     HiLog.i(TAG, 'initContactsList start!');
-    let favoriteForm: favorite = {
+    let favoriteForm: Favorite = {
       favorite: 0,
       editContact: 0
     }
@@ -922,7 +922,7 @@ class callLog{
   phoneNumber:string = '';
 }
 
-class favorite{
+class Favorite{
   favorite:number = 0;
   editContact:number = -1;
 }

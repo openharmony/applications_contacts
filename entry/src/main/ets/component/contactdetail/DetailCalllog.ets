@@ -23,9 +23,9 @@ import DetailPresenter from '../../presenter/contact/detail/DetailPresenter';
 import { CallLogBean } from '../../model/bean/CallLogBean';
 
 class CallLogObj{
-  dateDetail:string = '';
-  callType:CallType = CallType.MISSED;
-  timeDetail:string = '';
+  public dateDetail:string = '';
+  public callType:CallType = CallType.MISSED;
+  public timeDetail:string = '';
   public formatNumber:string = '';
   public simId:number = -1;
   public talkTime:string = '';

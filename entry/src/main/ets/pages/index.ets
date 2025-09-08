@@ -31,7 +31,7 @@ import { DeviceResponse } from '@kit.BasicServicesKit';
 const TAG = 'Index ';
 
 class DeviceObj{
-  windowHeight:number = -1;
+  public windowHeight:number = -1;
   public screenDensity:number = -1;
   public data:string[] = [];
 

@@ -26,8 +26,8 @@ import { SelectSimIdDialog, SelectDialogBuilder } from '../../../component/mutis
 import { CallLogBean } from '../../../model/bean/CallLogBean';
 
 class ParamsObj {
-  sourceHasId: boolean = false;
-  sourceHasPhone: number = -1;
+  public sourceHasId: boolean = false;
+  public sourceHasPhone: number = -1;
 }
 
 class LooseObject {

@@ -989,18 +989,18 @@ class ContactAbilityModel {
    * @param {Object} addParams Contact Information
    * @param {Object} callBack favoriteOrder
    */
-  async moveSortFavorite(DAHelper: dataShare.DataShareHelper | null, addParams: LooseObject,
+  async moveSortFavorite(daHelper: dataShare.DataShareHelper | null, addParams: LooseObject,
     callBack: Function, context?: common.UIAbilityContext | Context) {
     HiLog.i(TAG, 'moveSortFavorite start.');
-    if (DAHelper == undefined || DAHelper == null) {
-      DAHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
+    if (daHelper == undefined || daHelper == null) {
+      daHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
     }
     let condition = new dataSharePredicates.DataSharePredicates();
     condition.equalTo('contact_id', addParams.id);
     const va: Record<string, string | number> = {
       'favorite_order': addParams.favoriteOrder > 9 ? addParams.favoriteOrder : '0' + addParams.favoriteOrder
     }
-    DAHelper.update(
+    daHelper.update(
       RawContacts.CONTENT_URI,
       condition,
       va

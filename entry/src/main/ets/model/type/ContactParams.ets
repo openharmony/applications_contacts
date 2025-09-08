@@ -227,9 +227,9 @@ export class BaseContackSubInfoModel {
 }
 
 export class ContackPhoneSubInfoModel extends BaseContackSubInfoModel {
-  num?: string;
-  phoneAddress?: string | Resource;
-  primary?: boolean;
+  public num?: string;
+  public phoneAddress?: string | Resource;
+  public primary?: boolean;
   public dataId?: number;
   public formatNum?: string;
 }
