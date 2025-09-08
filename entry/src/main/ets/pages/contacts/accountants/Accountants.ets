@@ -16,10 +16,10 @@
 import router from '@ohos.router';
 import IndexPresenter from '../../../presenter/IndexPresenter';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
-import { ObjectUtil } from '../../../../../../../common/src/main/ets/util/ObjectUtil';
+import { ObjectUtil } from 'common/src/main/ets/util/ObjectUtil';
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
 import EnvironmentProp from '../../../feature/EnvironmentProp';
-import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { PhoneNumBean } from '../../../model/bean/PhoneNumBean';
 import AccountantsPresenter from '../../../presenter/contact/accountants/AccountantsPresenter';
 import DeleteDialogEx from '../../dialog/DeleteDialogEx';
@@ -28,8 +28,10 @@ import { ItemList } from '../../../component/contact/accountants/ItemList'
 import { ItemEvent } from '../../../component/contact/accountants/ItemEvent'
 import { AddItem } from '../../../component/contact/accountants/AddItem'
 import { ImageItemLeft } from '../../../component/contact/accountants/ImageItemLeft'
+import { AccountantParams, ContactInterface } from '../../../model';
+import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
 
-const TAG = 'AddContact  ';
+const TAG = 'AddContact ';
 let storage = LocalStorage.GetShared();
 
 /**
@@ -90,19 +92,19 @@ struct Accountants {
     HiLog.i(TAG, 'Click the callback in the blank area');
   }
 
-  parseParams(obj) {
+  parseParams(obj:AccountantParams) {
     if (!ObjectUtil.isEmpty(obj)) {
-      if (obj.hasOwnProperty('updataShow')) {
+      // 判断新建或者编辑
+      if (obj.updataShow !== undefined) {
         this.updataShow = obj.updataShow;
       }
-      if (obj.hasOwnProperty('phoneNumbers') && (!ArrayUtil.isEmpty(obj.phoneNumbers))
-      && this.updataShow === false) {
+      if (this.updataShow === false && obj.phoneNumbers != undefined) {
         let phoTemp = [new PhoneNumBean('1', obj.phoneNumbers[0].phoneNumber, '1', '', '')];
         this.mPresenter.contactInfoAfter.setPhones(phoTemp);
         this.mPresenter.addState = true;
       }
-      if (obj.hasOwnProperty('disPlayName') && (!StringUtil.isEmpty(obj.disPlayName))
-      && this.updataShow === false) {
+      if ((!StringUtil.isEmpty(obj.disPlayName))
+        && this.updataShow === false) {
         this.mPresenter.contactInfoAfter.setDisplayName(obj.disPlayName);
         this.mPresenter.addState = true;
       }
@@ -113,8 +115,8 @@ struct Accountants {
     HiLog.i(TAG, 'the Page aboutToAppear Begin !!')
     AppStorage.SetOrCreate('isAccountantsPag', true);
     this.mPresenter.init(this.refreshPresenter);
-    let obj: any = router.getParams();
-    let params = AppStorage.Get('params');
+    let obj: AccountantParams = router.getParams() as AccountantParams;
+    let params = AppStorage.Get('params') as AccountantParams;
     if (!ObjectUtil.isEmpty(obj)) {
       this.parseParams(obj)
     } else if (!ObjectUtil.isEmpty(params)) {
@@ -136,7 +138,6 @@ struct Accountants {
 
   aboutToDisappear() {
     HiLog.i(TAG, 'the Page aboutToDisappear Begin !!！');
-    this.dialogController = null;
     this.mPresenter.showMore = false;
   }
 
@@ -385,15 +386,15 @@ struct Accountants {
 
                 Column() {
                   ForEach(this.updataShow ? this.mPresenter.getPhones
-                                          : this.mPresenter.getArray(this.mPresenter.contactInfoBefore.phones)
-                    , (item) => {
+                    : this.mPresenter.getArray(this.mPresenter.contactInfoBefore.phones)
+                    , (item:ContactInterface<PhoneNumBean>) => {
                       ItemList({
                         mPresent: $mPresenter,
                         index: item?.i,
                         typeName: 'phone',
                         placeholder: $r('app.string.phone_number')
                       })
-                    }, item => item?.i.toString())
+                    }, (item:Record<string, string>) => item?.i.toString())
 
                   AddItem({ mPresent: $mPresenter,
                     labelName: $r('app.string.add_more'),
@@ -410,15 +411,15 @@ struct Accountants {
 
                 Column() {
                   ForEach(this.updataShow ? this.mPresenter.getEmails
-                                          : this.mPresenter.getArray(this.mPresenter.contactInfoBefore.emails)
-                    , (item) => {
+                    : this.mPresenter.getArray(this.mPresenter.contactInfoBefore.emails)
+                    , (item:ContactInterface<PhoneNumBean>) => {
                       ItemList({
                         mPresent: $mPresenter,
                         index: item?.i,
                         typeName: 'email',
                         placeholder: $r('app.string.email')
                       })
-                    }, item => item?.i.toString())
+                    }, (item:ContactInterface<PhoneNumBean>) => item?.i.toString())
 
                   AddItem({ mPresent: $mPresenter,
                     labelName: $r('app.string.add_more'),
@@ -500,14 +501,14 @@ struct Accountants {
 
                   Column() {
                     ForEach(this.mPresenter.getArray(this.mPresenter.contactInfoBefore.aims)
-                      , (item) => {
+                      , (item:ContactInterface<PhoneNumBean>) => {
                         ItemList({
                           mPresent: $mPresenter,
                           index: item?.i,
                           typeName: 'AIM',
                           placeholder: $r('app.string.instant_messaging')
                         })
-                      }, item => item?.i.toString())
+                      }, (item:ContactInterface<PhoneNumBean>) => item?.i.toString())
 
                     AddItem({ mPresent: $mPresenter,
                       labelName: $r('app.string.add_more'),
@@ -524,14 +525,14 @@ struct Accountants {
 
                   Column() {
                     ForEach(this.mPresenter.getArray(this.mPresenter.contactInfoBefore.houses)
-                      , (item) => {
+                      , (item:ContactInterface<PhoneNumBean>) => {
                         ItemList({
                           mPresent: $mPresenter,
                           index: item?.i,
                           typeName: 'house',
                           placeholder: $r('app.string.address_add')
                         })
-                      }, item => item?.i.toString())
+                      }, (item:ContactInterface<PhoneNumBean>) => item?.i.toString())
 
                     AddItem({ mPresent: $mPresenter,
                       labelName: $r('app.string.add_more'),
@@ -631,7 +632,7 @@ struct Accountants {
 
                   Column() {
                     ForEach(this.mPresenter.getArray(this.mPresenter.contactInfoBefore.events)
-                      , (item) => {
+                      , (item:ContactInterface<PhoneNumBean>) => {
                         ItemEvent({
                           mPresent: $mPresenter,
                           controller: this.dialogController,
@@ -640,7 +641,7 @@ struct Accountants {
                           eventType: $eventType,
                           typeName: 'events'
                         });
-                      }, item => item?.i.toString())
+                      }, (item:ContactInterface<PhoneNumBean>) => item?.i.toString())
 
                     AddItem({ mPresent: $mPresenter,
                       labelName: $r('app.string.add_more'),
@@ -657,14 +658,14 @@ struct Accountants {
 
                   Column() {
                     ForEach(this.mPresenter.getArray(this.mPresenter.contactInfoBefore.relationships)
-                      , (item) => {
+                      , (item:ContactInterface<PhoneNumBean>) => {
                         ItemList({
                           mPresent: $mPresenter,
                           index: item?.i,
                           typeName: 'relationships',
                           placeholder: $r('app.string.relation')
                         })
-                      }, item => item?.i.toString())
+                      }, (item:ContactInterface<PhoneNumBean>) => item?.i.toString())
 
                     AddItem({ mPresent: $mPresenter,
                       labelName: $r('app.string.add_more'),
@@ -711,9 +712,9 @@ struct Accountants {
       .height('100%')
       .flexShrink(1)
     }
-      .onTouch(() => {
-        this.mPresenter.hideKeyboard();
-      })
+    .onTouch(() => {
+      this.mPresenter.hideKeyboard();
+    })
     .padding({ left: 12, right: 12 })
     .width('100%')
     .height('100%')

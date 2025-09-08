@@ -18,6 +18,7 @@ export class AssociatedPersonBean {
   associatedPersonId: string
   name: string
   associatedType: string
+  public labelName?: Resource | string;
   constructor(id: string, associatedPersonId: string, name: string, associatedType: string) {
     this.id = id;
     this.associatedPersonId = associatedPersonId;

@@ -14,6 +14,7 @@
  */
 
 import i18n from '@ohos.i18n';
+import { GetLunarDateRe } from '../model';
 
 const YEAR_CONVERT: number = 2697;
 const YEAR_CYCLE: number = 60;
@@ -26,28 +27,46 @@ const NUM_CHAR = ['零', '一', '二', '三', '四', '五', '六', '七', '八',
 class CalendarUtil {
   //公历转农历
   getLunarDate(date: Date) {
-    let calendar = i18n.getCalendar('zh-CN', 'chinese');
+    let calendar: i18n.Calendar = i18n.getCalendar('zh-CN', 'chinese');
     calendar.setTime(date);
-    const lunarMonth = calendar.get('month');
-    const lunarDay = calendar.get('date');
-    let lunarYear = calendar.get('era') * YEAR_CYCLE + calendar.get('year') - YEAR_CONVERT;
-    return {
+    let lunarYear: number = calendar.get('era') * YEAR_CYCLE + calendar.get('year') - YEAR_CONVERT;
+    let lunarMonth: number = calendar.get('month');
+    let lunarDay: number = calendar.get('date');
+
+    let calendarHansPrev: i18n.Calendar = i18n.getCalendar('zh-Hans');
+    calendarHansPrev.set(date.getFullYear(), date.getMonth(),
+      date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+    calendarHansPrev.add('month', 1);
+    let nextMonthDate: Date = new Date(calendarHansPrev.get('year'), calendarHansPrev.get('month'),
+      calendarHansPrev.get('date'), calendarHansPrev.get('hour'), calendarHansPrev.get('minute'),
+      calendarHansPrev.get('second'));
+    calendar.setTime(nextMonthDate);
+    let lunarMonthNext: number = calendar.get('month');
+    let isLeapMonth: boolean = (lunarMonth === lunarMonthNext);
+
+    let getLunarDateReData: GetLunarDateRe = {
       year: lunarYear,
       month: lunarMonth,
-      day: lunarDay
+      day: lunarDay,
+      isLeapMonth
     }
+    return getLunarDateReData
   }
 
-  formatLunarDate(lunar: any) {
+  formatLunarDate(lunar: GetLunarDateRe, retYear:boolean = true) {
     if (!lunar) {
       return '';
     }
     let result: string = '';
-    if (lunar.year) {
+    if (lunar.year && retYear) {
       result += `${lunar.year}年`
     }
     if (lunar.month != undefined) {
-      result += `${LUNAR_MONTH[lunar.month]}月`
+      if (lunar.isLeapMonth) {
+        result += `闰 + ${LUNAR_MONTH[lunar.month - 1]}月`
+      } else {
+        result += `${LUNAR_MONTH[lunar.month]}月`
+      }
     }
     if (lunar.day) {
       result += ` ${LUNAR_DAY[lunar.day - 1]}`
@@ -57,7 +76,3 @@ class CalendarUtil {
 }
 
 export default new CalendarUtil();
-
-
-
-

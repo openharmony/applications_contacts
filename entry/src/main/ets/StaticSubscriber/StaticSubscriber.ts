@@ -17,9 +17,12 @@ import { MissedCallService } from '../../../../../feature/call';
 import { PhoneNumber } from '../../../../../feature/phonenumber';
 import call from '@ohos.telephony.call';
 import telephonySim from '@ohos.telephony.sim';
-
+import StaticSubscriberExtensionAbility from '@ohos.application.StaticSubscriberExtensionAbility';
+import { BusinessError } from '@ohos.base';
+import sim from '@ohos.telephony.sim';
+import LooseObject from '../model/LooseObject ';
 const TAG = 'StaticSubscriber'
-var StaticSubscriberExtensionAbility = globalThis.requireNapi('application.StaticSubscriberExtensionAbility');
+
 export default class StaticSubscriber extends StaticSubscriberExtensionAbility {
   private async callAction(phoneNumber: string) {
     HiLog.i(TAG, 'callAction')
@@ -43,26 +46,25 @@ export default class StaticSubscriber extends StaticSubscriberExtensionAbility {
         accountId: readySim,
       })
     } else {
-      call.makeCall(phoneNumber).catch(err => {
+      call.makeCall(phoneNumber).catch((err: BusinessError) => {
         HiLog.e(TAG, `callAction,  error: ${JSON.stringify(err)}`);
       })
     }
   }
 
-  private isSimReady(state) {
+  private isSimReady(state: sim.SimState) {
     return state == telephonySim.SimState.SIM_STATE_READY || state == telephonySim.SimState.SIM_STATE_LOADED;
   }
 
-  onReceiveEvent(event) {
+  onReceiveEvent(event: LooseObject) {
     HiLog.i(TAG, 'onReceiveEvent, event:' + JSON.stringify(event));
-    const missCallData = JSON.parse(JSON.stringify(event));
-    const parameters = JSON.parse(JSON.stringify(missCallData.parameters));
+    const parameters: LooseObject = JSON.parse(JSON.stringify(event.parameters));
     let updateMissedCallNotificationsMap: Map<string, string> = new Map();
     MissedCallService.getInstance().init(this.context);
     if ('usual.event.INCOMING_CALL_MISSED' == event.event) {
       MissedCallService.getInstance().updateMissedCallNotifications();
       if (parameters.countList != null) {
-        updateMissedCallNotificationsMap.set('missedPhoneJson', missCallData.parameters);
+        updateMissedCallNotificationsMap.set('missedPhoneJson', parameters.phoneNumber);
         MissedCallService.getInstance().unreadCallNotification(updateMissedCallNotificationsMap);
       }
     } else if ('contact.event.CANCEL_MISSED' == event.event) {

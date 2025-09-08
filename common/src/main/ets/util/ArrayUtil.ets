@@ -14,7 +14,7 @@
  */
 
 export class ArrayUtil {
-    static isEmpty(list: any[]) {
-        return list == undefined || list == null || (Array.prototype.isPrototypeOf(list) && list.length === 0);
+    static isEmpty(list: Array): boolean {
+        return list === undefined || list === null || (Array.isArray(list) && list.length === 0);
     }
 }

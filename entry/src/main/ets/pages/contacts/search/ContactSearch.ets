@@ -17,7 +17,8 @@ import { StringUtil } from '../../../../../../../common/';
 import emitter from '@ohos.events.emitter';
 import BatchSelectContactsPresenter from '../../../presenter/contact/batchselectcontacts/BatchSelectContactsPresenter';
 import router from '@ohos.router';
-
+import { ContactPickerListItem } from '../../../model/type/ContactParams';
+import LooseObject from '../../../model/type/LooseObject';
 const TAG = 'ContactSearch ';
 
 @Component
@@ -31,12 +32,14 @@ export struct ContactSearch {
   @State cancelIsTouch: boolean = false;
 
   aboutToAppear() {
-    let innerEvent = {
+    let innerEvent: emitter.InnerEvent = {
       eventId: this.emitterId,
       priority: emitter.EventPriority.HIGH
     };
     emitter.on(innerEvent, (data) => {
-      this.contactSearchNumber = data.data['contactSearchList'];
+      if (data.data !== undefined) {
+        this.contactSearchNumber = data.data['contactSearchList'];
+      }
     })
   }
 
@@ -134,7 +137,7 @@ export struct ContactSearch {
         GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: 12, y: 0 } }) {
           GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
             List({ space: 0, initialIndex: 0 }) {
-              LazyForEach(this.presenter.searchContactsSource, (item, index: number) => {
+              LazyForEach(this.presenter.searchContactsSource, (item: LooseObject, index: number) => {
                 ListItem() {
                   Stack({ alignContent: Alignment.BottomEnd }) {
                     Row() {
@@ -164,7 +167,7 @@ export struct ContactSearch {
 
                       Column() {
                         Row() {
-                          ForEach(item?.contact?.displayName.split(this.presenter.inputKeyword), (itemData1, idx: number) => {
+                          ForEach(item?.contact?.displayName.split(this.presenter.inputKeyword), (itemData1: string, idx: number) => {
                             Row() {
                               Text(itemData1.toString())
                                 .fontSize($r('sys.float.ohos_id_text_size_body2'))
@@ -199,7 +202,7 @@ export struct ContactSearch {
 
                         Row() {
                           if (!StringUtil.isEmpty(item?.contact?.detailInfo) && '0' !== item?.contact?.hasPhoneNumber) {
-                            ForEach(item?.contact?.detailInfo?.split(this.presenter.inputKeyword), (itemData, idx: number) => {
+                            ForEach(item?.contact?.detailInfo?.split(this.presenter.inputKeyword), (itemData: string, idx: number) => {
                               Row() {
                                 Text(itemData.toString())
                                   .fontSize($r('sys.float.ohos_id_text_size_body2'))
@@ -269,7 +272,7 @@ export struct ContactSearch {
                   } else if (this.type === 2) {
                   }
                 })
-              }, item => JSON.stringify(item))
+              }, (item: ContactPickerListItem) => JSON.stringify(item))
             }
             .height('90%')
             .width('100%')
@@ -289,7 +292,8 @@ export struct ContactSearch {
     .padding({ bottom: $r('app.float.dialer_calllog_item_height') })
     .height('100%')
     .width('100%')
-    .backgroundColor(this.type === 1 || this.type === 2 ? $r('sys.color.ohos_id_color_sub_background') : this.type === 0 && this.contactSearchNumber > 0 ? Color.White : '#450a0a0a')
+    .backgroundColor(this.type === 1 || this.type === 2 ? $r('sys.color.ohos_id_color_sub_background') :
+      this.type === 0 && this.contactSearchNumber > 0 ? Color.White : '#450a0a0a')
   }
 }
 

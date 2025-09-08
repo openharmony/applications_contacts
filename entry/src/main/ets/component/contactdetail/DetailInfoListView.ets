@@ -24,6 +24,8 @@ import { DataItemType } from '../../../../../../feature/contact/src/main/ets/con
 import IndexPresenter from '../../presenter/IndexPresenter';
 import { SelectDialogBuilder } from '../mutisim/SelectSimIdDialog';
 import promptAction from '@ohos.promptAction'
+import SelectMemberSendMessagePresenter from '../../presenter/SelectMemberSendMessagePresenter';
+import DetailPresenter from '../../presenter/contact/detail/DetailPresenter';
 
 const TAG = 'ContactDetail-detailInfoList';
 
@@ -33,7 +35,7 @@ enum MenuType {
 
 @Component
 export default struct DetailInfoListView {
-  @Link mPresenter: { [key: string]: any };
+  @Link mPresenter: DetailPresenter;
   @Link selectSimBuilder: SelectDialogBuilder;
 
   build() {
@@ -111,21 +113,24 @@ export default struct DetailInfoListView {
 @Component
 struct TelList {
   @State List: string = '';
-  @Link private mPresenter: { [key: string]: any };
+  @Link mPresenter: DetailPresenter;
   @Link selectSimBuilder: SelectDialogBuilder;
+  aboutToAppear(): void {
+    HiLog.i(TAG,'TelList:' + this.List)
+  }
 
   build() {
-    if (!ArrayUtil.isEmpty(JSON.parse(this.List))) {
+    if (this.List !== '') {
       List() {
-        ForEach(JSON.parse(this.List), item => {
+        ForEach(JSON.parse(this.List), (item: string) => {
           ListItem() {
             TelListItem({
               message: JSON.stringify(item),
-              mPresenter: $mPresenter,
-              selectSimBuilder: $selectSimBuilder
+              mPresenter: mPresenter,selectSimBuilder:
+              selectSimBuilder
             });
           }
-        }, item => JSON.stringify(item))
+        }, (item: string) => JSON.stringify(item))
       }
       .divider({ strokeWidth: $r('app.float.id_divide_width'), color: $r('sys.color.ohos_id_color_list_separator') })
       .backgroundColor(Color.White)
@@ -145,8 +150,11 @@ struct TelListItem {
   @State isEmergencyNum: boolean = false;
   @StorageLink('haveSimCard') haveSimCard: boolean = false;
   @StorageLink('haveMultiSimCard') haveMultiSimCard: boolean = false;
-  @Link private mPresenter: { [key: string]: any };
+  @Link private mPresenter: DetailPresenter;
   @Link selectSimBuilder: SelectDialogBuilder;
+  aboutToAppear(): void {
+    HiLog.i(TAG,'TelListItem message:' + this.message)
+  }
 
   @Builder MenuBuilder() {
     Flex({ direction: FlexDirection.Column,
@@ -173,7 +181,8 @@ struct TelListItem {
     .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
   }
 
-  @Builder MenuView(menuName, itemType) {
+  @Builder
+  MenuView(menuName: string, itemType: MenuType) {
     Row() {
       Text(menuName)
         .fontSize($r('sys.float.ohos_id_text_size_body1'))
@@ -184,26 +193,28 @@ struct TelListItem {
     .padding({ left: $r('app.float.id_card_margin_large'), right: $r('app.float.id_card_margin_large') })
     .height($r('app.float.id_item_height_mid'))
     .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
-    .onClick(() => {
-      switch (itemType) {
-        case MenuType.Copy:
-          this.mIndexPresenter.getCopy(JSON.parse(this.message).data);
-          break;
-        case MenuType.EditBeforeCall:
-          AppStorage.SetOrCreate('isRouterBack', true);
-          DialerPresenter.getInstance().editPhoneNumber(JSON.parse(this.message).data);
-          AppStorage.SetOrCreate<boolean>('showDialBtn', true);
-          break;
-      }
-    })
+      .onClick(() => {
+        switch (itemType) {
+          case MenuType.Copy:
+            this.mIndexPresenter.getCopy(JSON.parse(this.message).data);
+            break;
+          case MenuType.EditBeforeCall:
+            AppStorage.SetOrCreate('isRouterBack', true);
+            DialerPresenter.getInstance().editPhoneNumber(JSON.parse(this.message).data);
+            AppStorage.SetOrCreate('showDialBtn', true);
+            break;
+        }
+      })
   }
 
-  @Builder MenuDivider() {
+  @Builder
+  MenuDivider() {
     Divider()
-      .color($r('sys.color.ohos_id_color_list_separator'))
+      .color(r('sys.color.ohos_id_color_list_separator'))
       .lineCap(LineCapStyle.Square)
       .width('100%')
-      .padding({ left: $r('app.float.id_card_margin_large'), right: $r('app.float.id_card_margin_large') })
+      .padding({ left:
+      r('app.float.id_card_margin_large'), right: $r('app.float.id_card_margin_large') })
   }
 
   build() {
@@ -275,7 +286,7 @@ struct TelListItem {
         .backgroundColor(Color.White)
         .onClick(() => {
           this.mPresenter.sendMessage(JSON.parse(this.message).num,
-          JSON.parse(this.message).data, this.mPresenter.contactForm.display_name);
+            JSON.parse(this.message).data, this.mPresenter.contactForm.displayName.toString());
         })
       }
       .flexShrink(0)
@@ -308,8 +319,8 @@ struct TelListItem {
           });
         }
         this.selectSimBuilder.lastSimId = this.mPresenter.lastUsedSlotId;
-        let spnList = AppStorage.Get<Array<string | Resource>>('spnList');
-        for (var index = 0; index < spnList.length; index++) {
+        let spnList = AppStorage.Get<Array<string | Resource>>('spnList') as Array<string | Resource>;
+        for (let index = 0; index < spnList.length; index++) {
           this.selectSimBuilder.multiSimCardItems[index].name = spnList[index];
         }
         this.selectSimBuilder.controller?.open();

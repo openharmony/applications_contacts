@@ -18,11 +18,12 @@ import { Contacts } from '../contract/Contacts';
 import { RawContacts } from '../contract/RawContacts';
 import ContactBuilder from '../entity/ContactBuilder';
 import { Data } from '../contract/Data';
+import DataShareResultSet from '@ohos.data.DataShareResultSet';
 
 export default class ContactUsuallyListItem {
   static readonly COLUMNS: string[] = [Data.RAW_CONTACT_ID, Contacts.QUICK_SEARCH_KEY, RawContacts.DISPLAY_NAME,
-  RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME, Contacts.COMPANY, Contacts.POSITION,
-  RawContacts.FAVORITE_ORDER, Data.DETAIL_INFO, Data.CONTENT_TYPE];
+    RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME, Contacts.COMPANY, Contacts.POSITION,
+    RawContacts.FAVORITE_ORDER, Data.DETAIL_INFO, Data.CONTENT_TYPE];
   readonly id: number;
   readonly displayName: string;
   readonly sortFirstLetter: string;
@@ -34,7 +35,7 @@ export default class ContactUsuallyListItem {
   readonly detailInfo: string;
   readonly contentType: string;
 
-  constructor(resultSet: any) {
+  constructor(resultSet: DataShareResultSet) {
     this.id = resultSet.getLong(resultSet.getColumnIndex(Data.RAW_CONTACT_ID));
     this.displayName = resultSet.getString(resultSet.getColumnIndex(RawContacts.DISPLAY_NAME));
     this.sortFirstLetter = resultSet.getString(resultSet.getColumnIndex(RawContacts.SORT_FIRST_LETTER));

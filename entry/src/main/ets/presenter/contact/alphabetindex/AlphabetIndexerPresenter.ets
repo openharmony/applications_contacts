@@ -15,7 +15,7 @@
 
 import {ContactVo, NameVo } from '../../..//model/bean/ContactVo';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
-import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 
 const TAG = 'AlphabetIndexerPresenter';
 const CHINESE_CHAR_CODE = 255;
@@ -23,8 +23,8 @@ const CHINESE_CHAR_CODE = 255;
 export default class AlphabetIndexerPresenter {
   private static sInstance: AlphabetIndexerPresenter;
   alphabetIndexList: string[] = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-  private alphabetObj: {[key: string] : NameVo[]} = {};
-  private alphabetIndexObj: {[key: string] : number} = {};
+  private alphabetObj: Record<string, NameVo[]> = {};
+  private alphabetIndexObj: Record<string, number> = {};
   private contactList: ContactVo[] = [];
 
   public static getInstance(): AlphabetIndexerPresenter {
@@ -42,12 +42,12 @@ export default class AlphabetIndexerPresenter {
 
   getAlphabetIndexData() {
     if (ArrayUtil.isEmpty(this.contactList)) {
-      return null;
+      return;
     }
     // Get the position of the index in the list
     // Get index data
     this.contactList.forEach((item, index) => {
-      let preContact: ContactVo = null;
+      let preContact: ContactVo = new ContactVo('', '', '', '', '', '', true, '', '');
       if (index > 0) {
         preContact = this.contactList[index - 1];
       }
@@ -86,14 +86,14 @@ export default class AlphabetIndexerPresenter {
     return popData;
   }
 
-  getListScrollIndex(selectedAlphabetIndex: number, popDataSource?: string[],  popIndex?: number): number {
+  getListScrollIndex(selectedAlphabetIndex: number, popDataSource?: string[], popIndex?: number): number {
     // get list scroll index
     let selected = this.alphabetIndexList[selectedAlphabetIndex];
     let alphabetIndex = this.alphabetIndexObj[selected];
     let scrollIndex: number = alphabetIndex;
-    if (popIndex >= 0) {
+    if (popIndex !== undefined && popIndex >= 0) {
       let alphabetContacts = this.alphabetObj[selected];
-      if (alphabetContacts) {
+      if (alphabetContacts && popDataSource !== undefined) {
         let popData = popDataSource[popIndex];
         for (let index = 0; index < alphabetContacts.length; index++) {
           const element = alphabetContacts[index];

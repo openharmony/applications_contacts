@@ -18,6 +18,11 @@ import { HiLog, sharedPreferencesUtils } from '../../../../../../common';
 import { FavoriteBean } from '../../model/bean/FavoriteBean';
 import FavoriteDataSource from '../../model/bean/FavoriteDataSource';
 
+class favoriteFormObj{
+  favoriteOrder:number = 0;
+  id: string = '';
+}
+
 const TAG = 'EditFavoriteListPresenter ';
 
 /**
@@ -34,8 +39,7 @@ export default class EditFavoriteListPresenter {
   usuallyList: FavoriteBean[] = [] ;
   isEdit: boolean = false;
   isEditSelect: string[] = [];
-  selectFavoriteBean: FavoriteBean;
-
+  selectFavoriteBean: FavoriteBean | undefined;
   private constructor() {
   }
 
@@ -145,15 +149,18 @@ export default class EditFavoriteListPresenter {
     HiLog.i(TAG, 'moveSortFavorite start.');
     let favoriteLength: number = favoriteList.length;
     for (let i = 0; i < favoriteLength; i++) {
-      let favoriteForm: any = {}
+      let favoriteForm: favoriteFormObj = {
+        favoriteOrder: 0,
+        id: ''
+      }
       favoriteForm.id = favoriteList[i].contactId;
       favoriteForm.favoriteOrder = i + 1;
       globalThis.DataWorker.sendRequest('moveSortFavorite', {
         context: globalThis.context,
         favoriteForm: JSON.stringify(favoriteForm)
-      }, (result) => {
+      }, () => {
         if (favoriteLength === (i + 1)) {
-          AppStorage.SetOrCreate<number>('editFavoriteDrag', 1);
+          AppStorage.SetOrCreate('editFavoriteDrag', 1);
           router.back();
         }
       })
@@ -165,10 +172,9 @@ export default class EditFavoriteListPresenter {
    * Cancel Editing
    */
   cancelEditFavorite() {
-    AppStorage.SetOrCreate<number>('cancelEditFavorite', 2);
+    AppStorage.SetOrCreate('cancelEditFavorite', 2);
     router.back();
   }
-
   aboutToAppear() {
     HiLog.i(TAG, 'EditFavoriteListPresenter aboutToAppear!');
     this.isShow = true;

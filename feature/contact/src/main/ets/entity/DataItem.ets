@@ -15,22 +15,22 @@
 
 import { Data } from '../contract/Data';
 import DataType from '../contract/DataType';
+import DataShareResultSet from '@ohos.data.DataShareResultSet';
 
 /**
  * Contact data
  */
 export class DataItem {
-  readonly values: Map<string, any>;
-  constructor(values: Map<string, any>) {
+  readonly values: Map<string, string | number>;
+  constructor(values: Map<string, string | number>) {
     this.values = values;
   }
-
-  static fromResultSet(resultSet: any): DataItem{
-    let contentValues: Map<string, any> = new Map();
+  static fromResultSet(resultSet: DataShareResultSet): DataItem{
+    let contentValues: Map<string, string | number> = new Map();
     contentValues.set(Data.ID, resultSet.getLong(resultSet.getColumnIndex(Data.ID)));
     contentValues.set(Data.TYPE_ID, resultSet.getLong(resultSet.getColumnIndex(Data.TYPE_ID)));
     contentValues.set(Data.RAW_CONTACT_ID, resultSet.getLong(resultSet.getColumnIndex(Data.RAW_CONTACT_ID)));
-    contentValues.set(Data.READ_ONLY, resultSet.getLong(resultSet.getColumnIndex(Data.READ_ONLY)) > 0 ? true : false);
+    contentValues.set(Data.READ_ONLY, resultSet.getLong(resultSet.getColumnIndex(Data.READ_ONLY)));
     contentValues.set(Data.DETAIL_INFO, resultSet.getString(resultSet.getColumnIndex(Data.DETAIL_INFO)));
     contentValues.set(Data.FAMILY_NAME, resultSet.getString(resultSet.getColumnIndex(Data.FAMILY_NAME)));
     contentValues.set(Data.MIDDLE_NAME_PHONETIC, resultSet.getString(resultSet.getColumnIndex(Data.MIDDLE_NAME_PHONETIC)));

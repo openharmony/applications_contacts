@@ -99,18 +99,20 @@ export struct SelectSimIdDialog {
 }
 
 class MultiSimCardItems {
-  name: string | Resource;
-  img: Resource;
+  name: string | Resource = '';
+  img: Resource|undefined = undefined;
 }
 
-interface Controller {
-  close();
-  open();
+export class Controller {
+  public close: () => void = () => {
+  };
+  public open: () => void = () => {
+  };
 }
 
 export class SelectDialogBuilder {
-  title: string | Resource;
-  multiSimCardItems: Array<MultiSimCardItems>;
+  title: string | Resource = '';
+  multiSimCardItems: Array = [];
   lastSimId?: number = -1;
   callback?: (simId: number) => void;
   controller?: Controller;

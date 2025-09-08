@@ -17,11 +17,11 @@ import data_preferences from '@ohos.data.preferences';
 import contextConstant from '@ohos.app.ability.contextConstant'
 
 const NAME: string = "CONTACT_PREFERENCE";
-type ValueType = number | string | boolean | Array<number> | Array<string> | Array<boolean>;
+type ValueType = number | string | boolean | Array | Array | Array | undefined;
 
 class SharedPreferencesUtils {
-  private mPreferences: data_preferences.Preferences;
-  private context: Context;
+  private mPreferences?: data_preferences.Preferences;
+  private context?: Context;
 
   constructor() {
     this.getPreferences().then((data) => {
@@ -42,7 +42,7 @@ class SharedPreferencesUtils {
    *
    * @return the value get from Preferences
    */
-  public async getFromPreferences(key: string, defValue) {
+  public async getFromPreferences(key: string, defValue: data_preferences.ValueType) {
     let preferences: data_preferences.Preferences = await this.getPreferences();
     return await preferences.get(key, defValue);
   }

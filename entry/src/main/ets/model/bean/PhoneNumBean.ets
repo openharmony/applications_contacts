@@ -17,13 +17,18 @@
  * Phone Number Object
  */
 export class PhoneNumBean {
-  id:string
+  id: string
   num: string
   numType: string
-  homeArea: string
-  carriers: string
-
-  constructor(id: string, num: string, numType: string, homeArea: string, carriers: string) {
+  homeArea: string = ''
+  carriers: string = ''
+  public labelName?: Resource | string;
+  public phoneAddress?: Resource | string;
+  formatNum?: string;
+  primary: boolean = false;
+  dataId: number = -1;
+  constructor(id: string, num: string, numType: string, homeArea: string,
+    carriers: string) {
     this.id = id;
     this.num = num;
     this.numType = numType;

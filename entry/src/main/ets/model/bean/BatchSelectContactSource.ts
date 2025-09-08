@@ -14,9 +14,9 @@
  */
 import BasicDataSource from './BasicDataSource';
 import { ContactVo } from './ContactVo';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
-
+import LooseObject from '../type/LooseObject';
 const TAG = 'BatchSelectContactSource';
 
 export default class BatchSelectContactSource extends BasicDataSource {
@@ -26,7 +26,7 @@ export default class BatchSelectContactSource extends BasicDataSource {
         return this.contactList.length;
     }
 
-    public getData(index: number): any {
+    public getData(index: number): LooseObject | undefined | null {
         if (ArrayUtil.isEmpty(this.contactList) || index >= this.contactList.length) {
             HiLog.i(TAG, 'getData contactlist is empty');
             return null;
@@ -36,7 +36,7 @@ export default class BatchSelectContactSource extends BasicDataSource {
             let showIndex: boolean = (index == 0 || !(contact.namePrefix === preContact.namePrefix));
             let showDivifer: boolean = false;
             if (index < this.contactList.length - 1) {
-                let nextContact: any = this.contactList[index + 1];
+                let nextContact: ContactVo = this.contactList[index + 1];
                 showDivifer = (contact.namePrefix === nextContact.namePrefix);
             } else {
                 showDivifer = false;

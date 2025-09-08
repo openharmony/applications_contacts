@@ -41,7 +41,7 @@ export struct MutiDialerButtonView {
 
   build() {
     Row() {
-      ForEach(this.simNames, (item, index) => {
+      ForEach(this.simNames, (item:string, index:number) => {
         //DailButton for voLte
         Row() {
           Image(this.voLteRegStates[index] ? this.dailHDImg[index] : this.dailImg[index])

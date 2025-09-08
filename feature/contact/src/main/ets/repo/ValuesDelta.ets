@@ -16,29 +16,28 @@
 import BaseColumns from '../contract/BaseColumns';
 import DataColumns from '../contract/DataColumns';
 import DAOperation from './DAOperation';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 
 const TAG = 'ValuesDelta';
 
 /**
  * Contact details editing model
  */
-export default class ValuesDelta {
+export default class ValuesDelta<T> {
   private readonly _idColumn: string = BaseColumns.ID;
-  before: Map<string, any>;
-  after: Map<string, any>;
+  before: Map<string, T> = new Map<string, T>();
+  after: Map<string, T> = new Map<string, T>();
   constructor() {
   }
-
-  static fromValues(values: Map<string, any>) {
-    let valuesDelta = new ValuesDelta();
+  static fromValues<T>(values: Map<string, T>) {
+    let valuesDelta = new ValuesDelta<T>();
     valuesDelta.before = values;
-    valuesDelta.after = new Map();
+    valuesDelta.after = new Map<string, T>();
     return valuesDelta;
   }
 
-  getValue(key: string) {
-    let result;
+  getValue(key: string): T | undefined {
+    let result: T | undefined = undefined;
     if (this.after != undefined && this.after.has(key)) {
       result = this.after.get(key);
     } else if (this.before != undefined && this.before.has(key)) {
@@ -47,7 +46,7 @@ export default class ValuesDelta {
     return result
   }
 
-  putValue(key: string, value: any) {
+  putValue(key: string, value: T) {
     if (this.after == undefined) {
       this.after = new Map();
     }
@@ -66,52 +65,20 @@ export default class ValuesDelta {
     if (!this.beforeExists() || this.after == undefined || this.after.size == 0) {
       return false;
     }
-    for (let key of this.after.keys()) {
-      let newValue = this.after.get(key);
-      let oldValue = this.before.get(key);
-      let mimetypeId = this.before.get(DataColumns.TYPE_ID);
-      if (this.isObjectsEqual(oldValue, newValue, mimetypeId, key)) {
+    for (let kvArr of this.after) {
+      const key = kvArr[0];
+      const newValue = kvArr[1];
+      const oldValue = this.before.get(key);
+      if (this.isObjectsEqual(oldValue, newValue)) {
         return true;
       }
     }
     return false;
   }
 
-  private isObjectsEqual(oldValue: any, newValue: any, mimetype: number, key: string) {
+  private isObjectsEqual(oldValue?: T, newValue?: T) {
     return oldValue == newValue;
   }
-
-  buildDiff(targetUri: string) {
-    if (targetUri == undefined) {
-      return undefined;
-    }
-
-    let opt;
-    if (this.isInsert()) {
-      this.after.delete(this._idColumn);
-      opt = DAOperation.newInsert(targetUri);
-      opt.valuesBucket = this.mapToObj(this.after);
-    } else if (this.isDelete()) {
-      opt = DAOperation.newDelete(targetUri);
-      opt.predicates = this._idColumn + '=' + this.getValue(this._idColumn);
-    } else if (this.isUpdate) {
-      opt = DAOperation.newUpdate(targetUri);
-      opt.predicates = this._idColumn + '=' + this.getValue(this._idColumn);
-      opt.valuesBucket = this.mapToObj(this.after);
-    } else {
-      HiLog.i(TAG, 'buildDiff do nothing.');
-    }
-    return opt;
-  }
-
-  private mapToObj(map: Map<string, any>) {
-    let obj = {};
-    for (let [key, value] of map) {
-      obj[key] = value;
-    }
-    return obj;
-  }
-
 
   private beforeExists() {
     return this.before != undefined && this.before.has(this._idColumn);

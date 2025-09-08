@@ -1,27 +1,34 @@
 /**
- * Copyright (c) 2022 Huawei Device Co., Ltd.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
+ Copyright (c) 2022 Huawei Device Co., Ltd.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 import router from '@ohos.router';
 import BatchSelectContactsPresenter from '../../../presenter/contact/batchselectcontacts/BatchSelectContactsPresenter';
-import { HiLog } from '../../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../../common/src/main/ets/util/ArrayUtil';
 import BatchSelectContactItemView from '../../../component/contact/batchselectcontacts/BatchSelectContactItemView';
 import { AlphabetIndexerPage } from '../alphabetindex/AlphabetIndexerPage';
 import AlphabetIndexerPresenter from '../../../presenter/contact/alphabetindex/AlphabetIndexerPresenter';
+import { ContactPickerListItem } from '../../../model/type/ContactParams';
 
 const TAG = 'BatchSelectContactsPage ';
+
+interface RouteParams {
+  editContact: number
+  contactId: number
+  callId: string
+  phones: string
+  phoneNumberShow: string
+}
 
 /**
  * Selecting a contact list by SMS
@@ -32,10 +39,9 @@ export default struct SingleSelectContactPage {
   @State mPresenter: BatchSelectContactsPresenter = BatchSelectContactsPresenter.getInstance();
   @State currentIndex: number = 0;
   @State curBp: string = 'sm';
-
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear')
-    let obj: any = router.getParams();
+    let obj: RouteParams = router.getParams() as RouteParams;
     this.mPresenter.editContact = obj?.editContact;
     this.mPresenter.contactId = obj?.contactId;
     this.mPresenter.callId = obj?.callId;
@@ -67,13 +73,13 @@ export default struct SingleSelectContactPage {
 
   build() {
     Column() {
-        if (ArrayUtil.isEmpty(this.mPresenter.contactsList)) {
-          NoContactsEmptyView()
-        } else {
-          ContactsList({
-            presenter: $mPresenter
-          })
-        }
+      if (ArrayUtil.isEmpty(this.mPresenter.contactsList)) {
+        NoContactsEmptyView()
+      } else {
+        ContactsList({
+          presenter: $mPresenter
+        })
+      }
     }
     .padding({ left: 12, right: 12 })
     .width('100%')
@@ -123,27 +129,26 @@ struct ContactsList {
 
   build() {
     Column() {
-        GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: { sm: 12, md: 12, lg: 24 }, y: 0 } }) {
-          GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
-            TitleGuide()
-          }
+      GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: { sm: 12, md: 12, lg: 24 }, y: 0 } }) {
+        GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
+          TitleGuide()
         }
-        .height('100%')
-        .onBreakpointChange((breakpoint: string) => {
-          this.curBp = breakpoint
-        })
+      }
+      .onBreakpointChange((breakpoint: string) => {
+        this.curBp = breakpoint
+      })
 
       Stack({ alignContent: Alignment.TopEnd }) {
-        GridRow({columns: {sm: 4, md: 8, lg: 12}, gutter: {x: 12, y: 0}}) {
+        GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: 12, y: 0 } }) {
           GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
             List({ initialIndex: this.presenter.initialIndex, scroller: this.scroller }) {
-              LazyForEach(this.presenter.contactsSource, (item, index) => {
+              LazyForEach(this.presenter.contactsSource, (item: ContactPickerListItem, index: number) => {
                 ListItem() {
                   Stack({ alignContent: Alignment.BottomEnd }) {
                     Column() {
                       if (item.showIndex) {
                         Column() {
-                          Text(item.contact.namePrefix)
+                          Text(item.namePrefix)
                             .fontColor($r('sys.color.ohos_fa_text_secondary'))
                             .fontSize($r('sys.float.ohos_id_text_size_sub_title3'))
                             .fontWeight(FontWeight.Medium)
@@ -157,15 +162,16 @@ struct ContactsList {
                     }
 
                     BatchSelectContactItemView({
-                      single: item.single = true,
+                      single: true,
                       item: item.contact,
                       index: item.index,
-                      onSingleContactItemClick: (num, name) => this.presenter.onSingleContactItemClick(num, name, item.contact),
+                      onSingleContactItemClick: (num: number,
+                        name: string): void => this.presenter.onSingleContactItemClick(num, name, item.contact),
                       showIndex: item.showIndex,
                     })
                   }
                 }
-              }, (item) => JSON.stringify(item))
+              }, (item: ContactPickerListItem) => JSON.stringify(item))
             }
             .scrollBar(BarState.Off)
             .width('100%')
@@ -186,8 +192,14 @@ struct ContactsList {
           }
         }
         .height('93%')
-        AlphabetIndexerPage({scroller: this.scroller, presenter: $alphabetIndexPresenter, selected: this.alphabetSelected,
-          isClicked: $isAlphabetClicked, drag: $dragList})
+
+        AlphabetIndexerPage({
+          scroller: this.scroller,
+          presenter: $alphabetIndexPresenter,
+          selected: this.alphabetSelected,
+          isClicked: $isAlphabetClicked,
+          drag: $dragList
+        })
           .margin({ top: '10%', bottom: '10%' })
       }
       .height('100%')

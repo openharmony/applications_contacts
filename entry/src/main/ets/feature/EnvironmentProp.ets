@@ -32,7 +32,7 @@ export default class EnvironmentProp {
   * smartVision：智慧视觉设备
   */
   static getDeviceType(): string {
-    return this.DEVICE_TYPE;
+    return EnvironmentProp.DEVICE_TYPE;
   }
 
   static isTablet(): boolean {

@@ -14,10 +14,30 @@
  */
 
 import EditFavoriteListPresenter from '../../presenter/favorite/EditFavoriteListPresenter';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
 import router from '@ohos.router';
 import { FavoriteBean } from '../../model/bean/FavoriteBean';
+import { FavoriteListBean } from '../../model/bean/FavoriteListBean';
+import { SearchContactsBean } from '../../model/bean/SearchContactsBean';
+
+class Extra {
+  public selectedIndex: number = 0;
+}
+
+class Favorite{
+  public favoriteList: FavoriteBean[] = [];
+  public isEditSelectList: string[] = [];
+  public selectNumber: number = 0;
+  public favoriteNumber: number = 0;
+  public usuallyNumber: number = 0;
+  public selectFavoriteBean: FavoriteBean|undefined = undefined;
+}
+
+class extraParamsObj{
+  insertIndex:number = 0;
+
+}
 
 const TAG = 'EditFavoriteList';
 
@@ -33,7 +53,7 @@ export default struct EditFavoriteList {
 
   aboutToAppear() {
     HiLog.i(TAG, 'EditFavoriteList aboutToAppear!');
-    let obj: any = router.getParams();
+    let obj: Favorite = router.getParams() as Favorite;
     this.mFavoriteListPresenter.favoriteList = obj.favoriteList;
     this.mFavoriteListPresenter.isEditSelect = obj.isEditSelectList;
     this.selectNumbers = obj.selectNumber;
@@ -86,11 +106,12 @@ struct FavoriteContent {
   @State selectNumber: number = this.selectNumbers;
   @State selectFavoriteIdList: string[] = [];
   @State isEditSelectList: string[] = null != this.presenter.isEditSelect &&
-                                      this.presenter.isEditSelect.length > 0 ? this.presenter.isEditSelect : [];
+    this.presenter.isEditSelect.length > 0 ? this.presenter.isEditSelect : [];
   @State favoriteListPresenter: EditFavoriteListPresenter = this.presenter;
   @State isSelectAll: boolean = false;
   @State isSelectAllStatus: boolean = false;
-  item: any = {};
+  item: FavoriteListBean = new FavoriteListBean(0,false,false,new FavoriteBean('',0,'','','','','',false,'',false,0,''),
+    new SearchContactsBean('','','','','','','','','',0,'','','','','',''));
   @State text: string = '';
   @State isEditDrag: boolean = false;
   @State select: number = 0;
@@ -147,7 +168,7 @@ struct FavoriteContent {
         GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: 12, y: 0 } }) {
           GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
             List({ space: 0, initialIndex: 0 }) {
-              LazyForEach(this.presenter.favoriteDataSource, (item, index: number) => {
+              LazyForEach(this.presenter.favoriteDataSource, (item: FavoriteListBean, index: number) => {
                 ListItem() {
                   FavoriteListItem({
                     item: item,
@@ -162,7 +183,7 @@ struct FavoriteContent {
                 }
                 .onDragStart((event: DragEvent, extraParams: string) => {
                   console.log('ListItem onDragStarts, ' + extraParams)
-                  var jsonString = JSON.parse(extraParams)
+                  let jsonString: Extra = JSON.parse(extraParams)
                   if (jsonString.selectedIndex >= this.favoriteNumber) {
                     console.log('List onDragStarts , return ')
                     return;
@@ -172,7 +193,7 @@ struct FavoriteContent {
                   this.item = item;
                   return this.pixelMapBuilder();
                 })
-              }, (item) => JSON.stringify(item))
+              }, (item:FavoriteListBean) => JSON.stringify(item))
             }
             .editMode(true)
             .width('100%')
@@ -181,7 +202,7 @@ struct FavoriteContent {
             .listDirection(Axis.Vertical)
             .edgeEffect(EdgeEffect.Spring)
             .onDrop((event: DragEvent, extraParams: string) => {
-              let jsonString = JSON.parse(extraParams);
+              let jsonString = JSON.parse(extraParams) as extraParamsObj;
               if (jsonString.insertIndex >= this.favoriteNumber) {
                 return;
               }
@@ -296,7 +317,7 @@ struct FavoriteContent {
 @Component
 export struct FavoriteListItem {
   @Link presenter: EditFavoriteListPresenter;
-  @State item: { [key: string]: any } = {};
+  @Prop item: FavoriteListBean;
   @Link isEditSelectList: string[];
   @Link selectNumber: number;
   @Link isSelectAll: boolean;

@@ -20,6 +20,7 @@ export class HouseBean {
   houseType: string;
   //Residential address
   houseName: string;
+  public labelName?: Resource | string;
   constructor(id: string, houseId: string, houseType: string, houseName: string) {
     this.id = id;
     this.houseId = houseId;

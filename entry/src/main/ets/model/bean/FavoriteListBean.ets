@@ -22,8 +22,8 @@ export class FavoriteListBean {
   showIndex: boolean;
   showDivider: boolean;
   favorite: FavoriteBean;
-  contact: SearchContactsBean;
-  constructor(index: number, showIndex: boolean, showDivider: boolean, favorite: FavoriteBean, contact: SearchContactsBean) {
+  contact: SearchContactsBean | null;
+  constructor(index: number, showIndex: boolean, showDivider: boolean, favorite: FavoriteBean, contact: SearchContactsBean | null) {
     this.index = index;
     this.showIndex = showIndex;
     this.showDivider = showDivider;

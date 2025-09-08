@@ -17,30 +17,36 @@ import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil'
 import { DataItemType } from '../../../../../../feature/contact/src/main/ets/contract/DataType';
 import StringFormatUtil from '../../util/StringFormatUtil'
 import { Birthday } from '../../../../../../feature/contact/src/main/ets/contract/Birthday';
+import { HiLog, StringUtil } from 'common';
+import { BaseContackSubInfoModel } from '../../model';
 
 @Component
 export default struct DetailInfoList {
-  private dataType: DataItemType;
-  private List: string;
-  private hasArrow: boolean;
+  private dataType: DataItemType = DataItemType.EMAIL;
+  private List: string = '';
+  private hasArrow: boolean = false;
+
+  aboutToAppear(): void {
+    HiLog.i('DetailInfoList','DetailInfoList:' + this.List)
+  }
 
   build() {
     Column() {
-      if (!ArrayUtil.isEmpty(JSON.parse(this.List))) {
+      if (this.List !== '[]' ) {
         Divider()
-          .color($r("sys.color.ohos_id_color_list_separator"))
+          .color(r("sys.color.ohos_id_color_list_separator"))
         List() {
-          ForEach(JSON.parse(this.List), (item, index) => {
+          ForEach(JSON.parse(this.List), (item: BaseContackSubInfoModel, index) => {
             ListItem() {
               DetailInfoListItem({
                 title: this.dataType == DataItemType.EVENT ?
                 StringFormatUtil.stringFormatDateResource(item.data,
-                  item?.type == Birthday.TYPE_LUNARBIRTHDAY) : item.data,
+                  item.type == Birthday.TYPE_LUNARBIRTHDAY) : item.data,
                 content: item.labelName,
                 hasArrow: this.hasArrow,
               });
             }
-          }, item => JSON.stringify(item))
+          }, (item: BaseContackSubInfoModel) => JSON.stringify(item))
         }
         .divider({ strokeWidth: $r("app.float.id_divide_width"), color: $r("sys.color.ohos_id_color_list_separator") })
         .scrollBar(BarState.Off)
@@ -53,9 +59,9 @@ export default struct DetailInfoList {
 
 @Component
 struct DetailInfoListItem {
-  private title: string;
-  private content: string;
-  private hasArrow: boolean;
+  private title: string | Resource = '';
+  private content: string | Resource = '';
+  private hasArrow: boolean = false;
 
   build() {
     Flex({ direction: FlexDirection.Row, justifyContent: FlexAlign.SpaceBetween, alignItems: ItemAlign.Center }) {

@@ -18,20 +18,35 @@ export class StringUtil {
   }
 
   static removeSpace(str: string): string {
-    if (this.isEmpty(str)) {
+    if (StringUtil.isEmpty(str)) {
       return '';
     }
     return str.replace(/[\s]/g, '');
   }
 
-  /* Obtains the result string that matches the specified substring in the original character string.
-   Only the result of the first successful match is returned.(The matching rule ignores spaces.)
+  /**
+
+   根据指定字符padCh，补全字符串str 到指定长度len
+   @param str
+   @param padCh
+   @param len
+   @returns
    */
-  static getMatchedString(textValue, regString): string {
-    if (this.isEmpty(textValue) || this.isEmpty(regString)) {
+  static paddingLeft(str: string, padCh: string, len: number): string {
+    while (str.length < len) {
+      str = padCh + str;
+    }
+    return str;
+  }
+
+  /* Obtains the result string that matches the specified substring in the original character string.
+  Only the result of the first successful match is returned.(The matching rule ignores spaces.)
+  */
+  static getMatchedString(textValue:string, regString:string): string {
+    if (StringUtil.isEmpty(textValue) || StringUtil.isEmpty(regString)) {
       return '';
     }
-    regString = this.removeSpace(regString);
+    regString = StringUtil.removeSpace(regString);
     let matchedTemp = '';
 
     // spaces count

@@ -12,9 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import router from '@ohos.router';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { ContactVo } from '../../model/bean/ContactVo';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 import { CallLogRepository } from '../../../../../../feature/call/src/main/ets/repo/CallLogRepository';
@@ -25,6 +24,7 @@ import WorkerWrapper from '../../workers/base/WorkerWrapper';
 import { SearchContactsBean } from '../../model/bean/SearchContactsBean';
 import SearchContactsSource from '../../model/bean/SearchContactsSource';
 import AlphabetIndexerPresenter from './alphabetindex/AlphabetIndexerPresenter';
+import LooseObject from '../../model/type/LooseObject';
 
 const TAG = 'ContactListPresenter  ';
 const DELAY_TIME: number = 1000;
@@ -44,7 +44,8 @@ export enum ContactClickType {
  */
 export default class ContactListPresenter {
   private static sInstance: ContactListPresenter;
-  indexs: string[] = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '…'];
+  indexs: string[] =
+    ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '…'];
   contactListPages: Array<number> = [];
   curItem: ContactVo = new ContactVo('', '', '', '', '', '', true, '', '');
   page: number = 0;
@@ -57,21 +58,21 @@ export default class ContactListPresenter {
   contactListDataSource: ContactListDataSource = new ContactListDataSource();
   searchContactsSource: SearchContactsSource = new SearchContactsSource();
   isShow: boolean = false;
-  context: Context;
-  worker: WorkerWrapper;
-  loading: boolean;
+  context: Context | undefined = undefined;
+  worker: WorkerWrapper | undefined;
+  loading: boolean = false;
   initStarted: boolean = false;
   contactSearchList: SearchContactsBean[] = [];
   contactSearchCount: number = 0;
   tempValue: string = '';
-  taskId: number = -1;;
+  taskId: number = -1;
   isSearchBackgroundColor: boolean = true;
   isSearchPage: boolean = false;
   inputKeyword: string = '';
   contactList: ContactVo[] = [];
   alphabetIndexPresenter: AlphabetIndexerPresenter = AlphabetIndexerPresenter.getInstance();
-
-  refreshState: () => void
+  refreshState?: () => void = () => {
+  }
   onContactChange = () => {
     HiLog.i(TAG, 'onContactChange refresh');
     this.setDelayTask();
@@ -91,7 +92,7 @@ export default class ContactListPresenter {
     return ContactListPresenter.sInstance;
   }
 
-  onCreate(context: Context, worker: WorkerWrapper) {
+  onCreate(context: Context, worker: WorkerWrapper | undefined) {
     this.context = context;
     this.worker = worker;
     ContactRepository.getInstance().registerDataChangeObserver(this.onContactChange);
@@ -211,15 +212,18 @@ export default class ContactListPresenter {
 
   refreshPage(page: number, limit: number, callback?: () => void) {
     this.loading = true;
-    let actionData: any = {};
+    let actionData: LooseObject = {};
     actionData.page = page;
     actionData.limit = limit;
+    if (this.worker === undefined) {
+      return
+    }
     this.worker.sendRequest('getAllContact', {
       actionData: actionData,
       context: this.context
-    }, (result) => {
+    }, (result: ContactVo[]) => {
       HiLog.i(TAG, `refreshPage ${page} getAllContact, length is: ` + result.length);
-      if (Array.prototype.isPrototypeOf(result)) {
+      if (Array.isArray(result)) {
         this.contactListDataSource.refresh(this.refreshIndex, this.contactListPages[page -1], result);
         this.contactList.splice(this.refreshIndex, this.contactListPages[page -1], ...result);
         this.alphabetIndexPresenter.initContactList(this.contactList);
@@ -285,16 +289,18 @@ export default class ContactListPresenter {
    *
    * @param result
    */
-  onDeleteDialogConfirm(index, item) {
+  onDeleteDialogConfirm(index: number, item: ContactVo) {
     HiLog.i(TAG, 'onDeleteDialogConfirm !!! ');
-    this.worker.sendRequest('deleteContactById', {
-      context: this.context,
-      contactId: item.contactId
-    }, (result) => {
-      if (result) {
-        HiLog.w(TAG, 'deleteContactById error:' + JSON.stringify(result))
-      }
-    });
+    if (this.worker !== undefined) {
+      this.worker.sendRequest('deleteContactById', {
+        context: this.context,
+        contactId: item.contactId
+      }, (result: number | undefined) => {
+        if (result) {
+          HiLog.w(TAG, 'deleteContactById error:' + JSON.stringify(result))
+        }
+      });
+    }
     this.contactListDataSource.remove(index);
   }
 
@@ -318,7 +324,7 @@ export default class ContactListPresenter {
    * @param item item
    * @param index index
    */
-  onShareItemClick(item: any, index: number | null) {
+  onShareItemClick(item: string, index: number | null) {
     HiLog.i(TAG, 'onShareItemClick !!! index is %s' + index);
   }
 
@@ -377,7 +383,7 @@ export default class ContactListPresenter {
     if ('' === value) {
       this.isSearchBackgroundColor = true;
       this.searchContactsSource.refresh(this.contactSearchList);
-      let innerEvent = {
+      let innerEvent: emitter.InnerEvent = {
         eventId: 102,
         priority: emitter.EventPriority.HIGH
       };
@@ -389,17 +395,17 @@ export default class ContactListPresenter {
       return;
     }
     this.tempValue = value;
-    let actionData: any = {};
+    let actionData: LooseObject = {};
     actionData.value = this.tempValue;
     globalThis.DataWorker.sendRequest('getSearchContact', {
       actionData: actionData,
       context: globalThis.context
-    }, (result) => {
+    }, (result: SearchContactsBean[]) => {
       this.isSearchBackgroundColor = false;
       this.contactSearchList = result;
       this.contactSearchCount = this.contactSearchList.length;
       this.searchContactsSource.refresh(this.contactSearchList);
-      let innerEvent = {
+      let innerEvent: emitter.InnerEvent = {
         eventId: 102,
         priority: emitter.EventPriority.HIGH
       };
@@ -413,7 +419,7 @@ export default class ContactListPresenter {
   }
 
   sendEmitter(isSearchPage: boolean) {
-    let innerEvent = {
+    let innerEvent: emitter.InnerEvent = {
       eventId: EMITTER_SEARCH_ID,
       priority: emitter.EventPriority.HIGH
     };

@@ -24,6 +24,12 @@ export class CallLogBean {
   action: string;
   calledNumber: string;
   status: string;
+  callType: CallType = CallType.MISSED;
+  dateDetail: string = '';
+  timeDetail: string = '';
+  formatNumber: string = '';
+  talkTime: string = '';
+  simId:number = -1;
   constructor(time: string, action: string, calledNumber: string, status: string) {
     this.id = `${NextId++}`;
     this.time = time;
@@ -31,4 +37,12 @@ export class CallLogBean {
     this.calledNumber = calledNumber;
     this.status = status;
   }
+}
+
+export enum CallType{
+  IN = 1,
+  OUT = 2,
+  VOICEMAIL = 4,
+  MISSED = 3,
+  REJECTED = 5
 }

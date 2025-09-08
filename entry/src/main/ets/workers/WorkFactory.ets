@@ -33,9 +33,9 @@ export default class WorkFactory {
    * @param message worker message data
    * @return WorkerTask for the message
    */
-  static getTask(type: WorkerType, workerPort?: ThreadWorkerGlobalScope): WorkerTask {
+  static getTask(type: WorkerType, workerPort?: ThreadWorkerGlobalScope): WorkerTask | undefined {
     HiLog.i(TAG, `getTask in ${WorkerType[type]}.`)
-    let task: WorkerTask = undefined;
+    let task: WorkerTask | undefined = undefined;
     if (type == WorkerType.DataWorker) {
       task = DataWorkerTask.getInstance(workerPort);
     }
@@ -49,9 +49,9 @@ export default class WorkFactory {
    * @param type WorkerType
    * @return WorkerWrapper for the WorkerType
    */
-  static getWorker(type: WorkerType): WorkerWrapper {
+  static getWorker(type: WorkerType): WorkerWrapper | undefined {
     HiLog.i(TAG, `getWorker in ${WorkerType[type]}.`)
-    let worker: WorkerWrapper = undefined
+    let worker: WorkerWrapper | undefined = undefined
     if (type == WorkerType.DataWorker) {
       HiLog.w(TAG, 'getWorker ' + type)
       worker = new WorkerWrapper(WorkerType.DataWorker, globalThis.config.useDataWorker);

@@ -19,12 +19,13 @@
 @CustomDialog
 export default struct ShareDialogEx {
   controller: CustomDialogController;
-  cancel: () => void;
-  title: string | Resource;
-  itemList: string[] | Resource[];
-  cancelText: string | Resource;
-  onItemClick: (item, index) => {};
-
+  cancel: () => void = () => {
+  };
+  title: string | Resource = '';
+  itemList: string[] | Resource[] = [];
+  cancelText: string | Resource = '';
+  onItemClick: (item:string, index:number) => void = (item:string, index:number) => {
+  };
   build() {
     Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Start }) {
       Text(this.title)
@@ -33,7 +34,7 @@ export default struct ShareDialogEx {
         .fontSize(24)
 
       List() {
-        ForEach(this.itemList, (item, index) => {
+        ForEach(this.itemList, (item:string, index) => {
           ListItem() {
             Column() {
               Text(item).fontSize(20).margin({ top: 5, bottom: 5 })
@@ -45,7 +46,7 @@ export default struct ShareDialogEx {
               this.controller.close();
             })
           }
-        }, item => item);
+        }, (item:string) => item);
       }
       .scrollBar(BarState.Off)
       .edgeEffect(EdgeEffect.None)

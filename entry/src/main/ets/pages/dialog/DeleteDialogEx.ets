@@ -19,12 +19,13 @@
 @CustomDialog
 export default struct DeleteDialogEx {
   controller: CustomDialogController;
-  cancel: () => void;
-  confirm: () => void;
-  title: string | Resource;
-  cancalText: string | Resource;
-  confrimText: string | Resource;
-
+  cancel: () => void = () => {
+  };
+  confirm: () => void = () => {
+  };
+  title: string | Resource = '';
+  cancalText: string | Resource = '';
+  confrimText: string | Resource = '';
   build() {
     Flex({
       direction: FlexDirection.Column,

@@ -13,21 +13,22 @@
  * limitations under the License.
  */
 import BasicDataSource from '../bean/BasicDataSource';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
-
+import MergedCallLog from '../../../../../../feature/call/src/main/ets/entity/MergedCallLog';
+import LooseObject from '../LooseObject ';
 const TAG = 'CallRecordListDataSource';
 
 export default class CallRecordListDataSource extends BasicDataSource {
-    private callLogData: any[] = [];
-    private isShow: boolean;
-    private isDataReload: boolean;
+    private callLogData: LooseObject[] = [];
+    private isShow: boolean = false;
+    private isDataReload: boolean = false;
 
     public totalCount(): number {
         return this.callLogData.length;
     }
 
-    public getData(index: number): any {
+    public getData(index: number): LooseObject | null {
         if (ArrayUtil.isEmpty(this.callLogData) || index >= this.callLogData.length) {
             HiLog.w(TAG, 'getData callLogData is empty');
             return null;
@@ -36,7 +37,7 @@ export default class CallRecordListDataSource extends BasicDataSource {
         }
     }
 
-    public refreshAll(callLogData) {
+    public refreshAll(callLogData: LooseObject[]) {
         HiLog.i(TAG, ' refreshAll!');
         this.callLogData = callLogData;
         this.setDataReload(true);
@@ -51,13 +52,13 @@ export default class CallRecordListDataSource extends BasicDataSource {
         this.setDataReload(this.isDataReload);
     }
 
-    public refresh(start: number, count: number, callLogData: []) {
+    public refresh(start: number, count: number, callLogData: MergedCallLog[]) {
         HiLog.i(TAG, ' refresh!');
         this.callLogData.splice(start, count, ...callLogData);
         this.setDataReload(true);
     }
 
-    public remove(index: number, count?) {
+    public remove(index: number, count?: number) {
         if (index < 0 || index >= this.totalCount()) {
             return;
         }

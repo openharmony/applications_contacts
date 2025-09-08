@@ -18,7 +18,7 @@ import { ContactVo } from '../../model/bean/ContactVo';
 import DeleteDialogEx from '../../pages/dialog/DeleteDialogEx';
 import ShareDialogEx from '../../pages/dialog/ShareDialogEx';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import ContactListPresenter from '../../presenter/contact/ContactListPresenter';
 import EnvironmentProp from '../../feature/EnvironmentProp';
 
@@ -68,8 +68,6 @@ export default struct ContactListItemView {
   });
 
   aboutToDisappear() {
-    this.shareDialogControler = null;
-    this.deleteDialogControler = null;
   }
 
   onDeleteClick() {

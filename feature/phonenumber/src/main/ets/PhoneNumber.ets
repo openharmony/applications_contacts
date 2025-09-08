@@ -12,13 +12,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
 import i18n from '@ohos.i18n';
 import MmsService from './MmsService';
 import TelecomService from './TelecomService';
 import call from '@ohos.telephony.call';
-
 const TAG = 'PhoneNumber';
 
 /**
@@ -36,7 +35,7 @@ export class PhoneNumber {
 
   isDialEmergencyNum(): Promise<boolean> {
     let phoneNumber = this.number;
-    return new Promise<boolean>(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
       call.isEmergencyPhoneNumber(phoneNumber, (err, data) => {
         if (err) {
           HiLog.e(TAG, 'isEmergencyPhoneNumber error: ' + JSON.stringify(err));
@@ -49,7 +48,7 @@ export class PhoneNumber {
     });
   }
 
-  dial(options?: any): Promise<boolean> {
+  dial(options?: call.DialOptions): Promise<boolean> {
     HiLog.i(TAG, 'dial phone.');
     let phoneNumber = this.number;
     if (!options && AppStorage.Has('defaultSlot')) {
@@ -57,13 +56,13 @@ export class PhoneNumber {
         accountId: AppStorage.Get<number>('defaultSlot'),
       }
     }
-    return new Promise<boolean>(function (resolve, reject) {
-      TelecomService.getInstance().dial(phoneNumber, options, (data)  => {
-        HiLog.i(TAG, ` dial data:${JSON.stringify(data)}`);
+    return new Promise((resolve, reject) => {
+      TelecomService.getInstance().dial(phoneNumber, options as call.DialOptions, (data: number) => {
+        HiLog.i(TAG, `dial data:${JSON.stringify(data)}`);
         if (!!data) {
-          resolve(data);
+          resolve(!!data);
         } else {
-          reject({code: -1});
+          reject({ code: -1 });
         }
       });
     });
@@ -83,9 +82,9 @@ export class PhoneNumber {
     });
   }
 
-  sendMessage(formatnum?:string, name?: string) {
+  sendMessage(formatnum?: string, name?: string) {
     HiLog.i(TAG, 'send message.');
-    MmsService.sendMessage(this.number, formatnum, name);
+    MmsService.sendMessage(this.number, formatnum as string, name);
   }
 
   getNumber() {
@@ -96,8 +95,8 @@ export class PhoneNumber {
   format() {
     let phoneNumber = this.number;
     let countryId = i18n.getSystemRegion();
-    let phoneNumberFormat= new i18n.PhoneNumberFormat(countryId);
-    let isNumberValid:boolean = phoneNumberFormat.isValidNumber(phoneNumber);
+    let phoneNumberFormat = new i18n.PhoneNumberFormat(countryId);
+    let isNumberValid: boolean = phoneNumberFormat.isValidNumber(phoneNumber);
     let formatNumber = isNumberValid ? phoneNumberFormat.format(phoneNumber) : phoneNumber;
     return formatNumber;
   }

@@ -25,8 +25,8 @@ const LAST_MISSED_ID: string = 'Last_Missed_id'
 const PREFERENCE_NAME: string = 'CONTACT_PREFERENCE';
 
 export class MissedCallService {
-  private static sInstance: MissedCallService = undefined;
-  private context: Context = undefined;
+  private static sInstance: MissedCallService | undefined = undefined;
+  private context: Context | undefined = undefined;
   private lastMissedId = -1;
   private onCallLogChanged = () => {
     if (this.lastMissedId != -1) {
@@ -84,7 +84,7 @@ export class MissedCallService {
    *
    * Unread missed call notification
    */
-  public async unreadCallNotification(map:Map<string,string>) {
+  public async unreadCallNotification(map: Map<string, string>) {
     MissedCallNotifier.getInstance().sendUnreadCallNotification(map);
   }
 
@@ -95,7 +95,7 @@ export class MissedCallService {
    */
   public async cancelMissedNotificationAction(data: MissedCallNotifyData) {
     HiLog.i(TAG, `cancelMissedNotificationAction, ${JSON.stringify(data)}`);
-    MissedCallNotifier.getInstance().cancelNotificationById(data.id, data.count);
+    MissedCallNotifier.getInstance().cancelNotificationById(Number(data.id), Number(data.count));
     CallLogRepository.getInstance().markMissedCallLogAsRead(data.phoneNumber);
   }
 
@@ -114,7 +114,7 @@ export class MissedCallService {
   private constructor() {
   }
 
-  private getContext() {
+  private getContext(): Context | undefined {
     if (this.context && this.context != undefined) {
       return this.context;
     }
@@ -132,7 +132,7 @@ export class MissedCallService {
   }
 
   private async getLastNotificationId() {
-    return <number> await sharedPreferencesUtils.getFromPreferences(LAST_MISSED_ID, -1)
+    return (await sharedPreferencesUtils.getFromPreferences(LAST_MISSED_ID, -1)) as number
   }
 
   private setLastNotificationId(id: number, lastId?: number): boolean {
@@ -153,28 +153,24 @@ export class MissedCallService {
         HiLog.i(TAG, 'sendMissedCallNotify, No new CallLog.');
         return;
       }
-      let phoneNums = new Set();
+      let phoneNums: Set<string> = new Set();
       for (let callLog of data) {
         phoneNums.add(callLog.phoneNumber);
       }
-      this.queryContactsName(Array.from(phoneNums), (numberMap) => {
+      this.queryContactsName(Array.from(phoneNums), (numberMap?: Map<string, string>) => {
         let missedData: Map<string, MissedCallNotifyData> = new Map();
         for (let callLog of data) {
           let displayName = callLog.phoneNumber;
-          if (numberMap.has(callLog.phoneNumber)) {
-            displayName = numberMap.get(callLog.phoneNumber);
+          if (numberMap != undefined && numberMap.has(callLog.phoneNumber)) {
+            displayName = numberMap.get(callLog.phoneNumber) as string;
           }
           if (!missedData.has(displayName)) {
-            missedData.set(displayName, {
-              phoneNumber: callLog.phoneNumber,
-              displayName: displayName,
-              id: callLog.id,
-              createTime: callLog.createTime,
-              count: 1,
-              ringDuration: callLog.ringDuration
-            });
+            missedData.set(displayName, new MissedCallNotifyData(callLog.id, displayName, callLog.phoneNumber, 1, callLog.createTime, callLog.ringDuration));
           } else {
-            missedData.get(displayName).count++;
+            let missDataByName = missedData.get(displayName);
+            if (missDataByName != undefined) {
+              (missDataByName.count as number)++;
+            }
           }
         }
         MissedCallNotifier.getInstance().updateMissedCallNotifications(missedData);
@@ -182,21 +178,21 @@ export class MissedCallService {
     }, lastId);
   }
 
-  private queryContactsName(numberList, callback) {
+  private queryContactsName(numberList: string[], callback: (Contact?: Map<string, string>) => void) {
     if (numberList.length == 0) {
       HiLog.w(TAG, 'queryContactsName, has no number');
       callback(new Map());
       return;
     }
-    ContactRepository.getInstance().queryContactDataByNumber(numberList, contacts => {
+    ContactRepository.getInstance().queryContactDataByNumber(numberList, (contacts: Record<string, string>[]) => {
       // Convert the result to Map, key: mobile number, value: name
-      let numberMap = this.getNumberMap(contacts);
+      let numberMap: Map<string, string> = this.getNumberMap(contacts);
       callback(numberMap);
     });
   }
 
-  private getNumberMap(contacts) {
-    let numberMap = new Map();
+  private getNumberMap(contacts: Record<string, string>[]) {
+    let numberMap: Map<string, string> = new Map();
     for (let item of contacts) {
       if (!StringUtil.isEmpty(item.displayName)) {
         numberMap.set(item.detailInfo, item.displayName);

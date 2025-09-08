@@ -14,22 +14,22 @@
  */
 import BasicDataSource from './BasicDataSource';
 import { ContactVo } from '../bean/ContactVo';
-import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import { HiLog } from 'common/src/main/ets/util/HiLog';
 import { ArrayUtil } from '../../../../../../common/src/main/ets/util/ArrayUtil';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
-
+import ContactListShowInfo from './ContactListShowInfo';
 const TAG = 'ContactListDataSource';
 
 export default class ContactListDataSource extends BasicDataSource {
     private contactList: ContactVo[] = [];
-    private isShow: boolean;
-    private isDataReload: boolean;
+    private isShow: boolean = false;
+    private isDataReload: boolean = false;
 
     public totalCount(): number {
         return this.contactList.length;
     }
 
-    public getData(index: number): any {
+    public getData(index: number): ContactListShowInfo | null {
         if (ArrayUtil.isEmpty(this.contactList) || index >= this.contactList.length) {
             HiLog.i(TAG, 'getData contactlist is empty');
             return null;
@@ -46,14 +46,11 @@ export default class ContactListDataSource extends BasicDataSource {
             }
             contact.title = (StringUtil.isEmpty(contact.showName) ? contact.phoneNum : contact.showName);
             let subtitleConcat: string = (!StringUtil.isEmpty(contact.company) &&
-            !StringUtil.isEmpty(contact.position)) ? ' | ' : '';
+                !StringUtil.isEmpty(contact.position)) ? ' | ' : '';
             contact.subTitle = (StringUtil.isEmpty(contact.company) ? '' :
             contact.company).concat(subtitleConcat).concat(StringUtil.isEmpty(contact.position) ? '' : contact.position);
-            return {
-                showIndex: showIndex,
-                showDivifer: showDivifer,
-                contact: contact
-            };
+            return new ContactListShowInfo(showIndex, showDivifer, contact.contactId, '',
+                '', contact.portraitPath, contact.namePrefix, contact.title, contact.subTitle,contact);
         }
     }
 
@@ -78,7 +75,7 @@ export default class ContactListDataSource extends BasicDataSource {
         this.setDataReload(true);
     }
 
-    public remove(index: number, count?) {
+    public remove(index: number, count?:number) {
         if (index < 0 || index >= this.totalCount()) {
             return;
         }

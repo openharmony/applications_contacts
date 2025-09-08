@@ -18,12 +18,13 @@ import ContactListPresenter from '../../presenter/contact/ContactListPresenter';
 import { HiLog, ArrayUtil } from '../../../../../../common';
 import emitter from '@ohos.events.emitter';
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
-import Constants from '../../../../../../common/src/main/ets/Constants';
+import Constants from 'common/src/main/ets/Constants';
 import { ContactSearch } from './search/ContactSearch';
 import { AlphabetIndexerPage } from './alphabetindex/AlphabetIndexerPage';
 import AlphabetIndexerPresenter from '../../presenter/contact/alphabetindex/AlphabetIndexerPresenter';
+import ContactListShowInfo from '../../model/bean/ContactListShowInfo';
 
-const TAG = 'ContactList  ';
+const TAG = 'ContactList ';
 const EMITTER_SEARCH_ID: number = 105;
 let storage = LocalStorage.GetShared();
 
@@ -53,12 +54,14 @@ export default struct ContactListPage {
       this.refresh()
     })
     this.refresh();
-    let innerEventSearch = {
+    let innerEventSearch:emitter.InnerEvent = {
       eventId: EMITTER_SEARCH_ID,
       priority: emitter.EventPriority.HIGH
     };
     emitter.on(innerEventSearch, (data) => {
-      this.mContactPresenter.isSearchPage = data.data['isSearchPage'];
+      if(data.data !== undefined){
+        this.mContactPresenter.isSearchPage = data.data['isSearchPage'];
+      }
     })
   }
 
@@ -219,7 +222,7 @@ struct ContactContent {
         GridRow({ columns: { sm: 4, md: 8, lg: 12 }, gutter: { x: 12, y: 0 } }) {
           GridCol({ span: { sm: 4, md: 6, lg: 8 }, offset: { sm: 0, md: 1, lg: 2 } }) {
             List({ space: 0, initialIndex: 0, scroller: this.scroller }) {
-              LazyForEach(this.presenter.contactListDataSource, (item, index: number) => {
+              LazyForEach(this.presenter.contactListDataSource, (item:ContactListShowInfo, index: number) => {
                 ListItem() {
                   Stack({ alignContent: Alignment.BottomEnd }) {
                     Column() {
@@ -254,7 +257,7 @@ struct ContactContent {
                     }
                   }
                 }
-              }, (item) => JSON.stringify(item))
+              }, (item:ContactListShowInfo) => JSON.stringify(item))
             }
             .width('100%')
             .height('100%')
@@ -276,9 +279,9 @@ struct ContactContent {
 	AlphabetIndexerPage({scroller: this.scroller, presenter: $alphabetIndexPresenter, selected: this.alphabetSelected,
         isClicked: $isAlphabetClicked, drag: $dragList})
         .margin({top: '30%', bottom: '10%'})
-      }
-      .width('100%')
-      .height('100%')
+    }
+    .width('100%')
+    .height('100%')
   }
 }
 

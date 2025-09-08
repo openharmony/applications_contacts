@@ -39,7 +39,7 @@ export struct SelectMultiNumDialog {
         .height('48vp')
         .padding({ left: '16vp', })
       List() {
-        ForEach(this.builder.multiNumCardItems, (item, index) => {
+        ForEach(this.builder.multiNumCardItems, (item:MultiNumCardItems, index) => {
           ListItem() {
             Row() {
               Image(item.img)
@@ -107,7 +107,7 @@ export struct SelectMultiNumDialog {
     }.backgroundColor(Color.White)
   }
 
-  confirm(item, contactId) {
+  confirm(item:MultiNumCardItems, contactId:string) {
     this.controller.close()
     if (this.selectDefault) {
       sharedPreferencesUtils.saveToPreferences(contactId + '', item.number);
@@ -123,21 +123,18 @@ export struct SelectMultiNumDialog {
 }
 
 class MultiNumCardItems {
-  number: String;
-  numType: Resource;
-  img: Resource;
+  number: string = '';
+  numType: Resource|undefined = undefined;
+  img: Resource|undefined = undefined;
 }
 
 interface Controller {
-  close();
-
-  open();
 }
 
 export class SelectNumDialogBuilder {
-  title: string | Resource;
-  contactId: String
-  multiNumCardItems: Array<MultiNumCardItems>;
+  title: string | Resource = '';
+  contactId: string = '';
+  multiNumCardItems: Array<MultiNumCardItems> = [];
   callback?: (item: MultiNumCardItems) => void;
   controller?: Controller;
 }

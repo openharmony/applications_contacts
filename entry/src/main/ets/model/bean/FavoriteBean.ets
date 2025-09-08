@@ -14,67 +14,69 @@
  */
 
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
+import { phoneNumberObj } from './ContactVo';
 
 /**
  * Favorite List Data Structure Entity
  */
-export class FavoriteBean {
-  contactId: string;
-  /**
-   * 0 Favorite 1 Usually
-   */
-  isCommonUseType: number;
-  /**
-   * Contact Name
-   */
-  displayName: string;
-  phoneNum: string;
-  nameSuffix: string;
-  namePrefix: string;
-  portraitColor: string;
-  /**
-   * Display Usually
-   */
-  isUsuallyShow: boolean;
-  portraitPath: string;
-  isEditSelect: boolean
-  favorite: number;
-  company: string;
-  position: string;
-  show: boolean;
-  showName: string;
-  phoneNumbers: object[];
-  title: string;
-  subTitle: string;
-  favoriteOrder: string;
-
-  constructor(
-    contactId: string,
-    isCommonUseType: number,
-    displayName: string,
-    phoneNum: string,
-    nameSuffix: string,
-    namePrefix: string,
-    portraitColor: string,
-    isUsuallyShow: boolean,
-    portraitPath: string,
-    isEditSelect: boolean,
-    favorite: number,
-    favoriteOrder: string,
-  ) {
-    this.contactId = contactId;
-    this.isCommonUseType = isCommonUseType;
-    this.displayName = displayName;
-    this.phoneNum = phoneNum;
-    this.nameSuffix = nameSuffix;
-    this.namePrefix = namePrefix;
-    this.portraitColor = portraitColor;
-    this.isUsuallyShow = isUsuallyShow;
-    this.portraitPath = portraitPath;
-    this.isEditSelect = isEditSelect;
-    this.favorite = favorite;
-    this.favoriteOrder = favoriteOrder;
-  }
+ export class FavoriteBean {
+ contactId: string;
+ /*
+ 0 Favorite 1 Usually
+ */
+ isCommonUseType: number;
+ /*
+ Contact Name
+ */
+ displayName: string;
+ phoneNumber: string = '';
+ phoneNum: string;
+ nameSuffix: string;
+ namePrefix: string;
+ portraitColor: string;
+ /*
+ Display Usually
+ */
+isUsuallyShow: boolean;
+portraitPath: string;
+isEditSelect: boolean
+favorite: number;
+company: string = '';
+position: string = '';
+show: boolean = false;
+showName: string = '';
+phoneNumbers: phoneNumberObj[] = [];
+title: string = '';
+subTitle: string = '';
+favoriteOrder: string;
+editContact: string = '';
+constructor(
+  contactId: string,
+isCommonUseType: number,
+displayName: string,
+phoneNum: string,
+nameSuffix: string,
+namePrefix: string,
+portraitColor: string,
+isUsuallyShow: boolean,
+portraitPath: string,
+isEditSelect: boolean,
+favorite: number,
+favoriteOrder: string,
+) {
+  this.contactId = contactId;
+  this.isCommonUseType = isCommonUseType;
+  this.displayName = displayName;
+  this.phoneNum = phoneNum;
+  this.nameSuffix = nameSuffix;
+  this.namePrefix = namePrefix;
+  this.portraitColor = portraitColor;
+  this.isUsuallyShow = isUsuallyShow;
+  this.portraitPath = portraitPath;
+  this.isEditSelect = isEditSelect;
+  this.favorite = favorite;
+  this.favoriteOrder = favoriteOrder;
+}
 
   public setShowName() {
     this.showName = !StringUtil.isEmpty(this.displayName) ? this.displayName : (!StringUtil.isEmpty(this.company) ? this.company : (!StringUtil.isEmpty(this.position) ? this.position : ""))
