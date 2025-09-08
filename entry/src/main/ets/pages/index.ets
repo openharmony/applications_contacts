@@ -30,7 +30,7 @@ import device from '@system.device';
 import { DeviceResponse } from '@kit.BasicServicesKit';
 const TAG = 'Index ';
 
-class deviceObj{
+class DeviceObj{
   windowHeight:number = -1;
   screenDensity:number = -1;
   data:string[] = [];
@@ -153,7 +153,7 @@ struct Index {
       success: (data:DeviceResponse) => {
         AppStorage.SetOrCreate('windowHeight', data.windowHeight / data.screenDensity);
       },
-      fail: (data:deviceObj, code:number) => {
+      fail: (data:DeviceObj, code:number) => {
         HiLog.i(TAG, 'Failed to obtain device information. Error code:' + code + '; Error information: ' + data);
       },
     });

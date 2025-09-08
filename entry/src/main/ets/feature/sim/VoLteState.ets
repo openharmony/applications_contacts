@@ -21,7 +21,7 @@ const TAG = 'VoLteState';
 class VoLteState {
   haveVoLteReg: boolean = false;
   voLteRegStates: boolean[] = [false, false]
-  mListener: () => void = () => {
+  public mListener: () => void = () => {
   };
 
   public init() {

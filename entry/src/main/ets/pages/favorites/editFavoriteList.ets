@@ -35,7 +35,7 @@ class Favorite{
 }
 
 class extraParamsObj{
-  insertIndex:number = 0;
+  public insertIndex:number = 0;
 
 }
 

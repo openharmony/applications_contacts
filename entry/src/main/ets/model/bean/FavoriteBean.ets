@@ -14,7 +14,7 @@
  */
 
 import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUtil';
-import { phoneNumberObj } from './ContactVo';
+import { PhoneNumberObj } from './ContactVo';
 
 /**
  * Favorite List Data Structure Entity

@@ -18,7 +18,7 @@ import { HiLog, sharedPreferencesUtils } from '../../../../../../common';
 import { FavoriteBean } from '../../model/bean/FavoriteBean';
 import FavoriteDataSource from '../../model/bean/FavoriteDataSource';
 
-class favoriteFormObj{
+class FavoriteFormObj{
   favoriteOrder:number = 0;
   id: string = '';
 }
@@ -149,7 +149,7 @@ export default class EditFavoriteListPresenter {
     HiLog.i(TAG, 'moveSortFavorite start.');
     let favoriteLength: number = favoriteList.length;
     for (let i = 0; i < favoriteLength; i++) {
-      let favoriteForm: favoriteFormObj = {
+      let favoriteForm: FavoriteFormObj = {
         favoriteOrder: 0,
         id: ''
       }

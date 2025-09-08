@@ -238,7 +238,7 @@ export class FavoriteFormType {
   public favorite: number = -1;
 }
 
-export class targetPageClass {
+export class TargetPageClass {
   public url: string;
   public pageIndex: number;
   public params: paramsInterface;

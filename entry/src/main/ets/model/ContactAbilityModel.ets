@@ -74,7 +74,8 @@ class ContactAbilityModel {
       HiLog.e(TAG, 'The addParams of parameter is NULL');
       return;
     }
-    let DAHelper: dataShare.DataShareHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
+    let DAHelper: dataShare.DataShareHelper = await dataShare.createDataShareHelper(context ? context :
+    globalThis.context, Contacts.CONTENT_URI);
     let insertValues: Record<string, string> = {
       'display_name': this.getDisplayName(addParams)
     };
@@ -129,7 +130,8 @@ class ContactAbilityModel {
    * @param {Object} addParams Contact Information
    * @param {boolean} isCard Indicates whether the information is a business card.
    */
-  dealParam(DAHelper: dataShare.DataShareHelper | null, addParams: ContactInfo, isCard: boolean, callBack: Function | undefined) {
+  dealParam(DAHelper: dataShare.DataShareHelper | null, addParams: ContactInfo, isCard: boolean,
+    callBack: Function | undefined) {
     if (DAHelper != null || DAHelper != undefined) {
       let result = addParams.id;
       let uri = isCard ? PROFILE_CONTACT_DATA_URI : Data.CONTENT_URI;
@@ -806,7 +808,8 @@ class ContactAbilityModel {
    */
   async getIdByTelephone(number: ValueType, callBack: Function, context?: common.UIAbilityContext | Context) {
     HiLog.i(TAG, 'Start to query contactID by phone number.');
-    let DAHelper: dataShare.DataShareHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
+    let DAHelper: dataShare.DataShareHelper = await dataShare.createDataShareHelper(context ? context :
+    globalThis.context, Contacts.CONTENT_URI);
     let condition = new dataSharePredicates.DataSharePredicates();
     condition.equalTo('detail_info', number)
       .and()
@@ -814,50 +817,50 @@ class ContactAbilityModel {
       .and()
       .equalTo('is_deleted', 0);
     let columns = ['raw_contact_id'];
-    let data_row = await DAHelper.query(Data.CONTENT_URI, condition, columns);
+    let dataRow = await DAHelper.query(Data.CONTENT_URI, condition, columns);
     let resultList: string[] = [];
-    if (data_row.rowCount <= 0) {
-      data_row.close();
+    if (dataRow.rowCount <= 0) {
+      dataRow.close();
       callBack(resultList);
       return;
     }
-    data_row.goToFirstRow();
-    let maxRows = data_row.rowCount;
-    let tempIndex = data_row.rowCount;
+    dataRow.goToFirstRow();
+    let maxRows = dataRow.rowCount;
+    let tempIndex = dataRow.rowCount;
     let index = 0;
     do {
-      resultList.push(data_row.getString(data_row.getColumnIndex('raw_contact_id')));
+      resultList.push(dataRow.getString(dataRow.getColumnIndex('raw_contact_id')));
       if ((++index) >= maxRows) {
-        data_row.close();
+        dataRow.close();
         callBack(resultList);
       }
-      if (!data_row.goToNextRow()) {
+      if (!dataRow.goToNextRow()) {
         break;
       }
     } while ((--tempIndex) >= 0)
-    data_row.close();
+    dataRow.close();
     HiLog.i(TAG, 'End to query contactID by phone number.');
   }
 
   /**
    * Edit Contact Favorite
    *
-   * @param {string} DAHelper
+   * @param {string} daHelper
    * @param {Object} addParams  Contact Information
    * @param {Object} callBack Contact ID
    */
-  async updateFavorite(DAHelper: dataShare.DataShareHelper | null, addParams: Record<string, string | number>, callBack: Function,
+  async updateFavorite(daHelper: dataShare.DataShareHelper | null, addParams: Record<string, string | number>, callBack: Function,
     context?: common.UIAbilityContext | Context) {
     HiLog.i(TAG, 'updateFavorite start.');
-    if (DAHelper == undefined || DAHelper == null) {
-      DAHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
+    if (daHelper == undefined || daHelper == null) {
+      daHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
     }
     let condition = new dataSharePredicates.DataSharePredicates();
     condition.equalTo('contact_id', addParams.id);
     const va: Record<string, string | number> = {
       'favorite': addParams.favorite,
     }
-    DAHelper.update(
+    daHelper.update(
       RawContacts.CONTENT_URI,
       condition,
       va

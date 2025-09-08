@@ -21,7 +21,8 @@ import { StringUtil } from '../../../../../../common/src/main/ets/util/StringUti
 import { CallInfoGetParamsInCallback } from '../type/ContactParams';
 import { ContactInfo } from '../bean/ContactInfo';
 import {
-  AllCallsGetActionData, CallHistorySearchGetActionData
+  AllCallsGetActionData,
+  CallHistorySearchGetActionData
 } from '../../../../../../entry/src/main/ets/model/type';
 import { MergeRule } from '../../../../../../feature/call/src/main/ets/CallLogService.ets';
 import { CallLog } from '../../../../../../feature/call/src/main/ets/entity/CallLog';
@@ -36,7 +37,8 @@ class CallLogModel {
    * @param {string} mergeRule  Call Record Type
    * @param {Object} callBack Call log data
    */
-  async getAllCalls(param: ContactInfo, actionData: AllCallsGetActionData, mergeRule: MergeRule, callBack: Function, context?: Context) {
+  async getAllCalls(param: ContactInfo, actionData: AllCallsGetActionData, mergeRule: MergeRule, callBack: Function,
+    context?: Context) {
     if (context) {
       CallLogRepository.getInstance().init(context);
     }
@@ -63,6 +65,7 @@ class CallLogModel {
       }, context)
     });
   }
+
   getNumberList(resultData: CallInfoGetParamsInCallback) {
     let numberList: Set = new Set();
     for (let callLog of resultData.callLogList) {
@@ -74,7 +77,8 @@ class CallLogModel {
     return Array.from(numberList);
   }
 
-  queryContactsName(numberList: string[], resultData: CallInfoGetParamsInCallback, callback: Function, context?: Context) {
+  queryContactsName(numberList: string[], resultData: CallInfoGetParamsInCallback, callback: Function,
+    context?: Context) {
     if (numberList.length == 0) {
       HiLog.w(TAG, "queryContactsName, has no number");
       callback(resultData);
@@ -117,7 +121,8 @@ class CallLogModel {
     }
   }
 
-  async getCallHistorySearch(actionData: CallHistorySearchGetActionData, mergeRule: MergeRule, callBack: Function, context?: Context) {
+  async getCallHistorySearch(actionData: CallHistorySearchGetActionData, mergeRule: MergeRule, callBack: Function,
+    context?: Context) {
     if (context) {
       CallLogRepository.getInstance().init(context);
     }

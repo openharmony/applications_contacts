@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
-import { ContactVo, phoneNumberObj } from '../../../model/bean/ContactVo';
+import { ContactVo, PhoneNumberObj } from '../../../model/bean/ContactVo';
 /**
  * Select the contact item component, which is responsible for displaying a single contact.
  */

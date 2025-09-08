@@ -16,16 +16,6 @@
 import { StringUtil } from '../../../../../../../common/src/main/ets/util/StringUtil';
 import { CallLogDetailInterface } from '../../../model';
 
-class itemObj{
-  suffix:string = '';
-  formattedNumber:string = '';
-  displayName:string = '';
-  phoneNumber:string = '';
-  numberLocation:string = '';
-  checked:boolean = false;
-  portraitColor:ResourceColor = Color.Black;
-}
-
 /**
  * Select the contact item component, which is responsible for displaying a single contact.
  */

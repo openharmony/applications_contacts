@@ -39,7 +39,7 @@ export default class CallRecordPresenter {
   limit: number = 0;
   context: Context | undefined = undefined;
   worker: WorkerWrapper | undefined;
-  refreshState: (business: string) => void = () => {
+  public refreshState: (business: string) => void = () => {
   };
   loading: boolean = false;
   callLogListPages: Array = [];

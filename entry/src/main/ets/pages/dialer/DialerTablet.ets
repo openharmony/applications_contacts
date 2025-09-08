@@ -18,7 +18,7 @@ import { HiLog } from 'common/src/main/ets/util/HiLog';
 import DialerPresenter from '../../presenter/dialer/DialerPresenter';
 import EnvironmentProp from '../../feature/EnvironmentProp';
 
-class callmenuFn {
+class CallmenuFn {
   value: string = '';
   action: () => void = ()=>{}
   constructor(value:string,action:() => void) {
@@ -212,16 +212,16 @@ export default struct CallTablet {
   }
 
 getMenu() {
-let tmpPhoneMenu: callmenuFn[] = [];
+let tmpPhoneMenu: CallmenuFn[] = [];
 this.menuRes.forEach(element => {
-tmpPhoneMenu.push(new callmenuFn(element.bundleName,() => {
+tmpPhoneMenu.push(new CallmenuFn(element.bundleName,() => {
 }));
 });
 this.callmenu = tmpPhoneMenu;
 this.menuRes.forEach((element, i) => {
 globalThis.context.resourceManager.getString(element.id, (err: Error, typeName: string) => {
 HiLog.i(TAG, typeName);
-this.callmenu[i] = new callmenuFn(typeName,() => {
+this.callmenu[i] = new CallmenuFn(typeName,() => {
 });
 });
 });

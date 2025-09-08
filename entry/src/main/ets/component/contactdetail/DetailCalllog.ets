@@ -28,7 +28,7 @@ class CallLogObj{
   timeDetail:string = '';
   formatNumber:string = '';
   simId:number = -1;
-  talkTime:string = '';
+  public talkTime:string = '';
   constructor(dateDetail: string) {
     this.dateDetail = dateDetail;
   }

@@ -165,7 +165,8 @@ export class MissedCallService {
             displayName = numberMap.get(callLog.phoneNumber) as string;
           }
           if (!missedData.has(displayName)) {
-            missedData.set(displayName, new MissedCallNotifyData(callLog.id, displayName, callLog.phoneNumber, 1, callLog.createTime, callLog.ringDuration));
+            missedData.set(displayName, new MissedCallNotifyData(callLog.id, displayName, callLog.phoneNumber,
+              1, callLog.createTime, callLog.ringDuration));
           } else {
             let missDataByName = missedData.get(displayName);
             if (missDataByName != undefined) {

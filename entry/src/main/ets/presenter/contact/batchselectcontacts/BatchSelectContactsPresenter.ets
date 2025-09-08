@@ -947,43 +947,6 @@ class eventObj{
   }
 }
 
-class itemVo{
-  public emptyNameData:string = '';
-  public name:nameVo = {
-    searchTextStart: '',
-    searchTextMiddle: '',
-    searchTextEnd: '',
-    fullName: '',
-    namePrefix: '',
-    nameSuffix: ''
-  };
-  public phoneNumbers:phoneNumberObj[] = []
-
-  public namePrefix:string = '';
-  public nameSuffix:string = '';
-
-}
-
-class phoneNumberObj{
-  public phoneNumber:string = '';
-  public startPhone:string = '';
-  public middlePhone:string = '';
-  public endPhone:string = '';
-  public checked:boolean = false;
-  public labelName:Resource|undefined = undefined;
-  public numType:string = '';
-
-}
-
-class nameVo{
-  public searchTextStart:string = '';
-  public searchTextMiddle:string = '';
-  public searchTextEnd:string = '';
-  public fullName:string = '';
-  public namePrefix:string = '';
-  public nameSuffix:string = '';
-}
-
 export class TabInfo {
   tabIndex: number = 0;
   recentTotal: number = 0;

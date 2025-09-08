@@ -29,7 +29,7 @@ export class CallLog {
   readonly phoneNumber: string;
   readonly displayName: string;
   readonly callDirection: number;
-  readonly voicemailUri: string = "";
+  readonly voicemailUri: string = '';
   readonly simId: number;
   readonly simType: number;
   readonly isHD: boolean;

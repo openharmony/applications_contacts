@@ -84,7 +84,7 @@ export class ContactVo {
   }
 }
 
-export class phoneNumberObj {
+export class PhoneNumberObj {
   public phoneNumber: string = '';
   public startPhone: string = '';
   public middlePhone: string = '';

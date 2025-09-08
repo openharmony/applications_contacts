@@ -381,7 +381,8 @@ struct Content {
         }
       }
       .onAreaChange((oldArea: Area, newArea: Area) => {
-        this.mPresenter.changeTopBarBackgroundColor(newArea.globalPosition.y !== undefined ? newArea.globalPosition.y <= -260 : false)
+        this.mPresenter.changeTopBarBackgroundColor(newArea.globalPosition.y !== undefined ?
+          newArea.globalPosition.y <= -260 : false)
       })
 
       ListItemGroup() {

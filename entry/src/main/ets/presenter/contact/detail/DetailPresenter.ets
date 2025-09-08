@@ -617,7 +617,7 @@ updateContact() {
 
 clearAllCallLog() {
   let id: number = -1;
-  let ids: Array<number> = [];
+  let ids: number[] = [];
   for (let index = 0; index < this.detailCallLogDataSource.totalCount(); index++) {
     id = this.detailCallLogDataSource.getData(index)?.callLog.id;
     ids.push(id);
