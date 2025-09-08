@@ -28,7 +28,7 @@ import AlphabetIndexerPresenter from '../alphabetindex/AlphabetIndexerPresenter'
 import { FavoriteBean } from '../../../model/bean/FavoriteBean';
 import MergedCallLog from '../../../../../../../feature/call/src/main/ets/entity/MergedCallLog';
 
-class callLogTempObj{
+class CallLogTempObj{
   public checked:boolean = false;
   public phoneNumber:number = 0;
   public displayName:string = '';
@@ -48,7 +48,7 @@ class phoneNumber{
   public checked:boolean = false;
 }
 
-class checkedVo{
+class CheckedVo{
   public name:string = '';
   public number:number = 0;
   constructor(name:string,number:number) {
@@ -111,7 +111,7 @@ export default class BatchSelectContactsPresenter {
   // Search Keyword
   searchText: string = '';
   // Selected data for the current population，key:phone number，value:name and number
-  selectedNumberMap: Map<string,checkedVo>=new Map();
+  selectedNumberMap: Map<string,CheckedVo>=new Map();
   // Whether to display the search list
   searchLayoutShow: boolean = false;
   selectDisabled: boolean = true;
@@ -229,8 +229,8 @@ export default class BatchSelectContactsPresenter {
   }
 
   comfirm() {
-    let checkedList:checkedVo[] = [];
-    this.selectedNumberMap.forEach((value:checkedVo) => {
+    let checkedList:CheckedVo[] = [];
+    this.selectedNumberMap.forEach((value:CheckedVo) => {
       checkedList.push(value);
     });
     let contacts = this.dealContactName(checkedList);
@@ -282,10 +282,10 @@ export default class BatchSelectContactsPresenter {
     return contacts;
   }
 
-  dealContactName(checkedList: checkedVo[]) {
-    let contacts:checkedVo[] = [];
+  dealContactName(checkedList: CheckedVo[]) {
+    let contacts:CheckedVo[] = [];
     for (let item of checkedList) {
-      contacts.push(new checkedVo(item.name,item.number));
+      contacts.push(new CheckedVo(item.name,item.number));
     }
     return contacts;
   }
@@ -461,7 +461,7 @@ export default class BatchSelectContactsPresenter {
   onSingleContactItemClick(num: number, name: string, item: ContactVo) {
     HiLog.i(TAG, 'onSingleContactItemClick in ');
     this.selectedNumberMap.set(num.toString(),
-      new checkedVo(name,num));
+      new CheckedVo(name,num));
     if (0 === this.editContact || 1 === this.editContact || 2 === this.editContact) {
       this.updateContact(item.contactId);
     } else {
@@ -655,7 +655,7 @@ export default class BatchSelectContactsPresenter {
       return;
     }
     this.selectedNumberMap.set((keyOrId + number.replace(/\s+/g, '')),
-      new checkedVo(name,Number.parseInt(number.replace(/\s+/g, '')))
+      new CheckedVo(name,Number.parseInt(number.replace(/\s+/g, '')))
     );
     this.updataConnectedContact(number, name, isCalllogs, keyOrId, true);
   }

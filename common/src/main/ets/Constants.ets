@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 class EventClass {
-  NEW_WANT: number;
+  public NEW_WANT: number;
 
   constructor() {
     this.NEW_WANT = 1;
