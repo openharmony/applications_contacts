@@ -18,7 +18,7 @@ import { CallLog } from '../entity/CallLog';
 @Observed
 export default class MergedCallLog {
   id: number;
-  createTime: string | Resource = "";
+  createTime: string | Resource = '';
   count: number = 0;
   ids: number[];
   isHD: boolean;

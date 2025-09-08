@@ -422,8 +422,9 @@ export default class DetailPresenter {
       /* Encapsulate the attributes required on the detail page based on the obtained raw call record data. */
     }
     // Processing Initialization Data
-    this.showNameLastMenu = (this.contactForm.displayName != undefined && this.contactForm.displayName.toString().length > 6)
-      ? this.subStringWithEllipsis(this.contactForm.displayName.toString(), 7) : this.contactForm.displayName.toString();
+    this.showNameLastMenu = (this.contactForm.displayName != undefined && this.contactForm.displayName.toString().
+    length > 6)? this.subStringWithEllipsis(this.contactForm.displayName.toString(), 7) : this.contactForm.
+    displayName.toString();
   }
 
   // Obtains call records and assembles parameters when the call is not a contact.
@@ -755,5 +756,5 @@ saveExistingContact() {
 
 class MenusObj{
   value:string = '';
-  action: () => void = ()=>{}
+  public action: () => void = ()=>{}
 }

@@ -49,7 +49,7 @@ export default class CallRecordPresenter {
   tabIndex: number = 0;
   initStarted: boolean = false;
   taskId: number = -1;
-  onCallsChange = () => {
+  public onCallsChange = () => {
     HiLog.i(TAG, 'onCallsChange refresh');
     this.setDelayTask();
   }

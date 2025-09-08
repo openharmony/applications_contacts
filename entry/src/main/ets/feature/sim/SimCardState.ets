@@ -25,7 +25,7 @@ export const simId_TWO: number = 1;
 const TAG = 'SimCardState';
 
 class SimCardState {
-  mListener: () => void = () => {
+  public mListener: () => void = () => {
   };
   mSimStateArray: Array<telephonySim.SimState> =
     [telephonySim.SimState.SIM_STATE_UNKNOWN, telephonySim.SimState.SIM_STATE_UNKNOWN];

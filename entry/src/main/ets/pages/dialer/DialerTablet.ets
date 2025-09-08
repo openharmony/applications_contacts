@@ -19,8 +19,8 @@ import DialerPresenter from '../../presenter/dialer/DialerPresenter';
 import EnvironmentProp from '../../feature/EnvironmentProp';
 
 class CallmenuFn {
-  value: string = '';
-  action: () => void = ()=>{}
+  public value: string = '';
+  public action: () => void = ()=>{}
   constructor(value:string,action:() => void) {
     this.value = value;
     this.action = action;

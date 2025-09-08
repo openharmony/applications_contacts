@@ -1,6 +1,6 @@
-import { ContactVo } from "./bean/ContactVo";
+import { ContactVo } from './bean/ContactVo';
 import common from '@ohos.app.ability.common';
-import { RichContactInfo } from "./bean/RichContactInfo";
+import { RichContactInfo } from './bean/RichContactInfo';
 
 export interface BatchSelectContact {
   showIndex: boolean,

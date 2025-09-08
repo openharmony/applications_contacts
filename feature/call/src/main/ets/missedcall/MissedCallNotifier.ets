@@ -42,7 +42,8 @@ export class MissedCallNotifyData {
   createTime?: number;
   ringDuration?: number;
 
-  constructor(id: number, displayName: string, phoneNumber: string, count: number, createTime: number, ringDuration: number) {
+  constructor(id: number, displayName: string, phoneNumber: string, count: number,
+    createTime: number, ringDuration: number) {
     this.id = id;
     this.displayName = displayName;
     this.phoneNumber = phoneNumber;
@@ -248,7 +249,8 @@ const parameters: LooseObject = JSON.parse(JSON.stringify(missCallData));
 for (let i = 0; i < parameters.phoneNumberList.length; i++) {
 const missedPhoneNumber = parameters.phoneNumberList[i] as string
 if (i === (parameters.phoneNumberList.length - 1)) {
-this.UnReadMissedCallData = new MissedCallNotifyData(i, missedPhoneNumber, missedPhoneNumber, count, createTime, ringDuration);
+this.UnReadMissedCallData = new MissedCallNotifyData(i, missedPhoneNumber, missedPhoneNumber, count,
+  createTime, ringDuration);
 } else {
 this.UnReadMissedCallData = new MissedCallNotifyData(i, missedPhoneNumber, missedPhoneNumber, count, createTime, 0);
 }

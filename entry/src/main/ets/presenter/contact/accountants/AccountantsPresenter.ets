@@ -306,7 +306,7 @@ export default class AccountantsPresenter {
   }
 
   public getArray(array: Array<LooseObject>): Array<LooseObject> {
-    let itemList: Array<LooseObject> = array;
+    let itemList: LooseObject[] = array;
     if (ArrayUtil.isEmpty(itemList)) {
       itemList = [];
     }

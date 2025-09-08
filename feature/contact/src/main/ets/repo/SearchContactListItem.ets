@@ -20,8 +20,9 @@ import DataShareResultSet from '@ohos.data.DataShareResultSet';
 
 export default class SearchContactListItem {
   static readonly COLUMNS: string[] = [SearchContacts.ID, SearchContacts.ACCOUNT_ID, SearchContacts.CONTACT_ID,
-    SearchContacts.ROW_CONTACT_ID, SearchContacts.SEARCH_NAME, SearchContacts.DISPLAY_NAME, SearchContacts.PHONETIC_NAME,
-    SearchContacts.PHOTO_ID, SearchContacts.PHOTO_FILE_ID, SearchContacts.IS_DELETED, SearchContacts.POSITION,
+    SearchContacts.ROW_CONTACT_ID, SearchContacts.SEARCH_NAME, SearchContacts.DISPLAY_NAME,
+    SearchContacts.PHONETIC_NAME,SearchContacts.PHOTO_ID, SearchContacts.PHOTO_FILE_ID,
+    SearchContacts.IS_DELETED, SearchContacts.POSITION,
     SearchContacts.PHOTO_FIRST_NAME, SearchContacts.SORT_FIRST_LETTER, SearchContacts.CUSTOM_DATA,
     SearchContacts.DETAIL_INFO, SearchContacts.CONTENT_TYPE, SearchContacts.HAS_PHONE_NUMBER];
   readonly id: number;

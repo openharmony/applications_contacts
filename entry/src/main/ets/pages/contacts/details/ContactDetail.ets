@@ -32,10 +32,10 @@ class paramsObj {
 
 class LooseObject {
   showTitle: string = '';
-  callLog: CallLogBean = new CallLogBean('', '', '', '');
+  public callLog: CallLogBean = new CallLogBean('', '', '', '');
 }
 
-class callLog {
+class CallLog {
 }
 
 const TAG = 'ContactDetail';

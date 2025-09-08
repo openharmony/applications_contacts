@@ -144,7 +144,8 @@ export class CallLogRepository implements ICallLogRepository {
     this.getDataAbilityHelper().then((dataAbilityHelper: dataShare.DataShareHelper) => {
       let condition = new dataSharePredicates.DataSharePredicates();
       let offset =
-        actionData.page != undefined && actionData.page < 3 ? (actionData.page - 1) * 50 : (actionData.page != undefined ? actionData.page - 2 : 1) * 500 + 50;
+        actionData.page != undefined && actionData.page < 3 ? (actionData.page - 1) * 50 :
+          (actionData.page != undefined ? actionData.page - 2 : 1) * 500 + 50;
       condition.limit(actionData.limit, offset);
       condition.orderByDesc(Calls.CREATE_TIME);
       dataAbilityHelper.query(Calls.CALL_LOG_URI, condition, null).then((resultSet: DataShareResultSet) => {

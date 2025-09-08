@@ -231,7 +231,7 @@ export class ContackPhoneSubInfoModel extends BaseContackSubInfoModel {
   phoneAddress?: string | Resource;
   primary?: boolean;
   dataId?: number;
-  formatNum?: string;
+  public formatNum?: string;
 }
 
 export class FavoriteFormType {

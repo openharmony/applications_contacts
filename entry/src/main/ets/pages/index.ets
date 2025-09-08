@@ -33,7 +33,7 @@ const TAG = 'Index ';
 class DeviceObj{
   windowHeight:number = -1;
   screenDensity:number = -1;
-  data:string[] = [];
+  public data:string[] = [];
 
 }
 

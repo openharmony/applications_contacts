@@ -73,7 +73,8 @@ export class DataWorkerTask extends WorkerTask {
     HiLog.i(TAG, `runInWorker ${request}`)
     switch (request) {
       case DataWorkerConstant[DataWorkerConstant.getAllCalls]:
-        CallLog.getAllCalls(JSON.parse(param?.favoriteForm), param?.actionData, param?.mergeRule, (data: CallInfoGetParamsInCallback) => {
+        CallLog.getAllCalls(JSON.parse(param?.favoriteForm), param?.actionData, param?.mergeRule,
+          (data: CallInfoGetParamsInCallback) => {
           HiLog.i(TAG, `getAllCalls result: ${JSON.stringify(data).length}`)
           callBack(data);
         }, param?.context);
@@ -144,7 +145,8 @@ export class DataWorkerTask extends WorkerTask {
         }, param?.context)
         break
       case DataWorkerConstant[DataWorkerConstant.getDisplayNamesFindUsually]:
-        ContactAbilityModel.getDisplayNamesFindUsually(param?.displayName, param?.usuallyPhone, (result: FavoriteBean[]) => {
+        ContactAbilityModel.getDisplayNamesFindUsually(param?.displayName, param?.usuallyPhone,
+          (result: FavoriteBean[]) => {
           callBack(result);
         }, param?.context)
         break

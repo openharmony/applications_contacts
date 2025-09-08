@@ -130,24 +130,24 @@ class ContactAbilityModel {
    * @param {Object} addParams Contact Information
    * @param {boolean} isCard Indicates whether the information is a business card.
    */
-  dealParam(DAHelper: dataShare.DataShareHelper | null, addParams: ContactInfo, isCard: boolean,
+  dealParam(daHelper: dataShare.DataShareHelper | null, addParams: ContactInfo, isCard: boolean,
     callBack: Function | undefined) {
-    if (DAHelper != null || DAHelper != undefined) {
+    if (daHelper != null || daHelper != undefined) {
       let result = addParams.id;
       let uri = isCard ? PROFILE_CONTACT_DATA_URI : Data.CONTENT_URI;
 
-      this.dataContact(addParams, DAHelper, result, uri);
-      this.organizationContact(addParams, DAHelper, result, uri);
-      this.noteContact(addParams, DAHelper, result, uri);
-      this.phoneContact(addParams, DAHelper, result, uri);
-      this.emailContact(addParams, DAHelper, result, uri);
-      this.postalContact(addParams, DAHelper, result, uri);
-      this.eventContact(addParams, DAHelper, result, uri);
-      this.imContact(addParams, DAHelper, result, uri);
-      this.groupsContact(addParams, DAHelper, result, uri);
-      this.websiteContact(addParams, DAHelper, result, uri);
-      this.nickContact(addParams, DAHelper, result, uri);
-      this.relationsContact(addParams, DAHelper, result, uri);
+      this.dataContact(addParams, daHelper, result, uri);
+      this.organizationContact(addParams, daHelper, result, uri);
+      this.noteContact(addParams, daHelper, result, uri);
+      this.phoneContact(addParams, daHelper, result, uri);
+      this.emailContact(addParams, daHelper, result, uri);
+      this.postalContact(addParams, daHelper, result, uri);
+      this.eventContact(addParams, daHelper, result, uri);
+      this.imContact(addParams, daHelper, result, uri);
+      this.groupsContact(addParams, daHelper, result, uri);
+      this.websiteContact(addParams, daHelper, result, uri);
+      this.nickContact(addParams, daHelper, result, uri);
+      this.relationsContact(addParams, daHelper, result, uri);
 
       if (callBack != undefined) {
         HiLog.d(TAG, 'Start the callback function.');
@@ -623,12 +623,14 @@ class ContactAbilityModel {
    * @param {Object} callBack 回调
    * @param {Object} addParams  Contact Information
    */
-  getAllContactWithPhoneNumbers(callBack: Function, addParams: AllContactWithPhoneNumbersGetParam, context?: common.UIAbilityContext | Context) {
+  getAllContactWithPhoneNumbers(callBack: Function, addParams: AllContactWithPhoneNumbersGetParam,
+    context?: common.UIAbilityContext | Context) {
     HiLog.i(TAG, 'Start to query all contacts with PhoneNumbers');
     if (context) {
       ContactRepository.getInstance().init(context);
     }
-    ContactRepository.getInstance().findByPhoneIsNotNull(addParams.favorite, addParams.editContact, (contactList: ContactVo[]) => {
+    ContactRepository.getInstance().findByPhoneIsNotNull(addParams.favorite, addParams.editContact,
+      (contactList: ContactVo[]) => {
       if (ArrayUtil.isEmpty(contactList)) {
         HiLog.i(TAG, 'getAllContactWithPhoneNumbers-SelectcontactsModel queryContact resultSet is empty!');
         let emptyResult: ContactVo[] = [];
@@ -710,7 +712,8 @@ class ContactAbilityModel {
         }
         break;
       case DataItemType.EMAIL:
-        let email_element: EmailBean = new EmailBean(dataItem.getLabelId() as string, dataItem.getData() as string, dataItem.getLabelName() as string);
+        let email_element: EmailBean = new EmailBean(dataItem.getLabelId() as string, dataItem.getData() as string,
+          dataItem.getLabelName() as string);
         if (contactDetailInfo.emails) {
           contactDetailInfo.emails.push(email_element);
         } else {
@@ -777,7 +780,8 @@ class ContactAbilityModel {
    * @param {Object} addParams  Contact Information
    * @param {Object} callBack Contact ID
    */
-  async updateContact(DAHelper: dataShare.DataShareHelper | null, addParams: ContactInfo, callBack: Function, context?: common.UIAbilityContext | Context) {
+  async updateContact(DAHelper: dataShare.DataShareHelper | null, addParams: ContactInfo, callBack: Function,
+    context?: common.UIAbilityContext | Context) {
     HiLog.i(TAG, 'Start to update contacts.');
     try {
       if (DAHelper == undefined || DAHelper == null) {
@@ -849,7 +853,8 @@ class ContactAbilityModel {
    * @param {Object} addParams  Contact Information
    * @param {Object} callBack Contact ID
    */
-  async updateFavorite(daHelper: dataShare.DataShareHelper | null, addParams: Record<string, string | number>, callBack: Function,
+  async updateFavorite(daHelper: dataShare.DataShareHelper | null, addParams: Record<string, string | number>,
+    callBack: Function,
     context?: common.UIAbilityContext | Context) {
     HiLog.i(TAG, 'updateFavorite start.');
     if (daHelper == undefined || daHelper == null) {
@@ -943,11 +948,13 @@ class ContactAbilityModel {
    * @param {Object} addParams Contact Information
    * @param {Object} callBack Contact Information
    */
-  async getDisplayNamesFindUsually(displayName: ValueType[], usuallyPhone: ValueType[], callBack: Function, context?: common.UIAbilityContext | Context) {
+  async getDisplayNamesFindUsually(displayName: ValueType[], usuallyPhone: ValueType[], callBack: Function, context?:
+  common.UIAbilityContext | Context) {
     HiLog.i(TAG, 'getDisplayNamesFindUsually start.');
     if (context) {
       ContactRepository.getInstance().init(context);
-      ContactRepository.getInstance().getDisplayNameByFavorite(displayName, usuallyPhone, (favoriteList: ContactUsuallyListItem[]) => {
+      ContactRepository.getInstance().getDisplayNameByFavorite(displayName, usuallyPhone, (favoriteList:
+        ContactUsuallyListItem[]) => {
         if (ArrayUtil.isEmpty(favoriteList)) {
           let emptyResult: FavoriteBean[] = [];
           callBack(emptyResult);
@@ -982,7 +989,8 @@ class ContactAbilityModel {
    * @param {Object} addParams Contact Information
    * @param {Object} callBack favoriteOrder
    */
-  async moveSortFavorite(DAHelper: dataShare.DataShareHelper | null, addParams: LooseObject, callBack: Function, context?: common.UIAbilityContext | Context) {
+  async moveSortFavorite(DAHelper: dataShare.DataShareHelper | null, addParams: LooseObject, callBack: Function,
+    context?: common.UIAbilityContext | Context) {
     HiLog.i(TAG, 'moveSortFavorite start.');
     if (DAHelper == undefined || DAHelper == null) {
       DAHelper = await dataShare.createDataShareHelper(context ? context : globalThis.context, Contacts.CONTENT_URI);
@@ -1015,7 +1023,8 @@ class ContactAbilityModel {
    * @param {string} DAHelper
    * @param {Object} callBack
    */
-  async getSearchContact(actionData: IContactSearchParams, callBack: Function, context?: common.UIAbilityContext | Context) {
+  async getSearchContact(actionData: IContactSearchParams, callBack: Function, context?:
+  common.UIAbilityContext | Context) {
     HiLog.i(TAG, 'getSearchContact start.');
     if (context) {
       ContactRepository.getInstance().init(context);
@@ -1052,7 +1061,8 @@ class ContactAbilityModel {
       HiLog.i(TAG, 'getSearchContact end.');
     })
   }
-  getQueryT9PhoneNumbers(callBack: Function, addParams: IT9PhoneNumbersQueryParams, context?: common.UIAbilityContext | Context) {
+  getQueryT9PhoneNumbers(callBack: Function, addParams: IT9PhoneNumbersQueryParams, context?:
+  common.UIAbilityContext | Context) {
     if (context) {
       ContactRepository.getInstance().init(context);
     }

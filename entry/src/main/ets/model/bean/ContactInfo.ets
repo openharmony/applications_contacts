@@ -41,8 +41,9 @@ export class ContactInfo {
   otherLanLastName: string = '';
   otherLanFirstName: string = '';
 
-  constructor(id: string, display_name: string, nickname: string, phones: PhoneNumBean[], emails: EmailBean[], position: string, company: string,
-    remarks: string, aims: AIMBean[], houses: HouseBean[], websites: string[], relationships: AssociatedPersonBean[], events: EventBean[], groups: GroupBean[],
+  constructor(id: string, display_name: string, nickname: string, phones: PhoneNumBean[], emails: EmailBean[],
+    position: string, company: string, remarks: string, aims: AIMBean[], houses: HouseBean[], websites: string[],
+    relationships: AssociatedPersonBean[], events: EventBean[], groups: GroupBean[],
     favorite: number, phoneticName: string, otherLanLastName: string, otherLanFirstName: string) {
     this.id = id;
     this.display_name = display_name;

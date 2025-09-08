@@ -41,7 +41,7 @@ class ExportClass {
   appUseDataWorker: string = 'appUseDataWorker';
   event: EventClass = new EventClass();
   storage: StorageClass = new StorageClass();
-  config: ConfigClass = {
+  public config: ConfigClass = {
     useDataWorker: false,
     needCache: false
   };

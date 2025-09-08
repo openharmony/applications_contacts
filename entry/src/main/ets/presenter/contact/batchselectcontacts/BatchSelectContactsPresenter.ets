@@ -454,7 +454,7 @@ export default class BatchSelectContactsPresenter {
   onRecentItemClicked(index: number) {
     HiLog.i(TAG, 'onRecentItemClicked index is %s', index.toString());
     this.checkStateChange(index,
-      new eventObj(0,0,!(this.callLogTemp[index].checked))
+      new EventObj(0,0,!(this.callLogTemp[index].checked))
     );
   }
 
@@ -472,12 +472,13 @@ export default class BatchSelectContactsPresenter {
   onContactItemClicked(index: number, indexChild: number) {
     HiLog.i(TAG, 'onContactItemClicked index is ' + index);
     HiLog.i(TAG, 'onContactItemClicked indexChild is ' + indexChild);
-    let event = new eventObj(index,indexChild,this.searchLayoutShow ? !(this.searchContactList[index].phoneNumbers[indexChild].checked)
+    let event = new EventObj(index,indexChild,this.searchLayoutShow ? !(this.searchContactList[index].
+    phoneNumbers[indexChild].checked)
       : !(this.contactsList[index].phoneNumbers[indexChild].checked));
     this.checkStateChange(index, event);
   }
 
-  checkStateChange(index:number, event:eventObj) {
+  checkStateChange(index:number, event:EventObj) {
     HiLog.i(TAG, 'checkStateChange event: ' + JSON.stringify(event));
     switch (this.tabInfo.tabIndex) {
       case 0:
@@ -492,11 +493,11 @@ export default class BatchSelectContactsPresenter {
     this.refreshPageMessage();
   }
 
-  changeContactState(event:eventObj) {
+  changeContactState(event:EventObj) {
     this.checkStateChange(event.contactIndex, event);
   }
 
-  changeCallLogItemState(index:number, event:eventObj) {
+  changeCallLogItemState(index:number, event:EventObj) {
     HiLog.i(TAG, 'changeCallLogItemState event : ' + JSON.stringify(event));
     if (this.callLogTemp[index]) {
       this.callLogTemp[index].checked = event.checked;
@@ -512,7 +513,7 @@ export default class BatchSelectContactsPresenter {
     }
   }
 
-  changeContactsItemState(index:number, event:eventObj) {
+  changeContactsItemState(index:number, event:EventObj) {
     HiLog.i(TAG, 'SHOW changeContactsItemState searchLayoutShow');
     let contactId = '';
     if (!this.contactsInfo.searchLayoutShow) {
@@ -523,7 +524,7 @@ export default class BatchSelectContactsPresenter {
     this.checkContactsCount(event, contactId);
   }
 
-  checkContactsCount(event:eventObj, contactId:string) {
+  checkContactsCount(event:EventObj, contactId:string) {
     HiLog.i(TAG, 'SHOW checkContactsCount searchLayoutShow');
     if (this.contactsInfo.searchLayoutShow) {
       this.contactsInfo.searchContactList.forEach(element => {
@@ -933,7 +934,7 @@ class childEle{
   public phoneNumber:string = '';
 }
 
-class eventObj{
+class EventObj{
   public fullName:string = '';
   public namePrefix:string = '';
   public nameSuffix:string = '';

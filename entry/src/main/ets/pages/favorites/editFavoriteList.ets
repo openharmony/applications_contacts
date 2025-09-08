@@ -34,7 +34,7 @@ class Favorite{
   public selectFavoriteBean: FavoriteBean|undefined = undefined;
 }
 
-class extraParamsObj{
+class ExtraParamsObj{
   public insertIndex:number = 0;
 
 }
@@ -202,7 +202,7 @@ struct FavoriteContent {
             .listDirection(Axis.Vertical)
             .edgeEffect(EdgeEffect.Spring)
             .onDrop((event: DragEvent, extraParams: string) => {
-              let jsonString = JSON.parse(extraParams) as extraParamsObj;
+              let jsonString = JSON.parse(extraParams) as ExtraParamsObj;
               if (jsonString.insertIndex >= this.favoriteNumber) {
                 return;
               }

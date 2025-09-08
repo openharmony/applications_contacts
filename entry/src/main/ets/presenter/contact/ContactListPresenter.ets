@@ -71,9 +71,9 @@ export default class ContactListPresenter {
   inputKeyword: string = '';
   contactList: ContactVo[] = [];
   alphabetIndexPresenter: AlphabetIndexerPresenter = AlphabetIndexerPresenter.getInstance();
-  refreshState?: () => void = () => {
+  public refreshState?: () => void = () => {
   }
-  onContactChange = () => {
+  public onContactChange = () => {
     HiLog.i(TAG, 'onContactChange refresh');
     this.setDelayTask();
   }
