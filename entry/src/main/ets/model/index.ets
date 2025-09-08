@@ -126,8 +126,8 @@ export interface TargetPageInter {
 }
 
 export class DetailInfo {
-  id:number = -1;
-  data: string = '';
-  labelName: Resource|string = '';
-  type: number | undefined = -1;
+  public id:number = -1;
+  public data: string = '';
+  public labelName: Resource|string = '';
+  public type: number | undefined = -1;
 }

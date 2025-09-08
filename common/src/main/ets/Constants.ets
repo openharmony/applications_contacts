@@ -21,9 +21,9 @@ class EventClass {
 }
 
 class StorageClass {
-  mainTabsIndex: string;
-  teleNumber: string;
-  targetPage: string;
+  public mainTabsIndex: string;
+  public teleNumber: string;
+  public targetPage: string;
 
   constructor() {
     this.mainTabsIndex = 'mainTabsIndex';

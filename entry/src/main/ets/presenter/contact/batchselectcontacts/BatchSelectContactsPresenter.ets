@@ -57,7 +57,7 @@ class checkedVo{
   }
 }
 
-class favoriteForm{
+class FavoriteForm{
 
 }
 
