@@ -33,7 +33,7 @@ class MissedCallManager {
 
   cancelNotification(data?: Object) {
     commonEvent.publish('contact.event.CANCEL_MISSED', {
-      bundleName: 'com.ohos.contacts',
+      subscriberPermissions: ['ohos.permission.READ_CALL_LOG'],
       parameters: {
         missedCallData: data
       }
