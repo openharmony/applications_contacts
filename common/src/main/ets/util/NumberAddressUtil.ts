@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import numberLookup from '@ohos.telephony.numberLookup';
+// import numberLookup from '@ohos.telephony.numberLookup';
 import { HiLog } from './HiLog';
 import call from '@ohos.telephony.call';
 
