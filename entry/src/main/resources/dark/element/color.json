@@ -1,0 +1,48 @@
+{
+  "color": [
+    {
+      "name": "icon_on_primary",
+      "value": "#E5E5E5"
+    },
+    {
+      "name": "start_window_background",
+      "value": "#000000"
+    },
+    {
+      "name": "detail_main_background",
+      "value": "#ff000000"
+    },
+    {
+      "name": "color_text_primary",
+      "value": "#E5000000"
+    },
+    {
+      "name": "mask_custom",
+      "value": "#0cFFFFFF"
+    },
+    {
+      "name": "color_select_list_bg",
+      "value": "#050C18"
+    },
+    {
+      "name": "call_phone_sharing_bg",
+      "value": "#1AFFFFFF"
+    },
+    {
+      "name": "color_paste_background",
+      "value": "#26317AF7"
+    },
+    {
+      "name": "color_paste_press_background",
+      "value": "#40317AF7"
+    },
+    {
+      "name": "color_bind_sheet_background",
+      "value": "#FF202224"
+    },
+    {
+      "name": "color_contact_card_bg",
+      "value": "#2E3033"
+    }
+  ]
+}

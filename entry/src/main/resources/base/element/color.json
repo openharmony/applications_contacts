@@ -1,12 +1,412 @@
 {
   "color": [
     {
+      "name": "skin_contacts_app_theme_color",
+      "value": "#FFFFFFFF"
+    },
+    {
       "name": "dialer_shadow_color",
       "value": "#D8D8D8"
     },
     {
       "name": "detail_main_background",
       "value": "#F1F3F5"
+    },
+    {
+      "name": "start_window_background",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "start_card_start_background",
+      "value": "#00FFFFFF"
+    },
+    {
+      "name": "start_card_window_background",
+      "value": "#4D262626"
+    },
+    {
+      "name": "start_dialogWindow_background",
+      "value": "#00FFFFFF"
+    },
+    {
+      "name": "icon_on_primary",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "index_text_background",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "alphabet_selected_background_color",
+      "value": "#1A0A59F7"
+    },
+    {
+      "name": "skin_ohos_id_color_foreground_contrary_disable",
+      "value": "$ohos:color:ohos_id_color_foreground_contrary_disable"
+    },
+    {
+      "name": "skin_list_scroll_color",
+      "value": "#000000"
+    },
+    {
+      "name": "color_text_primary",
+      "value": "#E5000000"
+    },
+    {
+      "name": "mask_custom",
+      "value": "#19000000"
+    },
+    {
+      "name": "background_last_white",
+      "value": "#ffffff"
+    },
+    {
+      "name": "skin_background_primary",
+      "value": "$ohos:color:background_primary"
+    },
+    {
+      "name": "skin_icon_primary",
+      "value": "$ohos:color:icon_primary"
+    },
+    {
+      "name": "skin_ohos_id_color_button_normal",
+      "value": "$ohos:color:ohos_id_color_button_normal"
+    },
+    {
+      "name": "skin_confirm",
+      "value": "$ohos:color:confirm"
+    },
+    {
+      "name": "skin_ohos_id_color_connected",
+      "value": "$ohos:color:ohos_id_color_connected"
+    },
+    {
+      "name": "skin_comp_background_tertiary",
+      "value": "$ohos:color:comp_background_tertiary"
+    },
+    {
+      "name": "skin_ohos_id_color_sub_background",
+      "value": "$ohos:color:ohos_id_color_sub_background"
+    },
+    {
+      "name": "skin_comp_background_primary",
+      "value": "$ohos:color:comp_background_primary"
+    },
+    {
+      "name": "skin_warning",
+      "value": "$ohos:color:warning"
+    },
+    {
+      "name": "skin_font_primary",
+      "value": "$ohos:color:font_primary"
+    },
+    {
+      "name": "skin_font_secondary",
+      "value": "$ohos:color:font_secondary"
+    },
+    {
+      "name": "skin_icon_tertiary",
+      "value": "$ohos:color:icon_tertiary"
+    },
+    {
+      "name": "skin_ohos_id_color_text_secondary",
+      "value": "$ohos:color:ohos_id_color_text_secondary"
+    },
+    {
+      "name": "skin_ohos_id_color_foreground_contrary",
+      "value": "$ohos:color:ohos_id_color_foreground_contrary"
+    },
+    {
+      "name": "skin_ohos_id_color_fourth",
+      "value": "$ohos:color:ohos_id_color_fourth"
+    },
+    {
+      "name": "skin_ohos_id_color_list_card_bg",
+      "value": "$ohos:color:ohos_id_color_list_card_bg"
+    },
+    {
+      "name": "skin_ohos_id_color_warning",
+      "value": "$ohos:color:ohos_id_color_warning"
+    },
+    {
+      "name": "skin_ohos_id_color_text_primary",
+      "value": "$ohos:color:ohos_id_color_text_primary"
+    },
+    {
+      "name": "skin_ohos_id_color_click_effect",
+      "value": "$ohos:color:ohos_id_color_click_effect"
+    },
+    {
+      "name": "skin_background_secondary",
+      "value": "$ohos:color:background_secondary"
+    },
+    {
+      "name": "skin_ohos_id_color_card_bg",
+      "value": "$ohos:color:ohos_id_color_card_bg"
+    },
+    {
+      "name": "skin_ohos_id_color_text_tertiary",
+      "value": "$ohos:color:ohos_id_color_text_tertiary"
+    },
+    {
+      "name": "skin_comp_emphasize_secondary",
+      "value": "$ohos:color:comp_emphasize_secondary"
+    },
+    {
+      "name": "skin_ohos_id_color_list_separator",
+      "value": "$ohos:color:ohos_id_color_list_separator"
+    },
+    {
+      "name": "skin_font_tertiary",
+      "value": "$ohos:color:font_tertiary"
+    },
+    {
+      "name": "skin_ohos_id_color_secondary",
+      "value": "$ohos:color:ohos_id_color_secondary"
+    },
+    {
+      "name": "skin_comp_divider",
+      "value": "$ohos:color:comp_divider"
+    },
+    {
+      "name": "skin_ohos_id_color_text_primary_activated",
+      "value": "$ohos:color:ohos_id_color_text_primary_activated"
+    },
+    {
+      "name": "skin_font_emphasize",
+      "value": "$ohos:color:font_emphasize"
+    },
+    {
+      "name": "skin_ohos_id_color_primary",
+      "value": "$ohos:color:ohos_id_color_primary"
+    },
+    {
+      "name": "skin_icon_secondary",
+      "value": "$ohos:color:icon_secondary"
+    },
+    {
+      "name": "skin_icon_on_primary",
+      "value": "$ohos:color:icon_on_primary"
+    },
+    {
+      "name": "skin_ohos_id_color_dialog_bg",
+      "value": "$ohos:color:ohos_id_color_dialog_bg"
+    },
+    {
+      "name": "skin_ohos_fa_text_primary",
+      "value": "$ohos:color:ohos_fa_text_primary"
+    },
+    {
+      "name": "skin_ohos_fa_text_secondary",
+      "value": "$ohos:color:ohos_fa_text_secondary"
+    },
+    {
+      "name": "skin_comp_emphasize_tertiary",
+      "value": "$ohos:color:comp_emphasize_tertiary"
+    },
+    {
+      "name": "skin_icon_fourth",
+      "value": "$ohos:color:icon_fourth"
+    },
+    {
+      "name": "skin_ohos_id_color_tertiary",
+      "value": "$ohos:color:ohos_id_color_tertiary"
+    },
+    {
+      "name": "skin_ohos_id_color_text_hint",
+      "value": "$ohos:color:ohos_id_color_text_hint"
+    },
+    {
+      "name": "skin_background_emphasize",
+      "value": "$ohos:color:background_emphasize"
+    },
+    {
+      "name": "skin_comp_background_emphasize",
+      "value": "$ohos:color:comp_background_emphasize"
+    },
+    {
+      "name": "skin_white",
+      "value": "$ohos:color:white"
+    },
+    {
+      "name": "skin_ohos_id_color_button_normal_dark",
+      "value": "$ohos:color:ohos_id_color_button_normal_dark"
+    },
+    {
+      "name": "skin_font_on_secondary",
+      "value": "$ohos:color:font_on_secondary"
+    },
+    {
+      "name": "skin_font_on_primary",
+      "value": "$ohos:color:font_on_primary"
+    },
+    {
+      "name": "skin_ohos_id_color_text_primary_contrary",
+      "value": "$ohos:color:ohos_id_color_text_primary_contrary"
+    },
+    {
+      "name": "skin_ohos_id_color_activated",
+      "value": "$ohos:color:ohos_id_color_activated"
+    },
+    {
+      "name": "skin_interactive_click",
+      "value": "$ohos:color:interactive_click"
+    },
+    {
+      "name": "skin_ohos_fa_icon_primary",
+      "value": "$ohos:color:ohos_fa_icon_primary"
+    },
+    {
+      "name": "skin_ohos_id_color_panel_bg",
+      "value": "$ohos:color:ohos_id_color_panel_bg"
+    },
+    {
+      "name": "skin_icon_emphasize",
+      "value": "$ohos:color:icon_emphasize"
+    },
+    {
+      "name": "skin_background_fourth",
+      "value": "$ohos:color:background_fourth"
+    },
+    {
+      "name": "skin_titlebar_icon_background_color",
+      "value": "$ohos:color:titlebar_icon_background_color"
+    },
+    {
+      "name": "skin_comp_background_list_card",
+      "value": "$ohos:color:comp_background_list_card"
+    },
+    {
+      "name": "skin_ohos_id_color_primary_contrary",
+      "value": "$ohos:color:ohos_id_color_primary_contrary"
+    },
+    {
+      "name": "skin_ohos_fa_background_blur",
+      "value": "$ohos:color:ohos_fa_background_blur"
+    },
+    {
+      "name": "skin_ohos_id_color_handup",
+      "value": "$ohos:color:ohos_id_color_handup"
+    },
+    {
+      "name": "skin_comp_background_gray",
+      "value": "$ohos:color:comp_background_gray"
+    },
+    {
+      "name": "skin_ohos_id_color_component_normal",
+      "value": "$ohos:color:ohos_id_color_component_normal"
+    },
+    {
+      "name": "skin_ohos_id_color_component_activated",
+      "value": "$ohos:color:ohos_id_color_component_activated"
+    },
+    {
+      "name": "skin_comp_background_primary_contrary",
+      "value": "$ohos:color:comp_background_primary_contrary"
+    },
+    {
+      "name": "skin_ohos_id_color_background_transparent",
+      "value": "$ohos:color:ohos_id_color_background_transparent"
+    },
+    {
+      "name": "skin_ohos_id_color_sub_background_dark",
+      "value": "$ohos:color:ohos_id_color_sub_background_dark"
+    },
+    {
+      "name": "skin_ohos_id_color_switch_outline_off",
+      "value": "$ohos:color:ohos_id_color_switch_outline_off"
+    },
+    {
+      "name": "skin_ohos_id_blur_style_component_ultra_thick_color",
+      "value": "$ohos:color:ohos_id_blur_style_component_ultra_thick_color"
+    },
+    {
+      "name": "color_btn",
+      "value": "#007DFF"
+    },
+    {
+      "name": "color_select_list_bg",
+      "value": "#E6EEFE"
+    },
+    {
+      "name": "skin_ohos_id_color_titlebar_icon",
+      "value": "$ohos:color:ohos_id_color_titlebar_icon"
+    },
+    {
+      "name": "skin_ohos_id_color_background",
+      "value": "$ohos:color:ohos_id_color_background"
+    },
+    {
+      "name": "skin_mask_fourth",
+      "value": "$ohos:color:mask_fourth"
+    },
+    {
+      "name": "skin_ohos_id_color_bottom_tab_icon_auxcolor_off02",
+      "value": "$ohos:color:ohos_id_color_bottom_tab_icon_auxcolor_off02"
+    },
+    {
+      "name": "skin_ohos_id_color_bottom_tab_icon_auxcolor_off01",
+      "value": "$ohos:color:ohos_id_color_bottom_tab_icon_auxcolor_off01"
+    },
+    {
+      "name": "call_phone_sharing_bg",
+      "value": "#0D000000"
+    },
+    {
+      "name": "color_share_background_gradient_0",
+      "value": "#C5DDFF"
+    },
+    {
+      "name": "color_share_background_gradient_1",
+      "value": "#EDF0F9"
+    },
+    {
+      "name": "color_share_portrait_background",
+      "value": "#0A59F7"
+    },
+    {
+      "name": "color_share_portrait_bg_gradient_0",
+      "value": "#33FFFFFF"
+    },
+    {
+      "name": "color_share_portrait_bg_gradient_1",
+      "value": "#99FFFFFF"
+    },
+    {
+      "name": "color_paste_background",
+      "value": "#1A0A59F7"
+    },
+    {
+      "name": "color_paste_press_background",
+      "value": "#330A59F7"
+    },
+    {
+      "name": "color_bind_sheet_background",
+      "value": "#FFF1F3F5"
+    },
+    {
+      "name": "color_contact_card_bg",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "color_meetime_text_light_green_default",
+      "value": "#41BA41"
+    },
+    {
+      "name": "color_meetime_selected_background",
+      "value": "#3341BA41"
+    },
+    {
+      "name": "color_meetime_popup_background",
+      "value": "#F2F2F2"
+    },
+    {
+      "name": "light_color",
+      "value": "#FF000000"
+    },
+    {
+      "name": "dark_color",
+      "value": "#FFFFFFFF"
     }
   ]
 }

@@ -1,12 +1,22 @@
 {
-  "modelVersion": "5.0.2",
-  "license": "ISC",
-  "devDependencies": {
-    "@ohos/hypium": "1.0.6"
-  },
-  "name": "contacts",
-  "description": "example description",
-  "repository": {},
+  "modelVersion": "6.0.0",
   "version": "1.0.0",
-  "dependencies": {}
+  "description": "Please describe the basic information.",
+  "main": "",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@ohos/hypium": "1.0.16",
+//    "@hms-paf/ui-widget-base": "14.16.9-314",
+//    "@hms-paf/ui-widget-about": "14.16.9-314"
+  },
+  "dynamicDependencies": {},
+  "overrides": {
+//    "@hms-paf/ui-widget-emptypage": "14.16.9-314",
+//    "@hms-paf/ui-widget-base": "14.16.9-314",
+//    "@hms-paf/ui-widget-permission": "14.16.9-314",
+//    "@hms-paf/ui-widget-webview": "14.16.9-314",
+//    "@hms-paf/ui-widget-about": "14.16.9-314"
+  }
 }

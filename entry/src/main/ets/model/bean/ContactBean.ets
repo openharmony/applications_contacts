@@ -13,89 +13,75 @@
  * limitations under the License.
  */
 
-import {EmailBean} from './EmailBean';
-import {RemDayBean} from './RemDayBean';
-import {AssociatedPersonBean} from './AssociatedPersonBean';
-import {AIMBean} from './AIMBean';
-import {HouseBean} from './HouseBean';
-import {GroupBean} from './GroupBean';
-import {PhoneNumBean} from './PhoneNumBean';
+import { EmailBean } from './EmailBean';
+import { RemDayBean } from './RemDayBean';
+import { AssociatedPersonBean } from './AssociatedPersonBean';
+import { AIMBean } from './AIMBean';
+import { HouseBean } from './HouseBean';
+import { GroupBean } from './GroupBean';
+import { PhoneNumBean } from './PhoneNumBean';
 
 export class ContactBean {
   /**
    * Contact ID primary key.
    */
-  id: string;
-
+  public id: string;
   /**
    * Contact Name
    */
-  name: string;
-
+  public name: string;
   /**
    * The Company
    */
-  company: string;
-
+  public company: string;
   /**
    * Position
    */
-  position: string;
-
+  public position: string;
   /**
    * Mobile Number List
    */
-  phoneNumList: PhoneNumBean[];
-
+  public phoneNumList: PhoneNumBean[];
   /**
    * Mailbox List
    */
-  emailBeanList: EmailBean[];
-
+  public emailBeanList: EmailBean[];
   /**
    * Nickname
    */
-  nickName: string
-
+  public nickName: string;
   /**
    * Website List
    */
-  webSitList: string[]
-
+  public webSitList: string[];
   /**
    * Anniversaries List
    */
-  remembranceDayList: RemDayBean[]
-
+  public remembranceDayList: RemDayBean[];
   /**
    * Ringtone
    */
-  ringtone: string
-
+  public ringtone: string;
   /**
    * Associated Person List
    */
-  associatedPersonList: AssociatedPersonBean[]
-
+  public associatedPersonList: AssociatedPersonBean[];
   /**
    * Remarks
    */
-  remarks: string
-
+  public remarks: string;
   /**
    * AIM List
    */
-  aimList: AIMBean[]
-
+  public aimList: AIMBean[];
   /**
    * Address List
    */
-  houseList: HouseBean[]
-
+  public houseList: HouseBean[];
   /**
    * Group List
    */
-  groupList: GroupBean[]
+  public groupList: GroupBean[];
 
   constructor(
     id: string,

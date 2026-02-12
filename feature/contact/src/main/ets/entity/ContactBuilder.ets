@@ -24,22 +24,24 @@ import DataShareResultSet from '@ohos.data.DataShareResultSet';
  * Call log constructor
  */
 export default class ContactBuilder {
-  readonly id: number;
-  nameRawContactId: number = -1;
-  quickSearchKey: string = '';
-  photoId: number = -1;
-  photoFileId: number = -1;
-  personalRingtone?: string;
-  personalNotificationRingtone: string = '';
-  isTransferVoiceMail: boolean = false;
-  company: string = '';
-  position: string = '';
-  hasDisplayName: boolean = false;
-  hasPhoneNumber: boolean = false;
-  readOnly: boolean = false;
-  hasGroup: boolean = false;
-  hasEmail: boolean = false;
-  rowContacts: RawContact[] = [];
+  public readonly id: number;
+  public nameRawContactId: number = -1;
+  public quickSearchKey: string = '';
+  public photoId: number = -1;
+  public photoFileId: number = -1;
+  public personalRingtone?: string;
+  public personalRingtonePath?: string;
+  public personalNotificationRingtone: string = '';
+  public isTransferVoiceMail: boolean = false;
+  public company: string = '';
+  public position: string = '';
+  public hasDisplayName: boolean = false;
+  public hasPhoneNumber: boolean = false;
+  public readOnly: boolean = true;
+  public hasGroup: boolean = false;
+  public hasEmail: boolean = false;
+  public rowContacts: RawContact[] = [];
+
   constructor(id: number) {
     this.id = id;
   }
@@ -51,14 +53,21 @@ export default class ContactBuilder {
     contactBuilder.setPhotoId(resultSet.getLong(resultSet.getColumnIndex(Contacts.PHOTO_ID)));
     contactBuilder.setPhotoFileId(resultSet.getLong(resultSet.getColumnIndex(Contacts.PHOTO_FILE_ID)));
     contactBuilder.setPersonalRingtone(resultSet.getString(resultSet.getColumnIndex(Contacts.PERSONAL_RINGTONE)));
-    contactBuilder.setPersonalNotificationRingtone(resultSet.getString(resultSet.getColumnIndex(Contacts.PERSONAL_NOTIFICATION_RINGTONE)));
-    contactBuilder.setIsTransferVoiceMail(resultSet.getLong(resultSet.getColumnIndex(Contacts.IS_TRANSFER_VOICEMAIL)) > 0 ? true : false);
+    contactBuilder.setPersonalRingtonePath(resultSet
+      .getString(resultSet.getColumnIndex(Contacts.PERSONAL_RINGTONE_PATH)));
+    contactBuilder.setPersonalNotificationRingtone(resultSet
+      .getString(resultSet.getColumnIndex(Contacts.PERSONAL_NOTIFICATION_RINGTONE)));
+    contactBuilder.setIsTransferVoiceMail(resultSet
+      .getLong(resultSet.getColumnIndex(Contacts.IS_TRANSFER_VOICEMAIL)) > 0 ? true : false);
     contactBuilder.setCompany(resultSet.getString(resultSet.getColumnIndex(Contacts.COMPANY)));
     contactBuilder.setPosition(resultSet.getString(resultSet.getColumnIndex(Contacts.POSITION)));
-    contactBuilder.setHasDisplayName(resultSet.getLong(resultSet.getColumnIndex(Contacts.HAS_DISPLAY_NAME)) > 0 ? true : false);
-    contactBuilder.setHasEmail(resultSet.getLong(resultSet.getColumnIndex(Contacts.IS_TRANSFER_VOICEMAIL)) > 0 ? true : false);
+    contactBuilder.setHasDisplayName(resultSet.getLong(resultSet
+      .getColumnIndex(Contacts.HAS_DISPLAY_NAME)) > 0 ? true : false);
+    contactBuilder.setHasEmail(resultSet.getLong(resultSet
+      .getColumnIndex(Contacts.HAS_EMAIL)) > 0 ? true : false);
     contactBuilder.setHasGroup(resultSet.getLong(resultSet.getColumnIndex(Contacts.HAS_GROUP)) > 0 ? true : false);
-    contactBuilder.setHasPhoneNumber(resultSet.getLong(resultSet.getColumnIndex(Contacts.HAS_PHONE_NUMBER)) > 0 ? true : false);
+    contactBuilder.setHasPhoneNumber(resultSet.getLong(resultSet
+      .getColumnIndex(Contacts.HAS_PHONE_NUMBER)) > 0 ? true : false);
     contactBuilder.setReadOnly(resultSet.getLong(resultSet.getColumnIndex(Contacts.READ_ONLY)) > 0 ? true : false);
     contactBuilder.setRowContacts([]);
     return contactBuilder;
@@ -91,6 +100,11 @@ export default class ContactBuilder {
 
   setPersonalRingtone(personalRingtone: string) {
     this.personalRingtone = personalRingtone;
+    return this;
+  }
+
+  setPersonalRingtonePath(personalRingtonePath: string) {
+    this.personalRingtonePath = personalRingtonePath;
     return this;
   }
 

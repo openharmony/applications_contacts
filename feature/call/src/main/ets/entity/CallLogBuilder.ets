@@ -13,67 +13,124 @@
  * limitations under the License.
  */
 import DataShareResultSet from '@ohos.data.DataShareResultSet';
+
 import Calls from '../contract/Calls';
+import HashMap from '@ohos.util.HashMap';
+
+const TAG = 'CallLogBuilder ';
+const ColumnIndexMap = new HashMap<string, number>();
+const lineBreakRegExp = new RegExp('\r?\n|(?<!\n)\r', 'g');
+
+function getColumnIndex(columnName: string, resultSet: DataShareResultSet): number {
+  let index: number | null = ColumnIndexMap.get(columnName);
+  if (index == null) {
+    index = resultSet.getColumnIndex(columnName);
+    ColumnIndexMap.set(columnName, index);
+  }
+
+  return index as number;
+}
 
 export default class CallLogBuilder {
-  readonly id: number = -1;
-  readonly phoneNumber: string;
-  displayName: string = '';
-  callDirection: number = 0;
-  voicemailUri: string = '';
-  simId: number = 0;
-  simType: number = 0;
-  isHD: boolean = false;
-  isRead: boolean = false;
-  ringDuration: number = 0;
-  talkDuration: number = 0;
-  formattedNumber: string = '';
-  quickSearchKey: string = '';
-  numberType: number = 0;
-  numberTypeName: string = '';
-  beginTime: number = 0;
-  endTime: number = 0;
-  answerState: number = 0;
-  createTime: number = 0;
-  numberLocation: string = '';
-  photoId: number = 0;
-  photoUri: string = '';
-  countryIsoCode: number = 0;
+  public readonly id: number = -1;
+  public readonly phoneNumber: string;
+  public displayName: string = '';
+  public callDirection: number = -1;
+  public voicemailUri: string = '';
+  public simId: number = -1;
+  public simType: number = -1;
+  public isSatellite: number = -1;
+  public isRead: boolean = false;
+  public ringDuration: number = -1;
+  public talkDuration: number = -1;
+  public formattedNumber: string = '';
+  public quickSearchKey: string = '';
+  public numberType: number = -1;
+  public numberTypeName: string = '';
+  public beginTime: number = -1;
+  public endTime: number = -1;
+  public answerState: number = -1;
+  public createTime: number = -1;
+  public numberLocation: string = '';
+  public photoId: number = -1;
+  public photoUri: string = '';
+  public countryIsoCode: number = -1;
+  public features: number = -1;
+  public markType: string = '';
+  public markContent: string = '';
+  public markDetails: string = '';
+  public markSource: string = '';
+  public isCloudMark: number = -1;
+  public markCount: number = -1;
+  public blockReason: number = -1;
+  public detectDetails: string = '';
+  public formatPhoneNumber: string = '';
+  public celiaCallType: number = -1;
+  public newCalling: number = -1;
+  public isCnap: number = 0;
+  public abstractProfile: string = '';
+  public absStatus: string = '';
+  public notesId: string = '';
+  public absCode: string = '';
+  public notesStatus: string = '';
+  public startTime: number = -1;
+  public abstractType: string = '';
+
   constructor(id: number, phoneNumber: string) {
     this.id = id;
     this.phoneNumber = phoneNumber;
   }
 
-  static fromResultSet(resultSet: DataShareResultSet): CallLogBuilder{
-    let callLogBuilder = new CallLogBuilder(resultSet.getLong(resultSet.getColumnIndex(Calls.ID)),
-      resultSet.getString(resultSet.getColumnIndex(Calls.PHONE_NUMBER)));
-    callLogBuilder.setDisplayName(resultSet.getString(resultSet.getColumnIndex(Calls.DISPLAY_NAME)));
-    callLogBuilder.setCallDirection(resultSet.getLong(resultSet.getColumnIndex(Calls.CALL_DIRECTION)));
-    callLogBuilder.setDisplayName(resultSet.getString(resultSet.getColumnIndex(Calls.DISPLAY_NAME)));
-    callLogBuilder.setVoicemailUri(resultSet.getString(resultSet.getColumnIndex(Calls.VOICEMAIL_URI)));
-    callLogBuilder.setSimId(resultSet.getLong(resultSet.getColumnIndex(Calls.SIM_ID)));
-    callLogBuilder.setSimType(resultSet.getLong(resultSet.getColumnIndex(Calls.SIM_TYPE)));
-    callLogBuilder.setIsHD(resultSet.getLong(resultSet.getColumnIndex(Calls.IS_HD)) > 0 ? true : false);
-    callLogBuilder.setIsRead(resultSet.getLong(resultSet.getColumnIndex(Calls.IS_READ)) > 0 ? true : false);
-    callLogBuilder.setRingDuration(resultSet.getLong(resultSet.getColumnIndex(Calls.RING_DURATION)));
-    callLogBuilder.setTalkDuration(resultSet.getLong(resultSet.getColumnIndex(Calls.TALK_DURATION)));
-    callLogBuilder.setFormattedNumber(resultSet.getString(resultSet.getColumnIndex(Calls.FORMAT_NUMBER)));
-    callLogBuilder.setQuickSearchKey(resultSet.getString(resultSet.getColumnIndex(Calls.QUICK_SEARCH_KEY)));
-    callLogBuilder.setNumberType(resultSet.getLong(resultSet.getColumnIndex(Calls.NUMBER_TYPE)));
-    callLogBuilder.setNumberTypeName(resultSet.getString(resultSet.getColumnIndex(Calls.NUMBER_TYPE_NAME)));
-    callLogBuilder.setBeginTime(resultSet.getLong(resultSet.getColumnIndex(Calls.BEGIN_TIME)));
-    callLogBuilder.setEndTime(resultSet.getLong(resultSet.getColumnIndex(Calls.END_TIME)));
-    callLogBuilder.setAnswerState(resultSet.getLong(resultSet.getColumnIndex(Calls.ANSWER_STATE)));
-    callLogBuilder.setCreateTime(resultSet.getLong(resultSet.getColumnIndex(Calls.CREATE_TIME)));
-    callLogBuilder.setNumberLocation(resultSet.getString(resultSet.getColumnIndex(Calls.NUMBER_LOCATION)));
-    callLogBuilder.setPhotoUri(resultSet.getString(resultSet.getColumnIndex(Calls.PHOTO_URI)));
-    callLogBuilder.setPhotoId(resultSet.getLong(resultSet.getColumnIndex(Calls.PHOTO_ID)));
-    callLogBuilder.setCountryIsoCode(resultSet.getLong(resultSet.getColumnIndex(Calls.COUNTRY_ISO_CODE)));
+  static fromResultSet(resultSet: DataShareResultSet): CallLogBuilder {
+    let callLogBuilder = new CallLogBuilder(resultSet.getLong(getColumnIndex(Calls.ID, resultSet)),
+      resultSet.getString(getColumnIndex(Calls.PHONE_NUMBER, resultSet)));
+    callLogBuilder.setDisplayName(resultSet.getString(getColumnIndex(Calls.DISPLAY_NAME, resultSet)));
+    callLogBuilder.setCallDirection(resultSet.getLong(getColumnIndex(Calls.CALL_DIRECTION, resultSet)));
+    callLogBuilder.setVoicemailUri(resultSet.getString(getColumnIndex(Calls.VOICEMAIL_URI, resultSet)));
+    callLogBuilder.setSimId(resultSet.getLong(getColumnIndex(Calls.SIM_ID, resultSet)));
+    callLogBuilder.setSimType(resultSet.getLong(getColumnIndex(Calls.SIM_TYPE, resultSet)));
+    callLogBuilder.setIsSatellite(resultSet.getLong(getColumnIndex(Calls.IS_SATELLITE, resultSet)));
+    callLogBuilder.setIsRead(resultSet.getLong(getColumnIndex(Calls.IS_READ, resultSet)) > 0 ? true : false);
+    callLogBuilder.setRingDuration(resultSet.getLong(getColumnIndex(Calls.RING_DURATION, resultSet)));
+    callLogBuilder.setTalkDuration(resultSet.getLong(getColumnIndex(Calls.TALK_DURATION, resultSet)));
+    callLogBuilder.setFormattedNumber(resultSet.getString(getColumnIndex(Calls.FORMAT_NUMBER, resultSet)));
+    callLogBuilder.setQuickSearchKey(resultSet.getString(getColumnIndex(Calls.QUICK_SEARCH_KEY, resultSet)));
+    callLogBuilder.setNumberType(resultSet.getLong(getColumnIndex(Calls.NUMBER_TYPE, resultSet)));
+    callLogBuilder.setNumberTypeName(resultSet.getString(getColumnIndex(Calls.NUMBER_TYPE_NAME, resultSet)));
+    callLogBuilder.setBeginTime(resultSet.getLong(getColumnIndex(Calls.BEGIN_TIME, resultSet)));
+    callLogBuilder.setEndTime(resultSet.getLong(getColumnIndex(Calls.END_TIME, resultSet)));
+    callLogBuilder.setAnswerState(resultSet.getLong(getColumnIndex(Calls.ANSWER_STATE, resultSet)));
+    callLogBuilder.setCreateTime(resultSet.getLong(getColumnIndex(Calls.CREATE_TIME, resultSet)));
+    callLogBuilder.setNumberLocation(resultSet.getString(getColumnIndex(Calls.NUMBER_LOCATION, resultSet)));
+    callLogBuilder.setPhotoUri(resultSet.getString(getColumnIndex(Calls.PHOTO_URI, resultSet)));
+    callLogBuilder.setPhotoId(resultSet.getLong(getColumnIndex(Calls.PHOTO_ID, resultSet)));
+    callLogBuilder.setCountryIsoCode(resultSet.getLong(getColumnIndex(Calls.COUNTRY_ISO_CODE, resultSet)));
+    callLogBuilder.setFeatures(resultSet.getLong(getColumnIndex(Calls.FEATURES, resultSet)));
+    callLogBuilder.setMarkType(resultSet.getString(getColumnIndex(Calls.MARK_TYPE, resultSet)));
+    callLogBuilder.setMarkContent(resultSet.getString(getColumnIndex(Calls.MARK_CONTENT, resultSet)));
+    callLogBuilder.setMarkDetails(resultSet.getString(getColumnIndex(Calls.MARK_DETAILS, resultSet)));
+    callLogBuilder.setMarkSource(resultSet.getString(getColumnIndex(Calls.MARK_SOURCE, resultSet)));
+    callLogBuilder.setIsCloudMark(resultSet.getLong(getColumnIndex(Calls.IS_CLOUD_MARK, resultSet)));
+    callLogBuilder.setMarkCount(resultSet.getLong(getColumnIndex(Calls.MARK_COUNT, resultSet)));
+    callLogBuilder.setBlockReason(resultSet.getLong(getColumnIndex(Calls.BLOCK_REASON, resultSet)));
+    callLogBuilder.setDetectDetails(resultSet.getString(getColumnIndex(Calls.DETECT_DETAILS, resultSet)));
+    callLogBuilder.setFormatPhoneNumber(resultSet.getString(getColumnIndex(Calls.FORMAT_PHONE_NUMBER, resultSet)));
+    callLogBuilder.setCeliaCallType(resultSet.getLong(getColumnIndex(Calls.CELIA_CALL_TYPE, resultSet)));
+    callLogBuilder.setNewCalling(resultSet.getLong(getColumnIndex(Calls.NEW_CALLING, resultSet)));
+    callLogBuilder.setCnap(resultSet.getLong(getColumnIndex(Calls.IS_CNAP, resultSet)));
+    callLogBuilder.setAbstractProfile(resultSet.getString(getColumnIndex(Calls.ABSTRACT_PROFILE, resultSet)));
+    callLogBuilder.setAbsStatus(resultSet.getString(getColumnIndex(Calls.ABS_STATUS, resultSet)));
+    callLogBuilder.setNotesId(resultSet.getString(getColumnIndex(Calls.NOTES_ID, resultSet)));
+    callLogBuilder.setAbsCode(resultSet.getString(getColumnIndex(Calls.ABS_CODE, resultSet)));
+    callLogBuilder.setNotesStatus(resultSet.getString(getColumnIndex(Calls.NOTES_STATUS, resultSet)));
+    callLogBuilder.setStartTime(resultSet.getLong(getColumnIndex(Calls.START_TIME, resultSet)));
+    callLogBuilder.setAbstractType(resultSet.getString(getColumnIndex(Calls.ABSTRACT_TYPE, resultSet)));
     return callLogBuilder;
   }
 
   setDisplayName(displayName: string) {
-    this.displayName = displayName;
+    // 去掉通话记录姓名中的换行符
+    this.displayName = displayName.replace(lineBreakRegExp, '');
     return this;
   }
 
@@ -97,8 +154,8 @@ export default class CallLogBuilder {
     return this;
   }
 
-  setIsHD(isHD: boolean) {
-    this.isHD = isHD;
+  setIsSatellite(isSatellite: number) {
+    this.isSatellite = isSatellite;
     return this;
   }
 
@@ -174,6 +231,105 @@ export default class CallLogBuilder {
 
   setCountryIsoCode(countryIsoCode: number) {
     this.countryIsoCode = countryIsoCode;
+    return this;
+  }
+
+  setFeatures(features: number) {
+    this.features = features;
+    return this;
+  }
+
+  setMarkType(markType: string) {
+    this.markType = markType;
+    return this;
+  }
+
+  setMarkContent(markContent: string) {
+    this.markContent = markContent;
+    return this;
+  }
+
+  setMarkDetails(markContent: string) {
+    this.markDetails = markContent;
+    return this;
+  }
+
+  setMarkSource(markContent: string) {
+    this.markSource = markContent;
+    return this;
+  }
+
+  setIsCloudMark(isCloudMark: number) {
+    this.isCloudMark = isCloudMark;
+    return this;
+  }
+
+  setMarkCount(markCount: number) {
+    this.markCount = markCount;
+    return this;
+  }
+
+  setBlockReason(blockReason: number) {
+    this.blockReason = blockReason;
+    return this;
+  }
+
+  setDetectDetails(detectDetails: string) {
+    this.detectDetails = detectDetails;
+    return this;
+  }
+
+  setFormatPhoneNumber(formatPhoneNumber: string) {
+    this.formatPhoneNumber = formatPhoneNumber;
+  }
+
+  setCeliaCallType(celiaCallType: number) {
+    this.celiaCallType = celiaCallType;
+    return this;
+  }
+
+  setNewCalling(newCalling: number) {
+    this.newCalling = newCalling;
+    return this;
+  }
+
+  setCnap(cnapFlag: number) {
+    this.isCnap = cnapFlag;
+    return this;
+  }
+
+  setAbstractProfile(abstractProfile: string) {
+    this.abstractProfile = abstractProfile;
+    return this;
+  }
+
+  setAbsStatus(absStatus: string) {
+    this.absStatus = absStatus;
+    return this;
+  }
+
+  setNotesId(notesId: string) {
+    this.notesId = notesId;
+    return this;
+  }
+
+  setAbsCode(absCode: string) {
+    this.absCode = absCode;
+    return this;
+  }
+
+  setNotesStatus(notesStatus: string) {
+    this.notesStatus = notesStatus;
+    return this;
+  }
+
+  setStartTime(startTime: number) {
+    this.startTime = startTime;
+    return this;
+  }
+
+  setAbstractType(abstractType: string) {
+    this.abstractType = abstractType;
     return this;
   }
 }

@@ -17,5 +17,5 @@
  * Table Basic Field Constants
  */
 export default class BaseColumns {
-  static readonly ID: string = 'id';
+  public static readonly ID: string = 'id';
 }

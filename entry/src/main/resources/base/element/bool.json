@@ -1,10 +1,6 @@
 {
   "boolean": [
     {
-      "name": "cache_page_one",
-      "value": true
-    },
-    {
       "name": "use_data_worker",
       "value": true
     }

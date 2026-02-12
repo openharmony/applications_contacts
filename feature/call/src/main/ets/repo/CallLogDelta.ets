@@ -33,7 +33,9 @@ export default class CallLogDelta {
     result[Calls.CALL_DIRECTION] = this.callLog.callDirection;
     result[Calls.VOICEMAIL_URI] = this.callLog.voicemailUri;
     result[Calls.SIM_TYPE] = this.callLog.simType;
+    result[Calls.IS_SATELLITE] = this.callLog.isSatellite;
     result[Calls.IS_READ] = this.callLog.isRead;
+    result[Calls.FEATURES] = this.callLog.features;
     result[Calls.RING_DURATION] = this.callLog.ringDuration;
     result[Calls.TALK_DURATION] = this.callLog.talkDuration;
     result[Calls.FORMAT_NUMBER] = this.callLog.formattedNumber;

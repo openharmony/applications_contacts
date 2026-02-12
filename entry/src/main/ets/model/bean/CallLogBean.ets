@@ -16,33 +16,20 @@
 /**
  * Call record object (detail page)
  */
-let NextId = 0;
+let nextId = 0;
 
 export class CallLogBean {
-  id: string;
-  time: string;
-  action: string;
-  calledNumber: string;
-  status: string;
-  callType: CallType = CallType.MISSED;
-  dateDetail: string = '';
-  timeDetail: string = '';
-  formatNumber: string = '';
-  talkTime: string = '';
-  simId:number = -1;
+  public id: string;
+  public time: string;
+  public action: string;
+  public calledNumber: string;
+  public status: string;
+
   constructor(time: string, action: string, calledNumber: string, status: string) {
-    this.id = `${NextId++}`;
+    this.id = `${nextId++}`;
     this.time = time;
     this.action = action;
     this.calledNumber = calledNumber;
     this.status = status;
   }
-}
-
-export enum CallType{
-  IN = 1,
-  OUT = 2,
-  VOICEMAIL = 4,
-  MISSED = 3,
-  REJECTED = 5
 }

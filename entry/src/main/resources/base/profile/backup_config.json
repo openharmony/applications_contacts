@@ -1,0 +1,8 @@
+{
+  "allowToBackupRestore": true,
+  "supportScene": "next2next,hmos2next",
+  "fullBackupOnly": false,
+  "includes": [
+    "data/storage/el1/base/haps/entry/preferences/CONTACT_PREFERENCE.bk"
+  ]
+}

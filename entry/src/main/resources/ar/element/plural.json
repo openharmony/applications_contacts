@@ -1,0 +1,1508 @@
+{
+    "plural":[
+        {
+            "name":"contacts_restored",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"تمت استعادة جهة اتصال واحدة",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"تمت استعادة %d جهة اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"تمت استعادة %d جهات اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"تمت استعادة %d جهات اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"تمت استعادة %d جهة اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"تمت استعادة جهتي اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"recycle_days_left",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"المتبقي %d يوم",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"متبقٍ يوم واحد",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"المتبقي %d أيام",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"متبقٍ %d أيام",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"المتبقي %d يومًا",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"متبقٍ يومان",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"people_number_from_tablet",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"جهة اتصال واحدة من الجهاز اللوحي",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d جهة اتصال من الجهاز اللوحي",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"%d جهات اتصال من الجهاز اللوحي",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d جهات اتصال من الجهاز اللوحي",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d جهة اتصال من الجهاز اللوحي",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"جهتا اتصال من الجهاز اللوحي",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"minuteFormat",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"%d دقيقة",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"دقيقة",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"%d دقائق",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d دقائق",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d دقيقة",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"دقيقتان",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"contacts_recycle_deleted_confirm",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"هل تريد حذف جهة الاتصال المُحددة بشكلٍ نهائي؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"هل تريد حذف الـ %d جهة اتصال المُحددة بشكل نهائي؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"هل تريد حذف الـ %d جهات اتصال المُحددة بشكل نهائي؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"هل تريد حذف جهات الاتصال الـ %d بشكل نهائي؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"هل تريد حذف الـ %d جهة اتصال المُحددة بشكل نهائي؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"هل تريد حذف جهتي الاتصال المُحددتين بشكل نهائي؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"cloud_contacts",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"إجمالي جهات الاتصال:‏ %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"إجمالي جهات الاتصال:‏ %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"إجمالي جهات الاتصال:‏ %d",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"إجمالي جهات الاتصال:‏ %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"إجمالي جهات الاتصال:‏ %d",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"إجمالي جهات الاتصال:‏ %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"people_number",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"%d جهة اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"جهة اتصال واحدة",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"%d جهات اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d جهات اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d جهة اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"جهتا اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"people_number_from_phone",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"جهة اتصال واحدة من الهاتف",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d جهة اتصال من الهاتف",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"%d جهات اتصال من الهاتف",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d جهات اتصال من الهاتف",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d جهة اتصال من الهاتف",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"جهتا اتصال من الهاتف",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"select_num",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"تم تحديد %d جهة اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"تم تحديد جهة اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"تم تحديد %d جهات اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"تم تحديد %d جهات اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"تم تحديد %d جهة اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"تم تحديد جهتي اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"found_contacts",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"عثُر على جهة اتصال واحدة",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"عثُر على %1$d جهة اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"عثُر على %1$d جهات اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"عثُر على %1$d جهات اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"عثُر على %1$d جهة اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"عثُر على جهتي اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"hoursFormat",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"ساعة",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d ساعة",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"%d ساعات",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d ساعات",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d ساعة",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"ساعتان",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"harassment_harassing_calls_reason",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"مزعج | %d شخص أبلغوا عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"مزعج | شخص واحد أبلغ عنه",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"مزعج | %d أشخاص أبلغوا عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"مزعج | %d أشخاص أبلغوا عنه",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"مزعج | %d شخصًا أبلغوا عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"مزعج | شخصان أبلغا عنه",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"people_number_from_computer",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"%d جهة اتصال من الحاسوب",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"جهة اتصال واحدة من الحاسوب",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"%d جهات اتصال من الحاسوب",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d جهات اتصال من الحاسوب",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d جهة اتصال من الحاسوب",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"جهتا اتصال من الحاسوب",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"secondsFormat",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"%d ثانية",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"ثانية",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"%d ثوانٍ",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d ثوانٍ",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d ثانية",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"ثانيتان",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"interceptionNotifyTitle",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"حُظرت %d مكالمة مزعجة",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"حُظرت مكالمة مزعجة",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"حُظرت %d مكالمات مزعجة",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"حُظرت %d مكالمات مزعجة",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"حُظرت %d مكالمة مزعجة",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"حُظرت مكالمتان مزعجتان",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"contacts_ring_times",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"رن لمدة %d ثانية",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"رن لثانية",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"رن لمدة %d ثوانٍ",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"رن لمدة %d ثوانٍ",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"رن لمدة %d ثانية",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"رن لثانيتين",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"search_new",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"بحث عن جهة اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"بحث عن %d جهة اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"بحث عن %d جهات اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"بحث عن %d جهات اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"بحث عن %d جهة اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"بحث عن جهتي اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"import_sim_contact_toast",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"أُضيفت %d جهة اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"أُضيفت جهة اتصال واحدة",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"أُضيفت %d جهات اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"أُضيفت %d جهات اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"أُضيفت %d جهة اتصال",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"أُضيفت جهتا اتصال",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"delete_callLog_dialog_title",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"هل تريد حذف سجل؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"هل تريد حذف %d سجل؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"هل تريد حذف %d سجلات؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"هل تريد حذف %d سجلات؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"هل تريد حذف %d سجلًا؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"هل تريد حذف سجلين؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"delete_or_not",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"هل تريد حذف جهة اتصال واحدة؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"هل تريد حذف %d جهة اتصال؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"هل تريد حذف %d جهات اتصال؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"هل تريد حذف %d جهات اتصال؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"هل تريد حذف %d جهة اتصال؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"هل تريد حذف جهتي اتصال؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"minutesAgo",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"منذ %d دقيقة",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"منذ دقيقة",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"منذ %d دقائق",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"منذ %d دقائق",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"منذ %d دقيقة",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"منذ دقيقتين",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"harassment_scam_calls_reason",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"خطورة عالية | %d شخص أبلغوا عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"خطورة عالية | شخص واحد أبلغ عنه",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"خطورة عالية | %d أشخاص أبلغوا عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"خطورة عالية | %d أشخاص أبلغوا عنه",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"خطورة عالية | %d شخصًا أبلغوا عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"خطورة عالية | شخصان أبلغا عنه",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"interceptionNotificationText",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"حُظرت مكالمة مؤخرًا",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"حُظرت %d مكالمة مؤخرًا",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"حُظرت %d مكالمات مؤخرًا",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"حُظرت %d مكالمات مؤخرًا",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"حُظرت %d مكالمة مؤخرًا",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"حُظرت مكالمتان مؤخرًا",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"recovering_contact_dialog",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"ستُعاد جهات الاتصال الموجودة على جهازك إلى حالتها كما كانت فورًا بعد اكتمال تحديث نظام OpenHarmony. وسيكون عددها %d بعد عملية الاستعادة.",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"ستُعاد جهات الاتصال الموجودة على جهازك إلى حالتها كما كانت فورًا بعد اكتمال تحديث نظام OpenHarmony. وسيكون عددها جهة اتصال واحدة بعد عملية الاستعادة.",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"ستُعاد جهات الاتصال الموجودة على جهازك إلى حالتها كما كانت فورًا بعد اكتمال تحديث نظام OpenHarmony. وسيكون عددها %d بعد عملية الاستعادة.",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"ستُعاد جهات الاتصال الموجودة على جهازك إلى حالتها كما كانت فورًا بعد اكتمال تحديث نظام OpenHarmony. وسيكون عددها %d جهات اتصال بعد عملية الاستعادة.",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"ستُعاد جهات الاتصال الموجودة على جهازك إلى حالتها كما كانت فورًا بعد اكتمال تحديث نظام OpenHarmony. وسيكون عددها %d بعد عملية الاستعادة.",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"ستُعاد جهات الاتصال الموجودة على جهازك إلى حالتها كما كانت فورًا بعد اكتمال تحديث نظام OpenHarmony. وسيكون عددها جهتا اتصال بعد عملية الاستعادة.",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"delete_group_title",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"هل تريد حذف %d مجموعة؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"هل تريد حذف مجموعة؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"هل تريد حذف %d مجموعات؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"هل تريد حذف %d مجموعات؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"هل تريد حذف %d مجموعة؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"هل تريد حذف مجموعتين؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"merge_contacts",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"بعد الدمج التلقائي:‏ %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"بعد الدمج التلقائي:‏ %d",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"بعد الدمج التلقائي:‏ %d",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"بعد الدمج التلقائي:‏ %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"بعد الدمج التلقائي:‏ %d",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"بعد الدمج التلقائي:‏ %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"auto_merge_msg",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"لديك جهة اتصال تحمل نفس الاسم. هل تريد دمجها؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"لديك %d جهة اتصال تحمل نفس الاسم. هل تريد دمجها؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"لديك %d جهات اتصال تحمل نفس الاسم. هل تريد دمجها؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"لديك %d جهات اتصال تحمل نفس الاسم. هل تريد دمجها؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"لديك %d جهة اتصال تحمل نفس الاسم. هل تريد دمجها؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"لديك جهتا اتصال تحملان نفس الاسم. هل تريد دمجهما؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"n_files",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"ملف واحد",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d ملف",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"%d ملفات",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d ملفات",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d ملفًا",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"ملفين",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"harassment_blockreason_mark_by_other",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"شخص واحد أبلغ عنه",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d شخص أبلغوا عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"%d أشخاص أبلغوا عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d أشخاص أبلغوا عنه",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d شخصًا أبلغوا عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"شخصان أبلغا عنه",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"intelligence_group_add_contact_dialog_title",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"هل تريد إضافة جهة اتصال واحدة؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"هل تريد إضافة %d جهة اتصال؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"هل تريد إضافة %d جهات اتصال؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"هل تريد إضافة %d جهات اتصال؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"هل تريد إضافة %d جهة اتصال؟",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"هل تريد إضافة جهتي اتصال؟",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"select_all_play_button",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"%d عنصر إجمالاً",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"عنصر واحد إجمالاً",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"%d عناصر إجمالاً",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d عناصر إجمالاً",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d عنصرًا إجمالاً",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"عنصران إجمالاً",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"already_mark_update",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"%d شخص أبلغوا عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"شخص واحد أبلغ عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"zero",
+                    "value":"لم يبلغ عنه أي شخص",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d أشخاص أبلغوا عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d شخصًا أبلغوا عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"two",
+                    "value":"شخصان أبلغا عنه",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        }
+    ]
+}

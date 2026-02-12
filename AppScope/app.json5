@@ -2,10 +2,13 @@
   "app": {
     "bundleName": "com.ohos.contacts",
     "vendor": "example",
-    "versionCode": 10004032,
-    "versionName": "1.0.4.032",
+    "versionCode": 601600751,
+    "versionName": "6.1.60.751",
+//    "icon": "$media:ic_contact_icon_single",
     "icon": "$media:app_icon",
-    "label": "$string:app_name",
-    "distributedNotificationEnabled": true
+    "label": "$string:contact",
+    "generateBuildHash": true,
+    "distributedNotificationEnabled": true,
+    "configuration": "$profile:configuration"
   }
 }

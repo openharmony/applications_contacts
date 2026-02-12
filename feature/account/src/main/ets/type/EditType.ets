@@ -14,12 +14,15 @@
  */
 
 /**
- * Describes a contact data type, including internationalization resources. The type corresponds to the value in the database.
+ * Describes a contact data type, including internationalization resources.
+ * The type corresponds to the value in the database.
  */
 export default class EditType {
-  readonly rawValue: number;
-  readonly labelRes: Resource;
-  constructor(rawValue: number, labelRes: Resource) {
+  public readonly rawValue: number;
+  // 对于自定义下拉框，可能是string字符串；对于定义好的下拉框是Resource
+  public readonly labelRes: Resource | string;
+
+  constructor(rawValue: number, labelRes: Resource | string) {
     this.rawValue = rawValue;
     this.labelRes = labelRes;
   }

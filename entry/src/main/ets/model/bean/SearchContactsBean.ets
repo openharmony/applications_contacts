@@ -18,23 +18,24 @@
  * SearchContactsBean List Data Structure Entity
  */
 export class SearchContactsBean {
-  id: string;
-  accountId: string;
-  contactId: string;
-  rawContactId: string;
-  searchName: string;
-  displayName: string;
-  phoneticName: string;
-  photoId: string;
-  photoFileId: string;
-  isDeleted: number;
-  position: string;
-  photoFirstName: string;
-  sortFirstLetter: string;
-  portraitColor: string;
-  portraitPath: string = '';
-  detailInfo: string;
-  hasPhoneNumber: string = '';
+  public id: string;
+  public accountId: string;
+  public contactId: string;
+  public rawContactId: string;
+  public searchName: string;
+  public displayName: string;
+  public phoneticName: string;
+  public photoId: string;
+  public photoFileId: string;
+  public isDeleted: number;
+  public position: string;
+  public photoFirstName: string;
+  public sortFirstLetter: string;
+  public portraitColor: Resource;
+  public portraitPath: string;
+  public detailInfo: string;
+  public hasPhoneNumber: string;
+
   constructor(
     id: string,
     accountId: string,
@@ -49,7 +50,7 @@ export class SearchContactsBean {
     position: string,
     photoFirstName: string,
     sortFirstLetter: string,
-    portraitColor: string,
+    portraitColor: Resource,
     detailInfo: string,
     hasPhoneNumber: string,
   ) {
@@ -68,6 +69,7 @@ export class SearchContactsBean {
     this.sortFirstLetter = sortFirstLetter;
     this.portraitColor = portraitColor;
     this.detailInfo = detailInfo;
-    this.detailInfo = hasPhoneNumber;
+    this.hasPhoneNumber = hasPhoneNumber;
+    this.portraitPath = '';
   }
 }

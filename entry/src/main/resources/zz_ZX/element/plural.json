@@ -1,0 +1,932 @@
+{
+    "plural":[
+        {
+            "name":"found_contacts",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_869937]_Found %1$d contact"
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_869939]_Found %1$d contacts"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_869944]_Found %1$d contacts"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_869982]_Found %1$d contacts"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_869985]_Found %1$d contacts"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_869918]_Found %1$d contacts"
+                }
+            ]
+        },
+        {
+            "name":"delete_callLog_dialog_title",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_869957]_Delete %d call log entries?"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_869928]_Delete %d call log entry?"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_869976]_Delete %d call log entries?"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_869961]_Delete %d call log entries?"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_869935]_Delete %d call log entries?"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_869922]_Delete %d call log entries?"
+                }
+            ]
+        },
+        {
+            "name":"secondsFormat",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_869941]_%d sec"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_869964]_%d sec"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_869931]_%d sec"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_869984]_%d sec"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_869966]_%d sec"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_869938]_%d sec"
+                }
+            ]
+        },
+        {
+            "name":"minutesAgo",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_869933]_%d min ago"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_869917]_%d min ago"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_869945]_%d min ago"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_869971]_%d min ago"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_869986]_%d min ago"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_869936]_%d min ago"
+                }
+            ]
+        },
+        {
+            "name":"select_num",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_914251]_%d selected"
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_914244]_%d selected"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_914247]_%d selected"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_914250]_%d selected"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_914241]_%d selected"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_914248]_%d selected"
+                }
+            ]
+        },
+        {
+            "name":"delete_group_title",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_914249]_Delete %d group"
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_914242]_Delete %d groups"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_914245]_Delete %d groups"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_914252]_Delete %d groups"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_914246]_Delete %d groups"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_914243]_Delete %d groups"
+                }
+            ]
+        },
+        {
+            "name":"interceptionNotifyTitle",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_951412]_Blocked %d nuisance calls"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_951414]_Blocked %d nuisance call"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_951415]_Blocked %d nuisance calls"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_951413]_Blocked %d nuisance calls"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_951410]_Blocked %d nuisance calls"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_951411]_Blocked %d nuisance calls"
+                }
+            ]
+        },
+        {
+            "name":"interceptionNotificationText",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_925504]_%d block recently"
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_925513]_%d blocks recently"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_925508]_%d blocks recently"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_925514]_%d blocks recently"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_925511]_%d blocks recently"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_925499]_%d blocks recently"
+                }
+            ]
+        },
+        {
+            "name":"harassment_harassing_calls_reason",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_925496]_Nuisance | Marked by %d people"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_925502]_Nuisance | Marked by %d person"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_925509]_Nuisance | Marked by %d people"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_925512]_Nuisance | Marked by %d people"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_925506]_Nuisance | Marked by %d people"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_925494]_Nuisance | Marked by %d people"
+                }
+            ]
+        },
+        {
+            "name":"harassment_blockreason_mark_by_other",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_925495]_Marked by %d person"
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_925498]_Marked by %d people"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_925515]_Marked by %d people"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_925510]_Marked by %d people"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_925503]_Marked by %d people"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_925500]_Marked by %d people"
+                }
+            ]
+        },
+        {
+            "name":"harassment_scam_calls_reason",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_925501]_High risk | Marked by %d person"
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_925516]_High risk | Marked by %d people"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_925497]_High risk | Marked by %d people"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_925505]_High risk | Marked by %d people"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_925507]_High risk | Marked by %d people"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_925517]_High risk | Marked by %d people"
+                }
+            ]
+        },
+        {
+            "name":"contacts_restored",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_944192]_Restored %d contact."
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_944195]_Restored %d contacts."
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_944203]_Restored %d contacts."
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_944196]_Restored %d contacts."
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_944208]_Restored %d contacts."
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_944217]_Restored %d contacts."
+                }
+            ]
+        },
+        {
+            "name":"recycle_days_left",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_944207]_%d days left"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_944213]_%d day left"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_944193]_%d days left"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_944216]_%d days left"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_944191]_%d days left"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_944198]_%d days left"
+                }
+            ]
+        },
+        {
+            "name":"contacts_recycle_deleted_confirm",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_944206]_Permanently delete %d contacts?"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_944210]_Permanently delete %d contact?"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_944199]_Permanently delete %d contacts?"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_944189]_Permanently delete %d contacts?"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_944209]_Permanently delete %d contacts?"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_944201]_Permanently delete %d contacts?"
+                }
+            ]
+        },
+        {
+            "name":"delete_or_not",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_920700]_Delete %d contact?"
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_920701]_Delete %d contacts?"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_920703]_Delete %d contacts?"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_920705]_Delete %d contacts?"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_920702]_Delete %d contacts?"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_920704]_Delete %d contacts?"
+                }
+            ]
+        },
+        {
+            "name":"auto_merge_msg",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_937231]_You have %d contacts with the same name. Would you like to merge them?"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_937233]_You have %d contact with the same name. Would you like to merge them?"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_937235]_You have %d contacts with the same name. Would you like to merge them?"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_937232]_You have %d contacts with the same name. Would you like to merge them?"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_937234]_You have %d contacts with the same name. Would you like to merge them?"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_937230]_You have %d contacts with the same name. Would you like to merge them?"
+                }
+            ]
+        },
+        {
+            "name":"search_new",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_944370]_Search %d contact"
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_944371]_Search %d contacts"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_944372]_Search %d contacts"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_944368]_Search %d contacts"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_944369]_Search %d contacts"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_944367]_Search %d contacts"
+                }
+            ]
+        },
+        {
+            "name":"people_number_from_tablet",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_942912]_%d contact from tablet"
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_942901]_%d contacts from tablet"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_942899]_%d contacts from tablet"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_942904]_%d contacts from tablet"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_942915]_%d contacts from tablet"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_942917]_%d contacts from tablet"
+                }
+            ]
+        },
+        {
+            "name":"people_number_from_phone",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_942896]_%d contacts from phone"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_942910]_%d contact from phone"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_942913]_%d contacts from phone"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_942898]_%d contacts from phone"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_942903]_%d contacts from phone"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_942914]_%d contacts from phone"
+                }
+            ]
+        },
+        {
+            "name":"import_sim_contact_toast",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_942905]_Added %d contacts."
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_942902]_Added %d contact."
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_942894]_Added %d contacts."
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_942916]_Added %d contacts."
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_942895]_Added %d contacts."
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_942907]_Added %d contacts."
+                }
+            ]
+        },
+        {
+            "name":"minuteFormat",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_949265]_%d min"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_949263]_%d min"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_949269]_%d min"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_949268]_%d min"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_949266]_%d min"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_949258]_%d min"
+                }
+            ]
+        },
+        {
+            "name":"hoursFormat",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_949260]_%d h"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_949264]_%d h"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_949259]_%d h"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_949270]_%d h"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_949262]_%d h"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_949261]_%d h"
+                }
+            ]
+        },
+        {
+            "name":"people_number",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_942906]_%d contacts"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_942897]_%d contact"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_942908]_%d contacts"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_942909]_%d contacts"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_942911]_%d contacts"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_942900]_%d contacts"
+                }
+            ]
+        },
+        {
+            "name":"contacts_ring_times",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_956620]_Rang %d sec"
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_956622]_Rang %d sec"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_956621]_Rang %d sec"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_956624]_Rang %d sec"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_956619]_Rang %d sec"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_956623]_Rang %d sec"
+                }
+            ]
+        },
+        {
+            "name":"contact_all_rights_reserved",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_970248]_Contact. All right reserved. © %d"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_970250]_Contact. All right reserved. © %d"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_970246]_Contact. All right reserved. © %d"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_970247]_Contact. All right reserved. © %d"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_970245]_Contact. All right reserved. © %d"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_970249]_Contact. All right reserved. © %d"
+                }
+            ]
+        },
+        {
+            "name":"n_files",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_971059]_%d file"
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_971057]_%d files"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_971060]_%d files"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_971056]_%d files"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_971062]_%d files"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_971061]_%d files"
+                }
+            ]
+        },
+        {
+            "name":"cloud_contacts",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_999363]_Total contacts: %d"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_999364]_Total contacts: %d"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_999366]_Total contacts: %d"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_999367]_Total contacts: %d"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_999359]_Total contacts: %d"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_999357]_Total contacts: %d"
+                }
+            ]
+        },
+        {
+            "name":"merge_contacts",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_999360]_After auto-merge: %d"
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_999362]_After auto-merge: %d"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_999361]_After auto-merge: %d"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_999365]_After auto-merge: %d"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_999358]_After auto-merge: %d"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_999368]_After auto-merge: %d"
+                }
+            ]
+        },
+        {
+            "name":"recovering_contact_dialog",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_1020341]_Contacts on your device will be reverted to the way they were immediately after the OpenHarmony update was completed. There will be %d contacts after restoration."
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_1020343]_Contacts on your device will be reverted to the way they were immediately after the OpenHarmony update was completed. There will be %d contact after restoration."
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_1020345]_Contacts on your device will be reverted to the way they were immediately after the OpenHarmony update was completed. There will be %d contacts after restoration."
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_1020342]_Contacts on your device will be reverted to the way they were immediately after the OpenHarmony update was completed. There will be %d contacts after restoration."
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_1020346]_Contacts on your device will be reverted to the way they were immediately after the OpenHarmony update was completed. There will be %d contacts after restoration."
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_1020348]_Contacts on your device will be reverted to the way they were immediately after the OpenHarmony update was completed. There will be %d contacts after restoration."
+                }
+            ]
+        },
+        {
+            "name":"people_number_from_computer",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_1038516]_%d contacts from computer"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_1038514]_%d contact from computer"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_1038518]_%d contacts from computer"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_1038515]_%d contacts from computer"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_1038519]_%d contacts from computer"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_1038517]_%d contacts from computer"
+                }
+            ]
+        },
+        {
+            "name":"select_all_play_button",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"[TS_1044463]_%d items in total"
+                },
+                {
+                    "quantity":"one",
+                    "value":"[TS_1044467]_%d item in total"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_1044465]_%d items in total"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_1044466]_%d items in total"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_1044468]_%d items in total"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_1044464]_%d items in total"
+                }
+            ]
+        },
+        {
+            "name":"intelligence_group_add_contact_dialog_title",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"[TS_1086236]_Add %d contact?"
+                },
+                {
+                    "quantity":"other",
+                    "value":"[TS_1086235]_Add %d contacts?"
+                },
+                {
+                    "quantity":"zero",
+                    "value":"[TS_1086232]_Add %d contacts?"
+                },
+                {
+                    "quantity":"few",
+                    "value":"[TS_1086234]_Add %d contacts?"
+                },
+                {
+                    "quantity":"many",
+                    "value":"[TS_1086231]_Add %d contacts?"
+                },
+                {
+                    "quantity":"two",
+                    "value":"[TS_1086233]_Add %d contacts?"
+                }
+            ]
+        }
+    ]
+}

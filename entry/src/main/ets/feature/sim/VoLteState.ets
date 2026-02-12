@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2022 Huawei Device Co., Ltd.
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the 'License');
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed under the License is distributed on an 'AS IS' BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -15,14 +15,14 @@
 import radio from '@ohos.telephony.radio'
 import { HiLog } from '../../../../../../common';
 import telephonySim from '@ohos.telephony.sim';
+import { BusinessError } from '@ohos.base';
 
 const TAG = 'VoLteState';
 
 class VoLteState {
-  haveVoLteReg: boolean = false;
-  voLteRegStates: boolean[] = [false, false]
-  public mListener: () => void = () => {
-  };
+  public haveVoLteReg: boolean = false;
+  public voLteRegStates: boolean[] = [false, false]
+  public mListener: () => void = () => {};
 
   public init() {
     try {
@@ -30,17 +30,23 @@ class VoLteState {
         this.initVoLteListener(i);
       }
     } catch (error) {
-      HiLog.w(TAG, 'VoLteState, get VoLte state error:' + JSON.stringify(error));
+      HiLog.w(TAG, 'VoLteState, get VoLte state error:' + error?.message + ', stack: ' + error?.stack);
     }
   }
 
+  public unInit() {
+    HiLog.i(TAG, 'unInit...');
+    this.haveVoLteReg = false;
+    this.voLteRegStates = [false, false];
+    this.removeVoLteListeners();
+  }
   public removeVoLteListeners() {
     try {
       for (let i = 0; i < telephonySim.getMaxSimCount(); i++) {
         this.removeVoLteListener(i);
       }
     } catch (error) {
-      HiLog.w(TAG, 'VoLteState, removeVoLteListeners error:' + JSON.stringify(error));
+      HiLog.w(TAG, 'VoLteState, removeVoLteListeners error:' + error?.message + ', stack: ' + error?.stack);
     }
   }
 
@@ -49,16 +55,16 @@ class VoLteState {
   }
 
   private initVoLteListener(slot: number) {
-    HiLog.i(TAG, 'initVoLteListener slot:' + slot);
-    radio.on('imsRegStateChange', slot, radio.ImsServiceType.TYPE_VOICE, data => {
-      HiLog.i(TAG, `callback: data->${JSON.stringify(data)}`);
+    HiLog.w(TAG, 'initVoLteListener slot:' + slot + ' time:' + (new Date()).valueOf());
+    radio.on('imsRegStateChange', slot, radio.ImsServiceType.TYPE_VOICE, (data: radio.ImsRegInfo) => {
+      HiLog.w(TAG, `callback: data->imsRegState: ${data?.imsRegState}, imsRegTech: ${data?.imsRegTech}`);
       this.parseVoLteState(slot, data.imsRegState)
     });
-    radio.getImsRegInfo(slot, radio.ImsServiceType.TYPE_VOICE, (err, data) => {
+    radio.getImsRegInfo(slot, radio.ImsServiceType.TYPE_VOICE, (err: BusinessError<void>, data: radio.ImsRegInfo) => {
       if (err) {
-        HiLog.w(TAG, 'getImsRegInfo err:' + JSON.stringify(err))
+        HiLog.e(TAG, 'getImsRegInfo slot: ' + slot + ' err:' + err?.message + ', stack: ' + err?.stack);
       } else {
-        HiLog.i(TAG, `getImsRegInfo: data->${JSON.stringify(data)}`);
+        HiLog.w(TAG, `getImsRegInfo: slot->${slot} data->imsRegState: ${data?.imsRegState}, imsRegTech: ${data?.imsRegTech} time->${(new Date()).valueOf()}`);
         this.parseVoLteState(slot, data.imsRegState);
       }
     });
@@ -73,14 +79,14 @@ class VoLteState {
     const voLte = (data == radio.ImsRegState.IMS_REGISTERED);
     const changed = (voLte != this.voLteRegStates[slotId]);
     if (!changed) {
-      HiLog.w(TAG, `parseVoLteState: state not changed slotId${slotId}  data->${data}`);
+      HiLog.w(TAG, `parseVoLteState: state not changed slotId${slotId} data->${data} time->${(new Date()).valueOf()}`);
       return;
     }
     this.voLteRegStates[slotId] = voLte;
     this.haveVoLteReg = this.voLteRegStates[0] || this.voLteRegStates[1];
-    AppStorage.SetOrCreate('haveVoLteReg', this.haveVoLteReg);
+    AppStorage.SetOrCreate<boolean>('haveVoLteReg', this.haveVoLteReg);
     AppStorage.SetOrCreate<boolean[]>('voLteRegStates', this.voLteRegStates);
-    HiLog.i(TAG, `parseVoLteState: state changed slotId${slotId}  volte->${voLte}, haveVoLteReg:${this.haveVoLteReg}`);
+    HiLog.w(TAG, `parseVoLteState: state changed slotId${slotId}  volte->${voLte}, haveVoLteReg:${this.haveVoLteReg}`);
     if (this.mListener) {
       this.mListener();
     }

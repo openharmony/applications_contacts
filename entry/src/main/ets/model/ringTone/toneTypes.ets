@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2026 Huawei Device Co., Ltd.
+/*
+ * Copyright (c) Huawei Technologies Co., Ltd. 2024-2025. All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,8 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import systemSoundManager from '@ohos.multimedia.systemSoundManager';
+
 export interface ToneAttrs {
   title: string,
   fileName: string,
@@ -29,34 +29,42 @@ export interface RingtoneInfo {
 }
 
 /**
-
- 本地铃声参数
+ * 本地铃声参数
  */
 export class RingtoneParam {
   // 要发送给callui的联系人id
   public contactId?: string;
+
   // 页面类型 localMusic（本地歌曲）
   public pageType?: string;
+
   // 铃声类型 phone, message, notification, alarm
   public toneType?: string;
+
   // SIM卡类型：0, 1
   public card?: string;
+
   // 音乐app存在时设置选中的铃声路径
   public ringtonePath?: string = '';
+
   // 设置选中的铃声路径
   public selectedRingtonePath?: string = '';
+
   // 设置选中的铃声名字
   public selectedRingtoneName?: string = '';
+
   // 设置选中的铃音库名字
   public selectedLibraryRingtonePath?: string = '';
+
   // 是否显示标题栏
   public showTitle: boolean = false;
+
   // 设置选中的铃声id
   public selectRingtoneContentId: string = '';
 }
-/**
 
- 铃声类型枚举
+/**
+ * 铃声类型枚举
  */
 export enum ToneType {
   RINGTONE = 'phone',
@@ -66,17 +74,17 @@ export enum ToneType {
   ALARM = 'alarm',
   CONTACT = 'contact'
 }
-/**
 
- 页面类型枚举
+/**
+ * 页面类型枚举
  */
 export enum PageType {
   LOCAL_PAGE_TYPE = 'localMusic',
   ONLINE_PAGE_TYPE = 'onlineRingtone',
 }
-/**
 
- 页面类型枚举
+/**
+ * 页面类型枚举
  */
 export enum RingtoneType {
   SYSTEM_TYPE = '0',

@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2026 Huawei Device Co., Ltd.
+/*
+ * Copyright (c) Huawei Technologies Co., Ltd. 2024-2025. All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import MergedCallLog from '../../../../../../feature/call/src/main/ets/entity/MergedCallLog';
 import { DataItemType } from '../../../../../../feature/contact';
 import { ContactVo } from '../bean/ContactVo';
@@ -26,6 +25,7 @@ import { AssociatedPersonBean } from '../bean/AssociatedPersonBean';
 import contact from '@ohos.contact';
 import { CallLogTemp } from '../../../../../../feature/call/src/main/ets/entity/CallLogTemp';
 import { RingtoneInfo } from '../ringTone/toneTypes';
+import { SearchContactResult } from '../bean/SearchContactResult';
 
 export interface CallLogInterface {
   showDivifer: boolean,
@@ -48,15 +48,16 @@ export interface PhoneNumberInterface {
   phoneNumber: string,
   labelId: string,
   numType: string,
-  labelName: Resource | string |undefined
+  labelName: string | Resource,
   checked: boolean,
   startPhone: string,
   middlePhone: string,
   endPhone: string,
   primary?: boolean,
+  accountId?: string
 }
 
-export interface ContactInterface {
+export interface ContactInterface<T> {
   i: number,
   item: T
 }
@@ -118,7 +119,7 @@ export interface CallLogDetailInterface {
   endTime: string,
 }
 
-export interface RequestParam {
+export interface RequestParam<T> {
   actionData: T,
   context: common.UIAbilityContext
 }
@@ -167,6 +168,7 @@ export class EmptyParam {
 export interface ContactIdParam {
   context: common.UIAbilityContext,
   contactId: string,
+  operationScenario?: string,
 }
 
 export interface SearchContactParam {
@@ -212,7 +214,7 @@ export interface GetAllCallActionData extends PageLimit {
   isNeedQueryContact: boolean
 }
 
-export interface ReqData {
+export interface ReqData<T> {
   actionData: T,
 }
 
@@ -236,7 +238,7 @@ export interface FindPhotoByIdActionData extends PageLimit {
 
 export interface CallHistorySearchGetActionData {
   teleNumber: string
-  nameArray: Array
+  nameArray: Array<string>
 }
 
 export interface paramsInterface {
@@ -323,26 +325,26 @@ export interface dialogDataStruct {
 }
 
 export class RepeatContact {
-  public contactId: string = ''
-  public name: string = ''
-  public phoneTags: string[] = []
+  contactId: string = ''
+  name: string = ''
+  phoneTags: string[] = []
 
-  constructor() {
+  constructor () {
     this.resetRepeatContact();
   }
 
-  getUniqueKey() {
+  getUniqueKey () {
     let uniqueKey = this.name + '-' + this.phoneTags.sort().join('-');
     return uniqueKey;
   }
 
-  initFromRepeatContact(repeatContact: RepeatContact) {
+  initFromRepeatContact (repeatContact: RepeatContact) {
     this.contactId = repeatContact.contactId;
     this.name = repeatContact.name;
     this.phoneTags = repeatContact.phoneTags;
   }
 
-  resetRepeatContact() {
+  resetRepeatContact () {
     this.contactId = '';
     this.name = '';
     this.phoneTags = [];
@@ -410,7 +412,18 @@ export interface CustomizedParams {
   MARKTYPE?: number,
   INDEX?: number,
   DIRECTION?: number,
-  MARKSOURCE?: string
+  MARKSOURCE?: string,
+  SEARCH_INDEX?: number,
+  CATEGORYTYPE?: number,
+  SEARCHKEY?: string,
+  MIXSEARCHNUMBER?: number,
+  ISSTARTDBSEARCH?: number,
+  DBSEARCHNUMBER?: number
+  STATUS?: number,
+  IS_AUTO_SUMMARY?: boolean,
+  ERROR_TYPE?: string,
+  DEVICE_TYPE?: number,
+  MOBILE_MODLE?: string
 }
 
 export interface DialerSearchResultType {
@@ -419,7 +432,14 @@ export interface DialerSearchResultType {
   teleOffset: number,
   contactsResultOffset: number,
   contactNameKeySet: string[],
-  searchPhoneNumberSet: string[]
+  searchPhoneNumberSet: string[],
+  contactsOffsetFromDb: number
+}
+
+export interface ContactsSearchResult {
+  resultList: SearchContactResult[],
+  contactsOffsetFromMixSearch: number,
+  contactsOffsetFromDb: number
 }
 
 export enum CachedContactsPixelMapType {

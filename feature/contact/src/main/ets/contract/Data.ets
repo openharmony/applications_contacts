@@ -19,7 +19,8 @@ import { Contacts } from './Contacts';
  * rawContact data type
  */
 export class Data extends DataColumns {
-  static readonly CONTENT_URI: string = Contacts.CONTENT_URI + '/contacts/contact_data';
+  public static readonly CONTENT_URI: string = Contacts.CONTENT_URI + '/contacts/contact_data';
+
   constructor() {
     super();
   }

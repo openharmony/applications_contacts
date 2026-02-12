@@ -14,17 +14,16 @@
  */
 
 import DataColumns from './DataColumns';
-import DataType from './DataType';
-import {DataItemType} from './DataType';
+import DataType, { DataItemType } from './DataType';
 
 /**
  * Organization Data Type
  */
-export class Organization extends DataType{
-  static readonly CONTENT_ITEM_TYPE: string = 'organization';
-  static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.ORGANIZATION;
-  static readonly COMPANY: string = DataType.DATA;
-  static readonly TITLE: string = DataColumns.POSITION;
+export class Organization extends DataType {
+  public static readonly CONTENT_ITEM_TYPE: string = 'organization';
+  public static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.ORGANIZATION;
+  public static readonly COMPANY: string = DataType.DATA;
+  public static readonly TITLE: string = DataColumns.POSITION;
 
   constructor() {
     super();

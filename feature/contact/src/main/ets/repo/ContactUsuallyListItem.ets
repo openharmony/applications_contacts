@@ -13,30 +13,29 @@
  * limitations under the License.
  */
 
-import Contact from '../entity/Contact';
 import { Contacts } from '../contract/Contacts';
 import { RawContacts } from '../contract/RawContacts';
-import ContactBuilder from '../entity/ContactBuilder';
 import { Data } from '../contract/Data';
 import DataShareResultSet from '@ohos.data.DataShareResultSet';
+import RawContactsColumns from '../contract/RawContactsColumns';
 
 export default class ContactUsuallyListItem {
-  static readonly COLUMNS: string[] = [Data.RAW_CONTACT_ID, Contacts.QUICK_SEARCH_KEY, RawContacts.DISPLAY_NAME,
-    RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME, Contacts.COMPANY, Contacts.POSITION,
-    RawContacts.FAVORITE_ORDER, Data.DETAIL_INFO, Data.CONTENT_TYPE];
-  readonly id: number;
-  readonly displayName: string;
-  readonly sortFirstLetter: string;
-  readonly photoFirstName: string;
-  readonly quickSearchKey: string;
-  readonly company: string;
-  readonly position: string;
-  readonly favoriteOrder: string;
-  readonly detailInfo: string;
-  readonly contentType: string;
+  public static readonly COLUMNS: string[] = [RawContactsColumns.CONTACT_ID, Contacts.QUICK_SEARCH_KEY, 
+  RawContacts.DISPLAY_NAME, RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME, Contacts.COMPANY, 
+  Contacts.POSITION, RawContacts.FAVORITE_ORDER, Data.DETAIL_INFO, Data.CONTENT_TYPE];
+  public readonly id: number;
+  public readonly displayName: string;
+  public readonly sortFirstLetter: string;
+  public readonly photoFirstName: string;
+  public readonly quickSearchKey: string;
+  public readonly company: string;
+  public readonly position: string;
+  public readonly favoriteOrder: string;
+  public readonly detailInfo: string;
+  public readonly contentType: string;
 
   constructor(resultSet: DataShareResultSet) {
-    this.id = resultSet.getLong(resultSet.getColumnIndex(Data.RAW_CONTACT_ID));
+    this.id = resultSet.getLong(resultSet.getColumnIndex(RawContactsColumns.CONTACT_ID));
     this.displayName = resultSet.getString(resultSet.getColumnIndex(RawContacts.DISPLAY_NAME));
     this.sortFirstLetter = resultSet.getString(resultSet.getColumnIndex(RawContacts.SORT_FIRST_LETTER));
     this.photoFirstName = resultSet.getString(resultSet.getColumnIndex(RawContacts.PHOTO_FIRST_NAME));
@@ -48,7 +47,15 @@ export default class ContactUsuallyListItem {
     this.contentType = resultSet.getString(resultSet.getColumnIndex(Data.CONTENT_TYPE));
   }
 
-//  createContact() {
-//    return new Contact(new ContactBuilder(this.id));
-//  }
+}
+
+export class ContactUsuallyListItemHasPhones extends ContactUsuallyListItem {
+  phones: string[] = []
+
+  constructor(resultSet: DataShareResultSet) {
+    super(resultSet);
+    if (resultSet.getString(resultSet.getColumnIndex(Data.CONTENT_TYPE)) === 'phone') {
+      this.phones.push(resultSet.getString(resultSet.getColumnIndex(Data.CONTENT_TYPE)))
+    }
+  }
 }
