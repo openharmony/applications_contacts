@@ -1,12 +1,19 @@
 {
   "module": {
+    "dependencies": [
+      {
+        "bundleName": "com.ohos.security.pickersheet",
+        "moduleName": "pickersheetlibrary"
+      }
+    ],
     "name": "entry",
     "type": "entry",
-    "srcEntry": "./ets/Application/MyAbilityStage.ts",
+    "srcEntrance": "./ets/Application/MyAbilityStage.ts",
     "description": "$string:mainability_description",
     "mainElement": "com.ohos.contacts.MainAbility",
     "deviceTypes": [
-      "default"
+      "default",
+      "tablet"
     ],
     "deliveryWithInstall": true,
     "installationFree": false,
@@ -15,19 +22,87 @@
       {
         "name": "ArkTSPartialUpdate",
         "value": "true"
+      },
+      {
+        "name": "action.settings.app.can_not_disable",
+        "value": "true"
       }
     ],
     "abilities": [
       {
         "name": "com.ohos.contacts.MainAbility",
-        "srcEntry": "./ets/MainAbility/MainAbility.ts",
+        "srcEntry": "./ets/MainAbility/MainAbility.ets",
         "description": "$string:mainability_description",
-        "icon": "$media:ic_contact_icon",
-        "label": "$string:app_name",
-        "startWindowIcon": "$media:white",
-        "startWindowBackground": "$color:detail_main_background",
-        "minWindowWidth": 320,
-        "minWindowHeight": 700,
+        "icon": "$media:ic_dialer_icon",
+        "label": "$string:MainAbility_label",
+        "startWindowIcon": "$media:starting_window",
+        "startWindowBackground": "$color:start_window_background",
+        "minWindowWidth": 696,
+        "minWindowHeight": 608,
+        "removeMissionAfterTerminate": true,
+        "visible": true,
+        "skills": [
+          {
+            "entities": [
+              "entity.system.home"
+            ],
+            "actions": [
+              "action.system.home",
+              "ohos.want.action.viewData"
+            ],
+            "uris": [
+              {
+                "scheme": "tel"
+              }
+            ],
+            'uris': [
+              {
+                "scheme": "calllog",
+                "host": "voice",
+                "pathStartWith": "main"
+              }
+            ]
+          },
+          {
+            "entities": [
+              "entity.system.browsable"
+            ],
+            "actions": [
+              "ohos.want.action.viewData"
+            ],
+            "uris": [
+              {
+                "scheme": "file",
+                "type": "text/x-vcard",
+                "linkFeature": "FileOpen"
+              }
+            ]
+          }
+        ],
+        "metadata": [
+          {
+            "name": "ohos.ability.shortcuts",
+            "resource": "$profile:shortcuts_config"
+          }
+        ],
+        "supportWindowMode": [
+          "fullscreen",
+          "floating",
+          "split"
+        ],
+        "orientation": "follow_desktop"
+      },
+      {
+        "name": "com.ohos.contacts.EntryAbility",
+        "srcEntry": "./ets/MainAbility/MainAbility.ets",
+        "description": "$string:mainability_description",
+        "icon": "$media:app_icon",
+        "label": "$string:contact",
+        "startWindowIcon": "$media:starting_window",
+        "startWindowBackground": "$color:start_window_background",
+        "minWindowWidth": 696,
+        "minWindowHeight": 608,
+        "removeMissionAfterTerminate": true,
         "visible": true,
         "skills": [
           {
@@ -39,9 +114,69 @@
             ]
           }
         ],
+        "supportWindowMode": [
+          "fullscreen",
+          "floating",
+          "split"
+        ],
+        "orientation": "follow_desktop"
+      },
+      {
+        "name": "DiologEntryAbility",
+        "srcEntry": "./ets/dialogentryability/DialogEntryAbility.ets",
+        "description": "$string:DiologEntryAbility_desc",
+        "label": "$string:DiologEntryAbility_label",
+        "startWindowIcon": "$media:ic_notification_call_missed",
+        "startWindowBackground": "$color:start_dialogWindow_background"
+      },
+      {
+        "name": "com.ohos.contacts.SpeedDialAbility",
+        "srcEntry": "./ets/speeddialability/SpeedDialAbility.ets",
+        "description": "$string:SpeedDialAbility_desc",
+        "icon": "$media:icon",
+        "label": "$string:SpeedDialAbility_label",
+        "startWindowIcon": "$media:starting_window",
+        "startWindowBackground": "$color:start_window_background",
+        "exported": true,
+        "permissions": [
+          "ohos.permission.GET_TELEPHONY_STATE"
+        ],
+        "supportWindowMode": [
+          "fullscreen",
+          "split"
+        ],
+        "orientation": "follow_desktop"
       }
     ],
     "extensionAbilities": [
+      {
+        "name": "ShortcutCardAbility",
+        "srcEntry": "./ets/card/ability/ShortcutCardAbility.ets",
+        "description": "$string:ShortcutCardAbility_desc",
+        "label": "$string:card_contact",
+        "type": "formEdit"
+      },
+      {
+        "name": "SpeedDialCardAbility",
+        "srcEntry": "./ets/card/ability/SpeedDialCardAbility.ets",
+        "description": "$string:SpeedDialAbility_desc",
+        "label": "$string:card_contact",
+        "type": "formEdit"
+      },
+      {
+        "name": "MissedCallCardAbility",
+        "srcEntry": "./ets/card/ability/MissedCallCardAbility.ets",
+        "description": "$string:MissedCallCardAbility_desc",
+        "label": "$string:card_contact",
+        "type": "formEdit"
+      },
+      {
+        "name": "FormEditExtensionAbility",
+        "srcEntry": "./ets/card/ability/FormEditExtensionAbility.ets",
+        "description": "$string:ShortcutCardAbility_desc",
+        "label": "$string:card_contact",
+        "type": "formEdit"
+      },
       {
         "description": "subscriber",
         "label": "$string:missed_call",
@@ -53,39 +188,162 @@
           }
         ],
         "name": "Subscriber",
-        "srcEntry": "./ets/StaticSubscriber/StaticSubscriber.ts",
+        "srcEntry": "./ets/StaticSubscriber/StaticSubscriber.ets",
         "type": "staticSubscriber",
-        "exported": true
+        "exported": true,
+        "permissions": [
+          "ohos.permission.READ_CONTACTS",
+          "ohos.permission.WRITE_CONTACTS"
+        ]
       },
+      {
+        "name": "EntryFormAbility",
+        "srcEntry": "./ets/entryformability/EntryFormAbility.ets",
+        "label": "$string:EntryFormAbility_label",
+        "description": "$string:EntryFormAbility_desc",
+        "type": "form",
+        "metadata": [
+          {
+            "name": "ohos.extension.form",
+            "resource": "$profile:form_config"
+          }
+        ]
+      },
+      {
+        "description": "contact detail",
+        "name": "ContactUiExtentionAbility",
+        "srcEntry": "./ets/uiExtentionAbility/ContactUiExtentionAbility.ets",
+        "type": "sys/commonUI",
+        "exported": true,
+        "permissions": [],
+        "extensionProcessMode": "instance"
+      },
+      {
+        "description": "interception calls",
+        "name": "InterceptionCallsExtAbility",
+        "srcEntry": "./ets/interception/InterceptionCallsExtAbility.ets",
+        "type": 'sys/commonUI',
+        "exported": true,
+        "permissions": [
+          "ohos.permission.READ_CONTACTS",
+          "ohos.permission.WRITE_CONTACTS"
+        ]
+      },
+      {
+        "name": "CardDialogServiceExtAbility",
+        "srcEntry": "./ets/card/ability/CardDialogExtensionAbility.ets",
+        "description": "UIExtensionProvider",
+        "exported": true,
+        "type": "sysDialog/common",
+        "icon": "$media:icon",
+        "permissions": [
+          "ohos.permission.READ_CONTACTS",
+          "ohos.permission.WRITE_CONTACTS"
+        ]
+      },
+      {
+        "name": "ContactWorkSchedulerExtensionAbility",
+        "srcEntry": "./ets/workSchedulerExtensionAbility/ContactWorkSchedulerExtensionAbility.ets",
+        "description": "ContactWorkSchedulerExtension",
+        "type": "workScheduler",
+        "exported": true,
+        "permissions": []
+      },
+      {
+        "name": "BackupLogWorkSchedulerExtensionAbility",
+        "srcEntry": "./ets/workSchedulerExtensionAbility/BackupLogWorkSchedulerExtensionAbility.ets",
+        "description": "BackupLogWorkSchedulerExtension",
+        "type": "workScheduler",
+        "exported": true,
+        "permissions": []
+      },
+      {
+        "name": "PrivacyAbility",
+        "srcEntry": "./ets/privacyAbility/PrivacyAbility.ets",
+        "description": "privacyAbility",
+        "icon": "$media:icon",
+        "label": "$string:EntryAbility_label",
+        "exported": true,
+        "type": 'sys/commonUI',
+        "permissions": [
+          "ohos.permission.ACCESS_SECURITY_PRIVACY_CENTER"
+        ],
+        "skills": [
+          {
+            "entities": [
+              "entity.system.home"
+            ],
+            "actions": [
+              "action.access.business_and_privacy_statement"
+            ]
+          }
+        ],
+        "metadata": [
+          {
+            "name": "metadata.access.business_and_privacy_statement",
+            "value": 'data_privacy_center.json'
+          }
+        ]
+      },
+      {
+        "name" : "BackupExtensionAbility",
+        "srcEntry": "./ets/backup/BackupExtension.ets",
+        "type": "backup",
+        "visible": true,
+        "metadata": [
+          {
+            "name": "ohos.extension.backup",
+            "resource": "$profile:backup_config"
+          }
+        ]
+
+      }
     ],
     "requestPermissions": [
+      {
+        "name": "ohos.permission.ACCESS_CAR_DISTRIBUTED_ENGINE"
+      },
       {
         "name": "ohos.permission.VIBRATE"
       },
       {
         "name": "ohos.permission.READ_CONTACTS",
         "reason": "$string:permission_read_write_contacts",
-        "usedScene": {}
+        "usedScene": {
+          "abilities": [
+            "com.ohos.contacts.MainAbility",
+            "com.ohos.contacts.SpeedDialAbility",
+            "Subscriber"
+          ]
+        }
       },
       {
         "name": "ohos.permission.WRITE_CONTACTS",
         "reason": "$string:permission_read_write_contacts",
-        "usedScene": {}
-      },
-      {
-        "name": "ohos.permission.MANAGE_VOICEMAIL",
-        "reason": "$string:permission_manage_voicemail",
-        "usedScene": {}
+        "usedScene": {
+          "abilities": [
+            "com.ohos.contacts.MainAbility",
+            "Subscriber"
+          ]
+        }
       },
       {
         "name": "ohos.permission.READ_CALL_LOG",
         "reason": "$string:permission_read_write_calllog",
-        "usedScene": {}
+        "usedScene": {
+          "abilities": [
+            "com.ohos.contacts.MainAbility"
+          ]
+        }
       },
       {
         "name": "ohos.permission.WRITE_CALL_LOG",
         "reason": "$string:permission_read_write_calllog",
-        "usedScene": {}
+        "usedScene": {
+          "abilities": [
+            "com.ohos.contacts.MainAbility"
+          ]
+        }
       },
       {
         "name": "ohos.permission.PLACE_CALL"
@@ -110,6 +368,84 @@
       },
       {
         "name": "ohos.permission.SET_TELEPHONY_STATE"
+      },
+      {
+        "name": "ohos.permission.SET_NETWORK_INFO"
+      },
+      {
+        "name": "ohos.permission.INTERNET"
+      },
+      {
+        "name": "ohos.permission.READ_CLOUD_SYNC_CONFIG"
+      },
+      {
+        "name": "ohos.permission.GET_BUNDLE_INFO",
+        "reason": "$string:permission_for_recorder_list",
+        "usedScene": {
+          "abilities": [
+            "com.ohos.contacts.MainAbility"
+          ]
+        }
+      },
+      {
+        "name": "ohos.permission.START_SYSTEM_DIALOG"
+      },
+      {
+        "name": "ohos.permission.PERMISSION_USED_STATS"
+      },
+      {
+        "name": "ohos.permission.LAUNCH_SPAMSHIELD_PAGE"
+      },
+      {
+        "name": "ohos.permission.GET_BUNDLE_RESOURCES"
+      },
+      {
+        "name": "ohos.permission.sec.ACCESS_UDID"
+      },
+      {
+        "name": "ohos.permission.ACCESS_SEARCH_SERVICE"
+      },
+      {
+        "name": "ohos.permission.LAUNCH_DATA_PRIVACY_CENTER"
+      },
+      {
+        "name": "ohos.permission.SECURE_PASTE"
+      },
+      {
+        "name": "ohos.permission.INTERACT_ACROSS_LOCAL_ACCOUNTS"
+      },
+      {
+        "name": "ohos.permission.WRITE_RINGTONE"
+      },
+      {
+        "name": "ohos.permission.MANAGE_SECURE_SETTINGS"
+      },
+      {
+        "name": "ohos.permission.CALLED_BELOW_LOCK_SCREEN"
+      },
+      {
+        "name": "ohos.permission.ACCESS_LEARN_MORE_DIALOG"
+      },
+      {
+        "name": "ohos.permission.ACCESS_BIOMETRIC"
+      },
+      {
+        "name": "ohos.permission.READ_APP_LOCK"
+      },
+      {
+        "name": "ohos.permission.WRITE_APP_LOCK"
+      },
+      {
+        "name": "ohos.permission.ACCESS_USER_AUTH_INTERNAL"
+      },
+      {
+        "name": "ohos.permission.MANAGE_INTELLIGENT_VOICE"
+      },
+      {
+        "name": "ohos.permission.ACCESS_HIVIEWCARE"
+      },
+      {
+        "name": "ohos.permission.GET_TELEPHONY_ESIM_STATE"
       }
     ]
   }

@@ -12,17 +12,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AllCallsGetActionData, FindByNumberActionData } from '../../../../../../entry/src/main/ets/model/';
+import { AllCallsGetActionData, FindByNumberActionData } from '../../../../../../entry/src/main/ets/model/type';
+
 import { CallLog } from '../entity/CallLog';
 
 /**
- * Call record warehouse operation interface, which provides database operation methods and shields the persistence layer logic.
+ * Call record warehouse operation interface,
+ * which provides database operation methods and shields the persistence layer logic.
  */
 export default interface ICallLogRepository {
   saveOne: (callLog: CallLog, callback: (Contact?: number) => void) => void;
   clear: (callback: (Contact?: number) => void) => void;
   deleteById: (id: number) => boolean;
-  deleteByIdIn: (ids: number[], callback: (Contact?: number) => void) => void;
+  deleteByIdIn: (ids: number[], phoneNumbers: string[], callback: (Contact?: number) => void) => void;
   deleteByNumber: (number: string) => boolean;
   deleteByLookupUri: (lookupUri: string) => boolean;
   readByNumber: (number: string) => boolean;

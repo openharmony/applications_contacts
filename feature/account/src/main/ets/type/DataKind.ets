@@ -19,8 +19,9 @@ import EditType from './EditType';
  * This topic describes how to display and edit a single data record of a contact.
  */
 export default class DataKind {
-  readonly mimeType: string;
-  readonly typeList: EditType[] = [];
+  public readonly mimeType: string;
+  public readonly typeList: EditType[] = [];
+
   constructor(mineType: string, typeList: EditType[]) {
     this.mimeType = mineType;
     this.typeList = typeList;

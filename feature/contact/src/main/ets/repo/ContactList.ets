@@ -12,14 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import DataShareResultSet from '@ohos.data.DataShareResultSet';
 import AddressBookIndex from './AddressBookIndex';
 import ContactListItem from './ContactListItem';
 
 export default class ContactList {
-  static readonly CONTACT_PROJECTION_PRIMARY = [];
-  readonly bookIndex: AddressBookIndex = new AddressBookIndex([]);
-  readonly contacts: ContactListItem[] = [];
-  constructor(resultSet: ContactListItem[]) {
+  public static readonly CONTACT_PROJECTION_PRIMARY = [];
+  public readonly bookIndex: AddressBookIndex = new AddressBookIndex();
+  public readonly contacts: ContactListItem[] = [];
+
+  constructor(resultSet: DataShareResultSet) {
   }
 }

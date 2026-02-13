@@ -1,0 +1,11 @@
+{
+    "string":[
+        {
+            "name":"contact",
+            "value":"Контакты",
+            "attr":{
+                "priority":"LT"
+            }
+        }
+    ]
+}

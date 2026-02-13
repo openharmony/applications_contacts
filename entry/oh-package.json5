@@ -1,9 +1,19 @@
 {
   "license": "ISC",
   "devDependencies": {},
+  "author": "",
   "name": "entry",
-  "description": "example description",
-  "repository": {},
+  "description": "Contact hap.",
+  "main": "",
   "version": "1.0.0",
-  "dependencies": {}
+  "dependencies": {
+//    "@hms-paf/ui-widget-emptypage": "14.16.9-314",
+//    '@hms-paf/ui-widget-base-v2': '14.17.7-219',
+//    "@hms-paf/ui-widget-permission": "14.16.9-314",
+//    "@hms-paf/ui-widget-webview": "14.16.9-314",
+//    "@hms-paf/ui-widget-about-v2": "14.17.7-219",
+//    "@hms-paf/ui-widget-cloudsync": "2.0.0-301.1",
+//    "@hw-hmos/pickersheet": "6.0.0-331"
+  },
+  "dynamicDependencies": {}
 }

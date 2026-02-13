@@ -1,0 +1,2372 @@
+{
+    "string":[
+        {
+            "name":"blockCall",
+            "value":"[TS_847022]_Canceled"
+        },
+        {
+            "name":"save",
+            "value":"[TS_847056]_Save"
+        },
+        {
+            "name":"remarks",
+            "value":"[TS_847021]_Notes"
+        },
+        {
+            "name":"copy_phoneNumber",
+            "value":"[TS_847020]_Copy number"
+        },
+        {
+            "name":"edit",
+            "value":"[TS_846889]_Edit"
+        },
+        {
+            "name":"noName",
+            "value":"[TS_847053]_(No name)"
+        },
+        {
+            "name":"clear",
+            "value":"[TS_846909]_Clear"
+        },
+        {
+            "name":"address_add",
+            "value":"[TS_846904]_Address"
+        },
+        {
+            "name":"yesterday",
+            "value":"[TS_846896]_Yesterday"
+        },
+        {
+            "name":"delete_avatar",
+            "value":"[TS_869943]_Remove photo"
+        },
+        {
+            "name":"refreshing_data",
+            "value":"[TS_865567]_Syncing…"
+        },
+        {
+            "name":"phone_type_mobile_expansion",
+            "value":"[TS_846941]_Phone %s"
+        },
+        {
+            "name":"no_group",
+            "value":"[TS_847070]_No groups"
+        },
+        {
+            "name":"8301002",
+            "value":"[TS_865562]_Unable to read or update SIM card data."
+        },
+        {
+            "name":"birthday_type_lunarbirthday",
+            "value":"[TS_846982]_Lunar birthday"
+        },
+        {
+            "name":"set_voicemial_info",
+            "value":"[TS_865580]_To set up voicemail, go to Menu > Settings."
+        },
+        {
+            "name":"delete_call_logs",
+            "value":"[TS_846907]_Delete entry"
+        },
+        {
+            "name":"phone_type_work",
+            "value":"[TS_846934]_Organization"
+        },
+        {
+            "name":"not_selected",
+            "value":"[TS_846919]_None selected"
+        },
+        {
+            "name":"got_it",
+            "value":"[TS_869979]_OK"
+        },
+        {
+            "name":"unselect_all",
+            "value":"[TS_846926]_Deselect all"
+        },
+        {
+            "name":"add_more",
+            "value":"[TS_846978]_Add more fields"
+        },
+        {
+            "name":"cancel_favorite",
+            "value":"[TS_846969]_Unfavorite"
+        },
+        {
+            "name":"instant_type_custom",
+            "value":"[TS_846880]_Custom"
+        },
+        {
+            "name":"edit_beforeCall",
+            "value":"[TS_846974]_Edit before call"
+        },
+        {
+            "name":"turn_off_airplane_mode",
+            "value":"[TS_865594]_Turn off Airplane mode before attempting to access voicemail."
+        },
+        {
+            "name":"voicemail",
+            "value":"[TS_846923]_Voicemail"
+        },
+        {
+            "name":"clear_default_values",
+            "value":"[TS_846869]_Clear default"
+        },
+        {
+            "name":"import_sim_contact_title",
+            "value":"[TS_865572]_Import SIM contacts"
+        },
+        {
+            "name":"contact_list_search",
+            "value":"[TS_846938]_Search"
+        },
+        {
+            "name":"no_dialer_calllog",
+            "value":"[TS_846975]_Call log is empty"
+        },
+        {
+            "name":"dialer",
+            "value":"[TS_846939]_Phone"
+        },
+        {
+            "name":"missed_call",
+            "value":"[TS_846878]_Missed"
+        },
+        {
+            "name":"mainability_description",
+            "value":"[TS_846970]_ETS_Empty Ability"
+        },
+        {
+            "name":"delete_dialog_title",
+            "value":"[TS_846908]_Delete this contact?"
+        },
+        {
+            "name":"confirm",
+            "value":"[TS_865564]_OK"
+        },
+        {
+            "name":"not_set",
+            "value":"[TS_865595]_Not set"
+        },
+        {
+            "name":"no_favorite",
+            "value":"[TS_846922]_No favorites"
+        },
+        {
+            "name":"hide",
+            "value":"[TS_865584]_Hide"
+        },
+        {
+            "name":"call_setting_type_paste",
+            "value":"[TS_846966]_Paste"
+        },
+        {
+            "name":"phone_type_fax_home_expansion",
+            "value":"[TS_846867]_Home fax (%s)"
+        },
+        {
+            "name":"phone_type_pager_expansion",
+            "value":"[TS_846900]_Pager %s"
+        },
+        {
+            "name":"text",
+            "value":"[TS_847065]_Text"
+        },
+        {
+            "name":"cancel_stop_import",
+            "value":"[TS_865568]_Cancel"
+        },
+        {
+            "name":"auto_merge_submsg",
+            "value":"[TS_869942]_Only contacts with the same name and phone number are automatically merged."
+        },
+        {
+            "name":"contacts_not_deleted",
+            "value":"[TS_869920]_Contacts will not be deleted."
+        },
+        {
+            "name":"phone_type_work_expansion",
+            "value":"[TS_846959]_Work %s"
+        },
+        {
+            "name":"set_default_values",
+            "value":"[TS_847052]_Set as default"
+        },
+        {
+            "name":"deleting_group",
+            "value":"[TS_869959]_Delete group"
+        },
+        {
+            "name":"phone_number",
+            "value":"[TS_846933]_Phone number"
+        },
+        {
+            "name":"setting",
+            "value":"[TS_865565]_Settings"
+        },
+        {
+            "name":"organize_contacts",
+            "value":"[TS_869919]_Organize contacts"
+        },
+        {
+            "name":"birthday_type_other",
+            "value":"[TS_846947]_Important date"
+        },
+        {
+            "name":"all_call_logs",
+            "value":"[TS_846965]_All"
+        },
+        {
+            "name":"merge_repeat_contact",
+            "value":"[TS_869950]_Merge duplicate contacts"
+        },
+        {
+            "name":"relationship_type_kinship",
+            "value":"[TS_846972]_Relative"
+        },
+        {
+            "name":"choose_sub_recommend",
+            "value":"[TS_847062]_Used last time"
+        },
+        {
+            "name":"importing_sim_contact",
+            "value":"[TS_865563]_Importing contacts…"
+        },
+        {
+            "name":"speed_dial_turn_off_airplane_mode",
+            "value":"[TS_865589]_Turn off Airplane mode before using the speed dial function."
+        },
+        {
+            "name":"call_setting_type_batch_delete",
+            "value":"[TS_847010]_Delete entries"
+        },
+        {
+            "name":"group_rename",
+            "value":"[TS_869967]_Rename"
+        },
+        {
+            "name":"group_ringtone",
+            "value":"[TS_869974]_Group ringtone"
+        },
+        {
+            "name":"name_pinyin",
+            "value":"[TS_847055]_Phonetic name"
+        },
+        {
+            "name":"modify_speed_dial",
+            "value":"[TS_865577]_Modify speed dial"
+        },
+        {
+            "name":"auto_merge_duplicate_contacts",
+            "value":"[TS_869926]_Auto-merge duplicate contacts"
+        },
+        {
+            "name":"dialog_delete",
+            "value":"[TS_846895]_Delete"
+        },
+        {
+            "name":"group",
+            "value":"[TS_846954]_Groups"
+        },
+        {
+            "name":"delete_all_callLog_dialog_title",
+            "value":"[TS_846948]_Delete all call log entries?"
+        },
+        {
+            "name":"recent",
+            "value":"[TS_847023]_Recents"
+        },
+        {
+            "name":"delete_number_settings",
+            "value":"[TS_865571]_Clear assigned number"
+        },
+        {
+            "name":"copy_contact_from",
+            "value":"[TS_869923]_Copy contacts from"
+        },
+        {
+            "name":"phone_type_other",
+            "value":"[TS_846912]_Other"
+        },
+        {
+            "name":"deleteCallLog_dialog_title",
+            "value":"[TS_846950]_Delete this call log entry?"
+        },
+        {
+            "name":"justNow",
+            "value":"[TS_847047]_Just now"
+        },
+        {
+            "name":"phone_type_mobile",
+            "value":"[TS_846997]_Mobile"
+        },
+        {
+            "name":"More",
+            "value":"[TS_847002]_More options"
+        },
+        {
+            "name":"speed_dial_setting",
+            "value":"[TS_865596]_Speed dial settings"
+        },
+        {
+            "name":"select_from_group",
+            "value":"[TS_869969]_Choose from Gallery"
+        },
+        {
+            "name":"MainAbility_label",
+            "value":"[TS_869962]_Phone"
+        },
+        {
+            "name":"house_type_other",
+            "value":"[TS_846883]_Other"
+        },
+        {
+            "name":"unknow_location",
+            "value":"[TS_846968]_Unknown"
+        },
+        {
+            "name":"dialog_not_save",
+            "value":"[TS_847063]_Discard"
+        },
+        {
+            "name":"relationship_type_mother",
+            "value":"[TS_846892]_Mother"
+        },
+        {
+            "name":"phone_type_other_expansion",
+            "value":"[TS_846980]_Other %s"
+        },
+        {
+            "name":"dialer_calllog",
+            "value":"[TS_846868]_Call log"
+        },
+        {
+            "name":"more",
+            "value":"[TS_847041]_More options"
+        },
+        {
+            "name":"relationship_type_father",
+            "value":"[TS_847011]_Father"
+        },
+        {
+            "name":"only_once_merge",
+            "value":"[TS_869949]_Merge this time only"
+        },
+        {
+            "name":"save_to_phone",
+            "value":"[TS_847008]_Save to: Phone"
+        },
+        {
+            "name":"relationship_type_sisters",
+            "value":"[TS_846981]_Sister"
+        },
+        {
+            "name":"SpeedDialAbility_label",
+            "value":"[TS_865600]_label"
+        },
+        {
+            "name":"merge_duplicate_contacts",
+            "value":"[TS_869929]_Merging contacts"
+        },
+        {
+            "name":"manually_merge_duplicate_contacts",
+            "value":"[TS_869947]_Merge duplicate contacts"
+        },
+        {
+            "name":"share",
+            "value":"[TS_846876]_Share"
+        },
+        {
+            "name":"from_the_accounts",
+            "value":"[TS_847018]_Imported from:"
+        },
+        {
+            "name":"instant_messaging",
+            "value":"[TS_846999]_Instant messaging"
+        },
+        {
+            "name":"relationship_type_custom",
+            "value":"[TS_846944]_Custom"
+        },
+        {
+            "name":"instant_type_windowslive",
+            "value":"[TS_846917]_Windows Live"
+        },
+        {
+            "name":"Import",
+            "value":"[TS_881053]_Import"
+        },
+        {
+            "name":"add",
+            "value":"[TS_865582]_Add"
+        },
+        {
+            "name":"read_and_understand",
+            "value":"[TS_869956]_I've read and understand"
+        },
+        {
+            "name":"instant_type_yahoo",
+            "value":"[TS_846945]_Yahoo"
+        },
+        {
+            "name":"merge_duplicate",
+            "value":"[TS_869916]_Merge"
+        },
+        {
+            "name":"instant_type_icq",
+            "value":"[TS_847030]_ICQ"
+        },
+        {
+            "name":"date",
+            "value":"[TS_847006]_Date"
+        },
+        {
+            "name":"not_set_speed_dial",
+            "value":"[TS_865592]_No speed dial number has been assigned to this key. Assign one now?"
+        },
+        {
+            "name":"instant_type_skype",
+            "value":"[TS_846949]_Skype"
+        },
+        {
+            "name":"no_dialer_missed_calllog",
+            "value":"[TS_846971]_No missed calls"
+        },
+        {
+            "name":"phone_type_home",
+            "value":"[TS_847040]_Home"
+        },
+        {
+            "name":"no_select_set",
+            "value":"[TS_869970]_None selected"
+        },
+        {
+            "name":"contacts_call_number",
+            "value":"[TS_847031]_Call %s"
+        },
+        {
+            "name":"my_carrier",
+            "value":"[TS_865597]_My network provider"
+        },
+        {
+            "name":"8300003",
+            "value":"[TS_865602]_Internal system error."
+        },
+        {
+            "name":"8300004",
+            "value":"[TS_865566]_SIM card error."
+        },
+        {
+            "name":"contact_management",
+            "value":"[TS_869983]_Manage contacts"
+        },
+        {
+            "name":"8300001",
+            "value":"[TS_865575]_Invalid value."
+        },
+        {
+            "name":"auto_merge_duplicate_contacts_rule",
+            "value":"[TS_869954]_Contact merging rules"
+        },
+        {
+            "name":"8300002",
+            "value":"[TS_865591]_Could not connect to service."
+        },
+        {
+            "name":"phone_type_custom",
+            "value":"[TS_846976]_Custom"
+        },
+        {
+            "name":"email_type_custom",
+            "value":"[TS_846929]_Custom"
+        },
+        {
+            "name":"phone_type_custom_expansion",
+            "value":"[TS_847003]_Custom %s"
+        },
+        {
+            "name":"cancel",
+            "value":"[TS_847000]_Cancel"
+        },
+        {
+            "name":"permission_read_write_calllog",
+            "value":"[TS_846930]_Used to manage call records."
+        },
+        {
+            "name":"send_message",
+            "value":"[TS_846890]_Send message"
+        },
+        {
+            "name":"modifying_settings_number",
+            "value":"[TS_865583]_Change assigned number"
+        },
+        {
+            "name":"send_email",
+            "value":"[TS_869924]_Send email"
+        },
+        {
+            "name":"choose",
+            "value":"[TS_869915]_Select"
+        },
+        {
+            "name":"nickname",
+            "value":"[TS_846951]_Nickname"
+        },
+        {
+            "name":"clear_calllog_sure",
+            "value":"[TS_846962]_Clear all call log entries?"
+        },
+        {
+            "name":"relationship_type_friend",
+            "value":"[TS_847025]_Friend"
+        },
+        {
+            "name":"relationship_type_partner",
+            "value":"[TS_847026]_Work associate"
+        },
+        {
+            "name":"not_found_sim_card",
+            "value":"[TS_865579]_No SIM card found."
+        },
+        {
+            "name":"email_type_home",
+            "value":"[TS_847066]_Home"
+        },
+        {
+            "name":"phone",
+            "value":"[TS_847064]_Phone"
+        },
+        {
+            "name":"speed_dial",
+            "value":"[TS_865576]_Speed dial"
+        },
+        {
+            "name":"no_duplicate_contacts",
+            "value":"[TS_869958]_No duplicate contacts"
+        },
+        {
+            "name":"unknown",
+            "value":"[TS_846872]_Unknown"
+        },
+        {
+            "name":"favorite",
+            "value":"[TS_847057]_Favorites"
+        },
+        {
+            "name":"take_photo",
+            "value":"[TS_869975]_Take photo"
+        },
+        {
+            "name":"share_contact",
+            "value":"[TS_847074]_Share"
+        },
+        {
+            "name":"default_value",
+            "value":"[TS_847049]_Default"
+        },
+        {
+            "name":"house_type_position",
+            "value":"[TS_846942]_Work"
+        },
+        {
+            "name":"dial_back",
+            "value":"[TS_846910]_Call back"
+        },
+        {
+            "name":"contact",
+            "value":"[TS_846953]_Contacts"
+        },
+        {
+            "name":"relation",
+            "value":"[TS_846992]_Relationship"
+        },
+        {
+            "name":"call_setting_type_setting",
+            "value":"[TS_846874]_Settings"
+        },
+        {
+            "name":"Import_Export",
+            "value":"[TS_869963]_Import/Export"
+        },
+        {
+            "name":"select_contact",
+            "value":"[TS_846918]_Select contact"
+        },
+        {
+            "name":"no_contacts",
+            "value":"[TS_847014]_No contacts"
+        },
+        {
+            "name":"delete_group",
+            "value":"[TS_869934]_Delete this group?"
+        },
+        {
+            "name":"instant_type_hangouts",
+            "value":"[TS_847059]_Hangouts"
+        },
+        {
+            "name":"remove_from_group",
+            "value":"[TS_869953]_Remove from group"
+        },
+        {
+            "name":"relationship_type_brother",
+            "value":"[TS_846985]_Brother"
+        },
+        {
+            "name":"import_sim_contact_msg",
+            "value":"[TS_865588]_Contacts on the current SIM(s) must be imported before they can be used on this device."
+        },
+        {
+            "name":"permission_manage_voicemail",
+            "value":"[TS_846998]_Used to manage voicemail."
+        },
+        {
+            "name":"service_provider",
+            "value":"[TS_865605]_Service provider"
+        },
+        {
+            "name":"delete_all_group_title",
+            "value":"[TS_869921]_Delete all groups?"
+        },
+        {
+            "name":"select_all",
+            "value":"[TS_846891]_Select all"
+        },
+        {
+            "name":"delete_contact_tips",
+            "value":"[TS_869965]_These contacts will be deleted from all accounts."
+        },
+        {
+            "name":"remove_member",
+            "value":"[TS_869972]_Remove members"
+        },
+        {
+            "name":"relationship_type_parents",
+            "value":"[TS_846952]_Parent"
+        },
+        {
+            "name":"website",
+            "value":"[TS_847079]_Website"
+        },
+        {
+            "name":"no_select",
+            "value":"[TS_846902]_None selected"
+        },
+        {
+            "name":"maximum_selected_contacts",
+            "value":"[TS_847045]_You can only select up to %d contacts."
+        },
+        {
+            "name":"add_to_blocklist",
+            "value":"[TS_847033]_Add to blocklist"
+        },
+        {
+            "name":"edit_contact",
+            "value":"[TS_847042]_Edit contact"
+        },
+        {
+            "name":"send_messages",
+            "value":"[TS_847075]_Send message"
+        },
+        {
+            "name":"email_type_work",
+            "value":"[TS_846956]_Work"
+        },
+        {
+            "name":"add_to_blockList",
+            "value":"[TS_847009]_加入黑名单"
+        },
+        {
+            "name":"relationship_type_introducer",
+            "value":"[TS_847007]_Referrer"
+        },
+        {
+            "name":"prompt_later",
+            "value":"[TS_865603]_Later"
+        },
+        {
+            "name":"rename",
+            "value":"[TS_869955]_Rename"
+        },
+        {
+            "name":"not_set_voicemail",
+            "value":"[TS_865598]_Voicemail number unavailable"
+        },
+        {
+            "name":"create_contact",
+            "value":"[TS_847061]_New contact"
+        },
+        {
+            "name":"group_existed",
+            "value":"[TS_869940]_A group with the same name already exists."
+        },
+        {
+            "name":"phone_type_fax_work",
+            "value":"[TS_846885]_Work Fax"
+        },
+        {
+            "name":"save_dialog_title",
+            "value":"[TS_847005]_Save changes?"
+        },
+        {
+            "name":"select_from_photo_group",
+            "value":"[TS_869946]_Choose from Gallery"
+        },
+        {
+            "name":"instant_type_jabber",
+            "value":"[TS_847039]_Jabber"
+        },
+        {
+            "name":"birthday_type_anniversaries",
+            "value":"[TS_846996]_Anniversary"
+        },
+        {
+            "name":"house_type_dwelling",
+            "value":"[TS_846955]_Home"
+        },
+        {
+            "name":"SpeedDialAbility_desc",
+            "value":"[TS_865581]_Description"
+        },
+        {
+            "name":"birthday_type_grebirthday",
+            "value":"[TS_846987]_Birthday"
+        },
+        {
+            "name":"dialing",
+            "value":"[TS_846964]_Dialing"
+        },
+        {
+            "name":"email_type_other",
+            "value":"[TS_846901]_Other"
+        },
+        {
+            "name":"relationship_type_children",
+            "value":"[TS_847077]_Child"
+        },
+        {
+            "name":"new_group",
+            "value":"[TS_847071]_Create new group"
+        },
+        {
+            "name":"save_to_existing_contacts",
+            "value":"[TS_847054]_Save to existing contact"
+        },
+        {
+            "name":"house_type_custom",
+            "value":"[TS_846925]_Custom"
+        },
+        {
+            "name":"favorite_num",
+            "value":"[TS_846963]_Starred %d"
+        },
+        {
+            "name":"no_select_contacts",
+            "value":"[TS_846887]_No contacts with phone numbers"
+        },
+        {
+            "name":"favorite_remove",
+            "value":"[TS_847029]_Remove"
+        },
+        {
+            "name":"relationship_type_spouses",
+            "value":"[TS_846882]_Spouse"
+        },
+        {
+            "name":"instant_type_aim",
+            "value":"[TS_846893]_AIM"
+        },
+        {
+            "name":"phone_type_fax_home",
+            "value":"[TS_847068]_Home Fax"
+        },
+        {
+            "name":"is_stop_import_contact",
+            "value":"[TS_865569]_Stop importing contacts?"
+        },
+        {
+            "name":"contacts_call",
+            "value":"[TS_846894]_Call"
+        },
+        {
+            "name":"instant_type_qq",
+            "value":"[TS_847073]_QQ"
+        },
+        {
+            "name":"relationship_type_bosses",
+            "value":"[TS_846881]_Supervisor"
+        },
+        {
+            "name":"new_contact",
+            "value":"[TS_846913]_Create new contact"
+        },
+        {
+            "name":"common_use",
+            "value":"[TS_846991]_Frequent"
+        },
+        {
+            "name":"email",
+            "value":"[TS_846897]_Email"
+        },
+        {
+            "name":"phone_type_pager",
+            "value":"[TS_847035]_Pager"
+        },
+        {
+            "name":"delete_contact",
+            "value":"[TS_847043]_Delete"
+        },
+        {
+            "name":"send_information",
+            "value":"[TS_869980]_Send message"
+        },
+        {
+            "name":"message",
+            "value":"[TS_846914]_Message"
+        },
+        {
+            "name":"take_new_photo",
+            "value":"[TS_869960]_Take new photo"
+        },
+        {
+            "name":"dialog_cancel",
+            "value":"[TS_847015]_Cancel"
+        },
+        {
+            "name":"reject",
+            "value":"[TS_846871]_Rejected"
+        },
+        {
+            "name":"permission_read_write_contacts",
+            "value":"[TS_846937]_Used to manage contacts."
+        },
+        {
+            "name":"voicemail_number",
+            "value":"[TS_865570]_Voicemail number"
+        },
+        {
+            "name":"position",
+            "value":"[TS_847076]_Title"
+        },
+        {
+            "name":"copy_contact",
+            "value":"[TS_869948]_Copy contacts"
+        },
+        {
+            "name":"phone_type_home_expansion",
+            "value":"[TS_846961]_Home %s"
+        },
+        {
+            "name":"delete",
+            "value":"[TS_846928]_Delete"
+        },
+        {
+            "name":"phone_type_main_expansion",
+            "value":"[TS_846940]_Main %s"
+        },
+        {
+            "name":"phone_type_fax_work_expansion",
+            "value":"[TS_846879]_Work fax (%s)"
+        },
+        {
+            "name":"always_auto_merge",
+            "value":"[TS_869930]_Always merge automatically"
+        },
+        {
+            "name":"relationship_type_assistant",
+            "value":"[TS_846915]_Assistant"
+        },
+        {
+            "name":"batch_delete",
+            "value":"[TS_869952]_Delete multiple contacts"
+        },
+        {
+            "name":"telep_group",
+            "value":"[TS_846916]_Groups on phone"
+        },
+        {
+            "name":"name",
+            "value":"[TS_847044]_Name"
+        },
+        {
+            "name":"add_member",
+            "value":"[TS_869932]_Add members"
+        },
+        {
+            "name":"automatically_merge_contacts",
+            "value":"[TS_869968]_Only contacts with exactly the same name and phone number will be automatically merged. If duplicate contacts are incorrectly merged, you can restore the originals from Recently deleted."
+        },
+        {
+            "name":"8300999",
+            "value":"[TS_865587]_Unknown error."
+        },
+        {
+            "name":"relationship_type_mates",
+            "value":"[TS_846936]_Partner"
+        },
+        {
+            "name":"phone_type_main",
+            "value":"[TS_846875]_Main"
+        },
+        {
+            "name":"card_missedCall",
+            "value":"[TS_878848]_Missed call"
+        },
+        {
+            "name":"meetime_chat_connect_net_msg",
+            "value":"[TS_872876]_An Internet connection is required to make MeeTime calls."
+        },
+        {
+            "name":"import_failed",
+            "value":"[TS_872886]_%d import failed."
+        },
+        {
+            "name":"account_contact_count_all",
+            "value":"[TS_878218]_Total: %d"
+        },
+        {
+            "name":"card_contact_short_cut",
+            "value":"[TS_878834]_Contact shortcut"
+        },
+        {
+            "name":"import_contacts_to_account",
+            "value":"[TS_881052]_Import contacts to"
+        },
+        {
+            "name":"export_succeed",
+            "value":"[TS_872893]_Exported successfully."
+        },
+        {
+            "name":"video_call",
+            "value":"[TS_878875]_Video call"
+        },
+        {
+            "name":"Speed_dial",
+            "value":"[TS_878852]_Speed dial"
+        },
+        {
+            "name":"meetime_audio_title",
+            "value":"[TS_872882]_MeeTime voice call"
+        },
+        {
+            "name":"will_be_imported_later",
+            "value":"[TS_878224]_%d will be imported shortly."
+        },
+        {
+            "name":"allow",
+            "value":"[TS_876520]_Allow"
+        },
+        {
+            "name":"forbidden",
+            "value":"[TS_876513]_Deny"
+        },
+        {
+            "name":"all_contacts",
+            "value":"[TS_878225]_All contacts"
+        },
+        {
+            "name":"card_shortcut_msg",
+            "value":"[TS_878845]_Select a contact for speed dial."
+        },
+        {
+            "name":"copy",
+            "value":"[TS_875498]_Copy"
+        },
+        {
+            "name":"allowed_to_network",
+            "value":"[TS_876514]_This service needs to connect to the Internet. Allow access?"
+        },
+        {
+            "name":"detail_immersive",
+            "value":"[TS_878844]_Add contact"
+        },
+        {
+            "name":"card_missed_proprietor",
+            "value":"[TS_878865]_Everyone"
+        },
+        {
+            "name":"error_network",
+            "value":"[TS_876516]_No Internet connection. Check your network settings."
+        },
+        {
+            "name":"personal_information_collected",
+            "value":"[TS_876519]_Personal information collected"
+        },
+        {
+            "name":"cannot_start_a_new_call",
+            "value":"[TS_878226]_Unable to start call. A call is already in progress."
+        },
+        {
+            "name":"statement_on_Contacts_and_Privacy",
+            "value":"[TS_876517]_Statement About Contacts and Privacy"
+        },
+        {
+            "name":"card_speedDial",
+            "value":"[TS_878874]_Speed dial"
+        },
+        {
+            "name":"meetime_chat_title",
+            "value":"[TS_872875]_Select a number to message"
+        },
+        {
+            "name":"card_missed_favorite_contacts_only",
+            "value":"[TS_878838]_Favorites only"
+        },
+        {
+            "name":"roaming_dial_title",
+            "value":"[TS_922199]_Roaming… Choose dial method"
+        },
+        {
+            "name":"connect_net_title",
+            "value":"[TS_871039]_No network connection"
+        },
+        {
+            "name":"meetime_audio_connect_net_msg",
+            "value":"[TS_872880]_An Internet connection is required to make MeeTime calls."
+        },
+        {
+            "name":"meetime_title",
+            "value":"[TS_872890]_MeeTime"
+        },
+        {
+            "name":"select_call_recorder",
+            "value":"[TS_878869]_Select recording"
+        },
+        {
+            "name":"import_succeed",
+            "value":"[TS_872883]_Import successful."
+        },
+        {
+            "name":"exporting_data_from_a_storage_device",
+            "value":"[TS_872888]_Export to storage"
+        },
+        {
+            "name":"ShortcutCardAbility_desc",
+            "value":"[TS_878870]_Description"
+        },
+        {
+            "name":"accounts_to_display",
+            "value":"[TS_878227]_Accounts"
+        },
+        {
+            "name":"Export_contact_list_to_internal_storage",
+            "value":"[TS_872889]_Export contacts list to internal storage?"
+        },
+        {
+            "name":"export_failed",
+            "value":"[TS_872887]_Export failed."
+        },
+        {
+            "name":"dialog_discard_merge_contacts",
+            "value":"[TS_875496]_Discard contacts merging?"
+        },
+        {
+            "name":"used_to_view_web_content_such_as_the_privacy_statement",
+            "value":"[TS_876518]_This is used to view web content, like the Privacy Statement."
+        },
+        {
+            "name":"card_missed_contacts_only",
+            "value":"[TS_878872]_Contacts only"
+        },
+        {
+            "name":"no_vcard",
+            "value":"[TS_872872]_No vCard file found."
+        },
+        {
+            "name":"EntryAbility_desc",
+            "value":"[TS_878847]_description"
+        },
+        {
+            "name":"DiologEntryAbility_desc",
+            "value":"[TS_878862]_Description"
+        },
+        {
+            "name":"card_shortcut_title",
+            "value":"[TS_878863]_Contact shortcut"
+        },
+        {
+            "name":"cannot_start_video_call_change_to_voice",
+            "value":"[TS_881056]_Video calls are not supported on this network. Switched to voice call."
+        },
+        {
+            "name":"show_contacts",
+            "value":"[TS_878220]_Display preferences"
+        },
+        {
+            "name":"contact_photo",
+            "value":"[TS_872873]_Contact's photo"
+        },
+        {
+            "name":"card_missedCall_msg",
+            "value":"[TS_878841]_Show missed calls from:"
+        },
+        {
+            "name":"card_time_msg",
+            "value":"[TS_878878]_In the last %s hours"
+        },
+        {
+            "name":"Export",
+            "value":"[TS_872891]_Export"
+        },
+        {
+            "name":"select_contact_source",
+            "value":"[TS_872892]_Select source"
+        },
+        {
+            "name":"EntryFormAbility_desc",
+            "value":"[TS_878842]_Form description"
+        },
+        {
+            "name":"recorder",
+            "value":"[TS_878856]_Recording"
+        },
+        {
+            "name":"card_contact",
+            "value":"[TS_878836]_Contacts"
+        },
+        {
+            "name":"card_speedDial_msg",
+            "value":"[TS_878857]_Select contacts for speed dial."
+        },
+        {
+            "name":"EntryFormAbility_label",
+            "value":"[TS_878843]_Form label"
+        },
+        {
+            "name":"Import_Export_Contacts",
+            "value":"[TS_872885]_Import/Export"
+        },
+        {
+            "name":"meetime_video_connect_net_msg",
+            "value":"[TS_872884]_An Internet connection is required to make MeeTime calls."
+        },
+        {
+            "name":"Export_Contacts",
+            "value":"[TS_872877]_Export contacts"
+        },
+        {
+            "name":"import_from_storage_device",
+            "value":"[TS_872878]_Import from storage"
+        },
+        {
+            "name":"setting_network",
+            "value":"[TS_876515]_Network settings"
+        },
+        {
+            "name":"unable_import",
+            "value":"[TS_872871]_Import from storage failed"
+        },
+        {
+            "name":"Card_add",
+            "value":"[TS_878864]_Add"
+        },
+        {
+            "name":"caching_please_wait",
+            "value":"[TS_881054]_Please wait…"
+        },
+        {
+            "name":"importing_contacts",
+            "value":"[TS_872879]_Importing contacts…"
+        },
+        {
+            "name":"meetime_video_title",
+            "value":"[TS_872896]_MeeTime video call"
+        },
+        {
+            "name":"card_missed_call",
+            "value":"[TS_878859]_No missed calls"
+        },
+        {
+            "name":"EntryAbility_label",
+            "value":"[TS_878867]_Label"
+        },
+        {
+            "name":"save_to_account",
+            "value":"[TS_878217]_Save to: %s"
+        },
+        {
+            "name":"adding_custom_tag",
+            "value":"[TS_879588]_Add custom label"
+        },
+        {
+            "name":"AnswerorDeclineIncomingCall_beforeNewCall",
+            "value":"[TS_878219]_Answer or reject the incoming call before placing a new call."
+        },
+        {
+            "name":"searching_for_vCard_files_in_storage_device",
+            "value":"[TS_872870]_Searching for vCard data on storage…"
+        },
+        {
+            "name":"no_number_available",
+            "value":"[TS_878861]_No available number."
+        },
+        {
+            "name":"set_card_select_contact",
+            "value":"[TS_878839]_Set default"
+        },
+        {
+            "name":"dialog_discard",
+            "value":"[TS_875495]_Discard"
+        },
+        {
+            "name":"import_vCard_files_from_internal_storage",
+            "value":"[TS_872881]_Import vCard from internal storage."
+        },
+        {
+            "name":"find_out_how_we_use_your_data",
+            "value":"[TS_878849]_How we use your data"
+        },
+        {
+            "name":"will_be_exported_later",
+            "value":"[TS_878223]_%d will be exported shortly."
+        },
+        {
+            "name":"selecting_a_vCard_file",
+            "value":"[TS_872874]_Choose vCard file"
+        },
+        {
+            "name":"exporting_contacts",
+            "value":"[TS_872894]_Exporting contacts…"
+        },
+        {
+            "name":"video",
+            "value":"[TS_878873]_Video"
+        },
+        {
+            "name":"export_the_vCard_file_to_the_internal_storage",
+            "value":"[TS_872895]_Export to internal storage as vCard."
+        },
+        {
+            "name":"DiologEntryAbility_label",
+            "value":"[TS_878853]_Label"
+        },
+        {
+            "name":"call_recorder_list",
+            "value":"[TS_878832]_Call recordings"
+        },
+        {
+            "name":"MissedCallCardAbility_desc",
+            "value":"[TS_878850]_Description"
+        },
+        {
+            "name":"permission_for_recorder_list",
+            "value":"[TS_881715]_use to view to recorder list."
+        },
+        {
+            "name":"NoService",
+            "value":"[TS_881714]_No service"
+        },
+        {
+            "name":"new_group_source",
+            "value":"[TS_881985]_Select an account"
+        },
+        {
+            "name":"pinyin_search_supported",
+            "value":"[TS_884554]_Pinyin search supported"
+        },
+        {
+            "name":"tablet_group",
+            "value":"[TS_883755]_Groups on tablet"
+        },
+        {
+            "name":"save_to_tablet",
+            "value":"[TS_883756]_Save to: Tablet"
+        },
+        {
+            "name":"tablet",
+            "value":"[TS_883757]_Tablet"
+        },
+        {
+            "name":"already_in_block",
+            "value":"[TS_907175]_Blocked"
+        },
+        {
+            "name":"delete_from_block_list",
+            "value":"[TS_907194]_Remove from blocklist"
+        },
+        {
+            "name":"this_contact_was_not_found",
+            "value":"[TS_916863]_Contact not found."
+        },
+        {
+            "name":"copy_to_account",
+            "value":"[TS_916864]_Copy to %s"
+        },
+        {
+            "name":"number_mark_source_phone_state",
+            "value":"[TS_942622]_Dianhuabang"
+        },
+        {
+            "name":"number_mark_source_teddy_bear",
+            "value":"[TS_942623]_Teddy Mobile"
+        },
+        {
+            "name":"number_mark_source_oh",
+            "value":"[TS_942624]_OpenHarmony"
+        },
+        {
+            "name":"number_mark_source_antifraud_center",
+            "value":"[TS_942626]_Anti-Fraud Center"
+        },
+        {
+            "name":"number_mark_crank",
+            "value":"[TS_927746]_Spam"
+        },
+        {
+            "name":"number_mark_add_to_blocklist_and_block",
+            "value":"[TS_927742]_Will be added to blocklist."
+        },
+        {
+            "name":"number_marked",
+            "value":"[TS_927747]_%s (marked)"
+        },
+        {
+            "name":"number_mark_fraud",
+            "value":"[TS_927751]_High risk"
+        },
+        {
+            "name":"dialog_mark_as_to_cloud",
+            "value":"[TS_927740]_Marked numbers are uploaded to the cloud."
+        },
+        {
+            "name":"number_mark_express",
+            "value":"[TS_927744]_Delivery service"
+        },
+        {
+            "name":"number_mark_house_agent",
+            "value":"[TS_927749]_Estate agent"
+        },
+        {
+            "name":"menu_mark_as",
+            "value":"[TS_927750]_Mark as"
+        },
+        {
+            "name":"number_mark_insurance",
+            "value":"[TS_927752]_Insurance & loans"
+        },
+        {
+            "name":"number_mark_customize",
+            "value":"[TS_927743]_Customize"
+        },
+        {
+            "name":"number_mark_remove",
+            "value":"[TS_927745]_None"
+        },
+        {
+            "name":"number_mark_taxi",
+            "value":"[TS_927741]_Taxi"
+        },
+        {
+            "name":"number_mark_promote_sales",
+            "value":"[TS_927748]_Advertisement"
+        },
+        {
+            "name":"harassment_blockreason_mark_by_user",
+            "value":"[TS_940662]_Marked by you"
+        },
+        {
+            "name":"harassment_nuisance_calls_reason",
+            "value":"[TS_940661]_Nuisance"
+        },
+        {
+            "name":"today",
+            "value":"[TS_907181]_Today"
+        },
+        {
+            "name":"dialog_call",
+            "value":"[TS_919769]_Call"
+        },
+        {
+            "name":"menu_harassment_filter",
+            "value":"[TS_907183]_Blocked calls"
+        },
+        {
+            "name":"no_blocked_calls",
+            "value":"[TS_907177]_No blocked calls"
+        },
+        {
+            "name":"blocklist_number",
+            "value":"[TS_907178]_Blocklist number"
+        },
+        {
+            "name":"harassmentAddIntoWhitelist",
+            "value":"[TS_907186]_Add to trustlist"
+        },
+        {
+            "name":"harassmentDialogTitleAddIntoWhitelist",
+            "value":"[TS_960016]_Add to trustlist?"
+        },
+        {
+            "name":"harassment_join_trust_list_hint",
+            "value":"[TS_959259]_%s will be added to your trustlist. You can also choose to restore messages from this number that have been blocked."
+        },
+        {
+            "name":"harassment_restore_sms_record_move_in",
+            "value":"[TS_959257]_Add & restore messages"
+        },
+        {
+            "name":"harassment_only_move_in",
+            "value":"[TS_959258]_Add"
+        },
+        {
+            "name":"harassmentAddWhiteListDlgMsg",
+            "value":"[TS_907187]_This number is on the blocklist. Move it to the trustlist?"
+        },
+        {
+            "name":"harassmentInterceptionRemoveBlacklistRecords",
+            "value":"[TS_907189]_Restore blocked messages"
+        },
+        {
+            "name":"unknown_phonenumber",
+            "value":"[TS_907176]_Unknown number"
+        },
+        {
+            "name":"harassment_blockreason_strangenumber",
+            "value":"[TS_907180]_Stranger"
+        },
+        {
+            "name":"harassment_advertising_calls_reason",
+            "value":"[TS_907184]_Advertisement"
+        },
+        {
+            "name":"harassment_real_estate_calls_reason",
+            "value":"[TS_907182]_Estate agent"
+        },
+        {
+            "name":"harassment_scam_msgs_reason",
+            "value":"[TS_907185]_Fraud risk"
+        },
+        {
+            "name":"interception_rule_blockall_title",
+            "value":"[TS_907192]_Intercept all"
+        },
+        {
+            "name":"one_week_ago",
+            "value":"[TS_907188]_One week ago"
+        },
+        {
+            "name":"harassmentInterceptionCallDeleteOrNot_new",
+            "value":"[TS_907191]_Delete this blocked call record?"
+        },
+        {
+            "name":"interceptionNotificationTitle",
+            "value":"[TS_919770]_Nuisance call blocked"
+        },
+        {
+            "name":"shut_down",
+            "value":"[TS_917574]_Off"
+        },
+        {
+            "name":"accessibility_new_contact",
+            "value":"[TS_924266]_New contact"
+        },
+        {
+            "name":"secure_access_content",
+            "value":"[TS_940667]_Your contacts are shown here, but this app can only access the ones that you select."
+        },
+        {
+            "name":"accessibility_answered_phone",
+            "value":"[TS_924271]_Answered call"
+        },
+        {
+            "name":"only_accessed",
+            "value":"[TS_940665]_This app can only access contacts you select"
+        },
+        {
+            "name":"accessibility_fold_dialer",
+            "value":"[TS_924273]_Hide keypad"
+        },
+        {
+            "name":"accessibility_delete",
+            "value":"[TS_924260]_Remove"
+        },
+        {
+            "name":"accessibility_call",
+            "value":"[TS_924272]_Call"
+        },
+        {
+            "name":"done",
+            "value":"[TS_940666]_Done"
+        },
+        {
+            "name":"accessibility_satellite_call",
+            "value":"[TS_924279]_Make satellite call"
+        },
+        {
+            "name":"accessibility_detail",
+            "value":"[TS_924263]_Details"
+        },
+        {
+            "name":"accessibility_new_collect",
+            "value":"[TS_924281]_Add a favorite"
+        },
+        {
+            "name":"accessibility_cancel",
+            "value":"[TS_924274]_Cancel"
+        },
+        {
+            "name":"accessibility_missed_call",
+            "value":"[TS_924277]_Missed call"
+        },
+        {
+            "name":"accessibility_dialed_phone",
+            "value":"[TS_924267]_Dialed call"
+        },
+        {
+            "name":"search",
+            "value":"[TS_940668]_Search contacts"
+        },
+        {
+            "name":"accessibility_make_call",
+            "value":"[TS_924275]_Call"
+        },
+        {
+            "name":"accessibility_send_sms",
+            "value":"[TS_924268]_Send a message"
+        },
+        {
+            "name":"secure_access_title",
+            "value":"[TS_940663]_Private access to contacts"
+        },
+        {
+            "name":"accessibility_video_call",
+            "value":"[TS_924262]_Video call"
+        },
+        {
+            "name":"accessibility_done",
+            "value":"[TS_924276]_Done"
+        },
+        {
+            "name":"all_contacts2",
+            "value":"[TS_940659]_All contacts"
+        },
+        {
+            "name":"accessibility_rejected_phone",
+            "value":"[TS_924261]_Rejected call"
+        },
+        {
+            "name":"accessibility_more",
+            "value":"[TS_924269]_More options"
+        },
+        {
+            "name":"accessibility_back_to_pre",
+            "value":"[TS_924265]_Go back a screen"
+        },
+        {
+            "name":"accessibility_expand_dialer",
+            "value":"[TS_924278]_Open keypad"
+        },
+        {
+            "name":"selected",
+            "value":"[TS_940669]_Selected (%s)"
+        },
+        {
+            "name":"permission_read_write_calendar",
+            "value":"[TS_944667]_This is used to sync contacts' birthdays."
+        },
+        {
+            "name":"dialog_title_mark_as",
+            "value":"[TS_932279]_Mark as"
+        },
+        {
+            "name":"allow_contacts_to_connect_Internet",
+            "value":"[TS_940660]_Allow Contacts to access the Internet?"
+        },
+        {
+            "name":"delete_picture",
+            "value":"[TS_929402]_Delete image"
+        },
+        {
+            "name":"add_number",
+            "value":"[TS_929403]_Add phone number"
+        },
+        {
+            "name":"mores",
+            "value":"[TS_929404]_More"
+        },
+        {
+            "name":"add_relation",
+            "value":"[TS_929405]_Add relationship"
+        },
+        {
+            "name":"add_message",
+            "value":"[TS_929406]_Add instant messaging"
+        },
+        {
+            "name":"emails",
+            "value":"[TS_929407]_Email"
+        },
+        {
+            "name":"other_important_dates",
+            "value":"[TS_929408]_Add important date"
+        },
+        {
+            "name":"corporation",
+            "value":"[TS_929409]_Organization"
+        },
+        {
+            "name":"add_Address",
+            "value":"[TS_929410]_Add address"
+        },
+        {
+            "name":"select_picture",
+            "value":"[TS_929411]_Select image"
+        },
+        {
+            "name":"add_website",
+            "value":"[TS_929413]_Add website"
+        },
+        {
+            "name":"add_email",
+            "value":"[TS_929414]_Add email"
+        },
+        {
+            "name":"favorite_contacts",
+            "value":"[TS_930543]_Added to favorites."
+        },
+        {
+            "name":"contact_be_deleted_from_phone",
+            "value":"[TS_930544]_This contact will be deleted from this device and any linked accounts."
+        },
+        {
+            "name":"contacts_deleted_from_app",
+            "value":"[TS_944214]_Deleted from %s"
+        },
+        {
+            "name":"contacts_recycle_tips_normal",
+            "value":"[TS_944188]_Contacts are permanently deleted after the number of days shown (up to %d days)."
+        },
+        {
+            "name":"contacts_recycle",
+            "value":"[TS_944200]_Recently deleted"
+        },
+        {
+            "name":"contacts_clean_button",
+            "value":"[TS_944197]_Clear"
+        },
+        {
+            "name":"contacts_recycle_tips_sync",
+            "value":"[TS_944211]_Contacts are permanently deleted from this device, the cloud, and all synced devices after the number of days shown (up to %d days)."
+        },
+        {
+            "name":"contacts_deleted_from_hidisk",
+            "value":"[TS_944212]_Deleted from Cloud"
+        },
+        {
+            "name":"contacts_recycle_deleted_all_confirm",
+            "value":"[TS_944215]_Permanently delete all contacts?"
+        },
+        {
+            "name":"contacts_restore",
+            "value":"[TS_944202]_Restore"
+        },
+        {
+            "name":"contacts_recycle_summary",
+            "value":"[TS_944194]_Restore recently deleted contacts."
+        },
+        {
+            "name":"contacts_cleaned_confirm",
+            "value":"[TS_944190]_All contacts on this list will be permanently cleared."
+        },
+        {
+            "name":"contacts_restoring",
+            "value":"[TS_944204]_Restoring…"
+        },
+        {
+            "name":"contacts_recycle_deleted_confirm_single",
+            "value":"[TS_944205]_Permanently delete this contact?"
+        },
+        {
+            "name":"harassment_scam_calls_reason",
+            "value":"[TS_907190]_High risk"
+        },
+        {
+            "name":"sim_card",
+            "value":"[TS_951086]_SIM %s"
+        },
+        {
+            "name":"imported_calendars",
+            "value":"[TS_958194]_Added to Calendar."
+        },
+        {
+            "name":"accessibility_expand",
+            "value":"[TS_946431]_Expand"
+        },
+        {
+            "name":"accessibility_collapse",
+            "value":"[TS_946432]_Collapse"
+        },
+        {
+            "name":"device_info",
+            "value":"[TS_959491]_Device info"
+        },
+        {
+            "name":"hua_xiao_fen",
+            "value":"[TS_942625]_To search for 花小粉 (Hua Xiao Fen), simply type:"
+        },
+        {
+            "name":"mark_as_sentence_connection",
+            "value":"[TS_946875]_%1$s&nbsp|&nbsp%2$s (%3$s)"
+        },
+        {
+            "name":"hous_minute",
+            "value":"[TS_949257]_%1$s %2$s"
+        },
+        {
+            "name":"hous_minute_sec",
+            "value":"[TS_949267]_%1$s %2$s %3$s"
+        },
+        {
+            "name":"initial_and_pinyin_search_supported",
+            "value":"[TS_959853]_Search by full name or initials.\n"
+        },
+        {
+            "name":"dial",
+            "value":"[TS_959852]_Keypad"
+        },
+        {
+            "name":"initial_query",
+            "value":"[TS_959854]_Search by initials"
+        },
+        {
+            "name":"call_assistant_setting_title",
+            "value":"[TS_945318]_Celia Call"
+        },
+        {
+            "name":"FilingNo",
+            "value":"[TS_967715]_粤A2-20044005号-279A"
+        },
+        {
+            "name":"accessibility_avatar",
+            "value":"[TS_961250]_Profile picture"
+        },
+        {
+            "name":"multiple_choices",
+            "value":"[TS_960006]_Select multiple"
+        },
+        {
+            "name":"accessibility_edit_avatar",
+            "value":"[TS_960005]_Edit profile picture"
+        },
+        {
+            "name":"accessibility_open",
+            "value":"[TS_966964]_On"
+        },
+        {
+            "name":"accessibility_back",
+            "value":"[TS_963758]_Go back"
+        },
+        {
+            "name":"not_allowed",
+            "value":"[TS_967183]_Deny"
+        },
+        {
+            "name":"accessibility_unselected",
+            "value":"[TS_966492]_Not selected"
+        },
+        {
+            "name":"accessibility_selected",
+            "value":"[TS_966491]_Selected"
+        },
+        {
+            "name":"select_from_storage_device",
+            "value":"[TS_963344]_Select from storage"
+        },
+        {
+            "name":"vcard_files_in_app",
+            "value":"[TS_963340]_In-app vCard files"
+        },
+        {
+            "name":"have_select_sth",
+            "value":"[TS_963346]_%s selected"
+        },
+        {
+            "name":"contact_all_rights_reserved",
+            "value":"[TS_972341]_Contacts. All rights reserved. ©%d"
+        },
+        {
+            "name":"tv_display_name",
+            "value":"[TS_968851]_Vision"
+        },
+        {
+            "name":"learning_table_lamp_display_name",
+            "value":"[TS_968849]_Lamp"
+        },
+        {
+            "name":"official_treasure_display_name",
+            "value":"[TS_968852]_IdeaHub"
+        },
+        {
+            "name":"haique_camera_display_name",
+            "value":"[TS_968853]_Alcidae camera"
+        },
+        {
+            "name":"phone_display_name",
+            "value":"[TS_968850]_Phone"
+        },
+        {
+            "name":"robot_display_name",
+            "value":"[TS_968848]_Robot"
+        },
+        {
+            "name":"select_local_music",
+            "value":"[TS_1024218]_Music on device"
+        },
+        {
+            "name":"phone_ringtone",
+            "value":"[TS_1024219]_Ringtone"
+        },
+        {
+            "name":"select_ringtone",
+            "value":"[TS_1024217]_Notification sound"
+        },
+        {
+            "name":"no_ringtone",
+            "value":"[TS_1024215]_None"
+        },
+        {
+            "name":"system_incoming_call_ringtone",
+            "value":"[TS_1024216]_System ringtone"
+        },
+        {
+            "name":"system_ringtone",
+            "value":"[TS_1024214]_Preset"
+        },
+        {
+            "name":"ringtones_mute",
+            "value":"[TS_1025855]_Silent"
+        },
+        {
+            "name":"local_music",
+            "value":"[TS_1025856]_Local music"
+        },
+        {
+            "name":"speaker_display_name",
+            "value":"[TS_968845]_Speaker"
+        },
+        {
+            "name":"learning_pad_display_name",
+            "value":"[TS_968847]_Study Vision"
+        },
+        {
+            "name":"smart_box_display_name",
+            "value":"[TS_968846]_TV box"
+        },
+        {
+            "name":"camera_display_name",
+            "value":"[TS_968843]_Camera"
+        },
+        {
+            "name":"smart_projector_dev_display_name",
+            "value":"[TS_968855]_Projector"
+        },
+        {
+            "name":"portable_smart_screen_display_name",
+            "value":"[TS_968856]_Portable Vision"
+        },
+        {
+            "name":"watch_display_name",
+            "value":"[TS_968844]_Kids watch"
+        },
+        {
+            "name":"intelligent_central_contral_display_name",
+            "value":"[TS_968854]_Control panel"
+        },
+        {
+            "name":"restore_contacts",
+            "value":"[TS_963349]_Restore contacts"
+        },
+        {
+            "name":"contacts_restore_success",
+            "value":"[TS_963342]_Contacts restored."
+        },
+        {
+            "name":"restore_contacts_alert",
+            "value":"[TS_963347]_Contacts will be reverted to the way they were immediately after the OpenHarmony update was completed."
+        },
+        {
+            "name":"restore_contacts_confirm_title",
+            "value":"[TS_963341]_Restore contacts?"
+        },
+        {
+            "name":"no_restorable_contact",
+            "value":"[TS_963345]_No contacts to restore."
+        },
+        {
+            "name":"contacts_restore_failed",
+            "value":"[TS_963348]_Unable to restore contacts."
+        },
+        {
+            "name":"batch_delete_contacts_in_cloud_sync",
+            "value":"[TS_973968]_These contacts will be deleted from this device, any linked accounts, the cloud, and all synced devices."
+        },
+        {
+            "name":"contact_will_be_deleted",
+            "value":"[TS_974365]_This contact will be deleted from this device, the cloud, and all synced devices."
+        },
+        {
+            "name":"import_from_sim_card",
+            "value":"[TS_975155]_import from sim card"
+        },
+        {
+            "name":"service_and_privacy_statement",
+            "value":"[TS_976435]_Privacy statements"
+        },
+        {
+            "name":"commotion_intercept",
+            "value":"[TS_981212]_Blocked calls"
+        },
+        {
+            "name":"resolve_search_errors",
+            "value":"[TS_982088]_This will fix search issues by rebuilding your contacts search index. It may take several minutes to complete. Rebuild now?"
+        },
+        {
+            "name":"rebuilding_wait",
+            "value":"[TS_982089]_Rebuilding… Please wait."
+        },
+        {
+            "name":"recreating_index_data",
+            "value":"[TS_982087]_Rebuild index data"
+        },
+        {
+            "name":"deleting_contacts",
+            "value":"[TS_982243]_Deleting contacts…"
+        },
+        {
+            "name":"my_card",
+            "value":"[TS_846984]_My card"
+        },
+        {
+            "name":"click_to_edit_card",
+            "value":"[TS_981448]_Tap to edit"
+        },
+        {
+            "name":"edit_my_card",
+            "value":"[TS_981449]_Edit My card"
+        },
+        {
+            "name":"batch_delete_contacts_in_cloud_sync_one",
+            "value":"[TS_982898]_This contact will be deleted from this device, any linked accounts, the cloud, and all synced devices."
+        },
+        {
+            "name":"delete_contact_tips_one",
+            "value":"[TS_958391]_This contact will be deleted from all accounts."
+        },
+        {
+            "name":"contacts_maintenancemode",
+            "value":"[TS_994036]_This feature can't be used in Maintenance mode."
+        },
+        {
+            "name":"cancel_pass_birthday_to_calendar",
+            "value":"[TS_994387]_No thanks"
+        },
+        {
+            "name":"contact_pass_birthday_to_calendar_new",
+            "value":"[TS_994386]_Allow birthdays to be synced to Calendar?"
+        },
+        {
+            "name":"call_phone_sharing",
+            "value":"[TS_979590]_Communication sharing"
+        },
+        {
+            "name":"call_phone_sharing_explain",
+            "value":"[TS_979588]_When there is a phone with the same ID nearby, you can use its mobile network to make and receive calls and send and receive messages on this device."
+        },
+        {
+            "name":"on_call_phone_sharing",
+            "value":"[TS_979591]_Communication sharing"
+        },
+        {
+            "name":"go_to_settings",
+            "value":"[TS_979589]_Go to Settings"
+        },
+        {
+            "name":"click_to_paste",
+            "value":"[TS_999125]_Tap to paste"
+        },
+        {
+            "name":"restore_contacts_alert_cloud_sync_close",
+            "value":"[TS_1002957]_Contacts on your device will be reverted to the way they were immediately after the OpenHarmony update was completed."
+        },
+        {
+            "name":"restore_contacts_alert_cloud_sync_open",
+            "value":"[TS_1002958]_Contacts on your device, the cloud, and all synced devices will be reverted to the way they were immediately after the OpenHarmony update was completed."
+        },
+        {
+            "name":"other_devices_answering_calls",
+            "value":"[TS_1004744]_Answered on another device"
+        },
+        {
+            "name":"time_night",
+            "value":"[TS_846990]_%1$s:%2$s PM"
+        },
+        {
+            "name":"time_before_dawn",
+            "value":"[TS_881055]_%1$s:%2$s AM"
+        },
+        {
+            "name":"time_morning",
+            "value":"[TS_846864]_%1$s:%2$s AM"
+        },
+        {
+            "name":"time_afternoon",
+            "value":"[TS_846973]_%1$s:%2$s PM"
+        },
+        {
+            "name":"time_noon",
+            "value":"[TS_846986]_%1$s:%2$s PM"
+        },
+        {
+            "name":"save_to_pc",
+            "value":"[TS_1009079]_Save to: Computer"
+        },
+        {
+            "name":"time_early_morning",
+            "value":"[TS_847012]_%1$s:%2$s AM"
+        },
+        {
+            "name":"mobile_contacts",
+            "value":"[TS_1018743]_Phone contacts"
+        },
+        {
+            "name":"contacts_picker_banner",
+            "value":"[TS_1008892]_Your contacts are shown here, but this app can only access the ones that you select. %s"
+        },
+        {
+            "name":"import_from_sim_card_title",
+            "value":"[TS_1011463]_Import from %s"
+        },
+        {
+            "name":"str_SIM",
+            "value":"[TS_1011462]_SIM"
+        },
+        {
+            "name":"contacts_import_from_sim_card_dialog_content",
+            "value":"[TS_1011464]_Import contacts from your SIM?"
+        },
+        {
+            "name":"disturbing_intercept_boot_bubble",
+            "value":"[TS_1020445]_Tap here to block unwanted calls."
+        },
+        {
+            "name":"adjusting_harassment_interception_settings",
+            "value":"[TS_1023502]_You've received multiple nuisance calls recently. Tap here to set up call blocking."
+        },
+        {
+            "name":"setting_harassment_blocking",
+            "value":"[TS_1023503]_Block unwanted calls"
+        },
+        {
+            "name":"contact_index_subheading",
+            "value":"[TS_1020344]_Try this if you're experiencing search issues."
+        },
+        {
+            "name":"recovering_contact_toast",
+            "value":"[TS_1020347]_Feature unavailable. Disable Cloud syncing and wait %s seconds before trying again."
+        },
+        {
+            "name":"contact_index_dialog",
+            "value":"[TS_1020349]_This can take up to a few minutes. Continue?"
+        },
+        {
+            "name":"computer",
+            "value":"[TS_1018517]_Computer"
+        },
+        {
+            "name":"please_expand_your_phone_to_use",
+            "value":"[TS_1018637]_Unfold the phone first."
+        },
+        {
+            "name":"suspected_fraud",
+            "value":"[TS_1024536]_Suspected scam"
+        },
+        {
+            "name":"national_anti_fraud_center",
+            "value":"[TS_1024537]_National Anti-Fraud Center"
+        },
+        {
+            "name":"number_mark_fraud_smart_identify",
+            "value":"[TS_1024291]_High risk | Auto-identified"
+        },
+        {
+            "name":"call_risk_identify",
+            "value":"[TS_1024289]_Live scam detection"
+        },
+        {
+            "name":"smart_identify_info",
+            "value":"[TS_1024293]_Get alerted to possible scams while you're on a call."
+        },
+        {
+            "name":"number_smart_mark_remove",
+            "value":"[TS_1024292]_None"
+        },
+        {
+            "name":"search_button",
+            "value":"[TS_1041472]_Search"
+        },
+        {
+            "name":"accessibility_open_mobile_contacts",
+            "value":"[TS_1036442]_Go to phone contacts"
+        },
+        {
+            "name":"contact_search_result_empty",
+            "value":"[TS_1035758]_No results"
+        },
+        {
+            "name":"input_content_empty",
+            "value":"[TS_1035759]_Enter some text first."
+        },
+        {
+            "name":"select_all_play_button",
+            "value":"[TS_1044427]_Deselect all, 1 to %1$s, %2$s"
+        },
+        {
+            "name":"system_contacts",
+            "value":"[TS_1038644]_System contacts"
+        },
+        {
+            "name":"accessibility_Text_cleared",
+            "value":"[TS_1045905]_Text cleared"
+        },
+        {
+            "name":"accessibility_deleted",
+            "value":"[TS_1045906]_%s has been deleted"
+        },
+        {
+            "name":"import_vCard_dialog_title",
+            "value":"[TS_1046474]_Import contacts from vCard?"
+        },
+        {
+            "name":"learn_more",
+            "value":"[TS_986991]_Learn more"
+        },
+        {
+            "name":"select_online_music",
+            "value":"[TS_1061785]_Browse online sounds"
+        },
+        {
+            "name":"editfavorite_drag_button",
+            "value":"[TS_1063976]_Drag to change the order, double tap and hold to start dragging"
+        },
+        {
+            "name":"accessibility_collapsed",
+            "value":"[TS_1066723]_Collapsed"
+        },
+        {
+            "name":"select_video_music",
+            "value":"[TS_1067192]_Video ringtones"
+        },
+        {
+            "name":"smart_security_protection",
+            "value":"[TS_1074047]_Smart security protection"
+        },
+        {
+            "name":"favorite_management",
+            "value":"[TS_1073194]_Manage favorites"
+        },
+        {
+            "name":"no_contact_sim_card",
+            "value":"[TS_1083981]_No contacts found on SIM card."
+        },
+        {
+            "name":"pengLai_tip_for_disabled_functions",
+            "value":"[TS_1084008]_Unable to do this in Penglai mode."
+        },
+        {
+            "name":"penglai_dialog_title",
+            "value":"[TS_1091759]_Go set up satellite network?"
+        },
+        {
+            "name":"penglai_dialog_body",
+            "value":"[TS_1091760]_It appears that you don't have a cellular signal. You can set up a satellite connection in Settings."
+        },
+        {
+            "name":"penglai_dialog_button_go_to",
+            "value":"[TS_1091761]_Go"
+        },
+        {
+            "name":"intelligence_group",
+            "value":"[TS_1085880]_Smart groups"
+        },
+        {
+            "name":"intelligence_group_contact_less_than_one_week",
+            "value":"[TS_1085883]_Contacted in past week"
+        },
+        {
+            "name":"intelligence_group_contact_less_than_one_month",
+            "value":"[TS_1085887]_Contacted in past month (excluding past seven days)"
+        },
+        {
+            "name":"intelligence_group_no_contact_more_than_three_month",
+            "value":"[TS_1085878]_Not contacted for over %s months"
+        },
+        {
+            "name":"intelligence_group_add_contact_dialog_content",
+            "value":"[TS_1085882]_Organization information for selected contacts will be updated to \"%s\"."
+        },
+        {
+            "name":"intelligence_group_company",
+            "value":"[TS_1085876]_Organizations"
+        },
+        {
+            "name":"intelligence_group_city",
+            "value":"[TS_1085879]_Cities"
+        },
+        {
+            "name":"intelligence_group_latest_contact",
+            "value":"[TS_1085884]_Recent contacts"
+        },
+        {
+            "name":"intelligence_group_contact_less_than_three_month",
+            "value":"[TS_1085881]_Contacted in past %s months (excluding past four weeks)"
+        },
+        {
+            "name":"intelligence_group_no_company",
+            "value":"[TS_1085886]_No organization information"
+        },
+        {
+            "name":"intelligence_group_no_address",
+            "value":"[TS_1085877]_No location information"
+        },
+        {
+            "name":"scan",
+            "value":"[TS_1093327]_Scan"
+        },
+        {
+            "name":"unsupport_qrcode",
+            "value":"[TS_1093326]_This QR code isn't supported."
+        },
+        {
+            "name":"tip",
+            "value":"[TS_1093325]_Note"
+        },
+        {
+            "name":"cancelling_favorite_contacts",
+            "value":"[TS_1098026]_Unfavoriting contacts…"
+        },
+        {
+            "name":"accessibility_expanded",
+            "value":"[TS_1110942]_Expanded"
+        },
+        {
+            "name":"not_importing_for_now",
+            "value":"[TS_1099017]_Not now"
+        },
+        {
+            "name":"all_people_anti_fraud_center",
+            "value":"[TS_1108631]_Beijing Anti-Fraud Center alert"
+        },
+        {
+            "name":"delete_call_record",
+            "value":"[TS_1109795]_Call record was deleted. Summary unavailable."
+        },
+        {
+            "name":"regenerate_fail_info",
+            "value":"[TS_1112089]_System busy. Tap here to regenerate summary."
+        },
+        {
+            "name":"not_support_regenerate",
+            "value":"[TS_1112088]_Not available in your region"
+        },
+        {
+            "name":"not_support_detail",
+            "value":"[TS_1112087]_Call summaries are currently not available in your region."
+        },
+        {
+            "name":"new_call_popup_dismiss",
+            "value":"[TS_1113290]_Don't show again"
+        },
+        {
+            "name":"new_call_popup_title",
+            "value":"[TS_1113293]_How do I turn Advanced Calling on/off?"
+        },
+        {
+            "name":"new_call_popup_message",
+            "value":"[TS_1113289]_From the Phone app's home screen, tap the More icon in the top right, then go to Settings > Advanced Calling, and turn it on or off."
+        },
+        {
+            "name":"new_call_popup_setting",
+            "value":"[TS_1113292]_Go to Settings"
+        },
+        {
+            "name":"sorted_item_move_backward",
+            "value":"[TS_1102220]_Move below %s"
+        },
+        {
+            "name":"sorted_item_move_forward",
+            "value":"[TS_1102219]_Move above %s"
+        },
+        {
+            "name":"sorted_item_pick_up",
+            "value":"[TS_1102218]_Started dragging"
+        },
+        {
+            "name":"sorted_item_pick_down",
+            "value":"[TS_1102217]_Placed"
+        },
+        {
+            "name":"all_selected",
+            "value":"[TS_1104340]_All selected"
+        },
+        {
+            "name":"all_selected_cancel",
+            "value":"[TS_1104341]_All deselected"
+        },
+        {
+            "name":"accessibility_button",
+            "value":"[TS_1112940]_Button"
+        },
+        {
+            "name":"abstract_ai_content",
+            "value":"[TS_1112086]_内容由 AI 生成"
+        },
+        {
+            "name":"accessibility_checkbox_selected",
+            "value":"[TS_1113863]_Double tap to deselect"
+        },
+        {
+            "name":"new_calling_can_only_use_in_full_screen",
+            "value":"[TS_1115275]_Advanced Calling services only available in full-screen view."
+        },
+        {
+            "name":"removed",
+            "value":"[TS_1113291]_Removed"
+        },
+        {
+            "name":"accessibility_checkbox_deselected",
+            "value":"[TS_1113864]_Double tap to select"
+        },
+        {
+            "name":"go_to_recover",
+            "value":"[TS_1124539]_Restore now"
+        },
+        {
+            "name":"to_recycle_station_restore",
+            "value":"[TS_1124540]_Your contacts data was deleted from another device. To restore this data, tap the icon in the top right, then go to Settings > Recently deleted."
+        },
+        {
+          "name":"delete_call_summary",
+          "value":"[TS_1128510]_Delete entry & summaries"
+        },
+        {
+          "name":"only_delete_calllogs",
+          "value":"[TS_1128509]_Delete entry only"
+        },
+        {
+          "name":"simultaneously_delete_call_summary",
+          "value":"[TS_1128511]_This call log entry includes summaries. You can delete these along with the entry."
+        },
+        {
+            "name":"restore_recorder",
+            "value":"[TS_1135284]_To restore the Recorder app, go to system Settings > Apps & services > ∷ > Restore apps."
+        },
+	{
+            "name":"to_recycle_station_restore_contact",
+            "value":"[TS_1132321]_Some of your contacts were deleted from another device logged in to your ID. To restore deleted contacts, tap the icon in the top right, then go to Settings > Recently deleted."
+        },
+        {
+            "name":"Help_and_feedback",
+            "value":"[TS_1134941]_Help and feedback."
+        }
+    ]
+}

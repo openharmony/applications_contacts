@@ -19,8 +19,9 @@ import BaseColumns from './BaseColumns';
  * rawContact data type
  */
 export default class RawContactsEntity {
-  static readonly _ID: string = BaseColumns.ID;
-  static readonly CONTENT_URI: string = 'datashare:///com.ohos.contactsdataability/raw_contact_entities';
+  public static readonly _ID: string = BaseColumns.ID;
+  public static readonly CONTENT_URI: string = 'datashare:///com.ohos.contactsdataability/raw_contact_entities';
+
   constructor() {
   }
 }

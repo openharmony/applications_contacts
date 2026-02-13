@@ -16,10 +16,10 @@
 import Contact from '../entity/Contact';
 import RawContactDelta from './RawContactDelta';
 import { RawContacts } from '../contract/RawContacts';
-import DAOperation from './DAOperation';
 
 export default class ContactDelta {
-  readonly rawContactDeltas: RawContactDelta[];
+  public readonly rawContactDeltas: RawContactDelta[];
+
   constructor() {
     this.rawContactDeltas = [];
   }

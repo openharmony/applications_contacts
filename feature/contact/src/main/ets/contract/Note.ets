@@ -13,16 +13,16 @@
  * limitations under the License.
  */
 
-import DataType from './DataType';
-import {DataItemType} from './DataType';
+import DataType, { DataItemType } from './DataType';
 
 /**
  * Remark Data Type
  */
 export class Nickname extends DataType {
-  static readonly CONTENT_ITEM_TYPE: string = 'note';
-  static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.NOTE;
-  static readonly NOTE: string = DataType.DATA;
+  public static readonly CONTENT_ITEM_TYPE: string = 'note';
+  public static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.NOTE;
+  public static readonly NOTE: string = DataType.DATA;
+
   constructor() {
     super();
   }

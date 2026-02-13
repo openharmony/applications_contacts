@@ -3,13 +3,44 @@
   "buildOption": {
     "sourceOption": {
       "workers": [
-        "./src/main/ets/workers/base/Worker.ts"
+        "./src/main/ets/workers/base/Worker.ets"
+      ]
+    },
+    "arkOptions": {
+      "apPath": "./modules.ap"
+    },
+    "napiLibFilterOption": {
+      "excludes": [
+        "**/libc++_shared.so",
+        "**/libcurl.so",
+        "**/libnetwork-grs.so",
+        "**/libnetwork-common.so",
+        "**/libgrsservice.so",
+        "**/arm64-v8a/*.so"
       ]
     }
   },
+  "buildOptionSet": [
+    {
+      "name": "release",
+      "arkOptions": {
+        "obfuscation": {
+          "ruleOptions": {
+            "enable": false,
+            "files": [
+              "./obfuscation-rules.txt"
+            ]
+          }
+        }
+      }
+    },
+  ],
   "targets": [
     {
-      "name": "default"
+      "name": "default",
+    },
+    {
+      "name": "ohosTest",
     }
   ]
 }

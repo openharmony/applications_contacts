@@ -1,0 +1,3970 @@
+{
+    "string":[
+        {
+            "name":"initial_and_pinyin_search_supported",
+            "value":"يمكنك البحث بإدخال الاسم بالكامل أو الأحرف الأولى.\n",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missedCall",
+            "value":"مكالمة فائتة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_Text_cleared",
+            "value":"تم مسح النص",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"hua_xiao_fen",
+            "value":"للبحث عن 花小粉 (Hua Xiao Fen)، اكتب:",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_chat_connect_net_msg",
+            "value":"مطلوب الاتصال بالإنترنت لتتمكن من إجراء المكالمات عبر خدمة MeeTime.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_failed",
+            "value":"تعذر استيراد %d",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_ringtone",
+            "value":"نغمة الإشعارات",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"account_contact_count_all",
+            "value":"الإجمالي: %d",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"please_expand_your_phone_to_use",
+            "value":"يُرجى أولًا فرد الهاتف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"secure_access_content",
+            "value":"تُعرض جهات الاتصال هنا، ولا يمكن لهذا التطبيق سوى الوصول إلى جهات الاتصال التي أنت تحددها.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_work",
+            "value":"المؤسسة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"not_selected",
+            "value":"لا توجد جهات اتصال محددة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_contact_short_cut",
+            "value":"اختصار جهة اتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"already_in_block",
+            "value":"محظور",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"unselect_all",
+            "value":"إلغاء تحديد الكل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add_more",
+            "value":"إضافة حقل آخر",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_answered_phone",
+            "value":"مكالمة مجابة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_ringtone",
+            "value":"بدون تعيين",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"interception_rule_blockall_title",
+            "value":"اعتراض الكل",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"voicemail",
+            "value":"البريد الصوتي",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"clear_default_values",
+            "value":"مسح الإعدادات الافتراضية",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_contacts_to_account",
+            "value":"استيراد جهات اتصال إلى",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"export_succeed",
+            "value":"تم التصدير بنجاح",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"missed_call",
+            "value":"الفائتة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"only_accessed",
+            "value":"لا يمكن لهذا التطبيق الوصول إلا إلى جهات الاتصال التي تحددها",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"tv_display_name",
+            "value":"شاشة  الذكية",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_crank",
+            "value":"رقم مزعج",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"pinyin_search_supported",
+            "value":"يدعم البحث باستخدام وضع الكتابة الصينية Pinyin",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"video_call",
+            "value":"مكالمة فيديو",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"commotion_intercept",
+            "value":"المكالمات المحظورة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_from_sim_card_title",
+            "value":"استيراد من %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_setting_type_paste",
+            "value":"لصق",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Speed_dial",
+            "value":"اتصال سريع",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_fax_home_expansion",
+            "value":"فاكس المنزل (‏%s)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add_relation",
+            "value":"إضافة صلة القرابة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_pager_expansion",
+            "value":"بيجر %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"tablet_group",
+            "value":"المجموعات على الجهاز اللوحي",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"cancel_stop_import",
+            "value":"إلغاء",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"auto_merge_submsg",
+            "value":"ستُدمج جهات الاتصال التي تحمل نفس الاسم ونفس رقم الهاتف تلقائيًا.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_audio_title",
+            "value":"مكالمة صوتية عبر خدمة MeeTime",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_deleted_from_app",
+            "value":"تم الحذف من «%s»",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"deleting_group",
+            "value":"حذف المجموعة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_delete",
+            "value":"إزالة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_number",
+            "value":"رقم الهاتف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"hous_minute_sec",
+            "value":"‏%1$s و%2$s و%3$s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"setting",
+            "value":"الإعدادات",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"organize_contacts",
+            "value":"تنظيم جهات الاتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"will_be_imported_later",
+            "value":"سيتم استيراد %d خلال لحظات",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_add_to_blocklist_and_block",
+            "value":"سيُضاف إلى قائمة الأرقام المحظورة.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"all_call_logs",
+            "value":"الكل",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"allow",
+            "value":"سماح",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_kinship",
+            "value":"قريب",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"choose_sub_recommend",
+            "value":"اُستخدمت آخر مرة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"importing_sim_contact",
+            "value":"جاري استيراد جهات الاتصال...",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"forbidden",
+            "value":"رفض",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_online_music",
+            "value":"تصفح النغمات عبر الإنترنت",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"group_rename",
+            "value":"إعادة التسمية",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"group_ringtone",
+            "value":"نغمة رنين المجموعة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_contacts",
+            "value":"جميع جهات الاتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_shortcut_msg",
+            "value":"اختر جهة اتصال لإضافتها إلى ميزة الاتصال السريع.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"resolve_search_errors",
+            "value":"سيؤدي هذا الإجراء إلى حل مشكلة البحث عن جهات الاتصال الخاصة بك، علمًا بأن هذه العملية قد تستغرق بعض الدقائق. هل تريد إعادة البناء الآن؟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"learning_table_lamp_display_name",
+            "value":"المصباح",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_advertising_calls_reason",
+            "value":"إعلان",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"copy",
+            "value":"نسخ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"rebuilding_wait",
+            "value":"جارٍ إعادة البناء… يُرجى الانتظار.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_all_callLog_dialog_title",
+            "value":"هل تريد حذف كافة السجلات الموجودة في سجل المكالمات؟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recent",
+            "value":"المكالمات الحديثة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle_tips_normal",
+            "value":"ستُحذف جهات الاتصال نهائيًا بعد انقضاء عدد الأيام الموضحة هنا (%d يومًا كحد أقصى).",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"my_card",
+            "value":"بطاقتي",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"done",
+            "value":"تم",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"copy_contact_from",
+            "value":"نسخ جهات الاتصال من",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Import",
+            "value":"استيراد",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recreating_index_data",
+            "value":"إعادة بناء بيانات الفهرس",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_other",
+            "value":"أخرى",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"deleteCallLog_dialog_title",
+            "value":"هل تريد حذف سجل المكالمات المُحدد؟",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_blockreason_strangenumber",
+            "value":"رقم مجهول",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"remarks",
+            "value":"ملاحظات",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"justNow",
+            "value":"منذ لحظات",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_mobile",
+            "value":"الجوال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"More",
+            "value":"خيارات إضافية",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"mores",
+            "value":"المزيد",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"MainAbility_label",
+            "value":"الهاتف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"unknow_location",
+            "value":"غير معروف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_not_save",
+            "value":"تجاهل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dial",
+            "value":"لوحة الاتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_marked",
+            "value":"%s (تم الإبلاغ عنه)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_mother",
+            "value":"أم",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialer_calllog",
+            "value":"سجل المكالمات",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_phone_sharing",
+            "value":"مشاركة الاتصالات",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_email",
+            "value":"إضافة بريد إلكتروني",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"more",
+            "value":"خيارات إضافية",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"adjusting_harassment_interception_settings",
+            "value":"لقد تلقيت عدة مكالمات مزعجة مؤخرًا. انقر هنا لإعداد حظر المكالمات.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"official_treasure_display_name",
+            "value":"‏IdeaHub",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"haique_camera_display_name",
+            "value":"كاميرا Alcidae",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"allowed_to_network",
+            "value":"تحتاج هذه الخدمة إلى الاتصال بالإنترنت، فهل تسمح بذلك؟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"only_once_merge",
+            "value":"دمج هذه المرة فقط",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"detail_immersive",
+            "value":"إضافة جهة اتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save_to_phone",
+            "value":"حفظ في: الهاتف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_scam_calls_reason",
+            "value":"مكالمة عالية الخطورة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_display_name",
+            "value":"الهاتف",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missed_proprietor",
+            "value":"الكل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"manually_merge_duplicate_contacts",
+            "value":"دمج جهات الاتصال المكررة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"emails",
+            "value":"البريد الإلكتروني",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"share",
+            "value":"مشاركة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"robot_display_name",
+            "value":"روبوت ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_real_estate_calls_reason",
+            "value":"شركة عقارات",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_custom",
+            "value":"تخصيص",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassmentDialogTitleAddIntoWhitelist",
+            "value":"هل تريد الإضافة إلى القائمة الموثوقة؟",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"smart_identify_info",
+            "value":"تلقي تنبيه بوجود عملية احتيال محتملة أثناء إجراء مكالمة.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_yahoo",
+            "value":"Yahoo",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"merge_duplicate",
+            "value":"دمج",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_risk_identify",
+            "value":"كشف الاحتيال أثناء المكالمات",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"date",
+            "value":"التاريخ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"not_set_speed_dial",
+            "value":"لم يُخصص رقم اتصال سريع لهذا المفتاح. هل تريد التخصيص الآن؟",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"error_network",
+            "value":"غير متصل بالإنترنت. يُرجى التحقق من إعدادات الشبكة لديك.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle",
+            "value":"المحذوفات مؤخرًا",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"personal_information_collected",
+            "value":"المعلومات الشخصية المُجمَّعة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"restore_contacts_alert_cloud_sync_close",
+            "value":"ستُعاد جهات الاتصال الموجودة على جهازك إلى حالتها كما كانت فورًا بعد اكتمال تحديث نظام OpenHarmony.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_restore_failed",
+            "value":"تعذرت استعادة جهات الاتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"search_button",
+            "value":"بحث",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_source_phone_state",
+            "value":"‏Dianhuabang",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"interceptionNotificationTitle",
+            "value":"حُظرت مكالمة مزعجة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_message",
+            "value":"إضافة مراسلة فورية",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_custom",
+            "value":"تخصيص",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"cannot_start_a_new_call",
+            "value":"تعذر بدء مكالمة جديدة لوجود مكالمة أخرى جارية.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"send_message",
+            "value":"إرسال رسالة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"send_email",
+            "value":"إرسال بريد إلكتروني",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_picture",
+            "value":"اختيار صورة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"speaker_display_name",
+            "value":"سماعة خارجية",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"statement_on_Contacts_and_Privacy",
+            "value":"بيان حول جهات الاتصال والخصوصية",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_clean_button",
+            "value":"حذف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_speedDial",
+            "value":"اتصال سريع",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"one_week_ago",
+            "value":"منذ أسبوع",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_website",
+            "value":"إضافة موقع ويب",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_fraud",
+            "value":"مكالمة عالية الخطورة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"shut_down",
+            "value":"إغلاق",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_duplicate_contacts",
+            "value":"لا توجد جهات اتصال مكررة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"learning_pad_display_name",
+            "value":"الشاشة التعليمية الذكية",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"favorite",
+            "value":"المفضلة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"service_and_privacy_statement",
+            "value":"بيانات الخصوصية",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_from_block_list",
+            "value":"إزالة من القائمة المحظورة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"share_contact",
+            "value":"مشاركة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"default_value",
+            "value":"الافتراضية",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"click_to_paste",
+            "value":"انقر هنا للصق",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"house_type_position",
+            "value":"العمل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact",
+            "value":"جهات الاتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"click_to_edit_card",
+            "value":"انقر هنا للتعديل",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Import_Export",
+            "value":"استيراد/تصدير",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_smart_mark_remove",
+            "value":"بدون تعليم",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_contact",
+            "value":"تحديد جهة اتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassmentInterceptionCallDeleteOrNot_new",
+            "value":"هل تريد حذف سجل المكالمة المحظورة هذا؟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_contacts",
+            "value":"لا توجد جهات اتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_group",
+            "value":"هل تريد حذف هذه المجموعة؟",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"menu_harassment_filter",
+            "value":"المكالمات المحظورة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"remove_from_group",
+            "value":"إزالة من المجموعة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"computer",
+            "value":"الحاسوب",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_recycle_tips_sync",
+            "value":"ستُحذف جهات الاتصال نهائيًا من هذا الجهاز والسحابة وكافة الأجهزة التي تمت المزامنة معها بعد انقضاء عدد الأيام الموضحة هنا (%d يومًا كحدٍ أقصى).",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"service_provider",
+            "value":"مقدم الخدمة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_chat_title",
+            "value":"حدد رقمًا لمراسلته",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missed_favorite_contacts_only",
+            "value":"جهات الاتصال المفضلة فقط",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_contact_tips_one",
+            "value":"ستُحذف جهة الاتصال هذه من جميع الحسابات.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"website",
+            "value":"موقع الويب",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_select",
+            "value":"لا توجد جهات اتصال تم تحديدها",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_deleted_from_hidisk",
+            "value":"تم الحذف من السحابة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"connect_net_title",
+            "value":"لا يوجد اتصال إنترنت",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_index_subheading",
+            "value":"جرّب هذا الإجراء إذا كنت تواجه مشكلات في البحث.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_mark_as_to_cloud",
+            "value":"ستُرفع الأرقام المُبلغ عنها إلى السحابة.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_express",
+            "value":"خدمة توصيل",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_audio_connect_net_msg",
+            "value":"مطلوب الاتصال بالإنترنت لتتمكن من إجراء المكالمات عبر خدمة MeeTime.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_work",
+            "value":"العمل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_title",
+            "value":"MeeTime",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_call_recorder",
+            "value":"تحديد تسجيل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_house_agent",
+            "value":"شركة عقارات",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_phone_sharing_explain",
+            "value":"عند وجود هاتف قريب بنفس حساب ، يمكنك استخدام شبكة الجوال الخاصة به لإجراء المكالمات واستقبالها وإرسال الرسائل واستقبالها على هذا الجهاز.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_set_voicemail",
+            "value":"رقم البريد الصوتي غير متاح",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"system_contacts",
+            "value":"جهات اتصال النظام",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"edit",
+            "value":"تعديل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_blockreason_mark_by_user",
+            "value":"تم التعليم من قِبِلك",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"batch_delete_contacts_in_cloud_sync_one",
+            "value":"ستُحذف جهة الاتصال هذه من هذا الجهاز وكافة الحسابات المربوطة بها ومن السحابة وكافة الأجهزة التي تمت مزامنة جهة الاتصال معها.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"group_existed",
+            "value":"توجد مجموعة بنفس الاسم.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_succeed",
+            "value":"تم الاستيراد بنجاح",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"edit_my_card",
+            "value":"تحرير بطاقتي",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"today",
+            "value":"اليوم",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"smart_box_display_name",
+            "value":"جهاز استقبال رقمي للتلفاز",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"exporting_data_from_a_storage_device",
+            "value":"تصدير إلى وحدة تخزين",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_be_deleted_from_phone",
+            "value":"ستُحذف جهة الاتصال هذه من هذا الجهاز وكافة الحسابات المربوطة بها.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save_dialog_title",
+            "value":"هل تريد حفظ التغييرات؟",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_from_photo_group",
+            "value":"اختر من المعرض",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_jabber",
+            "value":"Jabber",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"birthday_type_anniversaries",
+            "value":"ذكرى سنوية",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"house_type_dwelling",
+            "value":"المنزل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"str_SIM",
+            "value":"بطاقة SIM",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accounts_to_display",
+            "value":"الحسابات",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"this_contact_was_not_found",
+            "value":"لم يُعثر على جهة الاتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"birthday_type_grebirthday",
+            "value":"عيد الميلاد",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"Export_contact_list_to_internal_storage",
+            "value":"هل تريد تصدير قائمة جهات الاتصال إلى وحدة التخزين الداخلية؟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialing",
+            "value":"جارٍ الاتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"export_failed",
+            "value":"تعذر التصدير",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save_to_tablet",
+            "value":"حفظ في: الجهاز اللوحي",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save_to_existing_contacts",
+            "value":"حفظ إلى جهة اتصال موجودة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_recycle_deleted_all_confirm",
+            "value":"هل تريد حذف جميع جهات الاتصال بشكل نهائي؟",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"house_type_custom",
+            "value":"تخصيص",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"favorite_num",
+            "value":"جهات الاتصال المفضلة: %d",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_open_mobile_contacts",
+            "value":"الانتقال إلى جهات اتصال الهاتف",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"restore_contacts_alert_cloud_sync_open",
+            "value":"ستُعاد جهات الاتصال الموجودة على جهازك وعلى السحابة وعلى جميع الأجهزة التي تمت مزامنتها إلى ما كانت فورًا بعد اكتمال تحديث نظام OpenHarmony.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_local_music",
+            "value":"الموسيقى على الجهاز",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_select_contacts",
+            "value":"لا توجد جهات اتصال لديها أرقام هواتف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"favorite_remove",
+            "value":"إزالة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_discard_merge_contacts",
+            "value":"تجاهل دمج جهات الاتصال؟",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"camera_display_name",
+            "value":"الكاميرا",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_from_storage_device",
+            "value":"التحديد من وحدة التخزين",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_aim",
+            "value":"AIM",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"used_to_view_web_content_such_as_the_privacy_statement",
+            "value":"يُستخدم هذا الإذن لعرض محتوى الويب، مثل بيان الخصوصية.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"menu_mark_as",
+            "value":"تعليم كـ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_home",
+            "value":"فاكس المنزل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"is_stop_import_contact",
+            "value":"هل تريد إيقاف استيراد جهات الاتصال؟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_ringtone",
+            "value":"نغمة الرنين",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"system_incoming_call_ringtone",
+            "value":"نغمة الرنين للنظام",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_missed_contacts_only",
+            "value":"جهات الاتصال فقط",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_vcard",
+            "value":"لم يُعثر على ملف بطاقات أسماء (نوع vCard).",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_call",
+            "value":"اتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"batch_delete_contacts_in_cloud_sync",
+            "value":"سيتم حذف جهات الاتصال هذه من هذا الجهاز وكافة الحسابات المربوطة بها ومن السحابة وكافة الأجهزة التي تمت مزامنة جهات الاتصال معها.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_qq",
+            "value":"QQ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"common_use",
+            "value":"الأكثر استخدامًا",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"email",
+            "value":"البريد الإلكتروني",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_restore",
+            "value":"استعادة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"message",
+            "value":"رسالة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"take_new_photo",
+            "value":"التقاط صورة جديدة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"yesterday",
+            "value":"أمس",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_assistant_setting_title",
+            "value":"مكالمات Celia",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_insurance",
+            "value":"شركة تأمين/قروض",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_recycle_summary",
+            "value":"استعادة جهات الاتصال المحذوفة مؤخرًا.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_home_expansion",
+            "value":"المنزل %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete",
+            "value":"حذف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_main_expansion",
+            "value":"الأساسي %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"tablet",
+            "value":"الجهاز اللوحي",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_work_expansion",
+            "value":"فاكس العمل (‏%s)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"noName",
+            "value":"(بدون اسم)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"smart_projector_dev_display_name",
+            "value":"جهاز عرض",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_shortcut_title",
+            "value":"اختصار لجهة اتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cannot_start_video_call_change_to_voice",
+            "value":"مكالمات الفيديو غير مدعومة على هذه الشبكة، تم التبديل إلى مكالمة صوتية",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"other_devices_answering_calls",
+            "value":"تم الرد عليها بواسطة جهاز آخر",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"name",
+            "value":"الاسم",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_member",
+            "value":"إضافة أعضاء",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"automatically_merge_contacts",
+            "value":"سيتم الدمج التلقائي لجهات الاتصال التي تحمل نفس الاسم ورقم الهاتف بالضبط فقط. وإذا حدث دمج خاطئ لجهات الاتصال المُكررة، فيمكنك استعادة الأصل من «المحذوفات مؤخرًا».",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"8300999",
+            "value":"حدثت مشكلة غير معروفة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_mates",
+            "value":"زميل/زميلة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"permission_read_write_calendar",
+            "value":"يُستخدم هذا الإذن لمزامنة أعياد ميلاد جهات الاتصال.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_main",
+            "value":"الرئيسي",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"show_contacts",
+            "value":"تفضيلات العرض",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_restorable_contact",
+            "value":"لا توجد جهات اتصال لاستعادتها",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_avatar",
+            "value":"إزالة الصورة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"refreshing_data",
+            "value":"جارٍ المزامنة…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_nuisance_calls_reason",
+            "value":"مزعجة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_source_teddy_bear",
+            "value":"‏Teddy Mobile",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"have_select_sth",
+            "value":"تم تحديد \u202a%s\u202c",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"system_ringtone",
+            "value":"نغمات النظام",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_mobile_expansion",
+            "value":"الجوال %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"favorite_contacts",
+            "value":"تمت الإضافة إلى المفضلة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_group",
+            "value":"لا توجد مجموعات",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"8301002",
+            "value":"تتعذر قراءة بيانات بطاقة SIM أو تحديثها",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_photo",
+            "value":"صورة لجهة اتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_missed_call",
+            "value":"مكالمة فائتة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_dialed_phone",
+            "value":"مكالمة صادرة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"birthday_type_lunarbirthday",
+            "value":"عيد الميلاد القمري",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"set_voicemial_info",
+            "value":"لإعداد البريد الصوتي، انتقل إلى \"القائمة > الإعدادات\".",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_call_logs",
+            "value":"حذف سجل المكالمة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_missedCall_msg",
+            "value":"عرض المكالمات الفائتة من:",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"got_it",
+            "value":"حسنًا",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"roaming_dial_title",
+            "value":"جارٍ تشغيل التجوال… اختر طريقة الاتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_source_oh",
+            "value":"هارموني المفتوح",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"search",
+            "value":"بحث عن جهات اتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"cancel_favorite",
+            "value":"إزالة من المفضلة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_custom",
+            "value":"تخصيص",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"edit_beforeCall",
+            "value":"تحرير قبل الاتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"turn_off_airplane_mode",
+            "value":"أوقف وضع الطائرة قبل أن تحاول الوصول إلى البريد الصوتي.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_sim_contact_title",
+            "value":"استيراد جهات اتصال بطاقة SIM",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"copy_to_account",
+            "value":"نسخ إلى %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"restore_contacts",
+            "value":"استعادة جهات الاتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_list_search",
+            "value":"بحث...",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_time_msg",
+            "value":"في آخر %s ساعة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"unknown_phonenumber",
+            "value":"رقم غير معروف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"imported_calendars",
+            "value":"تمت الإضافة إلى التقويم",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_dialer_calllog",
+            "value":"سجل المكالمات فارغ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_picker_banner",
+            "value":"تُعرض جهات الاتصال هنا، ولا يمكن لهذا التطبيق سوى الوصول إلى جهات الاتصال التي أنت تحددها. %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialer",
+            "value":"الهاتف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_dialog_title",
+            "value":"هل تريد حذف جهة الاتصال هذه؟",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_picture",
+            "value":"حذف الصورة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"confirm",
+            "value":"موافق",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_search_result_empty",
+            "value":"لا توجد نتائج",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_make_call",
+            "value":"مكالمة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_source_antifraud_center",
+            "value":"مركز مكافحة الاحتيال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_deleted",
+            "value":"تم حذف %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_set",
+            "value":"بدون تعيين",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_all_rights_reserved",
+            "value":"جهات الاتصال من . جميع الحقوق محفوظة. © %d",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_favorite",
+            "value":"لا توجد جهات اتصال مفضلة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Export",
+            "value":"تصدير",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"hide",
+            "value":"إخفاء",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_cleaned_confirm",
+            "value":"ستُمسح جهات الاتصال الموجودة في هذه القائمة نهائيًا.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_not_deleted",
+            "value":"لن يتم حذف جهات الاتصال نفسها.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_send_sms",
+            "value":"إرسال رسالة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_Address",
+            "value":"إضافة عنوان",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_work_expansion",
+            "value":"العمل %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"set_default_values",
+            "value":"تعيين كافتراضي",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"blockCall",
+            "value":"ملغية",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"birthday_type_other",
+            "value":"تاريخ هام",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"merge_repeat_contact",
+            "value":"دمج جهات الاتصال المكررة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_restoring",
+            "value":"جارٍ الاستعادة…",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"speed_dial_turn_off_airplane_mode",
+            "value":"أوقف تشغيل وضع الطائرة قبل استخدام وظيفة الاتصال السريع.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_setting_type_batch_delete",
+            "value":"حذف سجلات المكالمات",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_contact_source",
+            "value":"تحديد مصدر الاستيراد",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"name_pinyin",
+            "value":"الاسم الصوتي",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_will_be_deleted",
+            "value":"ستُحذف جهة الاتصال هذه من هذا الجهاز والسحابة وكافة الأجهزة التي تمت مزامنة جهة الاتصال معها.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"modify_speed_dial",
+            "value":"تعديل الاتصال السريع",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"NoService",
+            "value":"لا توجد خدمة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"auto_merge_duplicate_contacts",
+            "value":"دمج تلقائي لجهات الاتصال المكررة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"other_important_dates",
+            "value":"إضافة تاريخ مهم",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"secure_access_title",
+            "value":"الوصول الخاص إلى جهات الاتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_fraud_smart_identify",
+            "value":"عالية الخطورة | كشفها النظام",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_delete",
+            "value":"حذف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save",
+            "value":"حفظ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"group",
+            "value":"المجموعات",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recorder",
+            "value":"التسجيل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"deleting_contacts",
+            "value":"جارٍ حذف جهات الاتصال…",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_maintenancemode",
+            "value":"لا يمكن استخدام هذه الميزة أثناء وضع الصيانة.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_number_settings",
+            "value":"مسح الرقم المخصص",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_allowed",
+            "value":"رفض",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_scam_msgs_reason",
+            "value":"هناك مخاطر احتيال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_expand",
+            "value":"توسيع",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_restore_success",
+            "value":"تمت استعادة جهات الاتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"clear",
+            "value":"مسح",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_contact",
+            "value":"جهات الاتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"speed_dial_setting",
+            "value":"إعدادات الاتصال السريع",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_from_group",
+            "value":"اختر من المعرض",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"house_type_other",
+            "value":"غير ذلك",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_customize",
+            "value":"تخصيص",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_other_expansion",
+            "value":"غير ذلك %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_speedDial_msg",
+            "value":"اختر جهات اتصال لإضافتها إلى ميزة الاتصال السريع.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_remove",
+            "value":"لا شيء",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle_deleted_confirm_single",
+            "value":"هل تريد حذف جهة الاتصال هذه نهائيًا؟",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"learn_more",
+            "value":"معرفة المزيد",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_vCard_dialog_title",
+            "value":"هل تريد استيراد جهات الاتصال من ملف بطاقات الأسماء vCard؟",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_restore_sms_record_move_in",
+            "value":"الإضافة واستعادة الرسائل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_father",
+            "value":"أب",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"Import_Export_Contacts",
+            "value":"استيراد/تصدير",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"cancel_pass_birthday_to_calendar",
+            "value":"لا، شكرًا",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_video_connect_net_msg",
+            "value":"مطلوب الاتصال بالإنترنت لتتمكن من إجراء المكالمات عبر خدمة MeeTime.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add_number",
+            "value":"إضافة رقم هاتف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"address_add",
+            "value":"العنوان",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_sisters",
+            "value":"أخت",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"copy_phoneNumber",
+            "value":"نسخ الرقم",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"merge_duplicate_contacts",
+            "value":"دمج جهات الاتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"Export_Contacts",
+            "value":"تصدير جهات الاتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_from_storage_device",
+            "value":"استيراد من وحدة تخزين",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"from_the_accounts",
+            "value":"تم الاستيراد من:",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"setting_network",
+            "value":"إعدادات الشبكة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_messaging",
+            "value":"المراسلة الفورية",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_windowslive",
+            "value":"Windows Live",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"unable_import",
+            "value":"تعذر الاستيراد من وحدة التخزين",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"ringtones_mute",
+            "value":"صامت",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Card_add",
+            "value":"إضافة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add",
+            "value":"إضافة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"caching_please_wait",
+            "value":"يُرجى الانتظار…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"importing_contacts",
+            "value":"جارٍ استيراد جهات الاتصال…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_video_title",
+            "value":"مكالمة فيديو عبر خدمة MeeTime",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"read_and_understand",
+            "value":"أتفهم المخاطر وأوافق على هذا",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_title_mark_as",
+            "value":"تعليم كـ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_icq",
+            "value":"ICQ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_missed_call",
+            "value":"لا توجد مكالمات فائتة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_skype",
+            "value":"Skype",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_dialer_missed_calllog",
+            "value":"لا توجد مكالمات فائتة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_home",
+            "value":"المنزل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_select_set",
+            "value":"لم تحدد جهات اتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_call_number",
+            "value":"الاتصال بـ \u202a%s\u202c",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save_to_account",
+            "value":"حفظ في: %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_only_move_in",
+            "value":"إضافة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"my_carrier",
+            "value":"شركة الاتصالات",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"8300003",
+            "value":"مشكلة في النظام الداخلي",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"8300004",
+            "value":"مشكلة في بطاقة SIM",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_management",
+            "value":"إدارة جهات الاتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"8300001",
+            "value":"قيمة غير مقبولة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"auto_merge_duplicate_contacts_rule",
+            "value":"قواعد دمج جهات الاتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"input_content_empty",
+            "value":"أدخل نصًا أولًا",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"8300002",
+            "value":"تعذر الاتصال بالخدمة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"restore_contacts_alert",
+            "value":"ستُعاد جهات الاتصال إلى حالتها كما كانت فورًا بعد اكتمال تحديث نظام OpenHarmony.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_custom",
+            "value":"تخصيص",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_custom_expansion",
+            "value":"‏%s مخصص",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cancel",
+            "value":"إلغاء",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"adding_custom_tag",
+            "value":"تخصيص اسم الحقل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_taxi",
+            "value":"سيارة أجرة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"vcard_files_in_app",
+            "value":"ملفات vCard ضمن التطبيق",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"modifying_settings_number",
+            "value":"تغيير الرقم المخصص",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"choose",
+            "value":"تحديد",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"AnswerorDeclineIncomingCall_beforeNewCall",
+            "value":"مطلوب الرد على المكالمة الواردة أو رفضها قبل إجراء مكالمة جديدة.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"nickname",
+            "value":"الكنية",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"clear_calllog_sure",
+            "value":"هل تريد مسح سجلات المكالمات؟",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_friend",
+            "value":"صديق",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_blocked_calls",
+            "value":"لا توجد مكالمات محظورة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_partner",
+            "value":"شريك",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"not_found_sim_card",
+            "value":"لم يتم العثور على بطاقة SIM.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_home",
+            "value":"الشخصي",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone",
+            "value":"الهاتف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"speed_dial",
+            "value":"الاتصال السريع",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"portable_smart_screen_display_name",
+            "value":"شاشة ذكية محمولة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"unknown",
+            "value":"غير معروف",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"take_photo",
+            "value":"التقاط صورة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"suspected_fraud",
+            "value":"مكالمة مشبوهة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_pass_birthday_to_calendar_new",
+            "value":"هل تسمح بمزامنة أعياد الميلاد مع التقويم؟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"searching_for_vCard_files_in_storage_device",
+            "value":"جارٍ البحث عن بيانات vCard في وحدة التخزين…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dial_back",
+            "value":"معاودة الاتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_number_available",
+            "value":"لا توجد أرقام متاحة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relation",
+            "value":"العلاقة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"all_contacts2",
+            "value":"جميع جهات الاتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_call",
+            "value":"مكالمة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"set_card_select_contact",
+            "value":"تعيين كافتراضي",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_setting_type_setting",
+            "value":"الإعدادات",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recovering_contact_toast",
+            "value":"الميزة غير متوفرة، أوقف مزامنة السحابة وانتظر %s ثوانٍ قبل إعادة المحاولة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"mobile_contacts",
+            "value":"جهات اتصال الهاتف",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"allow_contacts_to_connect_Internet",
+            "value":"هل تسمح لجهات الاتصال بالاتصال بالإنترنت؟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_hangouts",
+            "value":"Hangouts",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_rejected_phone",
+            "value":"مكالمة مرفوضة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_brother",
+            "value":"أخ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_sim_contact_msg",
+            "value":"لا يمكن استخدام جهات الاتصال المحفوظة على بطاقة (بطاقات)‏ SIM الحالية إلا بعد استيرادها.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_all_group_title",
+            "value":"هل تريد حذف كافة المجموعات؟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"disturbing_intercept_boot_bubble",
+            "value":"انقر هنا لحظر المكالمات غير المرغوب فيها.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_all",
+            "value":"تحديد الكل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_contact_tips",
+            "value":"سيتم حذف جهات الاتصال هذه من جميع الحسابات.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"multiple_choices",
+            "value":"اختيار متعدد",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"remove_member",
+            "value":"إزالة الأعضاء",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_parents",
+            "value":"الوالد/الوالدة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"maximum_selected_contacts",
+            "value":"يمكن تحديد %d جهة اتصال كحد أقصى",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"blocklist_number",
+            "value":"رقم في قائمة الحظر",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add_to_blocklist",
+            "value":"إضافة إلى القائمة المحظورة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"restore_contacts_confirm_title",
+            "value":"هل تريد استعادة جهات الاتصال؟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_discard",
+            "value":"تجاهل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"on_call_phone_sharing",
+            "value":"مشاركة الاتصالات",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"edit_contact",
+            "value":"تعديل جهة الاتصال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"send_messages",
+            "value":"إرسال رسالة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"new_group_source",
+            "value":"يُرجى تحديد الحساب",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_introducer",
+            "value":"بمعرفة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_vCard_files_from_internal_storage",
+            "value":"استيراد بطاقات الأسماء (vCard) من وحدة التخزين الداخلية",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"find_out_how_we_use_your_data",
+            "value":"كيفية استخدامنا لبياناتك",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"prompt_later",
+            "value":"لاحقًا",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"rename",
+            "value":"إعادة التسمية",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"create_contact",
+            "value":"جهة اتصال جديدة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_work",
+            "value":"فاكس العمل",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save_to_pc",
+            "value":"حفظ في: الحاسوب",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"will_be_exported_later",
+            "value":"سيتم تصدير %d خلال لحظات.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_promote_sales",
+            "value":"إعلان",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"selecting_a_vCard_file",
+            "value":"اختر ملف بطاقة أسماء",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"setting_harassment_blocking",
+            "value":"حظر المكالمات غير المرغوب فيها",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"device_info",
+            "value":"معلومات الجهاز",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_other",
+            "value":"غير ذلك",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_children",
+            "value":"ابن/ابنه",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"new_group",
+            "value":"إنشاء مجموعة جديدة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"go_to_settings",
+            "value":"الإعدادات",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_collapsed",
+            "value":"تم الطي",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_index_dialog",
+            "value":"قد يستغرق هذا الأمر بضع دقائق. هل تريد المتابعة؟",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_edit_avatar",
+            "value":"تحرير صورة الحساب الشخصي",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"exporting_contacts",
+            "value":"جارٍ تصدير جهات الاتصال…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassmentAddIntoWhitelist",
+            "value":"إضافة إلى القائمة الموثوقة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sim_card",
+            "value":"البطاقة %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"watch_display_name",
+            "value":"ساعة طفل",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"national_anti_fraud_center",
+            "value":"المركز الوطني لمكافحة الاحتيال",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_spouses",
+            "value":"زوج/زوجة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"video",
+            "value":"مكالمة فيديو",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"corporation",
+            "value":"المؤسسة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligent_central_contral_display_name",
+            "value":"لوحة التحكم",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"export_the_vCard_file_to_the_internal_storage",
+            "value":"تصدير إلى وحدة التخزين الداخلية كبطاقة أسماء",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"hous_minute",
+            "value":"%1$s و%2$s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_bosses",
+            "value":"مدير",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"new_contact",
+            "value":"إنشاء جهة اتصال جديدة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"mark_as_sentence_connection",
+            "value":"%1$s&nbsp|&nbsp%2$s ‏(%3$s)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_pager",
+            "value":"بيجر",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_contact",
+            "value":"حذف",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"send_information",
+            "value":"إرسال رسالة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_cancel",
+            "value":"إلغاء",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"reject",
+            "value":"مرفوضة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"voicemail_number",
+            "value":"رقم البريد الصوتي",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"position",
+            "value":"المسمى الوظيفي",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"copy_contact",
+            "value":"نسخ جهات الاتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"local_music",
+            "value":"الموسيقى المحلية",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_recorder_list",
+            "value":"تسجيلات المكالمات",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_collapse",
+            "value":"طي",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"always_auto_merge",
+            "value":"الدمج التلقائي دائمًا",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"initial_query",
+            "value":"بحث بإدخال الأحرف الأولى",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_join_trust_list_hint",
+            "value":"سيُضاف الرقم %s إلى القائمة الموثوقة. يمكنك أيضًا اختيار استعادة الرسائل المحظورة من هذا الرقم.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassmentAddWhiteListDlgMsg",
+            "value":"هذا الرقم موجود ضمن قائمة الحظر. هل تريد نقله إلى القائمة الموثوقة؟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_import_from_sim_card_dialog_content",
+            "value":"هل تريد استيراد جهات الاتصال من بطاقة SIM؟",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_assistant",
+            "value":"مساعد",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"batch_delete",
+            "value":"حذف جماعي لجهات الاتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"telep_group",
+            "value":"المجموعات على الهاتف",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassmentInterceptionRemoveBlacklistRecords",
+            "value":"استعادة الرسائل المحظورة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_video_music",
+            "value":"نغمات الفيديو",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"smart_security_protection",
+            "value":"الحماية الأمنية الذكية",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"favorite_management",
+            "value":"إدارة المفضلة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_contact_sim_card",
+            "value":"لا توجد جهات اتصال على بطاقة SIM",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group",
+            "value":"المجموعات الذكية",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_contact_less_than_one_week",
+            "value":"تم الاتصال بها في الأسبوع الماضي",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_add_contact_dialog_content",
+            "value":"سيتم تحديث معلومات المؤسسة لجهات الاتصال المحددة إلى \"%s\".",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_company",
+            "value":"مؤسسات",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_city",
+            "value":"مدن",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_latest_contact",
+            "value":"تم التواصل معها مؤخراً",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_no_company",
+            "value":"لا توجد معلومات عن المؤسسة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_no_address",
+            "value":"معلومات الموقع غير متوفرة",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_contact_less_than_one_month",
+            "value":"تم الاتصال في الشهر الماضي (باستثناء آخر سبعة أيام)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_no_contact_more_than_three_month",
+            "value":"لم يتم الاتصال لأكثر من %s أشهر",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_contact_less_than_three_month",
+            "value":"تم الاتصال خلال آخر %s أشهر (باستثناء آخر أربعة أسابيع)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"scan",
+            "value":"قراءة الرمز",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"unsupport_qrcode",
+            "value":"رمز QR هذا غير مدعوم حاليًا.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"tip",
+            "value":"تنويه",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"pengLai_tip_for_disabled_functions",
+            "value":"يتعذّر تنفيذ الإجراء في وضع بنغلاي",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"penglai_dialog_body",
+            "value":"يبدو أن إشارة الشبكة الخلوية غير موجودة. يمكنك إعداد اتصال القمر الصناعي من الإعدادات.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"penglai_dialog_title",
+            "value":"هل تريد الانتقال لإعداد شبكة الأقمار الصناعية؟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"penglai_dialog_button_go_to",
+            "value":"انتقال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"editfavorite_drag_button",
+            "value":"اسحب لتغيير الترتيب، وانقر مرتين ثم مطولاً لبدء السحب",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cancelling_favorite_contacts",
+            "value":"جارٍ إزالة جهات الاتصال من المفضلة…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_new_contact",
+            "value":"جهة اتصال جديدة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_all_play_button",
+            "value":"إلغاء تحديد الكل، من 1 إلى %1$s، %2$s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_fold_dialer",
+            "value":"إخفاء لوحة الاتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_open",
+            "value":"مشغّل",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_unselected",
+            "value":"غير محددة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_call",
+            "value":"اتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_satellite_call",
+            "value":"إجراء مكالمة عبر القمر الصناعي",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_avatar",
+            "value":"صورة الحساب الشخصي",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_detail",
+            "value":"التفاصيل",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_new_collect",
+            "value":"إضافة مفضلة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_cancel",
+            "value":"إلغاء",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_back",
+            "value":"رجوع",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_video_call",
+            "value":"مكالمة فيديو",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_done",
+            "value":"تم",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_more",
+            "value":"المزيد من الخيارات",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_back_to_pre",
+            "value":"رجوع إلى الشاشة السابقة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_selected",
+            "value":"محددة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_expand_dialer",
+            "value":"فتح لوحة الاتصال",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_expanded",
+            "value":"تم التوسيع",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_importing_for_now",
+            "value":"ليس الآن",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_people_anti_fraud_center",
+            "value":"تنبيه من مركز مكافحة الاحتيال في بكين",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"selected",
+            "value":"تم تحديد (%s)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_call_record",
+            "value":"الملخص غير متوفر نظرًا لحذف سجل المكالمات",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"regenerate_fail_info",
+            "value":"النظام مشغول، انقر هنا لإعادة إنشاء الملخص",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_support_regenerate",
+            "value":"الخدمة غير متوفرة في منطقتك",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_support_detail",
+            "value":"ميزة ملخص المكالمة غير متوفرة حاليًا في منطقتك.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_dismiss",
+            "value":"عدم الإظهار مرةً أخرى",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_title",
+            "value":"كيف يمكنني تشغيل/إغلاق المكالمات المحسَّنة؟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_message",
+            "value":"من الشاشة الرئيسية لتطبيق الهاتف، انقر على أيقونة \"المزيد\" في أعلى اليسار، ثم انتقل إلى \"الإعدادات > المكالمات المحسَّنة\"، وشغّل أو أغلق هذه الميزة.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_setting",
+            "value":"الإعدادات",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_move_backward",
+            "value":"نقل أسفل %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_move_forward",
+            "value":"نقل أعلى %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_pick_up",
+            "value":"بدأ السحب",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_pick_down",
+            "value":"تم الوضع",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_button",
+            "value":"زر",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_selected_cancel",
+            "value":"تم إلغاء تحديد الكل",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_selected",
+            "value":"تم تحديد الكل",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_checkbox_selected",
+            "value":"اضغط مرتين لإلغاء التحديد",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_calling_can_only_use_in_full_screen",
+            "value":"لا تتوفر خدمات الاتصال المتقدمة إلا في وضع العرض ملء الشاشة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"removed",
+            "value":"تمت الإزالة",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_checkbox_deselected",
+            "value":"اضغط مرتين للتحديد",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"go_to_recover",
+            "value":"الاستعادة الآن",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"to_recycle_station_restore",
+            "value":"تم حذف بيانات جهات الاتصال من الجهاز الآخر. ,يمكنك استعادتها بالنقر على الأيقونة في أعلى اليسار، ثم الانتقال إلى \"الإعدادات > المحذوفات مؤخرًا\".",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"simultaneously_delete_call_summary",
+            "value":"يتضمن سجل المكالمات هذا بعض الملخصات. يمكنك حذفها مع السجل نفسه.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"only_delete_calllogs",
+            "value":"حذف سجل المكالمات فقط",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_call_summary",
+            "value":"حذف سجل المكالمات والملخصات",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"restore_recorder",
+            "value":"لاستعادة تطبيق مسجل الصوت، انتقل إلى \"الإعدادات > التطبيقات والخدمات > ∷ > استعادة التطبيقات\"",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+	{
+            "name":"to_recycle_station_restore_contact",
+            "value":"تم حذف بعض جهات الاتصال من جهاز آخر مُسجّل الدخول عليه بحساب  الخاص بك. يمكنك استعادتها بالنقر على الأيقونة في أعلى اليسار، ثم الانتقال إلى \"الإعدادات > المحذوفة مؤخرًا\".",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name": "not_support_toast",
+            "value": "هذه العملية غير مدعومة في هذا الوضع"
+        },
+        {
+            "name":"Help_and_feedback",
+            "value":"المساعدة والإفادة",
+            "attr":{
+                "priority":"translate"
+            }
+        }
+    ]
+}

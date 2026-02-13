@@ -1,0 +1,52 @@
+# Define project specific obfuscation rules here.
+# You can include the obfuscation configuration files in the current module's build-profile.json5.
+#
+# For more details, see
+
+# Obfuscation options:
+# -disable-obfuscation: disable all obfuscations
+# -enable-property-obfuscation: obfuscate the property names
+# -enable-toplevel-obfuscation: obfuscate the names in the global scope
+# -compact: remove unnecessary blank spaces and all line feeds
+# -remove-log: remove all console.* statements
+# -print-namecache: print the name cache that contains the mapping from the old names to new names
+# -apply-namecache: reuse the given cache file
+
+# Keep options:
+# -keep-property-name: specifies property names that you want to keep
+# -keep-global-name: specifies names that you want to keep in the global scope
+
+-enable-toplevel-obfuscation
+-enable-export-obfuscation
+-enable-property-obfuscation
+-keep-property-name
+contact_id
+display_name
+getFromPreferences
+saveToPreferences
+vp
+addAlphabetIndexObj
+extPageType
+pafAppid
+bName
+-keep
+./src/main/ets/workers/base/Worker.ets
+./src/main/ets/pages/dialer/callRecord/CallRecord.ets
+./src/main/ets/pages/phone/dialer/Dialer.ets
+./src/main/ets/presenter/contact/ContactListPresenter.ets
+./src/main/ets/entryformability/EntryFormAbility.ets
+./src/main/ets/MainAbility/MainAbility.ets
+./src/main/ets/card/ability/SpeedDialAbility.ets
+./src/main/ets/card/ability/ShortcutCardAbility.ets
+./src/main/ets/card/ability/MissedCallCardAbility.ets
+./src/main/ets/dialogentryability/DialogEntryAbility.ets
+./src/main/ets/speeddialability/SpeedDialAbility.ets
+./src/main/ets/StaticSubscriber/StaticSubscriber.ets
+./src/main/ets/card/ability/CardDialogExtensionAbility.ets
+./src/main/ets/card/type/shortcut.ets
+./src/main/ets/card/type/commonType.ets
+./src/main/ets/card/type/missedCall.ets
+./src/main/ets/card/type/speedDial.ets
+./src/main/ets/card/type/speedDialCardType.ets
+./src/main/ets/card/pages/ShortcutEditPage.ets
+./src/main/ets/card/pages/ShortcutCard.ets

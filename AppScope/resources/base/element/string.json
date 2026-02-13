@@ -1,8 +1,11 @@
 {
-  "string": [
-    {
-      "name": "app_name",
-      "value": "联系人"
-    }
-  ]
+    "string":[
+        {
+            "name":"contact",
+            "value":"Contacts",
+            "attr":{
+                "priority":"LT"
+            }
+        }
+    ]
 }

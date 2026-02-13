@@ -14,8 +14,6 @@
  */
 
 import ValuesDelta from './ValuesDelta';
-import DAOperation from './DAOperation';
-import { RawContacts } from '../contract/RawContacts';
 import { Data } from '../contract/Data';
 import RawContact from '../entity/RawContact';
 import { ValueType } from '@ohos.data.ValuesBucket';
@@ -27,8 +25,9 @@ const TAG = 'RawContactDelta';
  */
 export default class RawContactDelta {
   // Stores fields in the rawContact table.
-  values: ValuesDelta<ValueType>;
+  public values: ValuesDelta<ValueType>;
   public readonly dataValues: Map<number, ValuesDelta<string | number>[]> = new Map();
+
   constructor() {
     this.values = new ValuesDelta();
   }
@@ -38,9 +37,9 @@ export default class RawContactDelta {
       return;
     }
     let rawContactDelta = new RawContactDelta();
-    rawContactDelta.values = ValuesDelta.fromValues(rawContact.values);
+    rawContactDelta.values = ValuesDelta.fromValues<ValueType>(rawContact.values);
     for (let dataItem of rawContact.dataItems) {
-      rawContactDelta.addDataValue(ValuesDelta.fromValues(dataItem.values));
+      rawContactDelta.addDataValue(ValuesDelta.fromValues<string | number>(dataItem.values));
     }
     return rawContactDelta;
   }
@@ -74,4 +73,5 @@ export default class RawContactDelta {
   isContactDelete(): boolean {
     return this.values.isDelete();
   }
+
 }

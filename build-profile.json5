@@ -1,25 +1,41 @@
 {
   "app": {
-    "signingConfigs": [
-      {
-        "name": "default",
-        "material": {
-          "storePassword": "000000198E62D3EBAD27221BC23C17589B3C2F7150510F1FEA2EF28DECF81B022C7079AD4243C34E1A",
-          "certpath": "sign/IDE.cer",
-          "keyAlias": "OpenHarmony Application CA",
-          "keyPassword": "00000019599D4D854A2568E05D356DD762CB34576298AFC53D9E228813C8711327BB991AC74C0D597E",
-          "profile": "sign/contacts.p7b",
-          "signAlg": "SHA256withECDSA",
-          "storeFile": "sign/OpenHarmony_stage.p12"
-        }
-      }
-    ],
     "products": [
       {
         "name": "default",
-        "signingConfig": "default",
+        "signingConfig": "release",
         "compileSdkVersion": 23,
-        "compatibleSdkVersion": 23
+        "compatibleSdkVersion": 20,
+        "runtimeOS": "OpenHarmony",
+        "targetSdkVersion": 20
+      }
+    ],
+    "signingConfigs": [
+      {
+        "name": "release",
+        "type": "OpenHarmony",
+        "material": {
+          "certpath": "signature/OpenHarmony.cer",
+          "keyAlias": "OpenHarmony Application Release",
+          "keyPassword": "00000016FC9062D8028095D4EDFB53D98EACC11C518006DC153D81A2FCF079E13AD3A4503F26",
+          "profile": "signature/contacts.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "signature/OpenHarmony.p12",
+          "storePassword": "00000016CCAFA533C124D440DADB53A4E02276B1AB7308926267A745E22DED09541E40628AF6"
+        }
+      },
+      {
+        "name": "default",
+        "type": "OpenHarmony",
+        "material": {
+          "certpath": "D:/code/lxr/contacts/signature/OpenHarmony.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001BA9DBD8F630846CD296CE5622C11D2A1AE5337D8B20E73CB502B63545821DE7A5CF0CA8AD827435",
+          "profile": "D:/code/lxr/contacts/signature/contacts.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "D:/code/lxr/contacts/signature/OpenHarmony.p12",
+          "storePassword": "0000001BE75198DEF23F2699E4D11F3BF8101A79AA6293A4958F67888E63C8801281B92950B07C4D1BECC3"
+        }
       }
     ]
   },

@@ -1,0 +1,18 @@
+{
+  "shortcuts": [
+    {
+      "shortcutId": "shortcut_id_01",
+      "label": "$string:contact",
+      "icon": "$media:ic_contact_icon",
+      "wants": [
+        {
+          "bundleName": "com.ohos.contacts",
+          "abilityName": "com.ohos.contacts.MainAbility",
+          "parameters": {
+            "pageFlag": "page_flag_contacts_list"
+          }
+        }
+      ]
+    }
+  ]
+}

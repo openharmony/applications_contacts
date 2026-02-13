@@ -1,4 +1,21 @@
 {
-  "modelVersion": "5.0.2",
-  "dependencies": {}
+  modelVersion: "6.0.0",
+  dependencies: {
+//    '@ohos/hypium-plugin': '2.0.1-rc7',
+//    "@ohos/hvigor-ohos-online-sign-plugin": "4.0.2",
+//    "fs-extra": '10.0.1',
+//    "execa": '5.1.1'
+  },
+  "execution": {
+    // "daemon": true,                          /* Enable daemon compilation. Default: true */
+    // "incremental": true,                     /* Enable incremental compilation. Default: true */
+    // "parallel": true,                        /* Enable parallel compilation. Default: true */
+    // "typeCheck": false,                      /* Enable typeCheck. Default: false */
+  },
+  "logging": {
+    // "level": "info"                          /* Define the log level. Value: [ "debug" | "info" | "warn" | "error" ]. Default: "info" */
+  },
+  "debugging": {
+     "stacktrace": true
+  }
 }

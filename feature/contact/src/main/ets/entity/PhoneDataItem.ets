@@ -17,12 +17,13 @@ import { DataItem } from './DataItem';
 import { Phone } from '../contract/Phone';
 
 export default class PhoneDateItem extends DataItem {
-  readonly values: Map<string, any>;
-  constructor(values: Map<string, any>) {
+  public declare readonly values: Map<string, string | number>;
+
+  constructor(values: Map<string, string | number>) {
     super(values);
   }
 
-  getNumber() {
+  getNumber(): string | number | undefined {
     return this.values.get(Phone.NUMBER);
   }
 }

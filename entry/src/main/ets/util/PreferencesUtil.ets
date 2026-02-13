@@ -12,13 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+
 class PreferencesUtil {
   isUsed() {
-    return AppStorage.Get('IsUsed') == 1;
+    return AppStorage.get('IsUsed') as boolean;
   }
 
   setIsUsed(isUsed: boolean) {
-    AppStorage.SetOrCreate('IsUsed', isUsed);
+    AppStorage.setOrCreate('IsUsed', isUsed);
   }
 }
 

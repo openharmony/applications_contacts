@@ -14,16 +14,18 @@
  */
 
 import { FavoriteBean } from './FavoriteBean';
-import { SearchContactsBean } from './SearchContactsBean';
+import { SearchContactResult } from './SearchContactResult';
 
-
+@Observed
 export class FavoriteListBean {
-  index: number;
-  showIndex: boolean;
-  showDivider: boolean;
-  favorite: FavoriteBean;
-  contact: SearchContactsBean | null;
-  constructor(index: number, showIndex: boolean, showDivider: boolean, favorite: FavoriteBean, contact: SearchContactsBean | null) {
+  public index: number;
+  public showIndex: boolean;
+  public showDivider: boolean;
+  public favorite: FavoriteBean;
+  public contact: SearchContactResult;
+  public offsetY: number = 0;
+  constructor(index: number, showIndex: boolean, showDivider: boolean, favorite: FavoriteBean,
+    contact: SearchContactResult) {
     this.index = index;
     this.showIndex = showIndex;
     this.showDivider = showDivider;

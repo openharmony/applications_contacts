@@ -30,8 +30,12 @@ import { Relation } from '../../../../../contact/src/main/ets/contract/Relation'
  * Phone Account Type
  */
 export default class PhoneAccountType extends AccountType {
-  static readonly TYPE_KEY: string = AccountType.PHONE_ACCOUNT_TYPE;
-  readonly mineKinds: Map<string, DataKind> = new Map();
+  public static readonly TYPE_KEY: string = AccountType.PHONE_ACCOUNT_TYPE;
+  // 下拉框自定义文本，对应的typeId的值
+  public static readonly TYPE_ID_CUSTOM = 10000;
+  public readonly CUSTOMER_TYPE_SET: Set<number> = new Set();
+  public readonly mineKinds: Map<string, DataKind> = new Map();
+
   constructor() {
     super();
     this.init();
@@ -47,6 +51,15 @@ export default class PhoneAccountType extends AccountType {
     this.addDataKindAim();
     this.addDataKindBirthday();
     this.addDataKindHouse();
+
+    // 不同的编辑信息，自定义下拉框对应的number值不一样，0，-1,99
+    this.CUSTOMER_TYPE_SET.add(Phone.TYPE_CUSTOM)
+      .add(Email.TYPE_CUSTOM)
+      .add(Im.TYPE_CUSTOM)
+      .add(StructuredPostal.TYPE_CUSTOM)
+      .add(Event.TYPE_CUSTOM)
+      .add(Relation.TYPE_CUSTOM)
+      .add(Aim.TYPE_CUSTOM)
   }
 
   private addDataKindPhone() {
@@ -131,6 +144,7 @@ export default class PhoneAccountType extends AccountType {
     typeList.push(this.buildRelationType(Relation.TYPE_CHILD));
     typeList.push(this.buildRelationType(Relation.TYPE_DOMESTIC_PARTNER));
     typeList.push(this.buildRelationType(Relation.TYPE_FATHER));
+    typeList.push(this.buildRelationType(Relation.TYPE_FRIEND));
     typeList.push(this.buildRelationType(Relation.TYPE_MANAGER));
     typeList.push(this.buildRelationType(Relation.TYPE_MOTHER));
     typeList.push(this.buildRelationType(Relation.TYPE_PARENTS));

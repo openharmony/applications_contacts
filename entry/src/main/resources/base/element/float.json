@@ -2,12 +2,13 @@
   "float": [
     {
       "name": "id_divide_width",
-      "value": "1vp"
+      "value": "0.5vp"
     },
     {
       "name": "id_corner_radius_card",
       "value": "24vp"
-    }, {
+    },
+    {
       "name": "id_corner_radius_card_mid",
       "value": "16vp"
     },
@@ -16,8 +17,32 @@
       "value": "24vp"
     },
     {
+      "name": "id_setting_22",
+      "value": "22vp"
+    },
+    {
+      "name": "id_setting_34",
+      "value": "34vp"
+    },
+    {
       "name": "id_card_margin_max",
       "value": "24vp"
+    },
+    {
+      "name": "id_card_title_margin_top",
+      "value": "19vp"
+    },
+    {
+      "name": "id_card_title_margin_bottom",
+      "value": "17vp"
+    },
+    {
+      "name": "id_card_item_margin_top",
+      "value": "13vp"
+    },
+    {
+      "name": "id_card_item_margin_bottom",
+      "value": "14vp"
     },
     {
       "name": "id_records_divider_max",
@@ -36,6 +61,10 @@
       "value": "16vp"
     },
     {
+      "name": "id_card_margin_xxl_minus",
+      "value": "-16vp"
+    },
+    {
       "name": "id_card_margin_xl",
       "value": "12vp"
     },
@@ -44,7 +73,15 @@
       "value": "8vp"
     },
     {
+      "name": "id_card_margin_large_hicar",
+      "value": "8vp"
+    },
+    {
       "name": "id_card_margin_mid",
+      "value": "4vp"
+    },
+    {
+      "name": "id_card_margin_mid_hicar",
       "value": "4vp"
     },
     {
@@ -76,6 +113,10 @@
       "value": "24vp"
     },
     {
+      "name": "id_card_image_s",
+      "value": "20vp"
+    },
+    {
       "name": "id_card_image_mid",
       "value": "40vp"
     },
@@ -84,8 +125,16 @@
       "value": "120vp"
     },
     {
+      "name": "id_card_image_large_hicar",
+      "value": "120vp"
+    },
+    {
       "name": "contact_longpress_dialog_width",
       "value": "156vp"
+    },
+    {
+      "name": "contact_text_size_s",
+      "value": "14fp"
     },
     {
       "name": "contact_text_size_body1",
@@ -102,6 +151,10 @@
     {
       "name": "dialer_telephone_number_height",
       "value": "112vp"
+    },
+    {
+      "name": "dialer_tele_number_height",
+      "value": "44vp"
     },
     {
       "name": "dialer_common_small_margin",
@@ -140,6 +193,18 @@
       "value": "38vp"
     },
     {
+      "name": "account_ItemList_menu_select_width",
+      "value": "90vp"
+    },
+    {
+      "name": "account_ItemList_menu_select_and_ic_spinner_width",
+      "value": "106vp"
+    },
+    {
+      "name": "account_text_and_ic_public_close_width",
+      "value": "182vp"
+    },
+    {
       "name": "account_Divider_height",
       "value": "1vp"
     },
@@ -154,6 +219,551 @@
     {
       "name": "DeleteDialogEx_width",
       "value": "336vp"
+    },
+    {
+      "name": "Dialog_bottom",
+      "value": "-12vp"
+    },
+    {
+      "name": "hide_height",
+      "value": "0vp"
+    },
+    {
+      "name": "account_ItemList_select_width",
+      "value": "128vp"
+    },
+    {
+      "name": "alpha_tertiary",
+      "value": "0.4"
+    },
+    {
+      "name": "account_Title_width",
+      "value": "328vp"
+    },
+    {
+      "name": "my_Title_width",
+      "value": "256vp"
+    },
+    {
+      "name": "text_width",
+      "value": "28vp"
+    },
+    {
+      "name": "settingTop_pad",
+      "value": "57vp"
+    },
+    {
+      "name": "dialer_button_font_size",
+      "value": "25vp"
+    },
+    {
+      "name": "dialer_button_img_width",
+      "value": "15vp"
+    },
+    {
+      "name": "dialer_sim_item_width",
+      "value": "116vp"
+    },
+    {
+      "name": "id_dialer_lineHeight",
+      "value": "33vp"
+    },
+    {
+      "name": "id_card_lineHeight",
+      "value": "21vp"
+    },
+    {
+      "name": "id_card_Toggle_size",
+      "value": "20vp"
+    },
+    {
+      "name": "id_records_divider_margin_left",
+      "value": "68vp"
+    },
+    {
+      "name": "id_speedDial_margin",
+      "value": "36vp"
+    },
+    {
+      "name": "id_speedDial_width",
+      "value": "104vp"
+    },
+    {
+      "name": "id_card_stack_height",
+      "value": "71vp"
+    },
+    {
+      "name": "SpeedDial_Suffix_height",
+      "value": "84vp"
+    },
+    {
+      "name": "SpeedDial_margin_2",
+      "value": "-2vp"
+    },
+    {
+      "name": "SpeedDial_margin_4",
+      "value": "-4vp"
+    },
+    {
+      "name": "SpeedDial_margin_5",
+      "value": "-5vp"
+    },
+    {
+      "name": "ContactDetail_margin_12",
+      "value": "-12vp"
+    },
+    {
+      "name": "SpeedDial_opacity_15",
+      "value": "0.15"
+    },
+    {
+      "name": "SpeedDial_height_20",
+      "value": "20vp"
+    },
+    {
+      "name": "float_cardHead_opacity",
+      "value": "1"
+    },
+
+    {
+      "name": "dialer_button_img_height",
+      "value": "15vp"
+    },
+    {
+      "name": "dialer_button_text_font_size",
+      "value": "17.5vp"
+    },
+    {
+      "name": "dialer_height",
+      "value": "240vp"
+    },
+    {
+      "name": "id_card_margin_top",
+      "value": "19.5vp"
+    },
+    {
+      "name": "id_groupList_lineHeight_xxl",
+      "value": "22vp"
+    },
+    {
+      "name": "id_groupList_lineHeight_xl",
+      "value": "19vp"
+    },
+    {
+      "name": "id_card_margin_bottom",
+      "value": "9vp"
+    },
+    {
+      "name": "id_card_row_text_lineHeight",
+      "value": "18.56vp"
+    },
+    {
+      "name": "id_card_divider_left",
+      "value": "72vp"
+    },
+    {
+      "name": "id_card_row_width",
+      "value": "104vp"
+    },
+    {
+      "name": "id_speedDial_height",
+      "value": "76vp"
+    },
+    {
+      "name": "id_card_text_margin_top",
+      "value": "3vp"
+    },
+    {
+      "name": "id_card_image_height",
+      "value": "28vp"
+    },
+    {
+      "name": "id_card_text_margin_bottom",
+      "value": "7vp"
+    },
+    {
+      "name": "id_speedDial_maxWidth",
+      "value": "88vp"
+    },
+    {
+      "name": "id_card_stack_width",
+      "value": "70vp"
+    },
+    {
+      "name": "listItem_width_xl",
+      "value": "248vp"
+    },
+    {
+      "name": "account_MenuBuilder_width_x",
+      "value": "216vp"
+    },
+    {
+      "name": "account_MenuBuilder_width_xl",
+      "value": "224vp"
+    },
+    {
+      "name": "dialerPad_bottom_margin",
+      "value": "81vp"
+    },
+    {
+      "name": "alphabet_indexer_height",
+      "value": "448vp"
+    },
+    {
+      "name": "select_width_s",
+      "value": "150vp"
+    },
+    {
+      "name": "avatar_select_width",
+      "value": "360vp"
+    },
+    {
+      "name": "canvas_width",
+      "value": "268vp"
+    },
+    {
+      "name": "canvas_width_radius",
+      "value": "134vp"
+    },
+    {
+      "name": "ic_public_ok_width_s",
+      "value": "18vp"
+    },
+    {
+      "name": "card_marginTop_s",
+      "value": "29vp"
+    },
+    {
+      "name": "item_margin_width_4",
+      "value": "4vp"
+    },
+    {
+      "name": "item_margin_width_negative_4",
+      "value": "-4vp"
+    },
+    {
+      "name": "font_width_48",
+      "value": "48vp"
+    },
+    {
+      "name": "rounded_corners_width_20",
+      "value": "20vp"
+    },
+    {
+      "name": "radio_button_width_20",
+      "value": "20vp"
+    },
+    {
+      "name": "radio_button_width_24",
+      "value": "24vp"
+    },
+    {
+      "name": "rounded_corners_width_32",
+      "value": "32vp"
+    },
+    {
+      "name": "item_margin_width_48",
+      "value": "48vp"
+    },
+    {
+      "name": "item_margin_width_negative_48",
+      "value": "-48vp"
+    },
+    {
+      "name": "id_card_margin_10",
+      "value": "10vp"
+    },
+    {
+      "name": "id_width_8",
+      "value": "8vp"
+    },
+    {
+      "name": "id_width_16",
+      "value": "16vp"
+    },
+    {
+      "name": "id_width_24",
+      "value": "24vp"
+    },
+    {
+      "name": "id_height_48",
+      "value": "48vp"
+    },
+    {
+      "name": "id_height_56",
+      "value": "56vp"
+    },
+    {
+      "name": "id_dialog_title_line_height",
+      "value": "27vp"
+    },
+    {
+      "name": "id_list_primary_line_height",
+      "value": "21vp"
+    },
+    {
+      "name": "id_list_primary_margin_top",
+      "value": "12vp"
+    },
+    {
+      "name": "id_list_summary_line_height",
+      "value": "19vp"
+    },
+    {
+      "name": "id_list_icon_width",
+      "value": "24vp"
+    },
+    {
+      "name": "id_list_icon_height",
+      "value": "24vp"
+    },
+    {
+      "name": "id_icon_offset_in_relative",
+      "value": "-12vp"
+    },
+    {
+      "name": "id_dialog_button_horizontal_padding",
+      "value": "8vp"
+    },
+    {
+      "name": "id_dialog_button_bottom_margin",
+      "value": "16vp"
+    },
+    {
+      "name": "id_dialog_button_top_margin",
+      "value": "8vp"
+    },
+    {
+      "name": "id_dialog_button_horizontal_margin",
+      "value": "16vp"
+    },
+    {
+      "name": "id_width_36",
+      "value": "36vp"
+    },
+    {
+      "name": "id_contact_list_bottom",
+      "value": "104vp"
+    },
+    {
+      "name": "id_height_84",
+      "value": "84vp"
+    },
+    {
+      "name": "id_toolbar_height",
+      "value": "52vp"
+    },
+    {
+      "name": "id_height_26",
+      "value": "26vp"
+    },
+    {
+      "name": "id_card_top_margin",
+      "value": "23vp"
+    },
+    {
+      "name": "id_recycle_contacts_tips_height",
+      "value": "32vp"
+    },
+    {
+      "name": "id_tips_text_margin_lg",
+      "value": "36vp"
+    },
+    {
+      "name": "id_tips_text_margin_sm",
+      "value": "28vp"
+    },
+    {
+      "name": "id_list_margin_top",
+      "value": "25.5vp"
+    },
+    {
+      "name": "id_margin_dialer_search_19",
+      "value": "-19vp"
+    },
+    {
+      "name": "id_margin_dialer_search_9",
+      "value": "-9vp"
+    },
+    {
+      "name": "id_width_80",
+      "value": "80vp"
+    },
+    {
+      "name": "dialer_senior_telephone_number_height",
+      "value": "132vp"
+    },
+    {
+      "name": "id_item_selected_margin",
+      "value": "81.92vp"
+    },
+    {
+      "name": "id_item_not_selected_margin",
+      "value": "49.92vp"
+    },
+    {
+      "name": "id_height_72",
+      "value": "72vp"
+    },
+    {
+      "name": "id_card_margin_11",
+      "value": "11vp"
+    },
+    {
+      "name": "id_list_single_text_bottom",
+      "value": "16.5vp"
+    },
+    {
+      "name": "id_dial_button_height_hicar",
+      "value": "40vp"
+    },
+    {
+      "name": "id_number_height_hicar",
+      "value": "40vp"
+    },
+    {
+      "name": "id_dial_button_image_hicar",
+      "value": "32vp"
+    },
+    {
+      "name": "id_dial_button_hicar",
+      "value": "56vp"
+    },
+    {
+      "name": "id_margin_2_hicar",
+      "value": "2vp"
+    },
+    {
+      "name": "id_margin_4_hicar",
+      "value": "4vp"
+    },
+    {
+      "name": "id_margin_8_hicar",
+      "value": "8vp"
+    },
+    {
+      "name": "id_margin_12_hicar",
+      "value": "12vp"
+    },
+    {
+      "name": "id_margin_16_hicar",
+      "value": "16vp"
+    },
+    {
+      "name": "id_margin_24_hicar",
+      "value": "24vp"
+    },
+    {
+      "name": "id_margin_40_hicar",
+      "value": "40vp"
+    },
+    {
+      "name": "id_width_16_hicar",
+      "value": "16vp"
+    },
+    {
+      "name": "id_width_24_hicar",
+      "value": "24vp"
+    },
+    {
+      "name": "id_width_32_hicar",
+      "value": "32vp"
+    },
+    {
+      "name": "id_width_48_hicar",
+      "value": "48vp"
+    },
+    {
+      "name": "id_button_height_hicar",
+      "value": "40vp"
+    },
+    {
+      "name": "id_contact_list_item_height_hicar",
+      "value": "48vp"
+    },
+    {
+      "name": "id_bar_width_hicar",
+      "value": "88vp"
+    },
+    {
+      "name": "id_text_size_body1_hicar",
+      "value": "16vp"
+    },
+    {
+      "name": "id_text_size_body2_hicar",
+      "value": "14vp"
+    },
+    {
+      "name": "id_text_size_body3_hicar",
+      "value": "12vp"
+    },
+    {
+      "name": "id_text_size_headline6_hicar",
+      "value": "30vp"
+    },
+    {
+      "name": "id_text_size_headline7_hicar",
+      "value": "24vp"
+    },
+    {
+      "name": "id_text_size_caption_hicar",
+      "value": "10vp"
+    },
+    {
+      "name": "id_text_size_button3_hicar",
+      "value": "12vp"
+    },
+    {
+      "name": "id_dialer_height",
+      "value": "352vp"
+    },
+    {
+      "name": "id_dialog_title_margin",
+      "value": "-24vp"
+    },
+    {
+      "name": "id_call_sharing_text_top",
+      "value": "5.5vp"
+    },
+    {
+      "name": "id_call_sharing_text_bottom",
+      "value": "13.5vp"
+    },
+    {
+      "name": "id_call_sharing_padding_bottom",
+      "value": "23.5vp"
+    },
+    {
+      "name": "id_on_call_sharing_padding_width",
+      "value": "97vp"
+    },
+    {
+      "name": "id_off_call_sharing_padding_width",
+      "value": "129vp"
+    },
+    {
+      "name": "id_paf_empty_page_top",
+      "value": "93.5vp"
+    },
+    {
+      "name": "id_hds_title_margin",
+      "value": "94vp"
+    },
+    {
+      "name": "id_hds_title_height",
+      "value": "206vp"
+    },
+    {
+      "name": "id_hds_list_empty_height",
+      "value": "74vp"
+    },
+    {
+      "name": "large_size_small_icon",
+      "value": "21vp"
+    },
+    {
+      "name": "large_size_large_icon",
+      "value": "38.4vp"
     }
   ]
 }
