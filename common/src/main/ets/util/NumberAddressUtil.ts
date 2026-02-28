@@ -22,8 +22,8 @@ export class NumberAddressUtil {
   static async getNumberLocation(context, number: string, isExactMatch?: boolean): Promise<string> {
     HiLog.w(TAG, 'getNumberLocation');
     try {
-      let location = await numberLookup.getNumberLocation(context, number, isExactMatch);
-      return location;
+      // let location = await numberLookup.getNumberLocation(context, number, isExactMatch);
+      // return location;
     } catch (err) {
       HiLog.e(TAG, 'getNumberLocation, failed: ');
       return '';
@@ -33,8 +33,8 @@ export class NumberAddressUtil {
   static async getNumberLocationArr(context, arr: Array<string>): Promise<Array<string>> {
     HiLog.i(TAG, 'getNumberLocationArr');
     try {
-      let locations = await numberLookup.getNumberLocations(context, arr);
-      return locations;
+      // let locations = await numberLookup.getNumberLocations(context, arr);
+      // return locations;
     } catch (err) {
       HiLog.e(TAG, 'getNumberLocationArr, failed: ');
       return [];
@@ -45,7 +45,7 @@ export class NumberAddressUtil {
     markType: call.MarkType, markContent?: string): Promise<void> {
     HiLog.i(TAG, 'setNumberMarkInfo: ' + ' markType: ' + markType + ' markContent: ' + markContent);
     try {
-      await numberLookup.setNumberMarkInfo(context, number, markType, markContent);
+      // await numberLookup.setNumberMarkInfo(context, number, markType, markContent);
     } catch (err) {
       HiLog.e(TAG, 'setNumberMarkInfo, failed: ' + err?.message + ', stack: ' + err?.stack);
     }
@@ -54,8 +54,8 @@ export class NumberAddressUtil {
   static async getNumberMarkInfo(context, number: string): Promise<call.NumberMarkInfo> {
     HiLog.i(TAG, 'getNumberMarkInfo');
     try {
-      let numberMarkInfo = await numberLookup.getNumberMarkInfo(context, number);
-      return numberMarkInfo;
+      // let numberMarkInfo = await numberLookup.getNumberMarkInfo(context, number);
+      // return numberMarkInfo;
     } catch (err) {
       HiLog.e(TAG, 'getNumberMarkInfo, failed: ' + err?.message + ', stack: ' + err?.stack);
       return {
