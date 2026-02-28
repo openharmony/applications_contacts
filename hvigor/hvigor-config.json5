@@ -1,5 +1,5 @@
 {
-  modelVersion: "6.0.0",
+  modelVersion: "5.0.2",
   dependencies: {
 //    '@ohos/hypium-plugin': '2.0.1-rc7',
 //    "@ohos/hvigor-ohos-online-sign-plugin": "4.0.2",
