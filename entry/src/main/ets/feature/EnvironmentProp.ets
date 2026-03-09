@@ -56,6 +56,10 @@ export default class EnvironmentProp {
     const deviceTypeInfo = deviceInfo.deviceType;
     return deviceTypeInfo === 'phone';
   }
+
+  static isRk3568(): boolean {
+    return deviceInfo.chipType == 'rk3568';
+  }
 }
 
 export class DeviceUtil {

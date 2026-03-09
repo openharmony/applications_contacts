@@ -37,7 +37,7 @@ import { SubHeader } from '../../component/contact/SubHeader'
 import { getPixelMapFromFile } from '../../util/UserPhoto'
 import { getDialDirectlyAccountId } from '../../model/CallStateModel';
 import DialerPresenter from '../../presenter/dialer/DialerPresenter';
-import { CustomizedParams } from '../../model/type';
+import { CustomizedParams, SelectContactParams } from '../../model/type';
 import DotUtil from '../../util/DotUtil';
 import dotCommon, { contactParams, itemParams } from '../../util/DotCommon';
 import { CustomContentDialog } from '@ohos.arkui.advanced.Dialog';
@@ -63,6 +63,7 @@ import EnvironmentProp from '../../feature/EnvironmentProp';
 // import { HdsListItem } from '@hms.hds.HdsStyle';
 // import TitleBarUtil, { TitleBarParams } from '../../util/TitleBarUtil';
 import { ResourceUtil } from '../../util/ResourceUtil';
+import { DynamicLoader } from '../../../../../../common/src/main/ets/util/DynamicLoader';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { contact } from '@kit.ContactsKit';
 import SideBarButton from '../SideBarButton';
@@ -93,6 +94,7 @@ interface ParamsInterface {
 @Entry
 @Component
 export default struct FavoriteList {
+  @Consume('pathInfos') pathInfos: NavPathStack;
   @State mFavoriteListPresenter: FavoriteListPresenter = FavoriteListPresenter.getInstance();
   @StorageLink('fullScreenPadding') @Watch('fullScreenPaddingOnChange') fullScreenPadding: Padding = {};//状态栏高度
   @State fullScreenPaddingTop: number = px2vp(this.fullScreenPadding.top as number);
@@ -119,6 +121,7 @@ export default struct FavoriteList {
   @StorageProp('splitStatus') splitStatus: SplitStatus = SplitStatus.DEFAULT;
   @StorageLink('maintenanceMode') maintenanceMode: boolean = false;
   private isPC: boolean = EnvironmentProp.isPC();
+  private isRk3568: boolean = EnvironmentProp.isRk3568();
   @StorageLink('showSideBar') showSideBar: boolean = true;
   listScroller: ListScroller = new ListScroller();// 列表滚动
   emitterId: number = 100;// 事件id
@@ -406,34 +409,43 @@ export default struct FavoriteList {
             this.selectFavoriteContact = '';
             // 联系人打点--点击添加收藏联系人
             DotUtil.getInstance().contactDot(this.customParams, FAVORITE_CLICK_ADD_CONTACT_EVENT);
-            if (this.mFavoriteListPresenter.favoriteDataSource.favoriteContactIdList &&
-            this.mFavoriteListPresenter.favoriteDataSource.favoriteContactIdList.length) {
-              contact.selectContacts({
-                isMultiSelect: true,
-                isDisplayedByName: true,
-                filter: {
-                  filterClause: {
-                    id: [
-                      {
-                        filterCondition: contact.FilterCondition.NOT_IN,
-                        value: this.mFavoriteListPresenter.favoriteDataSource.favoriteContactIdList
-                      }
-                    ],
-                  },
-                  filterType: contact.FilterType.SHOW_FILTER
-                }
-              }, (err: BusinessError, data) => {
-                HiLog.w(TAG, `menuItems filter err=${err?.message},data=${data?.length}`);
-                this.mFavoriteListPresenter.parseContactForResult(data);
-              })
-            } else {
-              contact.selectContacts({
-                isMultiSelect: true,
-                isDisplayedByName: true,
-              }, (err: BusinessError, data) => {
-                HiLog.w(TAG, `menuItems no filter err=${err?.message},data=${data?.length}`);
-                this.mFavoriteListPresenter.parseContactForResult(data);
-              })
+          /*因为联系人picker是用的模态窗，依赖scb，而目前rk3568没有集成新的scb，
+            导致新增收藏用picker拉起选择联系人页面的方式有问题，所以这边加个区分逻辑，
+            rk3568还是通过路由的方式跳转选择联系人页面进行新增收藏
+            */
+            if(this.isRk3568){
+              this.toAddFavorite()
+            }else {
+              if (this.mFavoriteListPresenter.favoriteDataSource.favoriteContactIdList &&
+              this.mFavoriteListPresenter.favoriteDataSource.favoriteContactIdList.length) {
+                contact.selectContacts({
+                  isMultiSelect: true,
+                  isDisplayedByName: true,
+                  filter: {
+                    filterClause: {
+                      id: [
+                        {
+                          filterCondition: contact.FilterCondition.NOT_IN,
+                          value: this.mFavoriteListPresenter.favoriteDataSource.favoriteContactIdList
+                        }
+                      ],
+                    },
+                    filterType: contact.FilterType.SHOW_FILTER
+                  }
+                }, (err: BusinessError, data) => {
+                  HiLog.w(TAG, `menuItems filter err=${err?.message},data=${data?.length}`);
+                  this.mFavoriteListPresenter.parseContactForResult(data);
+                })
+
+              } else {
+                contact.selectContacts({
+                  isMultiSelect: true,
+                  isDisplayedByName: true,
+                }, (err: BusinessError, data) => {
+                  HiLog.w(TAG, `menuItems no filter err=${err?.message},data=${data?.length}`);
+                  this.mFavoriteListPresenter.parseContactForResult(data);
+                })
+              }
             }
           }
         });
@@ -484,6 +496,19 @@ export default struct FavoriteList {
     .padding({ 
       start: this.isPC ? LengthMetrics.resource($r('sys.float.padding_level8')) : LengthMetrics.vp(0) // 根据设备类型设置左内边距
     })
+  }
+
+  toAddFavorite() {
+    HiLog.w(TAG, 'toAddFavorite !!');
+
+    const params: SelectContactParams = {
+      addFavorite: 0
+    };
+
+    DynamicLoader.getInstance().fire(DynamicLoader.ADD_FAVORITE_LIST_PAGE).then(() => {
+      HiLog.i(TAG, `addFavoriteList24353464567---${this.pathInfos}`)
+      this.pathInfos?.pushPathByName(DynamicLoader.ADD_FAVORITE_LIST_PAGE, params);
+    });
   }
 
   /**
