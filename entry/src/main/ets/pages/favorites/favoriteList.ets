@@ -409,7 +409,10 @@ export default struct FavoriteList {
             this.selectFavoriteContact = '';
             // 联系人打点--点击添加收藏联系人
             DotUtil.getInstance().contactDot(this.customParams, FAVORITE_CLICK_ADD_CONTACT_EVENT);
-            HiLog.w(TAG, `yh isRk3568=${this.isRk3568}`);
+          /*因为联系人picker是用的模态窗，依赖scb，而目前rk3568没有集成新的scb，
+            导致新增收藏用picker拉起选择联系人页面的方式有问题，所以这边加个区分逻辑，
+            rk3568还是通过路由的方式跳转选择联系人页面进行新增收藏
+            */
             if(this.isRk3568){
               this.toAddFavorite()
             }else {
