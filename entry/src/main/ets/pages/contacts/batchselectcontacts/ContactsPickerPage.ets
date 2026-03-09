@@ -861,8 +861,7 @@ export default struct ContactsPickerPage {
     //     this.onBack();
     //   })
     // )
-    .menus(this.uiExtentionParam.isContactsPicker === false  &&
-      this.uiExtentionParam.isContactMultiSelect === false ? undefined : this.TitleGuide())
+    .menus(this.TitleGuide())
     // .titleMode(this.session !== undefined ? HdsNavDestinationTitleMode.MODAL : HdsNavDestinationTitleMode.MINI)
     .title(
       ResourceUtil.getStringByResource($r('app.string.select_contact'))
