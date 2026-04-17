@@ -1303,7 +1303,11 @@ export default struct ContactDetail {
     } else {
       NavDestination() {
         Stack() {
-          Column() {
+          if (this.mSystemModeController.getIsEnablePosterAvatar() && this.mPresenter.blobSource === 3 &&
+            !this.isVerde && this.mPresenter.cardPhotoPixelMap) {
+            Scroll(this.scroller) {
+              this.ContactDetailBuilder()
+            }
             Row() {
               Button({ type: ButtonType.Circle }) {
                 SymbolGlyph($r('sys.symbol.chevron_backward'))
@@ -1328,7 +1332,7 @@ export default struct ContactDetail {
               })
               .backgroundEffect(
                 (this.mPresenter.cardPhotoPixelMap && !this.isVerde) ?
-                this.cardBtnBackEffect : this.normalBtnBackEffect
+                  this.cardBtnBackEffect : this.normalBtnBackEffect
               )
               .visibility(this.curBp === 'sm' ? Visibility.Visible : Visibility.None)
               .backgroundColor(!this.mPresenter.photoPixelMap ? $r('sys.color.comp_background_tertiary') : '#19FFFFFF')
@@ -1338,11 +1342,11 @@ export default struct ContactDetail {
               Text(typeof this.titleDisplayName === 'string'
                 ? this.titleDisplayName.replace(lineBreakRegExp, '') : this.titleDisplayName)
                 .fontSize(FontScaleState.isStandardGeer(this.fontSizeScale) ?
-                $r('sys.float.Title_S') : $r('app.float.id_card_image_s'))
+                  $r('sys.float.Title_S') : $r('app.float.id_card_image_s'))
                 .fontWeight(FontWeight.Bold)
                 .fontColor(this.isThemeActive ? $r('app.color.skin_ohos_id_color_text_primary') :
                   ((this.mPresenter.cardPhotoPixelMap && !this.isVerde) ?
-                  $r('app.color.skin_font_on_primary') :
+                    $r('app.color.skin_font_on_primary') :
                     undefined))
                 .textShadow((this.mPresenter.cardPhotoPixelMap && !this.isVerde) ? {
                   radius: 10,
@@ -1367,13 +1371,85 @@ export default struct ContactDetail {
                 this.MenuBar();
               }
             }
+            .position({top:0})
             .padding({ start: LengthMetrics.resource($r('sys.float.padding_level8')),
               end: LengthMetrics.resource($r('sys.float.padding_level8')),
               top: px2vp(this.fullScreenPadding.top as number) })
             .zIndex(1)
+          }else {
+            Column() {
+              Row() {
+                Button({ type: ButtonType.Circle }) {
+                  SymbolGlyph($r('sys.symbol.chevron_backward'))
+                    .key('ContactDetail_Navigation_Flex_Button_Image')
+                    .fontSize('24vp')
+                    .draggable(false)
+                    .fontColor((this.mPresenter.cardPhotoPixelMap && !this.isVerde) ?
+                      [$r('app.color.skin_ohos_id_color_primary_contrary')] :
+                      [$r('app.color.skin_icon_primary')])
+                }
+                .key('ContactDetail_DetailNavigation_Flex_Button')
+                .width('40vp')
+                .height('40vp')
+                .transition(TransitionEffect.asymmetric(
+                  TransitionEffect.OPACITY.animation({ duration: 200, curve: Curve.Sharp, delay: 150 }),
+                  TransitionEffect.OPACITY.animation({ duration: 250, curve: Curve.Sharp })))
+                .backgroundColor($r('sys.color.comp_background_tertiary'))
+                .onClick(() => {
+                  if (this.backPreview()) {
+                    HiLog.w(TAG, 'back success');
+                  }
+                })
+                .backgroundEffect(
+                  (this.mPresenter.cardPhotoPixelMap && !this.isVerde) ?
+                    this.cardBtnBackEffect : this.normalBtnBackEffect
+                )
+                .visibility(this.curBp === 'sm' ? Visibility.Visible : Visibility.None)
+                .backgroundColor(!this.mPresenter.photoPixelMap ? $r('sys.color.comp_background_tertiary') : '#19FFFFFF')
+                .accessibilityText(AccessibilityUtil.getInstance()
+                  .setAccessibilityText(this.isOpenAccessibility, $r('app.string.accessibility_back')))
 
-            Scroll(this.scroller) {
-              this.ContactDetailBuilder()
+                Text(typeof this.titleDisplayName === 'string'
+                  ? this.titleDisplayName.replace(lineBreakRegExp, '') : this.titleDisplayName)
+                  .fontSize(FontScaleState.isStandardGeer(this.fontSizeScale) ?
+                    $r('sys.float.Title_S') : $r('app.float.id_card_image_s'))
+                  .fontWeight(FontWeight.Bold)
+                  .fontColor(this.isThemeActive ? $r('app.color.skin_ohos_id_color_text_primary') :
+                    ((this.mPresenter.cardPhotoPixelMap && !this.isVerde) ?
+                      $r('app.color.skin_font_on_primary') :
+                      undefined))
+                  .textShadow((this.mPresenter.cardPhotoPixelMap && !this.isVerde) ? {
+                    radius: 10,
+                    color: '#333333'
+                  } : {
+                    radius: 0,
+                    color: '#ffffff'
+                  })
+                  .opacity(this.isVerde ? 1 : this.titleNameOpacity)
+                  .accessibilityLevel(this.titleNameOpacity < 0.2 ? 'no' : 'auto')
+                  .height($r('app.float.id_card_image_small'))
+                  .maxLines(1)
+                  .wordBreak(WordBreak.BREAK_ALL)
+                  .layoutWeight(1)
+                  .textOverflow({ overflow: TextOverflow.Ellipsis })
+                  .textAlign(i18n.isRTL(i18n.System.getSystemLanguage()) ? TextAlign.End : TextAlign.Start)
+                  .direction(Direction.Ltr)
+                  .margin({ start: LengthMetrics.resource($r('sys.float.padding_level4')),
+                    end: LengthMetrics.resource($r('sys.float.padding_level4')) })
+
+                Row({ space: 8 }) {
+                  this.MenuBar();
+                }
+              }
+              .padding({
+                start: LengthMetrics.resource($r('sys.float.padding_level8')),
+                end: LengthMetrics.resource($r('sys.float.padding_level8')),
+                top: px2vp(this.fullScreenPadding.top as number) })
+              .zIndex(1)
+
+              Scroll(this.scroller) {
+                this.ContactDetailBuilder()
+              }
             }
           }
         }

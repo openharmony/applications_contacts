@@ -663,7 +663,7 @@ export class CallLogRepository implements ICallLogRepository {
     this.getDataAbilityHelper().then((dataAbilityHelper: dataShare.DataShareHelper) => {
       let condition = new dataSharePredicates.DataSharePredicates();
       HiLog.i(TAG, 'findFristMissedCall RawContacts.FAVORITE:' + RawContacts.FAVORITE);
-      condition.equalTo(Calls.IS_READ, 1)
+      condition.equalTo(Calls.IS_READ, 0)
         .and()
         .notEqualTo(Calls.ANSWER_STATE, 6)
         .orderByDesc(Calls.CREATE_TIME)

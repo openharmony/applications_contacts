@@ -36,6 +36,7 @@ export struct MissedCallEditPage {
   radioList: RadioDataType[] = missedCallRadioData;
   @Provide('pathInfo') pathInfo: NavPathStack = new NavPathStack();
   @LocalStorageLink('formId') formId: string = '';
+  @LocalStorageLink('previewFormId') previewFormId: string = '';
   @State common: missedCallEditCommon = new missedCallEditCommon();
   // v小折叠外屏需要限制
   private maxFontScale: number = 2;
@@ -46,6 +47,7 @@ export struct MissedCallEditPage {
 
   aboutToAppear() {
     this.formId = AppStorage.get('cardFormId') as string
+    this.previewFormId = AppStorage.get('cardPreviewFormId') as string
     sharedPreferencesUtils.init(this.context);
     HiLog.w(TAG + '[formId]', this.formId);
   }
@@ -58,7 +60,13 @@ export struct MissedCallEditPage {
       formId: this.formId,
       settings: this.missedCallData
     };
+    let preObj: UpdateToCardType = {
+      title: 'update',
+      formId: this.previewFormId,
+      settings: this.missedCallData
+    };
     this.common.updateToCard(this.formId.toString(), formBindingData.createFormBindingData(obj));
+    this.common.updateToCard(this.previewFormId.toString(), formBindingData.createFormBindingData(preObj));
   }
 
   build() {
@@ -107,7 +115,7 @@ export struct MissedCallEditPage {
                     }
                     .constraintSize({ minHeight: $r('app.float.id_item_height_mid') })
                     .onClick(() => {
-                      this.missedCallData = item.value
+                       this.missedCallData = item.value
                       HiLog.w(TAG, '[missedCallData]')
                     })
                     .padding({ left: $r('sys.float.padding_level6'), right: $r('sys.float.padding_level6') })

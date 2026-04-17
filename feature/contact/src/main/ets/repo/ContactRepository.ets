@@ -118,6 +118,7 @@ const NOTIFY_DELETE_SINGLE_DB_FAIL = 'delete_single_db_fail';
 const NOTIFY_RESTORE_BY_DOUBLE_DB_FININSH = 'restore_by_double_db_fininsh';
 const SECONDS_OF_ONE_DAY = 24 * 60 * 60; // Seconds of one day
 const INTELLIGENCE_GROUP_LIMIT_RECORDS = 35000;
+const RING_TONE_BASE = '/data/storage/el2/base/files/Ringtone/contacts'
 
 export enum RestoreResultType {
   NO_CONTACTS_TO_RESTORE,
@@ -1018,8 +1019,11 @@ export class ContactRepository implements IContactRepository {
     isEnd: boolean) => void, callback: Function) {
 
     let conditionArgs = new dataSharePredicates.DataSharePredicates();
-    conditionArgs.equalTo(RawContacts.IS_DELETED, '0')
-      .orderByAsc(RawContacts.SORT).orderByAsc(RawContacts.SORT_KEY);
+    // conditionArgs.equalTo(RawContacts.IS_DELETED, '0')
+    //   .orderByAsc(RawContacts.SORT).orderByAsc(RawContacts.SORT_KEY);
+    // 解决特殊符号场景排序不正确的问题
+     conditionArgs.equalTo(RawContacts.IS_DELETED, '0')
+      .orderByAsc(RawContacts.SORT).orderByAsc(RawContacts.DISPLAY_NAME);
     let accountId = await sharedPreferencesUtils.getFromPreferences('accountType', -1) as number;
     if (accountId != undefined && accountId != -1) {
       conditionArgs.equalTo(RawContacts.ACCOUNT_ID, accountId);
@@ -2261,6 +2265,35 @@ export class ContactRepository implements IContactRepository {
       callBack(res);
     } catch (err) {
       HiLog.w(TAG, 'queryLocalRingToneUsedTimes err:' + err?.message + ', stack: ' + err?.stack);
+    } finally {
+      ObjectUtil.closeResultSet(resultSet);
+    }
+  }
+
+  async queryContactsUsedLocalRingTone(callBack: Function) {
+    let resultSet: DataShareResultSet | undefined = undefined;
+    try {
+      let dataAbilityHelper: dataShare.DataShareHelper = await this.getDataAbilityHelper();
+      let condition = new dataSharePredicates.DataSharePredicates();
+      condition
+        .groupBy(['contact_id'])
+        .distinct();
+      resultSet = await dataAbilityHelper.query(Data.CONTENT_URI, condition, ['personal_ringtone']);
+      const ringtones: string[] = [];
+      if (resultSet) {
+        if (resultSet.goToFirstRow()) {
+          do {
+            const ringtone = resultSet.getString(resultSet.getColumnIndex('personal_ringtone'));
+            if (ringtone && ringtone.includes(RING_TONE_BASE)) {
+              ringtones.push(ringtone);
+            }
+          } while (resultSet.goToNextRow());
+        }
+      }
+      callBack(ringtones);
+    } catch (err) {
+      HiLog.w(TAG, 'queryContactsUsedLocalRingTone err:' + err?.message + ', stack: ' + err?.stack);
+      callBack([]);
     } finally {
       ObjectUtil.closeResultSet(resultSet);
     }
