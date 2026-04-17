@@ -32,7 +32,7 @@ export class NumberMatch {
 
   public async getCallerIndex(resSet: DataShareResultSet, oriNum: string): Promise<number> {
     // let index: number = await enhanced.getPreciselyMatchedIndex(resSet, oriNum);
-    let index: number = 1
+    let index: number = 0
     return Promise.resolve(index);
   }
 

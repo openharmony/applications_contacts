@@ -35,8 +35,11 @@ import EmitterConstant from '../../data/EmitterConstant';
 import { JSON } from '@kit.ArkTS';
 import { i18n } from '@kit.LocalizationKit';
 import RingTonePresenter from '../../presenter/ringtone/RingTonePresenter';
-import fs from '@ohos.file.fs';
+import { fileIo as fs } from '@kit.CoreFileKit';
 import { DISABLED_OPACITY_STRING, showToast, SystemModeController } from '../../util/SystemModeController';
+import picker from '@ohos.file.picker';
+import { common } from '@kit.AbilityKit';
+
 // import { HdsNavigation, HdsNavigationAttribute, HdsNavDestination, HdsNavDestinationAttribute,
 //   HdsNavigationTitleMode, HdsNavigationBadgeIconOptions} from '@kit.UIDesignKit'
 // import TitleBarUtil, { TitleBarParams } from '../../util/TitleBarUtil';
@@ -47,6 +50,7 @@ const NO_RING_TONE: string = '-1';
 const LOCAL_PAGE_TYPE = 'localMusic';
 // 在线铃声
 const ONLINE_PAGE_TYPE = 'onlineRingtone'
+const RING_TONE_BASE = '/data/storage/el2/base/files/Ringtone/contacts'
 
 let audioManager = audio.getAudioManager();
 // 创建音频会话管理器
@@ -74,12 +78,17 @@ export default struct RingtoneSelection {
   @Link private ringtoneInfo: RingtoneInfo;
   @Link private isRingToneShow: boolean;
   @State ringtonesFull: ToneAttrs[] = [];
+  @State currentRingtonesArr:string[] = [];
+  @State currentRingtonesNameArr:string[] = [];
   @State ringtoneFullDataList: SystemRingtoneSource = new SystemRingtoneSource([]);
   @State contactId: string = '';
   @State ringtonePlay: systemSoundManager.RingtonePlayer | undefined = undefined;
   @State systemSoundManagerInstance: systemSoundManager.SystemSoundManager | undefined =
     systemSoundManager.getSystemSoundManager();
   @StorageProp('fontSizeScale') fontSizeScale: number = 0;
+  private isPC: boolean = EnvironmentProp.isPC();
+  @StorageLink('breakpoint') curBp: string = 'sm';
+  @StorageLink('spaceLR') spaceLR: Resource = $r('sys.float.padding_level8');
   // 是否启动主题
   @StorageProp('isThemeActive') isThemeActive: boolean = false;
   // 是否启动无障碍
@@ -91,6 +100,7 @@ export default struct RingtoneSelection {
   @BuilderParam localMusicLoader: ($$: Params) => void = dummyFunction;
   @BuilderParam videoMusicLoader: ($$: Params) => void = dummyFunction;
   private mSystemModeController = SystemModeController.getInstance();
+
 
   @Styles
   pressedStyles() {
@@ -190,7 +200,7 @@ export default struct RingtoneSelection {
     })
     this.getSystemSoundManagerInstance();
     this.getRingToneList();
-
+    this.getCurrentRingtonesAttrs()
     // 判断音乐App是否已安装场景
     this.mRingTonePresenter.isMusicAppSupportLocalMusic().then((value) => {
       HiLog.w(TAG, `getMusicInstallInfo value: ${value}`);
@@ -245,6 +255,16 @@ export default struct RingtoneSelection {
     if (this.ringtonesFull.length > 0) {
       this.ringtoneFullDataList.pushDataList(this.ringtonesFull);
     }
+  }
+
+  /**
+   * 获取当前联系人已设置的所有铃声
+   */
+  async getCurrentRingtonesAttrs(){
+    this.currentRingtonesArr = await this.mRingTonePresenter.queryContactsUsedLocalRingTone()
+    this.currentRingtonesNameArr = this.currentRingtonesArr.map((item:string)=>{
+      return item.split('/').pop()??""
+    })
   }
 
   getPreSystemToneAttrs(toneAttrsArr: systemSoundManager.ToneAttrsArray) {
@@ -351,6 +371,9 @@ export default struct RingtoneSelection {
     HiLog.w(TAG, `onClick Ringtone, title: ${item.title}`);
     let ringtoneInfo: RingtoneInfo = this.mRingTonePresenter.selectedRingtoneInfo;
     this.removeLocalRingtone(ringtoneInfo);
+    if (ringtoneInfo.ringtoneType === RingtoneType.LOCAL_TYPE || ringtoneInfo.ringtonePath.includes(RING_TONE_BASE)) {
+      this.removePreLocalRingtone(ringtoneInfo)  // 移除本地铃声
+    }
     let newRingtoneInfo: RingtoneInfo = {
       ringtoneName: item.title,
       ringtoneFilePath: '',
@@ -447,6 +470,166 @@ export default struct RingtoneSelection {
     DynamicLoader.getInstance().fire(DynamicLoader.RING_TONE_SELECTION_PAGE, false, true).then(() => {
       this.contactsRingtonePathInfo?.pushPathByName('LocalMusicSelection', params);
     });
+  }
+
+  /**
+   * 拉起文件管理选择本地音乐文件并设置联系人铃声
+   */
+  private async selectAudioFileFromPicker(): Promise<void> {
+    const context = this.getUIContext().getHostContext() as common.UIAbilityContext;
+    const toneAttrs = systemSoundManager.createCustomizedToneAttrs();
+    const categoryValue = systemSoundManager.TONE_CATEGORY_CONTACTS;
+    const documentSelect = new picker.DocumentSelectOptions();
+    documentSelect.fileSuffixFilters = ['音频|.m4a,.aac,.mp3,.ogg,.wav,.flac,.amr,.ape']
+    documentSelect.maxSelectNumber = 1
+    const documentPicker = new picker.DocumentViewPicker(context);
+
+    try {
+      const audioSelectResult: Array<string> = await documentPicker.select(documentSelect);
+      if (audioSelectResult.length === 0) {
+        return;
+      }
+      const uri = audioSelectResult[0];
+      let file: fs.File | undefined;
+      try {
+        file = fs.openSync(uri, fs.OpenMode.READ_ONLY);
+        // 判断选择的铃声和当前铃声是否一致
+        if (this.ringtoneInfo.ringtoneName === file.name) {
+          this.getUIContext().getPromptAction().showToast({message:'已设为联系人铃声'})
+          return;
+        }
+        toneAttrs.setTitle(file.name);
+        toneAttrs.setFileName(file.name);
+        toneAttrs.setCategory(categoryValue);
+        toneAttrs.setMediaType(systemSoundManager.MediaType.AUDIO);
+
+        // 判断铃音库中是否已有该铃声,若有则跳过添加铃音库步骤
+        if (this.currentRingtonesNameArr.includes(file.name)) {
+          await this.handleExistingRingtone(file, context);
+        } else {
+          await this.handleNewRingtone(file, context, toneAttrs);
+        }
+      }catch ( err) {
+        HiLog.e(TAG, `pickMP3File errorCode ${err?.code} errorMessage ${err?.message}`);
+      }finally {
+        if (file && file.fd) {
+          try {
+            fs.closeSync(file.fd);
+          } catch (closeErr) {
+            HiLog.e(TAG, `Close file failed: ${closeErr.message}`);
+          }
+        }
+      }
+    }catch (err) {
+      HiLog.e(TAG, `pickMP3File errorCode ${err?.code} errorMessage ${err?.message}`);
+    }
+  }
+
+  /**
+   * 处理铃音库中已存在的铃声
+   */
+  private async handleExistingRingtone(file: fs.File, context: common.UIAbilityContext): Promise<void> {
+    const ringtoneArr: string = this.currentRingtonesArr.find(ringtone =>
+    ringtone.split('/').pop() === file.name) ?? "";
+
+    if (!ringtoneArr) {
+      return;
+    }
+
+    await this.updateRingtoneInfo(file, ringtoneArr);
+  }
+
+  /**
+   * 处理新加入铃音库的铃声
+   */
+  private async handleNewRingtone(file: fs.File, context: common.UIAbilityContext,
+    toneAttrs: systemSoundManager.ToneAttrs): Promise<void> {
+    try {
+      if (!this.systemSoundManagerInstance) {
+        this.systemSoundManagerInstance = systemSoundManager.getSystemSoundManager();
+      }
+
+      const value: string = await this.systemSoundManagerInstance.addCustomizedTone(
+        context, toneAttrs, file.fd, 0);
+
+      await this.updateRingtoneInfo(file, value);
+    } catch ( err) {
+      HiLog.e(TAG, `addCustomizedTone failed, error code: ${err.code}, error msg: ${err.message}`);
+    }
+  }
+
+  /**
+   * 更新铃声信息
+   */
+  private async updateRingtoneInfo(file: fs.File, ringtonePath: string): Promise<void> {
+    const preSelectRingtoneInfo = this.mRingTonePresenter?.selectedRingtoneInfo;
+
+    // 移除之前选择的非系统铃声
+    if (preSelectRingtoneInfo &&
+      ((preSelectRingtoneInfo.ringtoneType &&
+        preSelectRingtoneInfo.ringtoneType !== RingtoneType.SYSTEM_TYPE) ||
+        (preSelectRingtoneInfo.ringtoneName !== 'N' &&
+          preSelectRingtoneInfo.ringtoneName !== '' &&
+        preSelectRingtoneInfo.ringtonePath.includes(RING_TONE_BASE)))) {
+      await this.removePreLocalRingtone(preSelectRingtoneInfo);
+    }
+
+    const newRingtoneInfo: RingtoneInfo = {
+      ringtoneName: file.name ? file.name as string : '',
+      ringtoneFilePath: file.path ? file.path as string : '',
+      ringtonePath: ringtonePath,
+      ringtoneType: RingtoneType.LOCAL_TYPE,
+    };
+
+    this.mRingTonePresenter.selectedRingtoneInfo = newRingtoneInfo;
+    this.ringtoneInfo = newRingtoneInfo;
+    this.currentRingtonesArr.push(ringtonePath);
+    this.currentRingtonesNameArr.push(file.name);
+    this.mRingTonePresenter.isFromLocalMusic = true;
+    this.getUIContext().getPromptAction().showToast({message:'已设为联系人铃声'})
+  }
+
+  /**
+   * 移除之前选择的铃声
+   */
+  async removePreLocalRingtone(preSelectedRingtoneInfo: RingtoneInfo | undefined) {
+    if (!preSelectedRingtoneInfo) {
+      return;
+    }
+    const tempRingtonePath = preSelectedRingtoneInfo.ringtonePath;
+    if (!tempRingtonePath) {
+      return;
+    }
+    try {
+      ContactsGlobalThisHelper.GetGlobalThis()
+        .getValue<WorkerWrapper>(ContactsGlobalThisHelper.DataWorkerName)
+        .sendRequest('queryLocalRingToneUsedTimes', {
+          id: this.mRingTonePresenter.contactId,
+          uri: tempRingtonePath
+        }, (result: number) => {
+          let usedTimes:number = result;
+          if (preSelectedRingtoneInfo.ringtonePath === this.mRingTonePresenter.originalContactRingtoneInfo) {
+            // 验证查询的是否是数据库中该联系人已设置好的铃声，若是则需要排除该数量
+            usedTimes = usedTimes - 1;
+          }
+          if (usedTimes < 1) {
+            if (tempRingtonePath) {
+              try {
+                systemSoundManager.getSystemSoundManager()?.removeCustomizedTone(getContext(this),
+                  tempRingtonePath);
+                const idx =  this.currentRingtonesArr.findIndex(ringtone => ringtone.split('/').pop() === this.mRingTonePresenter?.selectedRingtoneInfo?.ringtoneName)
+                this.currentRingtonesArr.splice(idx, 1)
+                this.currentRingtonesNameArr.splice(idx, 1)
+              } catch (error) {
+                HiLog.e(TAG, 'removePreSelectedRingtone err: ' + error?.message + ', stack: ' + error?.stack);
+                return;
+              }
+            }
+          }
+        });
+    } catch (error) {
+      HiLog.e(TAG, 'removePreLocalRingtone error: ' + error?.message + ', stack: ' + error?.stack);
+    }
   }
 
   // menuItem: Array<HdsNavigationBadgeIconOptions> = [
@@ -564,6 +747,8 @@ export default struct RingtoneSelection {
     // .titleBar(TitleBarUtil.getTitleBar(this.getTitleParam(true), this.menuItem, () => {
     //   titleMethodClass.backOnClick();
     // }))
+    .hideBackButton( true)
+    .menus(this.TitleGuide())
     .titleMode(NavigationTitleMode.Mini)
   }
 
@@ -575,68 +760,70 @@ export default struct RingtoneSelection {
   @Builder
   SelectRingtoneBuilder() {
     Column() {
-      // Row() {
-      //   Row() {
-      //     Text($r('app.string.select_local_music'))
-      //       .fontFamily('HarmonyHeiTi')
-      //       .fontWeight(FontWeight.Medium)
-      //       .fontSize($r('sys.float.Body_L'))
-      //       .fontColor($r('sys.color.comp_foreground_primary'))
-      //       .textAlign(TextAlign.Start)
-      //       .margin({ end: LengthMetrics.vp(8) })
-      //       .width(`calc(100% - 20vp)`)
-      //     SymbolGlyph($r('sys.symbol.chevron_right'))
-      //       .fontSize($r('app.float.id_card_image_small'))
-      //       .fontColor([$r('app.color.skin_icon_fourth')])
-      //       .flexShrink(0)
-      //   }
-      //   .padding({
-      //     left: '8vp',
-      //     right: '8vp',
-      //     top: '4vp',
-      //     bottom: '4vp'
-      //   })
-      //   .justifyContent(FlexAlign.SpaceBetween)
-      //   .constraintSize({
-      //     minHeight: 48,
-      //   })
-      //   .width('100%')
-      //   .margin({
-      //     top: '4vp'
-      //   })
-      //   .stateStyles({
-      //     pressed: this.pressedStyles,
-      //     normal: this.normalStyles,
-      //     disabled: this.disabledStyles
-      //   })
-      //   .enabled(this.mSystemModeController.getIsEnableJumpToMusicApp())
-      // }
-      // .accessibilityGroup(true)
-      // .onClick(() => {
-      //   if (!this.mSystemModeController.getIsEnableJumpToMusicApp()) {
-      //     showToast(this.getUIContext(), this.mSystemModeController.getDisabledFunctionTip());
-      //   } else {
-      //     HiLog.w(TAG, ` select_local_music, onClick`);
-      //     ResourceAudioManager.releaseRing();
-      //     this.mRingTonePresenter.isMusicAppSupportLocalMusic().then((value) => {
-      //       HiLog.w(TAG, `getMusicInstallInfo value: ${value}`);
-      //       this.isMusicExist = value;
-      //       this.jumpToLocalMusicSelection(value as boolean, LOCAL_PAGE_TYPE);
-      //     }).catch((err: BusinessError) => {
-      //       HiLog.e(TAG + 'getMusicInstallInfo err', err?.message + ', stack: ' + err?.stack);
-      //     })
-      //
-      //     this.entryClick();
-      //   }
-      // })
+      Row() {
+        Row() {
+          Text($r('app.string.select_local_music'))
+            .fontFamily('HarmonyHeiTi')
+            .fontWeight(FontWeight.Medium)
+            .fontSize($r('sys.float.Body_L'))
+            .fontColor($r('sys.color.comp_foreground_primary'))
+            .textAlign(TextAlign.Start)
+            .margin({ end: LengthMetrics.vp(8) })
+            .width(`calc(100% - 20vp)`)
+          SymbolGlyph($r('sys.symbol.chevron_right'))
+            .fontSize($r('app.float.id_card_image_small'))
+            .fontColor([$r('app.color.skin_icon_fourth')])
+            .flexShrink(0)
+        }
+        .padding({
+          left: '8vp',
+          right: '8vp',
+          top: '4vp',
+          bottom: '4vp'
+        })
+        .justifyContent(FlexAlign.SpaceBetween)
+        .constraintSize({
+          minHeight: 48,
+        })
+        .width('100%')
+        .margin({
+          top: '4vp'
+        })
+        .stateStyles({
+          pressed: this.pressedStyles,
+          normal: this.normalStyles,
+          disabled: this.disabledStyles
+        })
+        .enabled(this.mSystemModeController.getIsEnableJumpToMusicApp())
+      }
+      .accessibilityGroup(true)
+      .onClick(() => {
+        ResourceAudioManager.releaseRing();
+        this.selectAudioFileFromPicker()
+        // if (!this.mSystemModeController.getIsEnableJumpToMusicApp()) {
+        //   showToast(this.getUIContext(), this.mSystemModeController.getDisabledFunctionTip());
+        // } else {
+        //   HiLog.w(TAG, ` select_local_music, onClick`);
+        //   ResourceAudioManager.releaseRing();
+        //   this.mRingTonePresenter.isMusicAppSupportLocalMusic().then((value) => {
+        //     HiLog.w(TAG, `getMusicInstallInfo value: ${value}`);
+        //     this.isMusicExist = value;
+        //     this.jumpToLocalMusicSelection(value as boolean, LOCAL_PAGE_TYPE);
+        //   }).catch((err: BusinessError) => {
+        //     HiLog.e(TAG + 'getMusicInstallInfo err', err?.message + ', stack: ' + err?.stack);
+        //   })
+        //
+        //   this.entryClick();
+        // }
+      })
 
-       // Divider()
-       //  .alignSelf(ItemAlign.Stretch)
-       //  .strokeWidth('1px')
-       //  .height($r('app.float.account_Divider_height'))
-       //  .color($r('sys.color.comp_divider'))
-       //  .lineCap(LineCapStyle.Square)
-       //  .padding({ left: $r('sys.float.padding_level4'), right: $r('sys.float.padding_level4') })
+       Divider()
+        .alignSelf(ItemAlign.Stretch)
+        .strokeWidth('1px')
+        .height($r('app.float.account_Divider_height'))
+        .color($r('sys.color.comp_divider'))
+        .lineCap(LineCapStyle.Square)
+        .padding({ left: $r('sys.float.padding_level4'), right: $r('sys.float.padding_level4') })
        Row() {
         Text($r('app.string.select_video_music'))
           .fontFamily('HarmonyHeiTi')
@@ -686,6 +873,37 @@ export default struct RingtoneSelection {
     .borderRadius($r('sys.float.corner_radius_level10'))
   }
 
+  @Builder
+  TitleGuide() {
+    Row() {
+      Button() {
+        SymbolGlyph($r('sys.symbol.xmark'))
+          .fontSize($r('app.float.id_card_image_small'))
+          .fontColor([$r('app.color.skin_icon_primary')])
+      }
+      .type(ButtonType.Circle)
+      .borderRadius(0)
+      .width($r('app.float.id_card_image_mid'))
+      .height($r('app.float.id_card_image_mid'))
+      .buttonStyle(ButtonStyleMode.TEXTUAL)
+      .stateEffect(true)
+      .backgroundColor(this.isPC ? Color.Transparent : $r('app.color.skin_ohos_id_color_button_normal'))
+      .id('Ringtone_close_btn')
+      .onClick(() => {
+        titleMethodClass.backOnClick();
+      })
+    }
+    .justifyContent(FlexAlign.End)
+    .alignItems(VerticalAlign.Center)
+    .height($r('app.float.id_item_height_large'))
+    .padding({
+      end: this.isPC ? LengthMetrics.vp(16) : LengthMetrics.resource(this.spaceLR),
+    })
+    .margin({
+      left: this.isPC ? '8vp' : ((this.curBp === 'lg') ? '24vp' : undefined)
+    })
+  }
+
   // 跳转本地音乐
   private entryClick() {
     HiLog.e(TAG, ` entryClick`);
@@ -722,6 +940,10 @@ export default struct RingtoneSelection {
         ResourceAudioManager.releaseRing();
         let ringtoneInfo: RingtoneInfo = this.mRingTonePresenter.selectedRingtoneInfo;
         this.removeLocalRingtone(ringtoneInfo);
+        if (ringtoneInfo.ringtoneType === RingtoneType.LOCAL_TYPE || ringtoneInfo.ringtonePath.includes(RING_TONE_BASE)) {
+          // 移除本地铃声
+          this.removePreLocalRingtone(ringtoneInfo)
+        }
         let newRingtoneInfo: RingtoneInfo = {
           ringtoneName: '',
           ringtoneFilePath: '',
@@ -812,6 +1034,10 @@ export default struct RingtoneSelection {
         ResourceAudioManager.releaseRing();
         let ringtoneInfo: RingtoneInfo = this.mRingTonePresenter.selectedRingtoneInfo;
         this.removeLocalRingtone(ringtoneInfo);
+        if (ringtoneInfo.ringtoneType === RingtoneType.LOCAL_TYPE || ringtoneInfo.ringtonePath.includes(RING_TONE_BASE)) {
+          // 移除本地铃声
+          this.removePreLocalRingtone(ringtoneInfo)
+        }
         let newRingtoneInfo: RingtoneInfo = {
           ringtoneName: NO_RING,
           ringtoneFilePath: '',

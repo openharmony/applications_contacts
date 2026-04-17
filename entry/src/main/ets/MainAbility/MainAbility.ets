@@ -477,35 +477,52 @@ export default class MainAbility extends Ability {
         AppStorage.setOrCreate('breakpoint',
           BreakpointUtil.getWidthBreakpoint(properties.windowRect, properties.displayId));
         BreakpointUtil.judgingVerdeBreakpoint(properties.windowRect, properties.displayId);
-        windowObj.on('windowSizeChange', (data) => {
-          DisplaySplitUtil.updateSplitStatus(data.width, data.height);
-          this.updateWindowSize(data.width, data.height);
-          AppStorage.setOrCreate('breakpoint',
-            BreakpointUtil.getWidthBreakpoint(data, windowObj.getWindowProperties().displayId));
-          BreakpointUtil.judgingVerdeBreakpoint(data, windowObj.getWindowProperties().displayId);
-        });
+
+        try {
+          windowObj.on('windowSizeChange', (data) => {
+            DisplaySplitUtil.updateSplitStatus(data.width, data.height);
+            this.updateWindowSize(data.width, data.height);
+            AppStorage.setOrCreate('breakpoint',
+              BreakpointUtil.getWidthBreakpoint(data, windowObj.getWindowProperties().displayId));
+            BreakpointUtil.judgingVerdeBreakpoint(data, windowObj.getWindowProperties().displayId);
+          });
+        } catch (exception) {
+          HiLog.e(TAG, `Failed to register windowSizeChange, code: ${exception?.code}, msg: ${exception?.message}`);
+        }
 
         // 键盘高度
-        windowObj.on('keyboardHeightChange', (data) => {
-          HiLog.d(TAG, `keyboardHeightChange data:` + JSON.stringify(data))
-          this.storage?.setOrCreate('keyBoardHeightPx', data);
-        });
+        try {
+          windowObj.on('keyboardHeightChange', (data) => {
+            HiLog.d(TAG, `keyboardHeightChange data:` + JSON.stringify(data))
+            this.storage?.setOrCreate('keyBoardHeightPx', data);
+          });
+        } catch (exception) {
+          HiLog.e(TAG, `Failed to register keyboardHeightChange, code: ${exception?.code}, msg: ${exception?.message}`);
+        }
 
-        // AppStorage.setOrCreate<number>('windowStatus', windowObj.getWindowStatus());
+        // try {
+        //   AppStorage.setOrCreate<number>('windowStatus', windowObj.getWindowStatus());
         //绑定窗口模式变化监听
-        // windowObj.on('windowStatusChange', (windowStatusType) => {
-        //   AppStorage.setOrCreate<number>('windowStatus', windowStatusType);
-        //   this.isSmartWindow(windowStatusType);
-        //   SplitScreenManager.getInstance().updateWindowStatusType(this.context, windowStatusType);
-        // });
+        //   windowObj.on('windowStatusChange', (windowStatusType) => {
+        //     AppStorage.setOrCreate<number>('windowStatus', windowStatusType);
+        //     this.isSmartWindow(windowStatusType);
+        //     SplitScreenManager.getInstance().updateWindowStatusType(this.context, windowStatusType);
+        //   });
+        // } catch (exception) {
+        //   HiLog.e(TAG, `Failed to register windowStatusChange, code: ${exception?.code}, msg: ${exception?.message}`);
+        // }
 
         // 绑定窗口横竖屏变化监听
-        // windowObj.on('windowRectChange', (data) => {
-        //   AppStorage.setOrCreate('windowRect', data);
-        //   if (this.isPC) {
-        //     ContextMenu.close(); // PC设备横竖屏变化时，关闭所有Menu弹窗
-        //   }
-        // });
+        // try {
+        //   windowObj.on('windowRectChange', (data) => {
+        //     AppStorage.setOrCreate('windowRect', data);
+        //     if (this.isPC) {
+        //       ContextMenu.close(); // PC设备横竖屏变化时，关闭所有Menu弹窗
+        //     }
+        //   });
+        // } catch (exception) {
+        //   HiLog.e(TAG, `Failed to register windowRectChange, code: ${exception?.code}, msg: ${exception?.message}`);
+        // }
 
         try {
           // 窗口内容规避区域
@@ -545,6 +562,22 @@ export default class MainAbility extends Ability {
     this.windowStage = windowStage;
     AppStorage.setOrCreate('windowStage', windowStage);
     this.updateWindowStageContent()
+  }
+
+  onWindowStageWillDestroy(windowStage: Window.WindowStage): void {
+    try {
+      if (this.windowObj) {
+        this.windowObj.off('windowSizeChange');
+        this.windowObj.off('keyboardHeightChange');
+        // this.windowObj.off('windowStatusChange');
+        // this.windowObj.off('windowRectChange');
+        this.windowObj.off('avoidAreaChange');
+      }
+    } catch (exception) {
+      HiLog.e(TAG, `Failed to disable windowStage listener, code: ${exception?.code}, msg: ${exception?.message}`);
+    } finally {
+      this.windowObj = undefined;
+    }
   }
 
   addWaterMark() {
@@ -883,60 +916,68 @@ export default class MainAbility extends Ability {
   }
 
   setSystemBarProps(config?: Configuration) {
-    HiLog.i(TAG, `setSystemBarProps dark mode is: ${config?.colorMode} - ${AppStorage.get('currentColorMode')}`);
-    let currentColorMode: ConfigurationConstant.ColorMode | undefined =
-      config?.colorMode !== undefined ? config?.colorMode : AppStorage.get('currentColorMode');
-    if (this.lastColorMode === currentColorMode) {
-      HiLog.w(TAG, 'ColorMode has not changed.')
-      return;
+    try {
+      HiLog.i(TAG, `setSystemBarProps dark mode is: ${config?.colorMode} - ${AppStorage.get('currentColorMode')}`);
+      let currentColorMode: ConfigurationConstant.ColorMode | undefined =
+        config?.colorMode !== undefined ? config?.colorMode : AppStorage.get('currentColorMode');
+      if (this.lastColorMode === currentColorMode) {
+        HiLog.w(TAG, 'ColorMode has not changed.')
+        return;
+      }
+      let systemBarProperties: window.SystemBarProperties = {
+        statusBarContentColor: currentColorMode ? '#ff000000' : '#ffffffff',
+      }
+      this.windowObj?.setWindowSystemBarProperties(systemBarProperties);
+      this.lastColorMode = currentColorMode;
+    } catch (exception) {
+      HiLog.e(TAG, `Failed to setSystemBarProps, code: ${exception?.code}, msg: ${exception?.message}`);
     }
-    let systemBarProperties: window.SystemBarProperties = {
-      statusBarContentColor: currentColorMode ? '#ff000000' : '#ffffffff',
-    }
-    this.windowObj?.setWindowSystemBarProperties(systemBarProperties);
-    this.lastColorMode = currentColorMode;
   }
 
   /**
    * 处理应用在手机与车机上迁移的场景
    */
   private appMigration(): void {
-    const currentDisplayId = this.windowObj?.getWindowProperties().displayId;
-    HiLog.i(TAG, `currentDisplayId: ${currentDisplayId}`);
-    if (currentDisplayId === undefined) {
-      HiLog.w(TAG, 'Failed to obtain currentDisplayId.');
-      return;
-    }
-    const event: emitter.InnerEvent = {
-      eventId: EmitterConstant.EMITTER_NOTICE_WHERE_APP_EVENT_ID
-    }
-    const eventData: emitter.EventData = {
-      data: {
-        'isPhone': true
+    try {
+      const currentDisplayId = this.windowObj?.getWindowProperties().displayId;
+      HiLog.i(TAG, `currentDisplayId: ${currentDisplayId}`);
+      if (currentDisplayId === undefined) {
+        HiLog.w(TAG, 'Failed to obtain currentDisplayId.');
+        return;
       }
+      const event: emitter.InnerEvent = {
+        eventId: EmitterConstant.EMITTER_NOTICE_WHERE_APP_EVENT_ID
+      }
+      const eventData: emitter.EventData = {
+        data: {
+          'isPhone': true
+        }
+      }
+      // DynamicLoadSoUtil.getInstance().loadSmartMobility().then((ns: ESObject) => {
+      //   const devInfo: SmartMobilityInfo = ns.default.getSmartMobilityAwareness()
+      //     .getSmartMobilityStatus(ns.default.SmartMobilityType.HICAR);
+      //   if (devInfo === undefined) {
+      //     HiLog.w(TAG, 'Error in obtaining devInfo.');
+      //     return;
+      //   }
+      //   if (devInfo.status === ns.default.SmartMobilityStatus.IDLE) {
+      //     HiLog.i(TAG, 'Hicar not connected.');
+      //     return;
+      //   }
+      //   const displayId: string = devInfo.data?.['DISPLAY_ID'].toString();
+      //   AppStorage.setOrCreate(HiCarConstants.KEY_IS_IN_HICAR, String(currentDisplayId) === displayId);
+      //   if (String(currentDisplayId) === displayId) {
+      //     HiLog.i(TAG, 'Application migration from mobile phones to hicar.');
+      //   } else {
+      //     HiLog.i(TAG, 'Application migration from hicar to mobile phones, release HiCarUtil.');
+      //     emitter.emit(event, eventData);
+      //   }
+      // }).catch((error: BusinessError) => {
+      //   HiLog.e(TAG, `DynamicImport Fail.ERROR: ${error.message}`);
+      // });
+    } catch (exception) {
+      HiLog.e(TAG, `Failed to appMigration, code: ${exception?.code}, msg: ${exception?.message}`);
     }
-    // DynamicLoadSoUtil.getInstance().loadSmartMobility().then((ns: ESObject) => {
-    //   const devInfo: SmartMobilityInfo = ns.default.getSmartMobilityAwareness()
-    //     .getSmartMobilityStatus(ns.default.SmartMobilityType.HICAR);
-    //   if (devInfo === undefined) {
-    //     HiLog.w(TAG, 'Error in obtaining devInfo.');
-    //     return;
-    //   }
-    //   if (devInfo.status === ns.default.SmartMobilityStatus.IDLE) {
-    //     HiLog.i(TAG, 'Hicar not connected.');
-    //     return;
-    //   }
-    //   const displayId: string = devInfo.data?.['DISPLAY_ID'].toString();
-    //   AppStorage.setOrCreate(HiCarConstants.KEY_IS_IN_HICAR, String(currentDisplayId) === displayId);
-    //   if (String(currentDisplayId) === displayId) {
-    //     HiLog.i(TAG, 'Application migration from mobile phones to hicar.');
-    //   } else {
-    //     HiLog.i(TAG, 'Application migration from hicar to mobile phones, release HiCarUtil.');
-    //     emitter.emit(event, eventData);
-    //   }
-    // }).catch((error: BusinessError) => {
-    //   HiLog.e(TAG, `DynamicImport Fail.ERROR: ${error.message}`);
-    // });
   }
 
   /**
