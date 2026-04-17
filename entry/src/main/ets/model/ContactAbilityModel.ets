@@ -1114,6 +1114,16 @@ class ContactAbilityModel {
       .queryLocalRingToneUsedTimes(id, uri, callBack)
   }
 
+  /**
+   * 查询有联系人使用的所有本地铃音uris列表
+   *
+   * @param {Object} callBack 回调
+   */
+  async queryContactsUsedLocalRingTone(callBack: (result: string[]) => void) {
+    await ContactRepository.getInstance()
+      .queryContactsUsedLocalRingTone(callBack)
+  }
+
   findNewestContact(callback: Function, context?: common.UIAbilityContext | Context) {
     if (context) {
       ContactRepository.getInstance().init(context);
@@ -2359,11 +2369,11 @@ class ContactAbilityModel {
       if (resultSet && resultSet.rowCount > 0) {
         let matchIndex = await NumberMatch.getInstance().getCallerIndex(resultSet, numStr);
         HiLog.w(TAG, `getIdByTelephone matchIndex: ${matchIndex}}`);
-        if (matchIndex < 0) {
-          callBack(resultList);
-          HiLog.w(TAG, 'getIdByTelephone End to query contactID by phone number.  No matches!');
-          return;
-        }
+        // if (matchIndex < 0) {
+        //   callBack(resultList);
+        //   HiLog.w(TAG, 'getIdByTelephone End to query contactID by phone number.  No matches!');
+        //   return;
+        // }
         resultSet.goToRow(matchIndex);
         do {
           resultList.push(resultSet.getString(resultSet.getColumnIndex(RawContacts.CONTACT_ID)));

@@ -297,39 +297,39 @@ struct HiCarCallRecordItem {
                 })
             }
 
-            if (this.item.isSatellite === 1) {
-              SymbolGlyph($r('sys.symbol.satellite'))
-                .fontSize(10)
-                .maxFontScale(1)  //不放大
-                .fontColor([$r('app.color.skin_white')])
-                .padding({
-                  left: 2,
-                  top: 1,
-                  right: 1,
-                  bottom: 2
-                })
-                .backgroundImage($r('app.media.satellite_backgroud_img'))
-                .backgroundColor($r('sys.color.ohos_id_color_alert'))
-                .margin({
-                  right: $r('app.float.id_card_margin_mid'),
-                  top: '2vp',
-                })
-                .flexShrink(0)
-                .borderRadius($r('sys.float.Body_S'))
-            }
-            if (this.item.isSatellite === 2) { //通话记录中渲染风信子图标
-              Image($r('app.media.hyacinth_call_log'))
-                .draggable(false)
-                .margin({
-                  right: $r('app.float.id_card_margin_mid'),
-                  top: '2vp',
-                })
-                .size({ width: 10, height: 10 })
-                .backgroundImage($r('app.media.satellite_backgroud_img'))
-                .backgroundImageSize({ width: 12, height: 12 })
-                .backgroundColor($r('sys.color.ohos_id_color_alert'))
-                .borderRadius($r('sys.float.Body_S'))
-            }
+            // if (this.item.isSatellite === 1) {
+            //   SymbolGlyph($r('sys.symbol.satellite'))
+            //     .fontSize(10)
+            //     .maxFontScale(1)  //不放大
+            //     .fontColor([$r('app.color.skin_white')])
+            //     .padding({
+            //       left: 2,
+            //       top: 1,
+            //       right: 1,
+            //       bottom: 2
+            //     })
+            //     .backgroundImage($r('app.media.satellite_backgroud_img'))
+            //     .backgroundColor($r('sys.color.ohos_id_color_alert'))
+            //     .margin({
+            //       right: $r('app.float.id_card_margin_mid'),
+            //       top: '2vp',
+            //     })
+            //     .flexShrink(0)
+            //     .borderRadius($r('sys.float.Body_S'))
+            // }
+            // if (this.item.isSatellite === 2) { //通话记录中渲染风信子图标
+            //   Image($r('app.media.hyacinth_call_log'))
+            //     .draggable(false)
+            //     .margin({
+            //       right: $r('app.float.id_card_margin_mid'),
+            //       top: '2vp',
+            //     })
+            //     .size({ width: 10, height: 10 })
+            //     .backgroundImage($r('app.media.satellite_backgroud_img'))
+            //     .backgroundImageSize({ width: 12, height: 12 })
+            //     .backgroundColor($r('sys.color.ohos_id_color_alert'))
+            //     .borderRadius($r('sys.float.Body_S'))
+            // }
 
             if (StringUtil.isEmpty(this.item.displayName)) {
               Text(this.getCallLogItemSecondaryText())

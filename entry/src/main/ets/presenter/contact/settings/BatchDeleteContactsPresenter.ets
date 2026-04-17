@@ -33,9 +33,10 @@ import ContactListShowInfo from '../../../model/bean/ContactListShowInfo';
 import SmsManagerUtils from '../../../util/SmsManagerUtils';
 import AccessibilityUtil from '../../../util/AccessibilityUtil';
 import { AuditLogUtils } from '../../../../../../../common/src/main/ets/util/AuditLogUtils';
+import RingTonePresenter from '../../ringtone/RingTonePresenter';
 
 const TAG = 'BatchDeleteContactsPresenter ';
-
+const RING_TONE_BASE = '/data/storage/el2/base/files/Ringtone/contacts'
 
 let auditlogUtils: AuditLogUtils = AuditLogUtils.getInstance();
 /**
@@ -60,6 +61,7 @@ export default class BatchDeleteContactsPresenter {
   public limitDataRefresh: LimitRefreshDataUtil<PageLimit, ContactVo[]> | undefined = undefined;
   public refreshUI: () => void = () => {
   };
+  public mRingTonePresenter: RingTonePresenter = RingTonePresenter.getInstance();
 
   private constructor() {
   }
@@ -208,10 +210,29 @@ export default class BatchDeleteContactsPresenter {
       // 联系人列表下滑保存当前页, 批量删除前把当前页设置1, 便于从第一页请求数据
       ContactListPresenter.getInstance().setCurrentPage(1);
       for (let i = 0; i < array.length; i++) {
+        // 清理铃音
+        await this.cleanupBatchContactsRingtone(array[i]);
         await this.batchDeletionBasic(array[i], array.length, i)
       }
       HiLog.i(TAG, 'batchDelete execute end');
       this.contactListDataSource.notifyDataReload();
+    }
+  }
+
+  // 分批清理铃音库
+  private async cleanupBatchContactsRingtone(contactIds: string[]): Promise<void> {
+    for (let contactId of contactIds) {
+      try {
+        let contactResult = await ContactAbilityModel.getContactByIdSync(Number(contactId));
+        if (contactResult.data && contactResult.data.personalRingtone && contactResult.data.personalRingtone.includes(RING_TONE_BASE)) {
+          this.mRingTonePresenter.removeContactLocalRingtoneByUri(
+            contactResult.data.personalRingtone,
+            contactId
+          )
+        }
+      } catch (error) {
+        HiLog.e(TAG, `cleanupBatchContactsRingtone: Error cleaning ringtone for contact ${contactId}: ${error?.message}`);
+      }
     }
   }
 
@@ -243,7 +264,6 @@ export default class BatchDeleteContactsPresenter {
           resolve();
         });
     })
-
   }
 
   sendProgressSubscription(selectedCounts: number) {

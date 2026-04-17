@@ -137,57 +137,59 @@ export default struct VideoMusicSelection {
   build() {
     NavDestination() {
       Column() {
-        UIExtensionComponent(this.want as Want)
-          .onRemoteReady((proxy: UIExtensionProxy) => {
-            HiLog.i(TAG, `onRemoteReady`);
-          })
-          .onTerminated((data) => {
-            HiLog.i(TAG, 'onTerminated data');
-            let ringtoneInfo: RingtoneInfo = this.mRingTonePresenter.selectedRingtoneInfo;
-            HiLog.i(TAG, `exit music app ringtoneName: ${StringUtil.maskSensitiveInfo(ringtoneInfo.ringtoneName)},
+        if(this.want){
+          UIExtensionComponent(this.want as Want)
+            .onRemoteReady((proxy: UIExtensionProxy) => {
+              HiLog.i(TAG, `onRemoteReady`);
+            })
+            .onTerminated((data) => {
+              HiLog.i(TAG, 'onTerminated data');
+              let ringtoneInfo: RingtoneInfo = this.mRingTonePresenter.selectedRingtoneInfo;
+              HiLog.i(TAG, `exit music app ringtoneName: ${StringUtil.maskSensitiveInfo(ringtoneInfo.ringtoneName)},
              ringtoneFilePath: ${StringUtil.maskSensitiveInfo(ringtoneInfo.ringtoneFilePath)},
               ringtonePath: ${StringUtil.maskSensitiveInfo(ringtoneInfo.ringtonePath)}`);
-            this.mRingTonePresenter.backFromLocalMusic();
-            this.contactsRingtonePathInfo?.clear();
-          })
-          .onReceive(async (data: Record<string, Object>) => {
-            if (data?.isShowUIExtension) {
-              // 完整铃声信息key
-              HiLog.i(TAG, `videoRingtonepath is: ${data?.path}`);
-              HiLog.i(TAG, `videoRingtoneName is: ${data?.ringtoneName}`);
-
-              let ringtone: RingtoneInfo = {
-                ringtoneName: data?.ringtoneName ? data?.ringtoneName as string : '',
-                ringtoneFilePath: data?.path ? data?.path as string : '',
-                ringtonePath: data?.path ? data?.path as string : '',
-                ringtoneType: RingtoneType.LOCAL_VIDEO_TYPE,
-              }
-              this.mRingTonePresenter.selectedRingtoneInfo = ringtone;
               this.mRingTonePresenter.backFromLocalMusic();
-              this.mRingTonePresenter.isFromVideoMusic = true;
-              this.removePreSelectedRingtone();
-              this.selectedRingTonesList.add(ringtone);
-            } else {
-              HiLog.i(TAG, `isShowUIExtension: ${data?.isShowUIExtension}`)
               this.contactsRingtonePathInfo?.clear();
-            }
-          })
-          .onRelease((releaseCode: number) => {
-            HiLog.i(TAG, `onRelease`);
-          })
-          .onResult((data: Object) => {
-            HiLog.i(TAG, `onResult`);
-          })
-          .onError((error) => {
-            HiLog.i(TAG, `onError`);
-            this.contactsRingtonePathInfo?.clear();
-          })
-          .backgroundColor($r('app.color.color_bind_sheet_background'))
-          .height('100%')
-          .width('100%')
-          .id('localRingtoneExtension')
-          .gesture(GestureGroup(GestureMode.Sequence, PanGesture()))
-          .defaultFocus(true)
+            })
+            .onReceive(async (data: Record<string, Object>) => {
+              if (data?.isShowUIExtension) {
+                // 完整铃声信息key
+                HiLog.i(TAG, `videoRingtonepath is: ${data?.path}`);
+                HiLog.i(TAG, `videoRingtoneName is: ${data?.ringtoneName}`);
+
+                let ringtone: RingtoneInfo = {
+                  ringtoneName: data?.ringtoneName ? data?.ringtoneName as string : '',
+                  ringtoneFilePath: data?.path ? data?.path as string : '',
+                  ringtonePath: data?.path ? data?.path as string : '',
+                  ringtoneType: RingtoneType.LOCAL_VIDEO_TYPE,
+                }
+                this.mRingTonePresenter.selectedRingtoneInfo = ringtone;
+                this.mRingTonePresenter.backFromLocalMusic();
+                this.mRingTonePresenter.isFromVideoMusic = true;
+                this.removePreSelectedRingtone();
+                this.selectedRingTonesList.add(ringtone);
+              } else {
+                HiLog.i(TAG, `isShowUIExtension: ${data?.isShowUIExtension}`)
+                this.contactsRingtonePathInfo?.clear();
+              }
+            })
+            .onRelease((releaseCode: number) => {
+              HiLog.i(TAG, `onRelease`);
+            })
+            .onResult((data: Object) => {
+              HiLog.i(TAG, `onResult`);
+            })
+            .onError((error) => {
+              HiLog.i(TAG, `onError`);
+              this.contactsRingtonePathInfo?.clear();
+            })
+            .backgroundColor($r('app.color.color_bind_sheet_background'))
+            .height('100%')
+            .width('100%')
+            .id('localRingtoneExtension')
+            .gesture(GestureGroup(GestureMode.Sequence, PanGesture()))
+            .defaultFocus(true)
+        }
       }
       .backgroundColor($r('app.color.color_bind_sheet_background'))
     }

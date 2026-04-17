@@ -69,6 +69,7 @@ import AccessibilityUtil from '../../util/AccessibilityUtil';
 import { ResourceUtil } from '../../util/ResourceUtil';
 import TextUtils from '../../../../../../common/src/main/ets/util/TextUtils';
 import ContactListPresenter from '../contact/ContactListPresenter';
+import { generateBarcode, scanCore } from '@kit.ScanKit';
 
 
 const TAG = 'DialerPresenter';
@@ -1144,12 +1145,12 @@ export default class DialerPresenter {
     let imeiPixelMap: Map<string, image.PixelMap> = new Map();
     await Promise.all(imeiArr.map(async (imei) => {
       try {
-        // let pixelMap: image.PixelMap = await generateBarcode.default.createBarcode(imei, {
-        //   scanType: scanCore.default.ScanType.CODE128_CODE,
-        //   height: 2000,
-        //   width: 4000,
-        // });
-        // imeiPixelMap.set(imei, pixelMap);
+        let pixelMap: image.PixelMap = await generateBarcode.createBarcode(imei, {
+          scanType: scanCore.ScanType.CODE128_CODE,
+          height: 2000,
+          width: 4000,
+        });
+        imeiPixelMap.set(imei, pixelMap);
       } catch (err) {
         HiLog.e(TAG, 'createBarcode error: ' + err);
       }
@@ -1171,20 +1172,20 @@ export default class DialerPresenter {
     this.pixelMapArr = imeiPixelMapArr;
 
     this.eidStr = await SimManager.getEid();
-    // if (this.eidStr) {
-    //   this.eidPixelMap = await generateBarcode.default.createBarcode(this.eidStr, {
-    //     scanType: scanCore.default.ScanType.CODE128_CODE,
-    //     height: 2000,
-    //     width: 4000,
-    //   });
-    // }
+    if (this.eidStr) {
+      this.eidPixelMap = await generateBarcode.createBarcode(this.eidStr, {
+        scanType: scanCore.ScanType.CODE128_CODE,
+        height: 2000,
+        width: 4000,
+      });
+    }
 
     if (this.serialStr.length > 0) {
-      // this.serialPixelMap = await generateBarcode.default.createBarcode(this.serialStr, {
-      //   scanType: scanCore.default.ScanType.CODE128_CODE,
-      //   height: 2000,
-      //   width: 4000,
-      // });
+      this.serialPixelMap = await generateBarcode.createBarcode(this.serialStr, {
+        scanType: scanCore.ScanType.CODE128_CODE,
+        height: 2000,
+        width: 4000,
+      });
     } else {
       HiLog.e(TAG, 'deviceInfo serial is null');
     }
