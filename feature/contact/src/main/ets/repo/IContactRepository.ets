@@ -13,13 +13,11 @@
  * limitations under the License.
  */
 
-import Contact from '../entity/Contact';
-import ContactList from './ContactList';
 import {
-  AllContactGetParam
+    AllContactGetParam,
+    AllContactWithPhoneNumbersGetParam
 } from '../../../../../../entry/src/main/ets/model/type/ContactParams';
 import DataShareResultSet from '@ohos.data.DataShareResultSet';
-import ContactListItem from './ContactListItem';
 
 /**
  * Contact storage management, shielding dependency on the CP layer
@@ -28,9 +26,9 @@ import ContactListItem from './ContactListItem';
 export default interface IContactRepository {
   findById: (id: number, callback: Function) => void;
   findByQuickSearchKey: (searchKey: string, callback: Function) => void;
-  findAll: (actionData: AllContactGetParam, callback: (rst?: ContactListItem[]) => void) => void;
-  findByPhoneIsNotNull: (favorite: number, editContact: number, callback: Function) => void;
-  deleteByIdIn: (ids: number[]) => boolean;
+  findAll: (actionData: AllContactGetParam, callback: (resultSet?: DataShareResultSet) => void) => void;
+  findByPhoneIsNotNull: (addParams: AllContactWithPhoneNumbersGetParam, callback: Function) => void;
+  deleteByIdIn: (ids: number[], callback: Function) => void;
   deleteById: (id: number, callback: Function) => void;
   notifyChange: () => void;
   registerDataChangeObserver: (callback: () => void) => void;

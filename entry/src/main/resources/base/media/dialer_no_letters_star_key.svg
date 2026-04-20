@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights reserved.
+  -->
+
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>*</title>
+    <g id="*" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形" x="0" y="0" width="32" height="32"></rect>
+        <polygon fill-opacity="0.901960784" fill="#000000" fill-rule="nonzero" points="19.5789474 23.3947368 21.7368421 21.7631579 18.2631579 16.9736842 24 14.9736842 22.9473684 12.4473684 17.3157895 14.5526316 17.3157895 8.60526316 14.5263158 8.60526316 14.5263158 14.5526316 8.94736842 12.4473684 8 14.9736842 13.5789474 16.9736842 10.1578947 21.7631579 12.5263158 23.3947368 15.9473684 18.3421053"></polygon>
+    </g>
+</svg>

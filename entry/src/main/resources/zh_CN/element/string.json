@@ -1,852 +1,4083 @@
 {
-  "string": [
-    {
-      "name": "app_name",
-      "value": "联系人"
-    },
-    {
-      "name": "no_simCardDailog",
-      "value": "拨号失败，请插入SIM卡！"
-    },
-    {
-      "name": "phone_type_mobile",
-      "value": "手机"
-    },
-    {
-      "name": "phone_type_home",
-      "value": "住宅"
-    },
-    {
-      "name": "phone_type_work",
-      "value": "单位"
-    },
-    {
-      "name": "phone_type_main",
-      "value": "总机"
-    },
-    {
-      "name": "phone_type_fax_work",
-      "value": "单位传真"
-    },
-    {
-      "name": "phone_type_fax_home",
-      "value": "住宅传真"
-    },
-    {
-      "name": "phone_type_pager",
-      "value": "寻呼机"
-    },
-    {
-      "name": "phone_type_other",
-      "value": "其他"
-    },
-    {
-      "name": "phone_type_custom",
-      "value": "自定义"
-    },
-    {
-      "name": "phone_type_home_expansion",
-      "value": "住宅  %s"
-    },
-    {
-      "name": "phone_type_mobile_expansion",
-      "value": "手机  %s"
-    },
-    {
-      "name": "phone_type_work_expansion",
-      "value": "单位  %s"
-    },
-    {
-      "name": "phone_type_fax_work_expansion",
-      "value": "单位传真  %s"
-    },
-    {
-      "name": "phone_type_fax_home_expansion",
-      "value": "住宅传真  %s"
-    },
-    {
-      "name": "phone_type_pager_expansion",
-      "value": "寻呼机  %s"
-    },
-    {
-      "name": "phone_type_other_expansion",
-      "value": "其他  %s"
-    },
-    {
-      "name": "phone_type_main_expansion",
-      "value": "总机  %s"
-    },
-    {
-      "name": "phone_type_custom_expansion",
-      "value": "自定义  %s"
-    },
-    {
-      "name": "email_type_home",
-      "value": "私人"
-    },
-    {
-      "name": "email_type_work",
-      "value": "单位"
-    },
-    {
-      "name": "email_type_other",
-      "value": "其他"
-    },
-    {
-      "name": "email_type_custom",
-      "value": "自定义"
-    },
-    {
-      "name": "instant_type_aim",
-      "value": "AIM"
-    },
-    {
-      "name": "instant_type_windowslive",
-      "value": "WindowsLive"
-    },
-    {
-      "name": "instant_type_yahoo",
-      "value": "雅虎"
-    },
-    {
-      "name": "instant_type_skype",
-      "value": "Skype"
-    },
-    {
-      "name": "instant_type_qq",
-      "value": "QQ"
-    },
-    {
-      "name": "instant_type_hangouts",
-      "value": "环聊"
-    },
-    {
-      "name": "instant_type_icq",
-      "value": "ICQ"
-    },
-    {
-      "name": "instant_type_jabber",
-      "value": "Jabber"
-    },
-    {
-      "name": "instant_type_custom",
-      "value": "自定义"
-    },
-    {
-      "name": "birthday_type_grebirthday",
-      "value": "生日"
-    },
-    {
-      "name": "birthday_type_lunarbirthday",
-      "value": "农历生日"
-    },
-    {
-      "name": "birthday_type_anniversaries",
-      "value": "周年纪念"
-    },
-    {
-      "name": "birthday_type_other",
-      "value": "其他重要日期"
-    },
-    {
-      "name": "relationship_type_assistant",
-      "value": "助理"
-    },
-    {
-      "name": "relationship_type_brother",
-      "value": "兄弟"
-    },
-    {
-      "name": "relationship_type_children",
-      "value": "子女"
-    },
-    {
-      "name": "relationship_type_mates",
-      "value": "伴侣"
-    },
-    {
-      "name": "relationship_type_father",
-      "value": "父亲"
-    },
-    {
-      "name": "relationship_type_friend",
-      "value": "朋友"
-    },
-    {
-      "name": "relationship_type_bosses",
-      "value": "上司"
-    },
-    {
-      "name": "relationship_type_mother",
-      "value": "母亲"
-    },
-    {
-      "name": "relationship_type_parents",
-      "value": "父母"
-    },
-    {
-      "name": "relationship_type_partner",
-      "value": "合作伙伴"
-    },
-    {
-      "name": "relationship_type_introducer",
-      "value": "介绍人"
-    },
-    {
-      "name": "relationship_type_kinship",
-      "value": "亲属"
-    },
-    {
-      "name": "relationship_type_sisters",
-      "value": "姐妹"
-    },
-    {
-      "name": "relationship_type_spouses",
-      "value": "配偶"
-    },
-    {
-      "name": "relationship_type_custom",
-      "value": "自定义"
-    },
-    {
-      "name": "house_type_dwelling",
-      "value": "住宅"
-    },
-    {
-      "name": "house_type_position",
-      "value": "单位"
-    },
-    {
-      "name": "house_type_other",
-      "value": "其他"
-    },
-    {
-      "name": "house_type_custom",
-      "value": "自定义"
-    },
-    {
-      "name": "mainability_description",
-      "value": "ETS_Empty Ability"
-    },
-    {
-      "name": "dialer",
-      "value": "电话"
-    },
-    {
-      "name": "dialer_calllog",
-      "value": "通话记录"
-    },
-    {
-      "name": "dialer_description",
-      "value": "显示拨号盘和联系人"
-    },
-    {
-      "name": "contact_num",
-      "value": "%d个联系人"
-    },
-    {
-      "name": "contact",
-      "value": "联系人"
-    },
-    {
-      "name": "contact_login_in",
-      "value": "登录帐户"
-    },
-    {
-      "name": "contact_import_contacts",
-      "value": "导入联系人"
-    },
-    {
-      "name": "create_contact",
-      "value": "新建联系人"
-    },
-    {
-      "name": "edit_contact",
-      "value": "编辑联系人"
-    },
-    {
-      "name": "contact_scan_card",
-      "value": "扫名片"
-    },
-    {
-      "name": "no_contacts",
-      "value": "没有联系人"
-    },
-    {
-      "name": "contact_list_search",
-      "value": "搜索..."
-    },
-    {
-      "name": "contact_list_search_empty",
-      "value": "没有匹配的结果"
-    },
-    {
-      "name": "noName",
-      "value": "(无姓名)"
-    },
-    {
-      "name": "text",
-      "value": "文本"
-    },
-    {
-      "name": "qr_code",
-      "value": "二维码"
-    },
-    {
-      "name": "v_card",
-      "value": "vCard"
-    },
-    {
-      "name": "call_setting_type_paste",
-      "value": "粘贴"
-    },
-    {
-      "name": "call_setting_type_batch_delete",
-      "value": "批量删除"
-    },
-    {
-      "name": "call_setting_type_harassment_interception",
-      "value": "骚扰拦截"
-    },
-    {
-      "name": "call_setting_type_setting",
-      "value": "设置"
-    },
-    {
-      "name": "contact_setting_type_scancard",
-      "value": "扫名片"
-    },
-    {
-      "name": "send_message",
-      "value": "发送消息"
-    },
-    {
-      "name": "copy_phoneNumber",
-      "value": "复制号码"
-    },
-    {
-      "name": "contacts_call_number",
-      "value": "呼叫  %s"
-    },
-    {
-      "name": "choose_sub_recommend",
-      "value": "上次使用此卡联系"
-    },
-    {
-      "name": "edit_beforeCall",
-      "value": "呼叫前编辑"
-    },
-    {
-      "name": "add_to_blockList",
-      "value": "加入黑名单"
-    },
-    {
-      "name": "delete_call_logs",
-      "value": "删除通话记录"
-    },
-    {
-      "name": "all_call_logs",
-      "value": "全部通话"
-    },
-    {
-      "name": "missed_call",
-      "value": "未接来电"
-    },
-    {
-      "name": "voicemail",
-      "value": "语音信箱"
-    },
-    {
-      "name": "dialing",
-      "value": "正在拨号..."
-    },
-    {
-      "name": "contacts_ring_times",
-      "value": "响铃"
-    },
-    {
-      "name": "contacts_time_sec",
-      "value": "秒"
-    },
-    {
-      "name": "dial_back",
-      "value": "回拨"
-    },
-    {
-      "name": "message",
-      "value": "信息"
-    },
-    {
-      "name": "recording",
-      "value": "录音"
-    },
-    {
-      "name": "wait",
-      "value": "等待"
-    },
-    {
-      "name": "add_call_logs",
-      "value": "添加通话"
-    },
-    {
-      "name": "memorandum",
-      "value": "备忘录"
-    },
-    {
-      "name": "mute",
-      "value": "静音"
-    },
-    {
-      "name": "groups",
-      "value": "群组"
-    },
-    {
-      "name": "card_holder",
-      "value": "名片夹"
-    },
-    {
-      "name": "my_card",
-      "value": "我的名片"
-    },
-    {
-      "name": "dialog_cancel",
-      "value": "取消"
-    },
-    {
-      "name": "dialog_share",
-      "value": "分享"
-    },
-    {
-      "name": "dialog_delete",
-      "value": "删除"
-    },
-    {
-      "name": "delete_dialog_title",
-      "value": "是否删除此联系人"
-    },
-    {
-      "name": "deleteCallLog_dialog_title",
-      "value": "是否删除此通话记录？"
-    },
-    {
-      "name": "save_dialog_title",
-      "value": "是否保存修改"
-    },
-    {
-      "name": "dialog_not_save",
-      "value": "不保存"
-    },
-    {
-      "name": "cancel",
-      "value": "取消"
-    },
-    {
-      "name": "save",
-      "value": "保存"
-    },
-    {
-      "name": "telep_group",
-      "value": "手机群组"
-    },
-    {
-      "name": "new_build",
-      "value": "新建"
-    },
-    {
-      "name": "no_group",
-      "value": "没有群组"
-    },
-    {
-      "name": "no_select",
-      "value": "未选中"
-    },
-    {
-      "name": "select_contact",
-      "value": "选择联系人"
-    },
-    {
-      "name": "select_num",
-      "value": "已选择%d个"
-    },
-    {
-      "name": "cancel_favorite",
-      "value": "取消收藏"
-    },
-    {
-      "name": "favorite",
-      "value": "收藏"
-    },
-    {
-      "name": "edit",
-      "value": "编辑"
-    },
-    {
-      "name": "more",
-      "value": "更多选项"
-    },
-    {
-      "name": "save_to_existing_contacts",
-      "value": "保存至已有联系人"
-    },
-    {
-      "name": "share_contact",
-      "value": "分享联系人"
-    },
-    {
-      "name": "delete_contact",
-      "value": "删除联系人"
-    },
-    {
-      "name": "add_to_blocklist",
-      "value": "加入黑名单"
-    },
-    {
-      "name": "name_pinyin",
-      "value": "姓名拼音"
-    },
-    {
-      "name": "delete_contact_sure",
-      "value": "是否删除此联系人？"
-    },
-    {
-      "name": "delete",
-      "value": "删除"
-    },
-    {
-      "name": "phone",
-      "value": "手机"
-    },
-    {
-      "name": "nickname",
-      "value": "昵称"
-    },
-    {
-      "name": "group",
-      "value": "群组"
-    },
-    {
-      "name": "website",
-      "value": "网站"
-    },
-    {
-      "name": "clear",
-      "value": "清空"
-    },
-    {
-      "name": "ringtone",
-      "value": "电话铃声"
-    },
-    {
-      "name": "remarks",
-      "value": "备注"
-    },
-    {
-      "name": "qrcode_tips",
-      "value": "扫一扫二维码，可添加联系人"
-    },
-    {
-      "name": "share",
-      "value": "分享"
-    },
-    {
-      "name": "Ringing",
-      "value": "响铃"
-    },
-    {
-      "name": "reject",
-      "value": "拒接"
-    },
-    {
-      "name": "blockCall",
-      "value": "未接通"
-    },
-    {
-      "name": "justNow",
-      "value": "刚刚"
-    },
-    {
-      "name": "minutesAgo",
-      "value": "%d分钟前"
-    },
-    {
-      "name": "yesterday",
-      "value": "昨天"
-    },
-    {
-      "name": "unknown",
-      "value": "未知"
-    },
-    {
-      "name": "add_more",
-      "value": "添加更多"
-    },
-    {
-      "name": "hourMinutes",
-      "value": "%d:%d"
-    },
-    {
-      "name": "monthDay",
-      "value": "%d月%d日 "
-    },
-    {
-      "name": "yearMonthDay",
-      "value": "%d年%d月%d日 "
-    },
-    {
-      "name": "secondsFormat",
-      "value": "%d秒"
-    },
-    {
-      "name": "minutesSecondsFormat",
-      "value": "%d分%d秒"
-    },
-    {
-      "name": "hourMinutesSecondsFormat",
-      "value": "%d时%d分%d秒"
-    },
-    {
-      "name": "name",
-      "value": "姓名"
-    },
-    {
-      "name": "new_group",
-      "value": "新建群组"
-    },
-    {
-      "name": "position",
-      "value": "职位"
-    },
-    {
-      "name": "email",
-      "value": "电子邮件"
-    },
-    {
-      "name": "phone_number",
-      "value": "电话号码"
-    },
-    {
-      "name": "address_add",
-      "value": "地址"
-    },
-    {
-      "name": "date",
-      "value": "日期"
-    },
-    {
-      "name": "relation",
-      "value": "关联人"
-    },
-    {
-      "name": "instant_messaging",
-      "value": "即时消息"
-    },
-    {
-      "name": "join_group",
-      "value": "加入群组"
-    },
-    {
-      "name": "addmore",
-      "value": "添加更多项"
-    },
-    {
-      "name": "relation_background",
-      "value": "联系人"
-    },
-    {
-      "name": "intelligent_group",
-      "value": "智能群组"
-    },
-    {
-      "name": "company",
-      "value": "公司"
-    },
-    {
-      "name": "city",
-      "value": "城市"
-    },
-    {
-      "name": "recent_contacts",
-      "value": "最近联系人"
-    },
-    {
-      "name": "mobile_group",
-      "value": "手机群组"
-    },
-    {
-      "name": "number_of_people",
-      "value": "%d人数"
-    },
-    {
-      "name": "number_of_people_from_cell_phone",
-      "value": "有%d人数来自手机"
-    },
-    {
-      "name": "favorite_frequent",
-      "value": "常用"
-    },
-    {
-      "name": "save_to_phone",
-      "value": "保存至: 手机"
-    },
-    {
-      "name": "save_to_phone_only",
-      "value": "仅保存在手机，开启云端服务可同步"
-    },
-    {
-      "name": "clear_calllog_sure",
-      "value": "是否清空通话记录"
-    },
-    {
-      "name": "new_contact",
-      "value": "新建联系人"
-    },
-    {
-      "name": "send_messages",
-      "value": "发送消息"
-    },
-    {
-      "name": "select_all",
-      "value": "全选"
-    },
-    {
-      "name": "unselect_all",
-      "value": "取消全选"
-    },
-    {
-      "name": "recent",
-      "value": "最近"
-    },
-    {
-      "name": "no_recent_contacts",
-      "value": "没有带号码的常用联系人"
-    },
-    {
-      "name": "no_select_contacts",
-      "value": "没有带号码的联系人"
-    },
-    {
-      "name": "no_group_contacts",
-      "value": "没有可用的群组联系人"
-    },
-    {
-      "name": "unknow_location",
-      "value": "未知"
-    },
-    {
-      "name": "no_dialer_calllog",
-      "value": "没有通话记录"
-    },
-    {
-      "name": "no_dialer_missed_calllog",
-      "value": "没有未接来电"
-    },
-    {
-      "name": "from_the_accounts",
-      "value": "来自以下账号"
-    },
-    {
-      "name": "More",
-      "value": "更多"
-    },
-    {
-      "name": "support_pinyin",
-      "value": "支持拼音搜索"
-    },
-    {
-      "name": "search_huaxiaofen",
-      "value": "搜索“花小粉 ( "
-    },
-    {
-      "name": "you_can_enter",
-      "value": "en )”，您可依次输入:"
-    },
-    {
-      "name": "time_normal",
-      "value": "%s:%s"
-    },
-    {
-      "name": "time_early_morning",
-      "value": "凌晨%s:%s"
-    },
-    {
-      "name": "time_morning",
-      "value": "上午%s:%s"
-    },
-    {
-      "name": "time_noon",
-      "value": "中午%s:%s"
-    },
-    {
-      "name": "time_afternoon",
-      "value": "下午%s:%s"
-    },
-    {
-      "name": "time_nightfall",
-      "value": "傍晚%s:%s"
-    },
-    {
-      "name": "time_night",
-      "value": "晚上%s:%s"
-    },
-    {
-      "name": "time_middle_night",
-      "value": "半夜%s:%s"
-    },
-    {
-      "name": "permission_read_write_contacts",
-      "value": "用于管理联系人。"
-    },
-    {
-      "name": "permission_read_write_calllog",
-      "value": "用于管理通话记录。"
-    },
-    {
-      "name": "permission_manage_voicemail",
-      "value": "用于管理语音信箱。"
-    },
-    {
-      "name": "china_mobile",
-      "value": "中国移动"
-    },
-    {
-      "name": "china_telecom",
-      "value": "中国电信"
-    },
-    {
-      "name": "china_unicom",
-      "value": "中国联通"
-    },
-    {
-      "name": "common_use",
-      "value": "常用"
-    },
-    {
-      "name": "no_favorite",
-      "value": "没有收藏"
-    },
-    {
-      "name": "favorite_num",
-      "value": "收藏 %d"
-    },
-    {
-      "name": "common_use_num",
-      "value": "常用 %d"
-    },
-    {
-      "name": "favorite_remove",
-      "value": "取消"
-    },
-    {
-      "name": "contacts_call",
-      "value": "呼叫"
-    },
-    {
-      "name": "set_default_values",
-      "value": "设置默认值"
-    },
-    {
-      "name": "found_contacts",
-      "value": "找到 %d 个联系人"
-    }
-  ]
+    "string":[
+        {
+            "name":"shut_down",
+            "value":"关闭",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"MainAbility_label",
+            "value":"电话",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_mobile",
+            "value":"手机",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_home",
+            "value":"住宅",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_work",
+            "value":"单位",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_main",
+            "value":"总机",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_fax_work",
+            "value":"单位传真",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_fax_home",
+            "value":"住宅传真",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_pager",
+            "value":"寻呼机",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_other",
+            "value":"其他",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_custom",
+            "value":"自定义",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_home_expansion",
+            "value":"住宅 %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_mobile_expansion",
+            "value":"手机 %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_work_expansion",
+            "value":"单位 %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_fax_work_expansion",
+            "value":"单位传真 %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_fax_home_expansion",
+            "value":"住宅传真 %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_pager_expansion",
+            "value":"寻呼机 %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_other_expansion",
+            "value":"其他 %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_main_expansion",
+            "value":"总机 %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_custom_expansion",
+            "value":"自定义 %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"email_type_home",
+            "value":"私人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"email_type_work",
+            "value":"单位",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"email_type_other",
+            "value":"其他",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"email_type_custom",
+            "value":"自定义",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_aim",
+            "value":"AIM",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_windowslive",
+            "value":"Windows Live",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_yahoo",
+            "value":"雅虎",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_skype",
+            "value":"Skype",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_qq",
+            "value":"QQ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_hangouts",
+            "value":"环聊",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_icq",
+            "value":"ICQ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_jabber",
+            "value":"Jabber",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_custom",
+            "value":"自定义",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"birthday_type_grebirthday",
+            "value":"生日",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"birthday_type_lunarbirthday",
+            "value":"农历生日",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"birthday_type_anniversaries",
+            "value":"周年纪念",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"birthday_type_other",
+            "value":"其他重要日期",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_assistant",
+            "value":"助理",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_brother",
+            "value":"兄弟",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_children",
+            "value":"子女",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_mates",
+            "value":"伴侣",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_father",
+            "value":"父亲",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_friend",
+            "value":"朋友",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_bosses",
+            "value":"上司",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_mother",
+            "value":"母亲",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_parents",
+            "value":"父母",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_partner",
+            "value":"合作伙伴",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_introducer",
+            "value":"介绍人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_kinship",
+            "value":"亲属",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_sisters",
+            "value":"姐妹",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_spouses",
+            "value":"配偶",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_custom",
+            "value":"自定义",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"house_type_dwelling",
+            "value":"住宅",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"house_type_position",
+            "value":"单位",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"house_type_other",
+            "value":"其他",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"house_type_custom",
+            "value":"自定义",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"mainability_description",
+            "value":"ETS_Empty Ability"
+        },
+        {
+            "name":"dialer",
+            "value":"电话",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dial",
+            "value":"拨号",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"initial_query",
+            "value":"首字母查询",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialer_calllog",
+            "value":"通话记录",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact",
+            "value":"联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"mobile_contacts",
+            "value":"手机联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"system_contacts",
+            "value":"系统联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"create_contact",
+            "value":"新建联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"edit_contact",
+            "value":"编辑联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_contacts",
+            "value":"没有联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_list_search",
+            "value":"搜索联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"noName",
+            "value":"(无姓名)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_setting_type_paste",
+            "value":"粘贴",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_setting_type_batch_delete",
+            "value":"批量删除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_setting_type_setting",
+            "value":"设置",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"send_message",
+            "value":"发送信息",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"copy_phoneNumber",
+            "value":"复制号码",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_call_number",
+            "value":"呼叫 %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"choose_sub_recommend",
+            "value":"上次使用此卡联系",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"edit_beforeCall",
+            "value":"呼叫前编辑",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_from_block_list",
+            "value":"从黑名单中移除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_call_logs",
+            "value":"删除通话记录",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_call_logs",
+            "value":"全部通话",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"missed_call",
+            "value":"未接来电",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"voicemail",
+            "value":"语音信箱",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialing",
+            "value":"正在拨号",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dial_back",
+            "value":"回拨",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"message",
+            "value":"信息",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_cancel",
+            "value":"取消",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"adding_custom_tag",
+            "value":"新增自定义标签",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_delete",
+            "value":"删除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_dialog_title",
+            "value":"是否删除此联系人？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"deleteCallLog_dialog_title",
+            "value":"是否删除此通话记录？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save_dialog_title",
+            "value":"是否保存修改？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_title",
+            "value":"畅连",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"connect_net_title",
+            "value":"无网络连接",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_audio_connect_net_msg",
+            "value":"发起“畅连通话”需要连接网络。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_video_connect_net_msg",
+            "value":"发起“畅连通话”需要连接网络。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_chat_connect_net_msg",
+            "value":"发起“畅连通话”需要连接网络。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_audio_title",
+            "value":"畅连语音呼叫",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_video_title",
+            "value":"畅连视频呼叫",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_chat_title",
+            "value":"发送畅连消息",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_not_save",
+            "value":"不保存",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cancel",
+            "value":"取消",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save",
+            "value":"保存",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"confirm",
+            "value":"确定",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"telep_group",
+            "value":"手机群组",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_group",
+            "value":"没有群组",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_select",
+            "value":"未选择",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_contact",
+            "value":"选择联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"selected",
+            "value":"已选 (%s)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_contacts2",
+            "value":"全部联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"done",
+            "value":"完成",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"only_accessed",
+            "value":"仅可访问所选联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"secure_access_title",
+            "value":"安全访问联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"secure_access_content",
+            "value":"您的联系人会在此处显示，但应用仅可访问您选定的联系人。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"search",
+            "value":"搜索联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cancel_favorite",
+            "value":"取消收藏",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"favorite",
+            "value":"收藏",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"edit",
+            "value":"编辑",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"more",
+            "value":"更多选项",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save_to_existing_contacts",
+            "value":"保存至已有联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"share_contact",
+            "value":"分享",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_contact",
+            "value":"删除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_to_blocklist",
+            "value":"加入黑名单",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"name_pinyin",
+            "value":"姓名拼音",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete",
+            "value":"删除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone",
+            "value":"手机",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"nickname",
+            "value":"昵称",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"group",
+            "value":"群组",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"website",
+            "value":"网站",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"clear",
+            "value":"清空",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"remarks",
+            "value":"备注",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"share",
+            "value":"分享",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"reject",
+            "value":"拒接",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"blockCall",
+            "value":"未接通",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"justNow",
+            "value":"刚刚",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"today",
+            "value":"今天",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"yesterday",
+            "value":"昨天",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"unknown",
+            "value":"未知",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_more",
+            "value":"添加更多项",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"name",
+            "value":"姓名",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_group",
+            "value":"新建群组",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_group_source",
+            "value":"要在哪个账户下创建群组？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"position",
+            "value":"职位",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"email",
+            "value":"电子邮件",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_number",
+            "value":"电话号码",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"address_add",
+            "value":"地址",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"date",
+            "value":"日期",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relation",
+            "value":"关联人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_messaging",
+            "value":"即时信息",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save_to_phone",
+            "value":"保存至：手机",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save_to_account",
+            "value":"保存至：%s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"clear_calllog_sure",
+            "value":"是否清空通话记录？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_title_mark_as",
+            "value":"标记",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_contact",
+            "value":"新建联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"send_messages",
+            "value":"发送信息",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_all",
+            "value":"全选",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"unselect_all",
+            "value":"取消全选",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recent",
+            "value":"最近",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_select_contacts",
+            "value":"没有带号码的联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"unknow_location",
+            "value":"未知",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_dialer_calllog",
+            "value":"没有通话记录",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_dialer_missed_calllog",
+            "value":"没有未接来电",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"from_the_accounts",
+            "value":"来自以下账户：",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"More",
+            "value":"更多选项",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"permission_read_write_contacts",
+            "value":"用于管理联系人。"
+        },
+        {
+            "name":"permission_read_write_calllog",
+            "value":"用于管理通话记录。"
+        },
+        {
+            "name":"permission_for_recorder_list",
+            "value":"用于录音机列表访问。"
+        },
+        {
+            "name":"common_use",
+            "value":"常用",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"permission_manage_voicemail",
+            "value":"用于管理语音信箱。"
+        },
+        {
+            "name":"no_favorite",
+            "value":"没有收藏",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"favorite_num",
+            "value":"收藏 %d",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"favorite_remove",
+            "value":"移除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_call",
+            "value":"呼叫",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_call",
+            "value":"呼叫",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"set_default_values",
+            "value":"设为默认",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"clear_default_values",
+            "value":"清除默认值",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"default_value",
+            "value":"默认",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"maximum_selected_contacts",
+            "value":"最多可以选择 %d 位联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_selected",
+            "value":"未选择",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_all_callLog_dialog_title",
+            "value":"是否删除全部通话记录？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"refreshing_data",
+            "value":"正在同步…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"SpeedDialAbility_desc",
+            "value":"快速拨号设置界面"
+        },
+        {
+            "name":"SpeedDialAbility_label",
+            "value":"快速拨号"
+        },
+        {
+            "name":"speed_dial",
+            "value":"快速拨号",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"modifying_settings_number",
+            "value":"修改已设置号码",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_number_settings",
+            "value":"删除号码设置",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"modify_speed_dial",
+            "value":"修改快速拨号",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add",
+            "value":"添加",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"service_provider",
+            "value":"服务提供商",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"voicemail_number",
+            "value":"语音信箱号码",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"my_carrier",
+            "value":"我的运营商",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_set",
+            "value":"未设置",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_found_sim_card",
+            "value":"未找到 SIM 卡。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"turn_off_airplane_mode",
+            "value":"使用语音信箱功能前，请先关闭飞行模式。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_set_speed_dial",
+            "value":"该键未设置快速拨号，是否现在设置？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"setting",
+            "value":"设置",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"speed_dial_setting",
+            "value":"快速拨号设置",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"speed_dial_turn_off_airplane_mode",
+            "value":"请先关闭飞行模式再使用快速拨号功能。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_set_voicemail",
+            "value":"语音信箱号码不可用",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"set_voicemial_info",
+            "value":"要设置语音信箱，请进入“菜单”>“通话设置”。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sim_card",
+            "value":"卡 %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"8300001",
+            "value":"输入参数不在处理范围内",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"8300002",
+            "value":"服务连接失败",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"8300003",
+            "value":"系统内部错误",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"8300004",
+            "value":"未识别 SIM 卡",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"8300999",
+            "value":"未知错误",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"8301002",
+            "value":"SIM 卡读取数据或者更新数据失败",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_sim_contact_title",
+            "value":"导入 SIM 卡联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_sim_contact_msg",
+            "value":"SIM 卡中的联系人导入后才能使用。是否导入？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Import",
+            "value":"导入",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"prompt_later",
+            "value":"稍后提示",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"importing_sim_contact",
+            "value":"正在导入联系人...",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"hide",
+            "value":"隐藏",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"is_stop_import_contact",
+            "value":"是否停止导入联系人？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cancel_stop_import",
+            "value":"取消",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_member",
+            "value":"添加成员",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"rename",
+            "value":"重命名",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"deleting_group",
+            "value":"删除群组",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_not_deleted",
+            "value":"联系人不会被删除。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_group",
+            "value":"是否删除此群组？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"group_rename",
+            "value":"群组重命名",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"remove_member",
+            "value":"移除成员",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"send_information",
+            "value":"发送信息",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_all_group_title",
+            "value":"是否删除全部群组？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"group_existed",
+            "value":"群组已存在",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"send_email",
+            "value":"发送邮件",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"group_ringtone",
+            "value":"群组铃声",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"remove_from_group",
+            "value":"从群组移除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"choose",
+            "value":"选择",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_photo",
+            "value":"联系人照片",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_avatar",
+            "value":"删除照片",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"take_photo",
+            "value":"拍照",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"take_new_photo",
+            "value":"拍摄新照片",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_from_group",
+            "value":"从图库中选择图片",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_from_photo_group",
+            "value":"从图库中选择图片",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"show_contacts",
+            "value":"显示联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_management",
+            "value":"联系人管理",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"organize_contacts",
+            "value":"整理联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Import_Export",
+            "value":"导入/导出",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"copy_contact_from",
+            "value":"复制联系人自",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"auto_merge_duplicate_contacts_rule",
+            "value":"自动合并重复联系人规则",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"automatically_merge_contacts",
+            "value":"我们仅为您自动合并完全同姓名同号码的联系人，如有错误合并情况，可在“最近删除”中恢复已合并的重复联系人。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"auto_merge_duplicate_contacts",
+            "value":"自动合并重复联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"manually_merge_duplicate_contacts",
+            "value":"手动合并重复联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"copy_contact",
+            "value":"复制联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_recorder_list",
+            "value":"通话录音",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_call_recorder",
+            "value":"选择录音",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recorder",
+            "value":"录音",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"menu_harassment_filter",
+            "value":"通话防护记录",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"batch_delete",
+            "value":"批量删除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"merge_duplicate_contacts",
+            "value":"合并联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"merge_duplicate",
+            "value":"合并",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_duplicate_contacts",
+            "value":"没有重复联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"got_it",
+            "value":"知道了",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_select_set",
+            "value":"未选择",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"merge_repeat_contact",
+            "value":"合并重复联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"auto_merge_submsg",
+            "value":"仅为您自动合并完全同姓名同号码的联系人。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"only_once_merge",
+            "value":"仅本次合并",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"always_auto_merge",
+            "value":"始终自动合并",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_contact_tips",
+            "value":"联系人将从所有账户中删除。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"read_and_understand",
+            "value":"我已阅读并了解",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"selecting_a_vCard_file",
+            "value":"选择 vCard 文件",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"caching_please_wait",
+            "value":"正在缓存，请稍候…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"searching_for_vCard_files_in_storage_device",
+            "value":"正在存储设备中搜索 vCard 文件…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"importing_contacts",
+            "value":"正在导入联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"exporting_contacts",
+            "value":"正在导出联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Export_Contacts",
+            "value":"导出联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Export_contact_list_to_internal_storage",
+            "value":"是否将联系人列表导出至内部存储？导出后，请妥善保管您的联系人信息。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Import_Export_Contacts",
+            "value":"导入/导出",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_from_storage_device",
+            "value":"从存储设备导入",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_vCard_files_from_internal_storage",
+            "value":"从内部存储导入 vCard 文件",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_contacts_to_account",
+            "value":"导入联系人到",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Export",
+            "value":"导出",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"exporting_data_from_a_storage_device",
+            "value":"导出到存储设备",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"export_the_vCard_file_to_the_internal_storage",
+            "value":"导出 vCard 文件到内部存储",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"unable_import",
+            "value":"无法从存储设备导入",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_vcard",
+            "value":"存储设备中无vCard文件。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_succeed",
+            "value":"导入成功",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"export_succeed",
+            "value":"导出成功",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_failed",
+            "value":"%d 导入失败",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"export_failed",
+            "value":"导出失败",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_contact_source",
+            "value":"选择联系人来源",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"copy",
+            "value":"复制",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_discard",
+            "value":"放弃",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_discard_merge_contacts",
+            "value":"是否放弃合并联系人？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"error_network",
+            "value":"网络未连接，请检查网络设置",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"setting_network",
+            "value":"设置网络",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"allow",
+            "value":"允许",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_allowed",
+            "value":"不允许",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"allow_contacts_to_connect_Internet",
+            "value":"允许“联系人”联网？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"allowed_to_network",
+            "value":"本服务需要联网",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"statement_on_Contacts_and_Privacy",
+            "value":"关于联系人与隐私的声明",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"personal_information_collected",
+            "value":"收集个人信息清单",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"forbidden",
+            "value":"禁止",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"used_to_view_web_content_such_as_the_privacy_statement",
+            "value":"用于查看隐私声明等网页内容。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_contacts",
+            "value":"所有联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accounts_to_display",
+            "value":"要显示的账户",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"account_contact_count_all",
+            "value":"总共：%d",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"will_be_exported_later",
+            "value":"%d 将在稍后导出",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"will_be_imported_later",
+            "value":"%d 将在稍后导入",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"AnswerorDeclineIncomingCall_beforeNewCall",
+            "value":"先接听或拒绝来电，才能拨打新电话。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_calling_can_only_use_in_full_screen",
+            "value":"增强通话业务只能在全屏使用",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"penglai_dialog_title",
+            "value":"前往卫星网络设置",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"penglai_dialog_body",
+            "value":"当前无移动网络信号，建议使用卫星网络。是否前往卫星网络设置？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"penglai_dialog_button_go_to",
+            "value":"前往",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cannot_start_a_new_call",
+            "value":"正在通话中，无法发起新的通话",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cannot_start_video_call_change_to_voice",
+            "value":"当前网络不支持视频，已切为语音",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"find_out_how_we_use_your_data",
+            "value":"了解我们如何使用您的数据",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"EntryFormAbility_desc",
+            "value":"form_description"
+        },
+        {
+            "name":"EntryFormAbility_label",
+            "value":"form_label"
+        },
+        {
+            "name":"ShortcutCardAbility_desc",
+            "value":"description"
+        },
+        {
+            "name":"MissedCallCardAbility_desc",
+            "value":"description"
+        },
+        {
+            "name":"detail_immersive",
+            "value":"点击添加联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Speed_dial",
+            "value":"快速拨打",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Card_add",
+            "value":"添加",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_shortcut_title",
+            "value":"联系人快捷方式",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_contact",
+            "value":"联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_shortcut_msg",
+            "value":"选择联系人以快速拨号",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missedCall",
+            "value":"未接来电",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missedCall_msg",
+            "value":"选择要显示的未接来电范围",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_speedDial",
+            "value":"快速拨打",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_speedDial_msg",
+            "value":"选择常用联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missed_call",
+            "value":"无未接来电",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_time_msg",
+            "value":"近 %s 小时内",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"DiologEntryAbility_desc",
+            "value":"description"
+        },
+        {
+            "name":"DiologEntryAbility_label",
+            "value":"label"
+        },
+        {
+            "name":"EntryAbility_desc",
+            "value":"description"
+        },
+        {
+            "name":"EntryAbility_label",
+            "value":"label"
+        },
+        {
+            "name":"card_contact_short_cut",
+            "value":"联系人快捷方式",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"set_card_select_contact",
+            "value":"设置默认值",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missed_proprietor",
+            "value":"所有人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missed_contacts_only",
+            "value":"仅联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missed_favorite_contacts_only",
+            "value":"仅收藏联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"roaming_dial_title",
+            "value":"正在漫游，请选择您的呼出方式：",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_number_available",
+            "value":"联系人没有可用号码",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"video",
+            "value":"视频",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"NoService",
+            "value":"无服务",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"video_call",
+            "value":"视频呼叫",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"tablet",
+            "value":"平板电脑",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"tablet_group",
+            "value":"平板电脑群组",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save_to_tablet",
+            "value":"保存至：平板电脑",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"pinyin_search_supported",
+            "value":"支持拼音搜索",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"initial_and_pinyin_search_supported",
+            "value":"支持首字母和全拼音搜索",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"already_in_block",
+            "value":"已加入黑名单",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_blocked_calls",
+            "value":"没有通话拦截记录",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"blocklist_number",
+            "value":"黑名单号码",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"unknown_phonenumber",
+            "value":"未知号码",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_blockreason_strangenumber",
+            "value":"陌生号码",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_source_oh",
+            "value":"开源鸿蒙",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_source_teddy_bear",
+            "value":"泰迪熊",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_source_phone_state",
+            "value":"电话邦",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_source_antifraud_center",
+            "value":"反诈中心",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"menu_mark_as",
+            "value":"标记为",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_mark_as_to_cloud",
+            "value":"标记将上传云端",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_marked",
+            "value":"%s (已标记)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_remove",
+            "value":"取消标记",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_add_to_blocklist_and_block",
+            "value":"加入黑名单并拦截",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_crank",
+            "value":"骚扰电话",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_blockreason_mark_by_user",
+            "value":"已被您标记",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_nuisance_calls_reason",
+            "value":"骚扰",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_fraud",
+            "value":"高风险电话",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_scam_calls_reason",
+            "value":"高风险",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_promote_sales",
+            "value":"广告推销",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_house_agent",
+            "value":"房产中介",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_express",
+            "value":"快递送餐",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_insurance",
+            "value":"保险理财",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_taxi",
+            "value":"出租车",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_customize",
+            "value":"自定义",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_advertising_calls_reason",
+            "value":"广告推销",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_real_estate_calls_reason",
+            "value":"房产中介",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_scam_msgs_reason",
+            "value":"存在诈骗风险",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"interception_rule_blockall_title",
+            "value":"全部拦截",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"one_week_ago",
+            "value":"七天前",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassmentAddIntoWhitelist",
+            "value":"添加到白名单",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassmentDialogTitleAddIntoWhitelist",
+            "value":"添加至白名单？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_join_trust_list_hint",
+            "value":"%s将移入白名单。移入后，可同步为您恢复信息拦截记录。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_restore_sms_record_move_in",
+            "value":"移入并恢复",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_only_move_in",
+            "value":"仅移入",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassmentInterceptionCallDeleteOrNot_new",
+            "value":"是否删除所选电话记录？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassmentAddWhiteListDlgMsg",
+            "value":"此号码在黑名单中，是否移入白名单？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassmentInterceptionRemoveBlacklistRecords",
+            "value":"同时恢复信息拦截记录",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"interceptionNotificationTitle",
+            "value":"拦截 1 个骚扰电话",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"this_contact_was_not_found",
+            "value":"未找到此联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"copy_to_account",
+            "value":"复制到%s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_more",
+            "value":"更多选项",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_detail",
+            "value":"详情",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_delete",
+            "value":"删除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_expand_dialer",
+            "value":"展开拨号盘",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_fold_dialer",
+            "value":"收起拨号盘",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_call",
+            "value":"拨打",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_cancel",
+            "value":"取消",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_new_contact",
+            "value":"新建联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_open_mobile_contacts",
+            "value":"打开手机联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_done",
+            "value":"完成",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_back_to_pre",
+            "value":"向上导航",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_send_sms",
+            "value":"发信息",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_make_call",
+            "value":"呼叫",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_new_collect",
+            "value":"添加收藏",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_video_call",
+            "value":"视频通话",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_satellite_call",
+            "value":"拨打卫星电话",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_missed_call",
+            "value":"未接来电",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_dialed_phone",
+            "value":"已拨电话",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_answered_phone",
+            "value":"已接电话",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_rejected_phone",
+            "value":"拒接电话",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"permission_read_write_calendar",
+            "value":"用于将联系人生日同步至日历",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_picture",
+            "value":"删除图片",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_number",
+            "value":"添加号码",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"mores",
+            "value":"更多",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_relation",
+            "value":"添加关系",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_message",
+            "value":"添加即时信息",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"emails",
+            "value":"邮件",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"other_important_dates",
+            "value":"其他重要日期",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"corporation",
+            "value":"公司",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_Address",
+            "value":"添加地址",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_picture",
+            "value":"选择图片",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_website",
+            "value":"添加网站",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_email",
+            "value":"添加邮件",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"favorite_contacts",
+            "value":"已收藏联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_be_deleted_from_phone",
+            "value":"此联系人将从本机，关联账号中删除。是否删除？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_will_be_deleted",
+            "value":"此联系人将从本机、云空间及所有同步设备中删除。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle",
+            "value":"最近删除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle_summary",
+            "value":"找回最近删除的联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle_tips_normal",
+            "value":"以下删除的联系人包含：手动删除、重复联系人删除。联系人在删除前会显示剩余天数 (最长 %d 天)，之后将永久删除。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle_tips_sync",
+            "value":"以下删除的联系人包含：手动删除、重复联系人删除。联系人在删除前会显示剩余天数 (最长 %d 天)，之后将从本地、云空间及同步设备永久删除。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_clean_button",
+            "value":"清空",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_cleaned_confirm",
+            "value":"联系人清空后无法恢复。是否清空？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_restore",
+            "value":"恢复",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle_deleted_confirm_single",
+            "value":"是否永久删除此联系人？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle_deleted_all_confirm",
+            "value":"全部联系人将被永久删除，无法恢复。是否删除？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_restoring",
+            "value":"正在恢复联系人…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_deleted_from_app",
+            "value":"%s应用删除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_deleted_from_hidisk",
+            "value":"云同步删除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"imported_calendars",
+            "value":"已导入日历",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_expand",
+            "value":"展开",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_collapse",
+            "value":"收起",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"device_info",
+            "value":"设备信息",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"hua_xiao_fen",
+            "value":"搜索“花小粉 (Hua Xiao Fen)”，您可依次输入：",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"mark_as_sentence_connection",
+            "value":"%1$s&nbsp&nbsp|&nbsp&nbsp%2$s (%3$s)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"hous_minute",
+            "value":"%1$s %2$s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"hous_minute_sec",
+            "value":"%1$s %2$s %3$s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"FilingNo",
+            "value":"粤A2-20044005号-279A"
+        },
+        {
+            "name":"call_assistant_setting_title",
+            "value":"小艺通话",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_edit_avatar",
+            "value":"编辑头像",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"multiple_choices",
+            "value":"多选",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_avatar",
+            "value":"头像",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_open",
+            "value":"开启",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_selected",
+            "value":"已选中",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_unselected",
+            "value":"未选中",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"speaker_display_name",
+            "value":"音箱",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"watch_display_name",
+            "value":"儿童手表",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"tv_display_name",
+            "value":"智慧屏",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"camera_display_name",
+            "value":"摄像头",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"learning_pad_display_name",
+            "value":"学习智慧屏",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"robot_display_name",
+            "value":"人工智能",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"haique_camera_display_name",
+            "value":"海雀摄像头",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"smart_projector_dev_display_name",
+            "value":"智能投影仪",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"smart_box_display_name",
+            "value":"智慧盒子",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligent_central_contral_display_name",
+            "value":"智慧中控屏",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"portable_smart_screen_display_name",
+            "value":"便携智慧屏",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"official_treasure_display_name",
+            "value":"办公宝",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"learning_table_lamp_display_name",
+            "value":"学习台灯",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_display_name",
+            "value":"手机",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_back",
+            "value":"返回",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_from_storage_device",
+            "value":"从存储设备中选择",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"vcard_files_in_app",
+            "value":"应用内 vCard 文件",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"have_select_sth",
+            "value":"已选择%s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_all_rights_reserved",
+            "value":"联系人 软件版权所有 © %d",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"restore_contacts",
+            "value":"恢复联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"restore_contacts_confirm_title",
+            "value":"是否恢复联系人？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"restore_contacts_alert",
+            "value":"您当前本地联系人数据内容将恢复至刚升级 OpenHarmony 版本时的数据内容，请谨慎使用。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"restore_contacts_alert_cloud_sync_close",
+            "value":"您当前设备的联系人将恢复至刚升级 OpenHarmony 版本时的数据内容，请谨慎使用。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"restore_contacts_alert_cloud_sync_open",
+            "value":"您当前设备、云空间及所有同步设备的联系人都将恢复至刚升级 OpenHarmony 版本时的数据，请谨慎使用。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_restorable_contact",
+            "value":"无可恢复的联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_restore_success",
+            "value":"您已成功恢复联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_restore_failed",
+            "value":"恢复失败",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"batch_delete_contacts_in_cloud_sync",
+            "value":"所选联系人将从本机、关联账号、云空间及所有同步设备中删除。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"service_and_privacy_statement",
+            "value":"业务与隐私的声明",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"commotion_intercept",
+            "value":"骚扰拦截",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recreating_index_data",
+            "value":"重建索引数据",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"resolve_search_errors",
+            "value":"此操作能够有效解决联系人搜索错误问题。重建过程需要数秒到几分钟。是否重建？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"rebuilding_wait",
+            "value":"正在重建，请稍候\u2026",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"deleting_contacts",
+            "value":"正在删除联系人...",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"edit_my_card",
+            "value":"编辑我的名片",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"my_card",
+            "value":"我的名片",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"click_to_edit_card",
+            "value":"点击编辑名片",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_maintenancemode",
+            "value":"维修模式下，本应用功能不可用。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"batch_delete_contacts_in_cloud_sync_one",
+            "value":"所选联系人将从本机、关联账号、云空间及所有同步设备中删除。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_contact_tips_one",
+            "value":"联系人将从所有账户中删除。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_pass_birthday_to_calendar_new",
+            "value":"是否允许联系人的生日同步到日历？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cancel_pass_birthday_to_calendar",
+            "value":"不用了",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"on_call_phone_sharing",
+            "value":"开启通信共享",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_phone_sharing",
+            "value":"通信共享",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_phone_sharing_explain",
+            "value":"当附近有登录相同账号的手机时，本机可使用手机移动通信网络接打电话、收发信息。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"go_to_settings",
+            "value":"前往设置",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"click_to_paste",
+            "value":"点击粘贴",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"other_devices_answering_calls",
+            "value":"其他设备接听",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save_to_pc",
+            "value":"保存至：电脑",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"time_before_dawn",
+            "value":"凌晨 %1$s:%2$s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"time_early_morning",
+            "value":"早上 %1$s:%2$s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"time_morning",
+            "value":"上午 %1$s:%2$s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"time_noon",
+            "value":"中午 %1$s:%2$s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"time_afternoon",
+            "value":"下午 %1$s:%2$s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"time_night",
+            "value":"晚上 %1$s:%2$s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_picker_banner",
+            "value":"应用仅可访问您选定的联系人，无法访问通讯录其他内容。%s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_from_sim_card_title",
+            "value":"从 %s 导入",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"str_SIM",
+            "value":"SIM 卡",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_import_from_sim_card_dialog_content",
+            "value":"是否将 SIM 卡联系人导入到手机？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"disturbing_intercept_boot_bubble",
+            "value":"点击体验骚扰拦截功能",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"setting_harassment_blocking",
+            "value":"建议设置骚扰拦截",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"adjusting_harassment_interception_settings",
+            "value":"您近期多次收到骚扰电话，建议调整骚扰拦截相关设置",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_ringtone",
+            "value":"电话铃声",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_ringtone",
+            "value":"选择铃声",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_local_music",
+            "value":"选择本地音乐",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_online_music",
+            "value":"选择在线铃声",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_video_music",
+            "value":"选择视频铃声",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"system_incoming_call_ringtone",
+            "value":"系统来电铃声",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"system_ringtone",
+            "value":"系统铃声",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_ringtone",
+            "value":"无铃声",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"local_music",
+            "value":"本地音乐",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"ringtones_mute",
+            "value":"静音",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recovering_contact_toast",
+            "value":"当前联系人云同步开启，无法使用该功能。请关闭联系人云同步 %s 秒后再试。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_index_subheading",
+            "value":"此操作能够有效解决联系人搜索错误问题",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_index_dialog",
+            "value":"重建过程需要数秒到几分钟。是否重建？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"computer",
+            "value":"电脑",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"please_expand_your_phone_to_use",
+            "value":"请展开手机使用",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"suspected_fraud",
+            "value":"疑似诈骗",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"national_anti_fraud_center",
+            "value":"国家反诈中心",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_fraud_smart_identify",
+            "value":"高风险电话 | 智能识别",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_risk_identify",
+            "value":"通话风险识别",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"smart_identify_info",
+            "value":"开启智能风险识别，通话中实时检测风险电话，立即提醒。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_smart_mark_remove",
+            "value":"取消智能识别标记",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"search_button",
+            "value":"搜索",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_people_anti_fraud_center",
+            "value":"全民反诈",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_search_result_empty",
+            "value":"没有符合条件的内容",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"input_content_empty",
+            "value":"输入内容不能为空",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_all_play_button",
+            "value":"取消全选，1 至 %1$s，%2$s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_deleted",
+            "value":"%s 已删除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_Text_cleared",
+            "value":"文字已清除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_vCard_dialog_title",
+            "value":"是否从 vCard 导入联系人？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"learn_more",
+            "value":"进一步了解",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"editfavorite_drag_button",
+            "value":"拖动排序 按钮，单指双击并长按即可拖动排序",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_collapsed",
+            "value":"已收起",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_expanded",
+            "value":"已展开",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"smart_security_protection",
+            "value":"智能安全防护",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"favorite_management",
+            "value":"收藏管理",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_contact_sim_card",
+            "value":"未检测到 SIM 卡中存在联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"pengLai_tip_for_disabled_functions",
+            "value":"蓬莱模式不支持此操作",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group",
+            "value":"智能群组",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group_add_contact_dialog_content",
+            "value":"联系人添加到单位群组后，其单位信息将变为“%s”。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group_no_company",
+            "value":"无单位信息",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group_no_address",
+            "value":"无地址信息",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group_contact_less_than_one_week",
+            "value":"1 周内联系过",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group_contact_less_than_one_month",
+            "value":"1 个月内联系过 (不包含最近 1 周)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group_contact_less_than_three_month",
+            "value":"%s 个月内联系过 (不包含最近 1 月)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group_no_contact_more_than_three_month",
+            "value":"%s 个月以上未联系",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group_company",
+            "value":"单位",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group_city",
+            "value":"城市",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group_latest_contact",
+            "value":"最近联系人",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"scan",
+            "value":"扫一扫",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"unsupport_qrcode",
+            "value":"暂不支持此二维码。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"tip",
+            "value":"提示",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cancelling_favorite_contacts",
+            "value":"正在取消收藏联系人…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_importing_for_now",
+            "value":"暂不导入",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_title",
+            "value":"如何开启或关闭“增强通话”？",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_message",
+            "value":"点击电话首页右上角更多按钮，前往“设置”>“增强通话”，可开启或关闭增强通话。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_dismiss",
+            "value":"不再提示",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_setting",
+            "value":"去设置",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_call_record",
+            "value":"通话记录已删除, 无法查看摘要",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"regenerate_fail_info",
+            "value":"系统繁忙，点击此处重新生成通话摘要",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_support_regenerate",
+            "value":"所在地区暂不支持",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_support_detail",
+            "value":"当前地区暂不支持通话摘要功能。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"abstract_ai_content",
+            "value":"内容由 AI 生成",
+            "attr":{
+                "translatable":false
+            }
+        },
+        {
+            "name":"sorted_item_pick_up",
+            "value":"已拖起",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_pick_down",
+            "value":"已放下",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_move_forward",
+            "value":"拖动至%s上方",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_move_backward",
+            "value":"拖动至%s下方",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_selected",
+            "value":"已全选",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_selected_cancel",
+            "value":"已取消全选",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_button",
+            "value":"按钮",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"removed",
+            "value":"已移除",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_checkbox_selected",
+            "value":"单指双击即可取消选中",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_checkbox_deselected",
+            "value":"单指双击即可选中",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"to_recycle_station_restore",
+            "value":"您的联系人数据被其他终端设备删除。点击右上角更多按钮，前往 “设置”>“最近删除”，可恢复最近删除的联系人。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"go_to_recover",
+            "value":"去恢复",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name": "delete_call_summary",
+            "value": "删除通话记录和通话摘要内容",
+            "attr": {
+                "priority": "translate"
+            }
+        },
+        {
+            "name": "only_delete_calllogs",
+            "value": "仅删除通话记录",
+            "attr": {
+                "priority": "translate"
+            }
+        },
+        {
+            "name": "simultaneously_delete_call_summary",
+            "value": "此通话记录含有通话摘要内容，可选择同步删除。",
+            "attr": {
+                "priority": "translate"
+            }
+        },
+        {
+            "name":"restore_recorder",
+            "value":"请前往系统“设置”>“应用和元服务”>右上角更多选项“::”>“恢复应用”，恢复录音机",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+	{
+            "name":"to_recycle_station_restore_contact",
+            "value":"您的联系人已被同一账号的其他设备删除。点击右上角更多按钮，前往“设置”>“最近删除”，可恢复最近删除的联系人。",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+          "name":"not_support_toast",
+          "value":"该模式下不支持此操作"
+        },
+        {
+            "name":"Help_and_feedback",
+            "value":"帮助和反馈",
+            "attr":{
+                "priority":"translate"
+            }
+        }
+    ]
 }

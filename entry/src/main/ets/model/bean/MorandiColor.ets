@@ -14,6 +14,12 @@
  */
 
 export default class MorandiColor {
-  static readonly Color: string[] = ['#98D4EF', '#9CC998', '#E8889C', '#C891F1', '#F9C273', '#92D6CC'];
-  static readonly detailColor: string[] = ['#DAEFF9', '#E9F3E8', '#FAD9E0', '#EEDAFD', '#FDECD2', '#DFF5F2'];
+  public static readonly color: Resource[] = [
+    $r('sys.color.ohos_id_color_special1'),
+    $r('sys.color.ohos_id_color_special2'),
+    $r('sys.color.ohos_id_color_special4'),
+    $r('sys.color.ohos_id_color_special11'),
+    $r('sys.color.ohos_id_color_special9'),
+    $r('sys.color.ohos_id_color_special7')];
+  public static readonly detailColor: string[] = ['#E1DAED', '#D9E4EE', '#DAE2D5', '#E8E1D0', '#EBDFDA', '#E9DEE4'];
 }

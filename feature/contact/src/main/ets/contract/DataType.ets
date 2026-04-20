@@ -39,10 +39,12 @@ export enum DataItemType {
  * Basic Data Type
  */
 export default class DataType {
-  static readonly TYPE_CUSTOM: number = 0;
-  static readonly TYPE_INVALID: number = -1;
-  static readonly DATA: string = DataColumns.DETAIL_INFO;
-  static readonly LABEL_ID: string = DataColumns.EXTEND7;
-  static readonly LABEL_NAME: string = DataColumns.CUSTOM_DATA;
-  static readonly FAVORITE: string = DataColumns.FAVORITE;
+  public static readonly TYPE_CUSTOM: number = 0;
+  public static readonly TYPE_INVALID: number = -1;
+  public static readonly DATA: string = DataColumns.DETAIL_INFO;
+  public static readonly LABEL_ID: string = DataColumns.EXTEND7;
+  public static readonly LABEL_NAME: string = DataColumns.CUSTOM_DATA;
+  public static readonly FAVORITE: string = DataColumns.FAVORITE;
+  // 是否默认功能，对应数据库contact_data表的extend5字段
+  public static readonly IS_PRIMARY: string = DataColumns.EXTEND5;
 }

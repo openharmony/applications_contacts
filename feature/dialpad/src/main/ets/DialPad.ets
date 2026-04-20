@@ -13,14 +13,12 @@
  * limitations under the License.
  */
 import { PhoneNumber } from '../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
-import SmartSearchList from './entity/SmartSearchList';
 
 /**
  * Dialpad object, which provides dialpad-related services.
  */
 export default class DialPad {
-  private input: string;
-  private dialKey: [];
+  private input: string = '';
   constructor() {
   }
 
@@ -46,7 +44,4 @@ export default class DialPad {
 
   }
 
-  getSmartSearchResult() {
-    return new SmartSearchList();
-  }
 }

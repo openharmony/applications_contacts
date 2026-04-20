@@ -1,14 +1,16 @@
 /**
- Copyright (c) 2023 Huawei Device Co., Ltd.
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- http://www.apache.org/licenses/LICENSE-2.0
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+ * Copyright (c) 2023 Huawei Device Co., Ltd.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 import { paramsInterface } from '.';
 import MergedCallLog from '../../../../../../feature/call/src/main/ets/entity/MergedCallLog';
@@ -16,14 +18,17 @@ import SearchContactListItem from '../../../../../../feature/contact/src/main/et
 import { AlphabetIndexObj, ContactVo } from '../../../ets/model/bean/ContactVo';
 import MorandiColor from '../bean/MorandiColor';
 import { SearchContactsBean } from '../bean/SearchContactsBean';
+
 export class AllContactGetParam {
   /*
-  query contact list
-  page is offset page
-  */
+  * query contact list
+  * page is offset page
+  *
+   * */
   public page: number;
   public limit: number;
   public rawContactIds?: string[];
+
   constructor(page: number, limit: number) {
     this.page = page;
     this.limit = limit;
@@ -32,14 +37,15 @@ export class AllContactGetParam {
 
 export class AllContactWithPhoneNumbersGetParam {
   /*
-  query all contact info with phone number
-  this is kind of filter
-  */
+   * query all contact info with phone number
+   * this is kind of filter
+   * */
   public favorite: number;
   public editContact: number;
   public accountId: number = -1;
   public pageTag: string = '';
   public groupId: number = -1;
+
   constructor(favorite: number, editContact: number, accountId?: number, pageTag?: string, groupId?: number) {
     this.favorite = favorite;
     this.editContact = editContact;
@@ -67,15 +73,16 @@ export class ContactResultSetQueryParams {
 
 export class NameFixInfo {
   /*
-  example: name is wangdabao
-  namePrefix is wang
-  nameSuffix is bao
-  */
+  * example: name is wangdabao
+  * namePrefix is wang
+  * nameSuffix is bao
+   * */
   // SORT_FIRST_LETTER
   public namePrefix: string;
   // PHOTO_FIRST_NAME
   public nameSuffix: string;
   public displayName: string;
+
   constructor(prefix: string, suffix: string, displayName: string = '') {
     this.namePrefix = prefix;
     this.nameSuffix = suffix;
@@ -95,7 +102,6 @@ export class CountAlphabetIndex {
 
 export class CountRawContact {
   public count: number;
-
   constructor(count: number) {
     this.count = count;
   }
@@ -121,17 +127,18 @@ export interface IContactSearchParams {
 }
 
 export interface ContactInfoGetParamsInCallback {
-  contactList: Array;
+  contactList: Array<ContactVo>;
   alphabetIndex: Record<string, AlphabetIndexObj>;
 }
 
 export interface CallInfoGetParamsInCallback {
-  callLogList: Array;
-  missedList: Array;
-  callLogSearchList: Array;
+  callLogList: Array<MergedCallLog>;
+  missedList: Array<MergedCallLog>;
+  callLogSearchList: Array<MergedCallLog>;
   timeStamp: string;
   isEnd?: boolean;
 }
+
 
 export type IT9PhoneNumbersFavoriteGroup = 'teleNumber';
 
@@ -148,7 +155,7 @@ export interface IContactListAndAlphabetIndex {
 
 export interface PickerContactList {
   contactList: ContactPickerListItem[];
-  defaultSelectContactMap: Map<number, Set>;
+  defaultSelectContactMap: Map<number, Set<string>>;
   isEnd: boolean;
 }
 
@@ -156,16 +163,6 @@ export interface PickerShowSubData {
   dataId: number,
   keyValue: string,
   showValue: ResourceStr
-}
-
-export interface contact {
-  photoFirstName: string,
-  portraitPath: string,
-  displayName: string,
-  detailInfo: string,
-  contactId: ContactVo,
-  hasPhoneNumber: string,
-  portraitColor: Resource,
 }
 
 export interface ContactPickerListItem {
@@ -180,9 +177,7 @@ export interface ContactPickerListItem {
   showDivifer?: boolean,
   favoriteOrder: number,
   isFirst: boolean,
-  highLight?: number[],
-  contact: ContactVo,
-  index: number
+  highLight?: number[]
 }
 
 export interface ContactPickerParam {
@@ -197,7 +192,7 @@ export class ContactFormModel {
   public photoFirstName: string = '';
   public company: string = '';
   public position: string = '';
-  public portraitColor: string = MorandiColor.Color[0];
+  public portraitColor: Resource = MorandiColor.color[0];
   public detailsBgColor: string = MorandiColor.detailColor[0];
   public favorite: number = 0;
   public phones: ContackPhoneSubInfoModel[] = [];
@@ -206,7 +201,7 @@ export class ContactFormModel {
   public nickname: BaseContackSubInfoModel[] = [];
   public events: BaseContackSubInfoModel[] = [];
   public relationships: BaseContackSubInfoModel[] = [];
-  public remarks: BaseContackSubInfoModel[] = [];
+  public remarks: string = '';
   public websites: BaseContackSubInfoModel[] = [];
   public aims: BaseContackSubInfoModel[] = [];
   public numRecords: BaseContackSubInfoModel[] = [];
@@ -216,29 +211,29 @@ export class ContactFormModel {
   public personalNotificationRingtone: string = '';
 }
 
-export class BaseContackSubInfoModel {
-  public id?: string = '';
-  public data: string = '';
-  public type?: string = '';
-  public labelName?: Resource | string = '';
-  public dataType?: number = -1;
-  public calendarEventId?: string = '';
-  public contactDataId?: number = -1;
+export interface BaseContackSubInfoModel {
+  id?: string;
+  data?: string;
+  type?: string;
+  labelName?: Resource | string;
+  dataType?: number;
+  calendarEventId?: string;
+  contactDataId?: number;
 }
 
-export class ContackPhoneSubInfoModel extends BaseContackSubInfoModel {
-  public num?: string;
-  public phoneAddress?: string | Resource;
-  public primary?: boolean;
-  public dataId?: number;
-  public formatNum?: string;
+export interface ContackPhoneSubInfoModel extends BaseContackSubInfoModel {
+  num?: string;
+  phoneAddress?: string | Resource;
+  primary?: boolean;
+  dataId?: number;
+  formatNum?: string;
 }
 
 export class FavoriteFormType {
   public favorite: number = -1;
 }
 
-export class TargetPageClass {
+export class targetPageClass {
   public url: string;
   public pageIndex: number;
   public params: paramsInterface;

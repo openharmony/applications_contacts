@@ -1,12 +1,20 @@
 {
   "src": [
+    "pages/hicar/HiCarContactSearchPage",
     "pages/index",
-    "pages/contacts/accountants/Accountants",
-    "pages/dialer/callRecord/CallRecord",
-    "pages/contacts/details/ContactDetail",
-    "pages/dialer/DialerTablet",
-    "pages/contacts/batchselectcontacts/BatchSelectContactsPage",
-    "pages/contacts/batchselectcontacts/SingleSelectContactPage",
-    "pages/favorites/editFavoriteList"
+    "pages/dialogPage/multiNumIndex",
+    "pages/dialogPage/multiSimIndex",
+    "pages/contacts/details/ContactDetailEntry",
+    "pages/ContactUiExtentionIndex",
+    "pages/dialer/callRecord/InterceptionCallsEntry",
+    "pages/contacts/batchselectcontacts/SingleSelectContactsEntry",
+    "pages/contacts/batchselectcontacts/BatchSelectContactsEntry",
+    "pages/speeddial/SpeedDial",
+    "card/pages/ShortcutEditPage",
+    "card/pages/MissedCallEditPage",
+    "card/pages/SpeedDialEditPage",
+    "card/common/dialog/CardSelectDialog",
+    "pages/privacyStatement/privacyIndex",
+    "card/pages/ContactPicker"
   ]
 }

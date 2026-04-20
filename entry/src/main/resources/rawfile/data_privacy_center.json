@@ -1,0 +1,6 @@
+{
+  "mainTitleResource": "$string:contact",
+  "dstAbilityName": "PrivacyAbility",
+  "dstBundleName": "com.ohos.contacts",
+  "displayOOBE": false
+}

@@ -17,88 +17,177 @@ import EnvironmentProp from '../../feature/EnvironmentProp';
 import DialerPresenter from '../../presenter/dialer/DialerPresenter';
 import { MutiDialerButtonView } from '../mutisim/MutiDialerButtonView'
 import { PhoneNumber } from '../../../../../../feature/phonenumber';
-import { HiLog } from 'common/src/main/ets/util/HiLog';
-import promptAction from '@ohos.promptAction'
+import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
+import CallRecordListDataSource from '../../model/bean/CallRecordListDataSource';
+import CallRecordPresenter from '../../presenter/dialer/callRecord/CallRecordPresenter';
+import { simId_DEFAULT, simId_ONE } from '../../feature/sim/SimCardState';
+import MainAbility from '../../MainAbility/MainAbility';
+import { CustomizedParams } from '../../model/type';
+import DotUtil from '../../util/DotUtil';
+import { RoamingManager } from '../../feature/roaming/RoamingManager';
+import AccessibilityUtil from '../../util/AccessibilityUtil';
+import { DisplaySplitUtil, SplitStatus } from '../../util/DisplaySplitUtil';
+import Calls from '../../../../../../feature/call/src/main/ets/contract/Calls'
+import DataShareResultSet from '@ohos.data.DataShareResultSet'
+import { Content } from '@kit.ArkUI';
+
 
 const TAG = 'DialerButtonView';
+
+const satelliteType: number = 0;
+
 @Component
 export struct DialerButtonView {
   emergencyNum: string = '';
   @Link mPresenter: DialerPresenter;
-  @StorageLink('tele_number') tele_number: string = '';
+  @State callRecordPresenter: CallRecordPresenter = CallRecordPresenter.getInstance();
   @StorageLink('haveSimCard') haveSimCard: boolean = false;
   @StorageLink('haveMultiSimCard') haveMultiSimCard: boolean = false;
   @StorageLink('haveVoLteReg') haveVoLteReg: boolean = false;
+  // airplane mode enabled
+  @StorageLink('isAirplaneMode') isAirplaneMode: boolean = false;
+  @StorageLink('isSatelliteMode') isSatelliteMode: boolean = false;
+  @StorageLink('isHyacinthMode') isHyacinthMode: boolean = false;
+  @StorageLink('defaultSlot') defaultSlot: number = simId_DEFAULT;
+  // 是否启动无障碍
+  @StorageProp(AccessibilityUtil.ISOPENACCESSIBILITY) isOpenAccessibility: boolean = false;
+  @StorageProp('splitStatus') splitStatus: SplitStatus = SplitStatus.DEFAULT;
+  @StorageProp('isVerde') isVerde: boolean = false;
 
-  dialClick() {
-    this.mPresenter.callBtnClick = true;
-    if (!this.haveSimCard) {
-      HiLog.i(TAG, 'No SIM card!');
-      this.emergencyNum = this.mPresenter.all_number;
-      //TODO Pop-up window for dialing without a SIM card
-      PhoneNumber.fromString(this.mPresenter.all_number).isDialEmergencyNum().then((res) => {
-        this.mPresenter.isEmergencyNum = res;
-        if (!this.mPresenter.isEmergencyNum) {
-          HiLog.i(TAG, 'Is not Emergency Phone Number!');
-          promptAction.showToast({
-            message: $r('app.string.no_simCardDailog'),
-            duration: 2000,
-            bottom:'60%'
-          });
-          return;
-        } else {
-          this.mPresenter.dialing(this.emergencyNum);
-        }
-      })
-    } else {
-      if (this.tele_number.length > 0) {
-        this.mPresenter.dialing(this.mPresenter.all_number);
-      }
+  private getDialButtonHeight(): number {
+    let dialHeight: number = 0;
+    if (this.isVerde) {
+      return 40;
     }
-    AppStorage.SetOrCreate('tele_number', '');
-    this.mPresenter.all_number = '';
-    this.mPresenter.callBtnClick = false;
+    if ((this.splitStatus === SplitStatus.HALF_SPLIT) || (this.splitStatus === SplitStatus.ONE_THREE_SPLIT) ||
+    DisplaySplitUtil.isSmLeft(this.splitStatus)) {
+      dialHeight = 44;
+    } else {
+      dialHeight = 56;
+    }
+    return dialHeight;
+  }
+
+  private getDialButtonMargin(): number {
+    let dialHeight: number = 0;
+    if ((this.splitStatus === SplitStatus.HALF_SPLIT) || (this.splitStatus === SplitStatus.ONE_THREE_SPLIT) ||
+    DisplaySplitUtil.isSmLeft(this.splitStatus)) {
+      dialHeight = 6;
+    } else {
+      dialHeight = 0;
+    }
+    return dialHeight;
+  }
+
+  private getDialButtonFontSizeMargin(): number | string {
+    let dialHeight: number | string = 0;
+    if ((this.splitStatus === SplitStatus.HALF_SPLIT) || (this.splitStatus === SplitStatus.ONE_THREE_SPLIT) ||
+    DisplaySplitUtil.isSmLeft(this.splitStatus)) {
+      dialHeight = '24vp';
+    } else {
+      dialHeight = '32vp';
+    }
+    return dialHeight;
+  }
+
+  private getDialButtonMarginBottom(): number {
+    let dialHeight: number = 0;
+    if ((this.splitStatus === SplitStatus.HALF_SPLIT) || (this.splitStatus === SplitStatus.ONE_THREE_SPLIT) ||
+    DisplaySplitUtil.isSmLeft(this.splitStatus)) {
+      dialHeight = 2;
+    } else {
+      dialHeight = 0;
+    }
+    return dialHeight;
   }
 
   build() {
     Row() {
-      if (!this.haveMultiSimCard) {
-        if (this.haveSimCard && this.haveVoLteReg) {
-          Button() {
-            Image($r('app.media.dial_single_button_hd'))
-              .width($r('app.float.id_item_height_large'))
-              .height($r('app.float.id_item_height_large'))
-          }
-          .width(this.mPresenter.dialerButtonHeight)
-          .height(this.mPresenter.dialerButtonHeight)
-          .backgroundColor($r('sys.color.ohos_id_color_connected'))
-          .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.haveSimCard
-            ? 1 : $r('sys.float.ohos_id_alpha_disabled'))
-          .onClick(() => {
-            this.dialClick();
-          })
-        } else {
-          Button() {
-            Image($r('app.media.ic_public_phone_filled_white'))
-              .width($r('app.float.id_card_margin_xxxxl'))
-              .height($r('app.float.id_card_margin_xxxxl'))
-          }
-          .width(this.mPresenter.dialerButtonHeight)
-          .height(this.mPresenter.dialerButtonHeight)
-          .backgroundColor($r('sys.color.ohos_id_color_connected'))
-          .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.haveSimCard
-            ? 1 : $r('sys.float.ohos_id_alpha_disabled'))
-          .onClick(() => {
-            this.dialClick();
-          })
+      if (this.isHyacinthMode){    //风信子界面
+        Button({ type: ButtonType.Circle }) {
+          Image(($r('app.media.hyacinth_call_button'))) //需要替换系统图标id
+            .fillColor($r('app.color.skin_white'))
+            .accessibilityText(AccessibilityUtil.getInstance()
+              .setAccessibilityText(this.isOpenAccessibility, $r('app.string.accessibility_satellite_call')))
+            .size({ width: 24, height: 24 })
         }
+        .width(this.getDialButtonHeight())
+        .height(this.getDialButtonHeight())
+        .margin({ top : this.getDialButtonMargin(), bottom : this.getDialButtonMarginBottom() })
+        .id('phone_badge_satellite_fill')
+        .backgroundColor($r('app.color.skin_ohos_id_color_connected'))
+        .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.haveSimCard
+          ? 1 : $r('sys.float.ohos_id_alpha_disabled'))
+        .onClick(async () => {
+          HiLog.w(TAG, `HyacinthMode: ${this.isHyacinthMode}, Clicking the button...`);
+          this.mPresenter.dialClick(this.getUIContext());
+        })
+      } else if (this.isSatelliteMode) {        //天通界面
+          Button({ type: ButtonType.Circle }) {
+            SymbolGlyph($r('sys.symbol.phone_badge_satellite_fill'))
+              .fontSize(this.isVerde ? $r('app.float.id_card_image_small') : $r('app.float.id_card_margin_xxxxl'))
+              .fontColor([$r('app.color.skin_white')])
+              .accessibilityText(AccessibilityUtil.getInstance()
+                .setAccessibilityText(this.isOpenAccessibility, $r('app.string.accessibility_satellite_call')))
+          }
+          .width(this.getDialButtonHeight())
+          .height(this.getDialButtonHeight())
+          .margin({ top : this.getDialButtonMargin(), bottom : this.getDialButtonMarginBottom() })
+          .id('phone_badge_satellite_fill')
+          .backgroundColor($r('app.color.skin_ohos_id_color_connected'))
+          .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.haveSimCard
+            ? 1 : $r('sys.float.ohos_id_alpha_disabled'))
+          .onClick(() => {
+            HiLog.w(TAG, `satelliteMode: ${this.isSatelliteMode}, Clicking the button...`);
+            this.mPresenter.dialClick(this.getUIContext());
+          })
+      } else if (this.isAirplaneMode) {
+        Button({ type: ButtonType.Circle }) {
+          SymbolGlyph($r('sys.symbol.phone_fill'))
+            .fontSize(this.isVerde ? $r('app.float.id_card_image_small') : $r('app.float.id_card_margin_xxxxl'))
+            .fontColor([$r('app.color.skin_white')])
+            .accessibilityText(AccessibilityUtil.getInstance()
+              .setAccessibilityText(this.isOpenAccessibility, $r('app.string.accessibility_call')))
+        }
+        .width(this.getDialButtonHeight())
+        .height(this.getDialButtonHeight())
+        .margin({ top : this.getDialButtonMargin(), bottom : this.getDialButtonMarginBottom() })
+        .backgroundColor($r('app.color.skin_confirm'))
+        .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.haveSimCard
+          ? 1 : $r('sys.float.alpha_tertiary'))
+        .onClick(() => {
+          HiLog.w(TAG, `airplaneMode: ${this.isAirplaneMode}, Clicking the button...`);
+          this.mPresenter.dialClick(this.getUIContext());
+        })
+        .id('dialerButtonView_contacts_airplane_btn')
+      } else if (!this.haveMultiSimCard) {
+        Button({ type: ButtonType.Circle }) { //无论有无通话能力单卡下都不显示hd
+          SymbolGlyph($r('sys.symbol.phone_fill'))
+            .fontSize(this.isVerde ? $r('app.float.id_card_image_small') : this.getDialButtonFontSizeMargin())
+            .fontColor([$r('app.color.skin_white')])
+        }
+        .width(this.getDialButtonHeight())
+        .height(this.getDialButtonHeight())
+        .margin({ top : this.getDialButtonMargin(), bottom : this.getDialButtonMarginBottom() })
+        .accessibilityText(AccessibilityUtil.getInstance()
+          .setAccessibilityText(this.isOpenAccessibility, $r('app.string.accessibility_call')))
+        .backgroundColor($r('app.color.skin_confirm'))
+        .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.haveSimCard
+          ? 1 : $r('sys.float.alpha_tertiary'))
+        .onClick(() => {
+          HiLog.w(TAG, `multiSimCard: ${this.haveMultiSimCard}, Clicking the button...`);
+          this.mPresenter.dialClick(this.getUIContext());
+        })
+        .id('dialerButtonView_contacts_call_btn')
       } else {
         MutiDialerButtonView({
           mPresenter: $mPresenter,
-        }).height(this.mPresenter.dialerButtonHeight)
+        })
       }
-    }.width(this.mPresenter.dialerButtonWidth)
-    .height(this.mPresenter.dialerButtonHeight)
+    }
+    .width('100%')
+    .height((DisplaySplitUtil.isSmLeft(this.splitStatus)) ? 52 : (this.splitStatus === SplitStatus.HALF_SPLIT) ||
+      (this.splitStatus === SplitStatus.ONE_THREE_SPLIT) ? 52 : 60)
     .justifyContent(FlexAlign.Center)
   }
 }

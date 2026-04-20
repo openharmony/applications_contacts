@@ -13,12 +13,16 @@
  * limitations under the License.
  */
 import { StringUtil } from '../../../../../common/src/main/ets/util/StringUtil';
-import { HiLog } from 'common/src/main/ets/util/HiLog';
+import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 import call from '@ohos.telephony.call';
+import { BusinessError } from '@ohos.base';
+
 const TAG = 'TelecomService';
+const MINIMUN_INTERVAL_BETWEEN_TWO_CALLS = 1000;
 
 export default class TelecomService {
   private static sInstance: TelecomService;
+  private lastDialCallTime: number = -1;
 
   public static getInstance(): TelecomService {
     HiLog.i(TAG, 'getInstance start !');
@@ -36,20 +40,34 @@ export default class TelecomService {
    * @param options DialOptions Look @ohos.telephony.call.d.ts
    * @param callback dail callback data:is emergency   err：failure  value：result
    */
-  async dial(phoneNum: string, options: call.DialOptions, callback:CallableFunction) {
-    HiLog.i(TAG, 'dial start ');
+  async dial(phoneNum: string, options: call.DialCallOptions, callback: CallableFunction) {
+    HiLog.w(TAG, 'dial start ');
+    if (options == undefined) {
+      HiLog.w(TAG, 'dial options is undefined ');
+      options = {};
+    }
     if (StringUtil.isEmpty(phoneNum)) {
-      HiLog.i(TAG, 'dial phoneNum is empty ');
+      HiLog.w(TAG, 'dial phoneNum is empty ');
+      callback(-1);
       return;
     }
     let num: string = StringUtil.removeSpace(phoneNum);
-    call.dial(num, options, (err, value) => {
-      callback(value);
-      if (err) {
-        HiLog.e(TAG, 'dial finish err: ' + JSON.stringify(err.message));
-        return;
-      }
-      HiLog.i(TAG, 'dial finish value: ' + JSON.stringify(value));
-    });
+    let nowTime = new Date().getTime();
+    if ((nowTime - this.lastDialCallTime) > MINIMUN_INTERVAL_BETWEEN_TWO_CALLS || nowTime < this.lastDialCallTime) {
+      HiLog.w(TAG, `nowTime: ${nowTime}, lastDialCallTime: ${this.lastDialCallTime}, dialCall success`);
+      this.lastDialCallTime = nowTime;
+      call.dialCall(num, options, (err: BusinessError<void>, value: void) => {
+        if (err) {
+          HiLog.e(TAG, `dial finish err: ${err?.message}`);
+          callback(err.code);
+        } else {
+          callback(0); // Normal
+          HiLog.w(TAG, 'dial finish success');
+        }
+      });
+    } else {
+      HiLog.e(TAG, `nowTime: ${nowTime}, lastDialCallTime: ${this.lastDialCallTime}, dialCall fails`);
+      callback(-1);
+    }
   }
 }

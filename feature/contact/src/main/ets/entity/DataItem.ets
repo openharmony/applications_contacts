@@ -16,27 +16,33 @@
 import { Data } from '../contract/Data';
 import DataType from '../contract/DataType';
 import DataShareResultSet from '@ohos.data.DataShareResultSet';
-
+import { HiLog } from '../../../../../../common/src/main/ets/util/HiLog';
 /**
  * Contact data
  */
 export class DataItem {
-  readonly values: Map<string, string | number>;
+  public readonly values: Map<string, string | number>;
+
   constructor(values: Map<string, string | number>) {
     this.values = values;
   }
-  static fromResultSet(resultSet: DataShareResultSet): DataItem{
+
+  static fromResultSet(resultSet: DataShareResultSet): DataItem {
     let contentValues: Map<string, string | number> = new Map();
     contentValues.set(Data.ID, resultSet.getLong(resultSet.getColumnIndex(Data.ID)));
     contentValues.set(Data.TYPE_ID, resultSet.getLong(resultSet.getColumnIndex(Data.TYPE_ID)));
     contentValues.set(Data.RAW_CONTACT_ID, resultSet.getLong(resultSet.getColumnIndex(Data.RAW_CONTACT_ID)));
     contentValues.set(Data.READ_ONLY, resultSet.getLong(resultSet.getColumnIndex(Data.READ_ONLY)));
     contentValues.set(Data.DETAIL_INFO, resultSet.getString(resultSet.getColumnIndex(Data.DETAIL_INFO)));
+    contentValues.set(Data.FORMAT_PHONE_NUMBER,
+      resultSet.getString(resultSet.getColumnIndex(Data.FORMAT_PHONE_NUMBER)));
     contentValues.set(Data.FAMILY_NAME, resultSet.getString(resultSet.getColumnIndex(Data.FAMILY_NAME)));
-    contentValues.set(Data.MIDDLE_NAME_PHONETIC, resultSet.getString(resultSet.getColumnIndex(Data.MIDDLE_NAME_PHONETIC)));
+    contentValues.set(Data.MIDDLE_NAME_PHONETIC,
+      resultSet.getString(resultSet.getColumnIndex(Data.MIDDLE_NAME_PHONETIC)));
     contentValues.set(Data.IS_PREFERRED_NUMBER, resultSet.getLong(resultSet.getColumnIndex(Data.IS_PREFERRED_NUMBER)));
     contentValues.set(Data.GIVEN_NAME, resultSet.getString(resultSet.getColumnIndex(Data.GIVEN_NAME)));
-    contentValues.set(Data.GIVEN_NAME_PHONETIC, resultSet.getString(resultSet.getColumnIndex(Data.GIVEN_NAME_PHONETIC)));
+    contentValues.set(Data.GIVEN_NAME_PHONETIC,
+      resultSet.getString(resultSet.getColumnIndex(Data.GIVEN_NAME_PHONETIC)));
     contentValues.set(Data.ALIAS_DETAIL_INTO, resultSet.getString(resultSet.getColumnIndex(Data.ALIAS_DETAIL_INTO)));
     contentValues.set(Data.PHONETIC_NAME, resultSet.getString(resultSet.getColumnIndex(Data.PHONETIC_NAME)));
     contentValues.set(Data.POSITION, resultSet.getString(resultSet.getColumnIndex(Data.POSITION)));
@@ -48,8 +54,10 @@ export class DataItem {
     contentValues.set(Data.REGION, resultSet.getString(resultSet.getColumnIndex(Data.REGION)));
     contentValues.set(Data.STREET, resultSet.getString(resultSet.getColumnIndex(Data.STREET)));
     contentValues.set(Data.ALPHA_NAME, resultSet.getString(resultSet.getColumnIndex(Data.ALPHA_NAME)));
-    contentValues.set(Data.OTHER_LAN_LAST_NAME, resultSet.getString(resultSet.getColumnIndex(Data.OTHER_LAN_LAST_NAME)));
-    contentValues.set(Data.OTHER_LAN_FIRST_NAME, resultSet.getString(resultSet.getColumnIndex(Data.OTHER_LAN_FIRST_NAME)));
+    contentValues.set(Data.OTHER_LAN_LAST_NAME,
+      resultSet.getString(resultSet.getColumnIndex(Data.OTHER_LAN_LAST_NAME)));
+    contentValues.set(Data.OTHER_LAN_FIRST_NAME,
+      resultSet.getString(resultSet.getColumnIndex(Data.OTHER_LAN_FIRST_NAME)));
     contentValues.set(Data.LAN_STYLE, resultSet.getString(resultSet.getColumnIndex(Data.LAN_STYLE)));
     contentValues.set(Data.CUSTOM_DATA, resultSet.getString(resultSet.getColumnIndex(Data.CUSTOM_DATA)));
     contentValues.set(Data.BLOB_DATA, resultSet.getString(resultSet.getColumnIndex(Data.BLOB_DATA)));
@@ -64,7 +72,13 @@ export class DataItem {
     contentValues.set(Data.SYN_2, resultSet.getString(resultSet.getColumnIndex(Data.SYN_2)));
     contentValues.set(Data.SYN_3, resultSet.getString(resultSet.getColumnIndex(Data.SYN_3)));
     contentValues.set(Data.FAVORITE, resultSet.getString(resultSet.getColumnIndex(Data.FAVORITE)));
-    return new DataItem(contentValues);
+    contentValues.set(Data.CALENDAR_EVENT_ID, resultSet.getString(resultSet.getColumnIndex(Data.CALENDAR_EVENT_ID)));
+    contentValues.set(Data.DISPLAY_NAME, resultSet.getString(resultSet.getColumnIndex(Data.DISPLAY_NAME)));
+    return new DataItem(contentValues as Map<string, string | number>);
+  }
+
+  getCalendarEventId() {
+    return this.values.get(Data.CALENDAR_EVENT_ID);
   }
 
   getId() {
@@ -79,15 +93,71 @@ export class DataItem {
     return this.values.get(DataType.DATA);
   }
 
+  getPhoneticName() {
+    return this.values.get(Data.PHONETIC_NAME);
+  }
+
+  /**
+   * labelId 对应数据库extend7字段
+   * @returns
+   */
   getLabelId() {
     return this.values.get(DataType.LABEL_ID);
   }
 
+  /**
+   * 对应数据库CUSTOM_DATA字段, 表示select下拉框的typeId
+   * @returns
+   */
   getLabelName() {
     return this.values.get(DataType.LABEL_NAME);
   }
 
   getFavorite() {
     return this.values.get(DataType.FAVORITE);
+  }
+
+  /**
+   * 获取formatNumber，对应数据库contact_data表的format_phone_number字段
+   * @returns
+   */
+  getFormatNumber() {
+    return this.values.get(Data.FORMAT_PHONE_NUMBER) as string;
+  }
+
+  /**
+   * 是否默认功能，对应数据库contact_data表的extend5字段
+   * @returns
+   */
+  getSuperPrimary() {
+    return this.values.get(DataType.IS_PRIMARY);
+  }
+
+  /**
+   * 如果是手机号类型数据，此字段对应：是否是联系人的畅联手机号标记，联系人可能有多个手机号，使用其中一个手机号关联畅联能力
+   * @returns
+   */
+  getExtend1() {
+    return this.values.get(Data.EXTEND1) as string
+  }
+
+  /**
+   * 如果是畅连设备数据类型，对应：设备类型
+   * @returns
+   */
+  getExtend2() {
+    return this.values.get(Data.EXTEND2) as string
+  }
+
+  /**
+   * 如果是畅连设备数据类型，对应：设备ID
+   * @returns
+   */
+  getExtend4() {
+    return this.values.get(Data.EXTEND4) as string
+  }
+
+  getExtend5() {
+    return this.values.get(Data.EXTEND5) as string
   }
 }

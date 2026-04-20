@@ -1,0 +1,11 @@
+{
+    "string":[
+        {
+            "name":"contact",
+            "value":"聯絡人",
+            "attr":{
+                "priority":"LT"
+            }
+        }
+    ]
+}

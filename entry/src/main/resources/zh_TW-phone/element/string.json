@@ -1,0 +1,11 @@
+{
+    "string":[
+        {
+            "name":"intelligence_group_contact_less_than_one_week",
+            "value":"1 週內聯絡過",
+            "attr":{
+                "priority":"LT"
+            }
+        }
+    ]
+}

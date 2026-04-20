@@ -12,9 +12,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HiLog } from 'common/src/main/ets/util/HiLog';
+import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 import { BusinessError } from '@ohos.base';
 import { SendMessageParams } from '../../../../../entry/src/main/ets/model/type/ContactParams';
+import { ContactsGlobalThisHelper } from '../../../../../common/src/main/ets/util/ContactsGlobalThisHelper';
 import LooseObject from '../../../../../entry/src/main/ets/model/type/LooseObject';
 const TAG = 'MmsService ';
 // mms
@@ -23,18 +24,22 @@ const MMS_ABILITY_NAME = 'com.ohos.mms.MainAbility';
 const MMS_ENTITIES = 'entity.system.home';
 
 export default class MmsService {
-  static sendMessage(number: string, formatnum:string, name?: string) {
-    let params:SendMessageParams[] = [];
-    params.push(new SendMessageParams(number, formatnum, name, -1));
+  static sendMessage(number: string, formatNum: string, name?: string, contactId?: number) {
+    let params: SendMessageParams[] = [];
+    params.push(new SendMessageParams(number, formatNum, name, contactId));
+    MmsService.jumpToMms(params);
+  }
+
+  static groupSendMessage(params: SendMessageParams[]) {
     MmsService.jumpToMms(params);
   }
 
   // Switching to the SMS app
-  private static jumpToMms(params:SendMessageParams[]) {
+  static jumpToMms(params: SendMessageParams[]) {
     let actionData: Record<string, string> = {};
     actionData.contactObjects = JSON.stringify(params);
     actionData.pageFlag = 'conversation';
-    let str : LooseObject = {
+    const want: LooseObject = {
       bundleName: MMS_BUNDLE_NAME,
       abilityName: MMS_ABILITY_NAME,
       parameters: actionData,
@@ -42,10 +47,11 @@ export default class MmsService {
         MMS_ENTITIES,
       ]
     };
-    globalThis.context.startAbility(str).then(() => {
+
+    ContactsGlobalThisHelper.GetGlobalThis().getDefaultUIContext().startAbility(want).then(() => {
       HiLog.i(TAG, 'jumpToMms success.');
-    }).catch((error:BusinessError) => {
-      HiLog.e(TAG, 'jumpToMms failed: %s', JSON.stringify(error.message));
+    }).catch((error: BusinessError) => {
+      HiLog.e(TAG, 'jumpToMms failed: %s', error?.message);
     })
   }
 }

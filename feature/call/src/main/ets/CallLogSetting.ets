@@ -12,8 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ObjectUtil } from 'common/src/main/ets/util/ObjectUtil';
-import { HiLog } from 'common/src/main/ets/util/HiLog';
+
+import { HiLog } from '../../../../../common/src/main/ets/util/HiLog';
 
 const TAG = 'CallLogSetting';
 
@@ -27,7 +27,7 @@ export default class CallLogSetting {
   private static readonly KEY_MERGE_RULE: string = 'merge_rule';
   private static instance: CallLogSetting;
 
-  private constructor() {
+  constructor() {
   }
 
   public static getInstance(): CallLogSetting {
@@ -38,7 +38,7 @@ export default class CallLogSetting {
   }
 
   setMergeRule(mergeRule: MergeRule) {
-    HiLog.i(TAG, 'MergeRule: ' + JSON.stringify(mergeRule));
+    HiLog.i(TAG, 'MergeRule: ' + mergeRule);
     AppStorage.SetOrCreate(CallLogSetting.KEY_MERGE_RULE, mergeRule);
   }
 

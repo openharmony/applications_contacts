@@ -14,28 +14,28 @@
  */
 
 export class CallBean {
-  readonly id: string;
-  phone: string;
-  name: string = '';
-  callTime: string = '';
+  public readonly id: string;
+  public phone: string;
+  public name: string = '';
+  public callTime: string = '';
+  public beginTime: string = '';
   // Call type: 1: incoming call; 2: outgoing call; 3: missed call; 5: rejected call
-  callType: string = '';
+  public callType: string = '';
   // Home area of the number
-  callTag: string = '';
+  public callTag: string = '';
   // Call SIM card. 0: SIM card 1, 1: SIM card 2.
-  simType: string = '';
-  // Indicates whether an HD call is supported. true: HD call; false: non-HD call
-  isHd: string = '';
+  public simType: string = '';
   // Format Phone Number
-  formatNumber: string = '';
+  public formatNumber: string = '';
   // Contact ID.
-  contactKey: string = '';
+  public contactKey: string = '';
   // Call Times
-  num: string = '';
+  public num: string = '';
   // Indicates whether to be selected. The default value is false.
-  isChecked: boolean = false;
-  portraitColor: string = '';
-  suffix: string = '';
+  public isChecked: boolean = false;
+  public portraitColor?: Resource;
+  public suffix: string = '';
+
   constructor(id: string, phone: string) {
     this.id = id;
     this.phone = phone;
@@ -51,6 +51,11 @@ export class CallBean {
     return this;
   }
 
+  setBeginTime(beginTime: string) {
+    this.beginTime = beginTime;
+    return this;
+  }
+
   setCallType(callType: string) {
     this.callType = callType;
     return this;
@@ -63,11 +68,6 @@ export class CallBean {
 
   setSimType(simType: string) {
     this.simType = simType;
-    return this;
-  }
-
-  setIsHd(isHd: string) {
-    this.isHd = isHd;
     return this;
   }
 
@@ -91,7 +91,7 @@ export class CallBean {
     return this;
   }
 
-  setPortraitColor(portraitColor: string) {
+  setPortraitColor(portraitColor: Resource) {
     this.portraitColor = portraitColor;
     return this;
   }

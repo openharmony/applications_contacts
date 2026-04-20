@@ -1,0 +1,3970 @@
+{
+    "string":[
+        {
+            "name":"initial_and_pinyin_search_supported",
+            "value":"Tìm kiếm theo họ tên hoặc chữ cái đầu của họ tên.\n",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missedCall",
+            "value":"Cuộc gọi nhỡ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_Text_cleared",
+            "value":"Đã xóa văn bản",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"hua_xiao_fen",
+            "value":"Để tìm kiếm 花小粉 (Hua Xiao Fen), chỉ cần gõ:",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_chat_connect_net_msg",
+            "value":"Cần phải có kết nối Internet để thực hiện cuộc gọi MeeTime.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_failed",
+            "value":"Nhập %d không thành công.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_ringtone",
+            "value":"Âm thông báo",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"account_contact_count_all",
+            "value":"Tổng: %d",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"please_expand_your_phone_to_use",
+            "value":"Trước tiên, hãy mở điện thoại ra.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"secure_access_content",
+            "value":"Các liên hệ của bạn hiển thị ở đây, nhưng ứng dụng này chỉ có thể truy cập những liên hệ bạn chọn.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_work",
+            "value":"Tổ chức",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"not_selected",
+            "value":"Chưa chọn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_contact_short_cut",
+            "value":"Lối tắt danh bạ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"already_in_block",
+            "value":"Đã chặn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"unselect_all",
+            "value":"Bỏ chọn tất cả",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add_more",
+            "value":"Thêm nhiều trường",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_answered_phone",
+            "value":"Cuộc gọi đã trả lời",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_ringtone",
+            "value":"Không",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"interception_rule_blockall_title",
+            "value":"Chặn toàn bộ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"voicemail",
+            "value":"Thư thoại",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"clear_default_values",
+            "value":"Xóa mặc định",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_contacts_to_account",
+            "value":"Nhập số liên lạc vào",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"export_succeed",
+            "value":"Đã xuất thành công.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"missed_call",
+            "value":"Bị lỡ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"only_accessed",
+            "value":"Ứng dụng này chỉ có thể truy cập các liên hệ bạn chọn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"tv_display_name",
+            "value":"Vision",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_crank",
+            "value":"Thư rác",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"pinyin_search_supported",
+            "value":"Hỗ trợ tìm kiếm bằng phiên âm",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"video_call",
+            "value":"Cuộc gọi video",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"commotion_intercept",
+            "value":"Cuộc gọi bị chặn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_from_sim_card_title",
+            "value":"Nhập từ %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_setting_type_paste",
+            "value":"Dán",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Speed_dial",
+            "value":"Quay số nhanh",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_fax_home_expansion",
+            "value":"Số fax nhà (%s)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add_relation",
+            "value":"Thêm mối quan hệ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_pager_expansion",
+            "value":"Số máy nhắn tin %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"tablet_group",
+            "value":"Nhóm trên máy tính bảng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"cancel_stop_import",
+            "value":"Hủy",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"auto_merge_submsg",
+            "value":"Chỉ những liên hệ trùng tên và số điện thoại mới được tự động hợp nhất.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_audio_title",
+            "value":"Cuộc gọi thoại MeeTime",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_deleted_from_app",
+            "value":"Đã xóa khỏi %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"deleting_group",
+            "value":"Xóa nhóm",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_delete",
+            "value":"Xóa",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_number",
+            "value":"Số điện thoại",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"hous_minute_sec",
+            "value":"%1$s %2$s %3$s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"setting",
+            "value":"Cài đặt",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"organize_contacts",
+            "value":"Sắp xếp danh bạ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"will_be_imported_later",
+            "value":"Chuẩn bị nhập %d.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_add_to_blocklist_and_block",
+            "value":"Sẽ được thêm vào danh sách chặn.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_call_logs",
+            "value":"Tất cả",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"allow",
+            "value":"Cho phép",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_kinship",
+            "value":"Họ hàng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"choose_sub_recommend",
+            "value":"Lần gần nhất sử dụng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"importing_sim_contact",
+            "value":"Đang nhập danh bạ...",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"forbidden",
+            "value":"Từ chối",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_online_music",
+            "value":"Duyệt âm thanh trực tuyến",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"group_rename",
+            "value":"Đổi tên",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"group_ringtone",
+            "value":"Nhạc chuông nhóm",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_contacts",
+            "value":"Toàn bộ liên lạc",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_shortcut_msg",
+            "value":"Chọn một liên hệ để quay số nhanh.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"resolve_search_errors",
+            "value":"Thao tác này sẽ sửa lỗi tìm kiếm bằng cách tạo lại chỉ mục tìm kiếm liên hệ. Quá trình sẽ cần vài phút để hoàn tất. Tạo lại?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"learning_table_lamp_display_name",
+            "value":"Đèn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_advertising_calls_reason",
+            "value":"Quảng cáo",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"copy",
+            "value":"Sao chép",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"rebuilding_wait",
+            "value":"Đang dựng lại... Vui lòng chờ.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_all_callLog_dialog_title",
+            "value":"Xóa tất cả mục nhập nhật ký cuộc gọi?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recent",
+            "value":"Gần đây",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle_tips_normal",
+            "value":"Các liên hệ bị xóa vĩnh viễn sau số ngày hiển thị trên màn hình (tối đa %d ngày).",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"my_card",
+            "value":"Thẻ của tôi",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"done",
+            "value":"Xong",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"copy_contact_from",
+            "value":"Sao chép liên lạc từ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Import",
+            "value":"Nhập danh bạ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recreating_index_data",
+            "value":"Tạo lại dữ liệu chỉ mục",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_other",
+            "value":"Khác",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"deleteCallLog_dialog_title",
+            "value":"Xóa mục nhật ký cuộc gọi này?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_blockreason_strangenumber",
+            "value":"Số ĐT người lạ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"remarks",
+            "value":"Ghi chú",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"justNow",
+            "value":"Vừa mới đây",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_mobile",
+            "value":"ĐT di động",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"More",
+            "value":"Tùy chọn khác",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"mores",
+            "value":"Thêm",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"MainAbility_label",
+            "value":"Điện thoại",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"unknow_location",
+            "value":"Không xác định",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_not_save",
+            "value":"Bỏ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dial",
+            "value":"Bàn phím",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_marked",
+            "value":"%s (đã đánh dấu)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_mother",
+            "value":"Mẹ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialer_calllog",
+            "value":"Nhật ký cuộc gọi",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_phone_sharing",
+            "value":"Chia sẻ thông tin liên lạc",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_email",
+            "value":"Thêm email",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"more",
+            "value":"Tùy chọn khác",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"adjusting_harassment_interception_settings",
+            "value":"Gần đây, bạn đã nhận được nhiều cuộc gọi phiền toái. Hãy chạm vào đây để thiết lập chế độ chặn cuộc gọi.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"official_treasure_display_name",
+            "value":"IdeaHub",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"haique_camera_display_name",
+            "value":"Máy ảnh Alcidae",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"allowed_to_network",
+            "value":"Dịch vụ này cần kết nối Internet. Cho phép truy cập?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"only_once_merge",
+            "value":"Chỉ hợp nhất lần này",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"detail_immersive",
+            "value":"Thêm liên hệ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save_to_phone",
+            "value":"Lưu vào: Điện thoại",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_scam_calls_reason",
+            "value":"Nguy cơ cao",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_display_name",
+            "value":"Điện thoại",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missed_proprietor",
+            "value":"Mọi người",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"manually_merge_duplicate_contacts",
+            "value":"Hợp nhất các liên hệ trùng lặp",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"emails",
+            "value":"Email",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"share",
+            "value":"Chia sẻ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"robot_display_name",
+            "value":"Robot",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_real_estate_calls_reason",
+            "value":"Văn phòng nhà đất",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_custom",
+            "value":"Tùy chỉnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassmentDialogTitleAddIntoWhitelist",
+            "value":"Thêm vào danh sách tin cậy?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"smart_identify_info",
+            "value":"Nhận cảnh báo về các vụ lừa đảo có thể xảy ra khi bạn đang gọi điện.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_yahoo",
+            "value":"Yahoo",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"merge_duplicate",
+            "value":"Gộp",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_risk_identify",
+            "value":"Phát hiện lừa đảo trực tiếp",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"date",
+            "value":"Ngày",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"not_set_speed_dial",
+            "value":"Chưa có số điện thoại quay số nhanh nào được gán cho phím tắt này. Gán một số điện thoại?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"error_network",
+            "value":"Không có kết nối Internet. Kiểm tra cài đặt mạng.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle",
+            "value":"Đã xóa gần đây",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"personal_information_collected",
+            "value":"Thông tin cá nhân được thu thập",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"restore_contacts_alert_cloud_sync_close",
+            "value":"Danh bạ trên thiết bị của bạn sẽ được hoàn nguyên về trạng thái ban đầu ngay sau khi quá trình cập nhật OpenHarmony hoàn tất.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_restore_failed",
+            "value":"Không khôi phục được liên hệ.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"search_button",
+            "value":"Tìm kiếm",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_source_phone_state",
+            "value":"Dianhuabang",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"interceptionNotificationTitle",
+            "value":"Đã chặn cuộc gọi phiền toái",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_message",
+            "value":"Thêm tin nhắn tức thời",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_custom",
+            "value":"Tùy chỉnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"cannot_start_a_new_call",
+            "value":"Không thể bắt đầu cuộc gọi. Một cuộc gọi đang được thực hiện.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"send_message",
+            "value":"Gửi tin nhắn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"send_email",
+            "value":"Gửi email",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_picture",
+            "value":"Chọn hình ảnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"speaker_display_name",
+            "value":"Loa ngoài",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"statement_on_Contacts_and_Privacy",
+            "value":"Tuyên bố về Danh bạ và Quyền riêng tư",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_clean_button",
+            "value":"Xóa",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_speedDial",
+            "value":"Quay số nhanh",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"one_week_ago",
+            "value":"Một tuần trước",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_website",
+            "value":"Thêm trang web",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_fraud",
+            "value":"Nguy cơ cao",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"shut_down",
+            "value":"Tắt",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_duplicate_contacts",
+            "value":"Không có liên hệ trùng lặp",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"learning_pad_display_name",
+            "value":"Study Vision",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"favorite",
+            "value":"Ưa thích",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"service_and_privacy_statement",
+            "value":"Tuyên bố Quyền riêng tư",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_from_block_list",
+            "value":"Xóa khỏi danh sách chặn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"share_contact",
+            "value":"Chia sẻ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"default_value",
+            "value":"Mặc định",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"click_to_paste",
+            "value":"Chạm để dán",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"house_type_position",
+            "value":"Cơ quan",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact",
+            "value":"Danh bạ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"click_to_edit_card",
+            "value":"Chạm để sửa",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"Import_Export",
+            "value":"Nhập/Xuất",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_smart_mark_remove",
+            "value":"Không có",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_contact",
+            "value":"Chọn liên hệ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassmentInterceptionCallDeleteOrNot_new",
+            "value":"Xóa lịch sử cuộc gọi bị chặn này?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_contacts",
+            "value":"Chưa có liên hệ nào",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_group",
+            "value":"Xóa nhóm này?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"menu_harassment_filter",
+            "value":"Cuộc gọi bị chặn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"remove_from_group",
+            "value":"Xóa khỏi nhóm",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"computer",
+            "value":"Máy tính",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_recycle_tips_sync",
+            "value":"Các liên hệ bị xóa vĩnh viễn khỏi thiết bị này, đám mây và mọi thiết bị đã đồng bộ sau số ngày hiển thị trên màn hình (tối đa %d ngày).",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"service_provider",
+            "value":"Nhà mạng",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_chat_title",
+            "value":"Chọn số để gửi tin nhắn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missed_favorite_contacts_only",
+            "value":"Chỉ liên hệ ưa thích",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_contact_tips_one",
+            "value":"Liên hệ này sẽ bị xóa khỏi tất cả các tài khoản.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"website",
+            "value":"Trang web",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_select",
+            "value":"Chưa chọn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_deleted_from_hidisk",
+            "value":"Xóa khỏi Cloud",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"connect_net_title",
+            "value":"Không có kết nối mạng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_index_subheading",
+            "value":"Hãy thử cách này nếu bạn gặp vấn đề khi tìm kiếm.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_mark_as_to_cloud",
+            "value":"Những số được đánh dấu sẽ được tải lên đám mây.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_express",
+            "value":"Dịch vụ giao hàng",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_audio_connect_net_msg",
+            "value":"Cần phải có kết nối Internet để thực hiện cuộc gọi MeeTime.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_work",
+            "value":"Cơ quan",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_title",
+            "value":"MeeTime",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_call_recorder",
+            "value":"Chọn bản ghi",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_house_agent",
+            "value":"Văn phòng nhà đất",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_phone_sharing_explain",
+            "value":"Khi có một điện thoại có cùng ID ở gần, bạn có thể sử dụng mạng di động của điện thoại đó để thực hiện và nhận cuộc gọi cũng như gửi và nhận tin nhắn trên thiết bị này.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_set_voicemail",
+            "value":"Số thư thoại không khả dụng",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"system_contacts",
+            "value":"Danh bạ hệ thống",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"edit",
+            "value":"Sửa",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_blockreason_mark_by_user",
+            "value":"Do bạn đánh dấu",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"batch_delete_contacts_in_cloud_sync_one",
+            "value":"Liên hệ này sẽ bị xóa khỏi thiết bị này, mọi tài khoản đã liên kết, đám mây và mọi thiết bị đã đồng bộ.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"group_existed",
+            "value":"Một nhóm có cùng tên đã tồn tại sẵn.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_succeed",
+            "value":"Nhập thành công.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"edit_my_card",
+            "value":"Sửa Thẻ của tôi",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"today",
+            "value":"Hôm nay",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"smart_box_display_name",
+            "value":"Hộp giải mã tín hiệu số",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"exporting_data_from_a_storage_device",
+            "value":"Xuất ra bộ nhớ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_be_deleted_from_phone",
+            "value":"Liên hệ này sẽ bị xóa khỏi thiết bị này và bất kỳ tài khoản liên kết nào.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save_dialog_title",
+            "value":"Lưu thay đổi?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_from_photo_group",
+            "value":"Chọn từ Bộ sưu tập",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_jabber",
+            "value":"Jabber",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"birthday_type_anniversaries",
+            "value":"Ngày kỷ niệm",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"house_type_dwelling",
+            "value":"Nhà riêng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"str_SIM",
+            "value":"SIM",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accounts_to_display",
+            "value":"Tài khoản",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"this_contact_was_not_found",
+            "value":"Không tìm thấy liên hệ.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"birthday_type_grebirthday",
+            "value":"Ngày sinh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"Export_contact_list_to_internal_storage",
+            "value":"Xuất danh sách liên hệ sang bộ nhớ trong?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialing",
+            "value":"Đang quay số",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"export_failed",
+            "value":"Xuất không thành công.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save_to_tablet",
+            "value":"Lưu vào: Máy tính bảng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save_to_existing_contacts",
+            "value":"Lưu vào liên hệ có sẵn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_recycle_deleted_all_confirm",
+            "value":"Xóa vĩnh viễn tất cả liên hệ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"house_type_custom",
+            "value":"Tùy chỉnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"favorite_num",
+            "value":"Đánh dấu sao %d",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_open_mobile_contacts",
+            "value":"Vào danh bạ điện thoại",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"restore_contacts_alert_cloud_sync_open",
+            "value":"Danh bạ trên thiết bị của bạn, đám mây và mọi thiết bị đã đồng bộ sẽ trở về trạng thái ban đầu ngay sau khi quá trình cập nhật OpenHarmony hoàn tất.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_local_music",
+            "value":"Nhạc trên thiết bị",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_select_contacts",
+            "value":"Không có liên hệ nào có số điện thoại",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"favorite_remove",
+            "value":"Xóa",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_discard_merge_contacts",
+            "value":"Hủy ghép các liên hệ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"camera_display_name",
+            "value":"Máy ảnh",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_from_storage_device",
+            "value":"Chọn từ bộ nhớ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_aim",
+            "value":"AIM",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"used_to_view_web_content_such_as_the_privacy_statement",
+            "value":"Quyền này được sử dụng để xem nội dung web, như Tuyên bố Quyền riêng tư.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"menu_mark_as",
+            "value":"Đánh dấu là",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_home",
+            "value":"Số fax Nhà riêng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"is_stop_import_contact",
+            "value":"Dừng nhập danh bạ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_ringtone",
+            "value":"Nhạc chuông",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"system_incoming_call_ringtone",
+            "value":"Nhạc chuông hệ thống",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_missed_contacts_only",
+            "value":"Chỉ trong danh bạ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_vcard",
+            "value":"Không tìm thấy tệp tin vCard.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_call",
+            "value":"Gọi",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"batch_delete_contacts_in_cloud_sync",
+            "value":"Những liên hệ này sẽ bị xóa khỏi thiết bị này, mọi tài khoản đã liên kết, đám mây và tất cả thiết bị đã đồng bộ.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_qq",
+            "value":"QQ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"common_use",
+            "value":"Hay dùng",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"email",
+            "value":"Email",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_restore",
+            "value":"Khôi phục",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"message",
+            "value":"Tin nhắn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"take_new_photo",
+            "value":"Chụp ảnh mới",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"yesterday",
+            "value":"Hôm qua",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_assistant_setting_title",
+            "value":"Cuộc gọi Celia",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_insurance",
+            "value":"Bảo hiểm & khoản vay",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_recycle_summary",
+            "value":"Khôi phục danh bạ đã xóa gần đây",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_home_expansion",
+            "value":"Số điện thoại nhà %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete",
+            "value":"Xóa",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_main_expansion",
+            "value":"Số điện thoại chính %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"tablet",
+            "value":"Máy tính bảng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_work_expansion",
+            "value":"Số fax cơ quan (%s)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"noName",
+            "value":"(Không có tên)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"smart_projector_dev_display_name",
+            "value":"Máy chiếu",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_shortcut_title",
+            "value":"Lối tắt danh bạ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cannot_start_video_call_change_to_voice",
+            "value":"Cuộc gọi video không được hỗ trợ trên mạng này. Đã chuyển sang cuộc gọi thoại.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"other_devices_answering_calls",
+            "value":"Đã trả lời trên thiết bị khác",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"name",
+            "value":"Tên",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_member",
+            "value":"Thêm người",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"automatically_merge_contacts",
+            "value":"Chỉ những liên hệ có tên và số điện thoại trùng khớp mới được hợp nhất tự động. Nếu các liên hệ trùng lặp được hợp nhất không chính xác, bạn có thể khôi phục các liên hệ gốc từ mục Đã xóa gần đây.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"8300999",
+            "value":"Lỗi không xác định.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_mates",
+            "value":"Vợ chồng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"permission_read_write_calendar",
+            "value":"Quyền này được sử dụng để đồng bộ ngày sinh của các liên hệ.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_main",
+            "value":"Số điện thoại chính",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"show_contacts",
+            "value":"Tùy chọn hiển thị",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_restorable_contact",
+            "value":"Không có địa chỉ liên hệ nào cần khôi phục.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_avatar",
+            "value":"Xóa ảnh",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"refreshing_data",
+            "value":"Đang đồng bộ…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_nuisance_calls_reason",
+            "value":"Quấy rối",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_source_teddy_bear",
+            "value":"Teddy Mobile",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"have_select_sth",
+            "value":"Đã chọn %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"system_ringtone",
+            "value":"Cài đặt sẵn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_mobile_expansion",
+            "value":"Số điện thoại %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"favorite_contacts",
+            "value":"Đã thêm vào mục ưa thích.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_group",
+            "value":"Không có nhóm nào",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"8301002",
+            "value":"Không đọc hoặc cập nhật được dữ liệu thẻ SIM.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_photo",
+            "value":"Ảnh liên hệ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_missed_call",
+            "value":"Cuộc gọi nhỡ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_dialed_phone",
+            "value":"Cuộc gọi đã gọi",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"birthday_type_lunarbirthday",
+            "value":"Sinh nhật âm lịch",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"set_voicemial_info",
+            "value":"Để thiết lập thư thoại, hãy vào Menu > Cài đặt.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_call_logs",
+            "value":"Xóa nhật ký cuộc gọi",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_missedCall_msg",
+            "value":"Hiển thị cuộc gọi nhỡ từ:",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"got_it",
+            "value":"OK",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"roaming_dial_title",
+            "value":"Đang chuyển vùng… Hãy chọn phương pháp quay số",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_source_oh",
+            "value":"OpenHarmony",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"search",
+            "value":"Tìm kiếm liên hệ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"cancel_favorite",
+            "value":"Bỏ thích",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_custom",
+            "value":"Tùy chỉnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"edit_beforeCall",
+            "value":"Chỉnh sửa trước khi gọi",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"turn_off_airplane_mode",
+            "value":"Tắt Chế độ Máy bay trước khi thử truy cập thư thoại.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_sim_contact_title",
+            "value":"Nhập danh bạ trên thẻ SIM",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"copy_to_account",
+            "value":"Sao chép vào %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"restore_contacts",
+            "value":"Khôi phục liên hệ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_list_search",
+            "value":"Tìm kiếm",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_time_msg",
+            "value":"Trong %s giờ qua",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"unknown_phonenumber",
+            "value":"Số không xác định",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"imported_calendars",
+            "value":"Đã thêm vào Lịch.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_dialer_calllog",
+            "value":"Nhật ký cuộc gọi trống",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_picker_banner",
+            "value":"Các liên hệ của bạn hiển thị ở đây, nhưng ứng dụng này chỉ có thể truy cập những liên hệ bạn chọn. %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialer",
+            "value":"Điện thoại",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_dialog_title",
+            "value":"Xóa liên hệ này?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_picture",
+            "value":"Xóa hình ảnh",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"confirm",
+            "value":"OK",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_search_result_empty",
+            "value":"Không có kết quả nào",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_make_call",
+            "value":"Gọi điện",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_source_antifraud_center",
+            "value":"Trung tâm chống lừa đảo",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_deleted",
+            "value":"%s đã bị xóa",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_set",
+            "value":"Chưa đặt",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_all_rights_reserved",
+            "value":"Danh bạ. Bảo lưu mọi quyền. ©%d",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_favorite",
+            "value":"Chưa có mục ưa thích",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"Export",
+            "value":"Xuất",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"hide",
+            "value":"Ẩn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_cleaned_confirm",
+            "value":"Tất cả danh bạ trên danh sách này sẽ bị xóa vĩnh viễn.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_not_deleted",
+            "value":"Các liên hệ sẽ không bị xóa.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_send_sms",
+            "value":"Gửi tin nhắn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_Address",
+            "value":"Thêm địa chỉ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_work_expansion",
+            "value":"Số cơ quan %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"set_default_values",
+            "value":"Đặt làm mặc định",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"blockCall",
+            "value":"Đã hủy",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"birthday_type_other",
+            "value":"Ngày quan trọng",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"merge_repeat_contact",
+            "value":"Hợp nhất các liên hệ trùng lặp",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_restoring",
+            "value":"Đang khôi phục…",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"speed_dial_turn_off_airplane_mode",
+            "value":"Tắt Chế độ Máy bay trước khi sử dụng chức năng quay số nhanh.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_setting_type_batch_delete",
+            "value":"Xóa các mục",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_contact_source",
+            "value":"Chọn nguồn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"name_pinyin",
+            "value":"Tên theo phiên âm",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_will_be_deleted",
+            "value":"Liên hệ này sẽ bị xóa khỏi thiết bị này, đám mây và tất cả thiết bị đã đồng bộ.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"modify_speed_dial",
+            "value":"Sửa quay số nhanh",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"NoService",
+            "value":"Không có dịch vụ nào",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"auto_merge_duplicate_contacts",
+            "value":"Tự động hợp nhất các liên hệ trùng lặp",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"other_important_dates",
+            "value":"Thêm ngày quan trọng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"secure_access_title",
+            "value":"Quyền truy cập riêng tư vào danh bạ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_fraud_smart_identify",
+            "value":"Nguy cơ cao | Tự động nhận dạng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_delete",
+            "value":"Xóa",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save",
+            "value":"Lưu",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"group",
+            "value":"Nhóm",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recorder",
+            "value":"Đang ghi âm",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"deleting_contacts",
+            "value":"Đang xóa danh bạ...",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_maintenancemode",
+            "value":"Không sử dụng được tính năng này trong chế độ Bảo trì.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_number_settings",
+            "value":"Xóa số đã gán",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_allowed",
+            "value":"Từ chối",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_scam_msgs_reason",
+            "value":"Rủi ro gian lận",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_expand",
+            "value":"Mở rộng",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_restore_success",
+            "value":"Các liên hệ đã được khôi phục.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"clear",
+            "value":"Xóa",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_contact",
+            "value":"Danh bạ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"speed_dial_setting",
+            "value":"Cài đặt quay số nhanh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_from_group",
+            "value":"Chọn từ Bộ sưu tập",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"house_type_other",
+            "value":"Khác",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_customize",
+            "value":"Tùy chỉnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_other_expansion",
+            "value":"Số khác %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_speedDial_msg",
+            "value":"Chọn liên hệ để quay số nhanh.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_remove",
+            "value":"Không",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle_deleted_confirm_single",
+            "value":"Xóa vĩnh viễn liên hệ này?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"learn_more",
+            "value":"Tìm hiểu thêm",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_vCard_dialog_title",
+            "value":"Nhập danh bạ từ vCard?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_restore_sms_record_move_in",
+            "value":"Thêm và khôi phục tin nhắn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_father",
+            "value":"Cha",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"Import_Export_Contacts",
+            "value":"Nhập/Xuất",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"cancel_pass_birthday_to_calendar",
+            "value":"Không, cảm ơn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_video_connect_net_msg",
+            "value":"Cần phải có kết nối Internet để thực hiện cuộc gọi MeeTime.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add_number",
+            "value":"Thêm số điện thoại",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"address_add",
+            "value":"Địa chỉ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_sisters",
+            "value":"Chị em gái",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"copy_phoneNumber",
+            "value":"Sao chép số",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"merge_duplicate_contacts",
+            "value":"Đang gộp các liên hệ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"Export_Contacts",
+            "value":"Xuất danh bạ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_from_storage_device",
+            "value":"Nhập từ bộ nhớ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"from_the_accounts",
+            "value":"Nhập vào từ:",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"setting_network",
+            "value":"Cài đặt mạng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_messaging",
+            "value":"Nhắn tin tức thời",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_windowslive",
+            "value":"Windows Live",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"unable_import",
+            "value":"Nhập từ bộ nhớ thất bại",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"ringtones_mute",
+            "value":"Im lặng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"Card_add",
+            "value":"Thêm",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add",
+            "value":"Thêm",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"caching_please_wait",
+            "value":"Vui lòng chờ…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"importing_contacts",
+            "value":"Đang nhập liên hệ…",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_video_title",
+            "value":"Cuộc gọi video MeeTime",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"read_and_understand",
+            "value":"Tôi đã đọc và hiểu",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_title_mark_as",
+            "value":"Đánh dấu là",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_icq",
+            "value":"ICQ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_missed_call",
+            "value":"Không có cuộc gọi nhỡ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_skype",
+            "value":"Skype",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_dialer_missed_calllog",
+            "value":"Không có cuộc gọi nhỡ nào",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_home",
+            "value":"Nhà riêng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_select_set",
+            "value":"Chưa chọn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_call_number",
+            "value":"Số máy %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save_to_account",
+            "value":"Lưu vào: %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_only_move_in",
+            "value":"Thêm",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"my_carrier",
+            "value":"Nhà mạng của tôi",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"8300003",
+            "value":"Lỗi hệ thống nội bộ.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"8300004",
+            "value":"Lỗi thẻ SIM.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_management",
+            "value":"Quản lý danh bạ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"8300001",
+            "value":"Giá trị không hợp lệ.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"auto_merge_duplicate_contacts_rule",
+            "value":"Quy tắc hợp nhất liên hệ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"input_content_empty",
+            "value":"Trước tiên, hãy nhập nội dung.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"8300002",
+            "value":"Không kết nối được với dịch vụ.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"restore_contacts_alert",
+            "value":"Danh bạ sẽ trở về trạng thái ban đầu ngay sau khi quá trình cập nhật OpenHarmony hoàn tất.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"email_type_custom",
+            "value":"Tùy chỉnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_custom_expansion",
+            "value":"Tùy chỉnh %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cancel",
+            "value":"Hủy",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"adding_custom_tag",
+            "value":"Thêm nhãn tùy chỉnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_taxi",
+            "value":"Taxi",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"vcard_files_in_app",
+            "value":"Tệp tin vCard trong ứng dụng",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"modifying_settings_number",
+            "value":"Thay đổi số đã gán",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"choose",
+            "value":"Chọn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"AnswerorDeclineIncomingCall_beforeNewCall",
+            "value":"Trả lời hoặc từ chối cuộc gọi đến trước khi thực hiện cuộc gọi mới.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"nickname",
+            "value":"Biệt hiệu",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"clear_calllog_sure",
+            "value":"Xóa tất cả nhật ký cuộc gọi?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_friend",
+            "value":"Bạn bè",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_blocked_calls",
+            "value":"Không có cuộc gọi bị chặn nào",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_partner",
+            "value":"Đối tác",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"not_found_sim_card",
+            "value":"Không tìm thấy thẻ SIM.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_home",
+            "value":"Nhà riêng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone",
+            "value":"Điện thoại",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"speed_dial",
+            "value":"Quay số nhanh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"portable_smart_screen_display_name",
+            "value":"Portable Vision",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"unknown",
+            "value":"Không xác định",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"take_photo",
+            "value":"Chụp ảnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"suspected_fraud",
+            "value":"Nghi ngờ lừa đảo",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_pass_birthday_to_calendar_new",
+            "value":"Cho phép đồng bộ ngày sinh với Lịch?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"searching_for_vCard_files_in_storage_device",
+            "value":"Đang tìm kiếm dữ liệu vCard trên bộ nhớ…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dial_back",
+            "value":"Gọi lại",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_number_available",
+            "value":"Không có số dùng được.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relation",
+            "value":"Mối quan hệ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"all_contacts2",
+            "value":"Tất cả liên hệ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_call",
+            "value":"Gọi",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"set_card_select_contact",
+            "value":"Đặt mặc định",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_setting_type_setting",
+            "value":"Cài đặt",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recovering_contact_toast",
+            "value":"Tính năng không hoạt động. Hãy tắt tính năng đồng bộ lên Cloud và đợi %s giây trước khi thử lại.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"mobile_contacts",
+            "value":"Danh bạ điện thoại",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"allow_contacts_to_connect_Internet",
+            "value":"Cho phép Danh bạ truy cập Internet?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_hangouts",
+            "value":"Hangouts",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_rejected_phone",
+            "value":"Cuộc gọi đã từ chối",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_brother",
+            "value":"Anh em trai",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_sim_contact_msg",
+            "value":"Chỉ có thể sử dụng liên hệ trên (các) thẻ SIM hiện tại nếu bạn đã nhập các liên hệ đó.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_all_group_title",
+            "value":"Xóa tất cả nhóm?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"disturbing_intercept_boot_bubble",
+            "value":"Chạm vào đây để chặn các cuộc gọi không mong muốn.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_all",
+            "value":"Chọn tất cả",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_contact_tips",
+            "value":"Những liên lạc này sẽ bị xóa khỏi tất cả các tài khoản.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"multiple_choices",
+            "value":"Chọn nhiều",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"remove_member",
+            "value":"Xóa các thành viên",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_parents",
+            "value":"Cha mẹ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"maximum_selected_contacts",
+            "value":"Bạn chỉ có thể chọn tối đa %d liên hệ.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"blocklist_number",
+            "value":"Số ĐT danh sách chặn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add_to_blocklist",
+            "value":"Thêm vào danh sách chặn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"restore_contacts_confirm_title",
+            "value":"Khôi phục liên hệ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_discard",
+            "value":"Hủy bỏ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"on_call_phone_sharing",
+            "value":"Chia sẻ thông tin liên lạc",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"edit_contact",
+            "value":"Chỉnh sửa liên hệ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"send_messages",
+            "value":"Gửi tin nhắn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"new_group_source",
+            "value":"Chọn một tài khoản",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_introducer",
+            "value":"Người giới thiệu",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_vCard_files_from_internal_storage",
+            "value":"Nhập vCard từ bộ nhớ trong",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"find_out_how_we_use_your_data",
+            "value":"Cách chúng tôi sử dụng dữ liệu của bạn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"prompt_later",
+            "value":"Để sau",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"rename",
+            "value":"Đổi tên",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"create_contact",
+            "value":"Liên hệ mới",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_work",
+            "value":"Số fax Cơ quan",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save_to_pc",
+            "value":"Lưu vào: Máy tính",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"will_be_exported_later",
+            "value":"%d sẽ sớm được xuất.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_promote_sales",
+            "value":"Quảng cáo",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"selecting_a_vCard_file",
+            "value":"Chọn tệp vCard",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"setting_harassment_blocking",
+            "value":"Chặn cuộc gọi không mong muốn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"device_info",
+            "value":"Thông tin thiết bị",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_other",
+            "value":"Khác",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_children",
+            "value":"Con cái",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"new_group",
+            "value":"Tạo nhóm mới",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"go_to_settings",
+            "value":"Vào Cài đặt",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_collapsed",
+            "value":"Đã thu gọn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_index_dialog",
+            "value":"Quá trình này có thể mất tới vài phút. Tiếp tục?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_edit_avatar",
+            "value":"Sửa ảnh đại diện",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"exporting_contacts",
+            "value":"Đang xuất liên hệ…",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassmentAddIntoWhitelist",
+            "value":"Thêm vào danh sách tin cậy",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sim_card",
+            "value":"SIM %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"watch_display_name",
+            "value":"Đồng hồ trẻ em",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"national_anti_fraud_center",
+            "value":"Trung tâm chống lừa đảo quốc gia",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_spouses",
+            "value":"Vợ/chồng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"video",
+            "value":"Video",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"corporation",
+            "value":"Tổ chức",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligent_central_contral_display_name",
+            "value":"Bảng điều khiển",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"export_the_vCard_file_to_the_internal_storage",
+            "value":"Xuất vào bộ nhớ trong dưới dạng vCard",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"hous_minute",
+            "value":"%1$s %2$s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_bosses",
+            "value":"Giám sát viên",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"new_contact",
+            "value":"Tạo liên hệ mới",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"mark_as_sentence_connection",
+            "value":"%1$s&nbsp|&nbsp%2$s (%3$s)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_pager",
+            "value":"Số máy nhắn tin",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_contact",
+            "value":"Xóa",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"send_information",
+            "value":"Gửi tin nhắn",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_cancel",
+            "value":"Hủy",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"reject",
+            "value":"Đã từ chối",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"voicemail_number",
+            "value":"Số thư thoại",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"position",
+            "value":"Chức vụ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"copy_contact",
+            "value":"Sao chép liên lạc",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"local_music",
+            "value":"Nhạc trên thiết bị",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_recorder_list",
+            "value":"Bản ghi cuộc gọi",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_collapse",
+            "value":"Thu gọn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"always_auto_merge",
+            "value":"Luôn hợp nhất tự động",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"initial_query",
+            "value":"Tìm kiếm theo chữ cái đầu của họ tên",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_join_trust_list_hint",
+            "value":"%s sẽ được thêm vào danh sách tin cậy của bạn. Bạn cũng có thể chọn khôi phục tin nhắn đã bị chặn từ số này.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassmentAddWhiteListDlgMsg",
+            "value":"Số điện thoại này đã được thêm vào danh sách chặn. Chuyển nó vào danh sách tin cậy?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_import_from_sim_card_dialog_content",
+            "value":"Nhập danh bạ từ thẻ SIM?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_assistant",
+            "value":"Trợ lý",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"batch_delete",
+            "value":"Xóa nhiều số liên hệ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"telep_group",
+            "value":"Nhóm trên điện thoại",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassmentInterceptionRemoveBlacklistRecords",
+            "value":"Khôi phục tin nhắn bị chặn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_video_music",
+            "value":"Nhạc chuông video",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"smart_security_protection",
+            "value":"Bảo vệ bảo mật thông minh",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"favorite_management",
+            "value":"Quản lý mục ưa thích",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_contact_sim_card",
+            "value":"Không tìm thấy liên hệ nào trên thẻ SIM.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group",
+            "value":"Nhóm thông minh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_contact_less_than_one_week",
+            "value":"Đã liên hệ trong tuần qua",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_add_contact_dialog_content",
+            "value":"Thông tin tổ chức của các liên hệ đã chọn sẽ được cập nhật thành \"%s\".",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_company",
+            "value":"Tổ chức",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_city",
+            "value":"Thành phố",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_latest_contact",
+            "value":"Các liên hệ gần đây",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_no_company",
+            "value":"Không có thông tin tổ chức",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_no_address",
+            "value":"Không có thông tin địa điểm",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_contact_less_than_one_month",
+            "value":"Đã liên hệ trong tháng qua (không bao gồm bảy ngày qua)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_no_contact_more_than_three_month",
+            "value":"Không liên hệ trong hơn %s tháng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_contact_less_than_three_month",
+            "value":"Đã liên hệ trong %s tháng qua (không bao gồm bốn tuần qua)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"scan",
+            "value":"Quét",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"unsupport_qrcode",
+            "value":"Mã QR này không được hỗ trợ.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"tip",
+            "value":"Lưu ý",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"pengLai_tip_for_disabled_functions",
+            "value":"Không thực hiện được thao tác này ở chế độ Bồng Lai.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"penglai_dialog_body",
+            "value":"Có vẻ như bạn không có tín hiệu di động. Bạn có thể thiết lập kết nối vệ tinh trong phần Cài đặt.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"penglai_dialog_title",
+            "value":"Vào thiết lập kết nối vệ tinh?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"penglai_dialog_button_go_to",
+            "value":"Vào",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"editfavorite_drag_button",
+            "value":"Kéo để thay đổi thứ tự, chạm đúp và giữ để bắt đầu kéo",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cancelling_favorite_contacts",
+            "value":"Đang bỏ yêu thích danh bạ…",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_new_contact",
+            "value":"Liên hệ mới",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_all_play_button",
+            "value":"Bỏ chọn tất cả, từ 1 đến %1$s, %2$s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_fold_dialer",
+            "value":"Ẩn bàn phím",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_open",
+            "value":"Bật",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_unselected",
+            "value":"Chưa chọn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_call",
+            "value":"Gọi điện",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_satellite_call",
+            "value":"Thực hiện cuộc gọi vệ tinh",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_avatar",
+            "value":"Ảnh hồ sơ",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_detail",
+            "value":"Chi tiết",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_new_collect",
+            "value":"Thêm vào mục ưa thích",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_cancel",
+            "value":"Hủy",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_back",
+            "value":"Trở lại",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_video_call",
+            "value":"Cuộc gọi video",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_done",
+            "value":"Xong",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_more",
+            "value":"Tùy chọn khác",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_back_to_pre",
+            "value":"Trở lại màn hình",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_selected",
+            "value":"Đã chọn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_expand_dialer",
+            "value":"Mở bàn phím",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_expanded",
+            "value":"Đã mở rộng",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_importing_for_now",
+            "value":"Để sau",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_people_anti_fraud_center",
+            "value":"Cảnh báo của Trung tâm chống lừa đảo Bắc Kinh",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"selected",
+            "value":"Đã chọn (%s)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_call_record",
+            "value":"Đã xóa nhật ký cuộc gọi. Tóm tắt cuộc gọi không có sẵn.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"regenerate_fail_info",
+            "value":"Hệ thống đang bận. Chạm vào đây để tạo lại tóm tắt.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_support_regenerate",
+            "value":"Không được hỗ trợ ở khu vực của bạn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_support_detail",
+            "value":"Tóm tắt cuộc gọi hiện không được hỗ trợ ở khu vực của bạn.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_dismiss",
+            "value":"Không hiện lại",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_title",
+            "value":"Làm cách nào để bật/tắt Gọi điện nâng cao?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_message",
+            "value":"Từ màn hình chính của ứng dụng Nhắn tin của Điện thoại, hãy chạm vào biểu tượng Thêm ở trên cùng bên phải, sau đó đi tới Cài đặt > Gọi điện nâng cao, rồi bật hoặc tắt dịch vụ này.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_setting",
+            "value":"Vào Cài đặt",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_move_backward",
+            "value":"Di chuyển xuống dưới %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_move_forward",
+            "value":"Di chuyển lên trên %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_pick_up",
+            "value":"Đã bắt đầu kéo",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_pick_down",
+            "value":"Đã đặt",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_button",
+            "value":"Nút",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_selected_cancel",
+            "value":"Đã bỏ chọn tất cả",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_selected",
+            "value":"Đã chọn tất cả",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_checkbox_selected",
+            "value":"Chạm đúp để bỏ chọn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_calling_can_only_use_in_full_screen",
+            "value":"Dịch vụ Gọi điện nâng cao chỉ có sẵn ở chế độ xem toàn màn hình.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"removed",
+            "value":"Đã xóa",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_checkbox_deselected",
+            "value":"Chạm đúp để chọn",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"go_to_recover",
+            "value":"Khôi phục ngay",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"to_recycle_station_restore",
+            "value":"Dữ liệu danh bạ của bạn đã bị xóa khỏi một thiết bị khác. Để khôi phục dữ liệu này, hãy chạm vào biểu tượng ở góc trên cùng bên phải, sau đó vào Cài đặt > Đã xóa gần đây.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"simultaneously_delete_call_summary",
+            "value":"Mục nhật ký cuộc gọi này bao gồm các tóm tắt. Bạn có thể xóa những tóm tắt này cùng với mục nhập.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"only_delete_calllogs",
+            "value":"Chỉ xóa mục nhập",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_call_summary",
+            "value":"Xóa mục nhập và tóm tắt",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"restore_recorder",
+            "value":"Để khôi phục ứng dụng Máy ghi âm, hãy vào Cài đặt hệ thống > Ứng dụng & dịch vụ > ∷ > Khôi phục ứng dụng.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+	{
+            "name":"to_recycle_station_restore_contact",
+            "value":"Một số liên hệ của bạn đã bị xóa khỏi thiết bị khác đang đăng nhập bằng ID của bạn. Để khôi phục các liên hệ đã xóa, hãy chạm vào biểu tượng ở góc trên cùng bên phải, sau đó vào Cài đặt > Đã xóa gần đây.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name": "not_support_toast",
+            "value": "Thao tác này không được hỗ trợ trong chế độ này."
+        },
+        {
+            "name":"Help_and_feedback",
+            "value":"Trợ giúp và phản hồi",
+            "attr":{
+                "priority":"translate"
+            }
+        }
+    ]
+}
