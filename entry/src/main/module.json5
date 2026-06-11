@@ -230,6 +230,14 @@
         ]
       },
       {
+        "description": "sync Contacts dialog",
+        "name": "SyncContactsExtAbility",
+        "srcEntry": "./ets/SyncContactsExtAbility/SyncContactsExtAbility.ets",
+        "type": 'sys/commonUI',
+        "exported": true,
+        "permissions": []
+      },
+      {
         "name": "CardDialogServiceExtAbility",
         "srcEntry": "./ets/card/ability/CardDialogExtensionAbility.ets",
         "description": "UIExtensionProvider",
