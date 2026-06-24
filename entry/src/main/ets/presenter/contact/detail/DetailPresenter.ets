@@ -108,9 +108,12 @@ import { RingtoneInfo } from '../../../model/ringTone/toneTypes';
 import { DateTimeFormat } from '../../../util/DateTimeFormat';
 import { checkIsLightColor } from './ColorPickerUtil';
 import ContactAbilityModel from '../../../model/ContactAbilityModel';
+import RingTonePresenter from '../../ringtone/RingTonePresenter';
 
 const TAG = 'DetailPresenter';
 const KEY_MISSED_BADGE_NUM = 'missed_badge_number';
+const RING_TONE_BASE = '/data/storage/el2/base/files/Ringtone/contacts'
+
 const deviceProfileConstants: DeviceTypeEnum = {
   // 畅连消息按位与值
   meetimeMessage: 1 << 1,
@@ -281,6 +284,7 @@ export default class DetailPresenter {
     personalRingtonePath: '',
     personalNotificationRingtone: '',
   };
+  public mRingTonePresenter: RingTonePresenter = RingTonePresenter.getInstance();
   // 通话记录数据源
   public detailCallLogDataSource: DetailCallLogDataSource = new DetailCallLogDataSource();
   // 手机号数据源
@@ -384,7 +388,7 @@ export default class DetailPresenter {
         }, (contactId: string[]) => {
           HiLog.w(TAG, 'getIdByTelephone success!   contactId: ' + contactId);
           // 存在联系人
-          if (!ArrayUtil.isEmpty(contactId)) {
+          if (!ArrayUtil.isEmpty(contactId) && !StringUtil.isEmpty(contactId[0])) {
             HiLog.w(TAG, 'contactid is exist');
             // If a contact exists, set isNewNumber to false.
             this.isNewNumber = false;
@@ -1663,9 +1667,9 @@ export default class DetailPresenter {
     this.removeCallLog(ids);
     // 删除通话记录列表DataSource
     let breakpoint = AppStorage.Get('breakpoint') as string;
-    if (breakpoint != 'sm') {
+    // if (breakpoint != 'sm') {
       CallRecordPresenter.getInstance().deleteCallrecord(callLogIds);
-    }
+    // }
     this.clearMissedCallNotificationForCurrentContact();
   }
 
@@ -1766,6 +1770,13 @@ export default class DetailPresenter {
           sharedPreferencesUtils.saveToPreferences('speedDialObjString', JSON.stringify(speedDialArr));
         }
       });
+    // 删除铃音库铃音uri(判断该联系人是否为本地铃音)
+    if (this.contactForm.personalRingtone?.includes(RING_TONE_BASE)) {
+      this.mRingTonePresenter.removeContactLocalRingtoneByUri(
+        this.contactForm.personalRingtone,
+        this.contactId?.toString())
+    }
+
     // 删除头像信息？
     delFileById(this.contactId?.toString());
     setTimeout(() => {

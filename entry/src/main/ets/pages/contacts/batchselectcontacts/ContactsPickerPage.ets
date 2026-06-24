@@ -839,7 +839,7 @@ export default struct ContactsPickerPage {
 
   build() {
     NavDestination() {
-      Navigation(){
+      Column(){
         this.ContactPickerBuilder()
       }
       // 应用锁
@@ -861,7 +861,8 @@ export default struct ContactsPickerPage {
     //     this.onBack();
     //   })
     // )
-    .menus(this.TitleGuide())
+    .menus((this.uiExtentionParam?.source === undefined &&
+      this.uiExtentionParam?.isContactsPicker === false) ? undefined : this.TitleGuide())
     // .titleMode(this.session !== undefined ? HdsNavDestinationTitleMode.MODAL : HdsNavDestinationTitleMode.MINI)
     .title(
       ResourceUtil.getStringByResource($r('app.string.select_contact'))
@@ -1253,14 +1254,14 @@ struct ContactsList {
   build() {
     Stack({ alignContent: Alignment.TopEnd }) { //右侧字母排序位置
       List({ initialIndex: 0, scroller: this.scroller }) {
-        if (this.isShowOnlyAccessedAlert && !this.isVerde) {
-          ListItem() {
-            SecureAccessPopupTip({
-              isShowOnlyAccessedAlert: this.isShowOnlyAccessedAlert,
-              isShowLearnMore: this.isShowLearnMore
-            });
-          }
-        }
+        // if (this.isShowOnlyAccessedAlert && !this.isVerde) {
+        //   ListItem() {
+        //     SecureAccessPopupTip({
+        //       isShowOnlyAccessedAlert: this.isShowOnlyAccessedAlert,
+        //       isShowLearnMore: this.isShowLearnMore
+        //     });
+        //   }
+        // }
 
         ListItem() {
           Row() {

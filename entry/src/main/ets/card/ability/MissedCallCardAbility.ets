@@ -23,7 +23,7 @@ import { display } from '@kit.ArkUI';
 import ScreenFormUtil from '../../util/ScreenFormUtil';
 
 const TAG = 'MissedCallCardAbility';
-const LOCAL: Record<string, string> = { 'formId': '', 'missedCallData': 'all' };
+const LOCAL: Record<string, string> = { 'formId': '', 'previewFormId': '', 'missedCallData': 'all' };
 const defaultMissCallType: string = 'all'
 
 export default class MissedCallCardAbility extends FormEditExtensionAbility {

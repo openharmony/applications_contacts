@@ -464,36 +464,36 @@ export default struct CallLogListItem {
                 start: LengthMetrics.resource($r('app.float.id_card_margin_mid'))
               })
           }
-          if (this.message.isSatellite === 1) { //通话记录图标
-            SymbolGlyph($r('sys.symbol.satellite'))
-              .fontSize(10)
-              .maxFontScale(1)  //不放大
-              .fontColor([$r('app.color.skin_white')])
-              .padding({
-                left: 2,
-                top: 1,
-                right: 1,
-                bottom: 2
-              })
-              .backgroundImage($r('app.media.satellite_backgroud_img'))
-              .backgroundColor($r('sys.color.ohos_id_color_alert'))
-              .margin({
-                start: LengthMetrics.resource($r('app.float.id_card_margin_mid'))
-              })
-              .flexShrink(0)
-              .borderRadius($r('sys.float.Body_S'))
-          }
-          if (this.message.isSatellite === 2) { //风信子图标
-            Image($r('app.media.hyacinth_call_log'))
-              .margin({
-                start: LengthMetrics.resource($r('app.float.id_card_margin_mid'))
-              })
-              .size({ width: 12, height: 12 })
-              .backgroundImage($r('app.media.satellite_backgroud_img'))
-              .backgroundImageSize({ width: 12, height: 12 })
-              .backgroundColor($r('sys.color.ohos_id_color_alert'))
-              .borderRadius($r('sys.float.Body_S'))
-          }
+          // if (this.message.isSatellite === 1) { //通话记录图标
+          //   SymbolGlyph($r('sys.symbol.satellite'))
+          //     .fontSize(10)
+          //     .maxFontScale(1)  //不放大
+          //     .fontColor([$r('app.color.skin_white')])
+          //     .padding({
+          //       left: 2,
+          //       top: 1,
+          //       right: 1,
+          //       bottom: 2
+          //     })
+          //     .backgroundImage($r('app.media.satellite_backgroud_img'))
+          //     .backgroundColor($r('sys.color.ohos_id_color_alert'))
+          //     .margin({
+          //       start: LengthMetrics.resource($r('app.float.id_card_margin_mid'))
+          //     })
+          //     .flexShrink(0)
+          //     .borderRadius($r('sys.float.Body_S'))
+          // }
+          // if (this.message.isSatellite === 2) { //风信子图标
+          //   Image($r('app.media.hyacinth_call_log'))
+          //     .margin({
+          //       start: LengthMetrics.resource($r('app.float.id_card_margin_mid'))
+          //     })
+          //     .size({ width: 12, height: 12 })
+          //     .backgroundImage($r('app.media.satellite_backgroud_img'))
+          //     .backgroundImageSize({ width: 12, height: 12 })
+          //     .backgroundColor($r('sys.color.ohos_id_color_alert'))
+          //     .borderRadius($r('sys.float.Body_S'))
+          // }
           if (this.message?.recordLogList) {
             SymbolGlyph($r('sys.symbol.recordingtape_rectangle_fill'))
               .fontSize(this.phoneIconSize())
@@ -588,29 +588,29 @@ export default struct CallLogListItem {
               (i18n.isRTL(i18n.System.getSystemLanguage()) ? { right: 12 } : { left: 12 }) : null)
           }
 
-          if (this.message.newCalling === 1) {
-            Stack() {
-              Row() {
-                Image($r('app.media.new_call_box_light'))
-                  .width($r('app.float.id_card_image_small'))
-                  .height($r('app.float.id_card_image_small'))
-                  .fillColor($r('app.color.skin_icon_primary'))
-              }
-
-              Column()
-                .width(48)
-                .height(48)
-                .hitTestBehavior(HitTestMode.Block)
-                .onClick(() => {
-                  HiLog.i(TAG, 'NewCalling message box clicked');
-                  this.onNewCallingMessageBoxClicked();
-                });
-            }
-            .width(24)
-            .height(24)
-            .margin(this.isCeliaCallIconValid() ? { left: 12, right: this.message.recordLogList ? 12 : null } :
-              this.message.recordLogList ? { right: 12 } : null)
-          }
+          // if (this.message.newCalling === 1) {
+          //   Stack() {
+          //     Row() {
+          //       Image($r('app.media.new_call_box_light'))
+          //         .width($r('app.float.id_card_image_small'))
+          //         .height($r('app.float.id_card_image_small'))
+          //         .fillColor($r('app.color.skin_icon_primary'))
+          //     }
+          //
+          //     Column()
+          //       .width(48)
+          //       .height(48)
+          //       .hitTestBehavior(HitTestMode.Block)
+          //       .onClick(() => {
+          //         HiLog.i(TAG, 'NewCalling message box clicked');
+          //         this.onNewCallingMessageBoxClicked();
+          //       });
+          //   }
+          //   .width(24)
+          //   .height(24)
+          //   .margin(this.isCeliaCallIconValid() ? { left: 12, right: this.message.recordLogList ? 12 : null } :
+          //     this.message.recordLogList ? { right: 12 } : null)
+          // }
 
         }
         Row() {
@@ -688,36 +688,36 @@ export default struct CallLogListItem {
                 start: LengthMetrics.resource($r('app.float.id_card_margin_mid'))
               })
           }
-          if (this.message.isSatellite === 1) { //联系人详情中的天通图标
-            SymbolGlyph($r('sys.symbol.satellite'))
-              .fontSize(10)
-              .maxFontScale(1)  //不放大
-              .fontColor([$r('app.color.skin_white')])
-              .padding({
-                left: 2,
-                top: 1,
-                right: 1,
-                bottom: 2
-              })
-              .backgroundImage($r('app.media.satellite_backgroud_img'))
-              .backgroundColor($r('sys.color.ohos_id_color_alert'))
-              .margin({
-                start: LengthMetrics.resource($r('app.float.id_card_margin_mid'))
-              })
-              .flexShrink(0)
-              .borderRadius($r('sys.float.Body_S'))
-          }
-          if (this.message.isSatellite === 2) { //联系人详情中加载风信子图标
-            Image($r('app.media.hyacinth_call_log'))
-              .margin({
-                start: LengthMetrics.resource($r('app.float.id_card_margin_mid'))
-              })
-              .size({ width: 12, height: 12 })
-              .backgroundImage($r('app.media.satellite_backgroud_img'))
-              .backgroundImageSize({ width: 12, height: 12 })
-              .backgroundColor($r('sys.color.ohos_id_color_alert'))
-              .borderRadius($r('sys.float.Body_S'))
-          }
+          // if (this.message.isSatellite === 1) { //联系人详情中的天通图标
+          //   SymbolGlyph($r('sys.symbol.satellite'))
+          //     .fontSize(10)
+          //     .maxFontScale(1)  //不放大
+          //     .fontColor([$r('app.color.skin_white')])
+          //     .padding({
+          //       left: 2,
+          //       top: 1,
+          //       right: 1,
+          //       bottom: 2
+          //     })
+          //     .backgroundImage($r('app.media.satellite_backgroud_img'))
+          //     .backgroundColor($r('sys.color.ohos_id_color_alert'))
+          //     .margin({
+          //       start: LengthMetrics.resource($r('app.float.id_card_margin_mid'))
+          //     })
+          //     .flexShrink(0)
+          //     .borderRadius($r('sys.float.Body_S'))
+          // }
+          // if (this.message.isSatellite === 2) { //联系人详情中加载风信子图标
+          //   Image($r('app.media.hyacinth_call_log'))
+          //     .margin({
+          //       start: LengthMetrics.resource($r('app.float.id_card_margin_mid'))
+          //     })
+          //     .size({ width: 12, height: 12 })
+          //     .backgroundImage($r('app.media.satellite_backgroud_img'))
+          //     .backgroundImageSize({ width: 12, height: 12 })
+          //     .backgroundColor($r('sys.color.ohos_id_color_alert'))
+          //     .borderRadius($r('sys.float.Body_S'))
+          // }
           if (this.message?.recordLogList) {
             SymbolGlyph($r('sys.symbol.recordingtape_rectangle_fill'))
               .fontSize($r('app.float.id_card_image_xs'))
@@ -781,28 +781,28 @@ export default struct CallLogListItem {
             .height(24)
             .margin((this.message.recordLogList || this.message.newCalling === 1) ? { right: 12 } : null)
           }
-          if (this.message.newCalling === 1) {
-            Stack({ alignContent: Alignment.End }) {
-              Image($r('app.media.new_call_box_light'))
-                .width($r('app.float.id_card_image_small'))
-                .height($r('app.float.id_card_image_small'))
-                .fillColor($r('app.color.skin_icon_primary'))
-              Column()
-                .width(48)
-                .height(48)
-                .margin({ right: -12 })
-                .accessibilityText($r('app.string.smart_box_display_name'))
-                .constraintSize({ minHeight: '22vp' })
-                .onClick(() => {
-                    HiLog.i(TAG, 'NewCalling message box clicked');
-                    this.onNewCallingMessageBoxClicked();
-                });
-            }
-            .width(24)
-            .height(24)
-            .margin(this.isCeliaCallIconValid() ? { left: 12, right: this.message.recordLogList ? 12 : null } :
-              this.message.recordLogList ? { right: 12 } : null)
-          }
+          // if (this.message.newCalling === 1) {
+          //   Stack({ alignContent: Alignment.End }) {
+          //     // Image($r('app.media.new_call_box_light'))
+          //     //   .width($r('app.float.id_card_image_small'))
+          //     //   .height($r('app.float.id_card_image_small'))
+          //     //   .fillColor($r('app.color.skin_icon_primary'))
+          //     Column()
+          //       .width(48)
+          //       .height(48)
+          //       .margin({ right: -12 })
+          //       .accessibilityText($r('app.string.smart_box_display_name'))
+          //       .constraintSize({ minHeight: '22vp' })
+          //       .onClick(() => {
+          //           HiLog.i(TAG, 'NewCalling message box clicked');
+          //           this.onNewCallingMessageBoxClicked();
+          //       });
+          //   }
+          //   .width(24)
+          //   .height(24)
+          //   .margin(this.isCeliaCallIconValid() ? { left: 12, right: this.message.recordLogList ? 12 : null } :
+          //     this.message.recordLogList ? { right: 12 } : null)
+          // }
 
           if (this.message.recordLogList) {
             Stack({ alignContent: Alignment.End }) {

@@ -99,7 +99,7 @@ export default struct Call {
   @StorageLink('activeCallId') activeCallId: number = -1;
   //仅限于用于展示号码 带格式化
   @StorageLink(DialerConstant.DIALER_TEL_NUMBER_WITH_SPACE) telNumberWithSpace: string = '';
-  @StorageLink('fullScreenPadding') fullScreenPadding: Padding = {};
+  @StorageLink('fullScreenPadding') @Watch('fullScreenPaddingOnChange')fullScreenPadding: Padding = {};
   @StorageLink('breakpoint') @Watch('multiSimCardUpdataWidth') curBp: string = 'sm';
   // 显示拨号盘
   @StorageLink('showDialBtn') @Watch('onShowDialBtnChange') showDialBtn: boolean = true;
@@ -318,6 +318,14 @@ export default struct Call {
     // v小折叠 外屏展示回到前台的时候，通话设置页面收起
     if ((this.isVerde && this.isMainAbilityForeground)) {
       this.isShowCallSetting = false;
+    }
+  }
+
+  fullScreenPaddingOnChange() {
+    if (this.fullScreenPadding.top as number < 0) {
+      this.fullScreenPaddingTop = px2vp(AppStorage.get('fullScreenPaddingTop') as number);
+    } else {
+      this.fullScreenPaddingTop = px2vp(this.fullScreenPadding.top as number);
     }
   }
 
