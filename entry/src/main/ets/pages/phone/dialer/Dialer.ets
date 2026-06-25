@@ -938,7 +938,7 @@ export default struct Call {
           .width($r('app.float.id_item_height_large'))
           .height((this.splitStatus === SplitStatus.ONE_THREE_SPLIT) ||
             (this.splitStatus === SplitStatus.HALF_SPLIT) ? 52 : $r('app.float.id_item_height_large'))
-          .backgroundColor($r('app.color.skin_confirm'))
+          .backgroundColor($r('app.color.answer_button_color'))
           .clickEffect({ level: ClickEffectLevel.LIGHT })
           .onClick(() => {
             // 联系人打点--点击拨号盘按钮显示
@@ -974,7 +974,7 @@ export default struct Call {
               .setAccessibilityText(this.isOpenAccessibility, $r('app.string.accessibility_expand_dialer')))
             .width($r('app.float.id_item_height_large'))
             .height($r('app.float.id_item_height_large'))
-            .backgroundColor($r('app.color.skin_confirm'))
+            .backgroundColor($r('app.color.answer_button_color'))
             .onClick(() => {
               // 联系人打点--点击拨号盘按钮显示
               this.showDialerParams.ISSHOW = 1;
@@ -1220,6 +1220,7 @@ export default struct Call {
           })
         .backgroundColor(this.isThemeActive ? $r('app.color.background_last_white') :
         $r('app.color.skin_comp_background_primary'))
+        .justifyContent(FlexAlign.End)
         .width('100%')
         .clip(new Rect({
           width: '100%',
@@ -1374,7 +1375,7 @@ export default struct Call {
       bottom: (this.splitStatus === SplitStatus.ONE_THREE_SPLIT) || (this.splitStatus === SplitStatus.HALF_SPLIT) ?
         16 : 22
     })
-    .safeAreaPadding({ bottom: 56 })
+    .safeAreaPadding({ bottom: this.splitStatus === SplitStatus.ONE_THREE_SPLIT ? 0 : 56 })
     .justifyContent(FlexAlign.SpaceAround)
   }
 

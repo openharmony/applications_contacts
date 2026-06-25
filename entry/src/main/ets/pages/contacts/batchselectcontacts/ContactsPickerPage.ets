@@ -862,14 +862,17 @@ export default struct ContactsPickerPage {
     //   })
     // )
     .menus((this.uiExtentionParam?.source === undefined &&
-      this.uiExtentionParam?.isContactsPicker === false) ? undefined : this.TitleGuide())
+      this.uiExtentionParam?.isContactsPicker === false) ||
+      this.mPresenter?.isSaveExistContact === true ? undefined : this.TitleGuide())
     // .titleMode(this.session !== undefined ? HdsNavDestinationTitleMode.MODAL : HdsNavDestinationTitleMode.MINI)
     .title(
       ResourceUtil.getStringByResource($r('app.string.select_contact'))
     )
-
     .padding({ top: this.fullScreenPaddingTop })
     .hideBackButton(this.session !== undefined && !this.isSearching)
+    .backButtonIcon(new SymbolGlyphModifier($r('sys.symbol.xmark'))
+      .fontSize($r('app.float.id_card_image_small'))
+      .fontColor([$r('app.color.skin_icon_primary')]))
     .backgroundColor($r('app.color.skin_ohos_id_color_panel_bg'))
     .onShown(() => {
       HiLog.i(TAG, 'onPageShow')

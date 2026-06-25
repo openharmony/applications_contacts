@@ -587,9 +587,12 @@ export default struct DialerSearchList {
                 });
               }
               .id('dialerSearchList_contacts_pad_itemList')
+              // 屏蔽加入黑名单入口后，防止出现拨号盘搜索已有联系人列表项长按，弹出无列表项的menu的问题，需要先屏蔽此场景的menu
               .bindContextMenu(this.MenuBuilder, ResponseType.LongPress, {
                 preview: this.MenuPreview,
                 previewAnimationOptions: { scale: [1, 1] },
+                // 解决长按拨号盘搜索结果列表项menu消失动效过慢的问题
+                transition:TransitionEffect.OPACITY.animation({ duration: 200,curve: Curve.Ease}),
                 placement: Placement.BottomLeft,
                 offset: {
                   x: 0,
@@ -733,82 +736,11 @@ export default struct DialerSearchList {
 
   @Builder
   MenuBuilder() {
-    Menu() {
-      if (StringUtil.isEmpty(this.mItem.name)) {
-        //复制号码
-        MenuItem({ content: $r('app.string.copy_phoneNumber') })
-          .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
-          .borderRadius($r('sys.float.corner_radius_level8'))
-          .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
-          .constraintSize({ minHeight: $r('app.float.id_item_height_mid') })
-          .padding({
-            left: $r('app.float.id_card_margin_xxl')
-          })
-          .onClick(async () => {
-            this.mIndexPresenter.getCopy(this.mPhoneNumber as string);
-            this.previewCardVisible = false;
-          })
-        this.MenuDivider()
-        ////新建联系人
-        MenuItem({ content: $r('app.string.new_contact') })
-          .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
-          .borderRadius($r('sys.float.corner_radius_level8'))
-          .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
-          .constraintSize({ minHeight: $r('app.float.id_item_height_mid') })
-          .padding({
-            left: $r('app.float.id_card_margin_xxl')
-          })
-          .onClick(async () => {
-            this.previewCardVisible = false;
-            this.mPresenter.creatAccountantsObj(this.mPhoneNumber as string);
-            AppStorage.setOrCreate('accountantParams', this.mPresenter.myAccountantsModel);
-            this.isShowAccountants = true;
-          })
-        this.MenuDivider()
-        // 保存至已有联系人
-        MenuItem({ content: $r('app.string.save_to_existing_contacts') })
-          .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
-          .borderRadius($r('sys.float.corner_radius_level8'))
-          .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
-          .constraintSize({ minHeight: $r('app.float.id_item_height_mid') })
-          .padding({
-            left: $r('app.float.id_card_margin_xxl')
-          })
-          .onClick(async () => {
-            this.mPresenter.saveCallRecordExistingContact(this.mPhoneNumber as string);
-          })
-        if (call.hasVoiceCapability()) {
-          this.MenuDivider()
-        }
-        if (call.hasVoiceCapability()) {
-          //标记为
-          MenuItem({ content: $r('app.string.menu_mark_as') })
-            .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
-            .borderRadius($r('sys.float.corner_radius_level8'))
-            .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
-            .constraintSize({ minHeight: $r('app.float.id_item_height_mid') })
-            .padding({
-              left: $r('app.float.id_card_margin_xxl')
-            })
-            .enabled(this.isOnCallSharingValue)
-            .onClick(() => {
-              this.previewCardVisible = false;
-              setTimeout(() => {
-                contactParams.ENC = dotCommon.eventParam.DIALER_SEARCH_MENU;
-                // 联系人打点-号码标记入口-陌生联系人通话记录长按
-                DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.NUMBER_TAG_EVENT);
-                this.markAsDialogController?.open();
-                DialogControllerManager.getInstance().addDialogController(this.markAsDialogController);
-              }, 200)
-            })
-          this.MenuDivider()
-        }
-      }
-      if (call.hasVoiceCapability()) {
-        if (this.isInBlock) {
-          //从黑名单中移除
-          MenuItem({ content: $r('app.string.delete_from_block_list') })
-            .enabled(this.isOnCallSharingValue)
+    if (StringUtil.isEmpty(this.mItem.name)) {
+      Menu() {
+        // if (StringUtil.isEmpty(this.mItem.name)) {
+          //复制号码
+          MenuItem({ content: $r('app.string.copy_phoneNumber') })
             .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
             .borderRadius($r('sys.float.corner_radius_level8'))
             .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
@@ -817,44 +749,119 @@ export default struct DialerSearchList {
               left: $r('app.float.id_card_margin_xxl')
             })
             .onClick(async () => {
-              // 联系人打点-从黑名单中移除-通话记录搜索长按
+              this.mIndexPresenter.getCopy(this.mPhoneNumber as string);
               this.previewCardVisible = false;
-              contactParams.ENC = dotCommon.eventParam.CLICK_CALL_HISTORY_SEARCH;
-              DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.REMOVE_BLOCKLIST_EVENT);
-              CallRecordPresenter.getInstance().cancelBlockList([this.mPhoneNumber],
-                ContactsGlobalThisHelper.GetGlobalThis().getDefaultUIContext(), (result: boolean) => {
-                  HiLog.w(TAG, 'cancelBlockList result:' + result);
-                });
             })
-        } else {
-          //加入黑名单
-          MenuItem({ content: $r('app.string.add_to_blocklist') })
-            .borderRadius($r('sys.float.corner_radius_level8'))
-            .constraintSize({ minHeight: $r('app.float.id_item_height_mid') })
+          this.MenuDivider()
+          ////新建联系人
+          MenuItem({ content: $r('app.string.new_contact') })
             .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
+            .borderRadius($r('sys.float.corner_radius_level8'))
             .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
+            .constraintSize({ minHeight: $r('app.float.id_item_height_mid') })
             .padding({
               left: $r('app.float.id_card_margin_xxl')
             })
-            .enabled(this.isOnCallSharingValue)
             .onClick(async () => {
-              // 联系人打点-加入黑名单-通话记录搜索长按
               this.previewCardVisible = false;
-              contactParams.ENC = dotCommon.eventParam.CLICK_CALL_HISTORY_SEARCH;
-              DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.ADD_BLOCKLIST_EVENT);
-              CallRecordPresenter.getInstance().addToBlockList([this.mPhoneNumber],
-                this.mName ? this.mName.replace(/<\/?[^>]+>/ig, '') : '', (result: boolean) => {
-                HiLog.w(TAG, 'addToBlockList result:' + result);
-              });
+              this.mPresenter.creatAccountantsObj(this.mPhoneNumber as string);
+              AppStorage.setOrCreate('accountantParams', this.mPresenter.myAccountantsModel);
+              this.isShowAccountants = true;
             })
-        }
+          this.MenuDivider()
+          // 保存至已有联系人
+          MenuItem({ content: $r('app.string.save_to_existing_contacts') })
+            .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
+            .borderRadius($r('sys.float.corner_radius_level8'))
+            .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
+            .constraintSize({ minHeight: $r('app.float.id_item_height_mid') })
+            .padding({
+              left: $r('app.float.id_card_margin_xxl')
+            })
+            .onClick(async () => {
+              this.mPresenter.saveCallRecordExistingContact(this.mPhoneNumber as string);
+            })
+          if (call.hasVoiceCapability()) {
+            this.MenuDivider()
+          }
+          if (call.hasVoiceCapability()) {
+            //标记为
+            MenuItem({ content: $r('app.string.menu_mark_as') })
+              .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
+              .borderRadius($r('sys.float.corner_radius_level8'))
+              .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
+              .constraintSize({ minHeight: $r('app.float.id_item_height_mid') })
+              .padding({
+                left: $r('app.float.id_card_margin_xxl')
+              })
+              .enabled(this.isOnCallSharingValue)
+              .onClick(() => {
+                this.previewCardVisible = false;
+                setTimeout(() => {
+                  contactParams.ENC = dotCommon.eventParam.DIALER_SEARCH_MENU;
+                  // 联系人打点-号码标记入口-陌生联系人通话记录长按
+                  DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.NUMBER_TAG_EVENT);
+                  this.markAsDialogController?.open();
+                  DialogControllerManager.getInstance().addDialogController(this.markAsDialogController);
+                }, 200)
+              })
+            // 屏蔽加入黑名单入口后，需要去除底部menu项的分割线
+            // this.MenuDivider()
+          }
+        // }
+        // 黑名单拦截是依赖于未开源的骚扰拦截，需要先屏蔽加入黑名单入口相关
+        // if (call.hasVoiceCapability()) {
+        //   if (this.isInBlock) {
+        //     //从黑名单中移除
+        //     MenuItem({ content: $r('app.string.delete_from_block_list') })
+        //       .enabled(this.isOnCallSharingValue)
+        //       .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
+        //       .borderRadius($r('sys.float.corner_radius_level8'))
+        //       .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
+        //       .constraintSize({ minHeight: $r('app.float.id_item_height_mid') })
+        //       .padding({
+        //         left: $r('app.float.id_card_margin_xxl')
+        //       })
+        //       .onClick(async () => {
+        //         // 联系人打点-从黑名单中移除-通话记录搜索长按
+        //         this.previewCardVisible = false;
+        //         contactParams.ENC = dotCommon.eventParam.CLICK_CALL_HISTORY_SEARCH;
+        //         DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.REMOVE_BLOCKLIST_EVENT);
+        //         CallRecordPresenter.getInstance().cancelBlockList([this.mPhoneNumber],
+        //           ContactsGlobalThisHelper.GetGlobalThis().getDefaultUIContext(), (result: boolean) => {
+        //             HiLog.w(TAG, 'cancelBlockList result:' + result);
+        //           });
+        //       })
+        //   } else {
+        //     //加入黑名单
+        //     MenuItem({ content: $r('app.string.add_to_blocklist') })
+        //       .borderRadius($r('sys.float.corner_radius_level8'))
+        //       .constraintSize({ minHeight: $r('app.float.id_item_height_mid') })
+        //       .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
+        //       .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
+        //       .padding({
+        //         left: $r('app.float.id_card_margin_xxl')
+        //       })
+        //       .enabled(this.isOnCallSharingValue)
+        //       .onClick(async () => {
+        //         // 联系人打点-加入黑名单-通话记录搜索长按
+        //         this.previewCardVisible = false;
+        //         contactParams.ENC = dotCommon.eventParam.CLICK_CALL_HISTORY_SEARCH;
+        //         DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.ADD_BLOCKLIST_EVENT);
+        //         CallRecordPresenter.getInstance().addToBlockList([this.mPhoneNumber],
+        //           this.mName ? this.mName.replace(/<\/?[^>]+>/ig, '') : '', (result: boolean) => {
+        //           HiLog.w(TAG, 'addToBlockList result:' + result);
+        //         });
+        //       })
+        //   }
+        // }
       }
+      .onAppear(() => {
+        this.previewCardVisible = true;
+      })
+      .radius($r('sys.float.corner_radius_level10'))
+      .width($r('app.float.account_MenuBuilder_width_xl'))
     }
-    .onAppear(() => {
-      this.previewCardVisible = true;
-    })
-    .radius($r('sys.float.corner_radius_level10'))
-    .width($r('app.float.account_MenuBuilder_width_xl'))
   }
 
   @Builder
@@ -871,7 +878,7 @@ export default struct DialerSearchList {
     builder: CustomContentDialog({
       theme: this.isThemeActive ? defaultCustomTheme : undefined,
       primaryTitle: $r('app.string.dialog_title_mark_as'),
-      secondaryTitle: $r('app.string.dialog_mark_as_to_cloud'),
+      // secondaryTitle: $r('app.string.dialog_mark_as_to_cloud'),
       contentBuilder: () => {
         this.markAsDialog();
       },

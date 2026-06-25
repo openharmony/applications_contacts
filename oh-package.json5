@@ -6,7 +6,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "harmonyos-sdk-for-openharmony": "file:lib/harmonyos-sdk-for-openharmony.har"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.16",

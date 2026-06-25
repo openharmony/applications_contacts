@@ -525,7 +525,7 @@ export class ContactRepository implements IContactRepository {
         .in(Data.TYPE_ID, [
           DataItemType.EMAIL, DataItemType.EVENT, DataItemType.GROUP_MEMBERSHIP, DataItemType.IM, DataItemType.PHONE,
           DataItemType.STRUCTURED_POSTAL, DataItemType.RELATION, DataItemType.WEBSITE, DataItemType.NAME,
-          DataItemType.NOTE, DataItemType.ORGANIZATION
+          DataItemType.NOTE, DataItemType.ORGANIZATION, DataItemType.PHOTO
         ])
         .orderByAsc(RawContacts.CONTACT_ID)
         .orderByAsc(Data.RAW_CONTACT_ID)

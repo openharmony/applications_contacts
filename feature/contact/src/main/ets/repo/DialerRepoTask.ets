@@ -128,6 +128,11 @@ export async function updateDialerSearchList(value: string, contactsCountNumbers
     if (resultFromDb && resultFromDb.length) {
       for (let i = 0; i < resultFromDb.length; i++) {
         resultList.push(resultFromDb[i]);
+        // 将联系人姓名添加到去重集合，解决拨号盘搜索出来两个重复联系人的问题（此场景下的联系人是从通话记录中保存or新建的）
+        let nameKey = resultFromDb[i].name.replace(regex, '');
+        if (nameKey) {
+          contactNameKeySet.add(nameKey);
+        }
       }
       contactsOffsetFromDb = resultFromDb.length;
     } else {

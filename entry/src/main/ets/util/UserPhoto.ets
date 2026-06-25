@@ -802,11 +802,13 @@ export function base64StrToPixelMap(base64Str: string): PixelMap {
 
   let buffer = helper.decodeSync(base64Str, util.Type.MIME).buffer as ArrayBuffer;
   let imageSource = image.createImageSource(buffer);
-  let opts: image.DecodingOptions = { editable: true};
-  let retPixelMap = imageSource.createPixelMapSync(opts);
-  imageSource.release().catch((error: BusinessError) => {
-  });
-  return retPixelMap;
+  try {
+    let opts: image.DecodingOptions = { editable: true};
+    return imageSource.createPixelMapSync(opts);
+  }finally {
+    imageSource.release().catch((error: BusinessError) => {
+    });
+  }
 }
 
 export class ContactPhotoVo {
@@ -821,14 +823,17 @@ export class ContactPhotoVo {
 
 export function buildContactPhotoVo(contactId: string, blobData: Uint8Array): ContactPhotoVo {
   let imageSource = image.createImageSource(blobData.buffer);
-  let pixelMap = imageSource.createPixelMapSync({
-    desiredSize: {
-      height: vp2px(128),
-      width: vp2px(128)
-    }
-  });
-  imageSource.release();
-  return new ContactPhotoVo(contactId, pixelMap);
+  try {
+    let pixelMap = imageSource.createPixelMapSync({
+      desiredSize: {
+        height: vp2px(128),
+        width: vp2px(128)
+      }
+    });
+    return new ContactPhotoVo(contactId, pixelMap);
+  }finally {
+    imageSource.release();
+  }
 }
 
 @Concurrent

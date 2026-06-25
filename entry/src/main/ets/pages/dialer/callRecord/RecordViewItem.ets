@@ -646,6 +646,8 @@ export default struct CallRecordItem {
       .bindContextMenu(this.isMenuShown, this.MenuBuilder, {
         preview: this.MenuPreview,
         previewAnimationOptions: { scale: [1, 1] },
+        // 解决长按通话记录列表项menu消失动效过慢的问题
+        transition:TransitionEffect.OPACITY.animation({ duration: 200,curve: Curve.Ease}),
         placement: Placement.BottomLeft,
         offset: {
           x: 0,
@@ -957,43 +959,44 @@ export default struct CallRecordItem {
             })
           this.MenuDivider(MenuType.MarkAs, this.item.displayName as string)
         }
-        if (call.hasVoiceCapability() && !this.isPrivateAccount) {
-          // 加入黑名单还是从黑名单移除菜单
-          if (this.isInBlock) {
-            //从黑名单中移除
-            MenuItem({ content: $r('app.string.delete_from_block_list') })
-              .enabled(this.isOnCallSharingValue)
-              .MenuItemStyles()
-              .contentFont({ size: this.contentFontSize, weight: FontWeight.Medium })
-              .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
-              .onClick(async () => {
-                // 联系人打点-从黑名单中移除-长按通话记录
-                contactParams.ENC = dotCommon.eventParam.CLICK_CALL_HISTORY;
-                DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.REMOVE_BLOCKLIST_EVENT);
-                CallRecordPresenter.getInstance().cancelBlockList([this.item.phoneNumber as string],
-                  ContactsGlobalThisHelper.GetGlobalThis().getDefaultUIContext(), (result: boolean) => {
-                    HiLog.w(TAG, 'cancelBlockList result:' + result);
-                  });
-              })
-          } else {
-            //加入黑名单
-            MenuItem({ content: $r('app.string.add_to_blocklist') })
-              .enabled(this.isOnCallSharingValue)
-              .MenuItemStyles()
-              .contentFont({ size: this.contentFontSize, weight: FontWeight.Medium })
-              .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
-              .onClick(async () => {
-                // 联系人打点-加入黑名单-长按通话记录
-                contactParams.ENC = dotCommon.eventParam.CLICK_CALL_HISTORY;
-                DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.ADD_BLOCKLIST_EVENT);
-                CallRecordPresenter.getInstance()
-                  .addToBlockList([this.item.phoneNumber as string], this.item.displayName, (result: boolean) => {
-                    HiLog.w(TAG, 'addToBlockList result:' + result);
-                  });
-              })
-          }
-          this.MenuDivider(MenuType.EditBeforeCall, this.item.displayName as string)
-        }
+        // 黑名单拦截是依赖于未开源的骚扰拦截，需要先屏蔽加入黑名单入口相关
+        // if (call.hasVoiceCapability() && !this.isPrivateAccount) {
+        //   // 加入黑名单还是从黑名单移除菜单
+        //   if (this.isInBlock) {
+        //     //从黑名单中移除
+        //     MenuItem({ content: $r('app.string.delete_from_block_list') })
+        //       .enabled(this.isOnCallSharingValue)
+        //       .MenuItemStyles()
+        //       .contentFont({ size: this.contentFontSize, weight: FontWeight.Medium })
+        //       .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
+        //       .onClick(async () => {
+        //         // 联系人打点-从黑名单中移除-长按通话记录
+        //         contactParams.ENC = dotCommon.eventParam.CLICK_CALL_HISTORY;
+        //         DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.REMOVE_BLOCKLIST_EVENT);
+        //         CallRecordPresenter.getInstance().cancelBlockList([this.item.phoneNumber as string],
+        //           ContactsGlobalThisHelper.GetGlobalThis().getDefaultUIContext(), (result: boolean) => {
+        //             HiLog.w(TAG, 'cancelBlockList result:' + result);
+        //           });
+        //       })
+        //   } else {
+        //     //加入黑名单
+        //     MenuItem({ content: $r('app.string.add_to_blocklist') })
+        //       .enabled(this.isOnCallSharingValue)
+        //       .MenuItemStyles()
+        //       .contentFont({ size: this.contentFontSize, weight: FontWeight.Medium })
+        //       .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
+        //       .onClick(async () => {
+        //         // 联系人打点-加入黑名单-长按通话记录
+        //         contactParams.ENC = dotCommon.eventParam.CLICK_CALL_HISTORY;
+        //         DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.ADD_BLOCKLIST_EVENT);
+        //         CallRecordPresenter.getInstance()
+        //           .addToBlockList([this.item.phoneNumber as string], this.item.displayName, (result: boolean) => {
+        //             HiLog.w(TAG, 'addToBlockList result:' + result);
+        //           });
+        //       })
+        //   }
+        //   this.MenuDivider(MenuType.EditBeforeCall, this.item.displayName as string)
+        // }
       }
       //删除通话记录
       MenuItem({ content: $r('app.string.delete_call_logs') })
@@ -1149,7 +1152,7 @@ export default struct CallRecordItem {
     builder: CustomContentDialog({
       theme: this.isThemeActive ? defaultCustomTheme : undefined,
       primaryTitle: $r('app.string.dialog_title_mark_as'),
-      secondaryTitle: $r('app.string.dialog_mark_as_to_cloud'),
+      // secondaryTitle: $r('app.string.dialog_mark_as_to_cloud'),
       contentBuilder: () => {
         this.markAsDialog();
       },
