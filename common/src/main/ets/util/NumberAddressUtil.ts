@@ -12,7 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import numberLookup from '@ohos.contact.numberLookup';
+// 注释原因：LTS分支同步专用依赖，社区无对应依赖库，直接保留会编译报错，暂注释屏蔽
+//  import numberLookup from '@ohos.contact.numberLookup';
 import { HiLog } from './HiLog';
 import call from '@ohos.telephony.call';
 
@@ -21,46 +22,46 @@ const TAG = 'NumberAddressUtil';
 export class NumberAddressUtil {
   static async getNumberLocation(context, number: string, isExactMatch?: boolean): Promise<string> {
     HiLog.w(TAG, 'getNumberLocation');
-    try {
-      let location = await numberLookup.getNumberLocation(context, number, isExactMatch);
-      return location;
-    } catch (err) {
+    // try {
+    //   // let location = await numberLookup.getNumberLocation(context, number, isExactMatch);
+    //   // return location;
+    // } catch (err) {
       HiLog.e(TAG, 'getNumberLocation, failed: ');
       return '';
-    }
+    // }
   }
 
   static async getNumberLocationArr(context, arr: Array<string>): Promise<Array<string>> {
     HiLog.i(TAG, 'getNumberLocationArr');
-    try {
-      let locations = await numberLookup.getNumberLocations(context, arr);
-      return locations;
-    } catch (err) {
+    // try {
+    //   let locations = await numberLookup.getNumberLocations(context, arr);
+    //   return locations;
+    // } catch (err) {
       HiLog.e(TAG, 'getNumberLocationArr, failed: ');
       return [];
-    }
+    // }
   }
 
   static async setNumberMarkInfo(context, number: string,
     markType: call.MarkType, markContent?: string): Promise<void> {
-    HiLog.i(TAG, 'setNumberMarkInfo: ' + ' markType: ' + markType + ' markContent: ' + markContent);
-    try {
-      await numberLookup.setNumberMarkInfo(context, number, markType, markContent);
-    } catch (err) {
-      HiLog.e(TAG, 'setNumberMarkInfo, failed: ' + err?.message + ', stack: ' + err?.stack);
-    }
+    // HiLog.i(TAG, 'setNumberMarkInfo: ' + ' markType: ' + markType + ' markContent: ' + markContent);
+    // try {
+    //   await numberLookup.setNumberMarkInfo(context, number, markType, markContent);
+    // } catch (err) {
+    //   HiLog.e(TAG, 'setNumberMarkInfo, failed: ' + err?.message + ', stack: ' + err?.stack);
+    // }
   }
 
   static async getNumberMarkInfo(context, number: string): Promise<call.NumberMarkInfo> {
     HiLog.i(TAG, 'getNumberMarkInfo');
-    try {
-      let numberMarkInfo = await numberLookup.getNumberMarkInfo(context, number);
-      return numberMarkInfo;
-    } catch (err) {
-      HiLog.e(TAG, 'getNumberMarkInfo, failed: ' + err?.message + ', stack: ' + err?.stack);
+    // try {
+    //   let numberMarkInfo = await numberLookup.getNumberMarkInfo(context, number);
+    //   return numberMarkInfo;
+    // } catch (err) {
+    //   HiLog.e(TAG, 'getNumberMarkInfo, failed: ' + err?.message + ', stack: ' + err?.stack);
       return {
         markType: call.MarkType.MARK_TYPE_NONE
       };
-    }
+    // }
   }
 }
