@@ -13,10 +13,29 @@
  * limitations under the License.
  */
 
-export default {
-  Shadow: {
-    xs: {
-      radius: 10, color: '#D8D8D8', offsetX: 2, offsetY: 2
-    }
+interface ShadowConfig {
+  radius: number;
+  color: string;
+  offsetX: number;
+  offsetY: number;
+}
+
+interface ShadowType {
+  xs: ShadowConfig;
+}
+
+class PatternUtil {
+  public shadow: ShadowType;
+
+  constructor(shadow: ShadowType) {
+    this.shadow = shadow;
   }
 }
+
+let shadow: ShadowType = {
+  xs: {
+    radius: 10, color: '#D8D8D8', offsetX: 2, offsetY: 2
+  }
+}
+
+export default new PatternUtil(shadow);

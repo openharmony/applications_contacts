@@ -1,0 +1,612 @@
+{
+    "plural":[
+        {
+            "name":"found_contacts",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Found %1$d contact",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Found %1$d contacts",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"minutesAgo",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d min ago",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d min ago",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"delete_callLog_dialog_title",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Delete %d call log entry?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Delete %d call log entries?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"secondsFormat",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d sec",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d sec",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"select_num",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d selected",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d selected",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"delete_group_title",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Delete %d group",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Delete %d groups",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"harassment_blockreason_mark_by_other",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Marked by %d person",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Marked by %d people",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"harassment_harassing_calls_reason",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Nuisance | Marked by %d person",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Nuisance | Marked by %d people",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"harassment_scam_calls_reason",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"High risk | Marked by %d person",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"High risk | Marked by %d people",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"already_mark_update",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Marked by %d person",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Marked by %d people",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"interceptionNotifyTitle",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Blocked %d nuisance call",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Blocked %d nuisance calls",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"interceptionNotificationText",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d block recently",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d blocks recently",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"contacts_recycle_deleted_confirm",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Permanently delete %d contact?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Permanently delete %d contacts?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"recycle_days_left",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d day left",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d days left",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"contacts_restored",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Restored %d contact.",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Restored %d contacts.",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"auto_merge_msg",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"You have %d contact with the same name. Would you like to merge them?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"You have %d contacts with the same name. Would you like to merge them?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"delete_or_not",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Delete %d contact?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Delete %d contacts?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"search_new",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Search %d contact",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Search %d contacts",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"people_number_from_tablet",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d contact from tablet",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d contacts from tablet",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"people_number_from_phone",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d contact from phone",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d contacts from phone",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"import_sim_contact_toast",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Added %d contact.",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Added %d contacts.",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"minuteFormat",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d min",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d min",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"hoursFormat",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d h",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d h",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"people_number",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d contact",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d contacts",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"contacts_ring_times",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Rang %d sec",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Rang %d sec",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"n_files",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d file",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d files",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"cloud_contacts",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Total contacts: %d",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Total contacts: %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"merge_contacts",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"After auto-merge: %d",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"After auto-merge: %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"recovering_contact_dialog",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Contacts on your device will be reverted to the way they were immediately after the OpenHarmony update was completed. There will be %d contact after restoration.",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Contacts on your device will be reverted to the way they were immediately after the OpenHarmony update was completed. There will be %d contacts after restoration.",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"people_number_from_computer",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d contact from computer",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d contacts from computer",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"select_all_play_button",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d item in total",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d items in total",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"intelligence_group_add_contact_dialog_title",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Add %d contact?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Add %d contacts?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                }
+            ]
+        }
+    ]
+}

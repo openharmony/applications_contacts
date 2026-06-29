@@ -17,31 +17,76 @@ import Contact from '../entity/Contact';
 import { Contacts } from '../contract/Contacts';
 import { RawContacts } from '../contract/RawContacts';
 import ContactBuilder from '../entity/ContactBuilder';
-import { PhoneNumberInterface } from '../../../../../../entry/src/main/ets/model/type';
 import DataShareResultSet from '@ohos.data.DataShareResultSet';
+import { PhoneNumberInterface } from '../../../../../../entry/src/main/ets/model/type';
+import { PickerShowSubData } from '../../../../../../entry/src/main/ets/model/type/ContactParams';
 
 export default class ContactListItem {
-  static readonly COLUMNS: string[] = [Contacts.ID, Contacts.QUICK_SEARCH_KEY, RawContacts.DISPLAY_NAME,
-    RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME, Contacts.COMPANY, Contacts.POSITION, RawContacts.FAVORITE_ORDER];
-  readonly id: number;
-  readonly displayName: string;
-  readonly sortFirstLetter: string;
-  readonly photoFirstName: string;
-  readonly quickSearchKey: string;
-  readonly company: string;
-  readonly position: string;
-  readonly favoriteOrder: string;
-  public phoneNumbers: PhoneNumberInterface[] | undefined = [];
+  public static readonly COLUMNS: string[] = [Contacts.ID, Contacts.NAME_RAW_CONTACT_ID,
+    Contacts.QUICK_SEARCH_KEY, RawContacts.DISPLAY_NAME,
+    RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME,
+    Contacts.COMPANY, Contacts.POSITION, RawContacts.FAVORITE_ORDER, RawContacts.FAVORITE, RawContacts.MARK_MY_CARD];
+  public static readonly COLUMNS_CONTACT_LIST_INDEX: string[] = [Contacts.ID, Contacts.NAME_RAW_CONTACT_ID,
+    Contacts.QUICK_SEARCH_KEY, RawContacts.DISPLAY_NAME,
+    RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME,
+    Contacts.COMPANY, Contacts.POSITION, RawContacts.FAVORITE_ORDER, RawContacts.FAVORITE,
+    RawContacts.SORT_KEY, RawContacts.SORT
+  ];
+  public static readonly COLUMNS_CONTACT_LIST_GET_ALL_CONTACT: string[] = [Contacts.ID, Contacts.NAME_RAW_CONTACT_ID,
+    RawContacts.DISPLAY_NAME,
+    RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME,
+    Contacts.COMPANY, Contacts.POSITION, RawContacts.FAVORITE, RawContacts.MARK_MY_CARD
+  ];
+  public static readonly COLUMNS_INTELLIGENCE_GROUP: string[] = [Contacts.COMPANY, Contacts.COUNT];
+  public static readonly COLUMNS_LOCATION: string[] = [Contacts.LOCATION, Contacts.COUNT];
+  public static readonly COLUMNS_LATEST_CONTACT_TIME: string[] = [Contacts.LOCATION, Contacts.COUNT];
+  public static readonly COLUMNS_CONTACT_LIST_GET_ALL_CONTACT_INCLUDE_CONTACT_TIME: string[] = [Contacts.ID,
+    Contacts.NAME_RAW_CONTACT_ID,
+    RawContacts.DISPLAY_NAME,
+    RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME,
+    Contacts.COMPANY, Contacts.POSITION, RawContacts.FAVORITE, RawContacts.MARK_MY_CARD,
+    RawContacts.LASTEST_CONTACTED_TIME,
+    RawContacts.SORT_KEY, RawContacts.SORT
+  ];
+  public static readonly COLUMNS_WITH_MEETIME_IMG: string[] =
+    [Contacts.ID, Contacts.NAME_RAW_CONTACT_ID, Contacts.QUICK_SEARCH_KEY, RawContacts.DISPLAY_NAME,
+      RawContacts.SORT_FIRST_LETTER, RawContacts.PHOTO_FIRST_NAME, Contacts.COMPANY, Contacts.POSITION,
+      RawContacts.FAVORITE_ORDER, RawContacts.EXTRA3];
+  public static readonly ACCOUNT_COLUMNS: string[] =
+    [Contacts.ID, Contacts.ACCOUNT_NAME, Contacts.ACCOUNT_TYPE, Contacts.DATA_INFO];
+  public static readonly COLUMNS_RAW_CONTACT: string[] =
+    [Contacts.ID, RawContacts.CONTACT_ID, RawContacts.DISPLAY_NAME];
+  public readonly id: number;
+  public readonly nameRawContactId: number;
+  public readonly displayName: string;
+  public readonly sortFirstLetter: string;
+  public readonly photoFirstName: string;
+  public readonly quickSearchKey: string;
+  public readonly company: string;
+  public readonly position: string;
+  public readonly favoriteOrder: number;
+  public readonly extra3: string;
+  public show?: boolean = false;
+  public phoneNumbers: PhoneNumberInterface[] = [];
+  public readonly favorite: string;
+  public readonly sort: string;
+  public readonly sortKey: string;
+  public pickerShowSubDatas: PickerShowSubData[] = [];
 
   constructor(resultSet: DataShareResultSet) {
     this.id = resultSet.getLong(resultSet.getColumnIndex(Contacts.ID));
+    this.nameRawContactId = resultSet.getLong(resultSet.getColumnIndex(Contacts.NAME_RAW_CONTACT_ID));
     this.displayName = resultSet.getString(resultSet.getColumnIndex(RawContacts.DISPLAY_NAME));
     this.sortFirstLetter = resultSet.getString(resultSet.getColumnIndex(RawContacts.SORT_FIRST_LETTER));
     this.photoFirstName = resultSet.getString(resultSet.getColumnIndex(RawContacts.PHOTO_FIRST_NAME));
     this.quickSearchKey = resultSet.getString(resultSet.getColumnIndex(Contacts.QUICK_SEARCH_KEY));
     this.company = resultSet.getString(resultSet.getColumnIndex(Contacts.COMPANY));
     this.position = resultSet.getString(resultSet.getColumnIndex(Contacts.POSITION));
-    this.favoriteOrder = resultSet.getString(resultSet.getColumnIndex(RawContacts.FAVORITE_ORDER));
+    this.favoriteOrder = resultSet.getLong(resultSet.getColumnIndex(RawContacts.FAVORITE_ORDER));
+    this.extra3 = resultSet.getString(resultSet.getColumnIndex(RawContacts.EXTRA3))
+    this.favorite = resultSet.getString(resultSet.getColumnIndex(RawContacts.FAVORITE));
+    this.sort = resultSet.getString(resultSet.getColumnIndex(RawContacts.SORT));
+    this.sortKey = resultSet.getString(resultSet.getColumnIndex(RawContacts.SORT_KEY));
   }
 
   createContact() {

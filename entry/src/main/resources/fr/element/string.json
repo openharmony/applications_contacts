@@ -1,0 +1,3970 @@
+{
+    "string":[
+        {
+            "name":"initial_and_pinyin_search_supported",
+            "value":"Recherche par nom complet ou par initiales.\n",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missedCall",
+            "value":"Appel manqué",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_Text_cleared",
+            "value":"Texte effacé",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"hua_xiao_fen",
+            "value":"Pour rechercher 花小粉 (Hua Xiao Fen), vous pouvez simplement saisir :",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_chat_connect_net_msg",
+            "value":"Une connexion Internet est nécessaire pour passer des appels MeeTime.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_failed",
+            "value":"L'importation de %d a échoué.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_ringtone",
+            "value":"Son de notification",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"account_contact_count_all",
+            "value":"Total : %d",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"please_expand_your_phone_to_use",
+            "value":"Veuillez d'abord déplier le téléphone.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"secure_access_content",
+            "value":"Vos contacts sont affichés ici, mais cette application ne peut accéder qu'à ceux que vous sélectionnez.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_work",
+            "value":"Organisation",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"not_selected",
+            "value":"Aucune sélection",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_contact_short_cut",
+            "value":"Raccourci d'accès à un contact",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"already_in_block",
+            "value":"Bloqué",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"unselect_all",
+            "value":"Désélectionner tout",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add_more",
+            "value":"Ajouter d'autres champs",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_answered_phone",
+            "value":"Appel répondu",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_ringtone",
+            "value":"Aucun",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"interception_rule_blockall_title",
+            "value":"Interception totale",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"voicemail",
+            "value":"Messagerie vocale",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"clear_default_values",
+            "value":"Effacer les valeurs par défaut",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_contacts_to_account",
+            "value":"Importer les contacts dans",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"export_succeed",
+            "value":"Exportation réussie.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"missed_call",
+            "value":"Appels manqués",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"only_accessed",
+            "value":"Cette application ne peut accéder qu'aux contacts que vous sélectionnez.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"tv_display_name",
+            "value":"Vision",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_crank",
+            "value":"Spam",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"pinyin_search_supported",
+            "value":"Recherche possible par Pinyin",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"video_call",
+            "value":"Appel vidéo",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"commotion_intercept",
+            "value":"Appels interceptés",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_from_sim_card_title",
+            "value":"Importer depuis la %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_setting_type_paste",
+            "value":"Coller",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Speed_dial",
+            "value":"Composition abrégée",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_home_expansion",
+            "value":"Fax domicile (%s)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add_relation",
+            "value":"Ajouter une relation",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_pager_expansion",
+            "value":"Bipeur %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"tablet_group",
+            "value":"Groupes sur la tablette",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"cancel_stop_import",
+            "value":"Annuler",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"auto_merge_submsg",
+            "value":"Seuls les contacts ayant le même nom et le même numéro de téléphone seront automatiquement fusionnés.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_audio_title",
+            "value":"Appel audio MeeTime",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_deleted_from_app",
+            "value":"Supprimé de %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"deleting_group",
+            "value":"Supprimer le groupe",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_delete",
+            "value":"Retirer",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_number",
+            "value":"Numéro de téléphone",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"hous_minute_sec",
+            "value":"%1$s %2$s %3$s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"setting",
+            "value":"Paramètres",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"organize_contacts",
+            "value":"Organiser les contacts",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"will_be_imported_later",
+            "value":"L'importation du fichier %d est imminente.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_add_to_blocklist_and_block",
+            "value":"Le numéro sera ajouté à la liste de blocage.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_call_logs",
+            "value":"Tous",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"allow",
+            "value":"Autoriser",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_kinship",
+            "value":"Proche",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"choose_sub_recommend",
+            "value":"Utilisé la dernière fois",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"importing_sim_contact",
+            "value":"Importation des contacts...",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"forbidden",
+            "value":"Refuser",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_online_music",
+            "value":"Parcourir les sonneries en ligne",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"group_rename",
+            "value":"Renommer",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"group_ringtone",
+            "value":"Sonnerie groupe",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_contacts",
+            "value":"Tous les contacts",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_shortcut_msg",
+            "value":"Sélection d'un contact pour la numérotation rapide.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"resolve_search_errors",
+            "value":"Cette action résoudra les problèmes de recherche en réparant l'index de recherche des contacts. Ceci pourrait prendre quelques minutes. Réparer maintenant ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"learning_table_lamp_display_name",
+            "value":"Lampe",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_advertising_calls_reason",
+            "value":"Publicité",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"copy",
+            "value":"Copier",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"rebuilding_wait",
+            "value":"Réparation en cours. Veuillez patienter.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_all_callLog_dialog_title",
+            "value":"Supprimer toutes les entrées du journal d'appels ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"recent",
+            "value":"Récents",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle_tips_normal",
+            "value":"Les contacts sont définitivement supprimés à expiration de la durée affichée (jusqu'à %d jours).",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"my_card",
+            "value":"Ma carte",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"done",
+            "value":"Terminer",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"copy_contact_from",
+            "value":"Copier contacts de",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Import",
+            "value":"Importer",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recreating_index_data",
+            "value":"Réparer les données d'index",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_other",
+            "value":"Autre",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"deleteCallLog_dialog_title",
+            "value":"Supprimer cette entrée du journal d'appels ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_blockreason_strangenumber",
+            "value":"Numéro inconnu",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"remarks",
+            "value":"Notes",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"justNow",
+            "value":"À l'instant",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_mobile",
+            "value":"Mobile",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"More",
+            "value":"Plus d'options",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"mores",
+            "value":"Plus",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"MainAbility_label",
+            "value":"Téléphone",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"unknow_location",
+            "value":"Inconnu",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_not_save",
+            "value":"Supprimer",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dial",
+            "value":"Pavé de numérotation",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_marked",
+            "value":"%s (marqué)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_mother",
+            "value":"Mère",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialer_calllog",
+            "value":"Journal d'appels",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_phone_sharing",
+            "value":"Partage de communication",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_email",
+            "value":"Ajouter une adresse e-mail",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"more",
+            "value":"Plus d'options",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"adjusting_harassment_interception_settings",
+            "value":"Vous avez reçu plusieurs appels spams récemment. Veuillez toucher ici pour définir l'interception des appels.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"official_treasure_display_name",
+            "value":"IdeaHub",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"haique_camera_display_name",
+            "value":"Caméra Alcidae",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"allowed_to_network",
+            "value":"Ce service a besoin d'accéder à Internet. Autoriser ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"only_once_merge",
+            "value":"Fusionner cette fois seulement",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"detail_immersive",
+            "value":"Ajouter un contact",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save_to_phone",
+            "value":"Enregistrer sur : téléphone",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_scam_calls_reason",
+            "value":"Risque élevé",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_display_name",
+            "value":"Téléphone",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missed_proprietor",
+            "value":"De tout le monde",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"manually_merge_duplicate_contacts",
+            "value":"Fusionner les contacts en double",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"emails",
+            "value":"E-mail",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"share",
+            "value":"Partager",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"robot_display_name",
+            "value":"Robot",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_real_estate_calls_reason",
+            "value":"Agent immobilier",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_custom",
+            "value":"Personnalisé",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassmentDialogTitleAddIntoWhitelist",
+            "value":"Ajouter à la liste de confiance ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"smart_identify_info",
+            "value":"Les escroqueries possibles vous sont notifiées pendant que vous êtes au téléphone.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_yahoo",
+            "value":"Yahoo",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"merge_duplicate",
+            "value":"Fusionner",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_risk_identify",
+            "value":"Détection d'escroquerie en direct",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"date",
+            "value":"Date",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"not_set_speed_dial",
+            "value":"Aucun numéro attribué à cette touche pour une composition abrégée. En attribuer un ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"error_network",
+            "value":"Aucune connexion Internet. Veuillez vérifier les paramètres réseau.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle",
+            "value":"Récemment supprimés",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"personal_information_collected",
+            "value":"Informations/données personnelles recueillies",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"restore_contacts_alert_cloud_sync_close",
+            "value":"Les contacts sur votre appareil seront rétablis tels qu'ils étaient immédiatement après la fin de la mise à jour OpenHarmony.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_restore_failed",
+            "value":"La restauration des contacts a échoué.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"search_button",
+            "value":"Rechercher",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_source_phone_state",
+            "value":"Dianhuabang",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"interceptionNotificationTitle",
+            "value":"Appel spam intercepté.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_message",
+            "value":"Ajouter un compte de messagerie instantanée",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_custom",
+            "value":"Personnalisé",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"cannot_start_a_new_call",
+            "value":"L'appel ne peut pas être initié. Un appel est déjà en cours.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"send_message",
+            "value":"Envoyer un SMS",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"send_email",
+            "value":"E-mail",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_picture",
+            "value":"Sélectionner une image",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"speaker_display_name",
+            "value":"Haut-parleur",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"statement_on_Contacts_and_Privacy",
+            "value":"Déclaration relative à la vie privée Contacts",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_clean_button",
+            "value":"Supprimer",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_speedDial",
+            "value":"Numérotation rapide",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"one_week_ago",
+            "value":"Il y a une semaine",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add_website",
+            "value":"Ajouter un site Internet",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_fraud",
+            "value":"Risque élevé",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"shut_down",
+            "value":"Désactivé",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_duplicate_contacts",
+            "value":"Aucun contact en double",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"learning_pad_display_name",
+            "value":"Écran Vision d'étude",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"favorite",
+            "value":"Favoris",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"service_and_privacy_statement",
+            "value":"Déclarations relatives à la vie privée",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_from_block_list",
+            "value":"Retirer de la liste de blocage",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"share_contact",
+            "value":"Partager",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"default_value",
+            "value":"Par défaut",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"click_to_paste",
+            "value":"Toucher pour coller",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"house_type_position",
+            "value":"Bureau",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact",
+            "value":"Contacts",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"click_to_edit_card",
+            "value":"Toucher pour modifier",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Import_Export",
+            "value":"Importer/exporter",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_smart_mark_remove",
+            "value":"Aucun",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_contact",
+            "value":"Sélectionner un contact",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassmentInterceptionCallDeleteOrNot_new",
+            "value":"Effacer cette entrée d'appel intercepté ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_contacts",
+            "value":"Aucun contact",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_group",
+            "value":"Supprimer le groupe sélectionné ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"menu_harassment_filter",
+            "value":"Appels interceptés",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"remove_from_group",
+            "value":"Supprimer du groupe",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"computer",
+            "value":"Ordinateur",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_recycle_tips_sync",
+            "value":"Les contacts sont définitivement supprimés de cet appareil, du cloud et de tous les appareils synchronisés à expiration de la durée affichée (jusqu'à %d jours).",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"service_provider",
+            "value":"Opérateur",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_chat_title",
+            "value":"Numéro auquel envoyer le message",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_missed_favorite_contacts_only",
+            "value":"Des contacts favoris uniquement",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_contact_tips_one",
+            "value":"Ce contact sera supprimé de tous les comptes.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"website",
+            "value":"Site Internet",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_select",
+            "value":"Aucune sélection",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_deleted_from_hidisk",
+            "value":"Supprimé de Cloud",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"connect_net_title",
+            "value":"Aucune connexion Internet",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_index_subheading",
+            "value":"Vous pouvez essayer cette option si vous rencontrez des problèmes de recherche.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_mark_as_to_cloud",
+            "value":"Les numéros marqués sont transférés vers le cloud.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_express",
+            "value":"Service de livraison",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"meetime_audio_connect_net_msg",
+            "value":"Une connexion Internet est nécessaire pour passer des appels MeeTime.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_work",
+            "value":"Bureau",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_title",
+            "value":"MeeTime",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_call_recorder",
+            "value":"Sélectionner l'enregistrement",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_house_agent",
+            "value":"Agent immobilier",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_phone_sharing_explain",
+            "value":"Lorsqu'un téléphone avec le même Compte est à proximité, vous pouvez utiliser son réseau mobile pour passer et recevoir des appels ainsi que pour envoyer et recevoir des messages sur votre appareil.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_set_voicemail",
+            "value":"Messagerie vocale indisponible",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"system_contacts",
+            "value":"Contacts système",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"edit",
+            "value":"Modifier",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_blockreason_mark_by_user",
+            "value":"Marqué par vous",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"batch_delete_contacts_in_cloud_sync_one",
+            "value":"Le contact va être supprimé de cet appareil, du cloud, de tous les comptes associés et appareils synchronisés.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"group_existed",
+            "value":"Un groupe du même nom existe déjà.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_succeed",
+            "value":"Importation réussie.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"edit_my_card",
+            "value":"Modifier ma carte",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"today",
+            "value":"Aujourd'hui",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"smart_box_display_name",
+            "value":"Box TV",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"exporting_data_from_a_storage_device",
+            "value":"Exporter vers le stockage",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_be_deleted_from_phone",
+            "value":"Ce contact va être supprimé de cet appareil et de tous les comptes associés.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"save_dialog_title",
+            "value":"Enregistrer les modifications ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_from_photo_group",
+            "value":"Choisir dans Galerie",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_jabber",
+            "value":"Jabber",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"birthday_type_anniversaries",
+            "value":"Anniversaire",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"house_type_dwelling",
+            "value":"Domicile",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"str_SIM",
+            "value":"carte SIM",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accounts_to_display",
+            "value":"Comptes",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"this_contact_was_not_found",
+            "value":"Contact introuvable.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"birthday_type_grebirthday",
+            "value":"Date de naissance",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"Export_contact_list_to_internal_storage",
+            "value":"Exporter la liste des contacts vers le stockage interne ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialing",
+            "value":"Appel en cours",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"export_failed",
+            "value":"L'exportation a échoué.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save_to_tablet",
+            "value":"Enregistrer sur : tablette",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save_to_existing_contacts",
+            "value":"Ajouter à un contact existant",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_recycle_deleted_all_confirm",
+            "value":"Supprimer définitivement tous les contacts ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"house_type_custom",
+            "value":"Personnalisé",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"favorite_num",
+            "value":"Favoris %d",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_open_mobile_contacts",
+            "value":"Accéder aux contacts du téléphone",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"restore_contacts_alert_cloud_sync_open",
+            "value":"Les contacts sur votre appareil, le cloud et sur tous les appareils synchronisés seront rétablis tels qu'ils étaient immédiatement après la fin de la mise à jour OpenHarmony.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_local_music",
+            "value":"Musique sur l'appareil",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_select_contacts",
+            "value":"Aucun contact avec numéro de téléphone",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"favorite_remove",
+            "value":"Retirer",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_discard_merge_contacts",
+            "value":"Abandonner la fusion des contacts ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"camera_display_name",
+            "value":"Appareil photo",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_from_storage_device",
+            "value":"Sélectionner depuis le stockage",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_aim",
+            "value":"AIM",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"used_to_view_web_content_such_as_the_privacy_statement",
+            "value":"Ceci est utilisé pour afficher le contenu Web, comme la Déclaration relative à la vie privée.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"menu_mark_as",
+            "value":"Marquer comme",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_home",
+            "value":"Fax domicile",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"is_stop_import_contact",
+            "value":"Arrêter le processus en cours ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_ringtone",
+            "value":"Sonnerie",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"system_incoming_call_ringtone",
+            "value":"Sonnerie système",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_missed_contacts_only",
+            "value":"Des contacts uniquement",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_vcard",
+            "value":"Aucun fichier vCard trouvé.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_call",
+            "value":"Appeler",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"batch_delete_contacts_in_cloud_sync",
+            "value":"Ces contacts vont être supprimés de cet appareil, du cloud et de tous les comptes associés et appareils synchronisés.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_qq",
+            "value":"QQ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"common_use",
+            "value":"Fréquents",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"email",
+            "value":"Adresse e-mail",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_restore",
+            "value":"Restaurer",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"message",
+            "value":"Message",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"take_new_photo",
+            "value":"Prendre une autre photo",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"yesterday",
+            "value":"Hier",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_assistant_setting_title",
+            "value":"Appel Celia",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_insurance",
+            "value":"Assurance et prêts",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_recycle_summary",
+            "value":"Restaurer les contacts récemment supprimés.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_home_expansion",
+            "value":"Domicile %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete",
+            "value":"Supprimer",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_main_expansion",
+            "value":"Principal %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"tablet",
+            "value":"Tablette",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_work_expansion",
+            "value":"Fax travail (%s)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"noName",
+            "value":"(Sans nom)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"smart_projector_dev_display_name",
+            "value":"Projecteur",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_shortcut_title",
+            "value":"Raccourci d'accès à un contact",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cannot_start_video_call_change_to_voice",
+            "value":"Les appels vidéo ne sont pas pris en charge sur ce réseau. L'appel est passé en appel vocal.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"other_devices_answering_calls",
+            "value":"Répondu sur un autre appareil",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"name",
+            "value":"Nom",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_member",
+            "value":"Ajouter des membres",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"automatically_merge_contacts",
+            "value":"Seuls les contacts ayant le même nom et le même numéro de téléphone sont automatiquement fusionnés. Les contacts en double fusionnés par erreur peuvent être restaurés depuis Récemment supprimés.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"8300999",
+            "value":"Erreur inconnue.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_mates",
+            "value":"Concubin",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"permission_read_write_calendar",
+            "value":"Ceci est utilisé pour synchroniser les dates d'anniversaire des contacts.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_main",
+            "value":"Principal",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"show_contacts",
+            "value":"Préférences d'affichage",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_restorable_contact",
+            "value":"Aucun contact à restaurer.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_avatar",
+            "value":"Supprimer la photo",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"refreshing_data",
+            "value":"Synchronisation en cours.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_nuisance_calls_reason",
+            "value":"Indésirable",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_source_teddy_bear",
+            "value":"Teddy Mobile",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"have_select_sth",
+            "value":"%s sélectionné",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"system_ringtone",
+            "value":"Prédéfinis",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_mobile_expansion",
+            "value":"Téléphone %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"favorite_contacts",
+            "value":"Ajouté aux favoris.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_group",
+            "value":"Aucun groupe",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"8301002",
+            "value":"La lecture ou la mise à jour des données de la carte SIM a échoué.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_photo",
+            "value":"Photo du contact",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_missed_call",
+            "value":"Appel manqué",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_dialed_phone",
+            "value":"Appel passé",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"birthday_type_lunarbirthday",
+            "value":"Date de naissance lunaire",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"set_voicemial_info",
+            "value":"La messagerie vocale peut être accédée sous Menu > Paramètres.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_call_logs",
+            "value":"Supprimer l'entrée",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_missedCall_msg",
+            "value":"Affichage des appels manqués :",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"got_it",
+            "value":"OK",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"roaming_dial_title",
+            "value":"Itinérance en cours. Choisir la méthode de numérotation",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_source_oh",
+            "value":"Hongmeng à code source ouvert",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"search",
+            "value":"Rechercher des contacts",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"cancel_favorite",
+            "value":"Retirer des favoris",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_custom",
+            "value":"Personnalisé",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"edit_beforeCall",
+            "value":"Modifier avant appel",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"turn_off_airplane_mode",
+            "value":"Veuillez désactiver le mode avion avant de tenter d'accéder à la messagerie vocale.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_sim_contact_title",
+            "value":"Importer les contacts de la carte SIM",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"copy_to_account",
+            "value":"Copier vers %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"restore_contacts",
+            "value":"Restaurer les contacts",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_list_search",
+            "value":"Rechercher",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"card_time_msg",
+            "value":"Lors des dernières %s heures",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"unknown_phonenumber",
+            "value":"Numéro inconnu",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"imported_calendars",
+            "value":"Ajouté à Agenda.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_dialer_calllog",
+            "value":"Le journal d'appels est vide",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_picker_banner",
+            "value":"Vos contacts sont affichés ici, mais cette application ne peut accéder qu'à ceux que vous sélectionnez. %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialer",
+            "value":"Téléphone",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_dialog_title",
+            "value":"Supprimer ce contact ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_picture",
+            "value":"Supprimer l'image",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"confirm",
+            "value":"OK",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_search_result_empty",
+            "value":"Aucun résultat",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_make_call",
+            "value":"Appeler",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_source_antifraud_center",
+            "value":"Centre de lutte contre la fraude",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_deleted",
+            "value":"La ville %s a été supprimée",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_set",
+            "value":"Non défini",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_all_rights_reserved",
+            "value":"Contacts. Tous droits réservés. © %d",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_favorite",
+            "value":"Aucun favori",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Export",
+            "value":"Exporter",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"hide",
+            "value":"Masquer",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_cleaned_confirm",
+            "value":"Tous les contacts de cette liste seront définitivement supprimés.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_not_deleted",
+            "value":"Les contacts ne seront pas supprimés.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_send_sms",
+            "value":"Envoyer un message",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"add_Address",
+            "value":"Ajouter une adresse",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_work_expansion",
+            "value":"Travail %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"set_default_values",
+            "value":"Définir comme numéro par défaut",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"blockCall",
+            "value":"Annulé",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"birthday_type_other",
+            "value":"Date importante",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"merge_repeat_contact",
+            "value":"Fusionner les contacts en double",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_restoring",
+            "value":"Restauration en cours.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"speed_dial_turn_off_airplane_mode",
+            "value":"Le mode avion doit être désactivé pour pouvoir utiliser la fonction de composition abrégée.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_setting_type_batch_delete",
+            "value":"Supprimer des entrées",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_contact_source",
+            "value":"Sélectionner une source",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"name_pinyin",
+            "value":"Nom phonétique",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_will_be_deleted",
+            "value":"Ce contact va être supprimé de cet appareil, du cloud et des appareils synchronisés.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"modify_speed_dial",
+            "value":"Modifier la composition abrégée",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"NoService",
+            "value":"Aucun service",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"auto_merge_duplicate_contacts",
+            "value":"Fusion automatique des contacts en double",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"other_important_dates",
+            "value":"Ajouter une date importante",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"secure_access_title",
+            "value":"Accès privé aux contacts",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_fraud_smart_identify",
+            "value":"Risque élevé | Identification automatique",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_delete",
+            "value":"Supprimer",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save",
+            "value":"Enregistrer",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"group",
+            "value":"Groupes",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recorder",
+            "value":"Enregistrement",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"deleting_contacts",
+            "value":"Suppression des contacts en cours.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_maintenancemode",
+            "value":"Cette fonctionnalité ne peut pas être utilisée en mode maintenance.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_number_settings",
+            "value":"Supprimer le numéro attribué",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_allowed",
+            "value":"Refuser",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_scam_msgs_reason",
+            "value":"Risque de fraude",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_expand",
+            "value":"Élargir",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_restore_success",
+            "value":"Contacts restaurés.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"clear",
+            "value":"Supprimer",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_contact",
+            "value":"Contacts",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"speed_dial_setting",
+            "value":"Composition abrégée",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"select_from_group",
+            "value":"Choisir dans Galerie",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"house_type_other",
+            "value":"Autre",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_customize",
+            "value":"Personnalisé",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_other_expansion",
+            "value":"Autre %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_speedDial_msg",
+            "value":"Sélection des contacts pour la numérotation rapide",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_remove",
+            "value":"Aucun",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_recycle_deleted_confirm_single",
+            "value":"Supprimer définitivement ce contact ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"learn_more",
+            "value":"En savoir plus",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_vCard_dialog_title",
+            "value":"Importer les contacts depuis le fichier vCard ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_restore_sms_record_move_in",
+            "value":"Ajouter et restaurer les messages",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_father",
+            "value":"Père",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"Import_Export_Contacts",
+            "value":"Importer/exporter",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"cancel_pass_birthday_to_calendar",
+            "value":"Annuler",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_video_connect_net_msg",
+            "value":"Une connexion Internet est nécessaire pour passer des appels MeeTime.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add_number",
+            "value":"Ajouter un numéro de téléphone",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"address_add",
+            "value":"Adresse",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_sisters",
+            "value":"Sœur",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"copy_phoneNumber",
+            "value":"Copier le numéro",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"merge_duplicate_contacts",
+            "value":"Fusion des contacts en cours",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"Export_Contacts",
+            "value":"Exporter contacts",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"import_from_storage_device",
+            "value":"Importer depuis une mémoire de stockage",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"from_the_accounts",
+            "value":"Importé depuis :",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"setting_network",
+            "value":"Paramètres réseau",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_messaging",
+            "value":"Messagerie instantanée",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_windowslive",
+            "value":"Windows Live",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"unable_import",
+            "value":"L'importation des contacts a échoué",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"ringtones_mute",
+            "value":"Silencieux",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"Card_add",
+            "value":"Ajouter",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add",
+            "value":"Ajouter",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"caching_please_wait",
+            "value":"Veuillez patienter.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"importing_contacts",
+            "value":"Importation des contacts en cours.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"meetime_video_title",
+            "value":"Appel vidéo MeeTime",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"read_and_understand",
+            "value":"J'ai lu et compris",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_title_mark_as",
+            "value":"Marquer comme",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_icq",
+            "value":"ICQ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"card_missed_call",
+            "value":"Aucun appel manqué",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_skype",
+            "value":"Skype",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_dialer_missed_calllog",
+            "value":"Aucun appel manqué",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_home",
+            "value":"Domicile",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_select_set",
+            "value":"Aucune sélection",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contacts_call_number",
+            "value":"Appeler le %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save_to_account",
+            "value":"Enregistrer sur : %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassment_only_move_in",
+            "value":"Ajouter",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"my_carrier",
+            "value":"Mon opérateur",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"8300003",
+            "value":"Erreur interne au système.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"8300004",
+            "value":"Erreur de carte SIM.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_management",
+            "value":"Gérer les contacts",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"8300001",
+            "value":"Valeur non valide.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"auto_merge_duplicate_contacts_rule",
+            "value":"Règles de fusion des contacts",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"input_content_empty",
+            "value":"Veuillez tout d'abord saisir du texte.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"8300002",
+            "value":"La connexion au service a échoué.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"restore_contacts_alert",
+            "value":"Les contacts seront rétablis tels qu'ils étaient immédiatement après la fin de la mise à jour OpenHarmony.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_custom",
+            "value":"Personnalisé",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_custom_expansion",
+            "value":"Personnalisé %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cancel",
+            "value":"Annuler",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"adding_custom_tag",
+            "value":"Ajouter un champ personnalisé",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"number_mark_taxi",
+            "value":"Taxi",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"vcard_files_in_app",
+            "value":"Fichiers vCard intra-applications",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"modifying_settings_number",
+            "value":"Modifier le numéro attribué",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"choose",
+            "value":"Sélectionner",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"AnswerorDeclineIncomingCall_beforeNewCall",
+            "value":"Veuillez prendre ou rejeter l'appel entrant avant de passer un nouvel appel.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"nickname",
+            "value":"Surnom",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"clear_calllog_sure",
+            "value":"Supprimer toutes les entrées du journal d'appels ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_friend",
+            "value":"Ami",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_blocked_calls",
+            "value":"Aucun appel intercepté",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_partner",
+            "value":"Partenaire",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"not_found_sim_card",
+            "value":"Carte SIM introuvable.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_home",
+            "value":"Domicile",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone",
+            "value":"Téléphone",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"speed_dial",
+            "value":"Composition abrégée",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"portable_smart_screen_display_name",
+            "value":"Écran Vision portable",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"unknown",
+            "value":"Inconnu",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"take_photo",
+            "value":"Prendre une photo",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"suspected_fraud",
+            "value":"Suspicion d'escroquerie",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"contact_pass_birthday_to_calendar_new",
+            "value":"Autoriser la synchronisation des anniversaires avec Agenda ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"searching_for_vCard_files_in_storage_device",
+            "value":"Recherche de données vCard dans la mémoire de stockage en cours.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dial_back",
+            "value":"Rappeler",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"no_number_available",
+            "value":"Aucun numéro disponible.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relation",
+            "value":"Relation",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"all_contacts2",
+            "value":"Tous les contacts",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_call",
+            "value":"Appeler",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"set_card_select_contact",
+            "value":"Définir par défaut",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"call_setting_type_setting",
+            "value":"Paramètres",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"recovering_contact_toast",
+            "value":"La fonctionnalité n'est pas disponible. Veuillez désactiver la synchronisation Cloud, puis patientez %s secondes avant de réessayer.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"mobile_contacts",
+            "value":"Contacts du téléphone",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"allow_contacts_to_connect_Internet",
+            "value":"Autoriser Contacts à accéder à Internet ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"instant_type_hangouts",
+            "value":"Hangouts",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_rejected_phone",
+            "value":"Appel rejeté",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_brother",
+            "value":"Frère",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_sim_contact_msg",
+            "value":"Les contacts sur la/les cartes SIM actuelles ne peuvent être utilisés que s'ils sont importés.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_all_group_title",
+            "value":"Supprimer tous les groupes ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"disturbing_intercept_boot_bubble",
+            "value":"Toucher ici pour intercepter les appels indésirables.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_all",
+            "value":"Sélectionner tout",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_contact_tips",
+            "value":"Le ou les contacts sélectionnés seront supprimés de tous les comptes.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"multiple_choices",
+            "value":"Sélectionner plusieurs",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"remove_member",
+            "value":"Retirer des membres",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_parents",
+            "value":"Parent",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"maximum_selected_contacts",
+            "value":"Vous pouvez uniquement sélectionner jusqu'à %d contact.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"blocklist_number",
+            "value":"Numéro sur liste de blocage",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"add_to_blocklist",
+            "value":"Ajouter à la liste de blocage",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"restore_contacts_confirm_title",
+            "value":"Restaurer les contacts ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"dialog_discard",
+            "value":"Abandonner",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"on_call_phone_sharing",
+            "value":"Partage de communication",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"edit_contact",
+            "value":"Modifier le contact",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"send_messages",
+            "value":"Envoyer un SMS",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"new_group_source",
+            "value":"Sélectionner un compte",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_introducer",
+            "value":"Recommandé par",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"import_vCard_files_from_internal_storage",
+            "value":"Importer un fichier vCard depuis la mémoire de stockage interne.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"find_out_how_we_use_your_data",
+            "value":"Comment utilisons-nous vos données",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"prompt_later",
+            "value":"Ultérieurement",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"rename",
+            "value":"Renommer",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"create_contact",
+            "value":"Nouveau contact",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_work",
+            "value":"Fax bureau",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"save_to_pc",
+            "value":"Enregistrer sur : ordinateur",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"will_be_exported_later",
+            "value":"Exportation du fichier %d imminente",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"number_mark_promote_sales",
+            "value":"Publicité",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"selecting_a_vCard_file",
+            "value":"Sélectionnez le fichier vCard",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"setting_harassment_blocking",
+            "value":"Intercepter les appels indésirables",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"device_info",
+            "value":"Informations sur l'appareil",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_other",
+            "value":"Autre",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_children",
+            "value":"Enfant",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"new_group",
+            "value":"Créer un groupe",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"go_to_settings",
+            "value":"Accéder à Paramètres",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"accessibility_collapsed",
+            "value":"Réduit",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contact_index_dialog",
+            "value":"Ceci peut prendre quelques minutes. Continuer ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_edit_avatar",
+            "value":"Modifier la photo de profil",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"exporting_contacts",
+            "value":"Exportation des contacts en cours.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassmentAddIntoWhitelist",
+            "value":"Ajouter à la liste de confiance",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sim_card",
+            "value":"SIM %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"watch_display_name",
+            "value":"Montre enfant",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"national_anti_fraud_center",
+            "value":"Centre national de lutte contre la fraude",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_spouses",
+            "value":"Conjoint",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"video",
+            "value":"Vidéo",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"corporation",
+            "value":"Organisation",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligent_central_contral_display_name",
+            "value":"Panneau de contrôle",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"export_the_vCard_file_to_the_internal_storage",
+            "value":"Exporter en tant que fichier vCard vers le stockage interne.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"hous_minute",
+            "value":"%1$s %2$s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_bosses",
+            "value":"Superviseur",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"new_contact",
+            "value":"Nouveau contact",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"mark_as_sentence_connection",
+            "value":"%1$s&nbsp|&nbsp%2$s (%3$s)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_pager",
+            "value":"Bipeur",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"delete_contact",
+            "value":"Supprimer",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"send_information",
+            "value":"Message",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"dialog_cancel",
+            "value":"Annuler",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"reject",
+            "value":"Rejeté",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"voicemail_number",
+            "value":"Numéro de messagerie vocale",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"position",
+            "value":"Poste",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"copy_contact",
+            "value":"Copier des contacts",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"local_music",
+            "value":"Musique stockée localement",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"call_recorder_list",
+            "value":"Enregistrements d'appel",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_collapse",
+            "value":"Réduire",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"always_auto_merge",
+            "value":"Toujours fusionner automatiquement",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"initial_query",
+            "value":"Recherche par initiales",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"harassment_join_trust_list_hint",
+            "value":"%s sera ajouté à votre liste de confiance. Vous pouvez également choisir de restaurer les messages de ce numéro qui ont été interceptés.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassmentAddWhiteListDlgMsg",
+            "value":"Ce numéro a été ajouté à la liste de blocage. Le déplacer vers la liste de confiance ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"contacts_import_from_sim_card_dialog_content",
+            "value":"Importer les contacts depuis votre carte SIM ?",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_assistant",
+            "value":"Assistant",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"batch_delete",
+            "value":"Supprimer plusieurs contacts",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"telep_group",
+            "value":"Groupes sur le téléphone",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"harassmentInterceptionRemoveBlacklistRecords",
+            "value":"Restaurer les messages interceptés",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_video_music",
+            "value":"Sonneries vidéo",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"smart_security_protection",
+            "value":"Protection de sécurité intelligente",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"favorite_management",
+            "value":"Gérer les favoris",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"no_contact_sim_card",
+            "value":"Aucun contact sur la carte SIM.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group",
+            "value":"Groupes intelligents",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_contact_less_than_one_week",
+            "value":"Contacté la semaine dernière",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_add_contact_dialog_content",
+            "value":"Les informations sur l'organisation des contacts sélectionnés vont être remplacées par \"%s\".",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_company",
+            "value":"Organisations",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_city",
+            "value":"Villes",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_latest_contact",
+            "value":"Contacts récents",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_no_company",
+            "value":"Aucune information sur l'organisation",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_no_address",
+            "value":"Aucune information de localisation",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_contact_less_than_one_month",
+            "value":"Contacté au cours du dernier mois (sauf les sept derniers jours)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"intelligence_group_no_contact_more_than_three_month",
+            "value":"Pas contacté depuis plus de %s mois",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"intelligence_group_contact_less_than_three_month",
+            "value":"Contacté au cours des %s derniers mois (sauf les quatre dernières semaines)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"scan",
+            "value":"Scanner",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"unsupport_qrcode",
+            "value":"Ce QR code n'est pas pris en charge.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"tip",
+            "value":"Remarque",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"pengLai_tip_for_disabled_functions",
+            "value":"Ceci ne peut pas être effectué en mode Penglai.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"penglai_dialog_body",
+            "value":"Il semble que vous n'ayez pas de signal cellulaire. Vous pouvez définir une connexion satellite dans Paramètres.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"penglai_dialog_title",
+            "value":"Accéder au réseau satellite ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"penglai_dialog_button_go_to",
+            "value":"Accéder",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"editfavorite_drag_button",
+            "value":"Veuillez déplacer pour changer l'ordre, touchez deux fois et maintenez pour commencer le déplacement",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"cancelling_favorite_contacts",
+            "value":"Retrait des contacts des favoris en cours.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_new_contact",
+            "value":"Nouveau contact",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"select_all_play_button",
+            "value":"Désélectionner tout, 1 à %1$s, %2$s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_fold_dialer",
+            "value":"Masquer le pavé de numérotation",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_open",
+            "value":"Activé",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_unselected",
+            "value":"Non sélectionné",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_call",
+            "value":"Appeler",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_satellite_call",
+            "value":"Passer un appel satellite",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_avatar",
+            "value":"Photo de profil",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_detail",
+            "value":"Détails",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_new_collect",
+            "value":"Ajouter un favori",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_cancel",
+            "value":"Annuler",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_back",
+            "value":"Retour",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_video_call",
+            "value":"Appel vidéo",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_done",
+            "value":"Terminé",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_more",
+            "value":"Plus d'options",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_back_to_pre",
+            "value":"Revenir à l'écran précédent",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_selected",
+            "value":"Sélectionné",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_expand_dialer",
+            "value":"Ouvrir le pavé de numérotation",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_expanded",
+            "value":"Agrandi",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_importing_for_now",
+            "value":"Ultérieurement",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_people_anti_fraud_center",
+            "value":"Alerte du Centre de Pékin de lutte contre la fraude",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"selected",
+            "value":"Sélectionné(s) (%s)",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_call_record",
+            "value":"L'enregistrement de l'appel a été supprimé. Résumé indisponible.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"regenerate_fail_info",
+            "value":"Système occupé. Veuillez toucher ici pour créer un nouveau résumé.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_support_regenerate",
+            "value":"Indisponible dans votre région",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"not_support_detail",
+            "value":"Les résumés d'appels ne sont pas disponibles pour le moment dans votre région.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_dismiss",
+            "value":"Ne plus afficher",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_title",
+            "value":"Comment activer/désactiver l'Appel avancé ?",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_message",
+            "value":"Sur l'écran d'accueil de l'application Téléphone, veuillez toucher l'icône Plus en haut à droite, puis accédez à Paramètres > Appel avancé et activez ou désactivez-le.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_call_popup_setting",
+            "value":"Accéder aux Paramètres",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_move_backward",
+            "value":"Déplacer en dessous de %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_move_forward",
+            "value":"Déplacer au-dessus de %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_pick_up",
+            "value":"Commencer à déplacer",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"sorted_item_pick_down",
+            "value":"Placé",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_button",
+            "value":"Bouton",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_selected_cancel",
+            "value":"Tout désélectionné",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"all_selected",
+            "value":"Tout sélectionné",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_checkbox_selected",
+            "value":"Toucher deux fois pour désélectionner",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"new_calling_can_only_use_in_full_screen",
+            "value":"Les services d'appel avancé ne sont disponibles qu'en affichage en plein écran.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"removed",
+            "value":"Retiré",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"accessibility_checkbox_deselected",
+            "value":"Toucher deux fois pour sélectionner",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"go_to_recover",
+            "value":"Restaurer maintenant",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"to_recycle_station_restore",
+            "value":"Vos données de contacts ont été supprimées d'un autre appareil. Pour restaurer ces données, veuillez toucher l'icône en haut à droite, puis accédez aux Paramètres > Récemment supprimés.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"simultaneously_delete_call_summary",
+            "value":"Cette entrée du journal d'appels comprend des résumés. Vous pouvez les supprimer en même temps que l'entrée.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"only_delete_calllogs",
+            "value":"Supprimer l'entrée uniquement",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"delete_call_summary",
+            "value":"Supprimer l'entrée et les résumés",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"restore_recorder",
+            "value":"Pour restaurer l'application Enregistreur sonore, veuillez accéder aux Paramètres système > Applications et services > ∷ > Restaurer des applications.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+	{
+            "name":"to_recycle_station_restore_contact",
+            "value":"Certains de vos contacts ont été supprimés d'un autre appareil connecté à votre Compte. Pour restaurer les contacts supprimés, veuillez toucher l'icône en haut à droite, puis accédez aux Paramètres > Récemment supprimés.",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name": "not_support_toast",
+            "value": "Cette opération n'est pas prise en charge dans ce mode."
+        },
+        {
+            "name":"Help_and_feedback",
+            "value":"Aide et avis/retour",
+            "attr":{
+                "priority":"translate"
+            }
+        }
+    ]
+}

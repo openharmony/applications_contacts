@@ -14,23 +14,28 @@
  */
 
 import EnvironmentProp from '../../../feature/EnvironmentProp';
-
+/**
+ * 联系人编辑页面，每个编辑的信息开始的图标
+ */
 @Component
 export struct ImageItemLeft {
-  private mImage: Resource|undefined = undefined;
+  private mImage?: Resource;
   private moreFlag?: Boolean = false;
-  @LocalStorageProp('breakpoint') curBp: string = 'sm';
+  @StorageLink('breakpoint') curBp: string = 'sm';
 
   build() {
     Column() {
-      Image(this.mImage)
-        .objectFit(ImageFit.Contain)
-        .height($r('app.float.id_card_image_small'))
-        .width($r('app.float.id_card_image_small'))
-        .margin({ left: this.curBp === 'lg' ? $r('app.float.id_card_margin_max') : $r('app.float.id_card_margin_xl') })
-        .fillColor(this.moreFlag
-          ? $r('sys.color.ohos_id_color_connected')
-          : $r('sys.color.ohos_id_color_secondary'))
+      if (this.mImage) {
+        Image(this.mImage)
+          .objectFit(ImageFit.Contain)
+          .height($r('app.float.id_card_image_small'))
+          .width($r('app.float.id_card_image_small'))
+          .draggable(false)
+          .margin({ left: this.curBp === 'lg' ? $r('app.float.id_card_margin_max') : $r('app.float.id_card_margin_xl') })
+          .fillColor(this.moreFlag
+            ? $r('app.color.skin_icon_emphasize')
+            : $r('app.color.skin_icon_secondary'))
+      }
     }
     .height($r('app.float.id_item_height_large'))
     .alignItems(HorizontalAlign.Start)

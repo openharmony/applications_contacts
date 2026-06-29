@@ -1,0 +1,11 @@
+{
+    "string":[
+        {
+            "name":"accessibility_answered_phone",
+            "value":"مكالمة مجابة",
+            "attr":{
+                "priority":"translate"
+            }
+        }
+    ]
+}

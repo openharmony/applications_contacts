@@ -1,0 +1,1060 @@
+{
+    "plural":[
+        {
+            "name":"contacts_restored",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Восстановлено контактов: %d.",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Восстановлено контактов: %d.",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Восстановлено контактов: %d.",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Восстановлено контактов: %d.",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"recycle_days_left",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"Осталось %d дня",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"Остался %d день",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Осталось %d дня",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Осталось %d дней",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"people_number_from_tablet",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d контакт с планшета",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d контакта с планшета",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d контакта с планшета",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d контактов с планшета",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"minuteFormat",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"%d мин",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"%d мин",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d мин",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d мин",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"contacts_recycle_deleted_confirm",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Удалить %d контакт без возможности восстановления?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Удалить %d контакта без возможности восстановления?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Удалить %d контакта без возможности восстановления?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Удалить %d контактов без возможности восстановления?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"cloud_contacts",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"Всего контактов: %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"Всего контактов: %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Всего контактов: %d",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Всего контактов: %d",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"people_number",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"%d контакта",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"%d контакт",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d контакта",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d контактов",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"people_number_from_phone",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d контакт с телефона",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d контакта с телефона",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d контакта с телефона",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d контактов с телефона",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"select_num",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"Выбрано: %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"Выбрано: %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Выбрано: %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Выбрано: %d",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"found_contacts",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Найден %1$d контакт",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Найдено %1$d контакта",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Найдено %1$d контакта",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Найдено %1$d контактов",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"hoursFormat",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d ч",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d ч",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d ч",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d ч",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"harassment_harassing_calls_reason",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"Назойливый | Отметило %d человека",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"Назойливый | Отметил %d человек",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Назойливый | Отметило %d человека",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Назойливый | Отметило %d человек",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"people_number_from_computer",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"%d контакта с компьютера",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"%d контакт с компьютера",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d контакта с компьютера",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d контактов с компьютера",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"secondsFormat",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"%d с",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"%d с",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d с",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d с",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"interceptionNotifyTitle",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"Заблокировано %d назойливых вызова",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"Заблокирован %d назойливый вызов",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Заблокировано %d назойливых вызова",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Заблокировано %d назойливых вызовов",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"contacts_ring_times",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"Звонок %d с",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"Звонок %d с",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Звонок %d с",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Звонок %d с",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"search_new",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Поиск среди %d контакта",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Поиск среди %d контактов",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Поиск среди %d контактов",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Поиск среди %d контактов",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"import_sim_contact_toast",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"Добавлено %d контакта.",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"Добавлен %d контакт.",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Добавлено %d контакта.",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Добавлено %d контактов.",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"delete_callLog_dialog_title",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Удалить %d запись списка вызовов?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Удалить %d записи списка вызовов?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Удалить %d записи списка вызовов?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Удалить %d записей списка вызовов?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"delete_or_not",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Удалить %d контакт?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Удалить %d контакта?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Удалить %d контакта?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Удалить %d контактов?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"minutesAgo",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"%d мин назад",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"%d мин назад",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d мин назад",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d мин назад",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"harassment_scam_calls_reason",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"Высокий риск | Отметило %d человека",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"Высокий риск | Отметил %d человек",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Высокий риск | Отметило %d человека",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Высокий риск | Отметило %d человек",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"interceptionNotificationText",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Недавно заблокировано %d раз",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Недавно заблокировано %d раза",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Недавно заблокировано %d раза",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Недавно заблокировано %d раз",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"recovering_contact_dialog",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"Контакты на вашем устройстве вернутся в состояние, в котором они были сразу после обновления до OpenHarmony. После восстановления будет %d контакта.",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"Контакты на вашем устройстве вернутся в состояние, в котором они были сразу после обновления до OpenHarmony. После восстановления будет %d контакт.",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Контакты на вашем устройстве вернутся в состояние, в котором они были сразу после обновления до OpenHarmony. После восстановления будет %d контакта.",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Контакты на вашем устройстве вернутся в состояние, в котором они были сразу после обновления до OpenHarmony. После восстановления будет %d контактов.",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"delete_group_title",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"Удалить %d группы",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"Удалить %d группу",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Удаление %d групп",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Удалить %d групп",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"merge_contacts",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"После автообъединения: %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"После автообъединения: %d",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"После автообъединения: %d",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"После автообъединения: %d",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"auto_merge_msg",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"У вас %d контакт с одинаковым именем. Объединить их?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"У вас %d контакта с одинаковым именем. Объединить их?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"У вас %d контакта с одинаковым именем. Объединить их?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"У вас %d контактов с одинаковым именем. Объединить их?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"n_files",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"%d файл",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"%d файла",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"%d файла",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"%d файлов",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"harassment_blockreason_mark_by_other",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Отметил %d человек",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Отметило %d человека",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Отметило %d человека",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Отметило %d человек",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"intelligence_group_add_contact_dialog_title",
+            "value":[
+                {
+                    "quantity":"one",
+                    "value":"Добавить %d контакт?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"other",
+                    "value":"Добавить %d контакта?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Добавить %d контакта?",
+                    "attr":{
+                        "priority":"LT"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Добавить %d контактов?",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"select_all_play_button",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"Всего %d элемента",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"Всего %d элемент",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Всего %d элемента",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Всего %d элементов",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        },
+        {
+            "name":"already_mark_update",
+            "value":[
+                {
+                    "quantity":"other",
+                    "value":"Отметило %d человека",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"one",
+                    "value":"Отметил %d человек",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"few",
+                    "value":"Отметило %d человека",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                },
+                {
+                    "quantity":"many",
+                    "value":"Отметило %d человек",
+                    "attr":{
+                        "priority":"translate"
+                    }
+                }
+            ]
+        }
+    ]
+}

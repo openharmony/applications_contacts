@@ -15,7 +15,6 @@
 
 import IAccountTypeService from './IAccountTypeService';
 import PhoneAccountType from './type/PhoneAccountType';
-import { AccountType } from './type/AccountType';
 
 
 /**

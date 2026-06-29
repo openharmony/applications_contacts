@@ -1,0 +1,12 @@
+{
+  "float": [
+    {
+      "name": "alpha_tertiary",
+      "value": "1"
+    },
+    {
+      "name": "float_cardHead_opacity",
+      "value": "0.9"
+    }
+  ]
+}

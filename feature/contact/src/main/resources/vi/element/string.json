@@ -1,0 +1,382 @@
+{
+    "string":[
+        {
+            "name":"instant_type_jabber",
+            "value":"Jabber",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"birthday_type_anniversaries",
+            "value":"Ngày kỷ niệm",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"house_type_dwelling",
+            "value":"Nhà riêng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_mobile_expansion",
+            "value":"Số điện thoại %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_friend",
+            "value":"Bạn bè",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_partner",
+            "value":"Đối tác",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_home",
+            "value":"Nhà riêng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"birthday_type_grebirthday",
+            "value":"Ngày sinh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_other",
+            "value":"Khác",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_children",
+            "value":"Con cái",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_other",
+            "value":"Khác",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"birthday_type_lunarbirthday",
+            "value":"Sinh nhật âm lịch",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_mobile",
+            "value":"ĐT di động",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"phone_type_work",
+            "value":"Tổ chức",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"house_type_other",
+            "value":"Khác",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"house_type_custom",
+            "value":"Tùy chỉnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_mother",
+            "value":"Mẹ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_other_expansion",
+            "value":"Số khác %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_custom",
+            "value":"Tùy chỉnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"house_type_position",
+            "value":"Cơ quan",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_spouses",
+            "value":"Vợ/chồng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_aim",
+            "value":"AIM",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_father",
+            "value":"Cha",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_home",
+            "value":"Số fax Nhà riêng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_hangouts",
+            "value":"Hangouts",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_sisters",
+            "value":"Chị em gái",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_qq",
+            "value":"QQ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_brother",
+            "value":"Anh em trai",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_bosses",
+            "value":"Giám sát viên",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_pager",
+            "value":"Số máy nhắn tin",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_custom",
+            "value":"Tùy chỉnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_windowslive",
+            "value":"Windows Live",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_home_expansion",
+            "value":"Số fax nhà (%s)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_parents",
+            "value":"Cha mẹ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_pager_expansion",
+            "value":"Số máy nhắn tin %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_yahoo",
+            "value":"Yahoo",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_home_expansion",
+            "value":"Số điện thoại nhà %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_icq",
+            "value":"ICQ",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_work_expansion",
+            "value":"Số cơ quan %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"instant_type_skype",
+            "value":"Skype",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_home",
+            "value":"Nhà riêng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_main_expansion",
+            "value":"Số điện thoại chính %s",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_work_expansion",
+            "value":"Số fax cơ quan (%s)",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_work",
+            "value":"Cơ quan",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"birthday_type_other",
+            "value":"Ngày quan trọng",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_assistant",
+            "value":"Trợ lý",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_introducer",
+            "value":"Người giới thiệu",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"relationship_type_kinship",
+            "value":"Họ hàng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_custom",
+            "value":"Tùy chỉnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"email_type_custom",
+            "value":"Tùy chỉnh",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_custom_expansion",
+            "value":"Tùy chỉnh %s",
+            "attr":{
+                "priority":"translate"
+            }
+        },
+        {
+            "name":"relationship_type_mates",
+            "value":"Vợ chồng",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_main",
+            "value":"Số điện thoại chính",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"phone_type_fax_work",
+            "value":"Số fax Cơ quan",
+            "attr":{
+                "priority":"LT"
+            }
+        }
+    ]
+}

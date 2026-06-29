@@ -12,17 +12,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { contact } from '@kit.ContactsKit';
+import { Birthday } from '../../../../../../feature/contact/src/main/ets/contract/Birthday';
 
 export class EventBean {
-  id: string;
-  data: string;
-  eventType: string;
-  eventName: string;
-  public labelName?: Resource | string;
+  // contactData 行ID
+  public contactDataId: number = -1;
+  public calendarEventId?: string;
+  public id: string;
+  public data: string;
+  public eventType: string;
+  public eventName: string;
+  public labelName?: Resource;
+  public pickerData: contact.Event = {
+    eventDate: ''
+  }
+
   constructor(id: string, data: string, eventType: string, eventName: string) {
     this.id = id;
     this.data = data;
     this.eventType = eventType;
     this.eventName = eventName;
+  }
+
+  setPickerData(eventDate: string, labelName?: string, labelId?: number) {
+    this.pickerData.eventDate = eventDate;
+    this.pickerData.labelName = labelName;
+    this.pickerData.labelId = labelId;
+  }
+
+  static getBeanByPickerData(event: contact.Event) {
+    let labelId: number = Birthday.apiTypeToSystemType(event.labelId ?? contact.Event.EVENT_OTHER);
+    return new EventBean('', event.eventDate, labelId.toString(), '');
   }
 }

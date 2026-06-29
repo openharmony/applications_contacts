@@ -17,10 +17,11 @@
  * Remembrance Day Object
  */
 export class RemDayBean {
-  id: string
-  remDayId: string
-  data: string
-  remDayType: string
+  public id: string;
+  public remDayId: string;
+  public data: string;
+  public remDayType: string;
+
   constructor(id: string, remDayId: string, data: string, remDayType: string) {
     this.id = id;
     this.remDayId = remDayId;

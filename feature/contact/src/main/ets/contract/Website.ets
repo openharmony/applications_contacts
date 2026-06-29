@@ -13,16 +13,15 @@
  * limitations under the License.
  */
 
-import DataType from './DataType';
-import {DataItemType} from './DataType';
+import DataType, { DataItemType } from './DataType';
 
 /**
  * Web site data type
  */
-export class Website extends DataType{
-  static readonly CONTENT_ITEM_TYPE: string = 'website';
-  static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.WEBSITE;
-  static readonly URL: string = DataType.DATA;
+export class Website extends DataType {
+  public static readonly CONTENT_ITEM_TYPE: string = 'website';
+  public static readonly CONTENT_ITEM_TYPE_ID: number = DataItemType.WEBSITE;
+  public static readonly URL: string = DataType.DATA;
 
   constructor() {
     super();

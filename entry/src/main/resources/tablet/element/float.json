@@ -2,7 +2,7 @@
   "float": [
     {
       "name": "id_divide_width",
-      "value": "1vp"
+      "value": "0.5vp"
     },
     {
       "name": "id_corner_radius_card",
@@ -15,6 +15,22 @@
     {
       "name": "id_card_margin_max",
       "value": "24vp"
+    },
+    {
+      "name": "id_card_title_margin_top",
+      "value": "19vp"
+    },
+    {
+      "name": "id_card_title_margin_bottom",
+      "value": "17vp"
+    },
+    {
+      "name": "id_card_item_margin_top",
+      "value": "13vp"
+    },
+    {
+      "name": "id_card_item_margin_bottom",
+      "value": "14vp"
     },
     {
       "name": "id_card_margin_xxxxl",
@@ -105,6 +121,18 @@
       "value": "38vp"
     },
     {
+      "name": "account_ItemList_menu_select_width",
+      "value": "90vp"
+    },
+    {
+      "name": "account_ItemList_menu_select_and_ic_spinner_width",
+      "value": "106vp"
+    },
+    {
+      "name": "account_text_and_ic_public_close_width",
+      "value": "182vp"
+    },
+    {
       "name": "account_Divider_height",
       "value": "1vp"
     },
@@ -119,6 +147,22 @@
     {
       "name": "DeleteDialogEx_width",
       "value": "336vp"
+    },
+    {
+      "name": "Dialog_bottom",
+      "value": "-12vp"
+    },
+    {
+      "name": "account_ItemList_select_width",
+      "value": "128vp"
+    },
+    {
+      "name": "Dialog_tablet_lineHeight",
+      "value": "20vp"
+    },
+    {
+      "name": "dialer_calllog_item_height",
+      "value": "60vp"
     }
   ]
 }

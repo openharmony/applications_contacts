@@ -17,65 +17,106 @@
  * Call Log All Calls
  */
 import CallRecordPresenter from './../../../presenter/dialer/callRecord/CallRecordPresenter';
-import EnvironmentProp from '../../../feature/EnvironmentProp';
-import DeleteDialogEx from '../../dialog/DeleteDialogEx';
-import DialerPresenter from '../../../presenter/dialer/DialerPresenter';
-import DetailPresenter from '../../../presenter/contact/detail/DetailPresenter';
-import { PhoneNumber } from '../../../../../../../feature/phonenumber/src/main/ets/PhoneNumber';
-import IndexPresenter from '../../../presenter/IndexPresenter';
-import { HiLog } from '../../../../../../../common'
-import emitter from '@ohos.events.emitter'
-import promptAction from '@ohos.promptAction'
+import { HiLog, sharedPreferencesUtils } from '../../../../../../../common';
 import MergedCallLog from '../../../../../../../feature/call/src/main/ets/entity/MergedCallLog';
+import promptAction from '@ohos.promptAction';
+import CallRecordListDataSource from '../../../model/bean/CallRecordListDataSource';
+import EmptyRecord from './EmptyRecord';
+import CallRecordItem from './RecordViewItem';
+import AccessibilityUtil from '../../../util/AccessibilityUtil';
+import { performanceMonitor, Popup, PopupTextOptions, PopupButtonOptions } from '@kit.ArkUI';
+import { CustomizedParams } from '../../../model/type';
+import { ResourceUtil } from '../../../util/ResourceUtil';
+import DotUtil from '../../../util/DotUtil';
+import { SplitStatus } from '../../../util/DisplaySplitUtil';
+import EnvironmentProp from '../../../feature/EnvironmentProp';
+import { i18n } from '@kit.LocalizationKit';
+// import { HdsListItem } from '@hms.hds.HdsStyle';
+
 const TAG = 'AllRecord ';
-const EMITTER_SAVE_ID = 103;
+const MAX_HEAD_ANGLE: number = 17;
+const MAX_BODY_ANGLE: number = 10;
+const ANGLE_RADIO: number = 12;
+const ACTION_AREA_DISTANCE: number = 56;
+const DELETE_SWIPE_HEAD_WIDTH: number = 64;
+const DELETE_SWIPE_BODY_WIDTH: number = 120;
+const MAX_SCALE_RATIO: number = 1.1;
+const SWIPE_DELETE_DIALOG_EVENT: string = 'SWIPE_DELETE_DIALOG_EVENT';
+const SWIPE_CLICK_DELETE_DIALOG_EVENT: string = 'SWIPE_CLICK_DELETE_DIALOG_EVENT';
+PersistentStorage.persistProp('isInitViewShow', true);
+const NUMBER_TWENTY_EIGHT: number = 28;
+const NUMBER_TEN: number = 10;
+const MILLIS_PER_MONTH = 30 * 24 * 60 * 60 * 1000;
+//通话风险（智能）识别开关
+const SPAMSHIELD_SMART_IDENTITY_SWITCH_ON = '1';
+const SPAMSHIELD_SMART_IDENTITY_SWITCH_OFF = '0';
 
 @Component
 export default struct AllRecord {
-  @Link @Watch('onChanged') mPresenter: CallRecordPresenter;
+  @Link mPresenter: CallRecordPresenter;
+  @Link segmentButtonOffsetY: number;
+  @Prop segmentButtonHeight: number;
+  @Link isShowSegmentBtn: boolean;
   /*0all 1miss*/
   recordType: number = 0;
-  @State callLogListEmpty: boolean = true;
-  @State missedListEmpty: boolean = true;
+  @StorageLink('showDialBtn') showDialBtn: boolean = true;
+  @StorageLink('callLogListEmpty') callLogListEmpty: boolean = true;
+  @StorageLink('missedListEmpty') missedListEmpty: boolean = true;
+  @StorageLink('clearAllRecord') clearAllRecord: boolean = false;
+  @StorageLink('breakpoint') curBp: string = 'sm';
+  @StorageLink('isInitViewShow') isInitViewShow: boolean = true;
+  @StorageLink('spaceLR') spaceLR: Resource = $r('sys.float.padding_level8');
+  @StorageLink('callRecordInit') @Watch('callRecordInitWatch') callRecordInit: boolean = false;
+  @StorageProp('isVerde') isVerde: boolean = false;
+  // 用来监听分屏状态改变
+  @StorageProp('splitStatus') @Watch('needRefresh') splitStatus: SplitStatus = SplitStatus.DEFAULT;
+  // 用于刷新页面
+  @State refresh: boolean = false;
+  private listScroller: ListScroller = new ListScroller();
 
-  onChanged() {
-    let callLogIsEmpty = this.mPresenter.mAllCallRecordListDataSource.totalCount() <= 0;
-    if (this.callLogListEmpty != callLogIsEmpty) {
-      this.callLogListEmpty = callLogIsEmpty
-    }
-    let missLogIsEmpty = this.mPresenter.mMissCallRecordListDataSource.totalCount() <= 0;
-    if (this.missedListEmpty != missLogIsEmpty) {
-      this.missedListEmpty = missLogIsEmpty
-    }
+  callRecordInitWatch() {
+    HiLog.w(TAG, 'callRecordInit: ' + this.callRecordInit);
   }
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear,recordType:' + this.recordType)
-    this.onChanged();
-    let innerEventContact:emitter.InnerEvent = {
-      eventId: EMITTER_SAVE_ID,
-      priority: emitter.EventPriority.HIGH
-    };
-    emitter.on(innerEventContact, (data) => {
-      if(data.data !== undefined){
-        let phoneNumber: string = data.data['phoneNumber'];
-        let callId: string = data.data['callId'];
-        this.mPresenter.saveCallRecordExistingContact(phoneNumber, callId);
-      }
-    })
   }
 
   aboutToDisappear() {
     HiLog.i(TAG, 'aboutToDisappear,recordType:' + this.recordType)
-    emitter.off(EMITTER_SAVE_ID);
+  }
+
+  needRefresh() {
+    this.refresh = !this.refresh;
+  }
+
+  @Builder
+  emptyRecorder() {
+    EmptyRecord({ recordType: this.recordType })
+      .margin({
+        bottom: !this.isVerde && this.showDialBtn && this.curBp === 'sm' ? $r('app.float.id_dialer_height') : '4vp'
+      })
   }
 
   build() {
-    Stack() {
-      if ((this.recordType === 0 ? this.callLogListEmpty : this.missedListEmpty)) {
-        EmptyView({ recordType: this.recordType })
+    Column() {
+      if (!this.callRecordInit) {
+
+      } else if ((this.recordType === 0 ? this.callLogListEmpty : this.missedListEmpty) || this.clearAllRecord) {
+        if (this.refresh) {
+          this.emptyRecorder()
+        } else {
+          this.emptyRecorder()
+        }
       } else {
-        RecordView({ mPresenter: $mPresenter, recordType: this.recordType });
+        RecordView({
+          mPresenter: $mPresenter,
+          recordType: this.recordType,
+          segmentButtonOffsetY: this.segmentButtonOffsetY,
+          segmentButtonHeight: this.segmentButtonHeight,
+          isShowSegmentBtn: this.isShowSegmentBtn,
+          listScroller: this.listScroller
+        });
       }
     }
   }
@@ -83,315 +124,432 @@ export default struct AllRecord {
 
 @Component
 struct RecordView {
+  customizedParams: CustomizedParams = {};
   @Link private mPresenter: CallRecordPresenter;
-  @LocalStorageProp('breakpoint') curBp: string = 'sm';
+  @Link segmentButtonOffsetY: number;
+  @Prop segmentButtonHeight: number;
+  @Link isShowSegmentBtn: boolean;
+  @StorageLink('breakpoint') curBp: string = 'sm';
+  @StorageLink('showDialBtn') @Watch('closeAllSwipeActions') showDialBtn: boolean = true;
   recordType: number = 0;
+  private listScroller: ListScroller = new ListScroller();
+  @State contactItemTouchable: boolean = true;
+  swipeActionCount: number = 0;
+  downY: number = 0;
+  @State headAngle: number = 0;
+  @State bodyAngle: number = 0;
+  @State swipeScale: number = 1;
+  @State endOffset: number = 0;
+  @State currentItem: MergedCallLog | null = null;
+  private dustbinAnimationEnabled: boolean = true;
+  @StorageProp('isTabletLandscape') isTabletLandscape: boolean = false;
+  @StorageLink('spaceLR') spaceLR: Resource = $r('sys.float.padding_level8');
+  @State currentRatio: number = 0;
+  @State currentIndex: number = 0;
+  @State deleteSwipeHeadWidth: number = this.isTabletLandscape ? 88 : 64;
+  @State deleteSwipeBodyWidth: number = this.isTabletLandscape ? 144 : 120;
+  @State backgroundRecordListItem: Resource = $r('app.color.skin_background_primary');
+  @State selectId: number = 0;
+  @State isShowedFraudBanners: boolean = true;
+  @StorageLink('smartIdentitySwitch') smartIdentitySwitch: string = '';
+  @StorageLink('showFraudBanners') showFraudBanners: boolean = false;
+  @Consume('showNewCallTip') showNewCallTip: boolean; // 是否显示增强通话气泡
+  @Consume('isShowCallSetting') isShowCallSetting: boolean; // 是否显示通话设置
+  @Consume('scrollToCardOne') scrollToCardOne: boolean; // 打开通话设置后滚动到卡1
+  @StorageProp('isVerde') isVerde: boolean = false;
+  @StorageLink('hideIndexTitleTabBar') hideIndexTitleTabBar: boolean = false;
+  @StorageLink('dialerHideActionType') dialerHideActionType: performanceMonitor.ActionType =
+    performanceMonitor.ActionType.LAST_UP;
+  // 是否启动主题
+  @StorageProp('isThemeActive') isThemeActive: boolean = false;
+  @StorageProp('scrollColorStr') scrollColorStr: string = '';
+  // 是否启动无障碍
+  @StorageProp(AccessibilityUtil.ISOPENACCESSIBILITY) isOpenAccessibility: boolean = false;
+  @StorageProp('fontSizeScale') fontSizeScale: number = 0;
+  prevSegmentButtonOffsetY: number = 0;
+  private readonly ANIMATION_DURATION: number = 300;
+  private isPC: boolean = EnvironmentProp.isPC();
 
-  build() {
-    List({ space: 0, initialIndex: 0 }) {
-      LazyForEach(this.recordType === 0 ? this.mPresenter.mAllCallRecordListDataSource :
-      this.mPresenter.mMissCallRecordListDataSource, (item:MergedCallLog, index: number) => {
-        ListItem() {
-          ContactItem({ mPresenter: mPresenter, item: item, index: index });
-        }
-        .height($r('app.float.id_item_height_max'))
-      }, (item:MergedCallLog) => JSON.stringify(item))
-    }
-    .divider({
-      strokeWidth: 0.5,
-      color: $r('sys.color.ohos_id_color_list_separator'),
-      startMargin: $r('app.float.id_records_divider_max'),
-      endMargin: $r('app.float.id_card_margin_max')
-    })
-    .width('100%')
-    .margin({ bottom: this.curBp === 'lg' ? '110vp' : 0 })
-    .flexShrink(1)
-    .listDirection(Axis.Vertical)
-    .edgeEffect(EdgeEffect.None)
-    .scrollBar(BarState.Off)
+  aboutToAppear(): void {
+    HiLog.w(TAG, `RecordView aboutToAppear, recordType: ${this.recordType}`);
   }
-}
 
+  async checkFraud() {
+    this.isShowedFraudBanners = await sharedPreferencesUtils.getFromPreferences('showedFraudBanners', false) as boolean;
+    if (!this.isShowedFraudBanners) {
+      HiLog.i(TAG, 'smartIdentitySwitch info' + this.smartIdentitySwitch);
+      if (this.smartIdentitySwitch === SPAMSHIELD_SMART_IDENTITY_SWITCH_OFF) {
+        this.showFraudBanners = true;
+      } else if (this.smartIdentitySwitch === SPAMSHIELD_SMART_IDENTITY_SWITCH_ON) {
+        this.showFraudBanners = false;
+      }
+    } else {
+      this.showFraudBanners = false;
+    }
+  }
 
-@Component
-struct EmptyView {
-  recordType: number = 0;
-  @LocalStorageProp('breakpoint') curBp: string = 'sm';
+  aboutToDisappear(): void {
+    HiLog.w(TAG, `RecordView aboutToDisappear, recordType: ${this.recordType}`);
+    // 清空通话记录时，显示 SegmentBtn
+    animateTo({ duration: this.ANIMATION_DURATION, curve: Curve.Smooth }, () => {
+      this.isShowSegmentBtn = true;
+    });
+  }
+
+  @Styles
+  buttonStyle()
+  {
+    .borderRadius(20)
+    .height($r('app.float.id_item_height_sm'))
+    .width($r('app.float.id_item_height_sm'))
+    .margin({
+      top: $r('app.float.id_card_margin_xl'),
+      bottom: $r('app.float.id_card_margin_xl'),
+      left: this.isTabletLandscape ? $r('sys.float.padding_level12') : $r('sys.float.padding_level8'),
+      right: this.isTabletLandscape ? $r('sys.float.padding_level12') : $r('sys.float.padding_level8')
+    })
+  }
+
+  closeAllSwipeActions() {
+    if (this.swipeActionCount > 0) {
+      this.listScroller?.closeAllSwipeActions();
+    }
+  }
+
+  deleteAction(item: MergedCallLog, itemIndex: number) {
+    let totalCount = this.recordType === 0 ? this.mPresenter.mAllCallRecordListDataSource.totalCount() :
+      this.mPresenter.mMissCallRecordListDataSource.totalCount();
+    if (totalCount === 1) {
+      AccessibilityUtil.getInstance().sendAccessibilityNotInterruptEvent(this.isOpenAccessibility, 'dialer_contacts_sm_dial_btn', 0);
+    } else {
+      AccessibilityUtil.getInstance().sendAccessibilityNotInterruptEvent(this.isOpenAccessibility, 'callRecord' + (itemIndex + 1), 0);
+    }
+    this.dustbinAnimationEnabled = false;
+    this.currentItem = item;
+    const index = (this.recordType === 0 ? this.mPresenter.mAllCallRecordListDataSource :
+    this.mPresenter.mMissCallRecordListDataSource).indexOf(item);
+
+    animateTo({
+      duration: 400,
+      curve: Curve.Friction,
+      onFinish: () => {
+        this.dustbinAnimationEnabled = true;
+        this.contactItemTouchable = true;
+      }
+    }, () => {
+      this.mPresenter.deleteCallLog(item.ids, [item.phoneNumber], index);
+      this.mPresenter.deleteCallLogItemPage(item.ids);
+    })
+  }
 
   build() {
-    Column() {
-      Image($r('app.media.no_call_records'))
-        .objectFit(ImageFit.Contain)
-        .width($r('app.float.id_card_image_large'))
-        .height($r('app.float.id_card_image_large'))
-        .margin({ bottom: $r('app.float.id_card_margin_large') })
-      Text(this.recordType === 0 ? $r('app.string.no_dialer_calllog') :
-      $r('app.string.no_dialer_missed_calllog'))
-        .fontSize($r('sys.float.ohos_id_text_size_body2'))
-        .fontWeight(FontWeight.Regular)
-        .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
-        .textAlign(TextAlign.Center)
+    List({ space: '2px', initialIndex: 0, scroller: this.listScroller }) {
+      // if (this.showFraudBanners && !this.isVerde) {
+      //   ListItemGroup() {
+      //     ListItem() {
+      //       Row() {
+      //         Popup({
+      //           showClose: true,
+      //           onClose: () => {
+      //             HiLog.w(TAG, 'just popup close')
+      //             sharedPreferencesUtils.saveToPreferences('showedFraudBanners', true);
+      //             this.checkFraud();
+      //           },
+      //           direction: i18n.isRTL(i18n.System.getSystemLanguage()) ? Direction.Rtl : Direction.Ltr,
+      //           title: {
+      //             text: $r('app.string.smart_security_protection'),
+      //             fontSize: this.fontSizeScale > 5 ? '32vp' : 16, // 正常到大5档随系统缩放，大6档与大5档保持一致，下同
+      //             fontColor: $r('app.color.skin_font_primary'),
+      //             fontWeight: FontWeight.Medium
+      //           } as PopupTextOptions,
+      //           message: {
+      //             text: $r('app.string.smart_identify_info'),
+      //             fontSize: this.fontSizeScale > 5 ? '28vp' : 14,
+      //             fontColor: $r('app.color.skin_font_secondary'),
+      //             fontWeight: FontWeight.Regular
+      //           } as PopupTextOptions,
+      //           maxWidth: '100%',
+      //           buttons: [
+      //             {
+      //               text: $r('app.string.go_to_settings'),
+      //               action: async () => {
+      //                 HiLog.w(TAG, 'identify fraud enable')
+      //                 sharedPreferencesUtils.saveToPreferences('showedFraudBanners', true);
+      //                 AppStorage.setOrCreate('isShowSwitchPage', true);
+      //                 this.showFraudBanners = false;
+      //               },
+      //               fontSize: this.fontSizeScale > 5 ? '28vp' : 14,
+      //               fontColor: $r('app.color.skin_font_emphasize'),
+      //             }] as [PopupButtonOptions?, PopupButtonOptions?]
+      //         })
+      //       }
+      //       .borderRadius($r('app.float.radio_button_width_20'))
+      //       .backgroundColor($r('sys.color.comp_background_tertiary'))
+      //       .margin({
+      //         left: this.spaceLR,
+      //         top: $r('app.float.id_dialog_button_top_margin'),
+      //         bottom: $r('app.float.id_card_margin_xl'),
+      //         right: this.spaceLR
+      //       })
+      //     }
+      //   }
+      // }
+      if (this.showNewCallTip) {
+        ListItem() {
+          Row() {
+            Popup({
+              title: {
+                text: $r('app.string.new_call_popup_title'),
+                fontSize: this.fontSizeScale > 5 ? '32vp' : 16, // 正常到大5档随系统缩放，大6档与大5档保持一致，下同
+              },
+              message: {
+                text: $r('app.string.new_call_popup_message'),
+                fontSize: this.fontSizeScale > 5 ? '28vp' : 14,
+              },
+              showClose: true,
+              onClose: () => {
+                this.showNewCallTip = false;
+                sharedPreferencesUtils.saveToPreferences('nextShowNewCallTip', Date.now() + MILLIS_PER_MONTH);
+              },
+              maxWidth: '100%',
+              buttons: [
+                {
+                  text: $r('app.string.new_call_popup_dismiss'),
+                  fontSize: this.fontSizeScale > 5 ? '28vp' : 14,
+                  action: () => {
+                    this.showNewCallTip = false;
+                    sharedPreferencesUtils.saveToPreferences('nextShowNewCallTip', Number.MAX_VALUE);
+                  },
+                },
+                {
+                  text: $r('app.string.new_call_popup_setting'),
+                  fontSize: this.fontSizeScale > 5 ? '28vp' : 14,
+                  action: () => {
+                    this.showNewCallTip = false;
+                    sharedPreferencesUtils.saveToPreferences('nextShowNewCallTip', Number.MAX_VALUE);
+                    this.scrollToCardOne = true;
+                    this.isShowCallSetting = true;
+                  },
+                }],
+            });
+          }.borderRadius($r('app.float.radio_button_width_20'))
+          .backgroundColor($r('sys.color.comp_background_tertiary'))
+          .margin({
+            left: this.spaceLR,
+            top: this.showFraudBanners && !this.isVerde ? 0 : $r('app.float.id_dialog_button_top_margin'),
+            bottom: $r('app.float.id_card_margin_large'),
+            right: this.spaceLR,
+          });
+        };
+      }
+      // 显示通话记录
+      ListItemGroup() {
+        LazyForEach(this.recordType === 0 ? this.mPresenter.mAllCallRecordListDataSource :
+        this.mPresenter.mMissCallRecordListDataSource, (item: MergedCallLog, index: number) => {
+          ListItem() {
+            this.CallRecordBuilder(item, index)
+          }
+          .swipeAction({
+            end:{
+              builder:()=>{
+                this.itemEnd(() => {
+                  this.deleteAction(item, index);
+                })
+              },
+              onAction:()=>{
+                animateTo({
+                  duration: 400,
+                }, () => {
+                  this.deleteAction(item, index);
+                })
+              },
+            }
+          })
+          // HdsListItem({
+          //   customItemBuilder: this.CallRecordBuilder(item, index),
+          //   swipeActionOptions: {
+          //     deleteIconOptions: {
+          //       onAction: () => {
+          //         this.deleteAction(item, index);
+          //         DotUtil.getInstance().contactDot(this.customizedParams, SWIPE_DELETE_DIALOG_EVENT);
+          //       },
+          //       iconOptions: {
+          //         accessibilityText: ResourceUtil.getStringByResource($r('app.string.accessibility_delete')) +
+          //           ' ' + ResourceUtil.getStringByResource($r('app.string.accessibility_button'))
+          //       }
+          //     },
+          //     fullDeleteOptions: {
+          //       isFullDelete: true,
+          //       onFullDeleteAction: () => {
+          //         animateTo({
+          //           duration: 350,
+          //         }, () => {
+          //           this.deleteAction(item, index);
+          //           DotUtil.getInstance().contactDot(this.customizedParams, SWIPE_DELETE_DIALOG_EVENT);
+          //         })
+          //       }
+          //     }
+          //   }
+          // })
+
+        }, (item: MergedCallLog) => JSON.stringify(item))
+      }.divider({
+        strokeWidth: '1px',
+        startMargin: this.isTabletLandscape ? '48vp' : '40vp',
+        endMargin: this.spaceLR,
+        color: $r('app.color.skin_ohos_id_color_list_separator')
+      })
     }
-    .justifyContent(FlexAlign.Center)
+    .clip(this.isPC ? true : false)
+    .onTouch((event: TouchEvent) => {
+      this.closeAllSwipeActions();
+      switch (event.type) {
+        case TouchType.Down:
+          this.downY = -1;
+          break;
+        case TouchType.Move:
+          if (this.downY === -1) {
+            this.downY = event.touches[0].y;
+          }
+          if (this.downY != event.touches[0].y) {
+            // 滑动通话记录时隐藏拨号盘，触发打点时机为手指移动时
+            this.dialerHideActionType = performanceMonitor.ActionType.FIRST_MOVE;
+            this.showDialBtn = false;
+          }
+          break;
+        case TouchType.Up:
+        case TouchType.Cancel:
+      }
+    })
     .width('100%')
     .height('100%')
-    .markAnchor({ x: 0, y: this.curBp === 'sm' ? 60 : 110 })
+    .flexShrink(1)
+    .listDirection(Axis.Vertical)
+    .edgeEffect(EdgeEffect.Spring, { alwaysEnabled: true })
+    // 联动效果，与上层父组件联动
+    .nestedScroll({ scrollForward: NestedScrollMode.SELF_FIRST, scrollBackward: NestedScrollMode.SELF_FIRST })
+    .scrollBar(BarState.Auto)
+    .scrollBarColor(this.isThemeActive ? this.scrollColorStr : undefined)
+    .contentEndOffset(this.isVerde ? 48 : 104)
+    .onDidScroll((scrollOffset: number, scrollState: ScrollState) => {
+      if (scrollState === ScrollState.Scroll) {
+        if (scrollOffset > 0 && !this.hideIndexTitleTabBar) {
+          this.hideIndexTitleTabBar = true;
+        } else if (scrollOffset < 0 && this.hideIndexTitleTabBar) {
+          this.hideIndexTitleTabBar = false;
+        }
+      }
+      const scrollOffsetY = this.listScroller?.currentOffset().yOffset ?? 0;
+      if (scrollOffsetY > 56 && scrollOffset > 0 && this.isShowSegmentBtn) {
+        animateTo({ duration: this.ANIMATION_DURATION, curve: Curve.Smooth }, () => {
+          this.isShowSegmentBtn = false;
+        });
+      }
+      // 没有通话记录时，上滑回弹时偶现scrollOffsetY等于-0.00000X的情况，
+      // 导致上滑时还会偶现顶部分段按钮为了规避这种情况将判断条件由之前的小于0调整为小于-0.01
+      if (scrollOffsetY < -0.01 && !this.isShowSegmentBtn) {
+        animateTo({ duration: this.ANIMATION_DURATION, curve: Curve.Smooth }, () => {
+          this.isShowSegmentBtn = true;
+        });
+      }
+    })
+    .onVisibleAreaChange([0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
+      if (!isVisible && currentRatio === 0) {
+        this.swipeActionCount = 0;
+        this.contactItemTouchable = true;
+        this.listScroller?.closeAllSwipeActions();
+      }
+    })
   }
-}
 
-enum MenuType {
-  sendMessage, Copy, EditBeforeCall, BlockList, DeleteCallLogs, SaveExistingContacts
-}
-
-@Component
-struct ContactItem {
-  @State mIndexPresenter: IndexPresenter = IndexPresenter.getInstance();
-  @Link mPresenter: CallRecordPresenter
-  @Prop item: MergedCallLog;
-  index: number = -1;
-  @State isEmergencyNum: boolean = false;
-  @LocalStorageProp('breakpoint') curBp: string = 'sm';
-  @StorageLink('haveMultiSimCard') haveMultiSimCard: boolean = false;
-  @StorageLink('haveSimCard') haveSimCard: boolean = false;
-  deleteDialogController: CustomDialogController = new CustomDialogController({
-    //Components shared by the TIP for creating or updating a contact by mistake and the TIP for deleting a contact
-    builder: DeleteDialogEx({
-      cancel: () => {
-        this.deleteDialogController.close();
-      },
-      confirm: () => {
-        this.mPresenter.deleteCallLog(this.item.ids, this.index);
-      },
-      title: $r('app.string.deleteCallLog_dialog_title'),
-      cancalText: $r('app.string.cancel'),
-      confrimText: $r('app.string.dialog_delete')
-    }),
-    autoCancel: true,
-    alignment: (EnvironmentProp.isTablet() ? DialogAlignment.Center : DialogAlignment.Bottom),
-    offset: { dx: 0, dy: -16 },
-    closeAnimation: { duration: 100 }
-  });
-
-  aboutToDisappear() {
-  }
-
-  build() {
+  @Builder
+  itemEnd(onDeleteBtn: () => void) {
     Row() {
-      Row() {
-        Image(this.item.callType == 2 ?
-        $r('app.media.ic_contacts_Dialled') :
-            this.item.callType == 5 ?
-          $r('app.media.ic_contacts_Reject') : '')
-          .height($r('app.float.dialer_common_small_margin'))
-          .width($r('app.float.dialer_common_small_margin'))
-          .margin({
-            right: $r('app.float.id_card_margin_xl'),
-            top: '13vp',
-            bottom: '35vp'
+      Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
+        Image($r('app.media.ic_delete_head'))
+          .height(5)
+          .width(20)
+          .rotate({
+            x: 0,
+            y: 0,
+            z: 1,
+            centerX: '100%',
+            centerY: '100%',
+            angle: this.headAngle,
           })
-
-        Column() {
-          Row() {
-            Text(this.item.displayName ?
-            this.item.displayName : PhoneNumber.fromString(this.item.phoneNumber).format())
-              .fontSize($r('sys.float.ohos_id_text_size_body1'))
-              .fontWeight(FontWeight.Medium)
-              .fontColor((this.item.callType === 3 || this.item.callType === 5) ?
-              $r('sys.color.ohos_id_color_warning') : $r('sys.color.ohos_id_color_text_primary'))
-              .constraintSize({ maxWidth: this.curBp == 'sm' ? 160 : 260 })
-              .textOverflow({ overflow: TextOverflow.Ellipsis })
-              .maxLines(1)
-
-            if (this.item.count != 1) {
-              Text('(' + this.item.count + ')')
-                .fontSize($r('sys.float.ohos_id_text_size_body1'))
-                .fontColor((this.item.callType == 3 || this.item.callType == 5) ?
-                $r('sys.color.ohos_id_color_warning') : $r('sys.color.ohos_id_color_text_primary'))
-                .fontWeight(FontWeight.Medium)
-                .padding({ left: $r('app.float.id_card_margin_large'), right: $r('app.float.id_card_margin_large') })
-                .maxLines(1)
-            }
-          }
-
-          Row() {
-            Image(this.item.simId == 0 ? $r('app.media.stat_sys_sim1') : $r('app.media.stat_sys_sim2'))
-              .height($r('app.float.dialer_common_small_margin'))
-              .width($r('app.float.dialer_common_small_margin'))
-              .margin({
-                right: $r('app.float.id_card_margin_mid'),
-                top: '4vp',
-              }).visibility(this.haveMultiSimCard ? Visibility.Visible : Visibility.None);
-
-            Image($r('app.media.ic_public_contacts_hd'))
-              .height($r('app.float.dialer_common_small_margin'))
-              .width($r('app.float.dialer_common_small_margin'))
-              .onError((event => {
-                HiLog.e(TAG, 'ic_public_contacts_hd Image onError' + JSON.stringify(event))
-              }))
-              .margin({
-                right: $r('app.float.id_card_margin_mid'),
-                top: '4vp',
-              })
-              .visibility(this.item.isHD ? Visibility.Visible : Visibility.None);
-
-            Text(this.item.numberLocation
-              ? this.item.numberLocation
-              : $r('app.string.unknown'))
-              .fontSize($r('sys.float.ohos_id_text_size_body2'))
-              .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
-              .margin({ top: $r('app.float.id_card_margin_mid') })
-          }
-        }
-        .alignItems(HorizontalAlign.Start)
-        .layoutWeight(1)
-        .margin({ right: $r('app.float.id_card_margin_xl') })
-        .justifyContent(FlexAlign.Center)
-        .height($r('app.float.id_item_height_max'))
-
-        Row() {
-          Text(this.item.createTime)
-            .fontSize($r('sys.float.ohos_id_text_size_body2'))
-            .margin({
-              right: this.curBp === 'lg' ? '6vp' : $r('app.float.id_card_margin_xl'),
-              top: $r('app.float.id_card_margin_sm')
-            })
-            .fontColor($r('sys.color.ohos_id_color_text_tertiary'))
-            .textAlign(TextAlign.End)
-          Image($r('app.media.ic_public_detail'))
-            .height($r('app.float.id_card_margin_max'))
-            .width($r('app.float.id_card_margin_max'))
-            .margin({ top: $r('app.float.id_card_margin_sm'), right: 24 })
-            .onClick(() => {
-              this.mPresenter.jumpToContactDetail(this.item.phoneNumber);
-              AppStorage.SetOrCreate<boolean>('showDialBtn', true);
-            })
-        }
-        .height($r('app.float.id_item_height_max'))
-        .margin({ right: 24 })
+        Image($r('app.media.ic_delete_body'))
+          .height(16)
+          .width(16)
+          .rotate({
+            x: 0,
+            y: 0,
+            z: 1,
+            centerX: '100%',
+            centerY: 0,
+            angle: this.bodyAngle,
+          })
       }
+      .width($r('app.float.id_item_height_sm'))
+      .height($r('app.float.id_item_height_sm'))
+      .borderRadius(20)
+      .scale({ x: this.swipeScale, y: this.swipeScale })
+      .backgroundColor($r('app.color.skin_ohos_id_color_warning'))
+      .onClick(onDeleteBtn)
+      .accessibilityText(AccessibilityUtil.getInstance()
+        .setAccessibilityText(this.isOpenAccessibility, $r('app.string.accessibility_delete')))
+      .accessibilityRole(AccessibilityRoleType.BUTTON)
     }
-    .width('100%')
-    .height($r('app.float.id_item_height_max'))
-    .margin({ left: 24 })
-    .onClick((event: ClickEvent) => {
-      if (!this.haveSimCard) {
-        HiLog.i(TAG, 'No SIM card!');
-        //TODO Pop-up window for dialing without a SIM card
-        PhoneNumber.fromString(this.item.phoneNumber).isDialEmergencyNum().then((res) => {
-          this.isEmergencyNum = res;
-          if (!this.isEmergencyNum) {
-            HiLog.i(TAG, 'Is not Emergency Phone Number!');
-            promptAction.showToast({
-              message: $r('app.string.no_simCardDailog'),
-              duration: 2000,
-              bottom:'60%'
-            });
-            return;
-          } else {
-            HiLog.i(TAG, 'No SIM card, but is Emergency Phone Number');
-            this.mPresenter.dialing(this.item.phoneNumber);
-          }
-        })
-      } else {
-        if (this.haveMultiSimCard) {
-          DialerPresenter.getInstance().editPhoneNumber(this.item.phoneNumber);
-          AppStorage.SetOrCreate<boolean>('showDialBtn', true);
-        } else {
-          this.mPresenter.dialing(this.item.phoneNumber);
-        }
-      }
-      AppStorage.SetOrCreate<boolean>('showDialBtn', true);
-    })
-    .bindContextMenu(this.MenuBuilder, ResponseType.LongPress)
-  }
-
-  @Builder MenuBuilder() {
-    Column() {
-      Row() {
-        Text(this.item.displayName ?
-        this.item.displayName :
-        this.item.phoneNumber)
-          .fontSize($r('sys.float.ohos_id_text_size_headline8'))
-          .fontColor($r('sys.color.ohos_id_color_text_primary'))
-          .fontWeight(FontWeight.Medium)
-          .margin({ left: $r('app.float.id_card_margin_xxl'), right: $r('app.float.id_card_margin_xxl') })
-          .textAlign(TextAlign.Start)
-          .lineHeight('28vp')
-          .maxLines(1)
-          .textOverflow({ overflow: TextOverflow.Ellipsis })
-          .height($r('app.float.id_item_height_max'))
-      }
-      this.MenuView($r('app.string.save_to_existing_contacts'), MenuType.SaveExistingContacts, this.item.displayName)
-      this.MenuDivider(MenuType.SaveExistingContacts, this.item.displayName)
-      this.MenuView($r('app.string.send_message'), MenuType.sendMessage, this.item.displayName)
-      this.MenuDivider(MenuType.sendMessage, this.item.displayName)
-      this.MenuView($r('app.string.copy_phoneNumber'), MenuType.Copy, this.item.displayName)
-      this.MenuDivider(MenuType.Copy, this.item.displayName)
-      this.MenuView($r('app.string.edit_beforeCall'), MenuType.EditBeforeCall, this.item.displayName)
-      this.MenuDivider(MenuType.EditBeforeCall, this.item.displayName)
-      this.MenuView($r('app.string.delete_call_logs'), MenuType.DeleteCallLogs, this.item.displayName)
-    }
-    .width('150vp')
-    .alignItems(HorizontalAlign.Start)
-    .borderRadius($r('app.float.id_card_margin_xxl'))
-    .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
-  }
-
-  @Builder MenuView(menuName:Resource, itemType:MenuType, displayName:string) {
-    Row() {
-      Text(menuName)
-        .fontSize($r('sys.float.ohos_id_text_size_body1'))
-        .fontColor($r('sys.color.ohos_id_color_text_primary'))
-        .margin({ left: $r('app.float.id_card_margin_xxl') })
-        .textAlign(TextAlign.Start)
-    }
-    .width('100%')
-    .height($r('app.float.id_item_height_mid'))
-    .backgroundColor($r('sys.color.ohos_id_color_primary_contrary'))
-    .visibility(itemType !== MenuType.SaveExistingContacts || itemType === MenuType.SaveExistingContacts &&
-      '' === displayName ? Visibility.Visible : Visibility.None)
-    .onClick(() => {
-      switch (itemType) {
-        case MenuType.DeleteCallLogs:
-          this.deleteDialogController.open();
-          break;
-        case MenuType.EditBeforeCall:
-          DialerPresenter.getInstance().editPhoneNumber(this.item.phoneNumber);
-          AppStorage.SetOrCreate('showDialBtn', true);
-          break;
-        case MenuType.sendMessage:
-          let formatnum = PhoneNumber.fromString(this.item.phoneNumber).format();
-          DetailPresenter.getInstance()
-            .sendMessage(this.item.phoneNumber, formatnum,
-              this.item.displayName ? this.item.displayName : this.item.phoneNumber);
-          break;
-        case MenuType.Copy:
-          this.mIndexPresenter.getCopy(this.item.phoneNumber);
-          break;
-        case MenuType.SaveExistingContacts:
-          let innerEvent:emitter.InnerEvent = {
-            eventId: EMITTER_SAVE_ID,
-            priority: emitter.EventPriority.HIGH
-          };
-          emitter.emit(innerEvent, {
-            data: {
-              'callId': this.item.id,
-              'phoneNumber': this.item.phoneNumber
-            }
-          });
-          break;
+    .draggable(false)
+    .backgroundColor($r('app.color.skin_ohos_id_color_sub_background'))
+    .onAreaChange((oldValue: Area, newValue: Area) => {
+      if (this.dustbinAnimationEnabled) {
+        let wid: Length = newValue.width;
+        this.headAngle = Math.min(MAX_HEAD_ANGLE,
+          Math.max((Number(wid) - DELETE_SWIPE_HEAD_WIDTH) / ACTION_AREA_DISTANCE * ANGLE_RADIO, 0.0));
+        this.bodyAngle = Math.min(MAX_BODY_ANGLE,
+          Math.max((Number(wid) - DELETE_SWIPE_BODY_WIDTH) / ACTION_AREA_DISTANCE * 24.35, 0.0));
+        this.swipeScale = Math.min(MAX_SCALE_RATIO,
+          (Number(wid) - DELETE_SWIPE_HEAD_WIDTH) / ACTION_AREA_DISTANCE * 0.05 + 1.0);
+        this.bodyAngle = (-1) * this.bodyAngle;
       }
     })
+    .height('100%')
+    .margin({ left: $r('sys.float.padding_level6') })
+    .justifyContent(FlexAlign.Center)
+    .borderRadius($r('sys.float.corner_radius_level8'))
+    .constraintSize({ minWidth: '72vp' })
   }
 
-  @Builder MenuDivider(itemType:MenuType, displayName:string) {
-    Divider()
-      .color($r('sys.color.ohos_id_color_list_separator'))
-      .lineCap(LineCapStyle.Square)
-      .width(0)
-      .alignSelf(ItemAlign.Stretch)
-      .padding({ left: $r('app.float.id_card_margin_xxl'), right: $r('app.float.id_card_margin_xxl') })
-      .visibility(itemType !== MenuType.SaveExistingContacts || itemType === MenuType.SaveExistingContacts &&
-      '' === displayName ? Visibility.Visible : Visibility.None)
+  @Builder
+  CallRecordBuilder(item: MergedCallLog, index: number) {
+    CallRecordItem({
+      mPresenter: $mPresenter,
+      item: item,
+      index: index,
+      recordType: this.recordType,
+      contactItemTouchable: this.contactItemTouchable
+    })
+      .padding({
+        left: this.isPC ? $r('sys.float.padding_level8') : 0,
+        right: this.isPC ? $r('sys.float.padding_level8') : 0
+      })
+      .constraintSize({
+        minHeight: this.isPC ? $r('app.float.id_item_height_large') : $r('app.float.id_item_height_max')
+      })
+      .zIndex(-item.id)
+      .id('allRecord_contacts_record_listItem')
+      .backgroundColor(this.isThemeActive || this.isPC ? Color.Transparent :
+      $r('app.color.skin_ohos_id_color_sub_background'))
+  }
+}
+
+export function showVideoChangeToVoiceToast() {
+  try {
+    promptAction.showToast({
+      message: $r('app.string.cannot_start_video_call_change_to_voice'),
+      duration: 2000,
+    });
+  } catch (err) {
+    HiLog.e(TAG, 'showVideoChangeToVoiceToast, promptAction.showToast err: ' + err?.message + ', stack: ' + err?.stack);
   }
 }

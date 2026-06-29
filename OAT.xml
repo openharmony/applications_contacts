@@ -22,57 +22,60 @@
         <licensefile></licensefile>
         <policylist>
             <policy
-                    desc=""
-                    name="projectPolicy">
+                desc=""
+                name="projectPolicy">
                 <!--policyitem type="compatibility" name="GPL-2.0+" path="abc/.*" desc="Process that runs independently, invoked by the X process."/-->
                 <!--policyitem type="license" name="LGPL" path="abc/.*" desc="Dynamically linked by module X"/-->
                 <!--policyitem type="copyright" name="xxx" path="abc/.*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc="Developed by X Company"/-->
+                <policyitem type="copyright" name="Huawei Technologies Co., Ltd." path=".*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc=""/>
             </policy>
         </policylist>
         <filefilterlist>
             <filefilter
-                    desc="Files that do not need to be scanned"
-                    name="defaultFilter">
+                desc="Files that do not need to be scanned"
+                name="defaultFilter">
                 <filteritem
-                        desc="out put files"
-                        name="gradle/wrapper/.*.jar"
-                        type="filepath"/>
+                    desc="out put files"
+                    name="gradle/wrapper/.*.jar"
+                    type="filepath"/>
                 <filteritem
-                        desc="out put files"
-                        name="sign/.*"
-                        type="filepath"/>
+                    desc="out put files"
+                    name="sign/.*"
+                    type="filepath"/>
+                <filteritem type="filename" name="*.png|*.PNG|*.jpg|*.jpeg|*.webp|*.mp4|*.ttf|*.wav|*.ap" desc="self developed image"/>
+                <filteritem type="filepath" name=".*/cpp/sdk/libs/.*" desc="develop sdk files"/>
             </filefilter>
             <filefilter
-                    desc="Filters for compatibility，license header policies"
-                    name="defaultPolicyFilter">
+                desc="Filters for compatibility，license header policies"
+                name="defaultPolicyFilter">
                 <!--filteritem type="filename" name="*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
                 <!--filteritem type="filepath" name="abcdefg/.*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
                 <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
             </filefilter>
             <filefilter
-                    desc="Filters for copyright header policies"
-                    name="copyrightPolicyFilter">
+                desc="Filters for copyright header policies"
+                name="copyrightPolicyFilter">
                 <!--filteritem type="filename" name="*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
                 <!--filteritem type="filepath" name="abcdefg/.*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
                 <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
             </filefilter>
             <filefilter
-                    desc="Filters for LICENSE file policies"
-                    name="licenseFileNamePolicyFilter">
+                desc="Filters for LICENSE file policies"
+                name="licenseFileNamePolicyFilter">
                 <!--filteritem type="filename" name="*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
                 <!--filteritem type="filepath" name="abcdefg/.*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
                 <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
             </filefilter>
             <filefilter
-                    desc="Filters for README file policies"
-                    name="readmeFileNamePolicyFilter">
+                desc="Filters for README file policies"
+                name="readmeFileNamePolicyFilter">
                 <!--filteritem type="filename" name="*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
                 <!--filteritem type="filepath" name="abcdefg/.*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
                 <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
             </filefilter>
             <filefilter
-                    desc="Filters for README.OpenSource file policies"
-                    name="readmeOpenSourcefileNamePolicyFilter">
+                desc="Filters for README.OpenSource file policies"
+                name="readmeOpenSourcefileNamePolicyFilter">
                 <!--filteritem type="filename" name="*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
                 <!--filteritem type="filepath" name="abcdefg/.*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
                 <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
@@ -83,45 +86,27 @@
                 <filteritem type="filepath" name="entry/.*.json5" desc="build config file"/>
                 <filteritem type="filepath" name="entry/src/main/ets/MainAbility/workers/.*.js" desc="worker file"/>
                 <filteritem type="filepath" name="entry/src/main/.*.json5" desc="build config file"/>
-                <filteritem type="filename" name="*.json" desc=""/>
-                <filteritem type="filename" name="hvigorfile.js" desc="hvigorfile.js no need to add policy"/>
-                <filteritem type="filepath" name="gradle/wrapper/.*.jar" desc="out put files"/>
-                <filteritem type="filepath" name="dir name underproject/.*.uvwxyz" desc="Describe the reason for filtering scan results"/>
-                <filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/>
-                <filteritem type="filepath" name="hvigor/.*.js" desc="Compile automatically generated files"/>
             </filefilter>
             <filefilter
-                    desc="Filters for binary file policies"
-                    name="binaryFileTypePolicyFilter">
+                desc="Filters for binary file policies"
+                name="binaryFileTypePolicyFilter">
                 <filteritem
-                        desc="self developed image"
-                        name="doc/image/.*.png"
-                        type="filepath"/>
+                    desc="self developed image"
+                    name="doc/image/.*.png"
+                    type="filepath"/>
                 <filteritem
-                        desc="self developed image"
-                        name="entry/src/main/resources/base/media/.*.png"
-                        type="filepath"/>
+                    desc="self developed image"
+                    name="entry/src/main/resources/base/media/.*.png"
+                    type="filepath"/>
                 <filteritem
-                        desc="self developed image"
-                        name="entry/src/main/resources/base/media/.*.svg"
-                        type="filepath"/>
+                    desc="self developed image"
+                    name="entry/src/main/resources/base/media/.*.svg"
+                    type="filepath"/>
                 <filteritem
-                        desc="self developed audio"
-                        name="entry/src/main/resources/rawfile/.*.ogg"
-                        type="filepath"/>
-                <filteritem type="filepath" name="entry/src/main/ets/default/assets/picture/.*.png" desc="self developed image"/>
-                <filteritem type="filepath" name="entry/src/main/ets/default/assets/picture/.*.svg" desc="self developed image"/>
-                <filteritem type="filepath" name="figures/.*.png" desc="self developed image"/>
-                <filteritem type="filepath" name="AppScope/resources/base/media/app_icon.png" desc="self developed image"/>
-            </filefilter>
-            <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
-                <filteritem type="filepath" name="hvigorw" desc="Build Files"/>
-                <filteritem type="filepath" name="hvigorw.bat" desc="Build Files"/>
-            </filefilter>
-            <filefilter name="copyrightPolicyFilter" desc="Filters for copyright header policies">
-                <filteritem type="filepath" name="hvigorw" desc="Build Files"/>
-                <filteritem type="filepath" name="hvigorw.bat" desc="Build Files"/>
-                <filteritem type="filepath" name="hvigor/.*.js" desc="Compile automatically generated files"/>
+                    desc="self developed audio"
+                    name="entry/src/main/resources/rawfile/.*.ogg"
+                    type="filepath"/>
+                <filteritem type="filename" name="*.ets|*.hpp" desc="file is recognized as a binary file."/>
             </filefilter>
 
         </filefilterlist>

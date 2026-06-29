@@ -14,8 +14,13 @@
  */
 
 export { HiLog } from './src/main/ets/util/HiLog';
+export { DefaultBaseData, FuncType, CallRecordTimeFormatUtils, FormatTime } from './src/main/ets/util/CallRecordTimeFormatUtils';
 export { ArrayUtil } from './src/main/ets/util/ArrayUtil';
 export { ObjectUtil } from './src/main/ets/util/ObjectUtil';
 export { StringUtil } from './src/main/ets/util/StringUtil';
 export { sharedPreferencesUtils } from './src/main/ets/util/SharedPreferencesUtils';
 export { PermissionManager } from './src/main/ets/permission/PermissionManager';
+export { ContactWindowsManager } from './src/main/ets/util/WindowsManager';
+export { NumberAddressUtil } from './src/main/ets/util/NumberAddressUtil';
+export { DynamicLoader } from './src/main/ets/util/DynamicLoader';
+export { JsonUtil } from './src/main/ets/util/JsonUtil';

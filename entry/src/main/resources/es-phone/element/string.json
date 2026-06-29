@@ -1,0 +1,18 @@
+{
+    "string":[
+        {
+            "name":"adjusting_harassment_interception_settings",
+            "value":"Últimamente has recibido múltiples llamadas molestas. Pulsa aquí para configurar el filtro de llamadas.",
+            "attr":{
+                "priority":"LT"
+            }
+        },
+        {
+            "name":"ringtones_mute",
+            "value":"Silencioso",
+            "attr":{
+                "priority":"LT"
+            }
+        }
+    ]
+}
