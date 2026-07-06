@@ -4078,26 +4078,6 @@
             "attr":{
                 "priority":"translate"
             }
-        },
-        {
-            "name":"sync_contacts_dialog_title",
-            "value":"是否同步联系人？"
-        },
-        {
-            "name":"bidirectional_sync_contacts_dialog_desc",
-            "value":"同步成功后，“%s”的联系人将保存至本地"
-        },
-        {
-            "name":"coverage_sync_contacts_dialog_desc",
-            "value":"同步成功后，“%s”的联系人将覆盖至本地联系人。"
-        },
-        {
-            "name":"sync_contacts_countdown_button_desc",
-            "value":"同步 (%d秒)"
-        },
-        {
-            "name":"sync_contacts_button_desc",
-            "value":"同步"
         }
     ]
 }
