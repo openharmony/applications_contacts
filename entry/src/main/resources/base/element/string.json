@@ -4060,26 +4060,6 @@
             "attr":{
                 "priority":"translate"
             }
-        },
-        {
-            "name":"sync_contacts_dialog_title",
-            "value":"Sync Contacts"
-        },
-        {
-            "name":"bidirectional_sync_contacts_dialog_desc",
-            "value":"After the synchronziation is successfule, the contacts of \"%s\" will be save locally."
-        },
-        {
-            "name":"coverage_sync_contacts_dialog_desc",
-            "value":"After the synchronziation is successfule, the contacts of \"%s\" will be overwrite the local contacts."
-        },
-        {
-            "name":"sync_contacts_countdown_button_desc",
-            "value":"Sync (%ds)"
-        },
-        {
-            "name":"sync_contacts_button_desc",
-            "value":"sync"
         }
     ]
 }

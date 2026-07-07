@@ -69,7 +69,7 @@ import AccessibilityUtil from '../../util/AccessibilityUtil';
 import { ResourceUtil } from '../../util/ResourceUtil';
 import TextUtils from '../../../../../../common/src/main/ets/util/TextUtils';
 import ContactListPresenter from '../contact/ContactListPresenter';
-// 注释原因：LTS分支同步专用依赖，社区无对应依赖库，直接保留会编译报错，暂注释屏蔽+// import { generateBarcode, scanCore } from '@kit.ScanKit';
+// import { generateBarcode, scanCore } from '@kit.ScanKit';
 
 
 const TAG = 'DialerPresenter';
@@ -1144,16 +1144,16 @@ export default class DialerPresenter {
     // const scanCore = await import('@hms.core.scan.scanCore');
     let imeiPixelMap: Map<string, image.PixelMap> = new Map();
     await Promise.all(imeiArr.map(async (imei) => {
-      // try {
-      //   let pixelMap: image.PixelMap = await generateBarcode.createBarcode(imei, {
-      //     scanType: scanCore.ScanType.CODE128_CODE,
-      //     height: 2000,
-      //     width: 4000,
-      //   });
-      //   imeiPixelMap.set(imei, pixelMap);
-      // } catch (err) {
-      //   HiLog.e(TAG, 'createBarcode error: ' + err);
-      // }
+      try {
+        // let pixelMap: image.PixelMap = await generateBarcode.createBarcode(imei, {
+        //   scanType: scanCore.ScanType.CODE128_CODE,
+        //   height: 2000,
+        //   width: 4000,
+        // });
+        // imeiPixelMap.set(imei, pixelMap);
+      } catch (err) {
+        HiLog.e(TAG, 'createBarcode error: ' + err);
+      }
     }))
     let imeiStr: string = '';
     let imeiStrArr: string[] = [];
