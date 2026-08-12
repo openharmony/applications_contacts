@@ -415,61 +415,6 @@ export struct ContactContent {
 
         List({ space: 0, initialIndex: 0, scroller: this.scroller }) {
           if (this.stages > 1) {
-            if (SystemModeController.getInstance().getIsCurrentModeSupportCalendar()) {
-              ListItem() {
-                Row() {
-                  Popup({
-                    showClose: false,
-                    direction: i18n.isRTL(i18n.System.getSystemLanguage()) ? Direction.Rtl : Direction.Ltr,
-                    message: {
-                      text: $r('app.string.contact_pass_birthday_to_calendar_new'),
-                      fontSize: 14,
-                      fontColor: $r('app.color.skin_font_primary'),
-                      fontWeight: FontWeight.Medium
-                    } as PopupTextOptions,
-                    buttons: [{
-                        text: $r('app.string.cancel_pass_birthday_to_calendar'),
-                        action: async () => {
-                        HiLog.w(TAG, 'Sync birthday to calendar no allow')
-                        this.inShowCalendar = false;
-                        sharedPreferencesUtils.saveToPreferences('showBirthdayBanners', false);
-                        this.showBirthdayBanners =
-                            await sharedPreferencesUtils.getFromPreferences('showBirthdayBanners', false) as boolean;
-                        AppStorage.setOrCreate('isShowBanners', false);
-                        },
-                        fontSize: 14,
-                        fontColor: $r('app.color.skin_font_emphasize'),
-                    },
-                      {
-                        text: $r('app.string.allow'),
-                        action: () => {
-                          HiLog.w(TAG, 'Sync birthday to calendar allow')
-                          this.inShowCalendar = true;
-                          AppStorage.setOrCreate('isShowBanners', false);
-                        },
-                        fontSize: 14,
-                        fontColor: $r('app.color.skin_font_emphasize')
-                      }] as [PopupButtonOptions?, PopupButtonOptions?]
-                  })
-
-                }
-                .visibility(!this.isFromMeetime && this.showBirthdayBanners ? Visibility.Visible : Visibility.None)
-                .width('100%')
-                .borderRadius(this.isPC ? $r('sys.float.corner_radius_level4') : $r('app.float.radio_button_width_20'))
-                .backgroundColor($r('sys.color.comp_background_tertiary'))
-                .margin({
-                  top: $r('app.float.id_dialog_button_top_margin'),
-                  bottom: ((this.displaySyncCard === Visibility.Visible && !this.isVerde)) ? '0vp' :
-                    $r('app.float.id_dialog_button_top_margin')
-                })
-              }
-              .height('auto')
-              .width(`calc(100% - 48vp)`)
-              .margin({
-                start: LengthMetrics.resource($r('app.float.id_card_margin_xxl')),
-              })
-            }
-
             // 联系人列表
             LazyForEach(this.presenter.contactListDataSource, (item: ContactListShowInfo, index: number) => {
               ListItem() {

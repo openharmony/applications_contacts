@@ -120,6 +120,7 @@ export enum DataWorkerConstant {
   'getPickerContacts',
   'saveRingToneToContact',
   'queryLocalRingToneUsedTimes',
+  'queryContactsUsedLocalRingTone',
   'queryOrganizationIntelligenceGroupStatistic',
   'queryCityIntelligenceGroupStatistic',
   'queryLatestContactTimeIntelligenceGroupStatistic',
@@ -581,6 +582,11 @@ export class DataWorkerTask extends WorkerTask {
         ContactAbilityModel.queryLocalRingToneUsedTimes(
           param?.id, param?.uri, (result: number) => {
           HiLog.w(TAG, `queryLocalRingToneUsedTimes end`);
+          callBack?.(result);
+        });
+        break;
+      case DataWorkerConstant[DataWorkerConstant.queryContactsUsedLocalRingTone]:
+        ContactAbilityModel.queryContactsUsedLocalRingTone((result: string[]) => {
           callBack?.(result);
         });
         break;

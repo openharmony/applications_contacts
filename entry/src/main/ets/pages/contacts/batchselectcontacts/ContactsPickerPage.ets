@@ -767,6 +767,7 @@ export default struct ContactsPickerPage {
               .width(72)
               .height(28)
               .enabled(!this.isGettingPickerData)
+              .opacity(this.selectedCount > 0 ? 1 : $r('sys.float.alpha_tertiary'))
             }
             .height(48)
             .justifyContent(FlexAlign.Center)
@@ -839,7 +840,7 @@ export default struct ContactsPickerPage {
 
   build() {
     NavDestination() {
-      Navigation(){
+      Column(){
         this.ContactPickerBuilder()
       }
       // 应用锁
@@ -861,14 +862,18 @@ export default struct ContactsPickerPage {
     //     this.onBack();
     //   })
     // )
-    .menus(this.TitleGuide())
+    .menus((this.uiExtentionParam?.source === undefined &&
+      this.uiExtentionParam?.isContactsPicker === false) ||
+      this.mPresenter?.isSaveExistContact === true ? undefined : this.TitleGuide())
     // .titleMode(this.session !== undefined ? HdsNavDestinationTitleMode.MODAL : HdsNavDestinationTitleMode.MINI)
     .title(
       ResourceUtil.getStringByResource($r('app.string.select_contact'))
     )
-
     .padding({ top: this.fullScreenPaddingTop })
     .hideBackButton(this.session !== undefined && !this.isSearching)
+    .backButtonIcon(new SymbolGlyphModifier($r('sys.symbol.xmark'))
+      .fontSize($r('app.float.id_card_image_small'))
+      .fontColor([$r('app.color.skin_icon_primary')]))
     .backgroundColor($r('app.color.skin_ohos_id_color_panel_bg'))
     .onShown(() => {
       HiLog.i(TAG, 'onPageShow')
@@ -1253,14 +1258,14 @@ struct ContactsList {
   build() {
     Stack({ alignContent: Alignment.TopEnd }) { //右侧字母排序位置
       List({ initialIndex: 0, scroller: this.scroller }) {
-        if (this.isShowOnlyAccessedAlert && !this.isVerde) {
-          ListItem() {
-            SecureAccessPopupTip({
-              isShowOnlyAccessedAlert: this.isShowOnlyAccessedAlert,
-              isShowLearnMore: this.isShowLearnMore
-            });
-          }
-        }
+        // if (this.isShowOnlyAccessedAlert && !this.isVerde) {
+        //   ListItem() {
+        //     SecureAccessPopupTip({
+        //       isShowOnlyAccessedAlert: this.isShowOnlyAccessedAlert,
+        //       isShowLearnMore: this.isShowLearnMore
+        //     });
+        //   }
+        // }
 
         ListItem() {
           Row() {

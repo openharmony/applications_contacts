@@ -715,6 +715,9 @@ export struct ContactDetailContent {
 
   onRingtoneInfoChange() {
     HiLog.i(TAG, `onRingtoneInfoChange`);
+    if (!this.isRingToneShow) {
+      return;
+    }
     this.mPresenter.contactForm.personalNotificationRingtone = this.ringtoneInfo.ringtoneName;
     this.mPresenter.contactForm.personalRingtone = this.ringtoneInfo.ringtonePath;
   }
@@ -1521,26 +1524,7 @@ export struct ContactDetailContent {
         // 标记
         Row() {
           if (this.mPresenter.contactForm.phones.length > 0 && this.isInBlock) {
-            Text($r('app.string.already_in_block'))
-              .id('already_in_block')
-              .fontSize($r('sys.float.ohos_id_text_size_body2'))
-              .fontColor((this.mSystemModeController.getIsEnablePosterAvatar() && this.mPresenter.blobSource === 3 &&
-                !this.isVerde && this.mPresenter.cardPhotoPixelMap) ?
-                this.mPresenter?.isNameRegionLight ? LIGHT_CARD_COLOR : DARK_CARD_COLOR :
-                $r('app.color.skin_ohos_id_color_text_secondary')
-              )
-              .textShadow(this.mPresenter?.isNameRegionLight ? undefined :
-                ((this.mSystemModeController.getIsEnablePosterAvatar() && this.mPresenter.blobSource === 3 &&
-                  !this.isVerde && this.mPresenter.cardPhotoPixelMap) ?
-                  cardTextShadowOpt : normalTextShadowOpt)
-              )
-              .advancedBlendMode(this.mPresenter?.isNameRegionLight ?
-                brightLevel2 : undefined)
-              .fontWeight(FontWeight.Regular)
-              .fontFamily('HarmonyHeiTi')
-              .textOverflow({ overflow: TextOverflow.Ellipsis })
-              .maxLines(1)
-              .width('auto')
+            // 黑名单拦截是依赖于未开源的骚扰拦截，需要先屏蔽加入黑名单入口相关
           } else if (this.mPresenter.isNewNumber && (!StringUtil.isEmpty(this.markType)) &&
             this.markType != NumberMarkUtil.MARK_TYPE_ENTERPRISE) {
             Text(this.getContactDetailSecondaryText())

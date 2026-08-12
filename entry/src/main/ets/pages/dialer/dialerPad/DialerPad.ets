@@ -632,7 +632,7 @@ export default struct CallTablet {
                               (DisplaySplitUtil.isHorizonSplit(this.splitStatus)) ? 52 :
                             this.curBp === 'lg' ? $r('app.float.id_item_height_max') :
                             $r('app.float.id_item_height_large'))
-                          .backgroundColor($r('app.color.skin_confirm'))
+                          .backgroundColor($r('app.color.answer_button_color'))
                           .opacity(!EnvironmentProp.isTablet() || this.haveSimCard
                             ? 1 : $r('sys.float.alpha_tertiary'))
                           .onClick(() => {
@@ -726,7 +726,7 @@ export default struct CallTablet {
                               (deviceInfo.deviceType == 'tablet' &&
                                 (this.splitStatus === SplitStatus.ONE_THREE_SPLIT)) ? 2 : 0
                           })
-                          .backgroundColor($r('app.color.skin_confirm'))
+                          .backgroundColor($r('app.color.answer_button_color'))
                           // Currently, it is not possible to tell whether the device has dial capability.
                           // 1. The dial button in phone is enable.
                           // 2. The dial button in tablet is enable only when sim card is inserted.

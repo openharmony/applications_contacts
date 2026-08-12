@@ -114,19 +114,19 @@ export default struct MarkAsDetailDialog {
               }
             }
           }
-          ForEach(harassmentItemArr, (item: string, index: number) => {
-            ListItem() {
-              HarassmentItem({
-                phoneNumber: this.phoneNumber,
-                item: item,
-                isInBlock: this.isInBlock,
-                isMarked: this.isMarked,
-                markType: this.markType,
-                itemType: index + 1,
-                controller: this.markAsDialogController as CustomDialogController
-              })
-            }
-          }, (item: string, index: number) => JSON.stringify(item) + index)
+          // ForEach(harassmentItemArr, (item: string, index: number) => {
+          //   ListItem() {
+          //     HarassmentItem({
+          //       phoneNumber: this.phoneNumber,
+          //       item: item,
+          //       isInBlock: this.isInBlock,
+          //       isMarked: this.isMarked,
+          //       markType: this.markType,
+          //       itemType: index + 1,
+          //       controller: this.markAsDialogController as CustomDialogController
+          //     })
+          //   }
+          // }, (item: string, index: number) => JSON.stringify(item) + index)
           ForEach(markAsItemArr, (item: string, index: number) => {
             ListItem() {
               MarkAsItem({

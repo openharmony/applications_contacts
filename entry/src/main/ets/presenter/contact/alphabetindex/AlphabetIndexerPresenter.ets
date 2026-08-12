@@ -24,7 +24,7 @@ const TAG = 'AlphabetIndexerPresenter';
 const CHINESE_CHAR_CODE = 255;
 const FAVORITE_SYMBOL = '☆';
 const SEARCH_NUMBER_OF_LIST_OFFSETS = 0;
-const NO_SEARCH_NUMBER_OF_LIST_OFFSETS = 1;
+const NO_SEARCH_NUMBER_OF_LIST_OFFSETS = 0;
 
 export default class AlphabetIndexerPresenter {
   private static sInstance: AlphabetIndexerPresenter | null;

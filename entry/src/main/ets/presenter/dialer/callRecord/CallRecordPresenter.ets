@@ -150,6 +150,8 @@ export default class CallRecordPresenter {
     this.mAllCallRecordListDataSource.removeCallLog(ids);
     // 更新查询出来的通话记录条数
     this.callLogRefreshIndex = this.mAllCallRecordListDataSource.totalCount();
+    // 详情页清空通话记录刷新通话列表
+    this.refreshState('deleteCallrecord');
   }
 
   /**

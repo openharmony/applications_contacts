@@ -142,11 +142,11 @@ export struct MutiDialerButtonView {
         }
       }
       .justifyContent(FlexAlign.Center)
-      .opacity(this.enable[index] ? 1 : $r('sys.float.alpha_tertiary'))
+      // .opacity(this.enable[index] ? 1 : $r('sys.float.alpha_tertiary'))
       .accessibilityText(this.stringForCallBtn(index))
       .layoutWeight(1)
       .height($r('app.float.id_item_height_sm'))
-      .backgroundColor($r('app.color.skin_confirm'))
+      .backgroundColor($r('app.color.answer_button_color'))
       .onClick(() => {
         HiLog.w(TAG, `index: ${index}, Clicking the button...`);
         this.mPresenter.dialClick(this.getUIContext(), index);
@@ -276,7 +276,7 @@ export struct MutiDialerButtonView {
         .accessibilityText(AccessibilityUtil.getInstance()
           .setAccessibilityText(this.isOpenAccessibility, $r('app.string.accessibility_call')))
         .height($r('app.float.id_item_height_sm'))
-        .backgroundColor($r('app.color.skin_confirm'))
+        .backgroundColor($r('app.color.answer_button_color'))
         .onClick(() => {
           HiLog.w(TAG, `defaultSlot: ${this.defaultSlot}, Clicking the button...`);
           this.mPresenter.dialClick(this.getUIContext(), this.defaultSlot);

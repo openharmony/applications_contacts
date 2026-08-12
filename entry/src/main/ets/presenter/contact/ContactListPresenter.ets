@@ -25,7 +25,7 @@ import SearchContactsSource from '../../model/bean/SearchContactsSource';
 import AlphabetIndexerPresenter from './alphabetindex/AlphabetIndexerPresenter';
 import { LimitRefreshDataUtil } from '../../util/LimitRefreshDataUtil';
 import { ContactBlobSource, ContactIdParam, CustomizedParams, PageLimit, ReqData, FindPhotoByIdActionData,
-  CachedContactsPixelMapType, ContactsSearchResult} from '../../model/type';
+  CachedContactsPixelMapType, ContactsSearchResult,ContactReturnObj} from '../../model/type';
 import { AllContactGetParam, CountAlphabetIndex } from '../../model/type/ContactParams';
 import { ContactsGlobalThisHelper } from '../../../../../../common/src/main/ets/util/ContactsGlobalThisHelper';
 import { DynamicLoader, sharedPreferencesUtils, StringUtil } from '../../../../../../common';
@@ -72,6 +72,7 @@ import { accessibility } from '@kit.AccessibilityKit';
 import AccessibilityUtil from '../../util/AccessibilityUtil';
 import TextUtils from '../../../../../../common/src/main/ets/util/TextUtils';
 import { ContactsConstants } from '../../../../../../common/src/main/ets/ContactsConstants';
+import RingTonePresenter from '../ringtone/RingTonePresenter';
 
 const TAG = 'ContactListPresenter  ';
 const DELAY_TIME: number = 100;
@@ -85,6 +86,7 @@ const hasComma: RegExp = new RegExp(',', 'g');
 const COMMA_REPLACE: string = '&comma;';
 const labelMatch: RegExp = new RegExp('<|>', 'gi');
 const CONTACT_SEARCH_OFFSET = 100;
+const RING_TONE_BASE = '/data/storage/el2/base/files/Ringtone/contacts'
 
 // Type of the control that is clicked in the contact list.
 export enum ContactClickType {
@@ -194,6 +196,7 @@ export default class ContactListPresenter {
   public hasCachePhotoFinish: boolean = false;
   public hasScrollIndexCachePhotoFinish: boolean = false;
   public queryAllEnd: boolean = true;
+  public mRingTonePresenter: RingTonePresenter = RingTonePresenter.getInstance();
 
   private scroller: Scroller = new Scroller();
 
@@ -705,14 +708,8 @@ export default class ContactListPresenter {
   public compare(contact1: ContactVo, contact2: ContactVo) {
     let res = contact1.sort.localeCompare(contact2.sort);
     if (res === 0) {
-      let arr = [contact1.sortKey, contact2.sortKey];
-      arr.sort();
-      if (contact1.sortKey === arr[0]) {
-        // 联系人1小
-        res = -1;
-      } else {
-        res = 1;
-      }
+      // 与数据库排序逻辑保持一致，使用 displayName 进行比较，解决特殊符号排序不正确的问题
+      res = contact1.displayName.localeCompare(contact2.displayName);
     }
     return res;
   }
@@ -1279,6 +1276,8 @@ export default class ContactListPresenter {
       })
       sharedPreferencesUtils.saveToPreferences('speedDialObjString', JSON.stringify(speedDialArr));
     }
+    // 删除铃音库uri
+    this.cleanupContactRingtone(parseInt(contactId));
     // 删除联系人
     ContactsGlobalThisHelper.GetGlobalThis()
       .getValue<WorkerWrapper>(ContactsGlobalThisHelper.DataWorkerName)
@@ -1949,5 +1948,17 @@ export default class ContactListPresenter {
     });
     this.hasCachePhotoFinish = true;
     return cacheContactIds;
+  }
+
+  private cleanupContactRingtone(contactId: number): void {
+    // 查询联系人详情获取铃音信息
+    ContactAbilityModel.getContactByIdSync(contactId).then((result: ContactReturnObj) => {
+      if (result.data && result.data.personalRingtone && result.data.personalRingtone.includes(RING_TONE_BASE)) {
+        // 从铃音库移除铃音uri
+        this.mRingTonePresenter.removeContactLocalRingtoneByUri(result.data.personalRingtone, contactId.toString())
+      }
+    }).catch((error: BusinessError) => {
+      HiLog.e(TAG, `cleanupContactRingtone error: ${error?.message}`);
+    });
   }
 }

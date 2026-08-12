@@ -315,7 +315,7 @@ export default struct CallTablet {
             .setAccessibilityText(this.isOpenAccessibility, $r('app.string.accessibility_expand_dialer')))
           .width($r('app.float.id_item_height_large'))
           .height($r('app.float.id_item_height_large'))
-          .backgroundColor($r('app.color.skin_confirm'))
+          .backgroundColor($r('app.color.answer_button_color'))
           .onClick(() => {
             HiLog.w(TAG, 'pathInfos onClick: DialerPad');
             CallRecordPresenter.getInstance().toDefaultPage();
@@ -379,7 +379,7 @@ export default struct CallTablet {
             .setAccessibilityText(this.isOpenAccessibility, $r('app.string.accessibility_expand_dialer')))
           .width($r('app.float.id_item_height_large'))
           .height($r('app.float.id_item_height_large'))
-          .backgroundColor($r('app.color.skin_confirm'))
+          .backgroundColor($r('app.color.answer_button_color'))
           .onClick(() => {
             HiLog.w(TAG, 'pathInfos onClick: DialerPad');
             CallRecordPresenter.getInstance().toDefaultPage();

@@ -152,7 +152,7 @@ export struct DialerButtonView {
         .width(this.getDialButtonHeight())
         .height(this.getDialButtonHeight())
         .margin({ top : this.getDialButtonMargin(), bottom : this.getDialButtonMarginBottom() })
-        .backgroundColor($r('app.color.skin_confirm'))
+        .backgroundColor($r('app.color.answer_button_color'))
         .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.haveSimCard
           ? 1 : $r('sys.float.alpha_tertiary'))
         .onClick(() => {
@@ -171,7 +171,7 @@ export struct DialerButtonView {
         .margin({ top : this.getDialButtonMargin(), bottom : this.getDialButtonMarginBottom() })
         .accessibilityText(AccessibilityUtil.getInstance()
           .setAccessibilityText(this.isOpenAccessibility, $r('app.string.accessibility_call')))
-        .backgroundColor($r('app.color.skin_confirm'))
+        .backgroundColor($r('app.color.answer_button_color'))
         .opacity(!EnvironmentProp.isTablet() || this.mPresenter.btnShow || this.haveSimCard
           ? 1 : $r('sys.float.alpha_tertiary'))
         .onClick(() => {
