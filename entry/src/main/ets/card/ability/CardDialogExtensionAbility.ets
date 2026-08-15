@@ -18,10 +18,12 @@ import UIExtensionContentSession from '@ohos.app.ability.UIExtensionContentSessi
 import { HiLog } from '../../../../../../feature/call/oh_modules/common';
 import { ContactsGlobalThisHelper } from '../../../../../../common/src/main/ets/util/ContactsGlobalThisHelper';
 import LooseObject from '../../model/type/LooseObject';
-import { CardDialogInfoType } from '../type/commonType';
+import { CardDialogInfoType, CardDialogSimInfo } from '../type/commonType';
 import WorkerWrapper from '../../workers/base/WorkerWrapper';
 import WorkFactory, { WorkerType } from '../../workers/WorkFactory';
 import { BusinessError } from '@ohos.base';
+import sim from '@ohos.telephony.sim';
+import radio from '@ohos.telephony.radio';
 
 const TAG = 'CardDialogExtensionAbility';
 
@@ -47,16 +49,64 @@ export default class CardDialogExtensionAbility extends UIExtensionAbility {
       context: this.context
     });
     let dialogInfo: CardDialogInfoType = want.parameters?.dialogInfo as CardDialogInfoType;
-    let param: LooseObject = {
-      'session': session,
-      'dialogInfo': dialogInfo
-    };
-    let storage: LocalStorage = new LocalStorage(param);
-    session.loadContent('card/common/dialog/CardSelectDialog', storage);
-    session.setWindowBackgroundColor('#00000000');
+    this.refreshSimDisplayNames(dialogInfo)
+      .catch((err: BusinessError) => {
+        HiLog.e(TAG, `refreshSimDisplayNames failed: ${err?.message}`);
+      })
+      .then(() => {
+        let param: LooseObject = {
+          'session': session,
+          'dialogInfo': dialogInfo
+        };
+        let storage: LocalStorage = new LocalStorage(param);
+        session.loadContent('card/common/dialog/CardSelectDialog', storage);
+        session.setWindowBackgroundColor('#00000000');
+      });
   }
 
   onSessionDestroy(session: UIExtensionContentSession) {
     HiLog.i(TAG, `UIExtAbility onSessionDestroy`);
+  }
+
+  /**
+   * 对无效 name 重新查询
+   */
+  private refreshSimDisplayNames(dialogInfo: CardDialogInfoType): Promise<void> {
+    if (!dialogInfo?.simList || dialogInfo.simList.length === 0) {
+      return Promise.resolve();
+    }
+    let tasks: Promise<void>[] = [];
+    dialogInfo.simList.forEach((item: CardDialogSimInfo) => {
+      if (typeof item.name === 'string' && item.name.length > 0 && item.name !== 'null') {
+        return;
+      }
+      let slotId: number = item.slotId;
+      tasks.push(this.querySimDisplayName(slotId).then((name: string) => {
+        item.name = name;
+      }));
+    });
+    return Promise.all(tasks).then(() => {});
+  }
+
+  private querySimDisplayName(slotId: number): Promise<string> {
+    return new Promise((resolve) => {
+      sim.getShowName(slotId, (err: BusinessError<void>, value: string) => {
+        if (!err && value && value !== 'null' && value.length > 0) {
+          resolve(value);
+          return;
+        }
+        radio.getOperatorName(slotId, (error, data) => {
+          if (!error && data && data.length > 0) {
+            resolve(data);
+            return;
+          }
+          try {
+            resolve(this.context.resourceManager.getStringSync($r('app.string.NoService')));
+          } catch (e) {
+            resolve('');
+          }
+        });
+      });
+    });
   }
 }

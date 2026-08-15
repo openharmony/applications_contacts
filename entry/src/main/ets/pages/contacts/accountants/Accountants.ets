@@ -608,6 +608,8 @@ export default struct Accountants {
     emitter.off(emitterIdAddAccountants);
     emitter.off(EmitterConstant.EMITTER_ACCOUNTANTS_TEXTAREA_ID);
     this.deleteDialogController = null;
+    this.mPresenter.photoPixelMap?.release()
+    this.photoPixelMap?.release()
   }
 
   destinationPageShow(pixelMap: image.PixelMap, scaledPixelMap: image.PixelMap) {
@@ -647,6 +649,8 @@ export default struct Accountants {
         DotUtil.getInstance().contactDot(this.cancelAddContactParams, CANCEL_ADD_CONTACT_EVENT);
         this.isSaveCon = 0;
       }
+      // 取消新建联系人时判断是否移除铃音库中的自定义铃声
+      this.mPresenter.removeContactLocalRingtone(getContext(this));
       if (this.uiExtentionSession != undefined) {
         this.sendBackMsg(this.uiExtentionSession);
       }

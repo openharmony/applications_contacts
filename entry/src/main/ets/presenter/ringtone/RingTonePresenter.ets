@@ -32,6 +32,7 @@ const MUSIC_APP_BUNDLE_NAME = 'com.ohos.hmsapp.music';
 const MUSIC_APP_METADATA_LOCAL = 'feature-ringtonesetting.localmusic';
 
 export default class RingTonePresenter {
+  public static readonly CONTENT_URI: string = 'datashare:///com.ohos.contactsdataability/contacts/raw_contact';
   public pathInfos: NavPathStack = new NavPathStack();
   private static instance: RingTonePresenter | null;
   public contactId: string = '';
@@ -124,10 +125,29 @@ export default class RingTonePresenter {
         }, async (result: boolean) => {
           HiLog.w(TAG, `saveRingToneToContact succ: ${result}`);
           this.removeContactLocalRingtone(context);
+          this.originalContactRingtoneInfo = this.selectedRingtoneInfo.ringtonePath;
         });
     } catch (error) {
       HiLog.e(TAG, `saveRingToneToContact error: ${error?.message}`);
       return;
+    }
+  }
+
+  /**
+   * 查询联系人使用的所有本地铃音uris列表
+   * @returns uris 铃声uris
+   */
+  async queryContactsUsedLocalRingTone() : Promise<string[]>{
+    try {
+      return new Promise<string[]>((resolve, reject) => {
+        ContactsGlobalThisHelper.GetGlobalThis()
+          .getValue<WorkerWrapper>(ContactsGlobalThisHelper.DataWorkerName)
+          .sendRequest('queryContactsUsedLocalRingTone', {},(result: string[]) => {
+            resolve(result);
+          });
+      });
+    } catch (error) {
+      return [];
     }
   }
 
@@ -170,6 +190,38 @@ export default class RingTonePresenter {
         });
     } catch (error) {
       HiLog.e(TAG, `removeCustomizedTone error: ${error?.message}`);
+      return;
+    }
+  }
+
+
+  /**
+   * 通过联系人id和铃音uri移除本地铃声（主要用于删除联系人场景）
+   * @returns uris 铃声uris
+   */
+  async removeContactLocalRingtoneByUri(uri: string,contactId:string) {
+    try {
+      ContactsGlobalThisHelper.GetGlobalThis()
+        .getValue<WorkerWrapper>(ContactsGlobalThisHelper.DataWorkerName)
+        .sendRequest('queryLocalRingToneUsedTimes', {
+          id: contactId,
+          uri: uri
+        }, (result: number) => {
+          if (result <= 1) {
+            if (uri) {
+              try {
+                systemSoundManager.getSystemSoundManager()?.removeCustomizedTone(getContext(this),
+                  uri);
+              } catch (error) {
+                HiLog.e(TAG, 'removePreSelectedRingtone err: ' + error?.message + ', stack: ' + error?.stack);
+                return;
+              }
+            }
+          }
+        });
+
+    } catch (error) {
+      HiLog.e(TAG, 'removePreSelectedRingtone error: ' + error?.message + ', stack: ' + error?.stack);
       return;
     }
   }

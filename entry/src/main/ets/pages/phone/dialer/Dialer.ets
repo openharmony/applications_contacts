@@ -99,7 +99,7 @@ export default struct Call {
   @StorageLink('activeCallId') activeCallId: number = -1;
   //仅限于用于展示号码 带格式化
   @StorageLink(DialerConstant.DIALER_TEL_NUMBER_WITH_SPACE) telNumberWithSpace: string = '';
-  @StorageLink('fullScreenPadding') fullScreenPadding: Padding = {};
+  @StorageLink('fullScreenPadding') @Watch('fullScreenPaddingOnChange')fullScreenPadding: Padding = {};
   @StorageLink('breakpoint') @Watch('multiSimCardUpdataWidth') curBp: string = 'sm';
   // 显示拨号盘
   @StorageLink('showDialBtn') @Watch('onShowDialBtnChange') showDialBtn: boolean = true;
@@ -318,6 +318,14 @@ export default struct Call {
     // v小折叠 外屏展示回到前台的时候，通话设置页面收起
     if ((this.isVerde && this.isMainAbilityForeground)) {
       this.isShowCallSetting = false;
+    }
+  }
+
+  fullScreenPaddingOnChange() {
+    if (this.fullScreenPadding.top as number < 0) {
+      this.fullScreenPaddingTop = px2vp(AppStorage.get('fullScreenPaddingTop') as number);
+    } else {
+      this.fullScreenPaddingTop = px2vp(this.fullScreenPadding.top as number);
     }
   }
 
@@ -930,7 +938,7 @@ export default struct Call {
           .width($r('app.float.id_item_height_large'))
           .height((this.splitStatus === SplitStatus.ONE_THREE_SPLIT) ||
             (this.splitStatus === SplitStatus.HALF_SPLIT) ? 52 : $r('app.float.id_item_height_large'))
-          .backgroundColor($r('app.color.skin_confirm'))
+          .backgroundColor($r('app.color.answer_button_color'))
           .clickEffect({ level: ClickEffectLevel.LIGHT })
           .onClick(() => {
             // 联系人打点--点击拨号盘按钮显示
@@ -966,7 +974,7 @@ export default struct Call {
               .setAccessibilityText(this.isOpenAccessibility, $r('app.string.accessibility_expand_dialer')))
             .width($r('app.float.id_item_height_large'))
             .height($r('app.float.id_item_height_large'))
-            .backgroundColor($r('app.color.skin_confirm'))
+            .backgroundColor($r('app.color.answer_button_color'))
             .onClick(() => {
               // 联系人打点--点击拨号盘按钮显示
               this.showDialerParams.ISSHOW = 1;
@@ -1212,6 +1220,7 @@ export default struct Call {
           })
         .backgroundColor(this.isThemeActive ? $r('app.color.background_last_white') :
         $r('app.color.skin_comp_background_primary'))
+        .justifyContent(FlexAlign.End)
         .width('100%')
         .clip(new Rect({
           width: '100%',
@@ -1366,7 +1375,7 @@ export default struct Call {
       bottom: (this.splitStatus === SplitStatus.ONE_THREE_SPLIT) || (this.splitStatus === SplitStatus.HALF_SPLIT) ?
         16 : 22
     })
-    .safeAreaPadding({ bottom: 56 })
+    .safeAreaPadding({ bottom: this.splitStatus === SplitStatus.ONE_THREE_SPLIT ? 0 : 56 })
     .justifyContent(FlexAlign.SpaceAround)
   }
 

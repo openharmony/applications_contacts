@@ -1303,7 +1303,13 @@ export default struct ContactDetail {
     } else {
       NavDestination() {
         Stack() {
-          Column() {
+          if (this.mSystemModeController.getIsEnablePosterAvatar() && this.mPresenter.blobSource === 3 &&
+            !this.isVerde && this.mPresenter.cardPhotoPixelMap) {
+            Scroll(this.scroller) {
+              this.ContactDetailBuilder()
+            }
+            // 海报模式下，头像背景需延伸至顶部状态栏
+            .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP])
             Row() {
               Button({ type: ButtonType.Circle }) {
                 SymbolGlyph($r('sys.symbol.chevron_backward'))
@@ -1328,7 +1334,7 @@ export default struct ContactDetail {
               })
               .backgroundEffect(
                 (this.mPresenter.cardPhotoPixelMap && !this.isVerde) ?
-                this.cardBtnBackEffect : this.normalBtnBackEffect
+                  this.cardBtnBackEffect : this.normalBtnBackEffect
               )
               .visibility(this.curBp === 'sm' ? Visibility.Visible : Visibility.None)
               .backgroundColor(!this.mPresenter.photoPixelMap ? $r('sys.color.comp_background_tertiary') : '#19FFFFFF')
@@ -1338,11 +1344,11 @@ export default struct ContactDetail {
               Text(typeof this.titleDisplayName === 'string'
                 ? this.titleDisplayName.replace(lineBreakRegExp, '') : this.titleDisplayName)
                 .fontSize(FontScaleState.isStandardGeer(this.fontSizeScale) ?
-                $r('sys.float.Title_S') : $r('app.float.id_card_image_s'))
+                  $r('sys.float.Title_S') : $r('app.float.id_card_image_s'))
                 .fontWeight(FontWeight.Bold)
                 .fontColor(this.isThemeActive ? $r('app.color.skin_ohos_id_color_text_primary') :
                   ((this.mPresenter.cardPhotoPixelMap && !this.isVerde) ?
-                  $r('app.color.skin_font_on_primary') :
+                    $r('app.color.skin_font_on_primary') :
                     undefined))
                 .textShadow((this.mPresenter.cardPhotoPixelMap && !this.isVerde) ? {
                   radius: 10,
@@ -1367,14 +1373,88 @@ export default struct ContactDetail {
                 this.MenuBar();
               }
             }
+            // 海报模式下，头像背景延伸至顶部状态栏后需保持标题栏有一定的顶部间距
+            .position({top:px2vp(this.fullScreenPadding.top as number)})
             .padding({ start: LengthMetrics.resource($r('sys.float.padding_level8')),
               end: LengthMetrics.resource($r('sys.float.padding_level8')),
               top: px2vp(this.fullScreenPadding.top as number) })
             .zIndex(1)
+          }else {
+            Column() {
+              Row() {
+                Button({ type: ButtonType.Circle }) {
+                  SymbolGlyph($r('sys.symbol.chevron_backward'))
+                    .key('ContactDetail_Navigation_Flex_Button_Image')
+                    .fontSize('24vp')
+                    .draggable(false)
+                    .fontColor((this.mPresenter.cardPhotoPixelMap && !this.isVerde) ?
+                      [$r('app.color.skin_ohos_id_color_primary_contrary')] :
+                      [$r('app.color.skin_icon_primary')])
+                }
+                .key('ContactDetail_DetailNavigation_Flex_Button')
+                .width('40vp')
+                .height('40vp')
+                .transition(TransitionEffect.asymmetric(
+                  TransitionEffect.OPACITY.animation({ duration: 200, curve: Curve.Sharp, delay: 150 }),
+                  TransitionEffect.OPACITY.animation({ duration: 250, curve: Curve.Sharp })))
+                .backgroundColor($r('sys.color.comp_background_tertiary'))
+                .onClick(() => {
+                  if (this.backPreview()) {
+                    HiLog.w(TAG, 'back success');
+                  }
+                })
+                .backgroundEffect(
+                  (this.mPresenter.cardPhotoPixelMap && !this.isVerde) ?
+                    this.cardBtnBackEffect : this.normalBtnBackEffect
+                )
+                .visibility(this.curBp === 'sm' ? Visibility.Visible : Visibility.None)
+                .backgroundColor(!this.mPresenter.photoPixelMap ? $r('sys.color.comp_background_tertiary') : '#19FFFFFF')
+                .accessibilityText(AccessibilityUtil.getInstance()
+                  .setAccessibilityText(this.isOpenAccessibility, $r('app.string.accessibility_back')))
 
-            Scroll(this.scroller) {
-              this.ContactDetailBuilder()
+                Text(typeof this.titleDisplayName === 'string'
+                  ? this.titleDisplayName.replace(lineBreakRegExp, '') : this.titleDisplayName)
+                  .fontSize(FontScaleState.isStandardGeer(this.fontSizeScale) ?
+                    $r('sys.float.Title_S') : $r('app.float.id_card_image_s'))
+                  .fontWeight(FontWeight.Bold)
+                  .fontColor(this.isThemeActive ? $r('app.color.skin_ohos_id_color_text_primary') :
+                    ((this.mPresenter.cardPhotoPixelMap && !this.isVerde) ?
+                      $r('app.color.skin_font_on_primary') :
+                      undefined))
+                  .textShadow((this.mPresenter.cardPhotoPixelMap && !this.isVerde) ? {
+                    radius: 10,
+                    color: '#333333'
+                  } : {
+                    radius: 0,
+                    color: '#ffffff'
+                  })
+                  .opacity(this.isVerde ? 1 : this.titleNameOpacity)
+                  .accessibilityLevel(this.titleNameOpacity < 0.2 ? 'no' : 'auto')
+                  .height($r('app.float.id_card_image_small'))
+                  .maxLines(1)
+                  .wordBreak(WordBreak.BREAK_ALL)
+                  .layoutWeight(1)
+                  .textOverflow({ overflow: TextOverflow.Ellipsis })
+                  .textAlign(i18n.isRTL(i18n.System.getSystemLanguage()) ? TextAlign.End : TextAlign.Start)
+                  .direction(Direction.Ltr)
+                  .margin({ start: LengthMetrics.resource($r('sys.float.padding_level4')),
+                    end: LengthMetrics.resource($r('sys.float.padding_level4')) })
+
+                Row({ space: 8 }) {
+                  this.MenuBar();
+                }
+              }
+              .padding({
+                start: LengthMetrics.resource($r('sys.float.padding_level8')),
+                end: LengthMetrics.resource($r('sys.float.padding_level8')),
+                top: px2vp(this.fullScreenPadding.top as number) })
+              .zIndex(1)
+
+              Scroll(this.scroller) {
+                this.ContactDetailBuilder()
+              }
             }
+            .padding({ top: this.fullScreenPaddingTop })
           }
         }
       }
@@ -1382,7 +1462,8 @@ export default struct ContactDetail {
       .width('100%')
       .height('100%')
       .focusable(this.isPageOnShown)
-      .padding({ top: this.fullScreenPaddingTop })
+      // 海报模式下，头像背景需延伸到状态栏
+      // .padding({ top: this.fullScreenPaddingTop })
       .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
       .backgroundColor(this.isThemeActive ? $r('app.color.background_last_white') :
       $r('app.color.skin_ohos_id_color_sub_background'))
@@ -1836,45 +1917,6 @@ export default struct ContactDetail {
     Menu() {
       if (this.mPresenter.contactId !== undefined) {
         if (!this.mPresenter.isMyCard) {
-          if (this.hasPhonesToBlock && call.hasVoiceCapability() && !this.isPrivateAccount) {
-            MenuItem({
-              content: (this.isInBlock ? $r('app.string.delete_from_block_list') : $r('app.string.add_to_blocklist'))
-            })
-              .enabled(this.isOnCallSharingValue)
-              .padding({ left: $r('app.float.id_card_margin_xl'), right: $r('app.float.id_card_margin_xl') })
-              .height(this.isPC ? $r('app.float.id_card_image_mid') : undefined)
-              .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
-              .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
-              .margin({
-                top: this.isPC ? $r('sys.float.padding_level1') : 0
-              })
-              .onChange(() => {
-                if (this.isInBlock) {
-
-                  contactParams.ENC = dotCommon.eventParam.CLICK_CONTACT_CALL_HISTORY_DETAIL;
-                  DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.REMOVE_BLOCKLIST_EVENT);
-                  CallRecordPresenter.getInstance().cancelBlockList(this.blockPhones,
-                    ContactsGlobalThisHelper.GetGlobalThis().getDefaultUIContext(), (result: boolean) => {
-                      HiLog.i(TAG, 'cancelBlockList result:' + result);
-                    });
-                } else {
-                  contactParams.ENC = dotCommon.eventParam.CLICK_CONTACT_CALL_HISTORY_DETAIL;
-                  DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.ADD_BLOCKLIST_EVENT);
-                  CallRecordPresenter.getInstance().addToBlockList(this.blockPhones,
-                    this.getBlockDisplayName(), (result: boolean) => {
-                    HiLog.i(TAG, 'addToBlockList result:' + result);
-                  });
-                }
-              })
-              .onClick(() => {
-                AccessibilityUtil.getInstance()
-                  .sendAccessibilityEventInfo(ResourceUtil.getStringByResourceId((!this.isInBlock ?
-                  $r('app.string.already_in_block') : $r('app.string.delete_from_block_list')).id));
-              })
-            if (!this.isPC) {
-              this.MenuDivider()
-            }
-          }
         }
         MenuItem({ content: ($r('app.string.delete_contact')) })
           .padding({ left: $r('app.float.id_card_margin_xl'), right: $r('app.float.id_card_margin_xl') })
@@ -1933,51 +1975,7 @@ export default struct ContactDetail {
                 this.markAsDialogController?.open();
                 DialogControllerManager.getInstance().addDialogController(this.markAsDialogController);
               })
-            if (!this.isPC) {
-              this.MenuDivider()
-            }
           }
-        }
-        if (this.hasPhonesToBlock && call.hasVoiceCapability() && !this.isPrivateAccount) {
-          MenuItem({
-            content: (this.isInBlock ? $r('app.string.delete_from_block_list') : $r('app.string.add_to_blocklist'))
-          })
-            .enabled(this.isOnCallSharingValue)
-            .margin({
-              top: this.isPC ? $r('sys.float.padding_level1') : 0
-            })
-            .height(this.isPC ? $r('app.float.id_card_image_mid') : undefined)
-            .padding({ left: $r('app.float.id_card_margin_xl'), right: $r('app.float.id_card_margin_xl') })
-            .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
-            .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
-            .margin({
-              top: this.isPC ? $r('sys.float.padding_level1') : 0
-            })
-            .height(this.isPC ? $r('app.float.id_card_image_mid') : undefined)
-            .onChange(() => {
-              if (this.isInBlock) {
-                // 联系人打点-从黑名单中移除-联系人详情和通话记录详情页-菜单（已保存联系人）
-                contactParams.ENC = dotCommon.eventParam.CLICK_CONTACT_CALL_HISTORY_DETAIL;
-                DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.REMOVE_BLOCKLIST_EVENT);
-                CallRecordPresenter.getInstance().cancelBlockList(this.blockPhones,
-                  ContactsGlobalThisHelper.GetGlobalThis().getDefaultUIContext(), (result: boolean) => {
-                    HiLog.i(TAG, 'cancelBlockList result:' + result);
-                  });
-              } else {
-                // 联系人打点-加入黑名单-联系人详情和通话记录详情页-菜单（已保存联系人）
-                contactParams.ENC = dotCommon.eventParam.CLICK_CONTACT_CALL_HISTORY_DETAIL;
-                DotUtil.getInstance().contactDot(contactParams, dotCommon.eventName.ADD_BLOCKLIST_EVENT);
-                CallRecordPresenter.getInstance().addToBlockList(this.blockPhones,
-                  this.getBlockDisplayName(), (result: boolean) => {
-                  HiLog.i(TAG, 'addToBlockList result:' + result);
-                });
-              }
-            })
-            .onClick(() => {
-              AccessibilityUtil.getInstance()
-                .sendAccessibilityEventInfo(ResourceUtil.getStringByResourceId((!this.isInBlock ?
-                $r('app.string.already_in_block') : $r('app.string.delete_from_block_list')).id));
-            })
         }
         if (this.mPresenter.isYellowPage) {
           if (call.hasVoiceCapability()) {
@@ -2019,7 +2017,7 @@ export default struct ContactDetail {
     builder: CustomContentDialog({
       theme: this.isThemeActive ? defaultCustomTheme : undefined,
       primaryTitle: $r('app.string.dialog_title_mark_as'),
-      secondaryTitle: $r('app.string.dialog_mark_as_to_cloud'),
+      // secondaryTitle: $r('app.string.dialog_mark_as_to_cloud'),
       contentBuilder: () => {
         this.markAsDialog();
       },
@@ -2329,30 +2327,6 @@ function hdsMenuBuilder(params: ParamsInterface) {
   Menu() {
     if (params.mPresenter.contactId !== undefined) {
       if (!params.mPresenter.isMyCard) {
-        if (params.hasPhonesToBlock && call.hasVoiceCapability() && !params.isPrivateAccount) {
-          MenuItem({
-            content: (params.isInBlock ? $r('app.string.delete_from_block_list') : $r('app.string.add_to_blocklist'))
-          })
-            .enabled(params.isOnCallSharingValue)
-            .padding({ left: $r('app.float.id_card_margin_xl'), right: $r('app.float.id_card_margin_xl') })
-            .height(EnvironmentProp.isPC() ? $r('app.float.id_card_image_mid') : undefined)
-            .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
-            .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
-            .margin({
-              top: EnvironmentProp.isPC()? $r('sys.float.padding_level1') : 0
-            })
-            .onChange(() => {
-            })
-            .onClick(() => {
-              params.blockFunction();
-              AccessibilityUtil.getInstance()
-                .sendAccessibilityEventInfo(ResourceUtil.getStringByResourceId((!params.isInBlock ?
-                $r('app.string.already_in_block') : $r('app.string.delete_from_block_list')).id));
-            })
-          if (!EnvironmentProp.isPC()) {
-            menuDivider()
-          }
-        }
       }
       MenuItem({ content: ($r('app.string.delete_contact')) })
         .padding({ left: $r('app.float.id_card_margin_xl'), right: $r('app.float.id_card_margin_xl') })
@@ -2396,31 +2370,7 @@ function hdsMenuBuilder(params: ParamsInterface) {
             .onChange(() => {
               params.markFunction();
             })
-          if (!EnvironmentProp.isPC()) {
-            menuDivider()
-          }
         }
-      }
-      if (params.hasPhonesToBlock && call.hasVoiceCapability() && !params.isPrivateAccount) {
-        MenuItem({
-          content: (params.isInBlock ? $r('app.string.delete_from_block_list') : $r('app.string.add_to_blocklist'))
-        })
-          .enabled(params.isOnCallSharingValue)
-          .padding({ left: $r('app.float.id_card_margin_xl'), right: $r('app.float.id_card_margin_xl') })
-          .contentFont({ size: $r('sys.float.ohos_id_text_size_body1'), weight: FontWeight.Medium })
-          .contentFontColor($r('app.color.skin_ohos_id_color_text_primary'))
-          .margin({
-            top: EnvironmentProp.isPC() ? $r('sys.float.padding_level1') : 0
-          })
-          .height(EnvironmentProp.isPC() ? $r('app.float.id_card_image_mid') : undefined)
-          .onChange(() => {
-            params.blockFunction();
-          })
-          .onClick(() => {
-            AccessibilityUtil.getInstance()
-              .sendAccessibilityEventInfo(ResourceUtil.getStringByResourceId((!params.isInBlock ?
-              $r('app.string.already_in_block') : $r('app.string.delete_from_block_list')).id));
-          })
       }
       if (params.mPresenter.isYellowPage) {
         if (call.hasVoiceCapability()) {

@@ -403,7 +403,7 @@ export default struct BatchDeleteContacts {
      NavDestination() {
         this.BatchDeleteBuilder()
       }
-      .bindToScrollable([this.scroller])
+      // .bindToScrollable([this.scroller])
       // .titleMode(this.isFromArrangeContactsPage ? HdsNavDestinationTitleMode.MODAL : HdsNavDestinationTitleMode.MINI)
       .backgroundColor($r('app.color.color_bind_sheet_background'))
       // .titleBar(TitleBarUtil.getTitleBar(this.getTitleParam(),

@@ -579,7 +579,6 @@ export default class AccountantsPresenter {
               HiLog.w(TAG, 'scalePixelMap success')
               let imgScaled = imgScaledObjct as image.PixelMap;
               this.destinationPageShow(pixelMap, imgScaled);
-              pixelMap?.release();
             });
           }).catch((err: BusinessError) => {
             HiLog.e(TAG, `createPixelMap err: ${err.message}`);

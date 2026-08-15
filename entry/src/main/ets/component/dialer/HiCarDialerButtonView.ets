@@ -90,7 +90,7 @@ export struct DialerButtonViewHiCar {
     .borderRadius(this.getWidthofButton() > 40 ? 20 : this.getWidthofButton() / 2)
     .height($r('app.float.id_dial_button_height_hicar'))
     .width(this.getWidthofButton())
-    .backgroundColor($r('app.color.skin_confirm'))
+    .backgroundColor($r('app.color.answer_button_color'))
     .padding({ left: $r('sys.float.padding_level4'), right: $r('sys.float.padding_level4') })
     .onClick(() => {
       this.dialClick(index);
