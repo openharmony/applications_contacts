@@ -5,14 +5,14 @@
         "name": "default",
         "signingConfig": "release",
         "compileSdkVersion": "26.0.0",
-        "compatibleSdkVersion": 20,
+        "compatibleSdkVersion": 23,
+        "targetSdkVersion": 23,
         "runtimeOS": "OpenHarmony",
         "buildOption": {
           "arkOptions":{
             "autoLazyImport": true
           }
         },
-        "targetSdkVersion": 20
       }
     ],
     "signingConfigs": [
