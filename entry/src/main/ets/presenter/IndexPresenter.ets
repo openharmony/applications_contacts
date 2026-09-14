@@ -37,10 +37,10 @@ export default class IndexPresenter {
   onPageShow() {
     HiLog.i(TAG, 'onPageShow !!!');
     this.cancelMissedCallNotification()
-    if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get('sysTime')) {
+    if (StringFormatUtil.parseSysTimeFormat() !== AppStorage.Get('sysTime')) {
       HiLog.i(TAG, 'DO requestItem cause systemTime changed');
       CallRecordPresenter.getInstance().requestItem();
-      AppStorage.SetOrCreate('sysTime', parseInt(StringFormatUtil.judgeSysTime()));
+      AppStorage.SetOrCreate('sysTime', StringFormatUtil.parseSysTimeFormat());
     }
   }
 
@@ -79,7 +79,7 @@ export default class IndexPresenter {
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear !!!');
-    AppStorage.SetOrCreate('sysTime', parseInt(StringFormatUtil.judgeSysTime()));
+    AppStorage.SetOrCreate('sysTime', StringFormatUtil.parseSysTimeFormat());
   }
 
   aboutToDisappear() {

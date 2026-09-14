@@ -71,7 +71,7 @@ struct ContactDetail {
 
   aboutToAppear() {
     HiLog.i(TAG, 'aboutToAppear:');
-    AppStorage.SetOrCreate('sysTime', parseInt(StringFormatUtil.judgeSysTime()));
+    AppStorage.SetOrCreate('sysTime', StringFormatUtil.parseSysTimeFormat());
     setTimeout(() => {
       this.isShow++;
     }, 100);
@@ -96,10 +96,10 @@ struct ContactDetail {
 
   onPageShow() {
     HiLog.i(TAG, 'onPageShow');
-    if (parseInt(StringFormatUtil.judgeSysTime()) !== AppStorage.Get('sysTime')) {
+    if (StringFormatUtil.parseSysTimeFormat() !== AppStorage.Get('sysTime')) {
       HiLog.i(TAG, 'DO refresh detailCallLog');
       this.mPresenter.refresh();
-      AppStorage.SetOrCreate('sysTime', parseInt(StringFormatUtil.judgeSysTime()));
+      AppStorage.SetOrCreate('sysTime', StringFormatUtil.parseSysTimeFormat());
     }
   }
 

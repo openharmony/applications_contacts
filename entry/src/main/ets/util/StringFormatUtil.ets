@@ -34,6 +34,17 @@ export default class StringFormatUtil {
   }
 
   /**
+   * Parse settings TIME_FORMAT as a whole decimal token; default 24.
+   */
+  static parseSysTimeFormat(context?: Context): number {
+    const timeFormatText: string = StringFormatUtil.judgeSysTime(context);
+    if (/^\d+$/.test(timeFormatText)) {
+      return Number.parseInt(timeFormatText, 10);
+    }
+    return 24;
+  }
+
+  /**
    * Obtain the description of the time within a day based on the hour.
    *
    * @param {number} hour

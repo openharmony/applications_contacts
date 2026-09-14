@@ -574,7 +574,7 @@ getTimeDetailByCallTime(element: CallLog) {
   // description
   let now = new Date();
   let timeDetail: Record<string, Resource | string | undefined> = {};
-  if (parseInt(StringFormatUtil.judgeSysTime()) == 12) {
+  if (StringFormatUtil.parseSysTimeFormat() == 12) {
     timeDetail.time = StringFormatUtil.getDayMessage(hour, minutes);
   } else {
     timeDetail.time = $r('app.string.time_normal', hour, minutes);
