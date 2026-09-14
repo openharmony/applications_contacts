@@ -240,7 +240,7 @@ private formatTime(date: number): string | Resource {
           result = $r("app.string.minutesAgo", timeDiff);
         } else {
           let timeDetail: Record<string, Resource | string | undefined> = {};
-          if (parseInt(StringFormatUtil.judgeSysTime(this.context)) == 12) {
+          if (StringFormatUtil.parseSysTimeFormat(this.context) == 12) {
             timeDetail.time = StringFormatUtil.getDayMessage(hour, minutes);
           } else {
             timeDetail.time = $r("app.string.time_normal", hour, minutes);
